@@ -1,0 +1,6 @@
+secrets/
+secrets/*
+data/
+tmp/
+logs/
+.DS_Store
