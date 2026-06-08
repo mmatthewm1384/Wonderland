@@ -22,6 +22,8 @@ fi
 STAMP="$(date +%Y%m%d-%H%M%S)"
 BACKUP="$ROOT/vault.pre-restore.$STAMP"
 
+"$ROOT/bin/wl-vault-verify-snapshot" "$SNAPSHOT"
+
 echo "Creating pre-restore backup:"
 echo "$BACKUP"
 

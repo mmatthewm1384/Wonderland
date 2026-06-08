@@ -32,6 +32,7 @@ Commands:
   
   wl snapshot
   wl restore <snapshot.tar.gz>
+  wl verify-snapshot <snapshot.tar.gz>
 USAGE
 }
 
@@ -112,6 +113,11 @@ case "${1:-help}" in
   restore)
     shift
     exec "$ROOT/bin/wl-vault-restore" "$@"
+    ;;
+
+  verify-snapshot)
+    shift
+    exec "$ROOT/bin/wl-vault-verify-snapshot" "$@"
     ;;
 
   help|*)

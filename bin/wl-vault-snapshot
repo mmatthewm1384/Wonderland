@@ -6,6 +6,7 @@ VAULT="$ROOT/vault"
 SNAPSHOT_DIR="$VAULT/snapshots"
 STAMP="$(date +%Y%m%d-%H%M%S)"
 OUT="$SNAPSHOT_DIR/vault-snapshot-$STAMP.tar.gz"
+SUM="$OUT.sha256"
 
 mkdir -p "$SNAPSHOT_DIR"
 
@@ -17,4 +18,7 @@ tar \
   -czf "$OUT" \
   -C "$VAULT" .
 
+shasum -a 256 "$OUT" > "$SUM"
+
 echo "snapshot: $OUT"
+echo "checksum: $SUM"
