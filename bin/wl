@@ -35,6 +35,7 @@ Commands:
   wl verify-snapshot <snapshot.tar.gz>
   wl prune-snapshots [keep-count]
   wl health
+  wl state
 USAGE
 }
 
@@ -129,6 +130,10 @@ case "${1:-help}" in
 
   health)
     exec "$ROOT/bin/wl-vault-health"
+    ;;
+
+  state)
+    exec "$ROOT/bin/wl-vault-state"
     ;;
 
   help|*)
