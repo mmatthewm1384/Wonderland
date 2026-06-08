@@ -1,0 +1,13 @@
+{
+  "id": "wl-docker-service-v4",
+  "name": "wl-docker",
+  "status": "active",
+  "version": 4,
+  "compose": "docker/compose.yml",
+  "verify": "wl services verify wl-docker",
+  "recover": "wl services recover wl-docker",
+  "rollback": "wl services rollback wl-docker",
+  "dependencies": [],
+  "ports": [],
+  "volumes": []
+}

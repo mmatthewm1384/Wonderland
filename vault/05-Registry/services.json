@@ -1,5 +1,11 @@
 {
   "id": "services-registry-v4",
   "version": 4,
-  "services": []
+  "services": [
+    {
+      "id": "docker",
+      "path": "docker/compose.yml",
+      "type": "compose"
+    }
+  ]
 }

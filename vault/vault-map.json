@@ -34,6 +34,11 @@
       "purpose": "index"
     },
     {
+      "id": "services-vault-v4",
+      "path": "06-Services",
+      "purpose": "service-definitions"
+    },
+    {
       "id": "archive-vault-v4",
       "path": "99-Archive",
       "purpose": "retention"

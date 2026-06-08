@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+OUT="$ROOT/vault/05-Registry/services.json"
+
+python3 - "$ROOT" "$OUT" <<'PY'
+import json
+import pathlib
+import sys
+
+root = pathlib.Path(sys.argv[1])
+out = pathlib.Path(sys.argv[2])
+
+services = []
+
+for compose in root.rglob("compose.yml"):
+    services.append({
+        "id": compose.parent.name,
+        "path": str(compose.relative_to(root)),
+        "type": "compose"
+    })
+
+payload = {
+    "id": "services-registry-v4",
+    "version": 4,
+    "services": services
+}
+
+out.write_text(json.dumps(payload, indent=2) + "\n")
+
+print(f"services: {len(services)}")
+PY

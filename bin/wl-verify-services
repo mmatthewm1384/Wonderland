@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SERVICES="/Users/wonderland/Wonderland/vault/06-Services"
+
+if [[ ! -d "$SERVICES" ]]; then
+  echo "FAIL service vault not found: $SERVICES"
+  exit 1
+fi
+
+exec "$SERVICES/checks/verify-services.sh"

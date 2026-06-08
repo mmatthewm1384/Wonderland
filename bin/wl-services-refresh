@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+OUT_DIR="$ROOT/vault/06-Services/definitions"
+REGISTRY="$ROOT/vault/06-Services/service-registry.json"
+
+mkdir -p "$OUT_DIR"
+
+python3 - "$ROOT" "$OUT_DIR" "$REGISTRY" <<'PY'
+import json
+import pathlib
+import re
+import sys
+
+root = pathlib.Path(sys.argv[1])
+out_dir = pathlib.Path(sys.argv[2])
+registry_path = pathlib.Path(sys.argv[3])
+
+services = []
+
+for compose in sorted(root.rglob("compose.yml")):
+    if "vault" in compose.parts:
+        continue
+
+    name = compose.parent.name
+    service_id = name if name.startswith("wl-") else f"wl-{name}"
+
+    safe = re.sub(r"[^a-zA-Z0-9_-]+", "-", service_id)
+    definition_path = out_dir / f"{safe}.service.json"
+
+    payload = {
+        "id": f"{service_id}-service-v4",
+        "name": service_id,
+        "status": "active",
+        "version": 4,
+        "compose": str(compose.relative_to(root)),
+        "verify": f"wl services verify {service_id}",
+        "recover": f"wl services recover {service_id}",
+        "rollback": f"wl services rollback {service_id}",
+        "dependencies": [],
+        "ports": [],
+        "volumes": []
+    }
+
+    definition_path.write_text(json.dumps(payload, indent=2) + "\n")
+
+    services.append({
+        "id": payload["id"],
+        "name": service_id,
+        "path": str(definition_path.relative_to(root / "vault" / "06-Services")),
+        "compose": payload["compose"],
+        "status": "active"
+    })
+
+registry_path.write_text(json.dumps({
+    "id": "service-registry-v4",
+    "version": 4,
+    "services": services
+}, indent=2) + "\n")
+
+print(f"services refreshed: {len(services)}")
+PY

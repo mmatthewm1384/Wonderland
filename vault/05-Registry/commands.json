@@ -147,6 +147,18 @@
       "executable": true
     },
     {
+      "name": "wl-registry-audit",
+      "path": "bin/wl-registry-audit",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-registry-refresh",
+      "path": "bin/wl-registry-refresh",
+      "category": "vault",
+      "executable": true
+    },
+    {
       "name": "wl-registry-refresh-commands",
       "path": "bin/wl-registry-refresh-commands",
       "category": "vault",
@@ -155,6 +167,12 @@
     {
       "name": "wl-registry-refresh-documents",
       "path": "bin/wl-registry-refresh-documents",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-registry-refresh-services",
+      "path": "bin/wl-registry-refresh-services",
       "category": "vault",
       "executable": true
     },

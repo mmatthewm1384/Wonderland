@@ -1,0 +1,13 @@
+{
+  "id": "service-registry-v4",
+  "version": 4,
+  "services": [
+    {
+      "id": "wl-docker-service-v4",
+      "name": "wl-docker",
+      "path": "definitions/wl-docker.service.json",
+      "compose": "docker/compose.yml",
+      "status": "active"
+    }
+  ]
+}
