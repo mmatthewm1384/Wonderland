@@ -28,6 +28,8 @@ Commands:
   wl schemas verify
   wl schemas path
 
+  wl snapshot
+
   wl audit
 USAGE
 }
@@ -97,6 +99,10 @@ case "${1:-help}" in
       *) usage ;;
     esac
     ;;
+
+  snapshot)
+  exec "$ROOT/bin/wl-vault-snapshot"
+  ;;
 
   audit)
   exec "$ROOT/bin/wl-vault-audit"

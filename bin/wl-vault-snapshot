@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+VAULT="$ROOT/vault"
+SNAPSHOT_DIR="$VAULT/snapshots"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+OUT="$SNAPSHOT_DIR/vault-snapshot-$STAMP.tar.gz"
+
+mkdir -p "$SNAPSHOT_DIR"
+
+"$ROOT/bin/wl" verify
+
+tar \
+  --exclude="./snapshots" \
+  --exclude="./reports" \
+  -czf "$OUT" \
+  -C "$VAULT" .
+
+echo "snapshot: $OUT"
