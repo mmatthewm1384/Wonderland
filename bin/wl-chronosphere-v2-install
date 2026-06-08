@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+
+mkdir -p "$WL_HOME"
+rsync -a "$SRC"/ "$WL_HOME"/
+
+chmod +x "$WL_HOME/bin/wl-chrono-v2" "$WL_HOME/bin/wl-chronosphere-v2" || true
+
+PROFILE="$HOME/.zshrc"
+touch "$PROFILE"
+
+grep -q 'WONDERLAND_CHRONOSPHERE_V2' "$PROFILE" || cat >> "$PROFILE" <<'EOF'
+
+# WONDERLAND_CHRONOSPHERE_V2
+export WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+export WL_DATA="${WL_DATA:-$WL_HOME/data}"
+export PATH="$WL_HOME/bin:$PATH"
+EOF
+
+echo "Chronosphere v2 installed."
+echo "Run:"
+echo "  source ~/.zshrc"
+echo "  wl-chrono-v2 init"
+echo "  wl-chrono-v2 verify"

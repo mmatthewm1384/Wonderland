@@ -10,6 +10,7 @@ Wonderland CLI
 Commands:
   wl verify
   wl status
+  wl inventory
 
   wl core verify
   wl core status
@@ -17,51 +18,79 @@ Commands:
 
   wl templates verify
   wl templates path
+
+  wl policies verify
+  wl policies path
+
+  wl runbooks verify
+  wl runbooks path
+
+  wl schemas verify
+  wl schemas path
 USAGE
+}
+
+run_verify() {
+  "$ROOT/bin/wl-verify-core"
+  "$ROOT/bin/wl-verify-templates"
+  "$ROOT/bin/wl-verify-policies"
+  "$ROOT/vault/03-Runbooks/checks/verify-runbooks.sh"
+  "$ROOT/bin/wl-verify-schemas"
 }
 
 case "${1:-help}" in
   verify)
-    "$ROOT/bin/wl-verify-core"
-    "$ROOT/bin/wl-verify-templates"
+    run_verify
     ;;
 
   status)
     echo "Wonderland root: $ROOT"
-    echo "Core vault: $ROOT/vault/00-Core"
-    echo "Templates: $ROOT/vault/01-Templates"
-    "$ROOT/bin/wl-verify-core"
-    "$ROOT/bin/wl-verify-templates"
+    echo "Vault: $ROOT/vault"
+    run_verify
+    ;;
+
+  inventory)
+    find "$ROOT/vault" -maxdepth 2 -type f | sort
     ;;
 
   core)
     case "${2:-help}" in
-      verify)
-        exec "$ROOT/bin/wl-verify-core"
-        ;;
-      status)
-        cat "$ROOT/vault/00-Core/manifests/vault-state.json"
-        ;;
-      path)
-        echo "$ROOT/vault/00-Core"
-        ;;
-      *)
-        usage
-        ;;
+      verify) exec "$ROOT/bin/wl-verify-core" ;;
+      status) cat "$ROOT/vault/00-Core/manifests/vault-state.json" ;;
+      path) echo "$ROOT/vault/00-Core" ;;
+      *) usage ;;
     esac
     ;;
 
   templates)
     case "${2:-help}" in
-      verify)
-        exec "$ROOT/bin/wl-verify-templates"
-        ;;
-      path)
-        echo "$ROOT/vault/01-Templates"
-        ;;
-      *)
-        usage
-        ;;
+      verify) exec "$ROOT/bin/wl-verify-templates" ;;
+      path) echo "$ROOT/vault/01-Templates" ;;
+      *) usage ;;
+    esac
+    ;;
+
+  policies)
+    case "${2:-help}" in
+      verify) exec "$ROOT/bin/wl-verify-policies" ;;
+      path) echo "$ROOT/vault/02-Policies" ;;
+      *) usage ;;
+    esac
+    ;;
+
+  runbooks)
+    case "${2:-help}" in
+      verify) exec "$ROOT/vault/03-Runbooks/checks/verify-runbooks.sh" ;;
+      path) echo "$ROOT/vault/03-Runbooks" ;;
+      *) usage ;;
+    esac
+    ;;
+
+  schemas)
+    case "${2:-help}" in
+      verify) exec "$ROOT/bin/wl-verify-schemas" ;;
+      path) echo "$ROOT/vault/04-Schemas" ;;
+      *) usage ;;
     esac
     ;;
 

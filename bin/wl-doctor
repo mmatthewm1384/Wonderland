@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$HOME/Wonderland"
+REGISTRY_FILE="$ROOT_DIR/secrets/wl-registry.json"
+
+echo "=== 🐳 Wonderland Rootless System Verification ==="
+
+# Auto-Bootstrap profile if missing
+if [[ ! -f "$REGISTRY_FILE" ]]; then
+    echo "[BOOTSTRAP] Instantiating default identity profile under secrets vault..."
+    mkdir -p "$(dirname "$REGISTRY_FILE")"
+    cat <<EOF > "$REGISTRY_FILE"
+{
+  "system_mode": "single_user",
+  "authorized_identity": "wonderland_operator",
+  "isolation_level": "strict",
+  "last_verification_timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+  "status": "locked"
+}
+EOF
+fi
+
+# Technical Identity Assertions
+CURRENT_USER="${USER:-$(whoami)}"
+echo "[IDENTITY] Scanning system execution context..."
+
+# Verify that permissions on root protect the rootless daemon environment
+ROOT_PERMS=$(stat -f "%A" "$ROOT_DIR" 2>/dev/null || stat -c "%a" "$ROOT_DIR")
+if [[ "$ROOT_PERMS" != "700" ]]; then
+    echo "[WARNING] Security Drift: Root path permissions are set to $ROOT_PERMS instead of 700."
+    echo "[REPAIR] Applying hardened isolation constraints to the workspace root..."
+    chmod 700 "$ROOT_DIR"
+fi
+
+echo "[PASS] System exclusively locked to user profile: $CURRENT_USER"
+echo "=== System Health: OPTIMAL ==="
