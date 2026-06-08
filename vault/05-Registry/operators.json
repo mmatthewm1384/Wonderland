@@ -1,0 +1,12 @@
+{
+  "id": "operators-registry-v4",
+  "version": 4,
+  "operators": [
+    {
+      "id": "operator-matthew-mahaney-v4",
+      "name": "Matthew Mahaney",
+      "role": "operator",
+      "authority": "final"
+    }
+  ]
+}

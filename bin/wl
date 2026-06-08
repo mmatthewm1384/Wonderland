@@ -37,6 +37,7 @@ Commands:
   wl health
   wl state
   wl capture-state
+  wl registry refresh-documents
 USAGE
 }
 
@@ -47,6 +48,7 @@ run_verify() {
   "$ROOT/bin/wl-verify-policies"
   "$ROOT/vault/03-Runbooks/checks/verify-runbooks.sh"
   "$ROOT/bin/wl-verify-schemas"
+  "$ROOT/bin/wl-verify-registry"
   "$ROOT/bin/wl-verify-archive"
 }
 
@@ -139,6 +141,23 @@ case "${1:-help}" in
 
   capture-state)
     exec "$ROOT/bin/wl-vault-capture-state"
+    ;;
+
+  registry)
+    case "${2:-help}" in
+      refresh-documents)
+        exec "$ROOT/bin/wl-registry-refresh-documents"
+        ;;
+      verify)
+        exec "$ROOT/bin/wl-verify-registry"
+        ;;
+      path)
+        echo "$ROOT/vault/05-Registry"
+        ;;
+      *)
+        usage
+        ;;
+    esac
     ;;
 
   help|*)

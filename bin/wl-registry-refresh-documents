@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+VAULT="$ROOT/vault"
+OUT="$VAULT/05-Registry/documents.json"
+
+python3 - "$VAULT" "$OUT" <<'PY'
+import json
+import pathlib
+import re
+import sys
+
+vault = pathlib.Path(sys.argv[1])
+out = pathlib.Path(sys.argv[2])
+
+layers = [
+    "00-Core",
+    "01-Templates",
+    "02-Policies",
+    "03-Runbooks",
+    "04-Schemas",
+    "99-Archive"
+]
+
+documents = []
+
+id_re = re.compile(r"<!--\s*id:\s*([^ ]+)\s*-->")
+
+for layer in layers:
+    base = vault / layer
+    if not base.exists():
+        continue
+
+    for path in sorted(base.rglob("*")):
+        if not path.is_file():
+            continue
+
+        if "/checks/" in str(path):
+            continue
+
+        rel = path.relative_to(vault)
+
+        entry = {
+            "path": str(rel),
+            "layer": layer,
+            "type": path.suffix.lstrip(".") or "file"
+        }
+
+        if path.suffix == ".md":
+            text = path.read_text(errors="replace")
+            m = id_re.search(text)
+            if m:
+                entry["id"] = m.group(1)
+            else:
+                entry["id"] = str(rel)
+
+            first = next((line for line in text.splitlines() if line.startswith("# ")), None)
+            if first:
+                entry["title"] = first.removeprefix("# ").strip()
+
+        elif path.suffix == ".json":
+            try:
+                data = json.loads(path.read_text())
+                entry["id"] = data.get("id", str(rel))
+            except Exception:
+                entry["id"] = str(rel)
+
+        else:
+            entry["id"] = str(rel)
+
+        documents.append(entry)
+
+payload = {
+    "id": "documents-registry-v4",
+    "version": 4,
+    "documents": documents
+}
+
+out.write_text(json.dumps(payload, indent=2) + "\n")
+print(f"documents refreshed: {out}")
+print(f"count: {len(documents)}")
+PY

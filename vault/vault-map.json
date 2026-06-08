@@ -29,6 +29,11 @@
       "purpose": "validation"
     },
     {
+      "id": "registry-vault-v4",
+      "path": "05-Registry",
+      "purpose": "index"
+    },
+    {
       "id": "archive-vault-v4",
       "path": "99-Archive",
       "purpose": "retention"
