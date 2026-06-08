@@ -1,5 +1,300 @@
 {
   "id": "commands-registry-v4",
   "version": 4,
-  "commands": []
+  "commands": [
+    {
+      "name": "wl",
+      "path": "bin/wl",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-body-time",
+      "path": "bin/wl-body-time",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-chrono",
+      "path": "bin/wl-chrono",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-chrono-v2",
+      "path": "bin/wl-chrono-v2",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-chronosphere",
+      "path": "bin/wl-chronosphere",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-chronosphere-app",
+      "path": "bin/wl-chronosphere-app",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-chronosphere-install",
+      "path": "bin/wl-chronosphere-install",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-chronosphere-v2",
+      "path": "bin/wl-chronosphere-v2",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-chronosphere-v2-install",
+      "path": "bin/wl-chronosphere-v2-install",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-context",
+      "path": "bin/wl-context",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-disposable",
+      "path": "bin/wl-disposable",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-doctor",
+      "path": "bin/wl-doctor",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-env-clean",
+      "path": "bin/wl-env-clean",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-ga-plus-install",
+      "path": "bin/wl-ga-plus-install",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-governance",
+      "path": "bin/wl-governance",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-intel",
+      "path": "bin/wl-intel",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-knowledge-dropin",
+      "path": "bin/wl-knowledge-dropin",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-link-runtime",
+      "path": "bin/wl-link-runtime",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-mind-body",
+      "path": "bin/wl-mind-body",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-mind-body-app",
+      "path": "bin/wl-mind-body-app",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-mind-body-install",
+      "path": "bin/wl-mind-body-install",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-path-fix",
+      "path": "bin/wl-path-fix",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-proxy",
+      "path": "bin/wl-proxy",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-registry",
+      "path": "bin/wl-registry",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-registry-refresh-commands",
+      "path": "bin/wl-registry-refresh-commands",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-registry-refresh-documents",
+      "path": "bin/wl-registry-refresh-documents",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-services",
+      "path": "bin/wl-services",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-shell-repair",
+      "path": "bin/wl-shell-repair",
+      "category": "core",
+      "executable": false
+    },
+    {
+      "name": "wl-snapshot",
+      "path": "bin/wl-snapshot",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-start",
+      "path": "bin/wl-start",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-status",
+      "path": "bin/wl-status",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-stop",
+      "path": "bin/wl-stop",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-vault",
+      "path": "bin/wl-vault",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-vault-audit",
+      "path": "bin/wl-vault-audit",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-vault-capture-state",
+      "path": "bin/wl-vault-capture-state",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-vault-health",
+      "path": "bin/wl-vault-health",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-vault-prune-snapshots",
+      "path": "bin/wl-vault-prune-snapshots",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-vault-restore",
+      "path": "bin/wl-vault-restore",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-vault-snapshot",
+      "path": "bin/wl-vault-snapshot",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-vault-state",
+      "path": "bin/wl-vault-state",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-vault-verify-snapshot",
+      "path": "bin/wl-vault-verify-snapshot",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-verify-archive",
+      "path": "bin/wl-verify-archive",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-verify-core",
+      "path": "bin/wl-verify-core",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-verify-policies",
+      "path": "bin/wl-verify-policies",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-verify-registry",
+      "path": "bin/wl-verify-registry",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-verify-schemas",
+      "path": "bin/wl-verify-schemas",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-verify-templates",
+      "path": "bin/wl-verify-templates",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-verify-vault",
+      "path": "bin/wl-verify-vault",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl.bak.20260606-083617",
+      "path": "bin/wl.bak.20260606-083617",
+      "category": "core",
+      "executable": true
+    }
+  ]
 }

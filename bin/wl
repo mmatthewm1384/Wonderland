@@ -38,6 +38,7 @@ Commands:
   wl state
   wl capture-state
   wl registry refresh-documents
+  wl registry refresh-commands
 USAGE
 }
 
@@ -159,6 +160,10 @@ case "${1:-help}" in
         ;;
     esac
     ;;
+
+      refresh-commands)
+        exec "$ROOT/bin/wl-registry-refresh-commands"
+        ;;
 
   help|*)
     usage
