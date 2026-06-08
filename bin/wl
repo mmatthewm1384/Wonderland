@@ -34,6 +34,7 @@ Commands:
   wl restore <snapshot.tar.gz>
   wl verify-snapshot <snapshot.tar.gz>
   wl prune-snapshots [keep-count]
+  wl health
 USAGE
 }
 
@@ -124,6 +125,10 @@ case "${1:-help}" in
   prune-snapshots)
     shift
     exec "$ROOT/bin/wl-vault-prune-snapshots" "$@"
+    ;;
+
+  health)
+    exec "$ROOT/bin/wl-vault-health"
     ;;
 
   help|*)

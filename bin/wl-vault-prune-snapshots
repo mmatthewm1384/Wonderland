@@ -14,16 +14,21 @@ fi
 
 mkdir -p "$SNAPSHOT_DIR"
 
-mapfile -t OLD < <(ls -t "$SNAPSHOT_DIR"/*.tar.gz 2>/dev/null | tail -n +"$((KEEP + 1))")
+OLD=$(
+  ls -t "$SNAPSHOT_DIR"/*.tar.gz 2>/dev/null |
+  tail -n +"$((KEEP + 1))" || true
+)
 
-if [[ "${#OLD[@]}" -eq 0 ]]; then
+if [[ -z "$OLD" ]]; then
   echo "No snapshots to prune. keep=$KEEP"
   exit 0
 fi
 
-for snap in "${OLD[@]}"; do
+echo "$OLD" | while read -r snap; do
+  [[ -z "$snap" ]] && continue
+
   echo "PRUNE $snap"
   rm -f "$snap" "$snap.sha256"
 done
 
-echo "Pruned ${#OLD[@]} snapshot(s). keep=$KEEP"
+echo "Prune complete. keep=$KEEP"
