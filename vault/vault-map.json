@@ -1,0 +1,37 @@
+{
+  "id": "vault-map-v4",
+  "version": 4,
+  "root": "/Users/wonderland/Wonderland/vault",
+  "layers": [
+    {
+      "id": "core-vault-v4",
+      "path": "00-Core",
+      "purpose": "authority"
+    },
+    {
+      "id": "template-vault-v4",
+      "path": "01-Templates",
+      "purpose": "generation"
+    },
+    {
+      "id": "policy-vault-v4",
+      "path": "02-Policies",
+      "purpose": "rules"
+    },
+    {
+      "id": "runbook-vault-v4",
+      "path": "03-Runbooks",
+      "purpose": "execution"
+    },
+    {
+      "id": "schema-vault-v4",
+      "path": "04-Schemas",
+      "purpose": "validation"
+    },
+    {
+      "id": "archive-vault-v4",
+      "path": "99-Archive",
+      "purpose": "retention"
+    }
+  ]
+}

@@ -27,15 +27,19 @@ Commands:
 
   wl schemas verify
   wl schemas path
+
+  wl audit
 USAGE
 }
 
 run_verify() {
+  "$ROOT/bin/wl-verify-vault"
   "$ROOT/bin/wl-verify-core"
   "$ROOT/bin/wl-verify-templates"
   "$ROOT/bin/wl-verify-policies"
   "$ROOT/vault/03-Runbooks/checks/verify-runbooks.sh"
   "$ROOT/bin/wl-verify-schemas"
+  "$ROOT/bin/wl-verify-archive"
 }
 
 case "${1:-help}" in
@@ -93,6 +97,10 @@ case "${1:-help}" in
       *) usage ;;
     esac
     ;;
+
+  audit)
+  exec "$ROOT/bin/wl-vault-audit"
+  ;;
 
   help|*)
     usage
