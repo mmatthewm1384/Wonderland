@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+VAULT="$ROOT/vault"
+
+SNAPSHOT="${1:-}"
+
+if [[ -z "$SNAPSHOT" ]]; then
+  echo "Usage: wl-vault-restore <snapshot.tar.gz>"
+  echo
+  echo "Available snapshots:"
+  ls -1 "$VAULT/snapshots"/*.tar.gz 2>/dev/null || true
+  exit 1
+fi
+
+if [[ ! -f "$SNAPSHOT" ]]; then
+  echo "FAIL snapshot not found: $SNAPSHOT"
+  exit 1
+fi
+
+STAMP="$(date +%Y%m%d-%H%M%S)"
+BACKUP="$ROOT/vault.pre-restore.$STAMP"
+
+echo "Creating pre-restore backup:"
+echo "$BACKUP"
+
+cp -a "$VAULT" "$BACKUP"
+
+echo "Restoring snapshot:"
+echo "$SNAPSHOT"
+
+tar -xzf "$SNAPSHOT" -C "$VAULT"
+
+"$ROOT/bin/wl" verify
+
+echo
+echo "restore complete"
+echo "pre-restore backup: $BACKUP"
