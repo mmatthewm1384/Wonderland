@@ -36,6 +36,7 @@ Commands:
   wl prune-snapshots [keep-count]
   wl health
   wl state
+  wl capture-state
 USAGE
 }
 
@@ -134,6 +135,10 @@ case "${1:-help}" in
 
   state)
     exec "$ROOT/bin/wl-vault-state"
+    ;;
+
+  capture-state)
+    exec "$ROOT/bin/wl-vault-capture-state"
     ;;
 
   help|*)
