@@ -68,7 +68,39 @@ for doc in docs:
         text = target.read_text(errors="replace")
         expected = f"<!-- id: {doc_id} -->"
         if expected not in text:
-            failures.append(f"id mismatch in {rel_path}; expected marker: {expected}")
+            failures.append(
+                f"id mismatch in {rel_path}; expected marker: {expected}"
+            )
+
+    elif target.suffix == ".json":
+        try:
+            data = json.loads(target.read_text())
+
+            if rel_path.endswith("vault-state.json"):
+                manifest_id = data.get("id")
+                if manifest_id != doc_id:
+                    failures.append(
+                        f"id mismatch in {rel_path}; expected '{doc_id}' found '{manifest_id}'"
+                    )
+
+            elif rel_path.endswith("document-registry.json"):
+                if "documents" not in data:
+                    failures.append(f"registry missing documents array: {rel_path}")
+
+            elif rel_path.endswith("layers.json"):
+                if "layers" not in data:
+                    failures.append(f"layers missing layers array: {rel_path}")
+
+            elif rel_path.endswith("protected-paths.json"):
+                if "protected" not in data:
+                    failures.append(f"protected-paths missing protected array: {rel_path}")
+
+            elif rel_path.endswith("promotions.json"):
+                if "requirements" not in data:
+                    failures.append(f"promotions missing requirements array: {rel_path}")
+
+        except Exception as exc:
+            failures.append(f"invalid json {rel_path}: {exc}")
 
 print()
 
