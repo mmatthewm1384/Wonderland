@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CORE="/Users/wonderland/Wonderland/vault/00-Core"
+
+if [[ ! -d "$CORE" ]]; then
+  echo "FAIL core vault not found: $CORE"
+  exit 1
+fi
+
+exec "$CORE/checks/verify-core.sh"

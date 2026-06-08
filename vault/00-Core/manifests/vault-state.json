@@ -1,0 +1,9 @@
+{
+  "id": "vault-state-v4",
+  "name": "wonderland-core-vault",
+  "version": 4,
+  "state": "active",
+  "lock": "open",
+  "authority": "operator",
+  "path": "/Users/wonderland/Wonderland/vault/00-Core"
+}
