@@ -26,6 +26,11 @@
       "id": "rollback-policy-v4",
       "path": "recovery/rollback.policy.md",
       "type": "recovery"
+    },
+    {
+      "id": "snapshot-retention-policy-v4",
+      "path": "operations/snapshot-retention.policy.md",
+      "type": "operations"
     }
   ]
 }

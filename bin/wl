@@ -33,6 +33,7 @@ Commands:
   wl snapshot
   wl restore <snapshot.tar.gz>
   wl verify-snapshot <snapshot.tar.gz>
+  wl prune-snapshots [keep-count]
 USAGE
 }
 
@@ -118,6 +119,11 @@ case "${1:-help}" in
   verify-snapshot)
     shift
     exec "$ROOT/bin/wl-vault-verify-snapshot" "$@"
+    ;;
+
+  prune-snapshots)
+    shift
+    exec "$ROOT/bin/wl-vault-prune-snapshots" "$@"
     ;;
 
   help|*)

@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+SNAPSHOT_DIR="$ROOT/vault/snapshots"
+KEEP="${1:-20}"
+
+if ! [[ "$KEEP" =~ ^[0-9]+$ ]]; then
+  echo "Usage: wl-vault-prune-snapshots [keep-count]"
+  exit 1
+fi
+
+"$ROOT/bin/wl" verify
+
+mkdir -p "$SNAPSHOT_DIR"
+
+mapfile -t OLD < <(ls -t "$SNAPSHOT_DIR"/*.tar.gz 2>/dev/null | tail -n +"$((KEEP + 1))")
+
+if [[ "${#OLD[@]}" -eq 0 ]]; then
+  echo "No snapshots to prune. keep=$KEEP"
+  exit 0
+fi
+
+for snap in "${OLD[@]}"; do
+  echo "PRUNE $snap"
+  rm -f "$snap" "$snap.sha256"
+done
+
+echo "Pruned ${#OLD[@]} snapshot(s). keep=$KEEP"
