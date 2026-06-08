@@ -5,10 +5,6 @@
 
 {{ objective }}
 
-## Preconditions
-
-- {{ precondition }}
-
 ## Procedure
 
 ```zsh

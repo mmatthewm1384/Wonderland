@@ -13,11 +13,6 @@ Container
 wl-{{ name }}
 Network
 wonderland-{{ network }}
-Volumes
-wl-{{ name }}-data
-Ports
-Port	Purpose
-{{ port }}	{{ port_purpose }}
 Verification
 wl {{ name }} verify
 Recovery

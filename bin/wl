@@ -3,9 +3,35 @@ set -euo pipefail
 
 ROOT="/Users/wonderland/Wonderland"
 
+usage() {
+  cat <<USAGE
+Wonderland CLI
+
+Commands:
+  wl verify
+  wl status
+
+  wl core verify
+  wl core status
+  wl core path
+
+  wl templates verify
+  wl templates path
+USAGE
+}
+
 case "${1:-help}" in
   verify)
-    exec "$ROOT/bin/wl-verify-core"
+    "$ROOT/bin/wl-verify-core"
+    "$ROOT/bin/wl-verify-templates"
+    ;;
+
+  status)
+    echo "Wonderland root: $ROOT"
+    echo "Core vault: $ROOT/vault/00-Core"
+    echo "Templates: $ROOT/vault/01-Templates"
+    "$ROOT/bin/wl-verify-core"
+    "$ROOT/bin/wl-verify-templates"
     ;;
 
   core)
@@ -20,28 +46,26 @@ case "${1:-help}" in
         echo "$ROOT/vault/00-Core"
         ;;
       *)
-        echo "Usage:"
-        echo "  wl core verify"
-        echo "  wl core status"
-        echo "  wl core path"
+        usage
         ;;
     esac
     ;;
 
-  status)
-    echo "Wonderland root: $ROOT"
-    echo "Core vault: $ROOT/vault/00-Core"
-    "$ROOT/bin/wl-verify-core"
+  templates)
+    case "${2:-help}" in
+      verify)
+        exec "$ROOT/bin/wl-verify-templates"
+        ;;
+      path)
+        echo "$ROOT/vault/01-Templates"
+        ;;
+      *)
+        usage
+        ;;
+    esac
     ;;
 
   help|*)
-    echo "Wonderland CLI"
-    echo
-    echo "Commands:"
-    echo "  wl verify"
-    echo "  wl status"
-    echo "  wl core verify"
-    echo "  wl core status"
-    echo "  wl core path"
+    usage
     ;;
 esac

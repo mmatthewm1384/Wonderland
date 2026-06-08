@@ -5,18 +5,6 @@
 
 {{ purpose }}
 
-## Authority
-
-{{ authority }}
-
-## Requirements
-
-- Documented
-- Versioned
-- Verified
-- Recoverable
-- Auditable
-
 ## Verification
 
 ```text
