@@ -96,6 +96,7 @@ run_verify() {
   run_optional "$ROOT/bin/wl-service-health"
   run_optional "$ROOT/bin/wl-verify-intelligence"
   run_optional "$ROOT/bin/wl-verify-governance"
+  run_optional "$ROOT/bin/wl-verify-completion"
 }
 
 case "${1:-help}" in

@@ -4,8 +4,8 @@ import time
 import requests
 
 PROXIES = {
-    "http": "http://wl-anon-privoxy:8118",
-    "https": "http://wl-anon-privoxy:8118"
+    "http": "socks5h://wl-anon-tor:9050",
+    "https": "socks5h://wl-anon-tor:9050"
 }
 
 def verify_routing():
@@ -13,7 +13,7 @@ def verify_routing():
         response = requests.get(
             "https://check.torproject.org/api/ip",
             proxies=PROXIES,
-            timeout=15
+            timeout=30
         )
         return response.json().get("IsTor", False)
     except Exception:
@@ -28,7 +28,7 @@ def main():
             res = requests.get(
                 "https://httpbin.org/headers",
                 proxies=PROXIES,
-                timeout=10
+                timeout=30
             )
             print(f"[DATA-STREAM] Successfully processed payload size: {len(res.text)} bytes", flush=True)
         except Exception:

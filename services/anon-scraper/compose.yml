@@ -6,18 +6,17 @@ services:
     volumes:
       - .:/app
     working_dir: /app
-    environment:
-      - HTTP_PROXY=http://wl-anon-privoxy:8118
-      - HTTPS_PROXY=http://wl-anon-privoxy:8118
-      - urllib_proxy=http://wl-anon-privoxy:8118
     entrypoint:
       - sh
       - -c
       - |
         apk add --no-cache python3 py3-pip &&
-        python3 -m venv venv &&
-        ./venv/bin/pip install --no-cache-dir -r requirements.txt &&
-        exec ./venv/bin/python3 app.py
+        python3 -m venv /tmp/venv &&
+        env -u ALL_PROXY -u HTTP_PROXY -u HTTPS_PROXY /tmp/venv/bin/pip install --no-cache-dir -r requirements.txt &&
+        export ALL_PROXY=socks5h://wl-anon-tor:9050 &&
+        export HTTP_PROXY=socks5h://wl-anon-tor:9050 &&
+        export HTTPS_PROXY=socks5h://wl-anon-tor:9050 &&
+        exec /tmp/venv/bin/python3 app.py
     networks:
       - anon-isolated
 
