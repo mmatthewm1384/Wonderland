@@ -17,6 +17,20 @@ root = pathlib.Path(sys.argv[1])
 out_dir = pathlib.Path(sys.argv[2])
 registry_path = pathlib.Path(sys.argv[3])
 
+def read_compose_light(path):
+    text = path.read_text(errors="replace")
+    ports = sorted(set(re.findall(r'["\']?(\d{2,5}):(\d{2,5})["\']?', text)))
+    volumes = sorted(set(re.findall(r'([A-Za-z0-9_.-]+):/[A-Za-z0-9_./-]+', text)))
+    depends = sorted(set(re.findall(r'depends_on:\s*\n((?:\s+-\s+[A-Za-z0-9_.-]+\n)+)', text)))
+    dependencies = []
+    for block in depends:
+        dependencies.extend(re.findall(r'-\s+([A-Za-z0-9_.-]+)', block))
+    return {
+        "ports": [{"host": h, "container": c} for h, c in ports],
+        "volumes": volumes,
+        "dependencies": sorted(set(dependencies))
+    }
+
 services = []
 
 for compose in sorted(root.rglob("compose.yml")):
@@ -25,9 +39,10 @@ for compose in sorted(root.rglob("compose.yml")):
 
     name = compose.parent.name
     service_id = name if name.startswith("wl-") else f"wl-{name}"
-
     safe = re.sub(r"[^a-zA-Z0-9_-]+", "-", service_id)
     definition_path = out_dir / f"{safe}.service.json"
+
+    parsed = read_compose_light(compose)
 
     payload = {
         "id": f"{service_id}-service-v4",
@@ -38,9 +53,9 @@ for compose in sorted(root.rglob("compose.yml")):
         "verify": f"wl services verify {service_id}",
         "recover": f"wl services recover {service_id}",
         "rollback": f"wl services rollback {service_id}",
-        "dependencies": [],
-        "ports": [],
-        "volumes": []
+        "dependencies": parsed["dependencies"],
+        "ports": parsed["ports"],
+        "volumes": parsed["volumes"]
     }
 
     definition_path.write_text(json.dumps(payload, indent=2) + "\n")
