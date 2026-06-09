@@ -1,0 +1,103 @@
+{
+  "id": "runtime-inventory-v4",
+  "version": 4,
+  "timestamp": "2026-06-08T18:51:19",
+  "engine": "nerdctl",
+  "managed_count": 5,
+  "unmanaged_count": 2,
+  "managed": [
+    {
+      "Command": "\"/run.sh\"",
+      "CreatedAt": "2026-06-06T15:35:14.301413505Z",
+      "ID": "9a995bdc6aca",
+      "Image": "docker.io/grafana/grafana:11.1.4",
+      "Platform": "linux/arm64/v8",
+      "Names": "wl-grafana",
+      "Ports": "0.0.0.0:3000->3000/tcp",
+      "Status": "Up",
+      "Runtime": "io.containerd.runc.v2",
+      "Size": "",
+      "Labels": "nerdctl/platform=linux/arm64/v8,containerd.io/restart.status=running,nerdctl/log-uri=binary:///usr/local/bin/nerdctl?_NERDCTL_INTERNAL_LOGGING=%2Fvar%2Flib%2Fnerdctl%2F1935db59,io.containerd.image.config.stop-signal=SIGTERM,com.docker.compose.project=wonderland-v4-ga-plus,nerdctl/networks=[\"wonderland-v4-ga-plus_default\"],com.docker.compose.config-hash=d4330e170eb4653b58b2e3e4f741df0375a2171538903a90c9bd31788730c683,containerd.io/restart.loguri=binary:///usr/local/bin/nerdctl?_NERDCTL_INTERNAL_LOGGING=%2Fvar%2Flib%2Fnerdctl%2F1935db59,nerdctl/host-config={\"BlkioWeight\":0,\"CidFile\":\"/tmp/compose-1797178995/cid\",\"Devices\":null},com.docker.compose.service=wl-grafana,nerdctl/dns={\"DNSServers\":null,\"DNSResolvConfOptions\":null,\"DNSSearchDomains\":null},nerdctl/extraHosts=[],nerdctl/ipc={\"mode\":\"private\"},nerdctl/namespace=default,nerdctl/user=472,containerd.io/restart.policy=unless-stopped,maintainer=Grafana Labs <hello@grafana.com>,nerdctl/mounts=[{\"Type\":\"volume\",\"Name\":\"wl-grafana-data\",\"Source\":\"/var/lib/nerdctl/1935db59/volumes/default/wl-grafana-data/_data\",\"Destination\":\"/var/lib/grafana\",\"Driver\":\"local\",\"Mode\":\"\",\"RW\":true,\"Propagation\":\"\"},{\"Type\":\"bind\",\"Source\":\"/Users/wonderland/Wonderland/docker/wl-grafana/provisioning\",\"Destination\":\"/etc/grafana/provisioning\",\"Mode\":\"ro\",\"RW\":false,\"Propagation\":\"\"},{\"Type\":\"bind\",\"Source\":\"/Users/wonderland/Wonderland/docker/wl-grafana/dashboards\",\"Destination\":\"/var/lib/grafana/dashboards\",\"Mode\":\"ro\",\"RW\":false,\"Propagation\":\"\"}],nerdctl/auto-remove=false,nerdctl/name=wl-grafana,nerdctl/state-dir=/var/lib/nerdctl/1935db59/containers/default/9a995bdc6aca2d657a57971fc7d374f2bf5ede8dd2db802970927f236d405294,nerdctl/log-config={\"driver\":\"json-file\",\"address\":\"/run/containerd/containerd.sock\"},nerdctl/hostname=wl-grafana,containerd.io/restart.count=5"
+    },
+    {
+      "Command": "\"/usr/bin/loki -conf\u2026\"",
+      "CreatedAt": "2026-06-06T15:35:14.097496908Z",
+      "ID": "485e0d598a9a",
+      "Image": "docker.io/grafana/loki:3.1.1",
+      "Platform": "linux/arm64/v8",
+      "Names": "wl-loki",
+      "Ports": "0.0.0.0:3100->3100/tcp",
+      "Status": "Up",
+      "Runtime": "io.containerd.runc.v2",
+      "Size": "",
+      "Labels": "com.docker.compose.project=wonderland-v4-ga-plus,nerdctl/host-config={\"BlkioWeight\":0,\"CidFile\":\"/tmp/compose-2559127200/cid\",\"Devices\":null},com.docker.compose.service=wl-loki,containerd.io/restart.policy=unless-stopped,nerdctl/log-uri=binary:///usr/local/bin/nerdctl?_NERDCTL_INTERNAL_LOGGING=%2Fvar%2Flib%2Fnerdctl%2F1935db59,nerdctl/networks=[\"wonderland-v4-ga-plus_default\"],nerdctl/auto-remove=false,nerdctl/mounts=[{\"Type\":\"bind\",\"Source\":\"/Users/wonderland/Wonderland/docker/wl-loki/config/local-config.yaml\",\"Destination\":\"/etc/loki/local-config.yaml\",\"Mode\":\"ro\",\"RW\":false,\"Propagation\":\"\"},{\"Type\":\"volume\",\"Name\":\"wl-loki-data\",\"Source\":\"/var/lib/nerdctl/1935db59/volumes/default/wl-loki-data/_data\",\"Destination\":\"/loki\",\"Driver\":\"local\",\"Mode\":\"\",\"RW\":true,\"Propagation\":\"\"}],io.containerd.image.config.stop-signal=SIGTERM,nerdctl/name=wl-loki,containerd.io/restart.count=5,nerdctl/dns={\"DNSServers\":null,\"DNSResolvConfOptions\":null,\"DNSSearchDomains\":null},nerdctl/platform=linux/arm64/v8,nerdctl/ipc={\"mode\":\"private\"},containerd.io/restart.status=running,nerdctl/user=10001,nerdctl/namespace=default,nerdctl/state-dir=/var/lib/nerdctl/1935db59/containers/default/485e0d598a9ae31d4fcfc738d3428d31a1e07eb96dc561ae5745e71ada6df9b6,nerdctl/log-config={\"driver\":\"json-file\",\"address\":\"/run/containerd/containerd.sock\"},nerdctl/hostname=wl-loki,com.docker.compose.config-hash=41019af118dcc51fb80e501d38444b046dd6f0119d5ab1dcea5c8bb2d98a5454,containerd.io/restart.loguri=binary:///usr/local/bin/nerdctl?_NERDCTL_INTERNAL_LOGGING=%2Fvar%2Flib%2Fnerdctl%2F1935db59,nerdctl/extraHosts=[]"
+    },
+    {
+      "Command": "\"/bin/prometheus --c\u2026\"",
+      "CreatedAt": "2026-06-06T15:35:13.906713681Z",
+      "ID": "22a82b1250eb",
+      "Image": "docker.io/prom/prometheus:v2.54.1",
+      "Platform": "linux/arm64/v8",
+      "Names": "wl-prometheus",
+      "Ports": "0.0.0.0:9090->9090/tcp",
+      "Status": "Up",
+      "Runtime": "io.containerd.runc.v2",
+      "Size": "",
+      "Labels": "maintainer=The Prometheus Authors <prometheus-developers@googlegroups.com>,nerdctl/hostname=wl-prometheus,nerdctl/extraHosts=[],com.docker.compose.service=wl-prometheus,nerdctl/name=wl-prometheus,containerd.io/restart.status=running,nerdctl/dns={\"DNSServers\":null,\"DNSResolvConfOptions\":null,\"DNSSearchDomains\":null},nerdctl/mounts=[{\"Type\":\"bind\",\"Source\":\"/Users/wonderland/Wonderland/docker/wl-prometheus/config/prometheus.yml\",\"Destination\":\"/etc/prometheus/prometheus.yml\",\"Mode\":\"ro\",\"RW\":false,\"Propagation\":\"\"},{\"Type\":\"volume\",\"Name\":\"wl-prometheus-data\",\"Source\":\"/var/lib/nerdctl/1935db59/volumes/default/wl-prometheus-data/_data\",\"Destination\":\"/prometheus\",\"Driver\":\"local\",\"Mode\":\"\",\"RW\":true,\"Propagation\":\"\"}],containerd.io/restart.count=5,containerd.io/restart.loguri=binary:///usr/local/bin/nerdctl?_NERDCTL_INTERNAL_LOGGING=%2Fvar%2Flib%2Fnerdctl%2F1935db59,nerdctl/user=nobody,nerdctl/ipc={\"mode\":\"private\"},containerd.io/restart.policy=unless-stopped,nerdctl/log-config={\"driver\":\"json-file\",\"address\":\"/run/containerd/containerd.sock\"},nerdctl/log-uri=binary:///usr/local/bin/nerdctl?_NERDCTL_INTERNAL_LOGGING=%2Fvar%2Flib%2Fnerdctl%2F1935db59,nerdctl/namespace=default,nerdctl/networks=[\"wonderland-v4-ga-plus_default\"],com.docker.compose.config-hash=b4541deb3603b8b6b7b6cfe1ff950539bea55c700d92f443fc9b0e6e99a5a8a5,nerdctl/auto-remove=false,nerdctl/host-config={\"BlkioWeight\":0,\"CidFile\":\"/tmp/compose-852765555/cid\",\"Devices\":null},io.containerd.image.config.stop-signal=SIGTERM,nerdctl/platform=linux/arm64/v8,nerdctl/state-dir=/var/lib/nerdctl/1935db59/containers/default/22a82b1250ebdd4ece45303e6784d2bfa31a8a9d4ff0494eaa5401bb92872d19,com.docker.compose.project=wonderland-v4-ga-plus"
+    },
+    {
+      "Command": "\"/nats-server -js -m\u2026\"",
+      "CreatedAt": "2026-06-06T15:35:13.714380246Z",
+      "ID": "6bf1dbde9d62",
+      "Image": "docker.io/library/nats:2.10",
+      "Platform": "linux/arm64/v8",
+      "Names": "wl-nats",
+      "Ports": "0.0.0.0:8222->8222/tcp",
+      "Status": "Up",
+      "Runtime": "io.containerd.runc.v2",
+      "Size": "",
+      "Labels": "nerdctl/host-config={\"BlkioWeight\":0,\"CidFile\":\"/tmp/compose-3968765053/cid\",\"Devices\":null},nerdctl/state-dir=/var/lib/nerdctl/1935db59/containers/default/6bf1dbde9d623a9d84762fb63aea1f2b4c4d1723df75d521534fef984207e1c2,io.containerd.image.config.stop-signal=SIGTERM,nerdctl/auto-remove=false,containerd.io/restart.status=running,nerdctl/hostname=wl-nats,nerdctl/ipc={\"mode\":\"private\"},com.docker.compose.service=wl-nats,containerd.io/restart.loguri=binary:///usr/local/bin/nerdctl?_NERDCTL_INTERNAL_LOGGING=%2Fvar%2Flib%2Fnerdctl%2F1935db59,com.docker.compose.project=wonderland-v4-ga-plus,containerd.io/restart.policy=unless-stopped,nerdctl/log-config={\"driver\":\"json-file\",\"address\":\"/run/containerd/containerd.sock\"},nerdctl/networks=[\"wonderland-v4-ga-plus_default\"],nerdctl/platform=linux/arm64/v8,com.docker.compose.config-hash=2478759d91af12e49c9220d9437810776e9baa2cf5e7f1500f7261f2f6c9d14c,nerdctl/extraHosts=[],nerdctl/name=wl-nats,nerdctl/dns={\"DNSServers\":null,\"DNSResolvConfOptions\":null,\"DNSSearchDomains\":null},containerd.io/restart.count=5,nerdctl/namespace=default,nerdctl/log-uri=binary:///usr/local/bin/nerdctl?_NERDCTL_INTERNAL_LOGGING=%2Fvar%2Flib%2Fnerdctl%2F1935db59"
+    },
+    {
+      "Command": "\"/coredns -conf /etc\u2026\"",
+      "CreatedAt": "2026-06-06T15:35:13.51966521Z",
+      "ID": "8148ce589129",
+      "Image": "docker.io/coredns/coredns:1.11.3",
+      "Platform": "linux/arm64/v8",
+      "Names": "wl-dns",
+      "Ports": "0.0.0.0:1053->53/tcp",
+      "Status": "Up",
+      "Runtime": "io.containerd.runc.v2",
+      "Size": "",
+      "Labels": "nerdctl/log-uri=binary:///usr/local/bin/nerdctl?_NERDCTL_INTERNAL_LOGGING=%2Fvar%2Flib%2Fnerdctl%2F1935db59,nerdctl/name=wl-dns,nerdctl/log-config={\"driver\":\"json-file\",\"address\":\"/run/containerd/containerd.sock\"},nerdctl/networks=[\"wonderland-v4-ga-plus_default\"],nerdctl/platform=linux/arm64/v8,com.docker.compose.service=wl-dns,io.containerd.image.config.stop-signal=SIGTERM,nerdctl/auto-remove=false,nerdctl/extraHosts=[],containerd.io/restart.status=running,nerdctl/hostname=wl-dns,containerd.io/restart.policy=unless-stopped,com.docker.compose.project=wonderland-v4-ga-plus,containerd.io/restart.loguri=binary:///usr/local/bin/nerdctl?_NERDCTL_INTERNAL_LOGGING=%2Fvar%2Flib%2Fnerdctl%2F1935db59,nerdctl/ipc={\"mode\":\"private\"},nerdctl/state-dir=/var/lib/nerdctl/1935db59/containers/default/8148ce589129dbfc44e47a91a750823cd084ac66b3d8d7952b7bcee6dafa8cc3,nerdctl/host-config={\"BlkioWeight\":0,\"CidFile\":\"/tmp/compose-1212743480/cid\",\"Devices\":null},containerd.io/restart.count=5,nerdctl/dns={\"DNSServers\":null,\"DNSResolvConfOptions\":null,\"DNSSearchDomains\":null},com.docker.compose.config-hash=3afd4fb8fb4a6a60ee943555fb7d73f0d15af3d294912e632e2bdf424a2470f8,nerdctl/user=nonroot:nonroot,nerdctl/namespace=default,nerdctl/mounts=[{\"Type\":\"bind\",\"Source\":\"/Users/wonderland/Wonderland/docker/wl-dns/config/Corefile\",\"Destination\":\"/etc/coredns/Corefile\",\"Mode\":\"ro\",\"RW\":false,\"Propagation\":\"\"},{\"Type\":\"bind\",\"Source\":\"/Users/wonderland/Wonderland/docker/wl-dns/config/wl.zone\",\"Destination\":\"/etc/coredns/wl.zone\",\"Mode\":\"ro\",\"RW\":false,\"Propagation\":\"\"}]"
+    }
+  ],
+  "unmanaged": [
+    {
+      "Command": "\"/usr/local/bin/entr\u2026\"",
+      "CreatedAt": "2026-06-02T16:57:16.948021886Z",
+      "ID": "bc9428102e25",
+      "Image": "docker.io/library/anon-vm-anon-workstation:latest",
+      "Platform": "linux/arm64/v8",
+      "Names": "anon-workstation",
+      "Ports": "",
+      "Status": "Created",
+      "Runtime": "io.containerd.runc.v2",
+      "Size": "",
+      "Labels": "com.docker.compose.project=anon-vm,nerdctl/dns={\"DNSServers\":null,\"DNSResolvConfOptions\":null,\"DNSSearchDomains\":null},nerdctl/networks=[\"anon-vm_isolated_stream\"],nerdctl/namespace=default,nerdctl/state-dir=/var/lib/nerdctl/1935db59/containers/default/bc9428102e2578eebbc613ad35371ef6706e51a19877a4c2d5e92959a005ae71,com.docker.compose.service=anon-workstation,io.containerd.image.config.stop-signal=SIGTERM,nerdctl/host-config={\"BlkioWeight\":0,\"CidFile\":\"/tmp/compose-4123335954/cid\",\"Devices\":null},nerdctl/ipc={\"mode\":\"private\"},nerdctl/extraHosts=[],nerdctl/platform=linux/arm64/v8,nerdctl/auto-remove=false,nerdctl/mounts=[{\"Type\":\"bind\",\"Source\":\"/Users/wonderland/Wonderland-v3/zones/grey/anon-vm/secure-storage\",\"Destination\":\"/mnt/secure-volatile\",\"Mode\":\"\",\"RW\":true,\"Propagation\":\"\"}],com.docker.compose.config-hash=c677fa5a8b94ec2ed46efd3e1ea6e65fbe2cfa586a378219c3bd9f76c2b99cce,nerdctl/name=anon-workstation,nerdctl/log-config={\"driver\":\"json-file\",\"address\":\"/run/containerd/containerd.sock\"},nerdctl/log-uri=binary:///usr/local/bin/nerdctl?_NERDCTL_INTERNAL_LOGGING=%2Fvar%2Flib%2Fnerdctl%2F1935db59,nerdctl/ip=10.88.0.3,nerdctl/hostname=anon-workstation"
+    },
+    {
+      "Command": "\"/usr/local/bin/entr\u2026\"",
+      "CreatedAt": "2026-06-02T16:57:16.769664992Z",
+      "ID": "85ff15930f3d",
+      "Image": "docker.io/library/anon-vm-anon-gateway:latest",
+      "Platform": "linux/arm64/v8",
+      "Names": "anon-gateway",
+      "Ports": "",
+      "Status": "Up",
+      "Runtime": "io.containerd.runc.v2",
+      "Size": "",
+      "Labels": "nerdctl/ipc={\"mode\":\"private\"},containerd.io/restart.loguri=binary:///usr/local/bin/nerdctl?_NERDCTL_INTERNAL_LOGGING=%2Fvar%2Flib%2Fnerdctl%2F1935db59,nerdctl/log-config={\"driver\":\"json-file\",\"address\":\"/run/containerd/containerd.sock\"},nerdctl/state-dir=/var/lib/nerdctl/1935db59/containers/default/85ff15930f3ded21d89bede13b25f97e08acad8d677145a86c0657e2cb57d517,com.docker.compose.service=anon-gateway,containerd.io/restart.count=8,com.docker.compose.project=anon-vm,nerdctl/networks=[\"anon-vm_external_fabric\"],containerd.io/restart.status=running,nerdctl/host-config={\"BlkioWeight\":0,\"CidFile\":\"/tmp/compose-52748631/cid\",\"Devices\":null},nerdctl/log-uri=binary:///usr/local/bin/nerdctl?_NERDCTL_INTERNAL_LOGGING=%2Fvar%2Flib%2Fnerdctl%2F1935db59,com.docker.compose.config-hash=cea4a39edfb86fa9f6ae63a291a507c2f2f7d02cf7b3303990be97ac99916092,nerdctl/dns={\"DNSServers\":null,\"DNSResolvConfOptions\":null,\"DNSSearchDomains\":null},containerd.io/restart.policy=always,nerdctl/namespace=default,nerdctl/platform=linux/arm64/v8,nerdctl/auto-remove=false,nerdctl/extraHosts=[],io.containerd.image.config.stop-signal=SIGTERM,nerdctl/name=anon-gateway,nerdctl/hostname=anon-gateway"
+    }
+  ]
+}

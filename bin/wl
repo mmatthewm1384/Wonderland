@@ -47,6 +47,7 @@ Commands:
   wl runtime ps
   wl runtime images
   wl runtime verify
+  wl runtime inventory
 USAGE
 }
 
@@ -225,6 +226,9 @@ case "${1:-help}" in
       compose)
         shift 2
         exec "$ROOT/bin/wl-runtime" compose "$@"
+        ;;
+      inventory)
+        exec "$ROOT/bin/wl-runtime-inventory"
         ;;
       *)
         usage

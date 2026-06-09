@@ -13,6 +13,12 @@
       "path": "06-Services/service-status.json",
       "type": "status-report",
       "status": "active"
+    },
+    {
+      "id": "runtime-inventory-v4",
+      "path": "06-Services/runtime/runtime-inventory.json",
+      "type": "runtime-inventory",
+      "status": "active"
     }
   ]
 }
