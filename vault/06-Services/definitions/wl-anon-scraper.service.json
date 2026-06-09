@@ -3,14 +3,14 @@
   "name": "wl-anon-scraper",
   "status": "active",
   "version": 4,
-  "runtime": "containerd",
-  "engine": "nerdctl",
-  "container": "wl-anon-scraper",
-  "compose": null,
-  "verify": "wl runtime inspect wl-anon-scraper",
+  "compose": "services/anon-scraper/compose.yml",
+  "verify": "wl services verify wl-anon-scraper",
   "recover": "wl services recover wl-anon-scraper",
   "rollback": "wl services rollback wl-anon-scraper",
   "dependencies": [],
   "ports": [],
-  "volumes": []
+  "volumes": [
+    ".",
+    "socks5h"
+  ]
 }

@@ -30,6 +30,7 @@ Operations:
   wl reports index
   wl state-capture
   wl audit-report
+  wl registry integrity
 
 Vault:
   wl inventory
@@ -51,9 +52,9 @@ Layers:
   wl runtime verify|ps|images|inventory|logs <container>|inspect <container>|compose ...
   wl intents verify|list|path|status <intent-id-or-file> <status>|plan <intent-id-or-file>
   wl plans verify|list|path|status <plan-id-or-file> <status>|execute <plan-id-or-file>
+  wl intelligence verify|path
   wl archive verify|path
   wl reports index|path
-  wl intelligence verify|path
 
 Anon:
   wl anon up|down|status|doctor|repair|logs [container]|scraper-up|gateway-up
@@ -87,6 +88,7 @@ run_verify() {
   run_optional "$ROOT/bin/wl-verify-service-docs"
   run_optional "$ROOT/bin/wl-verify-schemas"
   run_optional "$ROOT/bin/wl-verify-registry"
+  run_optional "$ROOT/bin/wl-registry-integrity"
   run_optional "$ROOT/bin/wl-verify-intents"
   run_optional "$ROOT/bin/wl-verify-plans"
   run_optional "$ROOT/bin/wl-verify-executions"
@@ -274,6 +276,7 @@ case "${1:-help}" in
       refresh-services) exec "$ROOT/bin/wl-registry-refresh-services" ;;
       refresh-intents) exec "$ROOT/bin/wl-registry-refresh-intents" ;;
       refresh-plans) exec "$ROOT/bin/wl-registry-refresh-plans" ;;
+      integrity) exec "$ROOT/bin/wl-registry-integrity" ;;
       *) usage ;;
     esac
     ;;

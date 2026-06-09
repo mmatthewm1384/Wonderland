@@ -3,21 +3,24 @@
   "version": 4,
   "services": [
     {
-      "id": "wl-anon-scraper-service-v4",
-      "name": "wl-anon-scraper",
-      "path": "definitions/wl-anon-scraper.service.json",
-      "runtime": "containerd",
-      "engine": "nerdctl",
-      "container": "wl-anon-scraper",
+      "id": "wl-docker-service-v4",
+      "name": "wl-docker",
+      "path": "definitions/wl-docker.service.json",
+      "compose": "docker/compose.yml",
       "status": "active"
     },
     {
-      "id": "wl-anon-tor-service-v4",
-      "name": "wl-anon-tor",
-      "path": "definitions/wl-anon-tor.service.json",
-      "runtime": "containerd",
-      "engine": "nerdctl",
-      "container": "wl-anon-tor",
+      "id": "wl-anon-gateway-service-v4",
+      "name": "wl-anon-gateway",
+      "path": "definitions/wl-anon-gateway.service.json",
+      "compose": "services/anon-gateway/compose.yml",
+      "status": "active"
+    },
+    {
+      "id": "wl-anon-scraper-service-v4",
+      "name": "wl-anon-scraper",
+      "path": "definitions/wl-anon-scraper.service.json",
+      "compose": "services/anon-scraper/compose.yml",
       "status": "active"
     }
   ]

@@ -1,0 +1,570 @@
+{
+  "id": "registry-integrity-v4",
+  "version": 4,
+  "timestamp": "2026-06-09T16:04:29",
+  "checks": [
+    {
+      "path": "vault/05-Registry/00-Core/README.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/governance/change-management.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/governance/operator-authority.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/governance/promotion-policy.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/governance/system-principles.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/governance/trust-boundaries.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/identity/architectural-doctrine.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/identity/naming-standards.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/identity/wonderland-identity.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/manifests/core-state.manifest.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/manifests/document-registry.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/manifests/seed-vault-manifest.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/manifests/vault-state.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/metadata/layers.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/metadata/lifecycle.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/metadata/promotions.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/metadata/protected-paths.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/operations/backup-standard.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/operations/command-authority.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/operations/observability-standard.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/operations/verification-standard.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/recovery/bootstrap-procedure.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/recovery/continuity-plan.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/recovery/disaster-recovery.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/recovery/rebuild-order.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/recovery/recovery-policy.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/recovery/rollback-standard.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/schemas/core-document.schema.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/schemas/intent.schema.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/schemas/manifest.schema.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/security/access-control.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/security/secrets-policy.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/security/threat-model.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/topology/dependency-model.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/topology/root-map.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/00-Core/topology/service-topology.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/01-Templates/documents/core-document.template.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/01-Templates/intents/intent.template.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/01-Templates/runbooks/runbook.template.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/01-Templates/services/service.template.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/01-Templates/template-registry.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/02-Policies/governance/core-promotion.policy.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/02-Policies/operations/backup.policy.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/02-Policies/operations/runtime.policy.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/02-Policies/operations/snapshot-retention.policy.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/02-Policies/operations/unmanaged-runtime.policy.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/02-Policies/policy-registry.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/02-Policies/recovery/rollback.policy.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/02-Policies/security/secrets-handling.policy.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/03-Runbooks/bootstrap/bootstrap.runbook.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/03-Runbooks/operations/backup.runbook.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/03-Runbooks/recovery/recovery.runbook.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/03-Runbooks/runbook-registry.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/03-Runbooks/services/service-restore.runbook.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/04-Schemas/json/document.schema.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/04-Schemas/json/intent.schema.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/04-Schemas/json/policy.schema.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/04-Schemas/json/runbook.schema.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/04-Schemas/json/service.schema.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/04-Schemas/schema-registry.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/05-Registry/assets.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/05-Registry/commands.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/05-Registry/documents.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/05-Registry/executions/execution-plan-promote-anon-gateway--20260608-185912.execution.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/05-Registry/intents/promote-anon-gateway--20260608-185912.intent.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/05-Registry/intents/promote-anon-gateway--20260609-125906.intent.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/05-Registry/intents/promote-anon-scraper--20260609-125906.intent.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/05-Registry/intents.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/05-Registry/operators.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/05-Registry/plans/plan-promote-anon-gateway--20260608-185912.plan.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/05-Registry/plans.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/05-Registry/registry-map.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/05-Registry/services.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/blueprints/anon-blueprints.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/definitions/wl-anon-gateway.service.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/definitions/wl-anon-scraper.service.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/definitions/wl-anon-tor.service.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/definitions/wl-dns.service.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/definitions/wl-docker.service.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/definitions/wl-grafana.service.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/definitions/wl-loki.service.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/definitions/wl-nats.service.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/definitions/wl-prometheus.service.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/docs/network-standard.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/docs/network-topology.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/docs/port-map.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/docs/runtime-inventory.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/docs/runtime-standard.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/docs/service-overview.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/docs/service-promotion.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/docs/service-recovery.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/graphs/service-graph.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/recovery/recovery-matrix.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/recovery/service-recovery-order.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/runtime/runtime-containers.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/runtime/runtime-inventory.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/runtime/runtime.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/service-dependencies.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/service-health.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/service-registry.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/service-status.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/99-Archive/archive-policy.md",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/99-Archive/archive-registry.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/definitions/wl-docker.service.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/definitions/wl-anon-gateway.service.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/definitions/wl-anon-scraper.service.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/intents/promote-anon-gateway--20260608-185912.intent.json",
+      "exists": true
+    },
+    {
+      "path": "vault/05-Registry/intents/promote-anon-gateway--20260609-125906.intent.json",
+      "exists": true
+    },
+    {
+      "path": "vault/05-Registry/intents/promote-anon-scraper--20260609-125906.intent.json",
+      "exists": true
+    },
+    {
+      "path": "vault/05-Registry/plans/plan-promote-anon-gateway--20260608-185912.plan.json",
+      "exists": true
+    },
+    {
+      "path": "vault/05-Registry/06-Services/graphs/service-graph.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/service-status.json",
+      "exists": false
+    },
+    {
+      "path": "vault/05-Registry/06-Services/runtime/runtime-inventory.json",
+      "exists": false
+    }
+  ],
+  "failures": [
+    "missing referenced file: vault/05-Registry/00-Core/README.md",
+    "missing referenced file: vault/05-Registry/00-Core/governance/change-management.md",
+    "missing referenced file: vault/05-Registry/00-Core/governance/operator-authority.md",
+    "missing referenced file: vault/05-Registry/00-Core/governance/promotion-policy.md",
+    "missing referenced file: vault/05-Registry/00-Core/governance/system-principles.md",
+    "missing referenced file: vault/05-Registry/00-Core/governance/trust-boundaries.md",
+    "missing referenced file: vault/05-Registry/00-Core/identity/architectural-doctrine.md",
+    "missing referenced file: vault/05-Registry/00-Core/identity/naming-standards.md",
+    "missing referenced file: vault/05-Registry/00-Core/identity/wonderland-identity.md",
+    "missing referenced file: vault/05-Registry/00-Core/manifests/core-state.manifest.json",
+    "missing referenced file: vault/05-Registry/00-Core/manifests/document-registry.json",
+    "missing referenced file: vault/05-Registry/00-Core/manifests/seed-vault-manifest.md",
+    "missing referenced file: vault/05-Registry/00-Core/manifests/vault-state.json",
+    "missing referenced file: vault/05-Registry/00-Core/metadata/layers.json",
+    "missing referenced file: vault/05-Registry/00-Core/metadata/lifecycle.json",
+    "missing referenced file: vault/05-Registry/00-Core/metadata/promotions.json",
+    "missing referenced file: vault/05-Registry/00-Core/metadata/protected-paths.json",
+    "missing referenced file: vault/05-Registry/00-Core/operations/backup-standard.md",
+    "missing referenced file: vault/05-Registry/00-Core/operations/command-authority.md",
+    "missing referenced file: vault/05-Registry/00-Core/operations/observability-standard.md",
+    "missing referenced file: vault/05-Registry/00-Core/operations/verification-standard.md",
+    "missing referenced file: vault/05-Registry/00-Core/recovery/bootstrap-procedure.md",
+    "missing referenced file: vault/05-Registry/00-Core/recovery/continuity-plan.md",
+    "missing referenced file: vault/05-Registry/00-Core/recovery/disaster-recovery.md",
+    "missing referenced file: vault/05-Registry/00-Core/recovery/rebuild-order.md",
+    "missing referenced file: vault/05-Registry/00-Core/recovery/recovery-policy.md",
+    "missing referenced file: vault/05-Registry/00-Core/recovery/rollback-standard.md",
+    "missing referenced file: vault/05-Registry/00-Core/schemas/core-document.schema.json",
+    "missing referenced file: vault/05-Registry/00-Core/schemas/intent.schema.json",
+    "missing referenced file: vault/05-Registry/00-Core/schemas/manifest.schema.json",
+    "missing referenced file: vault/05-Registry/00-Core/security/access-control.md",
+    "missing referenced file: vault/05-Registry/00-Core/security/secrets-policy.md",
+    "missing referenced file: vault/05-Registry/00-Core/security/threat-model.md",
+    "missing referenced file: vault/05-Registry/00-Core/topology/dependency-model.md",
+    "missing referenced file: vault/05-Registry/00-Core/topology/root-map.md",
+    "missing referenced file: vault/05-Registry/00-Core/topology/service-topology.md",
+    "missing referenced file: vault/05-Registry/01-Templates/documents/core-document.template.md",
+    "missing referenced file: vault/05-Registry/01-Templates/intents/intent.template.json",
+    "missing referenced file: vault/05-Registry/01-Templates/runbooks/runbook.template.md",
+    "missing referenced file: vault/05-Registry/01-Templates/services/service.template.md",
+    "missing referenced file: vault/05-Registry/01-Templates/template-registry.json",
+    "missing referenced file: vault/05-Registry/02-Policies/governance/core-promotion.policy.md",
+    "missing referenced file: vault/05-Registry/02-Policies/operations/backup.policy.md",
+    "missing referenced file: vault/05-Registry/02-Policies/operations/runtime.policy.md",
+    "missing referenced file: vault/05-Registry/02-Policies/operations/snapshot-retention.policy.md",
+    "missing referenced file: vault/05-Registry/02-Policies/operations/unmanaged-runtime.policy.md",
+    "missing referenced file: vault/05-Registry/02-Policies/policy-registry.json",
+    "missing referenced file: vault/05-Registry/02-Policies/recovery/rollback.policy.md",
+    "missing referenced file: vault/05-Registry/02-Policies/security/secrets-handling.policy.md",
+    "missing referenced file: vault/05-Registry/03-Runbooks/bootstrap/bootstrap.runbook.md",
+    "missing referenced file: vault/05-Registry/03-Runbooks/operations/backup.runbook.md",
+    "missing referenced file: vault/05-Registry/03-Runbooks/recovery/recovery.runbook.md",
+    "missing referenced file: vault/05-Registry/03-Runbooks/runbook-registry.json",
+    "missing referenced file: vault/05-Registry/03-Runbooks/services/service-restore.runbook.md",
+    "missing referenced file: vault/05-Registry/04-Schemas/json/document.schema.json",
+    "missing referenced file: vault/05-Registry/04-Schemas/json/intent.schema.json",
+    "missing referenced file: vault/05-Registry/04-Schemas/json/policy.schema.json",
+    "missing referenced file: vault/05-Registry/04-Schemas/json/runbook.schema.json",
+    "missing referenced file: vault/05-Registry/04-Schemas/json/service.schema.json",
+    "missing referenced file: vault/05-Registry/04-Schemas/schema-registry.json",
+    "missing referenced file: vault/05-Registry/05-Registry/assets.json",
+    "missing referenced file: vault/05-Registry/05-Registry/commands.json",
+    "missing referenced file: vault/05-Registry/05-Registry/documents.json",
+    "missing referenced file: vault/05-Registry/05-Registry/executions/execution-plan-promote-anon-gateway--20260608-185912.execution.json",
+    "missing referenced file: vault/05-Registry/05-Registry/intents/promote-anon-gateway--20260608-185912.intent.json",
+    "missing referenced file: vault/05-Registry/05-Registry/intents/promote-anon-gateway--20260609-125906.intent.json",
+    "missing referenced file: vault/05-Registry/05-Registry/intents/promote-anon-scraper--20260609-125906.intent.json",
+    "missing referenced file: vault/05-Registry/05-Registry/intents.json",
+    "missing referenced file: vault/05-Registry/05-Registry/operators.json",
+    "missing referenced file: vault/05-Registry/05-Registry/plans/plan-promote-anon-gateway--20260608-185912.plan.json",
+    "missing referenced file: vault/05-Registry/05-Registry/plans.json",
+    "missing referenced file: vault/05-Registry/05-Registry/registry-map.json",
+    "missing referenced file: vault/05-Registry/05-Registry/services.json",
+    "missing referenced file: vault/05-Registry/06-Services/blueprints/anon-blueprints.json",
+    "missing referenced file: vault/05-Registry/06-Services/definitions/wl-anon-gateway.service.json",
+    "missing referenced file: vault/05-Registry/06-Services/definitions/wl-anon-scraper.service.json",
+    "missing referenced file: vault/05-Registry/06-Services/definitions/wl-anon-tor.service.json",
+    "missing referenced file: vault/05-Registry/06-Services/definitions/wl-dns.service.json",
+    "missing referenced file: vault/05-Registry/06-Services/definitions/wl-docker.service.json",
+    "missing referenced file: vault/05-Registry/06-Services/definitions/wl-grafana.service.json",
+    "missing referenced file: vault/05-Registry/06-Services/definitions/wl-loki.service.json",
+    "missing referenced file: vault/05-Registry/06-Services/definitions/wl-nats.service.json",
+    "missing referenced file: vault/05-Registry/06-Services/definitions/wl-prometheus.service.json",
+    "missing referenced file: vault/05-Registry/06-Services/docs/network-standard.md",
+    "missing referenced file: vault/05-Registry/06-Services/docs/network-topology.md",
+    "missing referenced file: vault/05-Registry/06-Services/docs/port-map.md",
+    "missing referenced file: vault/05-Registry/06-Services/docs/runtime-inventory.md",
+    "missing referenced file: vault/05-Registry/06-Services/docs/runtime-standard.md",
+    "missing referenced file: vault/05-Registry/06-Services/docs/service-overview.md",
+    "missing referenced file: vault/05-Registry/06-Services/docs/service-promotion.md",
+    "missing referenced file: vault/05-Registry/06-Services/docs/service-recovery.md",
+    "missing referenced file: vault/05-Registry/06-Services/graphs/service-graph.json",
+    "missing referenced file: vault/05-Registry/06-Services/recovery/recovery-matrix.json",
+    "missing referenced file: vault/05-Registry/06-Services/recovery/service-recovery-order.json",
+    "missing referenced file: vault/05-Registry/06-Services/runtime/runtime-containers.json",
+    "missing referenced file: vault/05-Registry/06-Services/runtime/runtime-inventory.json",
+    "missing referenced file: vault/05-Registry/06-Services/runtime/runtime.json",
+    "missing referenced file: vault/05-Registry/06-Services/service-dependencies.json",
+    "missing referenced file: vault/05-Registry/06-Services/service-health.json",
+    "missing referenced file: vault/05-Registry/06-Services/service-registry.json",
+    "missing referenced file: vault/05-Registry/06-Services/service-status.json",
+    "missing referenced file: vault/05-Registry/99-Archive/archive-policy.md",
+    "missing referenced file: vault/05-Registry/99-Archive/archive-registry.json",
+    "missing referenced file: vault/05-Registry/definitions/wl-docker.service.json",
+    "missing referenced file: vault/05-Registry/definitions/wl-anon-gateway.service.json",
+    "missing referenced file: vault/05-Registry/definitions/wl-anon-scraper.service.json",
+    "missing referenced file: vault/05-Registry/06-Services/graphs/service-graph.json",
+    "missing referenced file: vault/05-Registry/06-Services/service-status.json",
+    "missing referenced file: vault/05-Registry/06-Services/runtime/runtime-inventory.json"
+  ]
+}

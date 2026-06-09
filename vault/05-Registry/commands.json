@@ -9,6 +9,24 @@
       "executable": true
     },
     {
+      "name": "wl-anon",
+      "path": "bin/wl-anon",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-anon-route",
+      "path": "bin/wl-anon-route",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-audit-report",
+      "path": "bin/wl-audit-report",
+      "category": "core",
+      "executable": true
+    },
+    {
       "name": "wl-body-time",
       "path": "bin/wl-body-time",
       "category": "core",
@@ -75,6 +93,12 @@
       "executable": true
     },
     {
+      "name": "wl-drift-check",
+      "path": "bin/wl-drift-check",
+      "category": "core",
+      "executable": true
+    },
+    {
       "name": "wl-env-clean",
       "path": "bin/wl-env-clean",
       "category": "core",
@@ -99,8 +123,32 @@
       "executable": true
     },
     {
+      "name": "wl-intent-plan",
+      "path": "bin/wl-intent-plan",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-intent-status",
+      "path": "bin/wl-intent-status",
+      "category": "core",
+      "executable": true
+    },
+    {
       "name": "wl-knowledge-dropin",
       "path": "bin/wl-knowledge-dropin",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-lifecycle",
+      "path": "bin/wl-lifecycle",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-lifecycle-capture",
+      "path": "bin/wl-lifecycle-capture",
       "category": "core",
       "executable": true
     },
@@ -129,8 +177,38 @@
       "executable": true
     },
     {
+      "name": "wl-operations-index-reports",
+      "path": "bin/wl-operations-index-reports",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-operations-inventory",
+      "path": "bin/wl-operations-inventory",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-parse-anon-blueprint",
+      "path": "bin/wl-parse-anon-blueprint",
+      "category": "core",
+      "executable": true
+    },
+    {
       "name": "wl-path-fix",
       "path": "bin/wl-path-fix",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-plan-execute",
+      "path": "bin/wl-plan-execute",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-plan-status",
+      "path": "bin/wl-plan-status",
       "category": "core",
       "executable": true
     },
@@ -153,6 +231,12 @@
       "executable": true
     },
     {
+      "name": "wl-registry-integrity",
+      "path": "bin/wl-registry-integrity",
+      "category": "vault",
+      "executable": true
+    },
+    {
       "name": "wl-registry-refresh",
       "path": "bin/wl-registry-refresh",
       "category": "vault",
@@ -171,14 +255,62 @@
       "executable": true
     },
     {
+      "name": "wl-registry-refresh-intents",
+      "path": "bin/wl-registry-refresh-intents",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-registry-refresh-plans",
+      "path": "bin/wl-registry-refresh-plans",
+      "category": "vault",
+      "executable": true
+    },
+    {
       "name": "wl-registry-refresh-services",
       "path": "bin/wl-registry-refresh-services",
       "category": "vault",
       "executable": true
     },
     {
+      "name": "wl-runtime",
+      "path": "bin/wl-runtime",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-runtime-drift",
+      "path": "bin/wl-runtime-drift",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-runtime-inventory",
+      "path": "bin/wl-runtime-inventory",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-runtime-promote-intent",
+      "path": "bin/wl-runtime-promote-intent",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-service-health",
+      "path": "bin/wl-service-health",
+      "category": "core",
+      "executable": true
+    },
+    {
       "name": "wl-services",
       "path": "bin/wl-services",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-services-discover-runtime",
+      "path": "bin/wl-services-discover-runtime",
       "category": "core",
       "executable": true
     },
@@ -225,6 +357,12 @@
       "executable": true
     },
     {
+      "name": "wl-state-capture",
+      "path": "bin/wl-state-capture",
+      "category": "core",
+      "executable": true
+    },
+    {
       "name": "wl-status",
       "path": "bin/wl-status",
       "category": "core",
@@ -255,8 +393,20 @@
       "executable": true
     },
     {
+      "name": "wl-vault-guard",
+      "path": "bin/wl-vault-guard",
+      "category": "vault",
+      "executable": true
+    },
+    {
       "name": "wl-vault-health",
       "path": "bin/wl-vault-health",
+      "category": "vault",
+      "executable": true
+    },
+    {
+      "name": "wl-vault-lock",
+      "path": "bin/wl-vault-lock",
       "category": "vault",
       "executable": true
     },
@@ -291,14 +441,68 @@
       "executable": true
     },
     {
+      "name": "wl-vault-write",
+      "path": "bin/wl-vault-write",
+      "category": "vault",
+      "executable": true
+    },
+    {
       "name": "wl-verify-archive",
       "path": "bin/wl-verify-archive",
       "category": "core",
       "executable": true
     },
     {
+      "name": "wl-verify-completion",
+      "path": "bin/wl-verify-completion",
+      "category": "core",
+      "executable": true
+    },
+    {
       "name": "wl-verify-core",
       "path": "bin/wl-verify-core",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-verify-executions",
+      "path": "bin/wl-verify-executions",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-verify-governance",
+      "path": "bin/wl-verify-governance",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-verify-intelligence",
+      "path": "bin/wl-verify-intelligence",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-verify-intents",
+      "path": "bin/wl-verify-intents",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-verify-locks",
+      "path": "bin/wl-verify-locks",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-verify-operations",
+      "path": "bin/wl-verify-operations",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-verify-plans",
+      "path": "bin/wl-verify-plans",
       "category": "core",
       "executable": true
     },
@@ -315,8 +519,20 @@
       "executable": true
     },
     {
+      "name": "wl-verify-runtime",
+      "path": "bin/wl-verify-runtime",
+      "category": "core",
+      "executable": true
+    },
+    {
       "name": "wl-verify-schemas",
       "path": "bin/wl-verify-schemas",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-verify-service-docs",
+      "path": "bin/wl-verify-service-docs",
       "category": "core",
       "executable": true
     },
@@ -341,6 +557,18 @@
     {
       "name": "wl.bak.20260606-083617",
       "path": "bin/wl.bak.20260606-083617",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl.bak.20260609-134847",
+      "path": "bin/wl.bak.20260609-134847",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl.broken.20260609-152152",
+      "path": "bin/wl.broken.20260609-152152",
       "category": "core",
       "executable": true
     }
