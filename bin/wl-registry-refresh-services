@@ -9,23 +9,35 @@ if [[ ! -f "$SERVICE_REGISTRY" ]]; then
   "$ROOT/bin/wl-services-refresh"
 fi
 
-python3 - "$SERVICE_REGISTRY" "$OUT" <<'PY'
+python3 - "$ROOT" "$SERVICE_REGISTRY" "$OUT" <<'PY'
 import json
 import pathlib
 import sys
 
-source = pathlib.Path(sys.argv[1])
-out = pathlib.Path(sys.argv[2])
+root = pathlib.Path(sys.argv[1])
+source = pathlib.Path(sys.argv[2])
+out = pathlib.Path(sys.argv[3])
 
 data = json.loads(source.read_text())
+
+services = []
+
+for svc in data.get("services", []):
+    item = dict(svc)
+    path = item.get("path", "")
+
+    if path.startswith("definitions/"):
+        item["path"] = "06-Services/" + path
+
+    services.append(item)
 
 payload = {
     "id": "services-registry-v4",
     "version": 4,
-    "services": data.get("services", [])
+    "services": services
 }
 
 out.write_text(json.dumps(payload, indent=2) + "\n")
 
-print(f"registry services refreshed: {len(payload['services'])}")
+print(f"registry services refreshed: {len(services)}")
 PY
