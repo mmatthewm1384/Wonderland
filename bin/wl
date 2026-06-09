@@ -50,6 +50,7 @@ Commands:
 
   wl runtime inventory
   wl runtime promote-intent <container-name>
+  wl intents status <intent-id-or-file> <status>
 USAGE
 }
 
@@ -256,6 +257,10 @@ case "${1:-help}" in
         ;;
       list)
         find "$ROOT/vault/05-Registry/intents" -name "*.intent.json" -maxdepth 1 -type f | sort
+        ;;
+      status)
+        shift 2
+        exec "$ROOT/bin/wl-intent-status" "$@"
         ;;
       *)
         usage
