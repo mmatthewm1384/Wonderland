@@ -58,6 +58,7 @@ Commands:
   wl lock
   wl unlock
   wl lock-status
+  wl guard <target-path>
 USAGE
 }
 
@@ -109,6 +110,10 @@ case "${1:-help}" in
     ;;
   lock-status)
     exec "$ROOT/bin/wl-vault-lock" status
+    ;;
+  guard)
+    shift
+    exec "$ROOT/bin/wl-vault-guard" "$@"
     ;;
 
   core)
