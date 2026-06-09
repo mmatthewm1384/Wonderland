@@ -8,6 +8,20 @@
       "status": "approved",
       "intent": "promote unmanaged container 'anon-gateway' into Wonderland-managed service",
       "created": "20260608-185912"
+    },
+    {
+      "id": "promote-anon-gateway--20260609-125906",
+      "path": "intents/promote-anon-gateway--20260609-125906.intent.json",
+      "status": "draft",
+      "intent": "promote unmanaged container 'anon-gateway' into Wonderland-managed service",
+      "created": "20260609-125906"
+    },
+    {
+      "id": "promote-anon-scraper--20260609-125906",
+      "path": "intents/promote-anon-scraper--20260609-125906.intent.json",
+      "status": "draft",
+      "intent": "promote unmanaged container 'anon-scraper' into Wonderland-managed service",
+      "created": "20260609-125906"
     }
   ]
 }

@@ -3,6 +3,24 @@
   "version": 4,
   "services": [
     {
+      "id": "wl-anon-gateway-service-v4",
+      "name": "wl-anon-gateway",
+      "path": "definitions/wl-anon-gateway.service.json",
+      "runtime": "containerd",
+      "engine": "nerdctl",
+      "container": "anon-gateway",
+      "status": "draft"
+    },
+    {
+      "id": "wl-anon-scraper-service-v4",
+      "name": "wl-anon-scraper",
+      "path": "definitions/wl-anon-scraper.service.json",
+      "runtime": "containerd",
+      "engine": "nerdctl",
+      "container": "anon-scraper",
+      "status": "draft"
+    },
+    {
       "id": "wl-dns-service-v4",
       "name": "wl-dns",
       "path": "definitions/wl-dns.service.json",

@@ -2,7 +2,9 @@
   "id": "service-recovery-order-v4",
   "version": 4,
   "order": [
-    "wl-docker"
+    "wl-anon-privoxy",
+    "wl-anon-scraper",
+    "wl-anon-tor"
   ],
   "cycles_or_unresolved": []
 }

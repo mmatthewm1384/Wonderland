@@ -3,14 +3,8 @@
   "version": 4,
   "engine": "nerdctl",
   "managed": [
-    "wl-grafana",
-    "wl-loki",
-    "wl-prometheus",
-    "wl-nats",
-    "wl-dns"
+    "wl-anon-tor",
+    "wl-anon-scraper"
   ],
-  "unmanaged": [
-    "anon-workstation",
-    "anon-gateway"
-  ]
+  "unmanaged": []
 }

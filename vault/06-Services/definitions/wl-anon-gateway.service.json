@@ -1,0 +1,29 @@
+{
+  "id": "wl-anon-gateway-service-v4",
+  "name": "wl-anon-gateway",
+  "status": "draft",
+  "version": 4,
+  "runtime": "containerd",
+  "engine": "nerdctl",
+  "container": "anon-gateway",
+  "blueprint": "vault/blueprints/anon-gateway.md",
+  "compose": null,
+  "verify": "wl runtime inspect anon-gateway",
+  "recover": "wl services recover wl-anon-gateway",
+  "rollback": "wl services rollback wl-anon-gateway",
+  "dependencies": [],
+  "ports": [
+    {
+      "host": "8118",
+      "container": "8118"
+    }
+  ],
+  "volumes": [
+    ".",
+    "http",
+    "https",
+    "privoxy.config",
+    "tor-data",
+    "torrc"
+  ]
+}

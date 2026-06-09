@@ -1,0 +1,16 @@
+{
+  "id": "wl-anon-privoxy-service-v4",
+  "name": "wl-anon-privoxy",
+  "status": "active",
+  "version": 4,
+  "runtime": "containerd",
+  "engine": "nerdctl",
+  "container": "wl-anon-privoxy",
+  "compose": null,
+  "verify": "wl runtime inspect wl-anon-privoxy",
+  "recover": "wl services recover wl-anon-privoxy",
+  "rollback": "wl services rollback wl-anon-privoxy",
+  "dependencies": [],
+  "ports": [],
+  "volumes": []
+}

@@ -1,0 +1,27 @@
+services:
+  scraper:
+    image: alpine:3.18
+    container_name: wl-anon-scraper
+    restart: always
+    volumes:
+      - .:/app
+    working_dir: /app
+    environment:
+      - HTTP_PROXY=http://wl-anon-privoxy:8118
+      - HTTPS_PROXY=http://wl-anon-privoxy:8118
+      - urllib_proxy=http://wl-anon-privoxy:8118
+    entrypoint:
+      - sh
+      - -c
+      - |
+        apk add --no-cache python3 py3-pip &&
+        python3 -m venv venv &&
+        ./venv/bin/pip install --no-cache-dir -r requirements.txt &&
+        exec ./venv/bin/python3 app.py
+    networks:
+      - anon-isolated
+
+networks:
+  anon-isolated:
+    external: true
+    name: wl-anon-network

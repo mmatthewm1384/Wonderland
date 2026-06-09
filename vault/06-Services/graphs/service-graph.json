@@ -3,10 +3,16 @@
   "version": 4,
   "nodes": [
     {
-      "id": "wl-docker",
+      "id": "wl-anon-scraper",
       "type": "service",
       "status": "active",
-      "compose": "docker/compose.yml"
+      "compose": null
+    },
+    {
+      "id": "wl-anon-tor",
+      "type": "service",
+      "status": "active",
+      "compose": null
     }
   ],
   "edges": []

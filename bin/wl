@@ -60,6 +60,8 @@ Commands:
   wl lock-status
   wl guard <target-path>
   wl write <target-path> -- <command...>
+
+  wl services parse-anon-blueprint
 USAGE
 }
 
@@ -200,7 +202,7 @@ case "${1:-help}" in
   registry)
     case "${2:-help}" in
       refresh)
-        exec "$ROOT/bin/wl-registry-refresh"
+        exec "$ROOT/bin/wl-registr y-refresh"
         ;;
       audit)
         exec "$ROOT/bin/wl-registry-audit"
@@ -239,6 +241,9 @@ case "${1:-help}" in
         ;;
       discover-runtime)
         exec "$ROOT/bin/wl-services-discover-runtime"
+        ;;
+      parse-anon-blueprint)
+        exec "$ROOT/bin/wl-parse-anon-blueprint"
         ;;
       path)
         echo "$ROOT/vault/06-Services"

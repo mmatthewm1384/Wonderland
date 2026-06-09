@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+GATEWAY="$ROOT/services/anon-gateway/compose.yml"
+SCRAPER="$ROOT/services/anon-scraper/compose.yml"
+
+case "${1:-help}" in
+  up)
+    nerdctl compose -f "$GATEWAY" up -d
+    nerdctl compose -f "$SCRAPER" up -d
+    ;;
+  gateway-up)
+    nerdctl compose -f "$GATEWAY" up -d
+    ;;
+  scraper-up)
+    nerdctl compose -f "$SCRAPER" up -d
+    ;;
+  down)
+    nerdctl compose -f "$SCRAPER" down --remove-orphans || true
+    nerdctl compose -f "$GATEWAY" down --remove-orphans || true
+    ;;
+  status)
+    nerdctl ps -a --filter "name=wl-anon"
+    ;;
+  doctor|verify)
+    python3 "$ROOT/services/anon-gateway/scripts/doctor.py"
+    ;;
+  repair)
+    python3 "$ROOT/services/anon-gateway/scripts/repair.py"
+    ;;
+  logs)
+    shift
+    nerdctl logs "${1:-wl-anon-privoxy}"
+    ;;
+  *)
+    echo "Usage: wl-anon [up|gateway-up|scraper-up|down|status|doctor|verify|repair|logs <container>]"
+    ;;
+esac
