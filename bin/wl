@@ -146,24 +146,44 @@ case "${1:-help}" in
     ;;
 
   registry)
-      case "${2:-help}" in
-          refresh)
-              exec "$ROOT/bin/wl-registry-refresh"
-              ;;
-          audit)
-              exec "$ROOT/bin/wl-registry-audit"
-              ;;
-          refresh-documents)
-              exec "$ROOT/bin/wl-registry-refresh-documents"
-              ;;
-          refresh-commands)
-              exec "$ROOT/bin/wl-registry-refresh-commands"
-              ;;
-          verify)
-              exec "$ROOT/bin/wl-verify-registry"
-              ;;
-      esac
-      ;;
+    case "${2:-help}" in
+      refresh)
+        exec "$ROOT/bin/wl-registry-refresh"
+        ;;
+      audit)
+        exec "$ROOT/bin/wl-registry-audit"
+        ;;
+      refresh-documents)
+        exec "$ROOT/bin/wl-registry-refresh-documents"  
+        ;;
+      refresh-commands)
+        exec "$ROOT/bin/wl-registry-refresh-commands" 
+        ;;
+      verify)
+        exec "$ROOT/bin/wl-verify-registry"
+        ;;
+    esac
+    ;;
+
+  services)
+    case "${3:-help}" in
+      refresh)
+        exec "$ROOT/bin/wl-services-refresh"
+        ;;
+      graph)
+        exec "$ROOT/bin/wl-services-graph"
+        ;;
+      verify)
+        exec "$ROOT/bin/wl-verify-services"
+        ;;
+      path)
+        echo "$ROOT/vault/06-Services"
+        ;;
+      *)
+        usage
+        ;;
+    esac
+    ;;
 
   help|*)
     usage
