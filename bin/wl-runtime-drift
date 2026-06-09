@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+OUT="$ROOT/vault/07-Operations/drift/runtime-drift.json"
+REG="$ROOT/vault/05-Registry/services.json"
+
+mkdir -p "$(dirname "$OUT")"
+
+python3 - "$ROOT" "$REG" "$OUT" <<'PY'
+import json
+import pathlib
+import subprocess
+import sys
+import datetime
+
+root = pathlib.Path(sys.argv[1])
+registry_path = pathlib.Path(sys.argv[2])
+out = pathlib.Path(sys.argv[3])
+
+expected = set()
+
+if registry_path.exists():
+    data = json.loads(registry_path.read_text())
+    for svc in data.get("services", []):
+        name = svc.get("container") or svc.get("name")
+        if name:
+            expected.add(name)
+
+ps = subprocess.run(
+    ["nerdctl", "ps", "-a", "--format", "{{.Names}}"],
+    stdout=subprocess.PIPE,
+    stderr=subprocess.STDOUT,
+    text=True
+)
+
+actual = set(x.strip() for x in ps.stdout.splitlines() if x.strip())
+
+payload = {
+    "id": "runtime-drift-v4",
+    "version": 4,
+    "timestamp": datetime.datetime.now().isoformat(timespec="seconds"),
+    "expected": sorted(expected),
+    "actual": sorted(actual),
+    "missing": sorted(expected - actual),
+    "unmanaged": sorted(x for x in actual - expected if not x.startswith("wl-")),
+    "unexpected_wl": sorted(x for x in actual - expected if x.startswith("wl-"))
+}
+
+out.write_text(json.dumps(payload, indent=2) + "\n")
+
+print(f"runtime drift: {out}")
+print(f"missing: {len(payload['missing'])}")
+print(f"unmanaged: {len(payload['unmanaged'])}")
+print(f"unexpected_wl: {len(payload['unexpected_wl'])}")
+
+if payload["missing"] or payload["unexpected_wl"]:
+    sys.exit(1)
+PY

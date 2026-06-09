@@ -12,6 +12,7 @@ Core:
   wl verify
   wl status
   wl health
+  wl runtime drift
   wl audit
   wl snapshot
   wl restore <snapshot.tar.gz>
@@ -92,7 +93,7 @@ run_verify() {
   run_optional "$ROOT/bin/wl-verify-runtime"
   run_optional "$ROOT/bin/wl-verify-services"
   run_optional "$ROOT/bin/wl-verify-archive"
-  run_optional "$ROOT/bin/wl-verify-locks"
+   run_optional "$ROOT/bin/wl-verify-locks"
   run_optional "$ROOT/bin/wl-service-health"
   run_optional "$ROOT/bin/wl-verify-intelligence"
   run_optional "$ROOT/bin/wl-verify-governance"
@@ -149,6 +150,10 @@ case "${1:-help}" in
 
   audit)
     exec "$ROOT/bin/wl-vault-audit"
+    ;;
+
+  drift)
+    exec "$ROOT/bin/wl-runtime-drift"
     ;;
 
   snapshot)
