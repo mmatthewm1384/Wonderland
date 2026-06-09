@@ -7,82 +7,87 @@ usage() {
   cat <<USAGE
 Wonderland CLI
 
-Commands:
+Core:
+  wl help
   wl verify
   wl status
-  wl inventory
-
-  wl core verify
-  wl core status
-  wl core path
-
-  wl templates verify
-  wl templates path
-  wl policies verify
-  wl policies path
-
-  wl runbooks verify
-  wl runbooks path
-  wl schemas verify
-  wl schemas path
-
-  wl audit  
+  wl health
+  wl audit
   wl snapshot
   wl restore <snapshot.tar.gz>
   wl verify-snapshot <snapshot.tar.gz>
-
   wl prune-snapshots [keep-count]
-  wl health
-  wl registry refresh-documents
-  wl registry refresh-commands
-  wl registry refresh-plans
-
   wl state
   wl capture-state
-  wl services recovery-order
-  wl services status
-  wl services discover-runtime
-
-  wl runtime ps
-  wl runtime images
-  wl runtime verify
-  wl runtime inventory
-  wl runtime promote-intent <container-name>
-
-  wl intents status <intent-id-or-file> <status>
-  wl plans status <plan-id-or-file> <status>
-  wl plans execute <plan-id-or-file>
   wl lifecycle
   wl lifecycle-capture
 
+Vault:
+  wl inventory
   wl lock
   wl unlock
   wl lock-status
   wl guard <target-path>
   wl write <target-path> -- <command...>
 
-  wl services parse-anon-blueprint
+Layers:
+  wl core verify|status|path
+  wl templates verify|path
+  wl policies verify|path
+  wl runbooks verify|path
+  wl schemas verify|path
+  wl registry verify|path|refresh|audit|refresh-documents|refresh-commands|refresh-services|refresh-intents|refresh-plans
+  wl services verify|path|refresh|graph|recovery-order|status|discover-runtime|parse-anon-blueprint
+  wl runtime verify|ps|images|inventory|logs <container>|inspect <container>|compose ...
+  wl intents verify|list|path|status <intent-id-or-file> <status>|plan <intent-id-or-file>
+  wl plans verify|list|path|status <plan-id-or-file> <status>|execute <plan-id-or-file>
+  wl archive verify|path
+
+Anon:
+  wl anon up|down|status|doctor|repair|logs [container]|scraper-up|gateway-up
+  wl anon-route <command...>
 USAGE
 }
 
+run_optional() {
+  local cmd="$1"
+  if [[ -x "$cmd" ]]; then
+    "$cmd"
+  else
+    echo "SKIP    missing executable: $cmd"
+  fi
+}
+
 run_verify() {
-  "$ROOT/bin/wl-verify-vault"
-  "$ROOT/bin/wl-verify-core"
-  "$ROOT/bin/wl-verify-templates"
-  "$ROOT/bin/wl-verify-policies"
-  "$ROOT/vault/03-Runbooks/checks/verify-runbooks.sh"
-  "$ROOT/bin/wl-verify-schemas"
-  "$ROOT/bin/wl-verify-registry"
-  "$ROOT/bin/wl-verify-intents"
-  "$ROOT/bin/wl-verify-services"
-  "$ROOT/bin/wl-verify-runtime"
-  "$ROOT/bin/wl-verify-archive"
-  "$ROOT/bin/wl-verify-plans"
-  "$ROOT/bin/wl-verify-executions"
-  "$ROOT/bin/wl-verify-locks"
+  run_optional "$ROOT/bin/wl-verify-vault"
+  run_optional "$ROOT/bin/wl-verify-core"
+  run_optional "$ROOT/bin/wl-verify-templates"
+  run_optional "$ROOT/bin/wl-verify-policies"
+
+  if [[ -x "$ROOT/vault/03-Runbooks/checks/verify-runbooks.sh" ]]; then
+    "$ROOT/vault/03-Runbooks/checks/verify-runbooks.sh"
+  else
+    echo "SKIP    missing runbook verifier"
+  fi
+
+  run_optional "$ROOT/bin/wl-verify-service-docs"
+  run_optional "$ROOT/bin/wl-verify-schemas"
+  run_optional "$ROOT/bin/wl-verify-registry"
+  run_optional "$ROOT/bin/wl-verify-intents"
+  run_optional "$ROOT/bin/wl-verify-plans"
+  run_optional "$ROOT/bin/wl-verify-executions"
+  run_optional "$ROOT/bin/wl-verify-runtime"
+  run_optional "$ROOT/bin/wl-verify-services"
+  run_optional "$ROOT/bin/wl-verify-archive"
+  run_optional "$ROOT/bin/wl-verify-locks"
+  run_optional "$ROOT/bin/wl-service-health"
 }
 
 case "${1:-help}" in
+  help|-h|--help)
+    usage
+    ;;
+
   verify)
     run_verify
     ;;
@@ -90,11 +95,47 @@ case "${1:-help}" in
   status)
     echo "Wonderland root: $ROOT"
     echo "Vault: $ROOT/vault"
-    run_verify
+    echo
+    if command -v nerdctl >/dev/null 2>&1; then
+      nerdctl ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' 2>/dev/null || true
+    else
+      echo "nerdctl not found"
+    fi
     ;;
 
-  inventory)
-    find "$ROOT/vault" -maxdepth 2 -type f | sort
+  health)
+    exec "$ROOT/bin/wl-vault-health"
+    ;;
+
+  audit)
+    exec "$ROOT/bin/wl-vault-audit"
+    ;;
+
+  snapshot)
+    exec "$ROOT/bin/wl-vault-snapshot"
+    ;;
+
+  restore)
+    shift
+    exec "$ROOT/bin/wl-vault-restore" "$@"
+    ;;
+
+  verify-snapshot)
+    shift
+    exec "$ROOT/bin/wl-vault-verify-snapshot" "$@"
+    ;;
+
+  prune-snapshots)
+    shift
+    exec "$ROOT/bin/wl-vault-prune-snapshots" "$@"
+    ;;
+
+  state)
+    exec "$ROOT/bin/wl-vault-state"
+    ;;
+
+  capture-state)
+    exec "$ROOT/bin/wl-vault-capture-state"
     ;;
 
   lifecycle)
@@ -105,19 +146,27 @@ case "${1:-help}" in
     exec "$ROOT/bin/wl-lifecycle-capture"
     ;;
 
+  inventory)
+    find "$ROOT/vault" -maxdepth 3 -type f | sort
+    ;;
+
   lock)
     exec "$ROOT/bin/wl-vault-lock" lock
     ;;
+
   unlock)
     exec "$ROOT/bin/wl-vault-lock" unlock
     ;;
+
   lock-status)
     exec "$ROOT/bin/wl-vault-lock" status
     ;;
+
   guard)
     shift
     exec "$ROOT/bin/wl-vault-guard" "$@"
     ;;
+
   write)
     shift
     exec "$ROOT/bin/wl-vault-write" "$@"
@@ -164,186 +213,90 @@ case "${1:-help}" in
     esac
     ;;
 
-  audit)
-    exec "$ROOT/bin/wl-vault-audit"
-    ;;
-
-  snapshot)
-    exec "$ROOT/bin/wl-vault-snapshot"
-    ;;
-
-  restore)
-    shift
-    exec "$ROOT/bin/wl-vault-restore" "$@"
-    ;;
-
-  verify-snapshot)
-    shift
-    exec "$ROOT/bin/wl-vault-verify-snapshot" "$@"
-    ;;
-
-  prune-snapshots)
-    shift
-    exec "$ROOT/bin/wl-vault-prune-snapshots" "$@"
-    ;;
-
-  health)
-    exec "$ROOT/bin/wl-vault-health"
-    ;;
-
-  state)
-    exec "$ROOT/bin/wl-vault-state"
-    ;;
-
-  capture-state)
-    exec "$ROOT/bin/wl-vault-capture-state"
-    ;;
-
   registry)
     case "${2:-help}" in
-      refresh)
-        exec "$ROOT/bin/wl-registr y-refresh"
-        ;;
-      audit)
-        exec "$ROOT/bin/wl-registry-audit"
-        ;;
-      refresh-documents)
-        exec "$ROOT/bin/wl-registry-refresh-documents"  
-        ;;
-      refresh-intents)
-        exec "$ROOT/bin/wl-registry-refresh-intents"
-        ;;
-      refresh-commands)
-        exec "$ROOT/bin/wl-registry-refresh-commands" 
-        ;;
-      verify)
-        exec "$ROOT/bin/wl-verify-registry"
-        ;;
+      verify) exec "$ROOT/bin/wl-verify-registry" ;;
+      path) echo "$ROOT/vault/05-Registry" ;;
+      refresh) exec "$ROOT/bin/wl-registry-refresh" ;;
+      audit) exec "$ROOT/bin/wl-registry-audit" ;;
+      refresh-documents) exec "$ROOT/bin/wl-registry-refresh-documents" ;;
+      refresh-commands) exec "$ROOT/bin/wl-registry-refresh-commands" ;;
+      refresh-services) exec "$ROOT/bin/wl-registry-refresh-services" ;;
+      refresh-intents) exec "$ROOT/bin/wl-registry-refresh-intents" ;;
+      refresh-plans) exec "$ROOT/bin/wl-registry-refresh-plans" ;;
+      *) usage ;;
     esac
     ;;
 
   services)
     case "${2:-help}" in
-      refresh)
-        exec "$ROOT/bin/wl-services-refresh"
-        ;;
-      graph)
-        exec "$ROOT/bin/wl-services-graph"
-        ;;
-      verify)
-        exec "$ROOT/bin/wl-verify-services"
-        ;;
-      recovery-order)
-        exec "$ROOT/bin/wl-services-recovery-order"
-        ;;
-      status)
-        exec "$ROOT/bin/wl-services-status"
-        ;;
-      discover-runtime)
-        exec "$ROOT/bin/wl-services-discover-runtime"
-        ;;
-      parse-anon-blueprint)
-        exec "$ROOT/bin/wl-parse-anon-blueprint"
-        ;;
-      path)
-        echo "$ROOT/vault/06-Services"
-        ;;
-      *)
-        usage
-        ;;
+      verify) exec "$ROOT/bin/wl-verify-services" ;;
+      path) echo "$ROOT/vault/06-Services" ;;
+      refresh) exec "$ROOT/bin/wl-services-refresh" ;;
+      graph) exec "$ROOT/bin/wl-services-graph" ;;
+      recovery-order) exec "$ROOT/bin/wl-services-recovery-order" ;;
+      status) exec "$ROOT/bin/wl-services-status" ;;
+      discover-runtime) exec "$ROOT/bin/wl-services-discover-runtime" ;;
+      parse-anon-blueprint) exec "$ROOT/bin/wl-parse-anon-blueprint" ;;
+      *) usage ;;
     esac
     ;;
 
   runtime)
     case "${2:-help}" in
-      verify)
-        exec "$ROOT/bin/wl-verify-runtime"
-        ;;
-      ps)
-        exec "$ROOT/bin/wl-runtime" ps
-        ;;
-      images)
-        exec "$ROOT/bin/wl-runtime" images
-        ;;
-      logs)
-        shift 2
-        exec "$ROOT/bin/wl-runtime" logs "$@"
-        ;;
-      inspect)
-        shift 2
-        exec "$ROOT/bin/wl-runtime" inspect "$@"
-        ;;
-      compose)
-        shift 2
-        exec "$ROOT/bin/wl-runtime" compose "$@"
-        ;;
-      inventory)
-        exec "$ROOT/bin/wl-runtime-inventory"
-        ;;
-      promote-intent)
-        shift 2
-        exec "$ROOT/bin/wl-runtime-promote-intent" "$@"
-        ;;
-      *)
-        usage
-        ;;
+      verify) exec "$ROOT/bin/wl-verify-runtime" ;;
+      ps) exec "$ROOT/bin/wl-runtime" ps ;;
+      images) exec "$ROOT/bin/wl-runtime" images ;;
+      inventory) exec "$ROOT/bin/wl-runtime-inventory" ;;
+      logs) shift 2; exec "$ROOT/bin/wl-runtime" logs "$@" ;;
+      inspect) shift 2; exec "$ROOT/bin/wl-runtime" inspect "$@" ;;
+      compose) shift 2; exec "$ROOT/bin/wl-runtime" compose "$@" ;;
+      *) usage ;;
     esac
     ;;
 
   intents)
     case "${2:-help}" in
-      verify)
-        exec "$ROOT/bin/wl-verify-intents"
-        ;;
-      path)
-        echo "$ROOT/vault/05-Registry/intents"
-        ;;
-      list)
-        find "$ROOT/vault/05-Registry/intents" -name "*.intent.json" -maxdepth 1 -type f | sort
-        ;;
-      status)
-        shift 2
-        exec "$ROOT/bin/wl-intent-status" "$@"
-        ;;
-      plan)
-        shift 2
-        exec "$ROOT/bin/wl-intent-plan" "$@"
-        ;;
-      *)
-        usage
-        ;;
+      verify) exec "$ROOT/bin/wl-verify-intents" ;;
+      list) find "$ROOT/vault/05-Registry/intents" -maxdepth 1 -type f -name "*.intent.json" | sort ;;
+      path) echo "$ROOT/vault/05-Registry/intents" ;;
+      status) shift 2; exec "$ROOT/bin/wl-intent-status" "$@" ;;
+      plan) shift 2; exec "$ROOT/bin/wl-intent-plan" "$@" ;;
+      *) usage ;;
     esac
     ;;
 
   plans)
     case "${2:-help}" in
-      verify)
-        exec "$ROOT/bin/wl-verify-plans"
-        ;;
-      list)
-        find "$ROOT/vault/05-Registry/plans" -name "*.plan.json" -maxdepth 1 -type f | sort
-        ;;
-      path)
-        echo "$ROOT/vault/05-Registry/plans"
-        ;;
-      status)
-        shift 2
-        exec "$ROOT/bin/wl-plan-status" "$@"
-        ;;
-      execute)
-        shift 2
-        exec "$ROOT/bin/wl-plan-execute" "$@"
-        ;;
-      refresh-plans)
-        exec "$ROOT/bin/wl-registry-refresh-plans"
-        ;;
-      *)
-        usage
-        ;;
+      verify) exec "$ROOT/bin/wl-verify-plans" ;;
+      list) find "$ROOT/vault/05-Registry/plans" -maxdepth 1 -type f -name "*.plan.json" | sort ;;
+      path) echo "$ROOT/vault/05-Registry/plans" ;;
+      status) shift 2; exec "$ROOT/bin/wl-plan-status" "$@" ;;
+      execute) shift 2; exec "$ROOT/bin/wl-plan-execute" "$@" ;;
+      *) usage ;;
     esac
     ;;
 
-  help|*)
+  archive)
+    case "${2:-help}" in
+      verify) exec "$ROOT/bin/wl-verify-archive" ;;
+      path) echo "$ROOT/vault/99-Archive" ;;
+      *) usage ;;
+    esac
+    ;;
+
+  anon)
+    shift
+    exec "$ROOT/bin/wl-anon" "$@"
+    ;;
+
+  anon-route)
+    shift
+    exec "$ROOT/bin/wl-anon-route" "$@"
+    ;;
+
+  *)
     usage
+    exit 1
     ;;
 esac

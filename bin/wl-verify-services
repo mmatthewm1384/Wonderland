@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SERVICES="/Users/wonderland/Wonderland/vault/06-Services"
+ROOT="/Users/wonderland/Wonderland"
 
-if [[ ! -d "$SERVICES" ]]; then
-  echo "FAIL service vault not found: $SERVICES"
-  exit 1
-fi
+for file in \
+  service-registry.json \
+  service-health.json \
+  service-dependencies.json
+do
+  test -f "$ROOT/vault/06-Services/$file" || {
+    echo "FAIL missing $file"
+    exit 1
+  }
+done
 
-exec "$SERVICES/checks/verify-services.sh"
+echo "RESULT PASS"

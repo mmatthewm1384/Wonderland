@@ -31,7 +31,7 @@ case "${1:-help}" in
     ;;
   logs)
     shift
-    nerdctl logs "${1:-wl-anon-privoxy}"
+    nerdctl logs "${1:-wl-anon-tor}"
     ;;
   *)
     echo "Usage: wl-anon [up|gateway-up|scraper-up|down|status|doctor|verify|repair|logs <container>]"
