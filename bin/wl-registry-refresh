@@ -24,6 +24,10 @@ if [[ -x "$ROOT/bin/wl-registry-refresh-intents" ]]; then
   "$ROOT/bin/wl-registry-refresh-intents"
 fi
 
+if [[ -x "$ROOT/bin/wl-registry-refresh-plans" ]]; then
+  "$ROOT/bin/wl-registry-refresh-plans"
+fi
+
 if [[ -x "$ROOT/bin/wl-registry-refresh-assets" ]]; then
   "$ROOT/bin/wl-registry-refresh-assets"
 fi

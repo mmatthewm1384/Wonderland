@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+EXEC="$ROOT/vault/05-Registry/executions"
+
+echo
+echo "Wonderland Execution Verification"
+echo "root: $EXEC"
+echo
+
+mkdir -p "$EXEC"
+
+python3 - "$EXEC" <<'PY'
+import json
+import pathlib
+import sys
+
+root = pathlib.Path(sys.argv[1])
+failures = []
+
+required = {"id", "version", "created", "plan_id", "status", "actions", "rollback"}
+allowed = {"executed", "archived"}
+
+for path in sorted(root.glob("*.execution.json")):
+    print(f"OK      {path.name}")
+    data = json.loads(path.read_text())
+
+    missing = required - set(data.keys())
+    if missing:
+        failures.append(f"missing fields in {path.name}: {sorted(missing)}")
+
+    if data.get("status") not in allowed:
+        failures.append(f"invalid status in {path.name}: {data.get('status')}")
+
+    if not isinstance(data.get("actions"), list):
+        failures.append(f"actions must be list in {path.name}")
+
+if failures:
+    print()
+    for failure in failures:
+        print(f"FAIL    {failure}")
+    print()
+    print("RESULT  FAIL")
+    sys.exit(1)
+
+print()
+print("RESULT  PASS")
+PY

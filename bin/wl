@@ -40,15 +40,17 @@ Commands:
   wl capture-state
   wl registry refresh-documents
   wl registry refresh-commands
-  wl services recovery-order
+  wl registry refresh-plans
 
+  wl services recovery-order
   wl services status
   wl services discover-runtime
+
   wl runtime ps
   wl runtime images
   wl runtime verify
-
   wl runtime inventory
+
   wl runtime promote-intent <container-name>
   wl intents status <intent-id-or-file> <status>
   wl plans status <plan-id-or-file> <status>
@@ -69,6 +71,7 @@ run_verify() {
   "$ROOT/bin/wl-verify-runtime"
   "$ROOT/bin/wl-verify-archive"
   "$ROOT/bin/wl-verify-plans"
+  "$ROOT/bin/wl-verify-executions"
 }
 
 case "${1:-help}" in
@@ -293,6 +296,9 @@ case "${1:-help}" in
       execute)
         shift 2
         exec "$ROOT/bin/wl-plan-execute" "$@"
+        ;;
+      refresh-plans)
+        exec "$ROOT/bin/wl-registry-refresh-plans"
         ;;
       *)
         usage
