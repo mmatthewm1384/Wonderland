@@ -14,6 +14,7 @@ required=(
   "docs/audit-standard.md"
   "docs/snapshot-standard.md"
   "docs/drift-standard.md"
+  "docs/runtime-drift-standard.md"
   "docs/restore-standard.md"
   "docs/rollback-standard.md"
   "docs/lifecycle-standard.md"

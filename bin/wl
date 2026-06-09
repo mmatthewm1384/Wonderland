@@ -91,9 +91,10 @@ run_verify() {
   run_optional "$ROOT/bin/wl-verify-plans"
   run_optional "$ROOT/bin/wl-verify-executions"
   run_optional "$ROOT/bin/wl-verify-runtime"
+  run_optional "$ROOT/bin/wl-runtime-drift"
   run_optional "$ROOT/bin/wl-verify-services"
   run_optional "$ROOT/bin/wl-verify-archive"
-   run_optional "$ROOT/bin/wl-verify-locks"
+  run_optional "$ROOT/bin/wl-verify-locks"
   run_optional "$ROOT/bin/wl-service-health"
   run_optional "$ROOT/bin/wl-verify-intelligence"
   run_optional "$ROOT/bin/wl-verify-governance"
@@ -297,6 +298,7 @@ case "${1:-help}" in
       ps) exec "$ROOT/bin/wl-runtime" ps ;;
       images) exec "$ROOT/bin/wl-runtime" images ;;
       inventory) exec "$ROOT/bin/wl-runtime-inventory" ;;
+      drift) exec "$ROOT/bin/wl-runtime-drift" ;;
       logs) shift 2; exec "$ROOT/bin/wl-runtime" logs "$@" ;;
       inspect) shift 2; exec "$ROOT/bin/wl-runtime" inspect "$@" ;;
       compose) shift 2; exec "$ROOT/bin/wl-runtime" compose "$@" ;;
