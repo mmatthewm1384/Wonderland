@@ -506,12 +506,6 @@
       "id": "wl-dns-service-v4"
     },
     {
-      "path": "06-Services/definitions/wl-docker.service.json",
-      "layer": "06-Services",
-      "type": "json",
-      "id": "wl-docker-service-v4"
-    },
-    {
       "path": "06-Services/definitions/wl-grafana.service.json",
       "layer": "06-Services",
       "type": "json",
