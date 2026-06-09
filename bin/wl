@@ -51,6 +51,8 @@ Commands:
   wl runtime inventory
   wl runtime promote-intent <container-name>
   wl intents status <intent-id-or-file> <status>
+  wl plans status <plan-id-or-file> <status>
+  wl plans execute <plan-id-or-file>
 USAGE
 }
 
@@ -66,6 +68,7 @@ run_verify() {
   "$ROOT/bin/wl-verify-services"
   "$ROOT/bin/wl-verify-runtime"
   "$ROOT/bin/wl-verify-archive"
+  "$ROOT/bin/wl-verify-plans"
 }
 
 case "${1:-help}" in
@@ -261,6 +264,35 @@ case "${1:-help}" in
       status)
         shift 2
         exec "$ROOT/bin/wl-intent-status" "$@"
+        ;;
+      plan)
+        shift 2
+        exec "$ROOT/bin/wl-intent-plan" "$@"
+        ;;
+      *)
+        usage
+        ;;
+    esac
+    ;;
+
+  plans)
+    case "${2:-help}" in
+      verify)
+        exec "$ROOT/bin/wl-verify-plans"
+        ;;
+      list)
+        find "$ROOT/vault/05-Registry/plans" -name "*.plan.json" -maxdepth 1 -type f | sort
+        ;;
+      path)
+        echo "$ROOT/vault/05-Registry/plans"
+        ;;
+      status)
+        shift 2
+        exec "$ROOT/bin/wl-plan-status" "$@"
+        ;;
+      execute)
+        shift 2
+        exec "$ROOT/bin/wl-plan-execute" "$@"
         ;;
       *)
         usage

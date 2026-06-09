@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+PLANS="$ROOT/vault/05-Registry/plans"
+ID="${1:-}"
+STATUS="${2:-}"
+
+if [[ -z "$ID" || -z "$STATUS" ]]; then
+  echo "Usage: wl-plan-status <plan-id-or-file> <draft|approved|executed|archived>"
+  exit 1
+fi
+
+case "$STATUS" in
+  draft|approved|executed|archived) ;;
+  *) echo "FAIL invalid status: $STATUS"; exit 1 ;;
+esac
+
+python3 - "$PLANS" "$ID" "$STATUS" <<'PY'
+import json, pathlib, sys
+
+plans = pathlib.Path(sys.argv[1])
+target = sys.argv[2]
+status = sys.argv[3]
+
+matches = []
+p = pathlib.Path(target)
+
+if p.exists():
+    matches = [p]
+else:
+    for f in plans.glob("*.plan.json"):
+        data = json.loads(f.read_text())
+        if data.get("id") == target or f.name == target:
+            matches.append(f)
+
+if not matches:
+    print(f"FAIL plan not found: {target}")
+    sys.exit(1)
+
+if len(matches) > 1:
+    print(f"FAIL multiple plans matched: {target}")
+    sys.exit(1)
+
+f = matches[0]
+data = json.loads(f.read_text())
+data["status"] = status
+f.write_text(json.dumps(data, indent=2) + "\n")
+
+print(f"updated: {f}")
+print(f"status: {status}")
+PY
+
+"$ROOT/bin/wl-verify-plans"
