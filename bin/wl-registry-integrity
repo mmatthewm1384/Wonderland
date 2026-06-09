@@ -2,30 +2,52 @@
 set -euo pipefail
 
 ROOT="/Users/wonderland/Wonderland"
-REG="$ROOT/vault/05-Registry"
-OUT="$ROOT/vault/07-Operations/drift/registry-integrity.json"
+VAULT="$ROOT/vault"
+REG="$VAULT/05-Registry"
+OUT="$VAULT/07-Operations/drift/registry-integrity.json"
 
 mkdir -p "$(dirname "$OUT")"
 
-python3 - "$ROOT" "$REG" "$OUT" <<'PY'
+python3 - "$ROOT" "$VAULT" "$REG" "$OUT" <<'PY'
 import json
 import pathlib
 import sys
 import datetime
 
 root = pathlib.Path(sys.argv[1])
-reg = pathlib.Path(sys.argv[2])
-out = pathlib.Path(sys.argv[3])
+vault = pathlib.Path(sys.argv[2])
+reg = pathlib.Path(sys.argv[3])
+out = pathlib.Path(sys.argv[4])
 
 failures = []
 checks = []
 
+def resolve_path(rel):
+    rel = str(rel)
+
+    if rel.startswith("/"):
+        return pathlib.Path(rel)
+
+    if rel.startswith("vault/"):
+        return root / rel
+
+    # Vault-layer paths like 00-Core/README.md, 06-Services/...
+    if rel.split("/", 1)[0].endswith("-Core") or rel[:2].isdigit() or rel.startswith("99-Archive"):
+        return vault / rel
+
+    # Registry-local paths like intents/foo.intent.json
+    return reg / rel
+
 def check_file(rel):
-    p = root / rel
+    p = resolve_path(rel)
     ok = p.exists()
-    checks.append({"path": rel, "exists": ok})
+    checks.append({
+        "path": rel,
+        "resolved": str(p),
+        "exists": ok
+    })
     if not ok:
-        failures.append(f"missing referenced file: {rel}")
+        failures.append(f"missing referenced file: {rel} -> {p}")
 
 for name in ["documents", "services", "intents", "plans", "assets"]:
     p = reg / f"{name}.json"
@@ -39,10 +61,7 @@ for name in ["documents", "services", "intents", "plans", "assets"]:
     for item in items:
         rel = item.get("path")
         if rel:
-            if rel.startswith("vault/"):
-                check_file(rel)
-            else:
-                check_file(str(reg.relative_to(root) / rel))
+            check_file(rel)
 
 payload = {
     "id": "registry-integrity-v4",

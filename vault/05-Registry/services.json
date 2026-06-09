@@ -5,21 +5,21 @@
     {
       "id": "wl-docker-service-v4",
       "name": "wl-docker",
-      "path": "definitions/wl-docker.service.json",
+      "path": "06-Services/definitions/wl-docker.service.json",
       "compose": "docker/compose.yml",
       "status": "active"
     },
     {
       "id": "wl-anon-gateway-service-v4",
       "name": "wl-anon-gateway",
-      "path": "definitions/wl-anon-gateway.service.json",
+      "path": "06-Services/definitions/wl-anon-gateway.service.json",
       "compose": "services/anon-gateway/compose.yml",
       "status": "active"
     },
     {
       "id": "wl-anon-scraper-service-v4",
       "name": "wl-anon-scraper",
-      "path": "definitions/wl-anon-scraper.service.json",
+      "path": "06-Services/definitions/wl-anon-scraper.service.json",
       "compose": "services/anon-scraper/compose.yml",
       "status": "active"
     }

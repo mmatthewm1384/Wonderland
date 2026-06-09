@@ -1,16 +1,22 @@
 {
   "id": "runtime-drift-v4",
   "version": 4,
-  "timestamp": "2026-06-09T16:00:01",
+  "timestamp": "2026-06-09T16:07:05",
   "expected": [
+    "wl-anon-gateway",
     "wl-anon-scraper",
-    "wl-anon-tor"
+    "wl-docker"
   ],
   "actual": [
     "wl-anon-scraper",
     "wl-anon-tor"
   ],
-  "missing": [],
+  "missing": [
+    "wl-anon-gateway",
+    "wl-docker"
+  ],
   "unmanaged": [],
-  "unexpected_wl": []
+  "unexpected_wl": [
+    "wl-anon-tor"
+  ]
 }
