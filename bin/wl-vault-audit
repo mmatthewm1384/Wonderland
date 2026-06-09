@@ -17,6 +17,10 @@ mkdir -p "$REPORT_DIR"
   "$ROOT/bin/wl" verify
 
   echo
+  echo "Lifecycle"
+  "$ROOT/bin/wl-lifecycle"
+
+  echo
   echo "Vault Inventory"
   find "$ROOT/vault" -maxdepth 3 -type f | sort
 

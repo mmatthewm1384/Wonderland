@@ -18,30 +18,27 @@ Commands:
 
   wl templates verify
   wl templates path
-
   wl policies verify
   wl policies path
 
   wl runbooks verify
   wl runbooks path
-
   wl schemas verify
   wl schemas path
 
-  wl audit
-  
+  wl audit  
   wl snapshot
   wl restore <snapshot.tar.gz>
   wl verify-snapshot <snapshot.tar.gz>
+
   wl prune-snapshots [keep-count]
   wl health
-
-  wl state
-  wl capture-state
   wl registry refresh-documents
   wl registry refresh-commands
   wl registry refresh-plans
 
+  wl state
+  wl capture-state
   wl services recovery-order
   wl services status
   wl services discover-runtime
@@ -50,11 +47,13 @@ Commands:
   wl runtime images
   wl runtime verify
   wl runtime inventory
-
   wl runtime promote-intent <container-name>
+
   wl intents status <intent-id-or-file> <status>
   wl plans status <plan-id-or-file> <status>
   wl plans execute <plan-id-or-file>
+  wl lifecycle
+  wl lifecycle-capture
 USAGE
 }
 
@@ -300,6 +299,12 @@ case "${1:-help}" in
       refresh-plans)
         exec "$ROOT/bin/wl-registry-refresh-plans"
         ;;
+      lifecycle)
+        exec "$ROOT/bin/wl-lifecycle"
+        ;;
+      lifecycle-capture)
+        exec "$ROOT/bin/wl-lifecycle-capture"
+   	    ;;
       *)
         usage
         ;;
