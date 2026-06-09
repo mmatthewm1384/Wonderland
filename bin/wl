@@ -54,6 +54,10 @@ Commands:
   wl plans execute <plan-id-or-file>
   wl lifecycle
   wl lifecycle-capture
+
+  wl lock
+  wl unlock
+  wl lock-status
 USAGE
 }
 
@@ -71,6 +75,7 @@ run_verify() {
   "$ROOT/bin/wl-verify-archive"
   "$ROOT/bin/wl-verify-plans"
   "$ROOT/bin/wl-verify-executions"
+  "$ROOT/bin/wl-verify-locks"
 }
 
 case "${1:-help}" in
@@ -86,6 +91,24 @@ case "${1:-help}" in
 
   inventory)
     find "$ROOT/vault" -maxdepth 2 -type f | sort
+    ;;
+
+  lifecycle)
+    exec "$ROOT/bin/wl-lifecycle"
+    ;;
+
+  lifecycle-capture)
+    exec "$ROOT/bin/wl-lifecycle-capture"
+    ;;
+
+  lock)
+    exec "$ROOT/bin/wl-vault-lock" lock
+    ;;
+  unlock)
+    exec "$ROOT/bin/wl-vault-lock" unlock
+    ;;
+  lock-status)
+    exec "$ROOT/bin/wl-vault-lock" status
     ;;
 
   core)
@@ -299,12 +322,6 @@ case "${1:-help}" in
       refresh-plans)
         exec "$ROOT/bin/wl-registry-refresh-plans"
         ;;
-      lifecycle)
-        exec "$ROOT/bin/wl-lifecycle"
-        ;;
-      lifecycle-capture)
-        exec "$ROOT/bin/wl-lifecycle-capture"
-   	    ;;
       *)
         usage
         ;;
