@@ -183,6 +183,12 @@
       "executable": true
     },
     {
+      "name": "wl-services-refresh",
+      "path": "bin/wl-services-refresh",
+      "category": "core",
+      "executable": true
+    },
+    {
       "name": "wl-shell-repair",
       "path": "bin/wl-shell-repair",
       "category": "core",
@@ -293,6 +299,12 @@
     {
       "name": "wl-verify-schemas",
       "path": "bin/wl-verify-schemas",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-verify-services",
+      "path": "bin/wl-verify-services",
       "category": "core",
       "executable": true
     },

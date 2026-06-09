@@ -3,9 +3,11 @@
   "version": 4,
   "services": [
     {
-      "id": "docker",
-      "path": "docker/compose.yml",
-      "type": "compose"
+      "id": "wl-docker-service-v4",
+      "name": "wl-docker",
+      "path": "definitions/wl-docker.service.json",
+      "compose": "docker/compose.yml",
+      "status": "active"
     }
   ]
 }

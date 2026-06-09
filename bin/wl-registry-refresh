@@ -12,6 +12,10 @@ if [[ -x "$ROOT/bin/wl-registry-refresh-commands" ]]; then
   "$ROOT/bin/wl-registry-refresh-commands"
 fi
 
+if [[ -x "$ROOT/bin/wl-services-refresh" ]]; then
+  "$ROOT/bin/wl-services-refresh"
+fi
+
 if [[ -x "$ROOT/bin/wl-registry-refresh-services" ]]; then
   "$ROOT/bin/wl-registry-refresh-services"
 fi
