@@ -1,5 +1,13 @@
 {
   "id": "intents-registry-v4",
   "version": 4,
-  "intents": []
+  "intents": [
+    {
+      "id": "promote-anon-gateway--20260608-185912",
+      "path": "intents/promote-anon-gateway--20260608-185912.intent.json",
+      "status": "draft",
+      "intent": "promote unmanaged container 'anon-gateway' into Wonderland-managed service",
+      "created": "20260608-185912"
+    }
+  ]
 }

@@ -169,6 +169,9 @@ case "${1:-help}" in
       refresh-documents)
         exec "$ROOT/bin/wl-registry-refresh-documents"  
         ;;
+      refresh-intents)
+        exec "$ROOT/bin/wl-registry-refresh-intents"
+        ;;
       refresh-commands)
         exec "$ROOT/bin/wl-registry-refresh-commands" 
         ;;
