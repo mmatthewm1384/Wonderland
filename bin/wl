@@ -39,6 +39,7 @@ Commands:
   wl capture-state
   wl registry refresh-documents
   wl registry refresh-commands
+  wl services recovery-order
 USAGE
 }
 
@@ -175,6 +176,9 @@ case "${1:-help}" in
         ;;
       verify)
         exec "$ROOT/bin/wl-verify-services"
+        ;;
+      recovery-order)
+        exec "$ROOT/bin/wl-services-recovery-order"
         ;;
       path)
         echo "$ROOT/vault/06-Services"

@@ -1,0 +1,8 @@
+{
+  "id": "service-recovery-order-v4",
+  "version": 4,
+  "order": [
+    "wl-docker"
+  ],
+  "cycles_or_unresolved": []
+}
