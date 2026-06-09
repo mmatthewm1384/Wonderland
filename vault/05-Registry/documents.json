@@ -416,10 +416,28 @@
       "id": "documents-registry-v4"
     },
     {
+      "path": "05-Registry/executions/execution-plan-promote-anon-gateway--20260608-185912.execution.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "execution-plan-promote-anon-gateway--20260608-185912"
+    },
+    {
       "path": "05-Registry/intents/promote-anon-gateway--20260608-185912.intent.json",
       "layer": "05-Registry",
       "type": "json",
       "id": "promote-anon-gateway--20260608-185912"
+    },
+    {
+      "path": "05-Registry/intents/promote-anon-gateway--20260609-125906.intent.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "promote-anon-gateway--20260609-125906"
+    },
+    {
+      "path": "05-Registry/intents/promote-anon-scraper--20260609-125906.intent.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "promote-anon-scraper--20260609-125906"
     },
     {
       "path": "05-Registry/intents.json",
@@ -434,6 +452,18 @@
       "id": "operators-registry-v4"
     },
     {
+      "path": "05-Registry/plans/plan-promote-anon-gateway--20260608-185912.plan.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "plan-promote-anon-gateway--20260608-185912"
+    },
+    {
+      "path": "05-Registry/plans.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "plans-registry-v4"
+    },
+    {
       "path": "05-Registry/registry-map.json",
       "layer": "05-Registry",
       "type": "json",
@@ -444,6 +474,30 @@
       "layer": "05-Registry",
       "type": "json",
       "id": "services-registry-v4"
+    },
+    {
+      "path": "06-Services/blueprints/anon-blueprints.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "anon-blueprints-v4"
+    },
+    {
+      "path": "06-Services/definitions/wl-anon-gateway.service.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "wl-anon-gateway-service-v4"
+    },
+    {
+      "path": "06-Services/definitions/wl-anon-scraper.service.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "wl-anon-scraper-service-v4"
+    },
+    {
+      "path": "06-Services/definitions/wl-anon-tor.service.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "wl-anon-tor-service-v4"
     },
     {
       "path": "06-Services/definitions/wl-dns.service.json",
@@ -482,10 +536,69 @@
       "id": "wl-prometheus-service-v4"
     },
     {
+      "path": "06-Services/docs/network-standard.md",
+      "layer": "06-Services",
+      "type": "md",
+      "id": "network-standard-v4"
+    },
+    {
+      "path": "06-Services/docs/network-topology.md",
+      "layer": "06-Services",
+      "type": "md",
+      "id": "network-topology-v4",
+      "title": "Network Topology"
+    },
+    {
+      "path": "06-Services/docs/port-map.md",
+      "layer": "06-Services",
+      "type": "md",
+      "id": "port-map-v4"
+    },
+    {
+      "path": "06-Services/docs/runtime-inventory.md",
+      "layer": "06-Services",
+      "type": "md",
+      "id": "runtime-inventory-v4",
+      "title": "Runtime Inventory"
+    },
+    {
+      "path": "06-Services/docs/runtime-standard.md",
+      "layer": "06-Services",
+      "type": "md",
+      "id": "runtime-standard-v4",
+      "title": "Runtime Standard"
+    },
+    {
+      "path": "06-Services/docs/service-overview.md",
+      "layer": "06-Services",
+      "type": "md",
+      "id": "service-overview-v4"
+    },
+    {
+      "path": "06-Services/docs/service-promotion.md",
+      "layer": "06-Services",
+      "type": "md",
+      "id": "service-promotion-v4",
+      "title": "Service Promotion Standard"
+    },
+    {
+      "path": "06-Services/docs/service-recovery.md",
+      "layer": "06-Services",
+      "type": "md",
+      "id": "06-Services/docs/service-recovery.md",
+      "title": "Service Recovery Standard"
+    },
+    {
       "path": "06-Services/graphs/service-graph.json",
       "layer": "06-Services",
       "type": "json",
       "id": "service-graph-v4"
+    },
+    {
+      "path": "06-Services/recovery/recovery-matrix.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "recovery-matrix-v4"
     },
     {
       "path": "06-Services/recovery/service-recovery-order.json",
@@ -510,6 +623,18 @@
       "layer": "06-Services",
       "type": "json",
       "id": "runtime-v4"
+    },
+    {
+      "path": "06-Services/service-dependencies.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "service-dependencies-v4"
+    },
+    {
+      "path": "06-Services/service-health.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "service-health-v4"
     },
     {
       "path": "06-Services/service-registry.json",

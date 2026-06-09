@@ -23,6 +23,13 @@ Core:
   wl lifecycle
   wl lifecycle-capture
 
+Operations:
+  wl operations verify|path
+  wl drift
+  wl reports index
+  wl state-capture
+  wl audit-report
+
 Vault:
   wl inventory
   wl lock
@@ -51,6 +58,7 @@ Anon:
   wl anon-route <command...>
 USAGE
 }
+
 
 run_optional() {
   local cmd="$1"
@@ -109,6 +117,14 @@ case "${1:-help}" in
 
   health)
     exec "$ROOT/bin/wl-vault-health"
+    ;;
+
+  state-capture)
+    exec "$ROOT/bin/wl-state-capture"
+    ;;
+
+  audit-report)
+    exec "$ROOT/bin/wl-audit-report"
     ;;
 
   audit)
@@ -289,6 +305,7 @@ case "${1:-help}" in
     case "${2:-help}" in
       verify) exec "$ROOT/bin/wl-verify-operations" ;;
       path) echo "$ROOT/vault/07-Operations" ;;
+      inventory) exec "$ROOT/bin/wl-operations-inventory" ;;
       *) usage ;;
     esac
     ;;
@@ -324,6 +341,7 @@ case "${1:-help}" in
         ;;
     esac
     ;;
+  inventory) exec "$ROOT/bin/wl-operations-inventory" ;;
   *)
     usage
     exit 1

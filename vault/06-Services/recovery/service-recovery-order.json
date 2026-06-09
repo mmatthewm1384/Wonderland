@@ -2,7 +2,6 @@
   "id": "service-recovery-order-v4",
   "version": 4,
   "order": [
-    "wl-anon-privoxy",
     "wl-anon-scraper",
     "wl-anon-tor"
   ],

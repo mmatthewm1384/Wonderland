@@ -3,66 +3,21 @@
   "version": 4,
   "services": [
     {
-      "id": "wl-anon-gateway-service-v4",
-      "name": "wl-anon-gateway",
-      "path": "definitions/wl-anon-gateway.service.json",
-      "runtime": "containerd",
-      "engine": "nerdctl",
-      "container": "anon-gateway",
-      "status": "draft"
-    },
-    {
       "id": "wl-anon-scraper-service-v4",
       "name": "wl-anon-scraper",
       "path": "definitions/wl-anon-scraper.service.json",
       "runtime": "containerd",
       "engine": "nerdctl",
-      "container": "anon-scraper",
-      "status": "draft"
-    },
-    {
-      "id": "wl-dns-service-v4",
-      "name": "wl-dns",
-      "path": "definitions/wl-dns.service.json",
-      "runtime": "containerd",
-      "engine": "nerdctl",
-      "container": "wl-dns",
+      "container": "wl-anon-scraper",
       "status": "active"
     },
     {
-      "id": "wl-grafana-service-v4",
-      "name": "wl-grafana",
-      "path": "definitions/wl-grafana.service.json",
+      "id": "wl-anon-tor-service-v4",
+      "name": "wl-anon-tor",
+      "path": "definitions/wl-anon-tor.service.json",
       "runtime": "containerd",
       "engine": "nerdctl",
-      "container": "wl-grafana",
-      "status": "active"
-    },
-    {
-      "id": "wl-loki-service-v4",
-      "name": "wl-loki",
-      "path": "definitions/wl-loki.service.json",
-      "runtime": "containerd",
-      "engine": "nerdctl",
-      "container": "wl-loki",
-      "status": "active"
-    },
-    {
-      "id": "wl-nats-service-v4",
-      "name": "wl-nats",
-      "path": "definitions/wl-nats.service.json",
-      "runtime": "containerd",
-      "engine": "nerdctl",
-      "container": "wl-nats",
-      "status": "active"
-    },
-    {
-      "id": "wl-prometheus-service-v4",
-      "name": "wl-prometheus",
-      "path": "definitions/wl-prometheus.service.json",
-      "runtime": "containerd",
-      "engine": "nerdctl",
-      "container": "wl-prometheus",
+      "container": "wl-anon-tor",
       "status": "active"
     }
   ]

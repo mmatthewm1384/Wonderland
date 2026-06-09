@@ -42,6 +42,11 @@
       "id": "archive-vault-v4",
       "path": "99-Archive",
       "purpose": "retention"
+    },
+    {
+      "id": "operations-vault-v4",
+      "path": "07-Operations",
+      "purpose": "operations"
     }
   ]
 }

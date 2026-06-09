@@ -14,9 +14,17 @@ required=(
   "docs/audit-standard.md"
   "docs/snapshot-standard.md"
   "docs/drift-standard.md"
-  "docs/lifecycle-standard.md"
-  "docs/rollback-standard.md"
   "docs/restore-standard.md"
+  "docs/rollback-standard.md"
+  "docs/lifecycle-standard.md"
+  "docs/promotion-standard.md"
+  "docs/state-standard.md"
+  "docs/report-standard.md"
+  "promotion/promotion-registry.json"
+  "restore/restore-registry.json"
+  "rollback/rollback-registry.json"
+  "lifecycle/lifecycle-registry.json"
+  "state/state-registry.json"
 )
 
 fail=0
@@ -30,7 +38,16 @@ for file in "${required[@]}"; do
   fi
 done
 
-python3 -m json.tool "$ROOT/operations-registry.json" >/dev/null || fail=1
+for json in \
+  "$ROOT/operations-registry.json" \
+  "$ROOT/promotion/promotion-registry.json" \
+  "$ROOT/restore/restore-registry.json" \
+  "$ROOT/rollback/rollback-registry.json" \
+  "$ROOT/lifecycle/lifecycle-registry.json" \
+  "$ROOT/state/state-registry.json"
+do
+  python3 -m json.tool "$json" >/dev/null || fail=1
+done
 
 echo
 
