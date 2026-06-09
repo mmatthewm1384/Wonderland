@@ -1,7 +1,7 @@
 {
   "id": "operations-report-index-v4",
   "version": 4,
-  "generated": "2026-06-09T14:57:05",
+  "generated": "2026-06-09T15:00:20",
   "reports": [
     {
       "path": "vault/reports/state/vault-state-20260608-145324.json",
