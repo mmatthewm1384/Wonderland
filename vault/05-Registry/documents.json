@@ -439,10 +439,28 @@
       "id": "wl-docker-service-v4"
     },
     {
+      "path": "06-Services/graphs/service-graph.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "service-graph-v4"
+    },
+    {
+      "path": "06-Services/recovery/service-recovery-order.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "service-recovery-order-v4"
+    },
+    {
       "path": "06-Services/service-registry.json",
       "layer": "06-Services",
       "type": "json",
       "id": "service-registry-v4"
+    },
+    {
+      "path": "06-Services/service-status.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "service-status-v4"
     },
     {
       "path": "99-Archive/archive-policy.md",

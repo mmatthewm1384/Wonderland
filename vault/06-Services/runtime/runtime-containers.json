@@ -1,0 +1,16 @@
+{
+  "id": "runtime-containers-v4",
+  "version": 4,
+  "engine": "nerdctl",
+  "managed": [
+    "wl-grafana",
+    "wl-loki",
+    "wl-prometheus",
+    "wl-nats",
+    "wl-dns"
+  ],
+  "unmanaged": [
+    "anon-workstation",
+    "anon-gateway"
+  ]
+}

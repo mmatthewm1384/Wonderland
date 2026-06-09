@@ -183,8 +183,26 @@
       "executable": true
     },
     {
+      "name": "wl-services-graph",
+      "path": "bin/wl-services-graph",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-services-recovery-order",
+      "path": "bin/wl-services-recovery-order",
+      "category": "core",
+      "executable": true
+    },
+    {
       "name": "wl-services-refresh",
       "path": "bin/wl-services-refresh",
+      "category": "core",
+      "executable": true
+    },
+    {
+      "name": "wl-services-status",
+      "path": "bin/wl-services-status",
       "category": "core",
       "executable": true
     },

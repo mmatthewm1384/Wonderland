@@ -3,10 +3,48 @@
   "version": 4,
   "services": [
     {
-      "id": "wl-docker-service-v4",
-      "name": "wl-docker",
-      "path": "definitions/wl-docker.service.json",
-      "compose": "docker/compose.yml",
+      "id": "wl-dns-service-v4",
+      "name": "wl-dns",
+      "path": "definitions/wl-dns.service.json",
+      "runtime": "containerd",
+      "engine": "nerdctl",
+      "container": "wl-dns",
+      "status": "active"
+    },
+    {
+      "id": "wl-grafana-service-v4",
+      "name": "wl-grafana",
+      "path": "definitions/wl-grafana.service.json",
+      "runtime": "containerd",
+      "engine": "nerdctl",
+      "container": "wl-grafana",
+      "status": "active"
+    },
+    {
+      "id": "wl-loki-service-v4",
+      "name": "wl-loki",
+      "path": "definitions/wl-loki.service.json",
+      "runtime": "containerd",
+      "engine": "nerdctl",
+      "container": "wl-loki",
+      "status": "active"
+    },
+    {
+      "id": "wl-nats-service-v4",
+      "name": "wl-nats",
+      "path": "definitions/wl-nats.service.json",
+      "runtime": "containerd",
+      "engine": "nerdctl",
+      "container": "wl-nats",
+      "status": "active"
+    },
+    {
+      "id": "wl-prometheus-service-v4",
+      "name": "wl-prometheus",
+      "path": "definitions/wl-prometheus.service.json",
+      "runtime": "containerd",
+      "engine": "nerdctl",
+      "container": "wl-prometheus",
       "status": "active"
     }
   ]

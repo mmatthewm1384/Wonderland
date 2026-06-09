@@ -1,0 +1,7 @@
+{
+  "id": "runtime-v4",
+  "version": 4,
+  "runtime": "containerd",
+  "engine": "nerdctl",
+  "compose": "nerdctl compose"
+}

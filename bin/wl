@@ -35,11 +35,18 @@ Commands:
   wl verify-snapshot <snapshot.tar.gz>
   wl prune-snapshots [keep-count]
   wl health
+
   wl state
   wl capture-state
   wl registry refresh-documents
   wl registry refresh-commands
   wl services recovery-order
+
+  wl services status
+  wl services discover-runtime
+  wl runtime ps
+  wl runtime images
+  wl runtime verify
 USAGE
 }
 
@@ -52,6 +59,7 @@ run_verify() {
   "$ROOT/bin/wl-verify-schemas"
   "$ROOT/bin/wl-verify-registry"
   "$ROOT/bin/wl-verify-services"
+  "$ROOT/bin/wl-verify-runtime"
   "$ROOT/bin/wl-verify-archive"
 }
 
@@ -180,8 +188,43 @@ case "${1:-help}" in
       recovery-order)
         exec "$ROOT/bin/wl-services-recovery-order"
         ;;
+      status)
+        exec "$ROOT/bin/wl-services-status"
+        ;;
+      discover-runtime)
+        exec "$ROOT/bin/wl-services-discover-runtime"
+        ;;
       path)
         echo "$ROOT/vault/06-Services"
+        ;;
+      *)
+        usage
+        ;;
+    esac
+    ;;
+
+  runtime)
+    case "${2:-help}" in
+      verify)
+        exec "$ROOT/bin/wl-verify-runtime"
+        ;;
+      ps)
+        exec "$ROOT/bin/wl-runtime" ps
+        ;;
+      images)
+        exec "$ROOT/bin/wl-runtime" images
+        ;;
+      logs)
+        shift 2
+        exec "$ROOT/bin/wl-runtime" logs "$@"
+        ;;
+      inspect)
+        shift 2
+        exec "$ROOT/bin/wl-runtime" inspect "$@"
+        ;;
+      compose)
+        shift 2
+        exec "$ROOT/bin/wl-runtime" compose "$@"
         ;;
       *)
         usage

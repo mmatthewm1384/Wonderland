@@ -8,6 +8,37 @@
   "recover": "wl services recover wl-docker",
   "rollback": "wl services rollback wl-docker",
   "dependencies": [],
-  "ports": [],
-  "volumes": []
+  "ports": [
+    {
+      "host": "1053",
+      "container": "53"
+    },
+    {
+      "host": "3000",
+      "container": "3000"
+    },
+    {
+      "host": "3100",
+      "container": "3100"
+    },
+    {
+      "host": "8222",
+      "container": "8222"
+    },
+    {
+      "host": "9090",
+      "container": "9090"
+    }
+  ],
+  "volumes": [
+    "Corefile",
+    "dashboards",
+    "local-config.yaml",
+    "prometheus.yml",
+    "provisioning",
+    "wl-grafana-data",
+    "wl-loki-data",
+    "wl-prometheus-data",
+    "wl.zone"
+  ]
 }
