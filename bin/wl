@@ -95,6 +95,7 @@ run_verify() {
   run_optional "$ROOT/bin/wl-verify-locks"
   run_optional "$ROOT/bin/wl-service-health"
   run_optional "$ROOT/bin/wl-verify-intelligence"
+  run_optional "$ROOT/bin/wl-verify-governance"
 }
 
 case "${1:-help}" in
@@ -104,6 +105,14 @@ case "${1:-help}" in
 
   verify)
     run_verify
+    ;;
+
+  governance)
+    case "${2:-help}" in
+      verify) exec "$ROOT/bin/wl-verify-governance" ;;
+      path) echo "$ROOT/vault/09-Governance" ;;
+      *) usage ;;
+    esac
     ;;
 
   intelligence)

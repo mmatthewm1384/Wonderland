@@ -52,6 +52,11 @@
       "id": "intelligence-vault-v4",
       "path": "08-Intelligence",
       "purpose": "intelligence"
+    },
+    {
+      "id": "governance-vault-v4",
+      "path": "09-Governance",
+      "purpose": "governance"
     }
   ]
 }
