@@ -3,18 +3,12 @@
   "version": 4,
   "services": [
     {
-      "id": "wl-docker-service-v4",
-      "name": "wl-docker",
-      "path": "06-Services/definitions/wl-docker.service.json",
-      "compose": "docker/compose.yml",
-      "status": "active"
-    },
-    {
       "id": "wl-anon-gateway-service-v4",
       "name": "wl-anon-gateway",
       "path": "06-Services/definitions/wl-anon-gateway.service.json",
       "compose": "services/anon-gateway/compose.yml",
-      "status": "active"
+      "status": "active",
+      "container": "wl-anon-tor"
     },
     {
       "id": "wl-anon-scraper-service-v4",

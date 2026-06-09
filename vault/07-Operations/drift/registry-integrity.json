@@ -1,7 +1,7 @@
 {
   "id": "registry-integrity-v4",
   "version": 4,
-  "timestamp": "2026-06-09T16:07:45",
+  "timestamp": "2026-06-09T16:10:45",
   "checks": [
     {
       "path": "00-Core/README.md",
@@ -396,7 +396,7 @@
     {
       "path": "06-Services/definitions/wl-docker.service.json",
       "resolved": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-docker.service.json",
-      "exists": true
+      "exists": false
     },
     {
       "path": "06-Services/definitions/wl-grafana.service.json",
@@ -519,11 +519,6 @@
       "exists": true
     },
     {
-      "path": "06-Services/definitions/wl-docker.service.json",
-      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-docker.service.json",
-      "exists": true
-    },
-    {
       "path": "06-Services/definitions/wl-anon-gateway.service.json",
       "resolved": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-anon-gateway.service.json",
       "exists": true
@@ -569,5 +564,7 @@
       "exists": true
     }
   ],
-  "failures": []
+  "failures": [
+    "missing referenced file: 06-Services/definitions/wl-docker.service.json -> /Users/wonderland/Wonderland/vault/06-Services/definitions/wl-docker.service.json"
+  ]
 }
