@@ -301,6 +301,13 @@
       "title": "Snapshot Retention Policy"
     },
     {
+      "path": "02-Policies/operations/unmanaged-runtime.policy.md",
+      "layer": "02-Policies",
+      "type": "md",
+      "id": "unmanaged-runtime-policy-v4",
+      "title": "Unmanaged Runtime Policy"
+    },
+    {
       "path": "02-Policies/policy-registry.json",
       "layer": "02-Policies",
       "type": "json",
@@ -409,6 +416,12 @@
       "id": "documents-registry-v4"
     },
     {
+      "path": "05-Registry/intents/promote-anon-gateway--20260608-185912.intent.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "promote-anon-gateway--20260608-185912"
+    },
+    {
       "path": "05-Registry/intents.json",
       "layer": "05-Registry",
       "type": "json",
@@ -433,10 +446,40 @@
       "id": "services-registry-v4"
     },
     {
+      "path": "06-Services/definitions/wl-dns.service.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "wl-dns-service-v4"
+    },
+    {
       "path": "06-Services/definitions/wl-docker.service.json",
       "layer": "06-Services",
       "type": "json",
       "id": "wl-docker-service-v4"
+    },
+    {
+      "path": "06-Services/definitions/wl-grafana.service.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "wl-grafana-service-v4"
+    },
+    {
+      "path": "06-Services/definitions/wl-loki.service.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "wl-loki-service-v4"
+    },
+    {
+      "path": "06-Services/definitions/wl-nats.service.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "wl-nats-service-v4"
+    },
+    {
+      "path": "06-Services/definitions/wl-prometheus.service.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "wl-prometheus-service-v4"
     },
     {
       "path": "06-Services/graphs/service-graph.json",
@@ -449,6 +492,24 @@
       "layer": "06-Services",
       "type": "json",
       "id": "service-recovery-order-v4"
+    },
+    {
+      "path": "06-Services/runtime/runtime-containers.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "runtime-containers-v4"
+    },
+    {
+      "path": "06-Services/runtime/runtime-inventory.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "runtime-inventory-v4"
+    },
+    {
+      "path": "06-Services/runtime/runtime.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "runtime-v4"
     },
     {
       "path": "06-Services/service-registry.json",

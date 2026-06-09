@@ -47,7 +47,9 @@ Commands:
   wl runtime ps
   wl runtime images
   wl runtime verify
+
   wl runtime inventory
+  wl runtime promote-intent <container-name>
 USAGE
 }
 
@@ -176,7 +178,7 @@ case "${1:-help}" in
     ;;
 
   services)
-    case "${3:-help}" in
+    case "${2:-help}" in
       refresh)
         exec "$ROOT/bin/wl-services-refresh"
         ;;
@@ -229,6 +231,10 @@ case "${1:-help}" in
         ;;
       inventory)
         exec "$ROOT/bin/wl-runtime-inventory"
+        ;;
+      promote-intent)
+        shift 2
+        exec "$ROOT/bin/wl-runtime-promote-intent" "$@"
         ;;
       *)
         usage
