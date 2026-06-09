@@ -44,6 +44,7 @@ Layers:
   wl intents verify|list|path|status <intent-id-or-file> <status>|plan <intent-id-or-file>
   wl plans verify|list|path|status <plan-id-or-file> <status>|execute <plan-id-or-file>
   wl archive verify|path
+  wl reports index|path
 
 Anon:
   wl anon up|down|status|doctor|repair|logs [container]|scraper-up|gateway-up
@@ -310,6 +311,19 @@ case "${1:-help}" in
     exec "$ROOT/bin/wl-anon-route" "$@"
     ;;
 
+  reports)
+    case "${2:-help}" in
+      index)
+        exec "$ROOT/bin/wl-operations-index-reports"
+        ;;
+      path)
+        echo "$ROOT/vault/07-Operations/reports"
+        ;;
+      *)
+        usage
+        ;;
+    esac
+    ;;
   *)
     usage
     exit 1
