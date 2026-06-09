@@ -59,6 +59,7 @@ Commands:
   wl unlock
   wl lock-status
   wl guard <target-path>
+  wl write <target-path> -- <command...>
 USAGE
 }
 
@@ -114,6 +115,10 @@ case "${1:-help}" in
   guard)
     shift
     exec "$ROOT/bin/wl-vault-guard" "$@"
+    ;;
+  write)
+    shift
+    exec "$ROOT/bin/wl-vault-write" "$@"
     ;;
 
   core)
