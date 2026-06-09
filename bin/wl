@@ -61,6 +61,7 @@ run_verify() {
   "$ROOT/vault/03-Runbooks/checks/verify-runbooks.sh"
   "$ROOT/bin/wl-verify-schemas"
   "$ROOT/bin/wl-verify-registry"
+  "$ROOT/bin/wl-verify-intents"
   "$ROOT/bin/wl-verify-services"
   "$ROOT/bin/wl-verify-runtime"
   "$ROOT/bin/wl-verify-archive"
@@ -235,6 +236,23 @@ case "${1:-help}" in
       promote-intent)
         shift 2
         exec "$ROOT/bin/wl-runtime-promote-intent" "$@"
+        ;;
+      *)
+        usage
+        ;;
+    esac
+    ;;
+
+  intents)
+    case "${2:-help}" in
+      verify)
+        exec "$ROOT/bin/wl-verify-intents"
+        ;;
+      path)
+        echo "$ROOT/vault/05-Registry/intents"
+        ;;
+      list)
+        find "$ROOT/vault/05-Registry/intents" -name "*.intent.json" -maxdepth 1 -type f | sort
         ;;
       *)
         usage
