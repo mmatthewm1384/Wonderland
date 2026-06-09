@@ -52,6 +52,7 @@ Layers:
   wl plans verify|list|path|status <plan-id-or-file> <status>|execute <plan-id-or-file>
   wl archive verify|path
   wl reports index|path
+  wl intelligence verify|path
 
 Anon:
   wl anon up|down|status|doctor|repair|logs [container]|scraper-up|gateway-up
@@ -93,6 +94,7 @@ run_verify() {
   run_optional "$ROOT/bin/wl-verify-archive"
   run_optional "$ROOT/bin/wl-verify-locks"
   run_optional "$ROOT/bin/wl-service-health"
+  run_optional "$ROOT/bin/wl-verify-intelligence"
 }
 
 case "${1:-help}" in
@@ -102,6 +104,14 @@ case "${1:-help}" in
 
   verify)
     run_verify
+    ;;
+
+  intelligence)
+    case "${2:-help}" in
+      verify) exec "$ROOT/bin/wl-verify-intelligence" ;;
+      path) echo "$ROOT/vault/08-Intelligence" ;;
+      *) usage ;;
+    esac
     ;;
 
   status)

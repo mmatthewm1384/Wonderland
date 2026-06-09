@@ -47,6 +47,11 @@
       "id": "operations-vault-v4",
       "path": "07-Operations",
       "purpose": "operations"
+    },
+    {
+      "id": "intelligence-vault-v4",
+      "path": "08-Intelligence",
+      "purpose": "intelligence"
     }
   ]
 }
