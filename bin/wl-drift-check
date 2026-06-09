@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+OUT_DIR="$ROOT/vault/07-Operations/drift"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+OUT="$OUT_DIR/drift-$STAMP.json"
+
+mkdir -p "$OUT_DIR"
+
+python3 - "$ROOT" "$OUT" <<'PY'
+import json
+import pathlib
+import subprocess
+import sys
+import datetime
+
+root = pathlib.Path(sys.argv[1])
+out = pathlib.Path(sys.argv[2])
+
+def run(cmd):
+    return subprocess.run(
+        cmd,
+        cwd=root,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True
+    )
+
+git_status = run(["git", "status", "--short"])
+verify = run([str(root / "bin" / "wl"), "verify"])
+runtime = run([str(root / "bin" / "wl"), "runtime", "inventory"])
+
+payload = {
+    "id": "drift-report-v4",
+    "timestamp": datetime.datetime.now().isoformat(timespec="seconds"),
+    "git": {
+        "dirty": bool(git_status.stdout.strip()),
+        "status": git_status.stdout.splitlines()
+    },
+    "verification": {
+        "ok": verify.returncode == 0,
+        "exit_code": verify.returncode
+    },
+    "runtime_inventory": {
+        "ok": runtime.returncode == 0,
+        "exit_code": runtime.returncode
+    }
+}
+
+out.write_text(json.dumps(payload, indent=2) + "\n")
+
+print(f"drift report: {out}")
+print(f"git dirty: {payload['git']['dirty']}")
+print(f"verify ok: {payload['verification']['ok']}")
+print(f"runtime inventory ok: {payload['runtime_inventory']['ok']}")
+
+if not payload["verification"]["ok"]:
+    sys.exit(1)
+PY

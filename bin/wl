@@ -18,6 +18,7 @@ Core:
   wl verify-snapshot <snapshot.tar.gz>
   wl prune-snapshots [keep-count]
   wl state
+  wl drift
   wl capture-state
   wl lifecycle
   wl lifecycle-capture
@@ -31,6 +32,7 @@ Vault:
   wl write <target-path> -- <command...>
 
 Layers:
+  wl operations verify|path
   wl core verify|status|path
   wl templates verify|path
   wl policies verify|path
@@ -70,6 +72,7 @@ run_verify() {
     echo "SKIP    missing runbook verifier"
   fi
 
+  run_optional "$ROOT/bin/wl-verify-operations"
   run_optional "$ROOT/bin/wl-verify-service-docs"
   run_optional "$ROOT/bin/wl-verify-schemas"
   run_optional "$ROOT/bin/wl-verify-registry"
@@ -148,6 +151,10 @@ case "${1:-help}" in
 
   inventory)
     find "$ROOT/vault" -maxdepth 3 -type f | sort
+    ;;
+
+  drift)
+    exec "$ROOT/bin/wl-drift-check"
     ;;
 
   lock)
@@ -273,6 +280,14 @@ case "${1:-help}" in
       path) echo "$ROOT/vault/05-Registry/plans" ;;
       status) shift 2; exec "$ROOT/bin/wl-plan-status" "$@" ;;
       execute) shift 2; exec "$ROOT/bin/wl-plan-execute" "$@" ;;
+      *) usage ;;
+    esac
+    ;;
+
+  operations)
+    case "${2:-help}" in
+      verify) exec "$ROOT/bin/wl-verify-operations" ;;
+      path) echo "$ROOT/vault/07-Operations" ;;
       *) usage ;;
     esac
     ;;
