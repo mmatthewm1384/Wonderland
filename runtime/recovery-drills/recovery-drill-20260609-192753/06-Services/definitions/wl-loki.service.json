@@ -1,0 +1,16 @@
+{
+  "id": "wl-loki-service-v4",
+  "name": "wl-loki",
+  "status": "active",
+  "version": 4,
+  "runtime": "containerd",
+  "engine": "nerdctl",
+  "container": "wl-loki",
+  "compose": null,
+  "verify": "wl runtime inspect wl-loki",
+  "recover": "wl services recover wl-loki",
+  "rollback": "wl services rollback wl-loki",
+  "dependencies": [],
+  "ports": [],
+  "volumes": []
+}

@@ -1,7 +1,7 @@
 {
   "id": "operations-report-index-v4",
   "version": 4,
-  "generated": "2026-06-09T15:03:24",
+  "generated": "2026-06-09T19:28:14",
   "reports": [
     {
       "path": "vault/reports/state/vault-state-20260608-145324.json",
@@ -34,6 +34,11 @@
       "size": 11976
     },
     {
+      "path": "vault/reports/vault-audit-20260609-155055.txt",
+      "type": "txt",
+      "size": 19301
+    },
+    {
       "path": "vault/07-Operations/drift/drift-20260609-140742.json",
       "type": "json",
       "size": 1563
@@ -42,6 +47,16 @@
       "path": "vault/07-Operations/drift/drift-20260609-150021.json",
       "type": "json",
       "size": 1796
+    },
+    {
+      "path": "vault/07-Operations/drift/registry-integrity.json",
+      "type": "json",
+      "size": 21085
+    },
+    {
+      "path": "vault/07-Operations/drift/runtime-drift.json",
+      "type": "json",
+      "size": 266
     }
   ]
 }

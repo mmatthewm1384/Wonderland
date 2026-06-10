@@ -1,0 +1,10 @@
+{
+  "id": "recovery-matrix-v4",
+  "version": 4,
+  "levels": {
+    "service": "restart service",
+    "stack": "restart compose stack",
+    "registry": "rebuild registry",
+    "vault": "restore snapshot"
+  }
+}

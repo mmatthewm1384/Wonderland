@@ -1,0 +1,52 @@
+{
+  "id": "drift-report-v4",
+  "timestamp": "2026-06-09T14:07:44",
+  "git": {
+    "dirty": true,
+    "status": [
+      " M bin/wl",
+      " M core/doctor_security.sh",
+      " D services/anon-gateway/config/privoxy.config",
+      " M services/anon-scraper/app.py",
+      " M services/anon-scraper/compose.yml",
+      " M services/anon-scraper/requirements.txt",
+      " M vault/05-Registry/documents.json",
+      " M vault/05-Registry/services.json",
+      " M vault/06-Services/definitions/wl-anon-gateway.service.json",
+      " D vault/06-Services/definitions/wl-anon-privoxy.service.json",
+      " M vault/06-Services/recovery/service-recovery-order.json",
+      " M vault/06-Services/runtime/runtime-containers.json",
+      " D vault/blueprints/anon-gateway.md",
+      " M vault/vault-map.json",
+      "?? .wl-registry",
+      "?? README.md",
+      "?? Wonderland-v4/",
+      "?? apps/",
+      "?? backups/",
+      "?? bin/wl-drift-check",
+      "?? bin/wl-verify-operations",
+      "?? core/consolidate.sh",
+      "?? core/doctor.sh",
+      "?? core/doctor_volume_alignment.sh",
+      "?? docker/",
+      "?? docs/",
+      "?? intelligence/",
+      "?? intents/",
+      "?? repos/",
+      "?? runtime/",
+      "?? tools/",
+      "?? vault/06-Services/recovery/recovery-matrix.json",
+      "?? vault/06-Services/service-dependencies.json",
+      "?? vault/06-Services/service-health.json",
+      "?? vault/07-Operations/"
+    ]
+  },
+  "verification": {
+    "ok": true,
+    "exit_code": 0
+  },
+  "runtime_inventory": {
+    "ok": true,
+    "exit_code": 0
+  }
+}

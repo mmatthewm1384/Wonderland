@@ -1,0 +1,11 @@
+{
+  "id": "governance-registry-v4",
+  "version": 4,
+  "domains": [
+    "authority",
+    "approval",
+    "exception",
+    "review",
+    "compliance"
+  ]
+}

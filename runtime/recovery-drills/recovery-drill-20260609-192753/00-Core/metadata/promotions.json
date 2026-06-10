@@ -1,0 +1,10 @@
+{
+  "version": 4,
+  "requirements": [
+    "documented",
+    "verified",
+    "recoverable",
+    "versioned",
+    "auditable"
+  ]
+}

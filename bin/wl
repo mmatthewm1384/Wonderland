@@ -23,6 +23,7 @@ Core:
   wl capture-state
   wl lifecycle
   wl lifecycle-capture
+  wl recovery drill
 
 Operations:
   wl operations verify|path
@@ -176,6 +177,13 @@ case "${1:-help}" in
   prune-snapshots)
     shift
     exec "$ROOT/bin/wl-vault-prune-snapshots" "$@"
+    ;;
+
+  recovery)
+    case "${2:-help}" in
+      drill) exec "$ROOT/bin/wl-recovery-drill" ;;
+      *) usage ;;
+    esac
     ;;
 
   state)
