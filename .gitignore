@@ -18,3 +18,17 @@ runtime/recovery-drills/
 
 # macOS
 .DS_Store
+
+# Vault secrets
+vault/secrets/*
+!vault/secrets/.gitkeep
+
+# Torrent runtime data
+vault/data/torrents/config/
+vault/data/torrents/downloads/
+vault/data/torrents/downloads-export/
+vault/data/torrents/quarantine/
+
+# qBittorrent runtime artifacts
+*.fastresume
+*.torrent

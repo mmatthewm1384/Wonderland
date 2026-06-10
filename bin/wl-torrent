@@ -75,15 +75,20 @@ case "${1:-}" in
 
     if [ ! -f "$SECRET_FILE" ]; then
       cat > "$SECRET_FILE" <<'EOF'
-VPN_ENDPOINT_IP=
-VPN_ENDPOINT_PORT=
+VPN_SERVICE_PROVIDER=surfshark
+VPN_TYPE=wireguard
 WIREGUARD_PRIVATE_KEY=
 WIREGUARD_ADDRESSES=
+SERVER_COUNTRIES=United States
+SERVER_CITIES=Bend
 EOF
-      echo "created vpn.env template; fill with legal VPN provider config"
+      chmod 600 "$SECRET_FILE"
+      echo "created vpn.env template; fill with Surfshark WireGuard credentials"
     fi
 
-    nerdctl compose -f "$SERVICE_DIR/compose.yml" up -d --remove-orphans
+    nerdctl compose -f "$SERVICE_DIR/compose.yml" up -d gluetun
+    sleep 20
+    nerdctl compose -f "$SERVICE_DIR/compose.yml" up -d qbittorrent
     ;;
 
   *)
