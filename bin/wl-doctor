@@ -31,6 +31,7 @@ check "anon route" "$ROOT/bin/wl" anon doctor
 check "operations" "$ROOT/bin/wl" operations verify
 check "intelligence" "$ROOT/bin/wl" intelligence verify
 check "governance" "$ROOT/bin/wl" governance verify
+check "recovery drill" "$ROOT/bin/wl-verify-recovery-drill"
 
 echo
 
