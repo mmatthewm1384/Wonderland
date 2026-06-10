@@ -371,7 +371,11 @@ case "${1:-help}" in
         ;;
     esac
     ;;
-  inventory) exec "$ROOT/bin/wl-operations-inventory" ;;
+
+  doctor)
+    exec "$ROOT/bin/wl-doctor"
+    ;;
+
   *)
     usage
     exit 1

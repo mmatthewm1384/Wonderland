@@ -1,7 +1,7 @@
 {
   "id": "registry-integrity-v4",
   "version": 4,
-  "timestamp": "2026-06-09T16:52:15",
+  "timestamp": "2026-06-09T17:01:19",
   "checks": [
     {
       "path": "00-Core/README.md",
