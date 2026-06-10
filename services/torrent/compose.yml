@@ -8,8 +8,6 @@ services:
       - /dev/net/tun:/dev/net/tun
     volumes:
       - ./gluetun:/gluetun
-    env_file:
-      - ../../vault/secrets/vpn.env
     environment:
       VPN_SERVICE_PROVIDER: surfshark
       VPN_TYPE: wireguard

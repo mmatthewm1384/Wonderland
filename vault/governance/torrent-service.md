@@ -1,51 +1,22 @@
-# Torrent Service Governance
+Service: wl-torrent
 
-## Service
+Purpose:
+VPN-isolated torrent acquisition service.
 
-wl-torrent
+Authority:
+vault/secrets/vpn.env
 
-## Components
+Runtime:
+qBittorrent
+Gluetun
+WireGuard
 
-* Gluetun VPN
-* Surfshark WireGuard
-* qBittorrent WebUI
+Recovery:
+wl torrent repair
 
-## Secrets
-
-Stored in:
-
-* vault/secrets/vpn.env
-* vault/secrets/torrent.env
-
-## Recovery
-
-### VPN
-
-1. Generate new Surfshark WireGuard profile.
-2. Update vault/secrets/vpn.env.
-3. Run:
-   wl torrent down
-   wl torrent repair
-
-### WebUI Credentials
-
-1. Update vault/secrets/torrent.env.
-2. Login to qBittorrent.
-3. Change password in WebUI.
-4. Update secret record.
-
-## Verification
-
+Verification:
 wl torrent doctor
+curl -I http://127.0.0.1:9091/
 
-Expected:
-
-* PASS vpn.env
-* PASS vpn container
-* PASS client container
-
-## Export
-
+Export:
 wl torrent export
-
-Exports runtime downloads and generates manifest.sha256.
