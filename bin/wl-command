@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WONDERLAND_ROOT:-$HOME/Wonderland}"
+REG="$ROOT/vault/05-Schemas/cli/command-registry.json"
+
+usage() {
+  cat <<EOF
+wl command list
+wl command show <command>
+wl command verify
+EOF
+}
+
+case "${1:-}" in
+  list)
+    python3 - "$REG" <<'PY'
+import json, sys
+data=json.load(open(sys.argv[1]))
+for c in data["commands"]:
+    print(f'{c["status"]:10} {c["category"]:12} {c["command"]}')
+PY
+    ;;
+
+  show)
+    shift || true
+    q="${*:-}"
+    [ -n "$q" ] || { echo "missing command"; exit 1; }
+    python3 - "$REG" "$q" <<'PY'
+import json, sys
+data=json.load(open(sys.argv[1]))
+q=sys.argv[2]
+for c in data["commands"]:
+    if c["command"] == q:
+        print(json.dumps(c, indent=2))
+        sys.exit(0)
+print(f"not found: {q}")
+sys.exit(1)
+PY
+    ;;
+
+  verify)
+    python3 - "$REG" <<'PY'
+import json, sys
+p=sys.argv[1]
+data=json.load(open(p))
+seen=set()
+required=["command","category","purpose","inputs","outputs","verification","recovery","status"]
+fail=0
+for c in data.get("commands", []):
+    for k in required:
+        if k not in c:
+            print(f"FAIL missing {k}: {c}")
+            fail+=1
+    name=c.get("command")
+    if name in seen:
+        print(f"FAIL duplicate command: {name}")
+        fail+=1
+    seen.add(name)
+print("RESULT", "PASS" if fail == 0 else "FAIL")
+sys.exit(1 if fail else 0)
+PY
+    ;;
+
+  *)
+    usage
+    exit 1
+    ;;
+esac
