@@ -411,6 +411,10 @@ case "$cmd" in
     exec_bin wl-document-cleaner "$@"
     ;;
 
+  torrent)
+    exec_bin wl-torrent "$@"
+    ;;
+
   *)
     if [[ -x "$BIN/wl-$cmd" ]]; then
       exec "$BIN/wl-$cmd" "$@"

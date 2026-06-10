@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WONDERLAND_ROOT:-$HOME/Wonderland}"
+SERVICE_DIR="$ROOT/services/torrent"
+SECRET_FILE="$ROOT/vault/secrets/vpn.env"
+DATA_DIR="$ROOT/vault/data/torrents"
+
+usage() {
+  echo "Usage: wl torrent up|down|status|logs|doctor|repair"
+}
+
+case "${1:-}" in
+  up)
+    mkdir -p "$DATA_DIR"/{config,downloads,watch,quarantine,complete}
+    nerdctl compose -f "$SERVICE_DIR/compose.yml" up -d
+    ;;
+
+  down)
+    nerdctl compose -f "$SERVICE_DIR/compose.yml" down
+    ;;
+
+  status)
+    nerdctl compose -f "$SERVICE_DIR/compose.yml" ps
+    ;;
+
+  logs)
+    shift || true
+    nerdctl compose -f "$SERVICE_DIR/compose.yml" logs -f "$@"
+    ;;
+
+  export)
+    exec "$ROOT/bin/wl-torrent-export"
+    ;;
+
+  doctor)
+    echo "wl-torrent doctor"
+
+    fail=0
+
+    [ -f "$SECRET_FILE" ] && echo "PASS vpn.env" || { echo "FAIL vpn.env"; fail=1; }
+    [ -d "$DATA_DIR/downloads" ] && echo "PASS downloads" || { echo "FAIL downloads"; fail=1; }
+    [ -d "$DATA_DIR/watch" ] && echo "PASS watch" || { echo "FAIL watch"; fail=1; }
+
+    containers="$(nerdctl ps --format '{{.Names}}' 2>/dev/null || true)"
+
+    vpn_running=0
+    client_running=0
+
+    if printf '%s\n' "$containers" | grep -qx 'wl-torrent-vpn'; then
+      echo "PASS vpn container"
+      vpn_running=1
+    else
+      echo "FAIL vpn container"
+      fail=1
+    fi
+
+    if printf '%s\n' "$containers" | grep -qx 'wl-torrent-client'; then
+      client_running=1
+    fi
+
+    if [ "$vpn_running" -eq 1 ] && [ "$client_running" -eq 1 ]; then
+      echo "PASS client container"
+    else
+      echo "FAIL client container"
+      fail=1
+    fi
+
+    exit "$fail"
+    ;;
+
+  repair)
+    mkdir -p "$DATA_DIR"/{config,downloads,watch,quarantine,complete}
+    mkdir -p "$(dirname "$SECRET_FILE")"
+
+    if [ ! -f "$SECRET_FILE" ]; then
+      cat > "$SECRET_FILE" <<'EOF'
+VPN_ENDPOINT_IP=
+VPN_ENDPOINT_PORT=
+WIREGUARD_PRIVATE_KEY=
+WIREGUARD_ADDRESSES=
+EOF
+      echo "created vpn.env template; fill with legal VPN provider config"
+    fi
+
+    nerdctl compose -f "$SERVICE_DIR/compose.yml" up -d --remove-orphans
+    ;;
+
+  *)
+    usage
+    exit 1
+    ;;
+esac
