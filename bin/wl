@@ -141,7 +141,11 @@ case "${1:-help}" in
     ;;
 
   health)
-    exec "$ROOT/bin/wl-vault-health"
+    exec "$ROOT/bin/wl-health"
+    ;;
+
+  health)
+    exec "$ROOT/bin/wl-health"
     ;;
 
   state-capture)
