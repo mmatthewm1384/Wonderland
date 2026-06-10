@@ -4,3 +4,17 @@ data/
 tmp/
 logs/
 .DS_Store
+# Generated runtime state
+runtime/
+vault/snapshots/
+vault/07-Operations/drift/*.json
+vault/06-Services/service-health.json
+
+# Recovery drill extraction
+runtime/recovery-drills/
+
+# Local registries
+.wl-registry
+
+# macOS
+.DS_Store
