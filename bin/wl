@@ -18,6 +18,7 @@ Core:
   wl restore <snapshot.tar.gz>
   wl verify-snapshot <snapshot.tar.gz>
   wl prune-snapshots [keep-count]
+  wl health-report
   wl state
   wl drift
   wl capture-state
@@ -147,6 +148,10 @@ case "${1:-help}" in
 
   health)
     exec "$ROOT/bin/wl-health"
+    ;;
+
+  health-report)
+    exec "$ROOT/bin/wl-health-report"
     ;;
 
   state-capture)
