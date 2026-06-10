@@ -15,6 +15,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY src ./src
 
-EXPOSE 8024
+EXPOSE 8788
 
 ENTRYPOINT ["python", "src/app.py"]

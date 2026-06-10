@@ -13,7 +13,7 @@ def main():
         sys.exit(1)
 
     try:
-        with urllib.request.urlopen("http://127.0.0.1:8024/healthz", timeout=5) as r:
+        with urllib.request.urlopen("http://127.0.0.1:8788/healthz", timeout=5) as r:
             body = r.read().decode()
             if "wl-document-cleaner" not in body:
                 print("FAIL healthz invalid")

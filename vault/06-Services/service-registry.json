@@ -19,6 +19,15 @@
       "engine": "nerdctl",
       "container": "wl-anon-tor",
       "status": "active"
+    },
+    {
+      "id": "wl-document-cleaner-service-v4",
+      "name": "wl-document-cleaner",
+      "path": "definitions/wl-document-cleaner.service.json",
+      "runtime": "containerd",
+      "engine": "nerdctl",
+      "container": "wl-document-cleaner",
+      "status": "active"
     }
   ]
 }
