@@ -23,6 +23,7 @@ echo
 check "Vault Verify" "$ROOT/bin/wl" verify
 check "Registry Integrity" "$ROOT/bin/wl" registry integrity
 check "Runtime Drift" "$ROOT/bin/wl" runtime drift
+check "Runtime Inventory" "$ROOT/bin/wl" runtime inventory
 check "Recovery Drill" "$ROOT/bin/wl-verify-recovery-drill"
 check "Anon Route" "$ROOT/bin/wl" anon doctor
 

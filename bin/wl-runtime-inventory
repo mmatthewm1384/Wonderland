@@ -9,58 +9,41 @@ mkdir -p "$(dirname "$OUT")"
 python3 - "$OUT" <<'PY'
 import json
 import subprocess
-import sys
 import datetime
+import pathlib
+import sys
 
-out = sys.argv[1]
+out = pathlib.Path(sys.argv[1])
 
-result = subprocess.run(
-    ["nerdctl", "ps", "-a", "--format", "{{json .}}"],
-    stdout=subprocess.PIPE,
-    stderr=subprocess.STDOUT,
-    text=True
-)
-
-if result.returncode != 0:
-    print(result.stdout)
-    sys.exit(result.returncode)
-
-containers = []
-for line in result.stdout.splitlines():
-    line = line.strip()
-    if not line:
-        continue
-    try:
-        containers.append(json.loads(line))
-    except Exception:
-        containers.append({"raw": line})
-
-managed = []
-unmanaged = []
-
-for c in containers:
-    name = c.get("Names") or c.get("Name") or c.get("raw", "")
-    if str(name).startswith("wl-"):
-        managed.append(c)
-    else:
-        unmanaged.append(c)
+def run(cmd):
+    r = subprocess.run(
+        cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True
+    )
+    return {
+        "ok": r.returncode == 0,
+        "exit_code": r.returncode,
+        "lines": [x for x in r.stdout.splitlines() if x.strip()]
+    }
 
 payload = {
     "id": "runtime-inventory-v4",
     "version": 4,
     "timestamp": datetime.datetime.now().isoformat(timespec="seconds"),
     "engine": "nerdctl",
-    "managed_count": len(managed),
-    "unmanaged_count": len(unmanaged),
-    "managed": managed,
-    "unmanaged": unmanaged
+    "containers": run(["nerdctl", "ps", "-a", "--format", "{{json .}}"]),
+    "images": run(["nerdctl", "images", "--format", "{{json .}}"]),
+    "networks": run(["nerdctl", "network", "ls", "--format", "{{json .}}"]),
+    "volumes": run(["nerdctl", "volume", "ls", "--format", "{{json .}}"])
 }
 
-with open(out, "w") as f:
-    json.dump(payload, f, indent=2)
-    f.write("\n")
+out.write_text(json.dumps(payload, indent=2) + "\n")
 
 print(f"runtime inventory: {out}")
-print(f"managed: {len(managed)}")
-print(f"unmanaged: {len(unmanaged)}")
+print(f"containers: {len(payload['containers']['lines'])}")
+print(f"images: {len(payload['images']['lines'])}")
+print(f"networks: {len(payload['networks']['lines'])}")
+print(f"volumes: {len(payload['volumes']['lines'])}")
 PY
