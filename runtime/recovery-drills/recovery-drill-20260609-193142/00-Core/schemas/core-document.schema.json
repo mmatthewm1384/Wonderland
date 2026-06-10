@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "core-document.schema.json",
+  "title": "Wonderland Core Document",
+  "type": "object",
+  "required": [
+    "id",
+    "path",
+    "layer",
+    "status",
+    "version"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    },
+    "layer": {
+      "type": "string",
+      "enum": [
+        "governance",
+        "identity",
+        "topology",
+        "operations",
+        "recovery",
+        "manifest",
+        "schema",
+        "check"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "locked",
+        "deprecated"
+      ]
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    }
+  }
+}

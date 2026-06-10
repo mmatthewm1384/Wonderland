@@ -1,0 +1,16 @@
+{
+  "id": "wl-anon-tor-service-v4",
+  "name": "wl-anon-tor",
+  "status": "active",
+  "version": 4,
+  "runtime": "containerd",
+  "engine": "nerdctl",
+  "container": "wl-anon-tor",
+  "compose": null,
+  "verify": "wl runtime inspect wl-anon-tor",
+  "recover": "wl services recover wl-anon-tor",
+  "rollback": "wl services rollback wl-anon-tor",
+  "dependencies": [],
+  "ports": [],
+  "volumes": []
+}

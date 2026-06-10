@@ -1,0 +1,9 @@
+{
+  "name": "wonderland",
+  "version": 4,
+  "state": "active",
+  "vault": "00-Core",
+  "authority": "operator",
+  "recovery": true,
+  "verification": true
+}

@@ -16,6 +16,7 @@ required=(
   "docs/drift-standard.md"
   "docs/runtime-drift-standard.md"
   "docs/restore-standard.md"
+  "docs/recovery-drill-standard.md"
   "docs/rollback-standard.md"
   "docs/lifecycle-standard.md"
   "docs/promotion-standard.md"

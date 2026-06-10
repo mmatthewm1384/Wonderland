@@ -1,0 +1,15 @@
+{
+  "id": "service-health-v4",
+  "version": 4,
+  "generated": "2026-06-09T19:31:44",
+  "services": [
+    {
+      "name": "wl-anon-scraper",
+      "status": "running"
+    },
+    {
+      "name": "wl-anon-tor",
+      "status": "running"
+    }
+  ]
+}

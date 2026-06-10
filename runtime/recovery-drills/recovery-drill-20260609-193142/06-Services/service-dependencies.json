@@ -1,0 +1,12 @@
+{
+  "id": "service-dependencies-v4",
+  "version": 4,
+  "dependencies": [
+    {
+      "service": "wl-anon-scraper",
+      "requires": [
+        "wl-anon-tor"
+      ]
+    }
+  ]
+}

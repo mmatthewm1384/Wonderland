@@ -1,0 +1,26 @@
+{
+  "id": "runbook-registry-v4",
+  "version": 4,
+  "runbooks": [
+    {
+      "id": "bootstrap-runbook-v4",
+      "path": "bootstrap/bootstrap.runbook.md",
+      "type": "bootstrap"
+    },
+    {
+      "id": "recovery-runbook-v4",
+      "path": "recovery/recovery.runbook.md",
+      "type": "recovery"
+    },
+    {
+      "id": "service-restore-runbook-v4",
+      "path": "services/service-restore.runbook.md",
+      "type": "service"
+    },
+    {
+      "id": "backup-runbook-v4",
+      "path": "operations/backup.runbook.md",
+      "type": "operations"
+    }
+  ]
+}

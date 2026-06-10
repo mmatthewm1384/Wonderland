@@ -1,0 +1,16 @@
+{
+  "id": "wl-prometheus-service-v4",
+  "name": "wl-prometheus",
+  "status": "active",
+  "version": 4,
+  "runtime": "containerd",
+  "engine": "nerdctl",
+  "container": "wl-prometheus",
+  "compose": null,
+  "verify": "wl runtime inspect wl-prometheus",
+  "recover": "wl services recover wl-prometheus",
+  "rollback": "wl services rollback wl-prometheus",
+  "dependencies": [],
+  "ports": [],
+  "volumes": []
+}

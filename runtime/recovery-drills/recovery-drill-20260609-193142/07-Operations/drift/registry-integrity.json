@@ -1,0 +1,563 @@
+{
+  "id": "registry-integrity-v4",
+  "version": 4,
+  "timestamp": "2026-06-09T19:31:43",
+  "checks": [
+    {
+      "path": "00-Core/README.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/README.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/governance/change-management.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/governance/change-management.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/governance/operator-authority.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/governance/operator-authority.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/governance/promotion-policy.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/governance/promotion-policy.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/governance/system-principles.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/governance/system-principles.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/governance/trust-boundaries.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/governance/trust-boundaries.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/identity/architectural-doctrine.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/identity/architectural-doctrine.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/identity/naming-standards.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/identity/naming-standards.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/identity/wonderland-identity.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/identity/wonderland-identity.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/manifests/core-state.manifest.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/manifests/core-state.manifest.json",
+      "exists": true
+    },
+    {
+      "path": "00-Core/manifests/document-registry.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/manifests/document-registry.json",
+      "exists": true
+    },
+    {
+      "path": "00-Core/manifests/seed-vault-manifest.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/manifests/seed-vault-manifest.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/manifests/vault-state.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/manifests/vault-state.json",
+      "exists": true
+    },
+    {
+      "path": "00-Core/metadata/layers.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/metadata/layers.json",
+      "exists": true
+    },
+    {
+      "path": "00-Core/metadata/lifecycle.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/metadata/lifecycle.json",
+      "exists": true
+    },
+    {
+      "path": "00-Core/metadata/promotions.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/metadata/promotions.json",
+      "exists": true
+    },
+    {
+      "path": "00-Core/metadata/protected-paths.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/metadata/protected-paths.json",
+      "exists": true
+    },
+    {
+      "path": "00-Core/operations/backup-standard.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/operations/backup-standard.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/operations/command-authority.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/operations/command-authority.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/operations/observability-standard.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/operations/observability-standard.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/operations/verification-standard.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/operations/verification-standard.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/recovery/bootstrap-procedure.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/recovery/bootstrap-procedure.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/recovery/continuity-plan.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/recovery/continuity-plan.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/recovery/disaster-recovery.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/recovery/disaster-recovery.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/recovery/rebuild-order.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/recovery/rebuild-order.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/recovery/recovery-policy.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/recovery/recovery-policy.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/recovery/rollback-standard.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/recovery/rollback-standard.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/schemas/core-document.schema.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/schemas/core-document.schema.json",
+      "exists": true
+    },
+    {
+      "path": "00-Core/schemas/intent.schema.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/schemas/intent.schema.json",
+      "exists": true
+    },
+    {
+      "path": "00-Core/schemas/manifest.schema.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/schemas/manifest.schema.json",
+      "exists": true
+    },
+    {
+      "path": "00-Core/security/access-control.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/security/access-control.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/security/secrets-policy.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/security/secrets-policy.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/security/threat-model.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/security/threat-model.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/topology/dependency-model.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/topology/dependency-model.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/topology/root-map.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/topology/root-map.md",
+      "exists": true
+    },
+    {
+      "path": "00-Core/topology/service-topology.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/00-Core/topology/service-topology.md",
+      "exists": true
+    },
+    {
+      "path": "01-Templates/documents/core-document.template.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/01-Templates/documents/core-document.template.md",
+      "exists": true
+    },
+    {
+      "path": "01-Templates/intents/intent.template.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/01-Templates/intents/intent.template.json",
+      "exists": true
+    },
+    {
+      "path": "01-Templates/runbooks/runbook.template.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/01-Templates/runbooks/runbook.template.md",
+      "exists": true
+    },
+    {
+      "path": "01-Templates/services/service.template.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/01-Templates/services/service.template.md",
+      "exists": true
+    },
+    {
+      "path": "01-Templates/template-registry.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/01-Templates/template-registry.json",
+      "exists": true
+    },
+    {
+      "path": "02-Policies/governance/core-promotion.policy.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/02-Policies/governance/core-promotion.policy.md",
+      "exists": true
+    },
+    {
+      "path": "02-Policies/operations/backup.policy.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/02-Policies/operations/backup.policy.md",
+      "exists": true
+    },
+    {
+      "path": "02-Policies/operations/runtime.policy.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/02-Policies/operations/runtime.policy.md",
+      "exists": true
+    },
+    {
+      "path": "02-Policies/operations/snapshot-retention.policy.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/02-Policies/operations/snapshot-retention.policy.md",
+      "exists": true
+    },
+    {
+      "path": "02-Policies/operations/unmanaged-runtime.policy.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/02-Policies/operations/unmanaged-runtime.policy.md",
+      "exists": true
+    },
+    {
+      "path": "02-Policies/policy-registry.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/02-Policies/policy-registry.json",
+      "exists": true
+    },
+    {
+      "path": "02-Policies/recovery/rollback.policy.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/02-Policies/recovery/rollback.policy.md",
+      "exists": true
+    },
+    {
+      "path": "02-Policies/security/secrets-handling.policy.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/02-Policies/security/secrets-handling.policy.md",
+      "exists": true
+    },
+    {
+      "path": "03-Runbooks/bootstrap/bootstrap.runbook.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/03-Runbooks/bootstrap/bootstrap.runbook.md",
+      "exists": true
+    },
+    {
+      "path": "03-Runbooks/operations/backup.runbook.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/03-Runbooks/operations/backup.runbook.md",
+      "exists": true
+    },
+    {
+      "path": "03-Runbooks/recovery/recovery.runbook.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/03-Runbooks/recovery/recovery.runbook.md",
+      "exists": true
+    },
+    {
+      "path": "03-Runbooks/runbook-registry.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/03-Runbooks/runbook-registry.json",
+      "exists": true
+    },
+    {
+      "path": "03-Runbooks/services/service-restore.runbook.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/03-Runbooks/services/service-restore.runbook.md",
+      "exists": true
+    },
+    {
+      "path": "04-Schemas/json/document.schema.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/04-Schemas/json/document.schema.json",
+      "exists": true
+    },
+    {
+      "path": "04-Schemas/json/intent.schema.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/04-Schemas/json/intent.schema.json",
+      "exists": true
+    },
+    {
+      "path": "04-Schemas/json/policy.schema.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/04-Schemas/json/policy.schema.json",
+      "exists": true
+    },
+    {
+      "path": "04-Schemas/json/runbook.schema.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/04-Schemas/json/runbook.schema.json",
+      "exists": true
+    },
+    {
+      "path": "04-Schemas/json/service.schema.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/04-Schemas/json/service.schema.json",
+      "exists": true
+    },
+    {
+      "path": "04-Schemas/schema-registry.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/04-Schemas/schema-registry.json",
+      "exists": true
+    },
+    {
+      "path": "05-Registry/assets.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/assets.json",
+      "exists": true
+    },
+    {
+      "path": "05-Registry/commands.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/commands.json",
+      "exists": true
+    },
+    {
+      "path": "05-Registry/documents.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/documents.json",
+      "exists": true
+    },
+    {
+      "path": "05-Registry/executions/execution-plan-promote-anon-gateway--20260608-185912.execution.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/executions/execution-plan-promote-anon-gateway--20260608-185912.execution.json",
+      "exists": true
+    },
+    {
+      "path": "05-Registry/intents/promote-anon-gateway--20260608-185912.intent.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/intents/promote-anon-gateway--20260608-185912.intent.json",
+      "exists": true
+    },
+    {
+      "path": "05-Registry/intents/promote-anon-gateway--20260609-125906.intent.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/intents/promote-anon-gateway--20260609-125906.intent.json",
+      "exists": true
+    },
+    {
+      "path": "05-Registry/intents/promote-anon-scraper--20260609-125906.intent.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/intents/promote-anon-scraper--20260609-125906.intent.json",
+      "exists": true
+    },
+    {
+      "path": "05-Registry/intents.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/intents.json",
+      "exists": true
+    },
+    {
+      "path": "05-Registry/operators.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/operators.json",
+      "exists": true
+    },
+    {
+      "path": "05-Registry/plans/plan-promote-anon-gateway--20260608-185912.plan.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/plans/plan-promote-anon-gateway--20260608-185912.plan.json",
+      "exists": true
+    },
+    {
+      "path": "05-Registry/plans.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/plans.json",
+      "exists": true
+    },
+    {
+      "path": "05-Registry/registry-map.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/registry-map.json",
+      "exists": true
+    },
+    {
+      "path": "05-Registry/services.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/services.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/blueprints/anon-blueprints.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/blueprints/anon-blueprints.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/definitions/wl-anon-gateway.service.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-anon-gateway.service.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/definitions/wl-anon-scraper.service.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-anon-scraper.service.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/definitions/wl-anon-tor.service.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-anon-tor.service.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/definitions/wl-dns.service.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-dns.service.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/definitions/wl-grafana.service.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-grafana.service.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/definitions/wl-loki.service.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-loki.service.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/definitions/wl-nats.service.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-nats.service.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/definitions/wl-prometheus.service.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-prometheus.service.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/docs/network-standard.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/docs/network-standard.md",
+      "exists": true
+    },
+    {
+      "path": "06-Services/docs/network-topology.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/docs/network-topology.md",
+      "exists": true
+    },
+    {
+      "path": "06-Services/docs/port-map.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/docs/port-map.md",
+      "exists": true
+    },
+    {
+      "path": "06-Services/docs/runtime-inventory.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/docs/runtime-inventory.md",
+      "exists": true
+    },
+    {
+      "path": "06-Services/docs/runtime-standard.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/docs/runtime-standard.md",
+      "exists": true
+    },
+    {
+      "path": "06-Services/docs/service-overview.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/docs/service-overview.md",
+      "exists": true
+    },
+    {
+      "path": "06-Services/docs/service-promotion.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/docs/service-promotion.md",
+      "exists": true
+    },
+    {
+      "path": "06-Services/docs/service-recovery.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/docs/service-recovery.md",
+      "exists": true
+    },
+    {
+      "path": "06-Services/graphs/service-graph.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/graphs/service-graph.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/recovery/recovery-matrix.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/recovery/recovery-matrix.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/recovery/service-recovery-order.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/recovery/service-recovery-order.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/runtime/runtime-containers.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/runtime/runtime-containers.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/runtime/runtime-inventory.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/runtime/runtime-inventory.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/runtime/runtime.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/runtime/runtime.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/service-dependencies.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/service-dependencies.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/service-health.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/service-health.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/service-registry.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/service-registry.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/service-status.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/service-status.json",
+      "exists": true
+    },
+    {
+      "path": "99-Archive/archive-policy.md",
+      "resolved": "/Users/wonderland/Wonderland/vault/99-Archive/archive-policy.md",
+      "exists": true
+    },
+    {
+      "path": "99-Archive/archive-registry.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/99-Archive/archive-registry.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/definitions/wl-anon-scraper.service.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-anon-scraper.service.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/definitions/wl-anon-tor.service.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-anon-tor.service.json",
+      "exists": true
+    },
+    {
+      "path": "intents/promote-anon-gateway--20260608-185912.intent.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/intents/promote-anon-gateway--20260608-185912.intent.json",
+      "exists": true
+    },
+    {
+      "path": "intents/promote-anon-gateway--20260609-125906.intent.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/intents/promote-anon-gateway--20260609-125906.intent.json",
+      "exists": true
+    },
+    {
+      "path": "intents/promote-anon-scraper--20260609-125906.intent.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/intents/promote-anon-scraper--20260609-125906.intent.json",
+      "exists": true
+    },
+    {
+      "path": "plans/plan-promote-anon-gateway--20260608-185912.plan.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/05-Registry/plans/plan-promote-anon-gateway--20260608-185912.plan.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/graphs/service-graph.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/graphs/service-graph.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/service-status.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/service-status.json",
+      "exists": true
+    },
+    {
+      "path": "06-Services/runtime/runtime-inventory.json",
+      "resolved": "/Users/wonderland/Wonderland/vault/06-Services/runtime/runtime-inventory.json",
+      "exists": true
+    }
+  ],
+  "failures": []
+}

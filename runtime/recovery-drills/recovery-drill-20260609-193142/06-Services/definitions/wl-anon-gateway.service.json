@@ -1,0 +1,21 @@
+{
+  "id": "wl-anon-gateway-service-v4",
+  "name": "wl-anon-gateway",
+  "status": "active",
+  "version": 4,
+  "compose": "services/anon-gateway/compose.yml",
+  "verify": "wl services verify wl-anon-gateway",
+  "recover": "wl services recover wl-anon-gateway",
+  "rollback": "wl services rollback wl-anon-gateway",
+  "dependencies": [],
+  "ports": [
+    {
+      "host": "9050",
+      "container": "9050"
+    }
+  ],
+  "volumes": [
+    "config",
+    "tor-data"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "template-registry-v4",
+  "version": 4,
+  "templates": [
+    {
+      "id": "core-document-template-v4",
+      "path": "documents/core-document.template.md",
+      "type": "document"
+    },
+    {
+      "id": "service-template-v4",
+      "path": "services/service.template.md",
+      "type": "service"
+    },
+    {
+      "id": "intent-template-v4",
+      "path": "intents/intent.template.json",
+      "type": "intent"
+    },
+    {
+      "id": "runbook-template-v4",
+      "path": "runbooks/runbook.template.md",
+      "type": "runbook"
+    }
+  ]
+}

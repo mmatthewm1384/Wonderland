@@ -1,0 +1,10 @@
+{
+  "id": "runtime-containers-v4",
+  "version": 4,
+  "engine": "nerdctl",
+  "managed": [
+    "wl-anon-scraper",
+    "wl-anon-tor"
+  ],
+  "unmanaged": []
+}
