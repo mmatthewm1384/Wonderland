@@ -7,5 +7,38 @@
     "exception",
     "review",
     "compliance"
+  ],
+  "standards": [
+    {
+      "id": "WL-GOV-001",
+      "name": "Governance Footer Standard",
+      "audit": "tools/governance/audit-footers.sh",
+      "repair": "tools/governance/apply-footer.sh",
+      "severity": "required"
+    },
+    {
+      "id": "WL-GOV-002",
+      "name": "Recovery Documentation Standard",
+      "path": "vault/09-Governance/standards/wl-gov-002-recovery-documentation-standard.md",
+      "status": "active"
+    },
+    {
+      "id": "WL-GOV-003",
+      "name": "Service Promotion Standard",
+      "path": "vault/09-Governance/standards/wl-gov-003-service-promotion-standard.md",
+      "status": "active"
+    },
+    {
+      "id": "WL-GOV-004",
+      "name": "Authority Persistence Standard",
+      "path": "vault/09-Governance/standards/wl-gov-004-authority-persistence-standard.md",
+      "status": "active"
+    },
+    {
+      "id": "WL-GOV-006",
+      "name": "Legacy Import Archive Standard",
+      "path": "vault/09-Governance/standards/wl-gov-006-legacy-import-archive-standard.md",
+      "status": "active"
+    }
   ]
 }

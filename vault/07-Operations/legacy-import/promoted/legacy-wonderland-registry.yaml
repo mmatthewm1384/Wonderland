@@ -1,0 +1,32 @@
+system: Wonderland-v4
+
+version: 4.0
+
+operator: Matthew Mahaney
+
+knowledge_core: Obsidian
+
+interface: wl
+
+principles:
+  - persistent
+  - recoverable
+  - auditable
+  - secure
+  - automated
+  - versioned
+  - modular
+
+domains:
+  - architect
+  - infrastructure
+  - governance
+  - vault
+  - relay
+  - timetravel
+  - operations
+  - reviews
+  - handoffs
+  - roadmap
+
+status: active

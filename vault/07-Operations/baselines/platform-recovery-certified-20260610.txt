@@ -1,0 +1,16 @@
+Wonderland Platform Recovery
+generated: 20260610-145828
+root: /Users/wonderland/Wonderland
+
+authority backup            PASS
+authority verify            PASS
+authority restore drill     PASS
+dns repair                  PASS
+nats repair                 PASS
+observability repair        PASS
+torrent repair              PASS
+service certification       PASS
+doctor                      PASS
+
+RESULT PASS
+/Users/wonderland/Wonderland/vault/07-Operations/recovery/reports/platform-recovery-20260610-145828.txt

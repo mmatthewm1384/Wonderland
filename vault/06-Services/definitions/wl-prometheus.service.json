@@ -7,10 +7,14 @@
   "engine": "nerdctl",
   "container": "wl-prometheus",
   "compose": null,
-  "verify": "wl runtime inspect wl-prometheus",
-  "recover": "wl services recover wl-prometheus",
-  "rollback": "wl services rollback wl-prometheus",
+  "verify": "bin/wl-observability doctor-prometheus",
+  "recover": "bin/wl-observability repair",
+  "rollback": "bin/wl-observability down",
   "dependencies": [],
-  "ports": [],
-  "volumes": []
+  "ports": [
+    "9090"
+  ],
+  "volumes": [
+    "docker/wl-prometheus/config/prometheus.yml"
+  ]
 }

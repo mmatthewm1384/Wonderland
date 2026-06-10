@@ -7,10 +7,13 @@
   "engine": "nerdctl",
   "container": "wl-nats",
   "compose": null,
-  "verify": "wl runtime inspect wl-nats",
-  "recover": "wl services recover wl-nats",
-  "rollback": "wl services rollback wl-nats",
+  "verify": "bin/wl-nats doctor",
+  "recover": "bin/wl-nats repair",
+  "rollback": "bin/wl-nats down",
   "dependencies": [],
-  "ports": [],
+  "ports": [
+    "4222",
+    "8222"
+  ],
   "volumes": []
 }

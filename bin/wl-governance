@@ -2,219 +2,62 @@
 set -euo pipefail
 
 ROOT="${WONDERLAND_ROOT:-$HOME/Wonderland}"
-GOV="$ROOT/intelligence/obsidian/00-Core/Governance.md"
-REGISTRY="$ROOT/.wl-registry"
-LOG_DIR="$ROOT/logs/governance"
-LOG_FILE="$LOG_DIR/wl-governance.log"
+REPORT_DIR="$ROOT/vault/09-Governance/reports"
+REPORT="$REPORT_DIR/governance-status.json"
 
-mkdir -p "$LOG_DIR"
-
-log() {
-  printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*" >> "$LOG_FILE"
+usage() {
+  cat <<EOF
+Usage:
+  wl governance audit
+  wl governance repair
+  wl governance status
+  wl governance report
+EOF
 }
 
-require_python() {
-  command -v python3 >/dev/null 2>&1 || {
-    echo "[FAIL] python3 not found"
-    exit 1
-  }
-}
-
-sync_registry() {
-  require_python
-
-  python3 - "$GOV" "$REGISTRY" <<'PY'
-import json
-import sys
-import datetime
-from pathlib import Path
-
-gov_path = Path(sys.argv[1]).expanduser()
-registry_path = Path(sys.argv[2]).expanduser()
-
-if not gov_path.exists():
-    print(f"[FAIL] Governance file missing: {gov_path}")
-    sys.exit(1)
-
-text = gov_path.read_text(encoding="utf-8")
-
-if not text.startswith("---"):
-    print("[FAIL] Governance.md missing YAML frontmatter")
-    sys.exit(1)
-
-try:
-    _, yaml_block, _body = text.split("---", 2)
-except ValueError:
-    print("[FAIL] Invalid Governance.md frontmatter")
-    sys.exit(1)
-
-def parse_simple_yaml(block: str):
-    data = {}
-    stack = [data]
-    keys = []
-    current_list_key = None
-
-    for raw in block.splitlines():
-        if not raw.strip():
-            continue
-
-        indent = len(raw) - len(raw.lstrip(" "))
-        line = raw.strip()
-
-        if line.startswith("- "):
-            value = line[2:].strip()
-            parent = stack[-1]
-            if current_list_key:
-                parent.setdefault(current_list_key, []).append(value)
-            continue
-
-        if ":" in line:
-            key, value = line.split(":", 1)
-            key = key.strip()
-            value = value.strip()
-
-            level = indent // 2
-            stack = stack[: level + 1]
-
-            parent = stack[-1]
-
-            if value == "":
-                parent[key] = {}
-                stack.append(parent[key])
-                current_list_key = None
-            else:
-                if value.lower() == "true":
-                    parsed = True
-                elif value.lower() == "false":
-                    parsed = False
-                else:
-                    parsed = value
-
-                parent[key] = parsed
-                current_list_key = key
-
-    return data
-
-data = parse_simple_yaml(yaml_block)
-
-registry = {
-    "generated": True,
-    "generated_from": str(gov_path),
-    "generated_at": (
-        datetime.datetime.now(datetime.timezone.utc)
-        .replace(microsecond=0)
-        .isoformat()
-    ),
-    "system": data.get("system"),
-    "operator": data.get("operator", {}).get("name"),
-    "runtime": data.get("runtime", {}),
-    "paths": data.get("paths", {}),
-    "commands": data.get("commands", []),
-    "services": data.get("services", []),
-    "networks": data.get("networks", []),
-    "volumes": data.get("volumes", []),
-    "security": data.get("security", {}),
-    "encryption": data.get("encryption", {}),
-    "privacy": data.get("privacy", {}),
-    "anonymity": data.get("anonymity", {}),
-    "redaction": {
-        "contains_plaintext_secrets": False,
-        "contains_raw_thought_content": False,
-        "contains_private_credentials": False,
-        "policy": "generated metadata only"
-    }
-}
-
-registry_path.write_text(json.dumps(registry, indent=2) + "\n", encoding="utf-8")
-print(f"[OK] Generated registry: {registry_path}")
-PY
-
-  log "synced registry from Governance.md"
-}
-
-doctor() {
-  failures=0
-
-  echo "=== 🧭 Wonderland Governance Doctor ==="
-
-  if [ -f "$GOV" ]; then
-    echo "[OK] Governance.md found"
-  else
-    echo "[FAIL] Governance.md missing: $GOV"
-    failures=$((failures + 1))
-  fi
-
-  if command -v python3 >/dev/null 2>&1; then
-    echo "[OK] python3 available"
-  else
-    echo "[FAIL] python3 missing"
-    failures=$((failures + 1))
-  fi
-
-  if [ -f "$REGISTRY" ]; then
-    echo "[OK] Registry exists: $REGISTRY"
-    if python3 -m json.tool "$REGISTRY" >/dev/null 2>&1; then
-      echo "[OK] Registry JSON valid"
-    else
-      echo "[FAIL] Registry JSON invalid"
-      failures=$((failures + 1))
-    fi
-  else
-    echo "[FAIL] Registry missing: $REGISTRY"
-    failures=$((failures + 1))
-  fi
-
-  if [ "$failures" -eq 0 ]; then
-    echo "=== GOVERNANCE HEALTHY ==="
-    exit 0
-  else
-    echo "=== GOVERNANCE UNHEALTHY: $failures failure(s) ==="
-    exit 1
-  fi
-}
-
-repair() {
-  mkdir -p \
-    "$ROOT/bin" \
-    "$ROOT/core" \
-    "$ROOT/logs" \
-    "$ROOT/data" \
-    "$ROOT/secrets" \
-    "$ROOT/tools" \
-    "$ROOT/intelligence/obsidian/00-Core"
-
-  sync_registry
-  chmod +x "$ROOT/bin/wl-governance" 2>/dev/null || true
-
-  echo "[OK] Governance repair complete"
-}
-
-status() {
-  echo "Wonderland Governance"
-  echo "Root:      $ROOT"
-  echo "Source:    $GOV"
-  echo "Registry:  $REGISTRY"
-  echo "Logs:      $LOG_FILE"
-}
-
-case "${1:-help}" in
-  sync) sync_registry ;;
-  doctor) doctor ;;
-  repair) repair ;;
-  status) status ;;
-  help|-h|--help)
-    cat <<USAGE
-Usage: wl-governance <command>
-
-Commands:
-  sync      Generate .wl-registry from Governance.md
-  doctor    Validate governance pipeline
-  repair    Create missing paths and regenerate registry
-  status    Show governance paths
-USAGE
+case "${1:-}" in
+  audit)
+    "$ROOT/tools/governance/audit-footers.sh"
     ;;
+
+  repair)
+    "$ROOT/tools/governance/apply-footer.sh"
+    ;;
+
+  status)
+    "$ROOT/tools/governance/audit-footers.sh" | awk '
+      /^PASS/ {pass++}
+      /^FAIL/ {fail++}
+      END {
+        printf "PASS=%d\n", pass+0
+        printf "FAIL=%d\n", fail+0
+      }'
+    ;;
+
+  report)
+    mkdir -p "$REPORT_DIR"
+
+    tmp="$(mktemp)"
+    "$ROOT/tools/governance/audit-footers.sh" > "$tmp"
+
+    pass="$(grep -c '^PASS' "$tmp" || true)"
+    fail="$(grep -c '^FAIL' "$tmp" || true)"
+
+    cat > "$REPORT" <<EOF
+{
+  "generated": "$(date -Iseconds)",
+  "standard": "WL-GOV-001",
+  "pass": $pass,
+  "fail": $fail
+}
+EOF
+
+    rm -f "$tmp"
+    echo "$REPORT"
+    ;;
+
   *)
-    echo "[FAIL] Unknown command: $1"
+    usage
     exit 1
     ;;
 esac

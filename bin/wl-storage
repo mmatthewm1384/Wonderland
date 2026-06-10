@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+T7="/Volumes/T7_Wonderland"
+FAIL=0
+
+pass() { printf "%-28s PASS\n" "$1"; }
+fail() { printf "%-28s FAIL\n" "$1"; echo "  $2"; FAIL=1; }
+
+case "${1:-doctor}" in
+  doctor|verify|status)
+    echo
+    echo "Wonderland Storage Doctor"
+    echo "authority: $ROOT"
+    echo "persistence: $T7"
+    echo
+
+    [[ -d "$ROOT" ]] || fail "authority root" "missing $ROOT"
+    [[ -d "$ROOT/bin" ]] && pass "authority bin" || fail "authority bin" "missing $ROOT/bin"
+    [[ -d "$ROOT/vault/09-Governance" ]] && pass "authority governance" || fail "authority governance" "missing governance vault"
+    [[ -d "$ROOT/vault/05-Registry" ]] && pass "authority registry" || fail "authority registry" "missing registry vault"
+    [[ -d "$ROOT/vault/06-Services/definitions" ]] && pass "authority services" || fail "authority services" "missing service definitions"
+
+    if find "$ROOT/bin" "$ROOT/tools" "$ROOT/vault/09-Governance" "$ROOT/vault/05-Registry" "$ROOT/vault/06-Services/definitions" -type l 2>/dev/null | grep -q .; then
+      fail "authority symlinks" "authoritative paths contain symlinks"
+      find "$ROOT/bin" "$ROOT/tools" "$ROOT/vault/09-Governance" "$ROOT/vault/05-Registry" "$ROOT/vault/06-Services/definitions" -type l -print | sed 's/^/  /'
+    else
+      pass "authority symlinks"
+    fi
+
+    if [[ -d "$T7" ]]; then
+      pass "persistence mount"
+    else
+      echo "persistence mount          WARN"
+      echo "  T7 not mounted; authority must still function"
+    fi
+
+    echo
+    if [[ "$FAIL" -eq 0 ]]; then
+      echo "RESULT PASS"
+    else
+      echo "RESULT FAIL"
+      exit 1
+    fi
+  ;;
+
+  *)
+    echo "Usage: wl storage doctor|verify|status"
+    exit 1
+  ;;
+esac

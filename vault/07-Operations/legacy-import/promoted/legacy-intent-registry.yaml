@@ -1,0 +1,15 @@
+intents:
+
+  - cleanup-restructure
+
+  - architecture-review
+
+  - infrastructure-deploy
+
+  - governance-update
+
+  - recovery-validation
+
+  - roadmap-update
+
+  - handoff

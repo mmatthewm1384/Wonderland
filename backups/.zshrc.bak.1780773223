@@ -1,0 +1,122 @@
+# Wonderland clean zshrc
+
+export WL_HOME="$HOME/Wonderland-v3"
+export PATH="$WL_HOME/bin:$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+
+# OrbStack shell integration
+source ~/.orbstack/shell/init.zsh 2>/dev/null || true
+
+# Starship prompt
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
+
+# Helpful defaults
+setopt AUTO_CD
+setopt HIST_IGNORE_DUPS
+setopt SHARE_HISTORY
+
+# Wonderland aliases
+alias cwl='cd "$WL_HOME"'
+alias wl="/Users/wonderland/Wonderland-v3/bin/wl"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# Wonderland AI Runtime
+if [ -f "$HOME/Wonderland-v3/config/ai.env" ]; then
+  source "$HOME/Wonderland-v3/config/ai.env"
+fi
+
+# Wonderland Shell Bootstrap
+if [ -f "$HOME/Wonderland-v3/core/zsh_manager.sh" ]; then
+    source "$HOME/Wonderland-v3/core/zsh_manager.sh"
+fi
+[[ -f "$HOME/Wonderland-v3/scripts/auto-drop-in/set-root.sh" ]] && \
+source "$HOME/Wonderland-v3/scripts/auto-drop-in/set-root.sh"
+
+alias gcopy="$HOME/Wonderland-v3/scripts/relay/wl-gemini-copy"
+export PATH="$HOME/Wonderland-v3/bin:$PATH"
+
+# ==============================================================================
+# WONDERLAND INTERACTIVE SHELL OPTIMIZATIONS
+# ==============================================================================
+# Allow copy-pasting lines beginning with # directly into the interactive prompt
+setopt INTERACTIVE_COMMENTS
+
+# Ensure clean parsing behavior across multi-line inputs
+setopt MULTI_FUNC_DEF
+export PATH="$HOME/Wonderland-v3/bin:$PATH"
+
+# Wonderland local Whisper cache
+export HF_HOME="$HOME/Wonderland-v3/models/whisper"
+export TRANSFORMERS_CACHE="$HF_HOME"
+
+
+# Wonderland HF token
+if [ -f "$HOME/Wonderland-v3/runtime/secrets/huggingface.env" ]; then
+  source "$HOME/Wonderland-v3/runtime/secrets/huggingface.env"
+fi
+
+export WL_HOME="$HOME/Wonderland-v3"
+export PATH="$HOME/Wonderland-v3/bin:$PATH"
+export PATH="${HOME}/Wonderland-v3/bin:${PATH}"
+
+# Load Wonderland Termination Safeguard
+if [ -f ~/.wl_nuke_safeguard ]; then source ~/.wl_nuke_safeguard; fi
+
+# Wonderland container defaults
+export DOCKER_CONTEXT=wonderland-rootless
+export WL_PROFILE=wonderland-rootless
+export WL_CONTAINER_RUNTIME=nerdctl
+
+alias colima-wl='colima status --profile wonderland-rootless'
+alias colima-wl-start='colima start --profile wonderland-rootless'
+alias colima-wl-stop='colima stop --profile wonderland-rootless'
+
+export WL_PROFILE=wonderland-rootless
+export WL_CONTAINER_RUNTIME=nerdctl
+export DOCKER_CONTEXT=wonderland-rootless
+export PATH="$HOME/Wonderland-v3/bin:$PATH"
+
+# >>> grok installer >>>
+export PATH="$HOME/.grok/bin:$PATH"
+fpath=(~/.grok/completions/zsh $fpath)
+autoload -Uz compinit && compinit -C
+# <<< grok installer <<<
+export PATH="$HOME/Wonderland/tools/bin:$PATH"
+
+unalias wl 2>/dev/null || true
+unset -f wl 2>/dev/null || true
+
+wl() {
+  if [[ -x "$PWD/bin/wl" ]]; then
+    "$PWD/bin/wl" "$@"
+  elif [[ -x "$HOME/Wonderland/Wonderland-v4/bin/wl" ]]; then
+    "$HOME/Wonderland/Wonderland-v4/bin/wl" "$@"
+  else
+    /Users/wonderland/Wonderland-v3/bin/wl "$@"
+  fi
+}
+
+# WONDERLAND_V4_GA_PLUS_ENV
+export WL_HOME="$HOME/Wonderland"
+export WL_DATA="$WL_HOME/data"
+export WL_MIRROR="/Volumes/T7_Wonderland"
+export PATH="$WL_HOME/bin:$PATH"
+
+# WONDERLAND_MIND_BODY_TIME_TRAVEL
+export WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+export WL_DATA="${WL_DATA:-$WL_HOME/data}"
+export PATH="$WL_HOME/bin:$PATH"
+
+# WONDERLAND_CHRONOSPHERE
+export WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+export WL_DATA="${WL_DATA:-$WL_HOME/data}"
+export PATH="$WL_HOME/bin:$PATH"
+
+# WONDERLAND_CHRONOSPHERE_V2
+export WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+export WL_DATA="${WL_DATA:-$WL_HOME/data}"
+export PATH="$WL_HOME/bin:$PATH"
+
+alias wl-load='source /Users/Wonderland/Wonderland/tools/env_injector.sh'

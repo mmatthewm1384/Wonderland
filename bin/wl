@@ -59,6 +59,16 @@ Layers:
   wl plans verify|list|path|status <plan-id-or-file> <status>|execute <plan-id-or-file>
   wl intelligence verify|path
   wl governance verify|path
+  wl storage doctor|verify|status
+  wl authority backup|doctor|verify|status
+  wl legacy inventory|classify|report|archive|doctor
+  wl service-certify certify|verify-all|list
+  wl nats up|down|status|logs|doctor|repair
+  wl observability up|down|status|logs|doctor|repair
+  wl dns up|down|status|logs|doctor|repair
+  wl recover platform
+  wl snapshot create|verify|restore-drill|list|doctor
+  wl promote service <service>
   wl archive verify|path
 
 Anon:
@@ -376,6 +386,10 @@ case "$cmd" in
     ;;
 
   governance)
+    exec_bin wl-governance "$@"
+    ;;
+
+  governance)
     case "${1:-help}" in
       verify) exec_bin wl-verify-governance ;;
       path) echo "$ROOT/vault/09-Governance" ;;
@@ -409,6 +423,38 @@ case "$cmd" in
 
   document-cleaner|cleaner)
     exec_bin wl-document-cleaner "$@"
+    ;;
+
+  authority)
+    exec_bin wl-authority "$@"
+    ;;
+
+  legacy)
+    exec_bin wl-legacy "$@"
+    ;;
+
+  service-certify)
+    exec_bin wl-service-certify "$@"
+    ;;
+
+  nats)
+    exec_bin wl-nats "$@"
+    ;;
+
+  observability)
+    exec_bin wl-observability "$@"
+    ;;
+
+  dns)
+    exec_bin wl-dns "$@"
+    ;;
+
+  recover)
+    exec_bin wl-recover "$@"
+    ;;
+
+  storage)
+    exec_bin wl-storage "$@"
     ;;
 
   torrent)

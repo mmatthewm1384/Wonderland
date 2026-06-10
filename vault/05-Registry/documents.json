@@ -654,6 +654,13 @@
       "layer": "99-Archive",
       "type": "json",
       "id": "archive-registry-v4"
+    },
+    {
+      "id": "authority-backup-restore-runbook-v4",
+      "title": "Authority Backup Restore Runbook",
+      "path": "03-Runbooks/authority/authority-backup-restore.runbook.md",
+      "type": "runbook",
+      "status": "active"
     }
   ]
 }

@@ -7,7 +7,7 @@
   "engine": "nerdctl",
   "container": "wl-anon-tor",
   "compose": null,
-  "verify": "wl runtime inspect wl-anon-tor",
+  "verify": "nerdctl ps --filter name=wl-anon-tor --format '{{.Names}}' | grep -qx wl-anon-tor",
   "recover": "wl services recover wl-anon-tor",
   "rollback": "wl services rollback wl-anon-tor",
   "dependencies": [],

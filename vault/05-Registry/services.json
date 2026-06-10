@@ -28,6 +28,69 @@
       "engine": "nerdctl",
       "container": "wl-document-cleaner",
       "status": "active"
+    },
+    {
+      "id": "wl-torrent-vpn-service-v4",
+      "name": "wl-torrent-vpn",
+      "path": "06-Services/definitions/wl-torrent-vpn.service.json",
+      "runtime": "containerd",
+      "engine": "nerdctl",
+      "container": "wl-torrent-vpn",
+      "status": "active"
+    },
+    {
+      "id": "wl-torrent-client-service-v4",
+      "name": "wl-torrent-client",
+      "path": "06-Services/definitions/wl-torrent-client.service.json",
+      "runtime": "containerd",
+      "engine": "nerdctl",
+      "container": "wl-torrent-client",
+      "status": "active"
+    },
+    {
+      "id": "wl-nats-service-v4",
+      "name": "wl-nats",
+      "path": "06-Services/definitions/wl-nats.service.json",
+      "runtime": "containerd",
+      "engine": "nerdctl",
+      "container": "wl-nats",
+      "status": "active"
+    },
+    {
+      "id": "wl-prometheus-service-v4",
+      "name": "wl-prometheus",
+      "path": "06-Services/definitions/wl-prometheus.service.json",
+      "runtime": "containerd",
+      "engine": "nerdctl",
+      "container": "wl-prometheus",
+      "status": "active"
+    },
+    {
+      "id": "wl-loki-service-v4",
+      "name": "wl-loki",
+      "path": "06-Services/definitions/wl-loki.service.json",
+      "runtime": "containerd",
+      "engine": "nerdctl",
+      "container": "wl-loki",
+      "status": "active"
+    },
+    {
+      "id": "wl-grafana-service-v4",
+      "name": "wl-grafana",
+      "path": "06-Services/definitions/wl-grafana.service.json",
+      "runtime": "containerd",
+      "engine": "nerdctl",
+      "container": "wl-grafana",
+      "status": "active"
+    },
+    {
+      "id": "wl-dns-service-v4",
+      "name": "wl-dns",
+      "path": "06-Services/definitions/wl-dns.service.json",
+      "runtime": "containerd",
+      "engine": "nerdctl",
+      "container": "wl-dns",
+      "status": "active"
     }
   ]
 }

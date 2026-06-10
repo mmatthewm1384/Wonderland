@@ -30,7 +30,10 @@ check "runtime drift" "$ROOT/bin/wl" runtime drift
 check "anon route" "$ROOT/bin/wl" anon doctor
 check "operations" "$ROOT/bin/wl" operations verify
 check "intelligence" "$ROOT/bin/wl" intelligence verify
-check "governance" "$ROOT/bin/wl" governance verify
+check "governance" "$ROOT/bin/wl" governance report
+check "storage authority" "$ROOT/bin/wl" storage doctor
+check "authority backup" "$ROOT/bin/wl" authority doctor
+check "authority restore" "$ROOT/bin/wl" authority restore-drill
 check "recovery drill" "$ROOT/bin/wl-verify-recovery-drill"
 
 echo

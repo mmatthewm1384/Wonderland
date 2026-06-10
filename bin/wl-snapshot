@@ -1,310 +1,90 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="${WONDERLAND_ROOT:-$HOME/Wonderland}"
-GOV="$ROOT/intelligence/obsidian/00-Core/Governance.md"
-REGISTRY="$ROOT/.wl-registry"
-SNAPSHOT_ROOT="$ROOT/data/snapshots"
-LOG_DIR="$ROOT/logs/snapshot"
-LOG_FILE="$LOG_DIR/wl-snapshot.log"
+ROOT="/Users/wonderland/Wonderland"
+SNAP_ROOT="/Volumes/T7_Wonderland/Wonderland/persistence/snapshots/platform"
+REPORT_ROOT="$ROOT/vault/07-Operations/snapshots/reports"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+SNAP="$SNAP_ROOT/platform-$STAMP"
 
-mkdir -p "$SNAPSHOT_ROOT" "$LOG_DIR"
+case "${1:-}" in
+  create)
+    mkdir -p "$SNAP" "$REPORT_ROOT"
 
-log() {
-  printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*" >> "$LOG_FILE"
-}
+    rsync -a \
+      --exclude ".git" \
+      --exclude "runtime" \
+      --exclude "tmp" \
+      --exclude "logs" \
+      --exclude "data/torrents/downloads" \
+      "$ROOT/" "$SNAP/"
 
-timestamp() {
-  date '+%Y%m%d-%H%M%S'
-}
+    (
+      cd "$SNAP"
+      find . -type f ! -name "manifest.sha256" -print0 \
+        | sort -z \
+        | xargs -0 shasum -a 256 > manifest.sha256
+    )
 
-require_python() {
-  command -v python3 >/dev/null 2>&1 || {
-    echo "[FAIL] python3 not found"
-    exit 1
-  }
-}
+    echo "PASS snapshot create"
+    echo "$SNAP"
+  ;;
 
-snapshot_id() {
-  printf 'snapshot-%s\n' "$(timestamp)"
-}
+  verify)
+    snap="${2:-$(find "$SNAP_ROOT" -maxdepth 1 -type d -name 'platform-*' 2>/dev/null | sort | tail -1)}"
+    [[ -n "$snap" ]] || { echo "FAIL no snapshot found"; exit 1; }
+    [[ -f "$snap/manifest.sha256" ]] || { echo "FAIL missing manifest: $snap"; exit 1; }
 
-latest_snapshot() {
-  find "$SNAPSHOT_ROOT" -maxdepth 1 -type d -name 'snapshot-*' 2>/dev/null | sort | tail -1
-}
+    (
+      cd "$snap"
+      shasum -a 256 -c manifest.sha256 >/tmp/wl-snapshot-verify.log 2>&1
+    ) || {
+      echo "FAIL snapshot verify"
+      cat /tmp/wl-snapshot-verify.log
+      exit 1
+    }
 
-safe_copy() {
-  local src="$1"
-  local dst="$2"
+    echo "PASS snapshot verify"
+    echo "$snap"
+  ;;
 
-  if [ -f "$src" ]; then
-    cp "$src" "$dst"
-  fi
-}
+  restore-drill)
+    snap="${2:-$(find "$SNAP_ROOT" -maxdepth 1 -type d -name 'platform-*' 2>/dev/null | sort | tail -1)}"
+    drill="/tmp/wl-platform-snapshot-restore-drill"
 
-create_manifest() {
-  local dir="$1"
-  local id="$2"
+    [[ -n "$snap" ]] || { echo "FAIL no snapshot found"; exit 1; }
+    [[ -f "$snap/manifest.sha256" ]] || { echo "FAIL missing manifest: $snap"; exit 1; }
 
-  cat > "$dir/manifest.json" <<EOF_MANIFEST
-{
-  "snapshot": "$id",
-  "system": "Wonderland",
-  "operator": "Matthew Mahaney",
-  "created_at": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
-  "root": "$ROOT",
-  "policy": {
-    "secrets_content_captured": false,
-    "raw_thought_content_captured": false,
-    "registry_is_generated": true,
-    "source_of_truth": "$GOV"
-  },
-  "contents": [
-    "Governance.md",
-    ".wl-registry",
-    "wl-status.txt",
-    "doctor.txt",
-    "wl-services-status.txt",
-    "file-index.txt"
-  ]
-}
-EOF_MANIFEST
-}
+    rm -rf "$drill"
+    mkdir -p "$drill"
 
-create_file_index() {
-  local dir="$1"
+    rsync -a "$snap/" "$drill/"
 
-  {
-    echo "# Wonderland Snapshot File Index"
-    echo
-    echo "Generated: $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-    echo
-    echo "## Captured Files"
-    find "$dir" -maxdepth 1 -type f -print | sort
-  } > "$dir/file-index.txt"
-}
+    (
+      cd "$drill"
+      shasum -a 256 -c manifest.sha256 >/tmp/wl-snapshot-restore-drill.log 2>&1
+    ) || {
+      echo "FAIL snapshot restore drill"
+      cat /tmp/wl-snapshot-restore-drill.log
+      exit 1
+    }
 
-cmd_create() {
-  local id
-  id="$(snapshot_id)"
+    echo "PASS snapshot restore drill"
+    echo "$snap"
+  ;;
 
-  local dir="$SNAPSHOT_ROOT/$id"
+  list)
+    find "$SNAP_ROOT" -maxdepth 1 -type d -name 'platform-*' | sort
+  ;;
 
-  if [ -e "$dir" ]; then
-    echo "[FAIL] Snapshot already exists: $dir"
-    exit 1
-  fi
+  doctor|verify-latest)
+    "$0" verify
+    "$0" restore-drill
+    echo "RESULT PASS"
+  ;;
 
-  mkdir -p "$dir"
-
-  echo "=== 📸 Creating Wonderland Snapshot ==="
-  echo "Snapshot: $id"
-  echo "Path:     $dir"
-
-  if [ -x "$ROOT/bin/wl-governance" ]; then
-    "$ROOT/bin/wl-governance" sync >/dev/null || true
-  fi
-
-  if [ -x "$ROOT/bin/wl-registry" ]; then
-    "$ROOT/bin/wl-registry" inventory >/dev/null || true
-  fi
-
-  safe_copy "$GOV" "$dir/Governance.md"
-  safe_copy "$REGISTRY" "$dir/.wl-registry"
-
-  if [ -x "$ROOT/bin/wl-status" ]; then
-    "$ROOT/bin/wl-status" > "$dir/wl-status.txt" 2>&1 || true
-  fi
-
-  if [ -x "$ROOT/core/doctor.sh" ]; then
-    "$ROOT/core/doctor.sh" > "$dir/doctor.txt" 2>&1 || true
-  fi
-
-  if [ -x "$ROOT/bin/wl-services" ]; then
-    "$ROOT/bin/wl-services" status > "$dir/wl-services-status.txt" 2>&1 || true
-  fi
-
-  create_manifest "$dir" "$id"
-  create_file_index "$dir"
-
-  log "created snapshot $id"
-
-  echo "[OK] Snapshot created: $dir"
-}
-
-cmd_list() {
-  if ! find "$SNAPSHOT_ROOT" -maxdepth 1 -type d -name 'snapshot-*' 2>/dev/null | sort; then
-    true
-  fi
-}
-
-cmd_latest() {
-  local latest
-  latest="$(latest_snapshot || true)"
-
-  if [ -z "$latest" ]; then
-    echo "[EMPTY] No snapshots found"
-    exit 0
-  fi
-
-  echo "$latest"
-}
-
-cmd_verify() {
-  require_python
-
-  local target="${1:-}"
-  if [ -z "$target" ]; then
-    target="$(latest_snapshot || true)"
-  fi
-
-  if [ -z "$target" ]; then
-    echo "[FAIL] No snapshot to verify"
-    exit 1
-  fi
-
-  if [ ! -d "$target" ]; then
-    target="$SNAPSHOT_ROOT/$target"
-  fi
-
-  if [ ! -d "$target" ]; then
-    echo "[FAIL] Snapshot directory missing: $target"
-    exit 1
-  fi
-
-  local failures=0
-
-  echo "=== 🔎 Verifying Wonderland Snapshot ==="
-  echo "Snapshot: $target"
-
-  for f in manifest.json Governance.md .wl-registry file-index.txt; do
-    if [ -f "$target/$f" ]; then
-      echo "[OK] Found: $f"
-    else
-      echo "[FAIL] Missing: $f"
-      failures=$((failures + 1))
-    fi
-  done
-
-  if [ -f "$target/manifest.json" ]; then
-    if python3 -m json.tool "$target/manifest.json" >/dev/null 2>&1; then
-      echo "[OK] manifest.json valid"
-    else
-      echo "[FAIL] manifest.json invalid"
-      failures=$((failures + 1))
-    fi
-  fi
-
-  if [ -f "$target/.wl-registry" ]; then
-    if python3 -m json.tool "$target/.wl-registry" >/dev/null 2>&1; then
-      echo "[OK] .wl-registry valid"
-    else
-      echo "[FAIL] .wl-registry invalid"
-      failures=$((failures + 1))
-    fi
-  fi
-
-  if grep -R -i -E '(password|api[_-]?key|secret=|token=)' "$target" >/dev/null 2>&1; then
-    echo "[WARN] Potential secret-like text found in snapshot; review manually"
-  else
-    echo "[OK] No obvious plaintext secret patterns found"
-  fi
-
-  if [ "$failures" -eq 0 ]; then
-    echo "=== SNAPSHOT VERIFIED ==="
-    exit 0
-  else
-    echo "=== SNAPSHOT INVALID: $failures failure(s) ==="
-    exit 1
-  fi
-}
-
-cmd_doctor() {
-  local failures=0
-
-  echo "=== 📸 Wonderland Snapshot Doctor ==="
-
-  if [ -d "$SNAPSHOT_ROOT" ]; then
-    echo "[OK] snapshot directory exists"
-  else
-    echo "[FAIL] snapshot directory missing"
-    failures=$((failures + 1))
-  fi
-
-  if [ -d "$LOG_DIR" ]; then
-    echo "[OK] snapshot log directory exists"
-  else
-    echo "[FAIL] snapshot log directory missing"
-    failures=$((failures + 1))
-  fi
-
-  if [ -x "$ROOT/bin/wl-snapshot" ]; then
-    echo "[OK] wl-snapshot executable"
-  else
-    echo "[FAIL] wl-snapshot not executable"
-    failures=$((failures + 1))
-  fi
-
-  if [ -f "$GOV" ]; then
-    echo "[OK] governance source exists"
-  else
-    echo "[FAIL] governance source missing"
-    failures=$((failures + 1))
-  fi
-
-  if command -v python3 >/dev/null 2>&1; then
-    echo "[OK] python3 available"
-  else
-    echo "[FAIL] python3 missing"
-    failures=$((failures + 1))
-  fi
-
-  if [ "$failures" -eq 0 ]; then
-    echo "=== SNAPSHOT SYSTEM HEALTHY ==="
-    exit 0
-  else
-    echo "=== SNAPSHOT SYSTEM UNHEALTHY: $failures failure(s) ==="
-    exit 1
-  fi
-}
-
-cmd_repair() {
-  mkdir -p "$SNAPSHOT_ROOT" "$LOG_DIR"
-  chmod +x "$ROOT/bin/wl-snapshot" 2>/dev/null || true
-  log "repair completed"
-  echo "[OK] Snapshot repair complete"
-}
-
-usage() {
-  cat <<USAGE
-Usage: wl-snapshot <command>
-
-Commands:
-  create              Create a timestamped snapshot
-  list                List snapshots
-  latest              Show latest snapshot path
-  verify [snapshot]   Verify latest or named snapshot
-  doctor              Validate snapshot subsystem
-  repair              Create required dirs and fix executable bit
-
-Policy:
-  Does not capture secrets content.
-  Does not capture raw thought content.
-  Captures generated metadata and audit outputs only.
-USAGE
-}
-
-case "${1:-help}" in
-  create) cmd_create ;;
-  list) cmd_list ;;
-  latest) cmd_latest ;;
-  verify) shift; cmd_verify "$@" ;;
-  doctor) cmd_doctor ;;
-  repair) cmd_repair ;;
-  help|-h|--help) usage ;;
   *)
-    echo "[FAIL] Unknown command: $1"
-    usage
+    echo "Usage: wl snapshot create|verify|restore-drill|list|doctor"
     exit 1
-    ;;
+  ;;
 esac

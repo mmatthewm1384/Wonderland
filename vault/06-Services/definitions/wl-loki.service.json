@@ -7,10 +7,14 @@
   "engine": "nerdctl",
   "container": "wl-loki",
   "compose": null,
-  "verify": "wl runtime inspect wl-loki",
-  "recover": "wl services recover wl-loki",
-  "rollback": "wl services rollback wl-loki",
+  "verify": "bin/wl-observability doctor-loki",
+  "recover": "bin/wl-observability repair",
+  "rollback": "bin/wl-observability down",
   "dependencies": [],
-  "ports": [],
-  "volumes": []
+  "ports": [
+    "3100"
+  ],
+  "volumes": [
+    "docker/wl-loki/config/local-config.yaml"
+  ]
 }

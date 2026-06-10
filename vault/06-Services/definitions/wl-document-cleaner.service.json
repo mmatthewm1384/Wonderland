@@ -7,7 +7,7 @@
   "engine": "nerdctl",
   "container": "wl-document-cleaner",
   "compose": null,
-  "verify": "wl runtime inspect wl-document-cleaner",
+  "verify": "nerdctl ps --filter name=wl-document-cleaner --format '{{.Names}}' | grep -qx wl-document-cleaner",
   "recover": "wl services recover wl-document-cleaner",
   "rollback": "wl services rollback wl-document-cleaner",
   "dependencies": [],

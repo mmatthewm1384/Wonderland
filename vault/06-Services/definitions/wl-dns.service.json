@@ -7,10 +7,15 @@
   "engine": "nerdctl",
   "container": "wl-dns",
   "compose": null,
-  "verify": "wl runtime inspect wl-dns",
-  "recover": "wl services recover wl-dns",
-  "rollback": "wl services rollback wl-dns",
+  "verify": "bin/wl-dns doctor",
+  "recover": "bin/wl-dns repair",
+  "rollback": "bin/wl-dns down",
   "dependencies": [],
-  "ports": [],
-  "volumes": []
+  "ports": [
+    "1053/tcp",
+    "1053/udp"
+  ],
+  "volumes": [
+    "docker/wl-dns/config"
+  ]
 }

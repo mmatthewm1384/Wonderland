@@ -1,0 +1,19 @@
+services:
+
+  - name: wl-vault
+    status: planned
+
+  - name: wl-relay
+    status: planned
+
+  - name: wl-timetravel
+    status: planned
+
+  - name: wl-review
+    status: planned
+
+  - name: wl-governance
+    status: planned
+
+  - name: wl-operations
+    status: planned
