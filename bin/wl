@@ -49,7 +49,7 @@ Layers:
   wl runbooks verify|path
   wl schemas verify|path
   wl registry verify|path|refresh|audit|refresh-documents|refresh-commands|refresh-services|refresh-intents|refresh-plans
-  wl services verify|path|refresh|graph|recovery-order|status|discover-runtime|parse-anon-blueprint
+  wl services verify|path|refresh|graph|recovery-order|status|health|discover-runtime|parse-anon-blueprint
   wl runtime verify|ps|images|inventory|logs <container>|inspect <container>|compose ...
   wl intents verify|list|path|status <intent-id-or-file> <status>|plan <intent-id-or-file>
   wl plans verify|list|path|status <plan-id-or-file> <status>|execute <plan-id-or-file>
@@ -96,6 +96,7 @@ run_verify() {
   run_optional "$ROOT/bin/wl-verify-runtime"
   run_optional "$ROOT/bin/wl-runtime-drift"
   run_optional "$ROOT/bin/wl-verify-services"
+  run_optional "$ROOT/bin/wl-service-health-refresh"
   run_optional "$ROOT/bin/wl-verify-archive"
   run_optional "$ROOT/bin/wl-verify-locks"
   run_optional "$ROOT/bin/wl-service-health"
@@ -300,7 +301,8 @@ case "${1:-help}" in
       refresh) exec "$ROOT/bin/wl-services-refresh" ;;
       graph) exec "$ROOT/bin/wl-services-graph" ;;
       recovery-order) exec "$ROOT/bin/wl-services-recovery-order" ;;
-      status) exec "$ROOT/bin/wl-services-status" ;;
+      status) exec "$ROOT/bin/wl-service-health-refresh" ;;
+      health) exec "$ROOT/bin/wl-service-health-refresh" ;;
       discover-runtime) exec "$ROOT/bin/wl-services-discover-runtime" ;;
       parse-anon-blueprint) exec "$ROOT/bin/wl-parse-anon-blueprint" ;;
       *) usage ;;
