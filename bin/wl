@@ -33,6 +33,7 @@ Operations:
   wl state-capture
   wl audit-report
   wl registry integrity
+  wl ops-capture
 
 Vault:
   wl inventory
@@ -152,6 +153,10 @@ case "${1:-help}" in
 
   health-report)
     exec "$ROOT/bin/wl-health-report"
+    ;;
+
+  ops-capture)
+    exec "$ROOT/bin/wl-ops-capture"
     ;;
 
   state-capture)
