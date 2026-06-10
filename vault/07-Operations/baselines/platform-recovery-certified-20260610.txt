@@ -1,5 +1,5 @@
 Wonderland Platform Recovery
-generated: 20260610-145828
+generated: 20260610-152227
 root: /Users/wonderland/Wonderland
 
 authority backup            PASS
@@ -13,4 +13,4 @@ service certification       PASS
 doctor                      PASS
 
 RESULT PASS
-/Users/wonderland/Wonderland/vault/07-Operations/recovery/reports/platform-recovery-20260610-145828.txt
+/Users/wonderland/Wonderland/vault/07-Operations/recovery/reports/platform-recovery-20260610-152227.txt

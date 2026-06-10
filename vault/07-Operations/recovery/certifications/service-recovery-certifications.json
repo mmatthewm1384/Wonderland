@@ -4,61 +4,61 @@
     {
       "service": "wl-anon-scraper",
       "status": "certified",
-      "certified": "2026-06-10T14:58:57.894749",
+      "certified": "2026-06-10T15:22:57.056519",
       "definition": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-anon-scraper.service.json"
     },
     {
       "service": "wl-anon-tor",
       "status": "certified",
-      "certified": "2026-06-10T14:58:58.080187",
+      "certified": "2026-06-10T15:22:57.404352",
       "definition": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-anon-tor.service.json"
     },
     {
       "service": "wl-document-cleaner",
       "status": "certified",
-      "certified": "2026-06-10T14:58:58.260277",
+      "certified": "2026-06-10T15:22:57.757052",
       "definition": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-document-cleaner.service.json"
     },
     {
       "service": "wl-torrent-vpn",
       "status": "certified",
-      "certified": "2026-06-10T14:58:58.436797",
+      "certified": "2026-06-10T15:22:58.113685",
       "definition": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-torrent-vpn.service.json"
     },
     {
       "service": "wl-torrent-client",
       "status": "certified",
-      "certified": "2026-06-10T14:58:58.617765",
+      "certified": "2026-06-10T15:22:58.456983",
       "definition": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-torrent-client.service.json"
     },
     {
       "service": "wl-nats",
       "status": "certified",
-      "certified": "2026-06-10T14:58:58.825288",
+      "certified": "2026-06-10T15:22:58.842150",
       "definition": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-nats.service.json"
     },
     {
       "service": "wl-prometheus",
       "status": "certified",
-      "certified": "2026-06-10T14:58:59.030554",
+      "certified": "2026-06-10T15:22:59.226604",
       "definition": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-prometheus.service.json"
     },
     {
       "service": "wl-loki",
       "status": "certified",
-      "certified": "2026-06-10T14:59:15.576277",
+      "certified": "2026-06-10T15:23:15.960718",
       "definition": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-loki.service.json"
     },
     {
       "service": "wl-grafana",
       "status": "certified",
-      "certified": "2026-06-10T14:59:15.810200",
+      "certified": "2026-06-10T15:23:16.374051",
       "definition": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-grafana.service.json"
     },
     {
       "service": "wl-dns",
       "status": "certified",
-      "certified": "2026-06-10T14:59:16.081910",
+      "certified": "2026-06-10T15:23:16.820149",
       "definition": "/Users/wonderland/Wonderland/vault/06-Services/definitions/wl-dns.service.json"
     }
   ]
