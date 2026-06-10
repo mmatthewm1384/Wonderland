@@ -1,0 +1,16 @@
+{
+  "id": "wl-document-cleaner-service-v4",
+  "name": "wl-document-cleaner",
+  "status": "active",
+  "version": 4,
+  "runtime": "containerd",
+  "engine": "nerdctl",
+  "container": "wl-document-cleaner",
+  "compose": null,
+  "verify": "wl runtime inspect wl-document-cleaner",
+  "recover": "wl services recover wl-document-cleaner",
+  "rollback": "wl services rollback wl-document-cleaner",
+  "dependencies": [],
+  "ports": [],
+  "volumes": []
+}

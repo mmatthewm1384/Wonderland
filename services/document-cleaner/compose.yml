@@ -1,0 +1,21 @@
+services:
+  cleaner:
+    build: .
+    container_name: wl-document-cleaner
+    restart: always
+    read_only: false
+    tmpfs:
+      - /tmp/cleaner:size=256m,mode=1777
+    environment:
+      - INPUT_DIR=/tmp/cleaner/raw
+      - OUTPUT_DIR=/tmp/cleaner/safe
+      - AUDIT_DIR=/tmp/cleaner/audit
+    ports:
+      - "127.0.0.1:8024:8024"
+    networks:
+      - cleaner-net
+
+networks:
+  cleaner-net:
+    name: wl-cleaner-network
+    driver: bridge

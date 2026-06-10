@@ -60,6 +60,7 @@ Layers:
   wl reports index|path
 
 Anon:
+  wl document-cleaner up|down|status|logs|doctor|repair|sanitize <file> [metadata|rasterize] [output]
   wl anon up|down|status|doctor|repair|logs [container]|scraper-up|gateway-up
   wl anon-route <command...>
 USAGE
@@ -380,6 +381,11 @@ case "${1:-help}" in
   anon-route)
     shift
     exec "$ROOT/bin/wl-anon-route" "$@"
+    ;;
+
+  document-cleaner)
+    shift
+    exec "$ROOT/bin/wl-document-cleaner" "$@"
     ;;
 
   reports)
