@@ -221,6 +221,7 @@ case "${1:-status}" in
   eject|detach) eject ;;
   attach) attach ;;
   doctor) doctor ;;
+  authority) "$WL_ROOT/bin/wl-storage-authority" ;;
   *)
     echo "Usage:"
     echo "  wl storage status"
@@ -228,6 +229,7 @@ case "${1:-status}" in
     echo "  wl storage eject"
     echo "  wl storage attach"
     echo "  wl storage doctor"
+    echo "  wl storage authority"
     exit 2
     ;;
 esac
