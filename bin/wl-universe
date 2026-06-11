@@ -140,6 +140,12 @@ doctor() {
 }
 
 case "${1:-status}" in
+  graph)
+    shift || true
+    exec "$WL_ROOT/bin/wl-universe-graph" "$@"
+    ;;
+
+
   status) status ;;
   doctor) doctor ;;
   report)

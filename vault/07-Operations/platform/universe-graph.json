@@ -1,0 +1,179 @@
+{
+  "id": "wl-universe-graph-v1",
+  "generated": "2026-06-11T22:22:31Z",
+  "root": "/Users/wonderland/Wonderland",
+  "nodes": [
+    {
+      "id": "universe",
+      "type": "authority",
+      "label": "Universe Authority"
+    },
+    {
+      "id": "mode",
+      "type": "authority",
+      "label": "Runtime Mode"
+    },
+    {
+      "id": "storage",
+      "type": "authority",
+      "label": "Storage Authority"
+    },
+    {
+      "id": "governance",
+      "type": "authority",
+      "label": "Governance"
+    },
+    {
+      "id": "recovery",
+      "type": "authority",
+      "label": "Recovery"
+    },
+    {
+      "id": "snapshot",
+      "type": "authority",
+      "label": "Snapshots"
+    },
+    {
+      "id": "runtime",
+      "type": "group",
+      "label": "Runtime"
+    },
+    {
+      "id": "dns",
+      "type": "service",
+      "label": "DNS"
+    },
+    {
+      "id": "nats",
+      "type": "service",
+      "label": "NATS"
+    },
+    {
+      "id": "observability",
+      "type": "service",
+      "label": "Observability"
+    },
+    {
+      "id": "capability",
+      "type": "group",
+      "label": "Capabilities"
+    },
+    {
+      "id": "media",
+      "type": "capability",
+      "label": "Media"
+    },
+    {
+      "id": "torrent",
+      "type": "capability",
+      "label": "Torrent"
+    },
+    {
+      "id": "music",
+      "type": "capability",
+      "label": "Music Authority"
+    },
+    {
+      "id": "seed",
+      "type": "service",
+      "label": "Seed Service"
+    }
+  ],
+  "edges": [
+    {
+      "from": "universe",
+      "to": "mode",
+      "relation": "requires"
+    },
+    {
+      "from": "universe",
+      "to": "storage",
+      "relation": "requires"
+    },
+    {
+      "from": "universe",
+      "to": "governance",
+      "relation": "requires"
+    },
+    {
+      "from": "universe",
+      "to": "runtime",
+      "relation": "requires"
+    },
+    {
+      "from": "universe",
+      "to": "capability",
+      "relation": "requires"
+    },
+    {
+      "from": "governance",
+      "to": "recovery",
+      "relation": "requires"
+    },
+    {
+      "from": "recovery",
+      "to": "snapshot",
+      "relation": "requires"
+    },
+    {
+      "from": "runtime",
+      "to": "dns",
+      "relation": "contains"
+    },
+    {
+      "from": "runtime",
+      "to": "nats",
+      "relation": "contains"
+    },
+    {
+      "from": "runtime",
+      "to": "observability",
+      "relation": "contains"
+    },
+    {
+      "from": "capability",
+      "to": "media",
+      "relation": "contains"
+    },
+    {
+      "from": "capability",
+      "to": "torrent",
+      "relation": "contains"
+    },
+    {
+      "from": "capability",
+      "to": "music",
+      "relation": "contains"
+    },
+    {
+      "from": "capability",
+      "to": "seed",
+      "relation": "contains"
+    },
+    {
+      "from": "storage",
+      "to": "media",
+      "relation": "backs"
+    },
+    {
+      "from": "storage",
+      "to": "torrent",
+      "relation": "backs"
+    },
+    {
+      "from": "storage",
+      "to": "music",
+      "relation": "backs"
+    },
+    {
+      "from": "nats",
+      "to": "observability",
+      "relation": "feeds"
+    },
+    {
+      "from": "dns",
+      "to": "observability",
+      "relation": "feeds"
+    }
+  ]
+}
