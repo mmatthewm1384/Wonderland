@@ -1,0 +1,12 @@
+{
+  "id": "wl-seed-service-v1",
+  "name": "wl-seed",
+  "description": "Wonderland seed authority service.",
+  "runtime": "containerd",
+  "engine": "nerdctl",
+  "container": "wl-seed",
+  "status": "active",
+  "required": true,
+  "tier": "authority",
+  "recovery_order": 1
+}
