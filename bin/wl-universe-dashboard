@@ -68,16 +68,16 @@ dashboard = {
         {"id": "storage", "status": "PASS" if storage and not storage.get("missing") else "UNKNOWN"},
         {"id": "governance", "status": "PASS"},
         {"id": "recovery", "status": "PASS"},
-        {"id": "snapshot", "status": "PASS"},
+        {"id": "snapshot", "status": "PASS"}
     ],
     "runtime": [
         {"id": "dns", "status": "PASS"},
         {"id": "nats", "status": "PASS"},
-        {"id": "observability", "status": "PASS"},
+        {"id": "observability", "status": "PASS"}
     ],
     "capabilities": [
         {"id": "media", "status": "PASS"},
-        {"id": "torrent", "status": "PASS"},
+        {"id": "torrent", "status": "PASS"}
     ],
 }
 
@@ -86,11 +86,10 @@ PY
 }
 
 render_dashboard() {
-  tmp="20 20 12 61 79 80 81 33 98 100 204 250 395 398 399 400 701mktemp)"
+  tmp="$(mktemp)"
+  dashboard_json > "$tmp"
 
-  dashboard_json > ""
-
-  python3 - "" <<'PY'
+  python3 - "$tmp" <<'PY'
 import json
 import sys
 from pathlib import Path
@@ -102,44 +101,33 @@ def line(label, value):
 
 print("Wonderland Universe Dashboard")
 print()
-
 line("Root:", data["root"])
 line("Generated:", data["generated"])
 line("Universe:", data["status"])
 line("Failures:", data["failures"])
-
 print()
 print("Graph")
-
 line("Nodes:", data["counts"]["graph_nodes"])
 line("Edges:", data["counts"]["graph_edges"])
-
 print()
 print("Authority")
-
 for item in data["authorities"]:
     line(item["id"], item["status"])
-
 print()
 print("Runtime")
-
 for item in data["runtime"]:
     line(item["id"], item["status"])
-
 print()
 print("Capability")
-
 for item in data["capabilities"]:
     line(item["id"], item["status"])
-
 print()
 print("Sources")
-
 for _, path in data["sources"].items():
     print(path)
 PY
 
-  rm -f ""
+  rm -f "$tmp"
 }
 
 doctor() {
