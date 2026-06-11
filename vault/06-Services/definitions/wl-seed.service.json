@@ -1,12 +1,16 @@
 {
   "id": "wl-seed-service-v1",
   "name": "wl-seed",
-  "description": "Wonderland seed authority service.",
+  "status": "active",
+  "version": 1,
   "runtime": "containerd",
   "engine": "nerdctl",
   "container": "wl-seed",
-  "status": "active",
-  "required": true,
-  "tier": "authority",
-  "recovery_order": 1
+  "compose": null,
+  "verify": "nerdctl ps --format '{{.Names}}' | grep -qx wl-seed",
+  "recover": "bin/wl-seed up",
+  "rollback": "bin/wl-seed down",
+  "dependencies": [],
+  "ports": [],
+  "volumes": []
 }
