@@ -194,7 +194,7 @@ case "$cmd" in
     ;;
 
   snapshot)
-    exec_bin wl-vault-snapshot "$@"
+    exec_bin wl-snapshot "$@"
     ;;
 
   restore)
