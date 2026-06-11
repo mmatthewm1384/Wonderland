@@ -97,8 +97,51 @@ JSON
   echo "RESULT $result"
 }
 
+doctor() {
+  echo "Wonderland Universe Doctor"
+  echo
+
+  status
+  status_rc=$?
+
+  echo
+  echo "Recommendations"
+
+  recs=0
+
+  if grep -R "WIREGUARD_PRIVATE_KEY=" "$WL_ROOT/services/torrent" >/dev/null 2>&1; then
+    echo "WARN rotate Surfshark WireGuard credentials"
+    recs=$((recs+1))
+  fi
+
+  if [ -d "/Volumes/T7_Wonderland/media/music/taylor-swift" ]; then
+    if [ ! -f "/Volumes/T7_Wonderland/media/music/manifests/taylor-swift-20260611.sha256" ]; then
+      echo "WARN create Taylor Swift music manifest"
+      recs=$((recs+1))
+    fi
+  fi
+
+  if [ ! -f "$REPORT_DIR/universe-certification-status.json" ]; then
+    echo "WARN universe certification status missing"
+    recs=$((recs+1))
+  fi
+
+  if [ "$recs" -eq 0 ]; then
+    echo "PASS no recommendations"
+  fi
+
+  echo
+  if [ "$status_rc" -eq 0 ]; then
+    echo "RESULT PASS"
+  else
+    echo "RESULT FAIL"
+    exit "$status_rc"
+  fi
+}
+
 case "${1:-status}" in
   status) status ;;
+  doctor) doctor ;;
   report)
     if [ -f "$REPORT_FILE" ]; then
       cat "$REPORT_FILE"
