@@ -69,6 +69,7 @@ Layers:
   wl recover platform
   wl snapshot create|verify|restore-drill|list|doctor
   wl promote service <service>
+  wl mode full|light|status
   wl archive verify|path
 
 Anon:

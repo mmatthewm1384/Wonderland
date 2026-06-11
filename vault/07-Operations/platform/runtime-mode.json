@@ -1,0 +1,14 @@
+{
+  "id": "wonderland-runtime-mode",
+  "mode": "full",
+  "modes": {
+    "full": {
+      "requires_t7": true,
+      "description": "Full platform mode with persistence, backups, snapshots, and archives."
+    },
+    "light": {
+      "requires_t7": false,
+      "description": "MacBook-only authority mode. T7 persistence checks warn or skip."
+    }
+  }
+}
