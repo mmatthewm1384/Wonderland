@@ -19,3 +19,8 @@ Not deployed.
 Review before deployment.
 
 No recovered secrets, databases, or legacy runtime paths should be present.
+
+---
+
+Runtime state is disposable.
+Authority is not.

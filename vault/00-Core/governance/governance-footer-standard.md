@@ -24,7 +24,6 @@ Authority resides in:
 
 Runtime state is disposable.
 Authority is not.
-
 ---
 
 Runtime state is disposable.

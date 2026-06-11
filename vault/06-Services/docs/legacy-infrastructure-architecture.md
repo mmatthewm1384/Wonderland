@@ -52,3 +52,8 @@ All critical services require documented restoration procedures.
 ## Rollback
 
 Every deployment must have a rollback path.
+
+---
+
+Runtime state is disposable.
+Authority is not.
