@@ -1,0 +1,165 @@
+path	type	size_bytes	classification	reason
+02-overview	dir	3947401216	candidate	requires review
+02-overview/recovered	dir	3947388928	candidate	requires review
+02-overview/recovered/zones	dir	3947159552	candidate	requires review
+02-overview/recovered/graph	dir	159744	candidate	requires review
+02-overview/recovered/runtime	dir	61440	archive	persistence or historical state
+02-overview/recovered/recovery-catalog.md	file	491	candidate	requires review
+02-overview/recovered/services	dir	4096	candidate	requires review
+02-overview/architecture	dir	8192	candidate	requires review
+02-overview/architecture/recovered-v3-runtime-index.md	file	853	candidate	requires review
+02-overview/architecture/wonderland-v4-overview.md	file	714	candidate	requires review
+02-overview/principles	dir	0	candidate	requires review
+02-overview/systems	dir	0	candidate	requires review
+02-overview/migration	dir	4096	candidate	requires review
+02-overview/migration/wonderland-v3-to-v4-migration-model.md	file	1697	candidate	requires review
+08-operations	dir	339968	candidate	requires review
+08-operations/runtime	dir	106496	archive	persistence or historical state
+08-operations/runtime/captures	dir	24576	archive	persistence or historical state
+08-operations/runtime/promoted-runtime-inventory.md	file	350	archive	persistence or historical state
+08-operations/runtime/inventory	dir	73728	archive	persistence or historical state
+08-operations/runtime/runtime-baseline.md	file	490	archive	persistence or historical state
+08-operations/playbooks	dir	4096	candidate	requires review
+08-operations/playbooks/operations-playbook.md	file	424	candidate	requires review
+08-operations/promoted	dir	12288	candidate	requires review
+08-operations/promoted/runtime-schema	dir	4096	candidate	requires review
+08-operations/promoted/commands	dir	8192	candidate	requires review
+08-operations/troubleshooting	dir	0	candidate	requires review
+08-operations/maintenance	dir	0	candidate	requires review
+08-operations/import	dir	192512	candidate	requires review
+08-operations/import/archive-storage-report.txt	file	401	candidate	requires review
+08-operations/import/archive-file-counts.txt	file	221	candidate	requires review
+08-operations/import/promotion-queue	dir	176128	candidate	requires review
+08-operations/import/promotion-tracker.md	file	383	candidate	requires review
+08-operations/import/archive-directory-inventory.txt	file	2086	candidate	requires review
+08-operations/deployments	dir	0	candidate	requires review
+08-operations/reviews	dir	24576	candidate	requires review
+08-operations/reviews/compose	dir	24576	candidate	requires review
+00-inbox	dir	0	candidate	requires review
+00-inbox/imports	dir	0	candidate	requires review
+00-inbox/notes	dir	0	candidate	requires review
+00-inbox/import-staging	dir	0	candidate	requires review
+00-inbox/ideas	dir	0	candidate	requires review
+03-infrastructure	dir	139264	candidate	requires review
+03-infrastructure/nerdctl	dir	0	candidate	requires review
+03-infrastructure/docker	dir	40960	candidate	requires review
+03-infrastructure/docker/wl-nats	dir	4096	candidate	requires review
+03-infrastructure/docker/wl-dns	dir	12288	candidate	requires review
+03-infrastructure/docker/observability	dir	8192	candidate	requires review
+03-infrastructure/docker/README.md	file	276	candidate	requires review
+03-infrastructure/docker/nats	dir	4096	candidate	requires review
+03-infrastructure/docker/wl-observability	dir	8192	candidate	requires review
+03-infrastructure/runtime	dir	16384	archive	persistence or historical state
+03-infrastructure/runtime/service-registry.yaml	file	353	archive	persistence or historical state
+03-infrastructure/runtime/runtime-roadmap.md	file	448	archive	persistence or historical state
+03-infrastructure/runtime/runtime-manifest.yaml	file	591	archive	persistence or historical state
+03-infrastructure/runtime/blueprint	dir	4096	archive	persistence or historical state
+03-infrastructure/promoted	dir	73728	candidate	requires review
+03-infrastructure/promoted/observability	dir	61440	candidate	requires review
+03-infrastructure/promoted/nats	dir	12288	candidate	requires review
+03-infrastructure/storage	dir	0	candidate	requires review
+03-infrastructure/networks	dir	0	candidate	requires review
+03-infrastructure/infrastructure-architecture.md	file	725	candidate	requires review
+03-infrastructure/hosts	dir	0	candidate	requires review
+03-infrastructure/services	dir	4096	candidate	requires review
+03-infrastructure/services/service-catalog.yaml	file	266	candidate	requires review
+04-governance	dir	8192	candidate	requires review
+04-governance/promoted	dir	0	candidate	requires review
+04-governance/policies	dir	4096	candidate	requires review
+04-governance/policies/import-quarantine-policy.md	file	858	candidate	requires review
+04-governance/audit	dir	0	candidate	requires review
+04-governance/governance-framework.md	file	526	candidate	requires review
+04-governance/approvals	dir	0	candidate	requires review
+04-governance/standards	dir	0	candidate	requires review
+11-roadmap	dir	12288	candidate	requires review
+11-roadmap/.DS_Store	file	6148	candidate	requires review
+11-roadmap/dependencies	dir	0	candidate	requires review
+11-roadmap/current	dir	4096	candidate	requires review
+11-roadmap/current/wonderland-v4-roadmap.md	file	434	candidate	requires review
+11-roadmap/milestones	dir	0	candidate	requires review
+11-roadmap/future	dir	0	candidate	requires review
+README.md	file	398	candidate	requires review
+05-vault	dir	0	candidate	requires review
+05-vault/encryption	dir	0	candidate	requires review
+05-vault/recovery	dir	0	candidate	requires review
+05-vault/secrets	dir	0	reject	secret or sensitive material
+05-vault/promoted	dir	0	candidate	requires review
+05-vault/access-control	dir	0	candidate	requires review
+90-archive	dir	312142606336	candidate	requires review
+90-archive/pre-v4-import	dir	312142606336	candidate	requires review
+90-archive/pre-v4-import/ProResVault	dir	0	candidate	requires review
+90-archive/pre-v4-import/.Spotlight-V100	dir	195575808	candidate	requires review
+90-archive/pre-v4-import/.DS_Store	file	18436	candidate	requires review
+90-archive/pre-v4-import/Wonderland-Archives	dir	3103412224	candidate	requires review
+90-archive/pre-v4-import/Wonderland-Backups	dir	1476747264	candidate	requires review
+90-archive/pre-v4-import/WonderlandBackups	dir	24821784576	candidate	requires review
+90-archive/pre-v4-import/transfers	dir	24933990400	candidate	requires review
+90-archive/pre-v4-import/Wonderland-Archive	dir	148817158144	candidate	requires review
+90-archive/pre-v4-import/.relay-catalog	dir	49152	candidate	requires review
+90-archive/pre-v4-import/.fseventsd	dir	757760	candidate	requires review
+90-archive/pre-v4-import/containers	dir	0	candidate	requires review
+90-archive/pre-v4-import/backups	dir	0	archive	persistence or historical state
+90-archive/pre-v4-import/Wonderland-v3	dir	108793110528	candidate	requires review
+07-timetravel	dir	1118208	candidate	requires review
+07-timetravel/restoration	dir	0	candidate	requires review
+07-timetravel/snapshots	dir	1105920	candidate	requires review
+07-timetravel/snapshots/20260605-161628	dir	1105920	candidate	requires review
+07-timetravel/timetravel-architecture.md	file	459	candidate	requires review
+07-timetravel/archives	dir	0	archive	persistence or historical state
+07-timetravel/promoted	dir	0	candidate	requires review
+07-timetravel/recovery-manifest.md	file	361	candidate	requires review
+07-timetravel/recovery-points	dir	4096	candidate	requires review
+07-timetravel/recovery-points/restore-wl-20260528.md	file	222	candidate	requires review
+99-meta	dir	626688	candidate	requires review
+99-meta/checksums	dir	540672	candidate	requires review
+99-meta/checksums/v4-base.sha256	file	537141	candidate	requires review
+99-meta/logs	dir	12288	archive	persistence or historical state
+99-meta/logs/structure-manifest.txt	file	2253	archive	persistence or historical state
+99-meta/logs/pre-v4-import-size-report.txt	file	401	archive	persistence or historical state
+99-meta/logs/top-level-size-report.txt	file	280	archive	persistence or historical state
+99-meta/scripts	dir	61440	candidate	requires review
+99-meta/scripts/wl-v3-extract-runtime-inventory	file	3413	candidate	requires review
+99-meta/scripts/wl-v3-reconstruct-graph	file	2593	candidate	requires review
+99-meta/scripts/wl-v4-snapshot-list	file	229	candidate	requires review
+99-meta/scripts/wl-v3-graph-summary	file	1235	candidate	requires review
+99-meta/scripts/wl-v4-runtime-up	file	611	candidate	requires review
+99-meta/scripts/wl-v4-build-promotion-queue	file	3971	candidate	requires review
+99-meta/scripts/wl-v4-snapshot-show	file	428	candidate	requires review
+99-meta/scripts/wl-v4-doctor	file	2181	candidate	requires review
+99-meta/scripts/wl-v4-runtime-down	file	374	candidate	requires review
+99-meta/scripts/wl-v4-snapshot-create	file	916	candidate	requires review
+99-meta/scripts/wl-v4-runtime-status	file	164	candidate	requires review
+99-meta/scripts/wl-v4-status	file	674	candidate	requires review
+99-meta/scripts/wl-v4-check	file	734	candidate	requires review
+99-meta/scripts/wl-v4-compose-review	file	4382	candidate	requires review
+99-meta/registry	dir	8192	candidate	requires review
+99-meta/registry/wonderland-registry.yaml	file	374	candidate	requires review
+99-meta/registry/intent-registry.yaml	file	167	candidate	requires review
+99-meta/intents	dir	4096	candidate	possible authority material
+99-meta/intents/cleanup-restructure.intent.json	file	233	candidate	possible authority material
+09-reviews	dir	4096	candidate	requires review
+09-reviews/security	dir	0	candidate	requires review
+09-reviews/operations	dir	0	candidate	requires review
+09-reviews/architecture	dir	4096	candidate	requires review
+09-reviews/architecture/review-standard.md	file	337	candidate	requires review
+09-reviews/reliability	dir	0	candidate	requires review
+10-handoffs	dir	4096	candidate	requires review
+10-handoffs/completed	dir	0	candidate	requires review
+10-handoffs/templates	dir	4096	candidate	requires review
+10-handoffs/templates/handoff-standard.md	file	258	candidate	requires review
+10-handoffs/active	dir	0	candidate	requires review
+06-relay	dir	61440	candidate	requires review
+06-relay/promoted	dir	53248	candidate	requires review
+06-relay/promoted/matrix	dir	53248	candidate	requires review
+06-relay/federation	dir	0	candidate	requires review
+06-relay/messaging	dir	0	candidate	requires review
+06-relay/matrix	dir	8192	candidate	requires review
+06-relay/matrix/README.md	file	429	candidate	requires review
+06-relay/matrix/compose.yml	file	1247	candidate	requires review
+06-relay/notifications	dir	0	candidate	requires review
+01-architect	dir	8192	candidate	requires review
+01-architect/instructions	dir	0	candidate	requires review
+01-architect/memory	dir	4096	candidate	requires review
+01-architect/memory/architect-memory-index.md	file	545	candidate	requires review
+01-architect/charter	dir	4096	candidate	requires review
+01-architect/charter/architect-charter.md	file	597	candidate	requires review

@@ -1,0 +1,34 @@
+{
+  "id": "wil-reality-graph-v0",
+  "nodes": [
+    {
+      "id": "wl-time-machine",
+      "kind": "artifact",
+      "type": "service",
+      "status": "skeleton",
+      "authority": "wl-governance",
+      "capabilities": [
+        "historical-explorer",
+        "journey-intents",
+        "reality-replay"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "wl-time-machine",
+      "to": "wl-governor",
+      "type": "depends_on"
+    },
+    {
+      "from": "wl-time-machine",
+      "to": "wl-recovery",
+      "type": "depends_on"
+    },
+    {
+      "from": "wl-time-machine",
+      "to": "wl-chronosphere",
+      "type": "depends_on"
+    }
+  ]
+}

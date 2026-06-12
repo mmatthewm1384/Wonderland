@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+REPORT_DIR="$ROOT/vault/07-Operations/reports/recovery-drills"
+TMP_ROOT="$ROOT/runtime/recovery-drills"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+REPORT="$REPORT_DIR/recovery-drill-$STAMP.json"
+
+mkdir -p "$REPORT_DIR" "$TMP_ROOT"
+
+echo "Creating snapshot..."
+SNAPSHOT="$("$ROOT/bin/wl-vault-snapshot" | awk '/snapshot:/ {print $2}' | tail -1)"
+CHECKSUM="$SNAPSHOT.sha256"
+
+echo "Verifying snapshot checksum..."
+"$ROOT/bin/wl-vault-verify-snapshot" "$SNAPSHOT"
+
+EXTRACT_DIR="$TMP_ROOT/recovery-drill-$STAMP"
+mkdir -p "$EXTRACT_DIR"
+
+echo "Extracting snapshot to:"
+echo "$EXTRACT_DIR"
+
+tar -xzf "$SNAPSHOT" -C "$EXTRACT_DIR"
+
+python3 - "$ROOT" "$SNAPSHOT" "$CHECKSUM" "$EXTRACT_DIR" "$REPORT" <<'PY'
+import json
+import pathlib
+import sys
+import datetime
+
+root = pathlib.Path(sys.argv[1])
+snapshot = pathlib.Path(sys.argv[2])
+checksum = pathlib.Path(sys.argv[3])
+extract_dir = pathlib.Path(sys.argv[4])
+report = pathlib.Path(sys.argv[5])
+
+required = [
+    "00-Core",
+    "01-Templates",
+    "02-Policies",
+    "03-Runbooks",
+    "04-Schemas",
+    "05-Registry",
+    "06-Services",
+    "07-Operations",
+    "08-Intelligence",
+    "09-Governance",
+    "99-Archive"
+]
+
+checks = []
+failures = []
+
+for item in required:
+    exists = (extract_dir / item).exists()
+    checks.append({"path": item, "exists": exists})
+    if not exists:
+        failures.append(item)
+
+payload = {
+    "id": "recovery-drill-report-v4",
+    "version": 4,
+    "timestamp": datetime.datetime.now().isoformat(timespec="seconds"),
+    "snapshot": str(snapshot),
+    "checksum": str(checksum),
+    "extract_dir": str(extract_dir),
+    "checks": checks,
+    "failures": failures,
+    "result": "PASS" if not failures else "FAIL"
+}
+
+report.write_text(json.dumps(payload, indent=2) + "\n")
+
+print(f"recovery drill report: {report}")
+print(f"result: {payload['result']}")
+
+if failures:
+    sys.exit(1)
+PY

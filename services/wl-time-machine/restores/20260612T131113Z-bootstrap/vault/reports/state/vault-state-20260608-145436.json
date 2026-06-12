@@ -1,0 +1,50 @@
+{
+  "id": "vault-state-report-v4",
+  "timestamp": "2026-06-08T14:54:37",
+  "root": "/Users/wonderland/Wonderland",
+  "vault": "/Users/wonderland/Wonderland/vault",
+  "layers": [
+    {
+      "name": "00-Core",
+      "path": "/Users/wonderland/Wonderland/vault/00-Core",
+      "exists": true
+    },
+    {
+      "name": "01-Templates",
+      "path": "/Users/wonderland/Wonderland/vault/01-Templates",
+      "exists": true
+    },
+    {
+      "name": "02-Policies",
+      "path": "/Users/wonderland/Wonderland/vault/02-Policies",
+      "exists": true
+    },
+    {
+      "name": "03-Runbooks",
+      "path": "/Users/wonderland/Wonderland/vault/03-Runbooks",
+      "exists": true
+    },
+    {
+      "name": "04-Schemas",
+      "path": "/Users/wonderland/Wonderland/vault/04-Schemas",
+      "exists": true
+    },
+    {
+      "name": "99-Archive",
+      "path": "/Users/wonderland/Wonderland/vault/99-Archive",
+      "exists": true
+    }
+  ],
+  "snapshots": {
+    "count": 3,
+    "latest": "/Users/wonderland/Wonderland/vault/snapshots/vault-snapshot-20260608-144218.tar.gz"
+  },
+  "reports": {
+    "count": 3,
+    "latest": "/Users/wonderland/Wonderland/vault/reports/vault-audit-20260608-144035.txt"
+  },
+  "verification": {
+    "ok": true,
+    "exit_code": 0
+  }
+}

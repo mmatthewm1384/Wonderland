@@ -1,0 +1,51 @@
+#!/usr/bin/env sh
+set -eu
+
+. "$HOME/Wonderland/tools/lib/wl-common.sh" 2>/dev/null || {
+  SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+  . "$SCRIPT_DIR/../lib/wl-common.sh"
+}
+
+case "${1:-}" in
+  --help)
+    echo "Usage: wl-verify"
+    echo "Verify baseline Wonderland workspace requirements."
+    exit 0
+    ;;
+  --version)
+    echo "$WL_VERSION"
+    exit 0
+    ;;
+esac
+
+failed=0
+
+for d in repos data backups exports logs secrets tmp tools; do
+  if [ ! -d "$WL_ROOT/$d" ]; then
+    wl_error "Missing directory: $WL_ROOT/$d"
+    failed=1
+  fi
+done
+
+if [ ! -d "$WL_DOCS_REPO" ]; then
+  wl_error "Missing docs repository / Obsidian vault: $WL_DOCS_REPO"
+  failed=1
+fi
+
+if [ ! -d "$WL_DOCS_REPO/.git" ]; then
+  wl_error "Docs repository is not Git-backed: $WL_DOCS_REPO"
+  failed=1
+fi
+
+if command -v git >/dev/null 2>&1; then
+  echo "ok      git"
+else
+  wl_error "Missing dependency: git"
+  failed=1
+fi
+
+if [ "$failed" -ne 0 ]; then
+  exit 4
+fi
+
+wl_info "Wonderland baseline verification passed."

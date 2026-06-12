@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+REPORT_DIR="$ROOT/vault/reports"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+REPORT="$REPORT_DIR/vault-audit-$STAMP.txt"
+
+mkdir -p "$REPORT_DIR"
+
+{
+  echo "Wonderland Vault Audit"
+  echo "timestamp: $STAMP"
+  echo "root: $ROOT"
+  echo
+
+  "$ROOT/bin/wl" verify
+
+  echo
+  echo "Lifecycle"
+  "$ROOT/bin/wl-lifecycle"
+
+  echo
+  echo "Vault Inventory"
+  find "$ROOT/vault" -maxdepth 3 -type f | sort
+
+} | tee "$REPORT"
+
+echo
+echo "audit report: $REPORT"

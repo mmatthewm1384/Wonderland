@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ENV="vault/secrets/torrent.env"
+
+grep -E 'USER|USERNAME|PASS|PASSWORD|QBT|WEBUI' "$ENV" \
+  | sed 's/=.*/=<hidden>/'
+
+echo
+echo "Open:"
+echo "http://127.0.0.1:9091"
+echo
+echo "Use credentials from:"
+echo "$ENV"

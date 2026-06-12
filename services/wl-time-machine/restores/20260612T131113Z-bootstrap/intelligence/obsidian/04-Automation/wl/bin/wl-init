@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+set -eu
+
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+. "$SCRIPT_DIR/../lib/wl-common.sh" 2>/dev/null || . "$HOME/Wonderland/tools/lib/wl-common.sh"
+
+case "${1:-}" in
+  --help)
+    echo "Usage: wl-init"
+    echo "Initialize the Wonderland workspace layout."
+    exit 0
+    ;;
+  --version)
+    echo "$WL_VERSION"
+    exit 0
+    ;;
+esac
+
+mkdir -p "$WL_ROOT"/{vault,repos,data,backups,exports,logs,secrets,tmp,tools,tools/bin,tools/lib}
+
+wl_info "Initialized Wonderland workspace at $WL_ROOT"

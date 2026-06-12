@@ -1,0 +1,16 @@
+{
+  "id": "wl-seed-service-v1",
+  "name": "wl-seed",
+  "status": "active",
+  "version": 1,
+  "runtime": "containerd",
+  "engine": "nerdctl",
+  "container": "wl-seed",
+  "compose": null,
+  "verify": "nerdctl ps --format '{{.Names}}' | grep -qx wl-seed",
+  "recover": "bin/wl-seed up",
+  "rollback": "bin/wl-seed down",
+  "dependencies": [],
+  "ports": [],
+  "volumes": []
+}

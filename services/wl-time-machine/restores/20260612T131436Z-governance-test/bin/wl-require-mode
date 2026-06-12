@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+MODE_FILE="$WL_ROOT/vault/07-Operations/platform/runtime-mode.json"
+
+required="${1:-}"
+
+if [ -z "$required" ]; then
+  echo "Usage: wl-require-mode <light|full>"
+  exit 2
+fi
+
+if [ "$required" != "light" ] && [ "$required" != "full" ]; then
+  echo "FAIL invalid required mode: $required"
+  echo "Expected: light or full"
+  exit 2
+fi
+
+if [ ! -f "$MODE_FILE" ]; then
+  echo "FAIL runtime mode file missing:"
+  echo "$MODE_FILE"
+  echo
+  echo "Recovery:"
+  echo "  bin/wl-mode light"
+  exit 1
+fi
+
+current="$(python3 - <<PY
+import json
+from pathlib import Path
+
+p = Path("$MODE_FILE")
+try:
+    data = json.loads(p.read_text())
+    print(data.get("mode", "unknown"))
+except Exception:
+    print("unknown")
+PY
+)"
+
+if [ "$current" = "$required" ]; then
+  echo "PASS runtime mode: $current"
+  exit 0
+fi
+
+if [ "$required" = "light" ] && [ "$current" = "full" ]; then
+  echo "PASS runtime mode: $current"
+  echo "NOTE full mode satisfies light-capable command"
+  exit 0
+fi
+
+echo "FAIL runtime mode mismatch"
+echo
+echo "Current:  $current"
+echo "Required: $required"
+echo
+echo "Recovery:"
+if [ "$required" = "full" ]; then
+  echo "  bin/wl-storage attach"
+  echo "  bin/wl-mode full"
+else
+  echo "  bin/wl-mode light"
+fi
+
+exit 1

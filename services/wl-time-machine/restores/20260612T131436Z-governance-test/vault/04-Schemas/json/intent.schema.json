@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "intent-schema-v4",
+  "title": "Wonderland Intent",
+  "type": "object",
+  "required": ["id", "intent", "status", "created"],
+  "properties": {
+    "id": { "type": "string" },
+    "intent": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "approved", "rejected", "executed", "archived"]
+    },
+    "created": { "type": "string" },
+    "operator": { "type": "string" },
+    "rollback": { "type": "string" }
+  }
+}

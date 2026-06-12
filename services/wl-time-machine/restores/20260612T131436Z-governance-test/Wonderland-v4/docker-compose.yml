@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  core:
+    image: wonderland-base:latest  # Or your specific localized environment image
+    container_name: wonderland-core-runtime
+    platform: linux/arm64          # Native Apple Silicon instruction block binding
+    tty: true                      # Allocates a pseudo-TTY to prevent silent exit
+    stdin_open: true               # Keeps standard input open for interactive hooks
+    volumes:
+      - /Users/wonderland/Wonderland/intelligence/obsidian:/vault/obsidian
+      - /Users/wonderland/Wonderland/Wonderland-v4/tools:/tools
+    environment:
+      - MANIFEST_PATH=/vault/obsidian/00-Core/MANIFEST.md
+    working_dir: /tools
+    entrypoint: ["/bin/sh", "-c"]
+    # The command maps execution parameters using the system argument passed via wl CLI
+    command: ["python3 /tools/audit_style.py /vault/obsidian/00-Core/MANIFEST.md"]

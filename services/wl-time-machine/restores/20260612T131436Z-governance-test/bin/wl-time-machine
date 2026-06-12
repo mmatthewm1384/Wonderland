@@ -1,0 +1,227 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+SVC="$ROOT/services/wl-time-machine"
+CFG="$SVC/config"
+STATE="$SVC/state"
+SNAP="$SVC/snapshots"
+RESTORE="$SVC/restores"
+LOGS="$SVC/logs"
+RECOVERY="$SVC/recovery"
+POLICY="$CFG/time-machine-policy.json"
+INDEX="$STATE/snapshot-index.jsonl"
+
+mkdir -p "$CFG" "$STATE" "$SNAP" "$RESTORE" "$LOGS" "$RECOVERY"
+
+timestamp() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
+stamp() { date -u +"%Y%m%dT%H%M%SZ"; }
+
+init() {
+  [ -f "$POLICY" ] || cat > "$POLICY" <<'JSON'
+{
+  "id": "wl-time-machine-policy-v1",
+  "mode": "append-only-local-snapshots",
+  "restore_mode": "staged-only",
+  "delete_snapshots_by_default": false,
+  "allowed_behaviors": [
+    "create_local_snapshot",
+    "write_manifest",
+    "verify_snapshot_manifest",
+    "stage_restore_copy",
+    "create_recovery_bundle"
+  ],
+  "forbidden_behaviors": [
+    "overwrite_live_files_without_operator_action",
+    "delete_snapshots_without_explicit_command",
+    "restore_without_staging",
+    "capture_secret_material_by_default"
+  ],
+  "default_excludes": [
+    ".git",
+    "node_modules",
+    ".venv",
+    "__pycache__",
+    "services/wl-time-machine/snapshots",
+    "services/wl-time-machine/restores",
+    "services/wl-time-machine/recovery"
+  ]
+}
+JSON
+  touch "$INDEX"
+  echo "$(timestamp) init" >> "$LOGS/time-machine.log"
+  echo "wl-time-machine initialized"
+  echo "RESULT PASS"
+}
+
+snapshot() {
+  init >/dev/null
+
+  label="${1:-manual}"
+  id="$(stamp)-$label"
+  dest="$SNAP/$id"
+  mkdir -p "$dest"
+
+  manifest="$dest/manifest.json"
+  archive="$dest/root.tar.gz"
+
+  tar \
+    --exclude="./.git" \
+    --exclude="./node_modules" \
+    --exclude="./.venv" \
+    --exclude="./__pycache__" \
+    --exclude="./services/wl-time-machine/snapshots" \
+    --exclude="./services/wl-time-machine/restores" \
+    --exclude="./services/wl-time-machine/recovery" \
+    -czf "$archive" .
+
+  sha="$(shasum -a 256 "$archive" | awk '{print $1}')"
+  bytes="$(wc -c < "$archive" | tr -d ' ')"
+
+  cat > "$manifest" <<JSON
+{
+  "id": "$id",
+  "created": "$(timestamp)",
+  "label": "$label",
+  "archive": "root.tar.gz",
+  "sha256": "$sha",
+  "bytes": $bytes,
+  "mode": "append-only-local-snapshot",
+  "restore_mode": "staged-only"
+}
+JSON
+
+  cat "$manifest" >> "$INDEX"
+  echo "$(timestamp) snapshot $id" >> "$LOGS/time-machine.log"
+
+  echo "Snapshot created: $id"
+  echo "Archive: $archive"
+  echo "RESULT PASS"
+}
+
+list_snapshots() {
+  init >/dev/null
+  find "$SNAP" -mindepth 1 -maxdepth 1 -type d -print | sort | sed "s#^$SNAP/##" || true
+}
+
+verify_snapshot() {
+  init >/dev/null
+
+  id="${1:-latest}"
+  if [ "$id" = "latest" ]; then
+    id="$(list_snapshots | tail -1)"
+  fi
+
+  [ -n "$id" ] || { echo "No snapshots found"; echo "RESULT FAIL"; exit 1; }
+
+  manifest="$SNAP/$id/manifest.json"
+  archive="$SNAP/$id/root.tar.gz"
+
+  [ -f "$manifest" ] || { echo "FAIL manifest"; echo "RESULT FAIL"; exit 1; }
+  [ -f "$archive" ] || { echo "FAIL archive"; echo "RESULT FAIL"; exit 1; }
+
+  expected="$(jq -r '.sha256' "$manifest")"
+  actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
+
+  if [ "$expected" = "$actual" ]; then
+    echo "PASS snapshot $id"
+    echo "RESULT PASS"
+  else
+    echo "FAIL checksum $id"
+    echo "RESULT FAIL"
+    exit 1
+  fi
+}
+
+restore_stage() {
+  init >/dev/null
+
+  id="${1:-latest}"
+  if [ "$id" = "latest" ]; then
+    id="$(list_snapshots | tail -1)"
+  fi
+
+  [ -n "$id" ] || { echo "No snapshots found"; echo "RESULT FAIL"; exit 1; }
+
+  verify_snapshot "$id" >/dev/null
+
+  stage="$RESTORE/$id"
+  rm -rf "$stage"
+  mkdir -p "$stage"
+
+  tar -xzf "$SNAP/$id/root.tar.gz" -C "$stage"
+
+  echo "$(timestamp) restore-stage $id" >> "$LOGS/time-machine.log"
+  echo "Restore staged: $stage"
+  echo "RESULT PASS"
+}
+
+doctor() {
+  init >/dev/null
+  result="PASS"
+
+  echo "Wonderland Time Machine Doctor"
+  echo
+
+  [ -f "$POLICY" ] && echo "PASS policy" || { echo "FAIL policy"; result="FAIL"; }
+  [ -d "$SNAP" ] && echo "PASS snapshots-dir" || { echo "FAIL snapshots-dir"; result="FAIL"; }
+  [ -d "$RESTORE" ] && echo "PASS restores-dir" || { echo "FAIL restores-dir"; result="FAIL"; }
+  [ -f "$INDEX" ] && echo "PASS index" || { echo "FAIL index"; result="FAIL"; }
+
+  if command -v jq >/dev/null 2>&1; then
+    jq -e '.mode=="append-only-local-snapshots" and .restore_mode=="staged-only"' "$POLICY" >/dev/null \
+      && echo "PASS governance-policy" \
+      || { echo "FAIL governance-policy"; result="FAIL"; }
+  else
+    echo "WARN jq-missing"
+  fi
+
+  echo
+  echo "RESULT $result"
+  [ "$result" = "PASS" ]
+}
+
+verify() {
+  doctor
+}
+
+recovery_bundle() {
+  init >/dev/null
+
+  out="$RECOVERY/wl-time-machine-recovery-$(stamp).tar.gz"
+  tar -czf "$out" bin/wl-time-machine services/wl-time-machine/config services/wl-time-machine/state vault/08-Operations/handoffs/wl-time-machine-handoff.md 2>/dev/null || \
+  tar -czf "$out" bin/wl-time-machine services/wl-time-machine/config services/wl-time-machine/state
+
+  echo "Recovery bundle: $out"
+  echo "RESULT PASS"
+}
+
+status() {
+  init >/dev/null
+
+  count="$(find "$SNAP" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d ' ')"
+  latest="$(list_snapshots | tail -1 || true)"
+
+  echo "Wonderland Time Machine"
+  echo
+  echo "Snapshots:       $count"
+  echo "Latest:          ${latest:-NONE}"
+  echo "Mode:            append-only-local-snapshots"
+  echo "Restore:         staged-only"
+  echo
+  echo "RESULT PASS"
+}
+
+case "${1:-status}" in
+  init) init ;;
+  status) status ;;
+  snapshot) shift; snapshot "${1:-manual}" ;;
+  list) list_snapshots ;;
+  verify) shift; if [ "${1:-}" ]; then verify_snapshot "$1"; else verify; fi ;;
+  doctor) doctor ;;
+  restore-stage) shift; restore_stage "${1:-latest}" ;;
+  recovery-bundle) recovery_bundle ;;
+  *)
+    echo "usage: wl-time-machine init|status|snapshot [label]|list|verify [id]|doctor|restore-stage [id]|recovery-bundle"
+    ;;
+esac

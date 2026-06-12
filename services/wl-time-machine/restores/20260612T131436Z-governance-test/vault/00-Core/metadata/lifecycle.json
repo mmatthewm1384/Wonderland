@@ -1,0 +1,13 @@
+{
+  "id": "lifecycle-v4",
+  "version": 4,
+  "states": [
+    "draft",
+    "active",
+    "locked",
+    "deprecated",
+    "archived"
+  ],
+  "default": "draft",
+  "protected_state": "locked"
+}

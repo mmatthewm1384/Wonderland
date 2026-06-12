@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "service-schema-v4",
+  "title": "Wonderland Service",
+  "type": "object",
+  "required": ["id", "name", "status", "version"],
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string", "pattern": "^wl-[a-z0-9-]+$" },
+    "container": { "type": "string", "pattern": "^wl-[a-z0-9-]+$" },
+    "network": { "type": "string", "pattern": "^wonderland-[a-z0-9-]+$" },
+    "volumes": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^wl-[a-z0-9-]+-data$" }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "locked", "deprecated", "archived"]
+    },
+    "version": { "type": "integer", "minimum": 1 }
+  }
+}

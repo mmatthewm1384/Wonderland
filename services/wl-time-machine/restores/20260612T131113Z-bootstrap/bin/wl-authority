@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+T7="/Volumes/T7_Wonderland/Wonderland/persistence"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+DEST="$T7/backups/authority/authority-$STAMP"
+
+case "${1:-}" in
+  backup)
+    [[ -d "$T7" ]] || { echo "FAIL T7 persistence root missing: $T7"; exit 1; }
+
+    mkdir -p "$DEST"
+
+    rsync -a \
+      --exclude ".git" \
+      --exclude "runtime" \
+      --exclude "tmp" \
+      --exclude "logs" \
+      --exclude "data/torrents/downloads" \
+      "$ROOT/" "$DEST/"
+
+    (cd "$DEST" && find . -type f ! -name "manifest.sha256" -print0 | sort -z | xargs -0 shasum -a 256 > manifest.sha256)
+
+    echo "PASS authority backup"
+    echo "$DEST"
+  ;;
+
+  doctor|verify|status)
+    echo
+    echo "Wonderland Authority Doctor"
+    echo "root: $ROOT"
+    echo "persistence: $T7"
+    echo
+
+    [[ -d "$ROOT/bin" ]] && echo "authority bin              PASS" || exit 1
+    [[ -d "$ROOT/vault/09-Governance" ]] && echo "authority governance       PASS" || exit 1
+    [[ -d "$ROOT/vault/05-Registry" ]] && echo "authority registry         PASS" || exit 1
+
+    if [[ -d "$T7/backups/authority" ]]; then
+      echo "authority backups          PASS"
+      latest="$(find "$T7/backups/authority" -maxdepth 1 -type d -name 'authority-*' | sort | tail -1)"
+      if [[ -n "$latest" && -f "$latest/manifest.sha256" ]]; then
+        echo "authority manifest         PASS"
+      else
+        echo "authority manifest         WARN"
+      fi
+    else
+      echo "authority backups          WARN"
+    fi
+
+    echo
+    echo "RESULT PASS"
+  ;;
+
+  verify-backup)
+    latest="${2:-$(find "$T7/backups/authority" -maxdepth 1 -type d -name 'authority-*' 2>/dev/null | sort | tail -1)}"
+
+    [[ -n "$latest" ]] || { echo "FAIL no authority backup found"; exit 1; }
+    [[ -f "$latest/manifest.sha256" ]] || { echo "FAIL missing manifest: $latest"; exit 1; }
+
+    (
+      cd "$latest"
+      shasum -a 256 -c manifest.sha256
+    )
+
+    echo "PASS authority backup verified"
+    echo "$latest"
+  ;;
+
+  restore-drill)
+    latest="${2:-$(find "$T7/backups/authority" -maxdepth 1 -type d -name 'authority-*' 2>/dev/null | sort | tail -1)}"
+    drill="/tmp/wl-authority-restore-drill"
+
+    [[ -n "$latest" ]] || { echo "FAIL no authority backup found"; exit 1; }
+    [[ -f "$latest/manifest.sha256" ]] || { echo "FAIL missing manifest: $latest"; exit 1; }
+
+    rm -rf "$drill"
+    mkdir -p "$drill"
+
+    rsync -a "$latest/" "$drill/"
+
+    (
+      cd "$drill"
+      shasum -a 256 -c manifest.sha256 >/tmp/wl-authority-restore-drill.log 2>&1
+    ) || {
+      echo "FAIL authority restore drill"
+      cat /tmp/wl-authority-restore-drill.log
+      exit 1
+    }
+
+    echo "PASS authority restore drill"
+    echo "$latest"
+  ;;
+
+  *)
+    echo "Usage: wl authority backup|doctor|verify|status"
+    exit 1
+  ;;
+esac

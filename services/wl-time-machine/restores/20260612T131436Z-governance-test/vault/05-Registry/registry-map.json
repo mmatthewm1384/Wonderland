@@ -1,0 +1,41 @@
+{
+  "id": "registry-map-v4",
+  "version": 4,
+  "registries": [
+    {
+      "id": "commands-registry-v4",
+      "path": "commands.json",
+      "type": "commands"
+    },
+    {
+      "id": "services-registry-v4",
+      "path": "services.json",
+      "type": "services"
+    },
+    {
+      "id": "documents-registry-v4",
+      "path": "documents.json",
+      "type": "documents"
+    },
+    {
+      "id": "intents-registry-v4",
+      "path": "intents.json",
+      "type": "intents"
+    },
+    {
+      "id": "operators-registry-v4",
+      "path": "operators.json",
+      "type": "operators"
+    },
+    {
+      "id": "assets-registry-v4",
+      "path": "assets.json",
+      "type": "assets"
+    },
+    {
+      "id": "plans-registry-v4",
+      "path": "plans.json",
+      "type": "plans"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+VAULT="/Users/wonderland/Wonderland/vault"
+
+if [[ ! -d "$VAULT" ]]; then
+  echo "FAIL vault not found: $VAULT"
+  exit 1
+fi
+
+exec "$VAULT/checks/verify-vault.sh"

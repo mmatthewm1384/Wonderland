@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+REG="$ROOT/vault/05-Registry/services.json"
+JOURNAL="$ROOT/vault/07-Operations/promotions/journal"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+
+service="${2:-}"
+
+case "${1:-}" in
+  service)
+    [[ -n "$service" ]] || { echo "Usage: wl promote service <service>"; exit 1; }
+
+    REPORT="$JOURNAL/promotion-$service-$STAMP.txt"
+    mkdir -p "$JOURNAL"
+
+    echo "Wonderland Service Promotion" | tee "$REPORT"
+    echo "service: $service" | tee -a "$REPORT"
+    echo "generated: $STAMP" | tee -a "$REPORT"
+    echo | tee -a "$REPORT"
+
+    echo "Creating pre-promotion snapshot..." | tee -a "$REPORT"
+    snapshot="$("$ROOT/bin/wl-snapshot" create | tail -1)"
+    echo "snapshot: $snapshot" | tee -a "$REPORT"
+
+    echo | tee -a "$REPORT"
+    echo "Verifying service definition..." | tee -a "$REPORT"
+
+    def="$(python3 - <<PY
+import json
+from pathlib import Path
+
+root = Path("$ROOT")
+reg = json.loads(Path("$REG").read_text())
+svc = "$service"
+
+for s in reg.get("services", []):
+    if s.get("name") == svc or s.get("container") == svc:
+        print(root / "vault" / s["path"])
+        break
+PY
+)"
+
+    [[ -n "$def" && -f "$def" ]] || {
+      echo "FAIL service definition missing or service not registered" | tee -a "$REPORT"
+      exit 1
+    }
+
+    echo "definition: $def" | tee -a "$REPORT"
+
+    echo | tee -a "$REPORT"
+    "$ROOT/bin/wl-service-certify" certify "$service" | tee -a "$REPORT"
+
+    echo | tee -a "$REPORT"
+    "$ROOT/bin/wl" registry integrity | tee -a "$REPORT"
+
+    echo | tee -a "$REPORT"
+    "$ROOT/bin/wl-doctor" | tee -a "$REPORT"
+
+    echo | tee -a "$REPORT"
+    echo "PROMOTION PASS $service" | tee -a "$REPORT"
+    echo "$REPORT"
+  ;;
+
+  *)
+    echo "Usage: wl promote service <service>"
+    exit 1
+  ;;
+esac

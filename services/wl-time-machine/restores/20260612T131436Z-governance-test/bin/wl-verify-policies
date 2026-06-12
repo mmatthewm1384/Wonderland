@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+POLICIES="/Users/wonderland/Wonderland/vault/02-Policies"
+
+if [[ ! -d "$POLICIES" ]]; then
+  echo "FAIL policy vault not found: $POLICIES"
+  exit 1
+fi
+
+exec "$POLICIES/checks/verify-policies.sh"

@@ -1,0 +1,10 @@
+{
+  "id": "20260612T131436Z-governance-test",
+  "created": "2026-06-12T13:14:41Z",
+  "label": "governance-test",
+  "archive": "root.tar.gz",
+  "sha256": "24695c5b25d5f55172f1ae7c0c60b5f760ef446a7236ea06b653d6ce5509bcfb",
+  "bytes": 27199084,
+  "mode": "append-only-local-snapshot",
+  "restore_mode": "staged-only"
+}

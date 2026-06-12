@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SNAPSHOT="${1:-}"
+
+if [[ -z "$SNAPSHOT" ]]; then
+  echo "Usage: wl-vault-verify-snapshot <snapshot.tar.gz>"
+  exit 1
+fi
+
+if [[ ! -f "$SNAPSHOT" ]]; then
+  echo "FAIL snapshot not found: $SNAPSHOT"
+  exit 1
+fi
+
+SUM="$SNAPSHOT.sha256"
+
+if [[ ! -f "$SUM" ]]; then
+  echo "FAIL checksum not found: $SUM"
+  exit 1
+fi
+
+shasum -a 256 -c "$SUM"

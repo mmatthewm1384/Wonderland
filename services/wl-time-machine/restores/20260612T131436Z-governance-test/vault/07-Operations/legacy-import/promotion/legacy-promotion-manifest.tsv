@@ -1,0 +1,46 @@
+source	classification	destination	reason
+02-overview/recovered/recovery-catalog.md	promote	vault/07-Operations/legacy-import/promoted/recovery-catalog.md	recovered recovery knowledge
+02-overview/architecture/recovered-v3-runtime-index.md	promote	vault/07-Operations/legacy-import/promoted/recovered-v3-runtime-index.md	recovered runtime reference
+02-overview/architecture/wonderland-v4-overview.md	promote	vault/07-Operations/legacy-import/promoted/wonderland-v4-overview.md	legacy overview reference
+02-overview/migration/wonderland-v3-to-v4-migration-model.md	promote	vault/07-Operations/legacy-import/promoted/wonderland-v3-to-v4-migration-model.md	migration model reference
+08-operations/playbooks/operations-playbook.md	promote	vault/03-Runbooks/legacy/operations-playbook.md	operations runbook candidate
+08-operations/import/archive-storage-report.txt	promote	vault/07-Operations/legacy-import/promoted/archive-storage-report.txt	archive evidence
+08-operations/import/archive-file-counts.txt	promote	vault/07-Operations/legacy-import/promoted/archive-file-counts.txt	archive evidence
+08-operations/import/promotion-tracker.md	promote	vault/07-Operations/legacy-import/promoted/promotion-tracker.md	promotion evidence
+08-operations/import/archive-directory-inventory.txt	promote	vault/07-Operations/legacy-import/promoted/archive-directory-inventory.txt	archive evidence
+03-infrastructure/docker/README.md	promote	vault/06-Services/docs/legacy-docker-readme.md	legacy docker reference
+03-infrastructure/infrastructure-architecture.md	promote	vault/06-Services/docs/legacy-infrastructure-architecture.md	infrastructure reference
+03-infrastructure/services/service-catalog.yaml	promote	vault/06-Services/docs/legacy-service-catalog.yaml	legacy service catalog reference
+04-governance/policies/import-quarantine-policy.md	promote	vault/09-Governance/legacy/import-quarantine-policy.md	legacy governance reference
+04-governance/governance-framework.md	promote	vault/09-Governance/legacy/governance-framework.md	legacy governance reference
+11-roadmap/current/wonderland-v4-roadmap.md	promote	vault/07-Operations/legacy-import/promoted/wonderland-v4-roadmap.md	roadmap reference
+README.md	promote	vault/07-Operations/legacy-import/promoted/legacy-readme.md	legacy root reference
+07-timetravel/timetravel-architecture.md	promote	vault/07-Operations/legacy-import/promoted/timetravel-architecture.md	timetravel reference
+07-timetravel/recovery-manifest.md	promote	vault/07-Operations/legacy-import/promoted/timetravel-recovery-manifest.md	timetravel recovery reference
+07-timetravel/recovery-points/restore-wl-20260528.md	promote	vault/07-Operations/legacy-import/promoted/restore-wl-20260528.md	restore evidence
+09-reviews/architecture/review-standard.md	promote	vault/07-Operations/legacy-import/promoted/review-standard.md	review standard reference
+10-handoffs/templates/handoff-standard.md	promote	vault/07-Operations/legacy-import/promoted/handoff-standard.md	handoff standard reference
+06-relay/matrix/README.md	promote	vault/07-Operations/legacy-import/promoted/matrix-readme.md	relay reference
+01-architect/memory/architect-memory-index.md	promote	vault/07-Operations/legacy-import/promoted/architect-memory-index.md	architect reference
+01-architect/charter/architect-charter.md	promote	vault/07-Operations/legacy-import/promoted/architect-charter.md	architect reference
+99-meta/registry/wonderland-registry.yaml	promote	vault/07-Operations/legacy-import/promoted/legacy-wonderland-registry.yaml	legacy registry reference
+99-meta/registry/intent-registry.yaml	promote	vault/07-Operations/legacy-import/promoted/legacy-intent-registry.yaml	legacy registry reference
+11-roadmap/.DS_Store	reject		reject macOS metadata
+90-archive/pre-v4-import/.DS_Store	reject		reject macOS metadata
+99-meta/intents	reject		reject malformed candidate path
+99-meta/checksums/v4-base.sha256	archive	/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy/checksums/v4-base.sha256	checksum evidence
+99-meta/scripts/wl-v3-extract-runtime-inventory	archive	/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy/scripts/wl-v3-extract-runtime-inventory	legacy tool evidence
+99-meta/scripts/wl-v3-reconstruct-graph	archive	/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy/scripts/wl-v3-reconstruct-graph	legacy tool evidence
+99-meta/scripts/wl-v4-snapshot-list	archive	/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy/scripts/wl-v4-snapshot-list	legacy tool evidence
+99-meta/scripts/wl-v3-graph-summary	archive	/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy/scripts/wl-v3-graph-summary	legacy tool evidence
+99-meta/scripts/wl-v4-runtime-up	archive	/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy/scripts/wl-v4-runtime-up	legacy tool evidence
+99-meta/scripts/wl-v4-build-promotion-queue	archive	/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy/scripts/wl-v4-build-promotion-queue	legacy tool evidence
+99-meta/scripts/wl-v4-snapshot-show	archive	/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy/scripts/wl-v4-snapshot-show	legacy tool evidence
+99-meta/scripts/wl-v4-doctor	archive	/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy/scripts/wl-v4-doctor	legacy tool evidence
+99-meta/scripts/wl-v4-runtime-down	archive	/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy/scripts/wl-v4-runtime-down	legacy tool evidence
+99-meta/scripts/wl-v4-snapshot-create	archive	/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy/scripts/wl-v4-snapshot-create	legacy tool evidence
+99-meta/scripts/wl-v4-runtime-status	archive	/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy/scripts/wl-v4-runtime-status	legacy tool evidence
+99-meta/scripts/wl-v4-status	archive	/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy/scripts/wl-v4-status	legacy tool evidence
+99-meta/scripts/wl-v4-check	archive	/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy/scripts/wl-v4-check	legacy tool evidence
+99-meta/scripts/wl-v4-compose-review	archive	/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy/scripts/wl-v4-compose-review	legacy tool evidence
+06-relay/matrix/compose.yml	archive	/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy/relay/matrix-compose.yml	unpromoted compose

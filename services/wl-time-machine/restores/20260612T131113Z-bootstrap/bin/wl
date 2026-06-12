@@ -1,0 +1,472 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WONDERLAND_ROOT:-/Users/wonderland/Wonderland}"
+BIN="$ROOT/bin"
+
+usage() {
+  cat <<USAGE
+Wonderland CLI
+
+Core:
+  wl help
+  wl verify
+  wl doctor
+  wl status
+  wl health
+  wl health-report
+  wl audit
+  wl audit-report
+  wl snapshot
+  wl restore <snapshot.tar.gz>
+  wl verify-snapshot <snapshot.tar.gz>
+  wl prune-snapshots [keep-count]
+  wl state
+  wl drift
+  wl state-capture
+  wl capture-state
+  wl lifecycle
+  wl lifecycle-capture
+  wl ops-capture
+
+Command Registry:
+  wl command list
+  wl command show <command>
+  wl command verify
+
+Operations:
+  wl operations verify|path|inventory
+  wl reports index|path
+
+Vault:
+  wl inventory
+  wl lock
+  wl unlock
+  wl lock-status
+  wl guard <target-path>
+  wl write <target-path> -- <command...>
+
+Layers:
+  wl core verify|status|path
+  wl templates verify|path
+  wl policies verify|path
+  wl runbooks verify|path
+  wl schemas verify|path
+  wl registry verify|path|refresh|audit|integrity|refresh-documents|refresh-commands|refresh-services|refresh-intents|refresh-plans
+  wl services verify|path|refresh|graph|recovery-order|status|health|discover-runtime|parse-anon-blueprint
+  wl runtime verify|ps|images|inventory|drift|logs <container>|inspect <container>|compose ...
+  wl intents verify|list|path|status <intent-id-or-file> <status>|plan <intent-id-or-file>
+  wl plans verify|list|path|status <plan-id-or-file> <status>|execute <plan-id-or-file>
+  wl intelligence verify|path
+  wl governance verify|path
+  wl storage doctor|verify|status
+  wl authority backup|doctor|verify|status
+  wl legacy inventory|classify|report|archive|doctor
+  wl service-certify certify|verify-all|list
+  wl nats up|down|status|logs|doctor|repair
+  wl observability up|down|status|logs|doctor|repair
+  wl dns up|down|status|logs|doctor|repair
+  wl recover platform
+  wl snapshot create|verify|restore-drill|list|doctor
+  wl promote service <service>
+  wl mode full|light|status
+  wl archive verify|path
+
+Anon:
+  wl anon up|down|status|doctor|repair|logs [container]|scraper-up|gateway-up
+  wl anon-route <command...>
+
+Document Cleaner:
+  wl document-cleaner up|down|status|logs|doctor|repair|sanitize <file> [metadata|rasterize] [output]
+  wl cleaner up|down|status|logs|doctor|repair|sanitize <file> [metadata|rasterize] [output]
+
+Fallback:
+  wl <name> [args...] -> bin/wl-<name> [args...]
+USAGE
+}
+
+missing() {
+  echo "wl: missing executable: $1" >&2
+  exit 127
+}
+
+exec_bin() {
+  local script="$1"
+  shift || true
+  [[ -x "$BIN/$script" ]] || missing "$BIN/$script"
+  exec "$BIN/$script" "$@"
+}
+
+run_optional() {
+  local cmd="$1"
+  if [[ -x "$cmd" ]]; then
+    "$cmd"
+  else
+    echo "SKIP    missing executable: $cmd"
+  fi
+}
+
+run_verify() {
+  run_optional "$BIN/wl-verify-vault"
+  run_optional "$BIN/wl-verify-core"
+  run_optional "$BIN/wl-verify-templates"
+  run_optional "$BIN/wl-verify-policies"
+
+  if [[ -x "$ROOT/vault/03-Runbooks/checks/verify-runbooks.sh" ]]; then
+    "$ROOT/vault/03-Runbooks/checks/verify-runbooks.sh"
+  else
+    echo "SKIP    missing runbook verifier"
+  fi
+
+  run_optional "$BIN/wl-verify-operations"
+  run_optional "$BIN/wl-verify-service-docs"
+  run_optional "$BIN/wl-verify-schemas"
+  run_optional "$BIN/wl-verify-registry"
+  run_optional "$BIN/wl-registry-integrity"
+  run_optional "$BIN/wl-verify-intents"
+  run_optional "$BIN/wl-verify-plans"
+  run_optional "$BIN/wl-verify-executions"
+  run_optional "$BIN/wl-verify-runtime"
+  run_optional "$BIN/wl-runtime-drift"
+  run_optional "$BIN/wl-verify-services"
+  run_optional "$BIN/wl-service-health-refresh"
+  run_optional "$BIN/wl-verify-archive"
+  run_optional "$BIN/wl-verify-locks"
+  run_optional "$BIN/wl-service-health"
+  run_optional "$BIN/wl-verify-intelligence"
+  run_optional "$BIN/wl-verify-governance"
+  run_optional "$BIN/wl-verify-completion"
+}
+
+cmd="${1:-help}"
+shift || true
+
+case "$cmd" in
+  help|-h|--help)
+    usage
+    ;;
+
+  verify)
+    run_verify
+    ;;
+
+  doctor)
+    exec_bin wl-doctor "$@"
+    ;;
+
+  status)
+    echo "Wonderland root: $ROOT"
+    echo "Vault: $ROOT/vault"
+    echo
+    if command -v nerdctl >/dev/null 2>&1; then
+      nerdctl ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' 2>/dev/null || true
+    else
+      echo "nerdctl not found"
+    fi
+    ;;
+
+  health)
+    exec_bin wl-health "$@"
+    ;;
+
+  health-report)
+    exec_bin wl-health-report "$@"
+    ;;
+
+  ops-capture)
+    exec_bin wl-ops-capture "$@"
+    ;;
+
+  state-capture)
+    exec_bin wl-state-capture "$@"
+    ;;
+
+  audit-report)
+    exec_bin wl-audit-report "$@"
+    ;;
+
+  audit)
+    exec_bin wl-vault-audit "$@"
+    ;;
+
+  drift)
+    exec_bin wl-runtime-drift "$@"
+    ;;
+
+  snapshot)
+    exec_bin wl-snapshot "$@"
+    ;;
+
+  restore)
+    exec_bin wl-vault-restore "$@"
+    ;;
+
+  verify-snapshot)
+    exec_bin wl-vault-verify-snapshot "$@"
+    ;;
+
+  prune-snapshots)
+    exec_bin wl-vault-prune-snapshots "$@"
+    ;;
+
+  recovery)
+    case "${1:-help}" in
+      drill) exec_bin wl-recovery-drill ;;
+      verify) exec_bin wl-verify-recovery-drill ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+
+  state)
+    exec_bin wl-vault-state "$@"
+    ;;
+
+  capture-state)
+    exec_bin wl-vault-capture-state "$@"
+    ;;
+
+  lifecycle)
+    exec_bin wl-lifecycle "$@"
+    ;;
+
+  lifecycle-capture)
+    exec_bin wl-lifecycle-capture "$@"
+    ;;
+
+  inventory)
+    find "$ROOT/vault" -maxdepth 3 -type f | sort
+    ;;
+
+  lock)
+    exec_bin wl-vault-lock lock
+    ;;
+
+  unlock)
+    exec_bin wl-vault-lock unlock
+    ;;
+
+  lock-status)
+    exec_bin wl-vault-lock status
+    ;;
+
+  guard)
+    exec_bin wl-vault-guard "$@"
+    ;;
+
+  write)
+    exec_bin wl-vault-write "$@"
+    ;;
+
+  command)
+    exec_bin wl-command "$@"
+    ;;
+
+  core)
+    case "${1:-help}" in
+      verify) exec_bin wl-verify-core ;;
+      status) cat "$ROOT/vault/00-Core/manifests/vault-state.json" ;;
+      path) echo "$ROOT/vault/00-Core" ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+
+  templates)
+    case "${1:-help}" in
+      verify) exec_bin wl-verify-templates ;;
+      path) echo "$ROOT/vault/01-Templates" ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+
+  policies)
+    case "${1:-help}" in
+      verify) exec_bin wl-verify-policies ;;
+      path) echo "$ROOT/vault/02-Policies" ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+
+  runbooks)
+    case "${1:-help}" in
+      verify) exec "$ROOT/vault/03-Runbooks/checks/verify-runbooks.sh" ;;
+      path) echo "$ROOT/vault/03-Runbooks" ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+
+  schemas)
+    case "${1:-help}" in
+      verify) exec_bin wl-verify-schemas ;;
+      path) echo "$ROOT/vault/04-Schemas" ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+
+  registry)
+    case "${1:-help}" in
+      verify) exec_bin wl-verify-registry ;;
+      path) echo "$ROOT/vault/05-Registry" ;;
+      refresh) exec_bin wl-registry-refresh ;;
+      audit) exec_bin wl-registry-audit ;;
+      integrity) exec_bin wl-registry-integrity ;;
+      refresh-documents) exec_bin wl-registry-refresh-documents ;;
+      refresh-commands) exec_bin wl-registry-refresh-commands ;;
+      refresh-services) exec_bin wl-registry-refresh-services ;;
+      refresh-intents) exec_bin wl-registry-refresh-intents ;;
+      refresh-plans) exec_bin wl-registry-refresh-plans ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+
+  services)
+    case "${1:-help}" in
+      verify) exec_bin wl-verify-services ;;
+      path) echo "$ROOT/vault/06-Services" ;;
+      refresh) exec_bin wl-services-refresh ;;
+      graph) exec_bin wl-services-graph ;;
+      recovery-order) exec_bin wl-services-recovery-order ;;
+      status) exec_bin wl-service-health-refresh ;;
+      health) exec_bin wl-service-health-refresh ;;
+      discover-runtime) exec_bin wl-services-discover-runtime ;;
+      parse-anon-blueprint) exec_bin wl-parse-anon-blueprint ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+
+  runtime)
+    case "${1:-help}" in
+      verify) exec_bin wl-verify-runtime ;;
+      ps) exec_bin wl-runtime ps ;;
+      images) exec_bin wl-runtime images ;;
+      inventory) exec_bin wl-runtime-inventory ;;
+      drift) exec_bin wl-runtime-drift ;;
+      logs) shift; exec_bin wl-runtime logs "$@" ;;
+      inspect) shift; exec_bin wl-runtime inspect "$@" ;;
+      compose) shift; exec_bin wl-runtime compose "$@" ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+
+  intents)
+    case "${1:-help}" in
+      verify) exec_bin wl-verify-intents ;;
+      list) find "$ROOT/vault/05-Registry/intents" -maxdepth 1 -type f -name "*.intent.json" | sort ;;
+      path) echo "$ROOT/vault/05-Registry/intents" ;;
+      status) shift; exec_bin wl-intent-status "$@" ;;
+      plan) shift; exec_bin wl-intent-plan "$@" ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+
+  plans)
+    case "${1:-help}" in
+      verify) exec_bin wl-verify-plans ;;
+      list) find "$ROOT/vault/05-Registry/plans" -maxdepth 1 -type f -name "*.plan.json" | sort ;;
+      path) echo "$ROOT/vault/05-Registry/plans" ;;
+      status) shift; exec_bin wl-plan-status "$@" ;;
+      execute) shift; exec_bin wl-plan-execute "$@" ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+
+  operations)
+    case "${1:-help}" in
+      verify) exec_bin wl-verify-operations ;;
+      path) echo "$ROOT/vault/07-Operations" ;;
+      inventory) exec_bin wl-operations-inventory ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+
+  intelligence)
+    case "${1:-help}" in
+      verify) exec_bin wl-verify-intelligence ;;
+      path) echo "$ROOT/vault/08-Intelligence" ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+
+  governance)
+    exec_bin wl-governance "$@"
+    ;;
+
+  governance)
+    case "${1:-help}" in
+      verify) exec_bin wl-verify-governance ;;
+      path) echo "$ROOT/vault/09-Governance" ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+
+  archive)
+    case "${1:-help}" in
+      verify) exec_bin wl-verify-archive ;;
+      path) echo "$ROOT/vault/99-Archive" ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+
+  reports)
+    case "${1:-help}" in
+      index) exec_bin wl-operations-index-reports ;;
+      path) echo "$ROOT/vault/07-Operations/reports" ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+
+  anon)
+    exec_bin wl-anon "$@"
+    ;;
+
+  anon-route)
+    exec_bin wl-anon-route "$@"
+    ;;
+
+  document-cleaner|cleaner)
+    exec_bin wl-document-cleaner "$@"
+    ;;
+
+  authority)
+    exec_bin wl-authority "$@"
+    ;;
+
+  legacy)
+    exec_bin wl-legacy "$@"
+    ;;
+
+  service-certify)
+    exec_bin wl-service-certify "$@"
+    ;;
+
+  nats)
+    exec_bin wl-nats "$@"
+    ;;
+
+  observability)
+    exec_bin wl-observability "$@"
+    ;;
+
+  dns)
+    exec_bin wl-dns "$@"
+    ;;
+
+  recover)
+    exec_bin wl-recover "$@"
+    ;;
+
+  storage)
+    exec_bin wl-storage "$@"
+    ;;
+
+  torrent)
+    exec_bin wl-torrent "$@"
+    ;;
+
+  *)
+    if [[ -x "$BIN/wl-$cmd" ]]; then
+      exec "$BIN/wl-$cmd" "$@"
+    fi
+    usage
+    exit 1
+    ;;
+esac

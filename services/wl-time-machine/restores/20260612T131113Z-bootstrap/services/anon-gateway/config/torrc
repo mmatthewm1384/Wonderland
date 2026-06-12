@@ -1,0 +1,6 @@
+DataDirectory /var/lib/tor
+SocksPort 0.0.0.0:9050
+CookieAuthentication 1
+Log notice stdout
+NewCircuitPeriod 15
+MaxCircuitDirtiness 600

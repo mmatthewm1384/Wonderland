@@ -1,0 +1,24 @@
+{
+  "id": "wl-grafana-service-v4",
+  "name": "wl-grafana",
+  "status": "active",
+  "version": 4,
+  "runtime": "containerd",
+  "engine": "nerdctl",
+  "container": "wl-grafana",
+  "compose": null,
+  "verify": "bin/wl-observability doctor-grafana",
+  "recover": "bin/wl-observability repair",
+  "rollback": "bin/wl-observability down",
+  "dependencies": [
+    "wl-prometheus",
+    "wl-loki"
+  ],
+  "ports": [
+    "3000"
+  ],
+  "volumes": [
+    "docker/wl-grafana/provisioning",
+    "docker/wl-grafana/dashboards"
+  ]
+}

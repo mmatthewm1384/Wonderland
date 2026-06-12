@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
+SERVICE_DIR="$ROOT/services/wl-time-machine"
+
+case "${1:-}" in
+  doctor|verify)
+    test -d "$SERVICE_DIR"
+    echo "PASS wl-time-machine"
+    ;;
+  status)
+    echo "wl-time-machine: skeleton"
+    ;;
+  *)
+    cat <<EOF
+wl-time-machine
+
+Usage:
+  wl-time-machine doctor
+  wl-time-machine verify
+  wl-time-machine status
+EOF
+    ;;
+esac

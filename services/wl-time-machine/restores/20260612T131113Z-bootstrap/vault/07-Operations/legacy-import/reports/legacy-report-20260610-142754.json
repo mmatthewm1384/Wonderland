@@ -1,0 +1,10 @@
+{
+  "id": "legacy-import-report",
+  "generated": "20260610-142754",
+  "legacy_root": "/Volumes/T7_Wonderland/Wonderland-v4",
+  "inventory": "/Users/wonderland/Wonderland/vault/07-Operations/legacy-import/inventories/legacy-inventory-20260610-142754.tsv",
+  "entries": 164,
+  "files": 53,
+  "directories": 111,
+  "approx_size_bytes": 948276796010
+}

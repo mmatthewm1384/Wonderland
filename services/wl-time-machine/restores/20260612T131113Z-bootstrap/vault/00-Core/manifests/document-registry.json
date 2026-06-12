@@ -1,0 +1,75 @@
+{
+  "version": 4,
+  "documents": [
+    {
+      "id": "operator-authority-v4",
+      "path": "governance/operator-authority.md",
+      "layer": "governance",
+      "status": "active",
+      "version": 4
+    },
+    {
+      "id": "system-principles-v4",
+      "path": "governance/system-principles.md",
+      "layer": "governance",
+      "status": "active",
+      "version": 4
+    },
+    {
+      "id": "wonderland-identity-v4",
+      "path": "identity/wonderland-identity.md",
+      "layer": "identity",
+      "status": "active",
+      "version": 4
+    },
+    {
+      "id": "root-map-v4",
+      "path": "topology/root-map.md",
+      "layer": "topology",
+      "status": "active",
+      "version": 4
+    },
+    {
+      "id": "command-authority-v4",
+      "path": "operations/command-authority.md",
+      "layer": "operations",
+      "status": "active",
+      "version": 4
+    },
+    {
+      "id": "recovery-policy-v4",
+      "path": "recovery/recovery-policy.md",
+      "layer": "recovery",
+      "status": "active",
+      "version": 4
+    },
+    {
+      "id": "disaster-recovery-v4",
+      "path": "recovery/disaster-recovery.md",
+      "layer": "recovery",
+      "status": "active",
+      "version": 4
+    },
+    {
+      "id": "bootstrap-procedure-v4",
+      "path": "recovery/bootstrap-procedure.md",
+      "layer": "recovery",
+      "status": "active",
+      "version": 4
+    },
+    {
+      "id": "rebuild-order-v4",
+      "path": "recovery/rebuild-order.md",
+      "layer": "recovery",
+      "status": "active",
+      "version": 4
+    },
+    {
+      "id": "vault-state-v4",
+      "path": "manifests/vault-state.json",
+      "layer": "manifest",
+      "status": "active",
+      "version": 4
+    }
+  ]
+}

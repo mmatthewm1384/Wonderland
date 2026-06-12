@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+LOCK="/Users/wonderland/Wonderland/vault/locks/vault-lock.json"
+
+echo
+echo "Wonderland Lock Verification"
+echo
+
+python3 - "$LOCK" <<'PY'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1])
+failures = []
+
+if not p.exists():
+    failures.append("vault-lock.json missing")
+else:
+    data = json.loads(p.read_text())
+    if data.get("id") != "vault-lock-v4":
+        failures.append("lock id mismatch")
+    if data.get("state") not in {"locked", "unlocked"}:
+        failures.append(f"invalid lock state: {data.get('state')}")
+    if not isinstance(data.get("protected_layers"), list):
+        failures.append("protected_layers must be list")
+
+if failures:
+    for f in failures:
+        print(f"FAIL    {f}")
+    print()
+    print("RESULT  FAIL")
+    sys.exit(1)
+
+print("OK      vault-lock.json")
+print()
+print("RESULT  PASS")
+PY

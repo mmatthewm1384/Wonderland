@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+set -eu
+
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+. "$SCRIPT_DIR/../lib/wl-common.sh" 2>/dev/null || . "$HOME/Wonderland/tools/lib/wl-common.sh"
+
+case "${1:-}" in
+  --help|"")
+    echo "Usage: wl-recover <backup-directory>"
+    echo "Show recovery instructions for a baseline backup."
+    exit 0
+    ;;
+  --version)
+    echo "$WL_VERSION"
+    exit 0
+    ;;
+esac
+
+backup="$1"
+
+if [ ! -d "$backup" ]; then
+  wl_error "Backup directory not found: $backup"
+  exit 2
+fi
+
+echo "Recovery source: $backup"
+echo "Manual restore commands:"
+echo "  tar -xzf $backup/vault.tar.gz -C $WL_ROOT"
+echo "  tar -xzf $backup/repos.tar.gz -C $WL_ROOT"
+echo
+echo "Review before executing. Recovery is intentionally manual at this layer."

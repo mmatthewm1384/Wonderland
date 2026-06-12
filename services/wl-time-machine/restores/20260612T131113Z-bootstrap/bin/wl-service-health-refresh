@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+REG="$ROOT/vault/05-Registry/services.json"
+OUT="$ROOT/vault/06-Services/service-health.json"
+
+python3 - "$REG" "$OUT" <<'PY'
+import json
+import pathlib
+import subprocess
+import datetime
+import sys
+
+reg = pathlib.Path(sys.argv[1])
+out = pathlib.Path(sys.argv[2])
+
+services = json.loads(reg.read_text()).get("services", [])
+
+ps = subprocess.run(
+    ["nerdctl", "ps", "-a", "--format", "{{.Names}}\t{{.Status}}"],
+    stdout=subprocess.PIPE,
+    stderr=subprocess.STDOUT,
+    text=True
+)
+
+runtime = {}
+for line in ps.stdout.splitlines():
+    parts = line.split("\t", 1)
+    if len(parts) == 2:
+        runtime[parts[0]] = parts[1]
+
+health = []
+
+for svc in services:
+    name = svc.get("name")
+    container = svc.get("container") or name
+    status = runtime.get(container)
+
+    health.append({
+        "service": name,
+        "container": container,
+        "running": bool(status and status.lower().startswith("up")),
+        "runtime_status": status or "missing"
+    })
+
+payload = {
+    "id": "service-health-v4",
+    "version": 4,
+    "generated": datetime.datetime.now().isoformat(timespec="seconds"),
+    "services": health
+}
+
+out.write_text(json.dumps(payload, indent=2) + "\n")
+
+print(f"service health: {out}")
+for item in health:
+    result = "PASS" if item["running"] else "FAIL"
+    print(f"{item['service']}: {result} ({item['runtime_status']})")
+
+if any(not x["running"] for x in health):
+    sys.exit(1)
+PY

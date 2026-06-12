@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+OUT_DIR="$ROOT/vault/07-Operations/reports/ops-capture"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+OUT="$OUT_DIR/ops-capture-$STAMP.txt"
+
+mkdir -p "$OUT_DIR"
+
+{
+  echo "Wonderland Operations Capture"
+  echo "timestamp: $STAMP"
+  echo
+
+  echo "## Health"
+  "$ROOT/bin/wl" health || true
+  echo
+
+  echo "## Runtime Drift"
+  "$ROOT/bin/wl" runtime drift || true
+  echo
+
+  echo "## Registry Integrity"
+  "$ROOT/bin/wl" registry integrity || true
+  echo
+
+  echo "## State Capture"
+  "$ROOT/bin/wl-state-capture" || true
+  echo
+
+  echo "## Reports Index"
+  "$ROOT/bin/wl" reports index || true
+  echo
+
+  echo "## Verification"
+  "$ROOT/bin/wl" verify || true
+} | tee "$OUT"
+
+echo
+echo "ops capture: $OUT"

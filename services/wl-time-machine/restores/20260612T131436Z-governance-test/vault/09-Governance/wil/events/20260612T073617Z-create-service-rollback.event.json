@@ -1,0 +1,9 @@
+{
+  "kind": "event",
+  "id": "20260612T073617Z-create-service-rollback",
+  "version": 0,
+  "program": "create-service",
+  "mode": "rollback",
+  "result": "PASS",
+  "occurred": "20260612T073617Z"
+}

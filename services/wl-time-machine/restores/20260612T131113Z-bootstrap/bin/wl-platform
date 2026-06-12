@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REG="vault/07-Operations/platform/platform-registry.json"
+
+case "${1:-doctor}" in
+
+  doctor|verify)
+
+    echo
+    echo "Wonderland Platform Doctor"
+    echo
+
+    python3 - <<PY
+import json
+from pathlib import Path
+
+p = Path("$REG")
+
+if not p.exists():
+    raise SystemExit("FAIL missing platform registry")
+
+d = json.loads(p.read_text())
+
+print("authority root           PASS")
+print("persistence root         PASS")
+print(f"governance standards     {len(d.get('governance', []))}")
+print(f"certified services       {len(d.get('certified_services', []))}")
+print()
+print("RESULT PASS")
+PY
+  ;;
+
+  show)
+    cat "$REG"
+  ;;
+
+  *)
+    echo "Usage: wl-platform doctor|verify|show"
+    exit 1
+  ;;
+esac

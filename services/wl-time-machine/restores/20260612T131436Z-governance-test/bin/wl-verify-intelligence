@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -euo pipefail
+exec /Users/wonderland/Wonderland/vault/08-Intelligence/checks/verify-intelligence.sh

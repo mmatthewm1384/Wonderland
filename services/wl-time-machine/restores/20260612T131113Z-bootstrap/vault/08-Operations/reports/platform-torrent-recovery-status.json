@@ -1,0 +1,12 @@
+{
+  "id": "platform-torrent-recovery-20260611",
+  "date": "2026-06-11",
+  "result": "PASS",
+  "tag": "platform-torrent-recovered-20260611",
+  "downloads_verified": true,
+  "verified_size": "7.5G",
+  "completed_torrents": 10,
+  "storage_mode": "nerdctl_named_volume",
+  "migration_status": "deferred",
+  "next_required_action": "rotate_surfshark_wireguard_credentials"
+}

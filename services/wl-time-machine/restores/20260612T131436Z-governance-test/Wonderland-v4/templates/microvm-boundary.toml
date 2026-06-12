@@ -1,0 +1,27 @@
+# Wonderland Tier 3 Micro-VM Configuration Template
+# Enforces Tier 1 Isolation Boundaries
+
+[machine]
+vcpus = 2
+memory_mib = 1024
+boot_args = "console=ttyS0 reboot=k panic=1 pci=off ro"
+
+[kernel]
+path = "/Users/wonderland/Wonderland/Wonderland-v4/assets/vmlinux"
+read_only = true
+
+[storage]
+block_device_path = "/Users/wonderland/Wonderland/Wonderland-v4/storage/rootfs.raw"
+read_only = false
+encrypted = true
+
+[network]
+interface = "vmnet0"
+mac_address = "02:42:AC:11:00:02"
+bridge = "wl-br0"
+
+[security]
+jailer_mode = true
+uid = 1001
+gid = 1001
+seccomp_level = 2

@@ -1,0 +1,41 @@
+{
+  "intent": "create-wl-snapshot",
+  "mode": "BUILD",
+  "system": "Wonderland",
+  "operator": "Matthew Mahaney",
+  "purpose": "Create wl-snapshot as an audit and recovery-point generator for Wonderland.",
+  "authority": {
+    "source": "~/Wonderland/intelligence/obsidian/00-Core/Governance.md",
+    "registry": "~/Wonderland/.wl-registry",
+    "registry_mode": "generated"
+  },
+  "outputs": {
+    "command": "~/Wonderland/bin/wl-snapshot",
+    "snapshots": "~/Wonderland/data/snapshots",
+    "logs": "~/Wonderland/logs/snapshot"
+  },
+  "requirements": [
+    "Generate timestamped snapshot directories",
+    "Capture Governance.md",
+    "Capture .wl-registry",
+    "Capture wl-status output",
+    "Capture doctor output",
+    "Capture service status output",
+    "Never capture secrets content",
+    "Never capture raw thought content",
+    "Remain idempotent and restart-safe"
+  ],
+  "commands": [
+    "wl-snapshot create",
+    "wl-snapshot list",
+    "wl-snapshot latest",
+    "wl-snapshot verify",
+    "wl-snapshot doctor",
+    "wl-snapshot repair"
+  ],
+  "rollback": [
+    "rm -f ~/Wonderland/bin/wl-snapshot",
+    "rm -rf ~/Wonderland/data/snapshots",
+    "rm -rf ~/Wonderland/logs/snapshot"
+  ]
+}

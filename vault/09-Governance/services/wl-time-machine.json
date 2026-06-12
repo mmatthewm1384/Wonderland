@@ -1,0 +1,8 @@
+{
+  "id": "wl-time-machine",
+  "status": "PASS",
+  "mode": "append-only-local-snapshots",
+  "restore_mode": "staged-only",
+  "recovery_bundle": true,
+  "verification": true
+}

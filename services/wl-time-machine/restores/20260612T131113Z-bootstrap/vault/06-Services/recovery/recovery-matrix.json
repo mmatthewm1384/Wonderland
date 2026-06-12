@@ -1,0 +1,20 @@
+{
+  "id": "recovery-matrix-v4",
+  "version": 4,
+  "levels": {
+    "service": "restart service",
+    "stack": "restart compose stack",
+    "registry": "rebuild registry",
+    "vault": "restore snapshot"
+  },
+  "services": [
+    {
+      "name": "wl-document-cleaner",
+      "tier": "utility",
+      "criticality": "medium",
+      "recovery_order": 50,
+      "recover": "wl document-cleaner repair",
+      "rollback": "wl document-cleaner down"
+    }
+  ]
+}

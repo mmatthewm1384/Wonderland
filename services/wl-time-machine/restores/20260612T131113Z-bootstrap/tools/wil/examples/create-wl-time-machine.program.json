@@ -1,0 +1,45 @@
+{
+  "kind": "program",
+  "id": "create-wl-time-machine",
+  "version": 0,
+  "intent": "Create the wl-time-machine service skeleton",
+  "requires": [
+    "wl-wil"
+  ],
+  "do": [
+    {
+      "name": "create-service-dir",
+      "run": "mkdir -p services/wl-time-machine"
+    },
+    {
+      "name": "create-data-dir",
+      "run": "mkdir -p services/wl-time-machine/data"
+    },
+    {
+      "name": "create-readme",
+      "run": "test -f services/wl-time-machine/README.md || echo '# wl-time-machine' > services/wl-time-machine/README.md"
+    }
+  ],
+  "prove": [
+    {
+      "name": "service-dir-exists",
+      "command": "test -d services/wl-time-machine"
+    },
+    {
+      "name": "readme-exists",
+      "command": "test -f services/wl-time-machine/README.md"
+    }
+  ],
+  "recover": [
+    {
+      "name": "recreate-service-dir",
+      "run": "mkdir -p services/wl-time-machine"
+    }
+  ],
+  "rollback": [
+    {
+      "name": "remove-service-skeleton",
+      "run": "rm -rf services/wl-time-machine"
+    }
+  ]
+}

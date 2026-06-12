@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+SERVICE_REGISTRY="$ROOT/vault/06-Services/service-registry.json"
+OUT="$ROOT/vault/05-Registry/services.json"
+
+if [[ ! -f "$SERVICE_REGISTRY" ]]; then
+  "$ROOT/bin/wl-services-refresh"
+fi
+
+python3 - "$ROOT" "$SERVICE_REGISTRY" "$OUT" <<'PY'
+import json
+import pathlib
+import sys
+
+root = pathlib.Path(sys.argv[1])
+source = pathlib.Path(sys.argv[2])
+out = pathlib.Path(sys.argv[3])
+
+data = json.loads(source.read_text())
+
+services = []
+
+for svc in data.get("services", []):
+    item = dict(svc)
+    path = item.get("path", "")
+
+    if path.startswith("definitions/"):
+        item["path"] = "06-Services/" + path
+
+    services.append(item)
+
+payload = {
+    "id": "services-registry-v4",
+    "version": 4,
+    "services": services
+}
+
+out.write_text(json.dumps(payload, indent=2) + "\n")
+
+print(f"registry services refreshed: {len(services)}")
+PY

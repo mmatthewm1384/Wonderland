@@ -1,0 +1,21 @@
+{
+  "id": "wl-torrent-service-v1",
+  "name": "wl-torrent",
+  "runtime": "containerd",
+  "engine": "nerdctl",
+  "container": [
+    "wl-torrent-vpn",
+    "wl-torrent-client"
+  ],
+  "status": "experimental",
+  "purpose": "Legal torrent acquisition pipeline routed through a VPN-gated Transmission client with quarantine and post-processing.",
+  "verification": [
+    "wl torrent doctor"
+  ],
+  "recovery": [
+    "wl torrent repair"
+  ],
+  "rollback": [
+    "wl torrent down"
+  ]
+}

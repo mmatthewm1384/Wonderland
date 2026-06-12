@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+set -eu
+
+ROOT="${WONDERLAND_ROOT:-$HOME/Wonderland}"
+
+mkdir -p "$ROOT"/{vault,repos,data,backups,exports,logs,secrets,tmp,tools}
+
+echo "Wonderland workspace initialized at: $ROOT"

@@ -1,0 +1,255 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
+PY="$ROOT/tools/wil/src/wil.py"
+
+case "${1:-}" in
+  compile)
+    "$PY" compile "${2:?missing WIL file}" "${@:3}"
+    ;;
+  verify)
+    "$PY" verify "${2:?missing WIL file}" "${@:3}"
+    ;;
+  plan)
+    "$PY" plan "${2:?missing WIL program}" "${@:3}"
+    ;;
+  requires)
+    "$PY" requires "${2:?missing WIL file}" "${@:3}"
+    ;;
+  inspect)
+    "$PY" inspect "${2:?missing WIL program}" "${@:3}"
+    ;;
+  run)
+    "$PY" run "${2:?missing WIL program}" "${@:3}"
+    ;;
+  recover)
+    "$PY" recover "${2:?missing WIL program}" "${@:3}"
+    ;;
+  rollback)
+    "$PY" rollback "${2:?missing WIL program}" "${@:3}"
+    ;;
+  report)
+    "$PY" report "${2:?missing WIL file}" "${@:3}"
+    ;;
+  world)
+    name="${2:?missing world id}"
+    python3 - "$name" <<'WORLD'
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+root = Path.cwd()
+world_id = sys.argv[1]
+
+world_path = root / "vault/09-Governance/wil/worlds" / f"{world_id}.world.json"
+artifact_dir = root / "vault/09-Governance/wil/artifacts"
+
+if not world_path.exists():
+    print(f"FAIL world not found: {world_id}")
+    sys.exit(1)
+
+world = json.loads(world_path.read_text())
+
+print(f"World: {world.get('id')}")
+print(f"Status: {world.get('status')}")
+print()
+
+passed = True
+
+for aid in world.get("contains", []):
+    artifact_path = artifact_dir / f"{aid}.artifact.json"
+
+    if not artifact_path.exists():
+        print(f"FAIL artifact {aid} missing definition")
+        passed = False
+        continue
+
+    print(f"PASS artifact {aid} definition")
+
+    artifact = json.loads(artifact_path.read_text())
+
+    for check in artifact.get("verify", []):
+        name = check.get("name", "unnamed")
+        command = check.get("command")
+
+        if not command:
+            print(f"FAIL {aid}:{name} missing command")
+            passed = False
+            continue
+
+        proc = subprocess.run(
+            command,
+            shell=True,
+            cwd=root,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+
+        ok = proc.returncode == 0
+        print(f"{'PASS' if ok else 'FAIL'} {aid}:{name}")
+
+        if not ok:
+            passed = False
+
+    print()
+
+print(f"RESULT {'PASS' if passed else 'FAIL'}")
+sys.exit(0 if passed else 1)
+WORLD
+    ;;
+  status)
+    python3 - <<'STATUS'
+import json
+from pathlib import Path
+
+root = Path.cwd()
+base = root / "vault/09-Governance/wil"
+
+def count(pattern):
+    return len(list(base.glob(pattern)))
+
+events = sorted((base / "events").glob("*.event.json"))
+latest = None
+
+if events:
+    data = json.loads(events[-1].read_text())
+    latest = f"{data.get('occurred')} {data.get('result')} {data.get('mode')} {data.get('program')}"
+
+print("WIL Status")
+print()
+print(f"Artifacts: {count('artifacts/*.artifact.json')}")
+print(f"Worlds:    {count('worlds/*.world.json')}")
+print(f"Intents:   {count('intents/*.intent.json')}")
+print(f"Reports:   {count('reports/*.json')}")
+print(f"Events:    {count('events/*.event.json')}")
+print(f"Audits:    {count('audit/*.audit.json')}")
+print()
+print(f"Latest:    {latest or 'none'}")
+STATUS
+    ;;
+  doctor)
+    test -x "$PY"
+    test -d "$ROOT/tools/wil/schemas"
+    test -d "$ROOT/vault/09-Governance/wil/reports"
+    test -d "$ROOT/vault/09-Governance/wil/artifacts"
+    echo "PASS wl-wil"
+    ;;
+  list)
+    find "$ROOT/vault/09-Governance/wil" -name '*.json' -maxdepth 3 | sort
+    ;;
+  artifacts)
+    find "$ROOT/vault/09-Governance/wil/artifacts" -name '*.artifact.json' -maxdepth 1 | sort
+    ;;
+  graph)
+    python3 - <<'GRAPH'
+import json
+from pathlib import Path
+
+root = Path.cwd()
+artifacts = root / "vault/09-Governance/wil/artifacts"
+
+print("WIL Reality Graph")
+print()
+
+for path in sorted(artifacts.glob("*.artifact.json")):
+    data = json.loads(path.read_text())
+    aid = data.get("id", path.stem)
+    print(f"{aid}")
+
+    for dep in data.get("depends_on", []):
+        print(f"  -> {dep}")
+
+    caps = data.get("capabilities", [])
+    if caps:
+        print("  capabilities:")
+        for cap in caps:
+            print(f"    - {cap}")
+
+    print()
+GRAPH
+    ;;
+  timeline)
+    python3 - <<'TIMELINE'
+import json
+from pathlib import Path
+
+root = Path.cwd()
+events = root / "vault/09-Governance/wil/events"
+
+for path in sorted(events.glob("*.event.json")):
+    data = json.loads(path.read_text())
+    print(f"{data.get('occurred')}  {data.get('result'):<5}  {data.get('mode'):<10}  {data.get('program')}")
+TIMELINE
+    ;;
+  graph-json)
+    python3 - <<'GRAPHJSON'
+import json
+from pathlib import Path
+
+root = Path.cwd()
+artifacts_dir = root / "vault/09-Governance/wil/artifacts"
+reports_dir = root / "vault/09-Governance/wil/reports"
+reports_dir.mkdir(parents=True, exist_ok=True)
+
+nodes = []
+edges = []
+
+for path in sorted(artifacts_dir.glob("*.artifact.json")):
+    data = json.loads(path.read_text())
+    aid = data.get("id", path.stem)
+
+    nodes.append({
+        "id": aid,
+        "kind": data.get("kind", "artifact"),
+        "type": data.get("type", "unknown"),
+        "status": data.get("status", "unknown"),
+        "authority": data.get("authority"),
+        "capabilities": data.get("capabilities", [])
+    })
+
+    for dep in data.get("depends_on", []):
+        edges.append({
+            "from": aid,
+            "to": dep,
+            "type": "depends_on"
+        })
+
+graph = {
+    "id": "wil-reality-graph-v0",
+    "nodes": nodes,
+    "edges": edges
+}
+
+out = reports_dir / "wil-reality-graph.json"
+out.write_text(json.dumps(graph, indent=2))
+
+print(json.dumps(graph, indent=2))
+GRAPHJSON
+    ;;
+  *)
+    cat <<EOF
+wl-wil
+
+Usage:
+  wl-wil compile <file>
+  wl-wil verify <file>
+  wl-wil plan <program.json>
+  wl-wil requires <file>
+  wl-wil inspect <program.json>
+  wl-wil run <program.json> --yes
+  wl-wil recover <program.json> --yes
+  wl-wil rollback <program.json> --yes
+  wl-wil report <file>
+  wl-wil world <id>
+  wl-wil status
+  wl-wil doctor
+  wl-wil list
+  wl-wil artifacts
+  wl-wil graph
+  wl-wil graph-json
+  wl-wil timeline
+EOF
+    ;;
+esac
