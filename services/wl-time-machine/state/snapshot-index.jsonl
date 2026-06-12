@@ -38,3 +38,36 @@
   "mode": "append-only-local-snapshot",
   "restore_mode": "staged-only"
 }
+{
+  "id": "20260612T132527Z-authority-v2-test",
+  "created": "2026-06-12T13:25:28Z",
+  "label": "v2-test",
+  "scope": "authority",
+  "archive": "root.tar.gz",
+  "sha256": "8286bb6d34c17e1f2582550a139fc41e885d3497e9872588d515593564b0ec5c",
+  "bytes": 2901478,
+  "mode": "append-only-local-snapshot",
+  "restore_mode": "staged-only"
+}
+{
+  "id": "20260612T132619Z-authority-v2-test",
+  "created": "2026-06-12T13:26:19Z",
+  "label": "v2-test",
+  "scope": "authority",
+  "archive": "root.tar.gz",
+  "sha256": "5d31d727ead6360d8effd779ca9af416a277677c1484949138b1f8750a8eeae3",
+  "bytes": 2901560,
+  "mode": "append-only-local-snapshot",
+  "restore_mode": "staged-only"
+}
+{
+  "id": "20260612T132647Z-authority-v2-test",
+  "created": "2026-06-12T13:26:48Z",
+  "label": "v2-test",
+  "scope": "authority",
+  "archive": "root.tar.gz",
+  "sha256": "633b6398eaa761276d8bb7a76571ec802cbaee20b222b97552e6eae80907b27f",
+  "bytes": 2901620,
+  "mode": "append-only-local-snapshot",
+  "restore_mode": "staged-only"
+}

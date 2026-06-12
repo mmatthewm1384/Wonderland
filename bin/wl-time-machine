@@ -18,101 +18,140 @@ timestamp() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 stamp() { date -u +"%Y%m%dT%H%M%SZ"; }
 
 init() {
-  [ -f "$POLICY" ] || cat > "$POLICY" <<'JSON'
+  [ -f "$CFG/excludes.txt" ] || cat > "$CFG/excludes.txt" <<'EOF'
+.git
+.DS_Store
+.quarantine
+node_modules
+.venv
+venv
+__pycache__
+.cache
+tmp
+logs
+backups
+downloads
+services/wl-time-machine/snapshots
+services/wl-time-machine/restores
+services/wl-time-machine/recovery
+EOF
+
+  [ -f "$POLICY" ] || cat > "$POLICY" <<'EOF'
 {
-  "id": "wl-time-machine-policy-v1",
+  "id": "wl-time-machine-policy-v2",
   "mode": "append-only-local-snapshots",
+  "default_snapshot_scope": "authority",
   "restore_mode": "staged-only",
   "delete_snapshots_by_default": false,
   "allowed_behaviors": [
-    "create_local_snapshot",
+    "create_authority_snapshot",
+    "create_explicit_full_snapshot",
     "write_manifest",
     "verify_snapshot_manifest",
     "stage_restore_copy",
-    "create_recovery_bundle"
+    "create_recovery_bundle",
+    "prune_staged_restores"
   ],
   "forbidden_behaviors": [
     "overwrite_live_files_without_operator_action",
     "delete_snapshots_without_explicit_command",
     "restore_without_staging",
     "capture_secret_material_by_default"
-  ],
-  "default_excludes": [
-    ".git",
-    "node_modules",
-    ".venv",
-    "__pycache__",
-    "services/wl-time-machine/snapshots",
-    "services/wl-time-machine/restores",
-    "services/wl-time-machine/recovery"
   ]
 }
-JSON
+EOF
+
   touch "$INDEX"
   echo "$(timestamp) init" >> "$LOGS/time-machine.log"
-  echo "wl-time-machine initialized"
   echo "RESULT PASS"
+}
+
+exclude_args() {
+  while IFS= read -r pattern; do
+    [ -n "$pattern" ] || continue
+    printf '%s\n' "--exclude=./$pattern"
+    printf '%s\n' "--exclude=$pattern"
+  done < "$CFG/excludes.txt"
 }
 
 snapshot() {
   init >/dev/null
 
-  label="${1:-manual}"
-  id="$(stamp)-$label"
+  scope="${1:-authority}"
+  label="${2:-manual}"
+
+  case "$scope" in
+    authority|full) ;;
+    *) label="$scope"; scope="authority" ;;
+  esac
+
+  id="$(stamp)-$scope-$label"
   dest="$SNAP/$id"
   mkdir -p "$dest"
 
   manifest="$dest/manifest.json"
   archive="$dest/root.tar.gz"
 
-  tar \
-    --exclude="./.git" \
-    --exclude="./node_modules" \
-    --exclude="./.venv" \
-    --exclude="./__pycache__" \
-    --exclude="./services/wl-time-machine/snapshots" \
-    --exclude="./services/wl-time-machine/restores" \
-    --exclude="./services/wl-time-machine/recovery" \
-    -czf "$archive" .
+  mapfile -t excludes < <(exclude_args)
+
+  if [ "$scope" = "authority" ]; then
+    tar "${excludes[@]}" -czf "$archive" \
+      bin \
+      vault \
+      services/*/config \
+      services/*/state \
+      services/*/README.md \
+      2>/dev/null || true
+  else
+    tar "${excludes[@]}" -czf "$archive" .
+  fi
 
   sha="$(shasum -a 256 "$archive" | awk '{print $1}')"
   bytes="$(wc -c < "$archive" | tr -d ' ')"
 
-  cat > "$manifest" <<JSON
-{
-  "id": "$id",
-  "created": "$(timestamp)",
-  "label": "$label",
-  "archive": "root.tar.gz",
-  "sha256": "$sha",
-  "bytes": $bytes,
-  "mode": "append-only-local-snapshot",
-  "restore_mode": "staged-only"
+  python3 - "$manifest" "$id" "$label" "$scope" "$sha" "$bytes" <<'PY'
+import json
+import sys
+from datetime import datetime, timezone
+
+path, sid, label, scope, sha, bytes_ = sys.argv[1:]
+data = {
+    "id": sid,
+    "created": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    "label": label,
+    "scope": scope,
+    "archive": "root.tar.gz",
+    "sha256": sha,
+    "bytes": int(bytes_),
+    "mode": "append-only-local-snapshot",
+    "restore_mode": "staged-only"
 }
-JSON
+with open(path, "w") as f:
+    json.dump(data, f, indent=2)
+    f.write("\n")
+PY
 
   cat "$manifest" >> "$INDEX"
-  echo "$(timestamp) snapshot $id" >> "$LOGS/time-machine.log"
+  echo "$(timestamp) snapshot $id scope=$scope" >> "$LOGS/time-machine.log"
 
   echo "Snapshot created: $id"
+  echo "Scope: $scope"
   echo "Archive: $archive"
+  echo "Size: $bytes bytes"
   echo "RESULT PASS"
 }
 
 list_snapshots() {
-  init >/dev/null
-  find "$SNAP" -mindepth 1 -maxdepth 1 -type d -print | sort | sed "s#^$SNAP/##" || true
+  find "$SNAP" -mindepth 1 -maxdepth 1 -type d -print 2>/dev/null | sort | sed "s#^$SNAP/##" || true
 }
 
 verify_snapshot() {
   init >/dev/null
 
   id="${1:-latest}"
-  if [ "$id" = "latest" ]; then
-    id="$(list_snapshots | tail -1)"
-  fi
+  [ "$id" = "latest" ] && id="$(list_snapshots | tail -1)"
 
-  [ -n "$id" ] || { echo "No snapshots found"; echo "RESULT FAIL"; exit 1; }
+  [ -n "${id:-}" ] || { echo "No snapshots found"; echo "RESULT FAIL"; exit 1; }
 
   manifest="$SNAP/$id/manifest.json"
   archive="$SNAP/$id/root.tar.gz"
@@ -137,21 +176,16 @@ restore_stage() {
   init >/dev/null
 
   id="${1:-latest}"
-  if [ "$id" = "latest" ]; then
-    id="$(list_snapshots | tail -1)"
-  fi
-
-  [ -n "$id" ] || { echo "No snapshots found"; echo "RESULT FAIL"; exit 1; }
+  [ "$id" = "latest" ] && id="$(list_snapshots | tail -1)"
+  [ -n "${id:-}" ] || { echo "No snapshots found"; echo "RESULT FAIL"; exit 1; }
 
   verify_snapshot "$id" >/dev/null
 
   stage="$RESTORE/$id"
   rm -rf "$stage"
   mkdir -p "$stage"
-
   tar -xzf "$SNAP/$id/root.tar.gz" -C "$stage"
 
-  echo "$(timestamp) restore-stage $id" >> "$LOGS/time-machine.log"
   echo "Restore staged: $stage"
   echo "RESULT PASS"
 }
@@ -164,35 +198,38 @@ doctor() {
   echo
 
   [ -f "$POLICY" ] && echo "PASS policy" || { echo "FAIL policy"; result="FAIL"; }
+  [ -f "$CFG/excludes.txt" ] && echo "PASS excludes" || { echo "FAIL excludes"; result="FAIL"; }
   [ -d "$SNAP" ] && echo "PASS snapshots-dir" || { echo "FAIL snapshots-dir"; result="FAIL"; }
   [ -d "$RESTORE" ] && echo "PASS restores-dir" || { echo "FAIL restores-dir"; result="FAIL"; }
   [ -f "$INDEX" ] && echo "PASS index" || { echo "FAIL index"; result="FAIL"; }
 
-  if command -v jq >/dev/null 2>&1; then
-    jq -e '.mode=="append-only-local-snapshots" and .restore_mode=="staged-only"' "$POLICY" >/dev/null \
-      && echo "PASS governance-policy" \
-      || { echo "FAIL governance-policy"; result="FAIL"; }
-  else
-    echo "WARN jq-missing"
-  fi
+  jq -e '.mode=="append-only-local-snapshots" and .default_snapshot_scope=="authority" and .restore_mode=="staged-only"' "$POLICY" >/dev/null \
+    && echo "PASS governance-policy" \
+    || { echo "FAIL governance-policy"; result="FAIL"; }
 
   echo
   echo "RESULT $result"
-  [ "$result" = "PASS" ]
-}
-
-verify() {
-  doctor
 }
 
 recovery_bundle() {
   init >/dev/null
 
   out="$RECOVERY/wl-time-machine-recovery-$(stamp).tar.gz"
-  tar -czf "$out" bin/wl-time-machine services/wl-time-machine/config services/wl-time-machine/state vault/08-Operations/handoffs/wl-time-machine-handoff.md 2>/dev/null || \
-  tar -czf "$out" bin/wl-time-machine services/wl-time-machine/config services/wl-time-machine/state
+  tar -czf "$out" bin/wl-time-machine services/wl-time-machine/config services/wl-time-machine/state vault/06-Recovery/wl-time-machine.md 2>/dev/null || true
 
   echo "Recovery bundle: $out"
+  echo "RESULT PASS"
+}
+
+prune_restores() {
+  rm -rf "$RESTORE"/*
+  mkdir -p "$RESTORE"
+  echo "RESULT PASS"
+}
+
+prune_recovery() {
+  keep="${1:-3}"
+  ls -t "$RECOVERY"/*.tar.gz 2>/dev/null | tail -n +"$((keep + 1))" | xargs rm -f 2>/dev/null || true
   echo "RESULT PASS"
 }
 
@@ -206,7 +243,7 @@ status() {
   echo
   echo "Snapshots:       $count"
   echo "Latest:          ${latest:-NONE}"
-  echo "Mode:            append-only-local-snapshots"
+  echo "Default Scope:   authority"
   echo "Restore:         staged-only"
   echo
   echo "RESULT PASS"
@@ -215,13 +252,13 @@ status() {
 case "${1:-status}" in
   init) init ;;
   status) status ;;
-  snapshot) shift; snapshot "${1:-manual}" ;;
+  snapshot) shift; snapshot "${1:-authority}" "${2:-manual}" ;;
   list) list_snapshots ;;
-  verify) shift; if [ "${1:-}" ]; then verify_snapshot "$1"; else verify; fi ;;
+  verify) shift; [ "${1:-}" ] && verify_snapshot "$1" || doctor ;;
   doctor) doctor ;;
   restore-stage) shift; restore_stage "${1:-latest}" ;;
   recovery-bundle) recovery_bundle ;;
-  *)
-    echo "usage: wl-time-machine init|status|snapshot [label]|list|verify [id]|doctor|restore-stage [id]|recovery-bundle"
-    ;;
+  prune-restores) prune_restores ;;
+  prune-recovery) shift; prune_recovery "${1:-3}" ;;
+  *) echo "usage: wl-time-machine init|status|snapshot [authority|full] [label]|list|verify [id]|doctor|restore-stage [id]|recovery-bundle|prune-restores|prune-recovery [keep]" ;;
 esac

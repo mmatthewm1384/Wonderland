@@ -1,0 +1,15 @@
+.git
+.DS_Store
+.quarantine
+node_modules
+.venv
+venv
+__pycache__
+.cache
+tmp
+logs
+backups
+downloads
+services/wl-time-machine/snapshots
+services/wl-time-machine/restores
+services/wl-time-machine/recovery
