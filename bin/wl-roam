@@ -248,9 +248,27 @@ doctor() {
   [ "$inet" = "PASS" ] && echo "PASS internet" || { echo "WARN internet"; result="DEGRADED"; }
   [ "$trust" = "true" ] && echo "PASS trusted-network" || { echo "WARN untrusted-network"; result="DEGRADED"; }
 
-  case "$(overlay)" in
-    PASS*) echo "PASS overlay $(overlay)" ;;
-    *) echo "WARN overlay none"; result="DEGRADED" ;;
+  overlay_state="$(overlay)"
+  overlay_required="$(python3 - <<'JSONPY'
+import json
+from pathlib import Path
+p = Path("services/wl-roam/config/roam-policy.json")
+try:
+    print(str(json.loads(p.read_text()).get("overlay_policy", {}).get("required", False)).lower())
+except Exception:
+    print("false")
+JSONPY
+)"
+  case "$overlay_state" in
+    PASS*) echo "PASS overlay $overlay_state" ;;
+    *)
+      if [ "$overlay_required" = "true" ]; then
+        echo "FAIL overlay required"
+        result="FAIL"
+      else
+        echo "WARN overlay optional-none"
+      fi
+      ;;
   esac
 
   echo
@@ -275,6 +293,56 @@ recovery() {
   status
 }
 
+verify() {
+  echo "Verifying wl-roam..."
+
+  local result="PASS"
+
+  [ -x "$ROOT/bin/wl-roam" ] && echo "PASS executable" || { echo "FAIL executable"; result="FAIL"; }
+  [ -d "$SVC/config" ] && echo "PASS config-dir" || { echo "FAIL config-dir"; result="FAIL"; }
+  [ -d "$SVC/state" ] && echo "PASS state-dir" || { echo "FAIL state-dir"; result="FAIL"; }
+  [ -d "$SVC/queue/outbound" ] && echo "PASS queue-outbound" || { echo "FAIL queue-outbound"; result="FAIL"; }
+  [ -f "$POLICY" ] && echo "PASS policy" || { echo "FAIL policy"; result="FAIL"; }
+
+  if command -v jq >/dev/null 2>&1; then
+    jq -e '.mode=="authorized-only" and .forbidden_behaviors | index("crack")' "$POLICY" >/dev/null 2>&1 \
+      && echo "PASS governance-boundary" \
+      || { echo "FAIL governance-boundary"; result="FAIL"; }
+  else
+    echo "WARN jq-missing"
+  fi
+
+  "$ROOT/bin/wl-roam" status >/dev/null 2>&1 && echo "PASS status" || { echo "FAIL status"; result="FAIL"; }
+
+  echo "RESULT $result"
+  [ "$result" = "PASS" ]
+}
+
+verify() {
+  echo "Verifying wl-roam..."
+
+  local result="PASS"
+
+  [ -x "$ROOT/bin/wl-roam" ] && echo "PASS executable" || { echo "FAIL executable"; result="FAIL"; }
+  [ -d "$SVC/config" ] && echo "PASS config-dir" || { echo "FAIL config-dir"; result="FAIL"; }
+  [ -d "$SVC/state" ] && echo "PASS state-dir" || { echo "FAIL state-dir"; result="FAIL"; }
+  [ -d "$SVC/queue/outbound" ] && echo "PASS queue-outbound" || { echo "FAIL queue-outbound"; result="FAIL"; }
+  [ -f "$POLICY" ] && echo "PASS policy" || { echo "FAIL policy"; result="FAIL"; }
+
+  if command -v jq >/dev/null 2>&1; then
+    jq -e '.mode=="authorized-only" and .forbidden_behaviors | index("crack")' "$POLICY" >/dev/null 2>&1 \
+      && echo "PASS governance-boundary" \
+      || { echo "FAIL governance-boundary"; result="FAIL"; }
+  else
+    echo "WARN jq-missing"
+  fi
+
+  "$ROOT/bin/wl-roam" status >/dev/null 2>&1 && echo "PASS status" || { echo "FAIL status"; result="FAIL"; }
+
+  echo "RESULT $result"
+  [ "$result" = "PASS" ]
+}
+
 case "${1:-status}" in
   init) init ;;
   status) status ;;
@@ -285,6 +353,8 @@ case "${1:-status}" in
   audit) audit ;;
   doctor) doctor ;;
   recovery|repair) recovery ;;
+  verify) verify ;;
+  verify) verify ;;
   *)
     cat <<'USAGE'
 wl-roam commands:
@@ -297,6 +367,8 @@ wl-roam commands:
   wl-roam audit
   wl-roam doctor
   wl-roam recovery
+  wl-roam verify
+  wl-roam verify
 USAGE
     ;;
 esac
