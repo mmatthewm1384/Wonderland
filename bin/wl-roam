@@ -305,7 +305,7 @@ verify() {
   [ -f "$POLICY" ] && echo "PASS policy" || { echo "FAIL policy"; result="FAIL"; }
 
   if command -v jq >/dev/null 2>&1; then
-    jq -e '.mode=="authorized-only" and .forbidden_behaviors | index("crack")' "$POLICY" >/dev/null 2>&1 \
+    jq -e '.mode=="authorized-only" and (.forbidden_behaviors | index("crack")) and (.forbidden_behaviors | index("harvest")) and (.forbidden_behaviors | index("spoof")) and (.forbidden_behaviors | index("bypass")) and (.forbidden_behaviors | index("join_without_authorization"))' "$POLICY" >/dev/null 2>&1 \
       && echo "PASS governance-boundary" \
       || { echo "FAIL governance-boundary"; result="FAIL"; }
   else
@@ -330,7 +330,7 @@ verify() {
   [ -f "$POLICY" ] && echo "PASS policy" || { echo "FAIL policy"; result="FAIL"; }
 
   if command -v jq >/dev/null 2>&1; then
-    jq -e '.mode=="authorized-only" and .forbidden_behaviors | index("crack")' "$POLICY" >/dev/null 2>&1 \
+    jq -e '.mode=="authorized-only" and (.forbidden_behaviors | index("crack")) and (.forbidden_behaviors | index("harvest")) and (.forbidden_behaviors | index("spoof")) and (.forbidden_behaviors | index("bypass")) and (.forbidden_behaviors | index("join_without_authorization"))' "$POLICY" >/dev/null 2>&1 \
       && echo "PASS governance-boundary" \
       || { echo "FAIL governance-boundary"; result="FAIL"; }
   else
