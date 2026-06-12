@@ -1,0 +1,13 @@
+{
+  "id": "execution-plan-promote-anon-gateway--20260608-185912",
+  "version": 4,
+  "created": "2026-06-08T19:29:36",
+  "plan_id": "plan-promote-anon-gateway--20260608-185912",
+  "status": "executed",
+  "actions": [
+    "verified approved plan",
+    "created execution record",
+    "no runtime mutation performed"
+  ],
+  "rollback": "remove generated service definition and registry entry"
+}

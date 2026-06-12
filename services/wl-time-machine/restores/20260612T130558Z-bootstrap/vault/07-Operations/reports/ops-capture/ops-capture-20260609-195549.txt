@@ -1,0 +1,252 @@
+Wonderland Operations Capture
+timestamp: 20260609-195549
+
+## Health
+
+Wonderland Health
+
+Vault Verify           PASS
+Registry Integrity     PASS
+Runtime Drift          PASS
+Runtime Inventory      PASS
+Service Health         PASS
+Recovery Drill         PASS
+Anon Route             PASS
+
+RESULT PASS
+
+## Runtime Drift
+runtime drift: /Users/wonderland/Wonderland/vault/07-Operations/drift/runtime-drift.json
+missing: 0
+unmanaged: 0
+unexpected_wl: 0
+
+## Registry Integrity
+registry integrity: /Users/wonderland/Wonderland/vault/07-Operations/drift/registry-integrity.json
+checks: 111
+failures: 0
+
+## State Capture
+/Users/wonderland/Wonderland/vault/07-Operations/state/state-20260609-195555.json
+
+## Reports Index
+report index: /Users/wonderland/Wonderland/vault/07-Operations/reports/report-index.json
+reports: 11
+
+## Verification
+
+Wonderland Vault Verification
+root: /Users/wonderland/Wonderland/vault
+
+OK      00-Core
+OK      01-Templates
+OK      02-Policies
+OK      03-Runbooks
+OK      04-Schemas
+OK      05-Registry
+OK      06-Services
+OK      99-Archive
+OK      07-Operations
+OK      08-Intelligence
+OK      09-Governance
+
+RESULT  PASS
+
+Wonderland Core Verification
+root: /Users/wonderland/Wonderland/vault/00-Core
+
+OK      governance/operator-authority.md
+OK      governance/system-principles.md
+OK      identity/wonderland-identity.md
+OK      topology/root-map.md
+OK      operations/command-authority.md
+OK      recovery/recovery-policy.md
+OK      recovery/disaster-recovery.md
+OK      recovery/bootstrap-procedure.md
+OK      recovery/rebuild-order.md
+OK      manifests/vault-state.json
+
+RESULT  PASS
+
+Wonderland Template Verification
+root: /Users/wonderland/Wonderland/vault/01-Templates
+
+OK      documents/core-document.template.md
+OK      services/service.template.md
+OK      intents/intent.template.json
+OK      runbooks/runbook.template.md
+
+RESULT  PASS
+
+Wonderland Policy Verification
+root: /Users/wonderland/Wonderland/vault/02-Policies
+
+OK      governance/core-promotion.policy.md
+OK      security/secrets-handling.policy.md
+OK      operations/backup.policy.md
+OK      operations/runtime.policy.md
+OK      recovery/rollback.policy.md
+OK      operations/snapshot-retention.policy.md
+OK      operations/unmanaged-runtime.policy.md
+
+RESULT  PASS
+OK bootstrap/bootstrap.runbook.md
+OK recovery/recovery.runbook.md
+OK services/service-restore.runbook.md
+OK operations/backup.runbook.md
+
+RESULT PASS
+
+Wonderland Operations Verification
+root: /Users/wonderland/Wonderland/vault/07-Operations
+
+OK      operations-registry.json
+OK      docs/operations-overview.md
+OK      docs/audit-standard.md
+OK      docs/snapshot-standard.md
+OK      docs/drift-standard.md
+OK      docs/runtime-drift-standard.md
+OK      docs/restore-standard.md
+OK      docs/recovery-drill-standard.md
+OK      docs/rollback-standard.md
+OK      docs/lifecycle-standard.md
+OK      docs/promotion-standard.md
+OK      docs/state-standard.md
+OK      docs/report-standard.md
+OK      promotion/promotion-registry.json
+OK      restore/restore-registry.json
+OK      rollback/rollback-registry.json
+OK      lifecycle/lifecycle-registry.json
+OK      state/state-registry.json
+
+RESULT  PASS
+
+Wonderland Service Documentation Verification
+root: /Users/wonderland/Wonderland/vault/06-Services/docs
+
+OK      service-overview.md
+OK      runtime-standard.md
+OK      runtime-inventory.md
+OK      network-standard.md
+OK      network-topology.md
+OK      port-map.md
+OK      service-recovery.md
+OK      service-promotion.md
+
+RESULT  PASS
+
+Wonderland Schema Verification
+root: /Users/wonderland/Wonderland/vault/04-Schemas
+
+OK      json/document.schema.json
+OK      json/policy.schema.json
+OK      json/runbook.schema.json
+OK      json/service.schema.json
+OK      json/intent.schema.json
+
+RESULT  PASS
+
+Wonderland Registry Verification
+root: /Users/wonderland/Wonderland/vault/05-Registry
+
+OK      commands.json
+OK      services.json
+OK      documents.json
+OK      intents.json
+OK      operators.json
+OK      assets.json
+OK      plans.json
+
+RESULT  PASS
+registry integrity: /Users/wonderland/Wonderland/vault/07-Operations/drift/registry-integrity.json
+checks: 111
+failures: 0
+
+Wonderland Intent Verification
+root: /Users/wonderland/Wonderland/vault/05-Registry/intents
+
+OK      promote-anon-gateway--20260608-185912.intent.json
+OK      promote-anon-gateway--20260609-125906.intent.json
+OK      promote-anon-scraper--20260609-125906.intent.json
+
+RESULT  PASS
+
+Wonderland Plan Verification
+root: /Users/wonderland/Wonderland/vault/05-Registry/plans
+
+OK      plan-promote-anon-gateway--20260608-185912.plan.json
+
+RESULT  PASS
+
+Wonderland Execution Verification
+root: /Users/wonderland/Wonderland/vault/05-Registry/executions
+
+OK      execution-plan-promote-anon-gateway--20260608-185912.execution.json
+
+RESULT  PASS
+
+Wonderland Runtime Verification
+
+OK      nerdctl
+OK      nerdctl ps
+OK      runtime.json
+
+RESULT  PASS
+runtime drift: /Users/wonderland/Wonderland/vault/07-Operations/drift/runtime-drift.json
+missing: 0
+unmanaged: 0
+unexpected_wl: 0
+RESULT PASS
+service health: /Users/wonderland/Wonderland/vault/06-Services/service-health.json
+wl-anon-scraper: PASS (Up)
+wl-anon-tor: PASS (Up)
+
+Wonderland Archive Verification
+root: /Users/wonderland/Wonderland/vault/99-Archive
+
+RESULT  PASS
+
+Wonderland Lock Verification
+
+OK      vault-lock.json
+
+RESULT  PASS
+services: 2
+
+Wonderland Intelligence Verification
+root: /Users/wonderland/Wonderland/vault/08-Intelligence
+
+OK      intelligence-registry.json
+OK      docs/intelligence-overview.md
+OK      docs/intent-model.md
+OK      docs/plan-model.md
+OK      docs/execution-model.md
+OK      docs/memory-model.md
+OK      docs/knowledge-model.md
+OK      docs/decision-model.md
+OK      registries/memory-registry.json
+OK      registries/knowledge-registry.json
+OK      registries/decision-registry.json
+
+RESULT  PASS
+
+Wonderland Governance Verification
+root: /Users/wonderland/Wonderland/vault/09-Governance
+
+OK      governance-registry.json
+OK      docs/governance-overview.md
+OK      docs/approval-standard.md
+OK      docs/exception-standard.md
+OK      docs/review-standard.md
+OK      docs/authority-standard.md
+OK      docs/compliance-standard.md
+OK      registries/approval-registry.json
+OK      registries/exception-registry.json
+OK      registries/review-registry.json
+OK      registries/authority-registry.json
+OK      registries/compliance-registry.json
+
+RESULT  PASS
+OK      vault-completion.json
+
+RESULT  PASS

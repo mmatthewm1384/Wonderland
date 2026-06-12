@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+OUT_DIR="$ROOT/vault/07-Operations/reports/health"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+OUT="$OUT_DIR/health-$STAMP.txt"
+
+mkdir -p "$OUT_DIR"
+
+"$ROOT/bin/wl-health" | tee "$OUT"
+
+echo
+echo "health report: $OUT"

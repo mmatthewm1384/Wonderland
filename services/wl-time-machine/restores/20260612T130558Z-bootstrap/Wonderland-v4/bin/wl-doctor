@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WORKSPACE_DIR="$HOME/Wonderland/Wonderland-v4"
+CONFIG_FILE="$WORKSPACE_DIR/configs/wl-registry.json"
+CHECK_SCRIPT="$WORKSPACE_DIR/scripts/doctor_identity.py"
+
+echo "=== Wonderland-v4 Core Status ==="
+
+# Auto-Bootstrap missing system rules instantly
+if [[ ! -f "$CONFIG_FILE" ]]; then
+    echo "[BOOTSTRAP] Instantiating default identity matrix..."
+    mkdir -p "$(dirname "$CONFIG_FILE")"
+    cat <<EOF > "$CONFIG_FILE"
+{
+  "system_mode": "single_user",
+  "authorized_identity": "wonderland_operator",
+  "isolation_level": "strict",
+  "last_verification_timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+  "status": "locked"
+}
+EOF
+fi
+
+# Run validation layer
+if python3 "$CHECK_SCRIPT"; then
+    echo "[PASS] Environment isolated. Identity locked securely to active session."
+else
+    echo "[FAIL] Security policy restriction: Verification routine aborted."
+    exit 1
+fi

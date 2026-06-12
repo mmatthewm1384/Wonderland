@@ -1,0 +1,216 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(pwd)}"
+
+mkdir -p \
+  "$WL_ROOT/00-governance" \
+  "$WL_ROOT/01-overview" \
+  "$WL_ROOT/02-infrastructure" \
+  "$WL_ROOT/03-services" \
+  "$WL_ROOT/04-operations" \
+  "$WL_ROOT/05-vault" \
+  "$WL_ROOT/06-relay" \
+  "$WL_ROOT/07-timetravel" \
+  "$WL_ROOT/08-handoffs" \
+  "$WL_ROOT/09-reviews" \
+  "$WL_ROOT/10-roadmap" \
+  "$WL_ROOT/99-inbox" \
+  "$WL_ROOT/intents"
+
+cat > "$WL_ROOT/00-governance/architect-charter.md" <<'EOF'
+# Architect Charter
+
+## Purpose
+
+Architect is the external design, governance, documentation, review, and recovery intelligence layer for Wonderland-v4.
+
+## Operator
+
+Matthew Mahaney
+
+## Canonical Rule
+
+AI may build Wonderland.
+
+Wonderland must not depend upon AI to run.
+
+## Authority
+
+Architect is advisory and generative.
+
+Operator authority is final.
+
+## Responsibilities
+
+- Architecture
+- Infrastructure
+- Automation
+- Documentation
+- Governance
+- Review
+- Recovery
+- Handoff creation
+
+## Limitations
+
+Architect must not be required for runtime operation, service health, recovery execution, or infrastructure boot.
+EOF
+
+cat > "$WL_ROOT/01-overview/wonderland-overview.md" <<'EOF'
+# Wonderland-v4 Overview
+
+Wonderland-v4 is a modular ecosystem for infrastructure, automation, software development, knowledge management, creative systems, and operational governance.
+
+## Principles
+
+- Persistent
+- Recoverable
+- Auditable
+- Secure
+- Automated
+- Versioned
+- Modular
+
+## Primary Knowledge Core
+
+Obsidian
+
+## Primary Interface
+
+wl
+
+## Runtime Doctrine
+
+AI may build Wonderland.
+
+Wonderland must not depend upon AI to run.
+EOF
+
+cat > "$WL_ROOT/00-governance/standards.md" <<'EOF'
+# Wonderland-v4 Standards
+
+## Naming
+
+| Type | Standard |
+|---|---|
+| Commands | `wl-*` |
+| Services | `wl-<service>` |
+| Containers | `wl-<service>` |
+| Networks | `wonderland-*` |
+| Volumes | `wl-<service>-data` |
+| Docs | `lowercase-kebab-case.md` |
+| Intents | `*.intent.json` |
+
+## Required Sections for Builds
+
+- Structure
+- Required files
+- Configuration
+- Installation
+- Verification
+- Recovery
+- Rollback
+EOF
+
+cat > "$WL_ROOT/intents/chatgpt-architect.intent.json" <<'EOF'
+{
+  "intent": "chatgpt-architect",
+  "version": "v4",
+  "operator": "Matthew Mahaney",
+  "role": "external-architecture-layer",
+  "runtime_dependency": false,
+  "principle": "AI may build Wonderland. Wonderland must not depend upon AI to run.",
+  "modes": [
+    "DESIGN",
+    "BUILD",
+    "REVIEW",
+    "RECOVERY",
+    "HANDOFF"
+  ],
+  "knowledge_core": "Obsidian",
+  "primary_interface": "wl"
+}
+EOF
+
+cat > "$WL_ROOT/99-inbox/inbox.md" <<'EOF'
+# Architect Inbox
+
+Use this for:
+
+- Ideas
+- Notes
+- Questions
+- Quick designs
+- Future work
+
+## Routing Targets
+
+- Infrastructure
+- Governance
+- Vault
+- Relay
+- Timetravel
+- Operations
+- Reviews
+- Handoffs
+- Roadmap
+EOF
+
+cat > "$WL_ROOT/08-handoffs/handoff-standard.md" <<'EOF'
+# Handoff Standard
+
+Every Wonderland handoff must include:
+
+- Current state
+- Architecture
+- Directory structure
+- Commands
+- Verification
+- Recovery
+- Rollback
+- Future work
+EOF
+
+cat > "$WL_ROOT/09-reviews/review-framework.md" <<'EOF'
+# Review Framework
+
+## Review Categories
+
+- Architecture
+- Security
+- Operations
+- Reliability
+- Governance
+
+## Output Format
+
+- Finding
+- Severity
+- Evidence
+- Impact
+- Recommendation
+- Verification
+- Rollback
+EOF
+
+cat > "$WL_ROOT/10-roadmap/roadmap.md" <<'EOF'
+# Wonderland-v4 Roadmap
+
+## Current Initiatives
+
+- Establish Architect scaffold
+- Define governance standards
+- Build Obsidian knowledge base
+- Define wl command interface
+
+## Future Initiatives
+
+- Runtime service registry
+- Snapshot and recovery system
+- Vault architecture
+- Relay architecture
+- Governance attestations
+EOF
+
+echo "Wonderland-v4 Architect scaffold installed at: $WL_ROOT"

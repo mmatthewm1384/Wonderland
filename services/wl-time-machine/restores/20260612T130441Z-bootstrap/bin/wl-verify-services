@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+
+for file in \
+  service-registry.json \
+  service-health.json \
+  service-dependencies.json
+do
+  test -f "$ROOT/vault/06-Services/$file" || {
+    echo "FAIL missing $file"
+    exit 1
+  }
+done
+
+echo "RESULT PASS"

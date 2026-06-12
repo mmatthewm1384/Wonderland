@@ -1,0 +1,18 @@
+{
+  "intent": "cleanup-wonderland-duplicates",
+  "mode": "REVIEW",
+  "system": "Wonderland-v4",
+  "purpose": "Identify and remove duplicate Wonderland-v4 vault/domain artifacts safely.",
+  "rules": [
+    "Do not delete without review",
+    "Prefer canonical v4 vault paths",
+    "Preserve Git history",
+    "Move uncertain duplicates to tmp/quarantine instead of deleting"
+  ],
+  "canonical_root": "~/Wonderland/Wonderland-v4",
+  "canonical_vault": "~/Wonderland/Wonderland-v4/vault",
+  "rollback": [
+    "git restore .",
+    "git clean -fd tmp/quarantine"
+  ]
+}

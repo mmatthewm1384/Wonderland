@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROXY_HOST="127.0.0.1"
+PROXY_PORT="9050" # Standard local secure listener port
+
+if ! nc -z "$PROXY_HOST" "$PROXY_PORT" >/dev/null 2>&1; then
+    echo "=========================================================="
+    echo "🚨 CRITICAL SECURITY FAULT: Secure proxy tunnel is offline."
+    echo "Execution terminated immediately to prevent cleartext leak."
+    echo "=========================================================="
+    exit 1
+fi
+
+# Execute target command with forced local proxy routing definitions
+ALL_PROXY="socks5h://$PROXY_HOST:$PROXY_PORT" \
+http_proxy="http://$PROXY_HOST:$PROXY_PORT" \
+https_proxy="http://$PROXY_HOST:$PROXY_PORT" \
+"$@"

@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REG="vault/07-Operations/backups/backup-registry.json"
+
+latest="$(find /Volumes/T7_Wonderland/Wonderland/persistence/backups/authority \
+  -maxdepth 1 -type d -name 'authority-*' | sort | tail -1)"
+
+python3 - <<PY
+import json
+from pathlib import Path
+from datetime import datetime
+
+reg = Path("$REG")
+data = json.loads(reg.read_text())
+
+data["backups"].append({
+    "timestamp": datetime.now().isoformat(),
+    "path": "$latest",
+    "status": "certified"
+})
+
+reg.write_text(json.dumps(data, indent=2) + "\\n")
+PY
+
+echo "PASS backup registry updated"

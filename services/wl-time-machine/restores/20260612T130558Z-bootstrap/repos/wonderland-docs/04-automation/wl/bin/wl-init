@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+set -eu
+
+. "$HOME/Wonderland/tools/lib/wl-common.sh" 2>/dev/null || {
+  SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+  . "$SCRIPT_DIR/../lib/wl-common.sh"
+}
+
+case "${1:-}" in
+  --help)
+    echo "Usage: wl-init"
+    echo "Initialize the canonical Wonderland workspace layout."
+    exit 0
+    ;;
+  --version)
+    echo "$WL_VERSION"
+    exit 0
+    ;;
+esac
+
+mkdir -p "$WL_ROOT"/{repos,data,backups,exports,logs,secrets,tmp,tools,tools/bin,tools/lib}
+mkdir -p "$WL_ROOT/repos"/{wonderland-platform,wonderland-automation,wonderland-services,wonderland-ops}
+
+if [ ! -d "$WL_DOCS_REPO" ]; then
+  wl_info "Docs repository missing: $WL_DOCS_REPO"
+  wl_info "Install wonderland-docs at: $WL_DOCS_REPO"
+else
+  wl_info "Docs repository present: $WL_DOCS_REPO"
+fi
+
+wl_info "Initialized Wonderland workspace at $WL_ROOT"

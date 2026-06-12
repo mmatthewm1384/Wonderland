@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+PLANS="$ROOT/vault/05-Registry/plans"
+EXEC="$ROOT/vault/05-Registry/executions"
+OUT="$ROOT/vault/05-Registry/plans.json"
+
+mkdir -p "$PLANS" "$EXEC"
+
+python3 - "$PLANS" "$EXEC" "$OUT" <<'PY'
+import json
+import pathlib
+import sys
+
+plans_dir = pathlib.Path(sys.argv[1])
+exec_dir = pathlib.Path(sys.argv[2])
+out = pathlib.Path(sys.argv[3])
+
+plans = []
+executions = []
+
+for path in sorted(plans_dir.glob("*.plan.json")):
+    data = json.loads(path.read_text())
+    plans.append({
+        "id": data.get("id"),
+        "path": str(path.relative_to(out.parent)),
+        "status": data.get("status"),
+        "intent_id": data.get("intent_id"),
+        "created": data.get("created")
+    })
+
+for path in sorted(exec_dir.glob("*.execution.json")):
+    data = json.loads(path.read_text())
+    executions.append({
+        "id": data.get("id"),
+        "path": str(path.relative_to(out.parent)),
+        "status": data.get("status"),
+        "plan_id": data.get("plan_id"),
+        "created": data.get("created")
+    })
+
+payload = {
+    "id": "plans-registry-v4",
+    "version": 4,
+    "plans": plans,
+    "executions": executions
+}
+
+out.write_text(json.dumps(payload, indent=2) + "\n")
+
+print(f"plans refreshed: {len(plans)}")
+print(f"executions refreshed: {len(executions)}")
+PY

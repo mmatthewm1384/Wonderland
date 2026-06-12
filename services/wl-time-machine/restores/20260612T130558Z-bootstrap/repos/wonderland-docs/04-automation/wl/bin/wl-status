@@ -1,0 +1,38 @@
+#!/usr/bin/env sh
+set -eu
+
+. "$HOME/Wonderland/tools/lib/wl-common.sh" 2>/dev/null || {
+  SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+  . "$SCRIPT_DIR/../lib/wl-common.sh"
+}
+
+case "${1:-}" in
+  --help)
+    echo "Usage: wl-status"
+    echo "Show Wonderland workspace status."
+    exit 0
+    ;;
+  --version)
+    echo "$WL_VERSION"
+    exit 0
+    ;;
+esac
+
+echo "Wonderland root: $WL_ROOT"
+echo "Docs repository / Obsidian vault: $WL_DOCS_REPO"
+
+for d in repos data backups exports logs secrets tmp tools; do
+  if [ -d "$WL_ROOT/$d" ]; then
+    echo "ok      $d"
+  else
+    echo "missing $d"
+  fi
+done
+
+if [ -d "$WL_DOCS_REPO/.git" ]; then
+  echo "ok      wonderland-docs git repository"
+elif [ -d "$WL_DOCS_REPO" ]; then
+  echo "warn    wonderland-docs exists but .git is missing"
+else
+  echo "missing wonderland-docs"
+fi

@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+NAME="wl-dns"
+IMAGE="docker.io/coredns/coredns:latest"
+
+case "${1:-status}" in
+  up|repair)
+    nerdctl rm -f "$NAME" >/dev/null 2>&1 || true
+
+    nerdctl run -d \
+      --name "$NAME" \
+      -p 1053:53/udp \
+      -p 1053:53/tcp \
+      -v "$ROOT/docker/wl-dns/config:/etc/coredns:ro" \
+      "$IMAGE" \
+      -conf /etc/coredns/Corefile
+
+    echo "PASS wl-dns up"
+  ;;
+
+  down|rollback)
+    nerdctl rm -f "$NAME" >/dev/null 2>&1 || true
+    echo "PASS wl-dns down"
+  ;;
+
+  status)
+    nerdctl ps -a --filter "name=$NAME"
+  ;;
+
+  logs)
+    nerdctl logs "$NAME"
+  ;;
+
+  doctor|verify)
+    nerdctl ps --filter "name=$NAME" --format '{{.Names}}' | grep -qx "$NAME"
+
+    if command -v timeout >/dev/null 2>&1; then
+      timeout 5 dig @127.0.0.1 -p 1053 google.com +short >/dev/null
+    elif command -v gtimeout >/dev/null 2>&1; then
+      gtimeout 5 dig @127.0.0.1 -p 1053 google.com +short >/dev/null
+    else
+      dig @127.0.0.1 -p 1053 google.com +time=2 +tries=1 +short >/dev/null
+    fi
+
+    echo "PASS wl-dns doctor"
+  ;;
+
+  *)
+    echo "Usage: wl-dns up|down|status|logs|doctor|repair|rollback"
+    exit 1
+  ;;
+esac

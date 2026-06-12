@@ -1,0 +1,36 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Obsidian workspace-local files
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
+.obsidian/plugins/*/data.json
+
+# Local environment
+.env
+.env.*
+!.env.example
+
+# Secrets
+secrets/
+*.key
+*.pem
+*.p12
+*.pfx
+*.age
+*.gpg
+
+# Runtime artifacts
+tmp/
+logs/
+exports/
+backups/
+
+# Python/cache/editor
+__pycache__/
+*.pyc
+.vscode/
+.idea/

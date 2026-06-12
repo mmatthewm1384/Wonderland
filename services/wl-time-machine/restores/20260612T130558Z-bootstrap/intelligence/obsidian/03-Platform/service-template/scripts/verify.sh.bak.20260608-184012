@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+set -eu
+
+echo "Verifying wl-service-template..."
+
+if command -v docker >/dev/null 2>&1; then
+  docker ps --filter "name=wl-service-template"
+elif command -v nerdctl >/dev/null 2>&1; then
+  nerdctl ps --filter "name=wl-service-template"
+else
+  echo "No supported container runtime found." >&2
+  exit 3
+fi
+
+echo "Verification complete."

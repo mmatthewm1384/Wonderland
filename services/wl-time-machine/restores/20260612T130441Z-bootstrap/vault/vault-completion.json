@@ -1,0 +1,23 @@
+{
+  "id": "wonderland-vault-completion-v4",
+  "version": 4,
+  "status": "verified",
+  "layers": [
+    "00-Core",
+    "01-Templates",
+    "02-Policies",
+    "03-Runbooks",
+    "04-Schemas",
+    "05-Registry",
+    "06-Services",
+    "07-Operations",
+    "08-Intelligence",
+    "09-Governance",
+    "99-Archive"
+  ],
+  "runtime": {
+    "engine": "nerdctl",
+    "runtime": "containerd"
+  },
+  "authority": "operator"
+}

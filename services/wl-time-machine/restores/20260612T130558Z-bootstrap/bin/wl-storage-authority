@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+AUTHORITY_FILE="$WL_ROOT/vault/07-Operations/platform/storage-authority.json"
+REPORT_DIR="$WL_ROOT/vault/08-Operations/reports"
+REPORT_FILE="$REPORT_DIR/storage-authority-report.json"
+
+if ! command -v jq >/dev/null 2>&1; then
+  echo "FAIL jq required"
+  exit 1
+fi
+
+if [ ! -f "$AUTHORITY_FILE" ]; then
+  echo "FAIL storage authority registry missing"
+  echo "$AUTHORITY_FILE"
+  exit 1
+fi
+
+authority_volume="$(jq -r '.authority_volume' "$AUTHORITY_FILE")"
+authority_path="$(jq -r '.authority_path' "$AUTHORITY_FILE")"
+
+echo "Wonderland Storage Authority"
+echo
+echo "Volume: $authority_volume"
+echo "Path:   $authority_path"
+echo
+
+fail=0
+
+if mount | grep -q "on $authority_path "; then
+  echo "PASS mounted"
+else
+  echo "FAIL not mounted"
+  fail=1
+fi
+
+echo
+echo "Required Directories"
+
+while IFS= read -r rel; do
+  path="$authority_path/$rel"
+  if [ -e "$path" ]; then
+    echo "PASS $path"
+  else
+    echo "FAIL $path"
+    fail=1
+  fi
+done < <(jq -r '.required_directories[]' "$AUTHORITY_FILE")
+
+echo
+echo "Optional Directories"
+
+while IFS= read -r rel; do
+  path="$authority_path/$rel"
+  if [ -e "$path" ]; then
+    echo "PASS $path"
+  else
+    echo "WARN $path"
+  fi
+done < <(jq -r '.optional_directories[]' "$AUTHORITY_FILE")
+
+mkdir -p "$REPORT_DIR"
+
+cat > "$REPORT_FILE" <<JSON
+{
+  "generated": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+  "volume": "$authority_volume",
+  "path": "$authority_path",
+  "result": "$([ "$fail" -eq 0 ] && echo PASS || echo FAIL)"
+}
+JSON
+
+echo
+if [ "$fail" -eq 0 ]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+  exit 1
+fi

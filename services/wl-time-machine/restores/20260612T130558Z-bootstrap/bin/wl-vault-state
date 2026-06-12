@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+VAULT="$ROOT/vault"
+
+python3 - "$ROOT" "$VAULT" <<'PY'
+import json
+import pathlib
+import subprocess
+import sys
+import datetime
+
+root = pathlib.Path(sys.argv[1])
+vault = pathlib.Path(sys.argv[2])
+
+layers = [
+    "00-Core",
+    "01-Templates",
+    "02-Policies",
+    "03-Runbooks",
+    "04-Schemas",
+    "99-Archive"
+]
+
+snapshots = sorted((vault / "snapshots").glob("*.tar.gz")) if (vault / "snapshots").exists() else []
+reports = sorted((vault / "reports").glob("*.txt")) if (vault / "reports").exists() else []
+
+result = subprocess.run(
+    [str(root / "bin" / "wl"), "verify"],
+    stdout=subprocess.PIPE,
+    stderr=subprocess.STDOUT,
+    text=True
+)
+
+state = {
+    "id": "vault-state-report-v4",
+    "timestamp": datetime.datetime.now().isoformat(timespec="seconds"),
+    "root": str(root),
+    "vault": str(vault),
+    "layers": [
+        {
+            "name": layer,
+            "path": str(vault / layer),
+            "exists": (vault / layer).is_dir()
+        }
+        for layer in layers
+    ],
+    "snapshots": {
+        "count": len(snapshots),
+        "latest": str(snapshots[-1]) if snapshots else None
+    },
+    "reports": {
+        "count": len(reports),
+        "latest": str(reports[-1]) if reports else None
+    },
+    "verification": {
+        "ok": result.returncode == 0,
+        "exit_code": result.returncode
+    }
+}
+
+print(json.dumps(state, indent=2))
+
+sys.exit(result.returncode)
+PY

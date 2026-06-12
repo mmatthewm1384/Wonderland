@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+INTENTS="$ROOT/vault/05-Registry/intents"
+PLANS="$ROOT/vault/05-Registry/plans"
+ID="${1:-}"
+
+if [[ -z "$ID" ]]; then
+  echo "Usage: wl-intent-plan <intent-id-or-file>"
+  exit 1
+fi
+
+mkdir -p "$PLANS"
+
+python3 - "$INTENTS" "$PLANS" "$ID" <<'PY'
+import json
+import pathlib
+import sys
+import datetime
+
+intents = pathlib.Path(sys.argv[1])
+plans = pathlib.Path(sys.argv[2])
+target = sys.argv[3]
+
+matches = []
+
+p = pathlib.Path(target)
+if p.exists():
+    matches = [p]
+else:
+    for f in intents.glob("*.intent.json"):
+        data = json.loads(f.read_text())
+        if data.get("id") == target or f.name == target:
+            matches.append(f)
+
+if not matches:
+    print(f"FAIL intent not found: {target}")
+    sys.exit(1)
+
+if len(matches) > 1:
+    print(f"FAIL multiple intents matched: {target}")
+    sys.exit(1)
+
+intent_path = matches[0]
+intent = json.loads(intent_path.read_text())
+
+if intent.get("status") != "approved":
+    print(f"FAIL intent must be approved before planning: {intent.get('status')}")
+    sys.exit(1)
+
+plan = {
+    "id": f"plan-{intent['id']}",
+    "version": 4,
+    "created": datetime.datetime.now().isoformat(timespec="seconds"),
+    "intent_id": intent["id"],
+    "status": "draft",
+    "steps": [
+        "verify current vault state",
+        "generate required artifacts",
+        "refresh registry",
+        "run verification",
+        "capture audit report"
+    ],
+    "rollback": intent.get("rollback", "")
+}
+
+out = plans / f"{plan['id']}.plan.json"
+out.write_text(json.dumps(plan, indent=2) + "\n")
+
+print(f"plan: {out}")
+PY

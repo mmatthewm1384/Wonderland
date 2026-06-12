@@ -1,0 +1,554 @@
+#!/usr/bin/env python3
+
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+ROOT = Path.cwd()
+REPORT_DIR = ROOT / "vault/09-Governance/wil/reports"
+REPORT_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def parse_scalar(value):
+    value = value.strip()
+
+    if value == "":
+        return ""
+
+    if value in ("true", "false"):
+        return value == "true"
+
+    try:
+        return int(value)
+    except ValueError:
+        pass
+
+    try:
+        return float(value)
+    except ValueError:
+        pass
+
+    return value.strip('"').strip("'")
+
+
+def load_simple_yaml(path):
+    lines = Path(path).read_text().splitlines()
+    root = {}
+    stack = [(0, root)]
+
+    for raw in lines:
+        if not raw.strip() or raw.strip().startswith("#"):
+            continue
+
+        indent = len(raw) - len(raw.lstrip(" "))
+        line = raw.strip()
+
+        while stack and indent < stack[-1][0]:
+            stack.pop()
+
+        parent = stack[-1][1]
+
+        if line.startswith("- "):
+            item = line[2:].strip()
+
+            if not isinstance(parent, list):
+                continue
+
+            if ": " in item:
+                k, v = item.split(": ", 1)
+                obj = {k: parse_scalar(v)}
+                parent.append(obj)
+                stack.append((indent + 2, obj))
+            else:
+                parent.append(parse_scalar(item))
+            continue
+
+        if ":" in line:
+            key, value = line.split(":", 1)
+            key = key.strip()
+            value = value.strip()
+
+            if value:
+                parent[key] = parse_scalar(value)
+            else:
+                next_container = []
+                parent[key] = next_container
+                stack.append((indent + 2, next_container))
+
+    return root
+
+
+def normalize_lists(obj):
+    if isinstance(obj, dict):
+        return {k: normalize_lists(v) for k, v in obj.items()}
+
+    if isinstance(obj, list):
+        normalized = []
+        current = None
+
+        for item in obj:
+            if isinstance(item, dict) and len(item) == 1:
+                k, v = next(iter(item.items()))
+
+                if current is not None and k not in current:
+                    current[k] = normalize_lists(v)
+                else:
+                    current = {k: normalize_lists(v)}
+                    normalized.append(current)
+            else:
+                normalized.append(normalize_lists(item))
+
+        return normalized
+
+    return obj
+
+
+def load_wil(path):
+    if path.endswith((".json",)):
+        return json.loads(Path(path).read_text())
+
+    return normalize_lists(load_simple_yaml(path))
+
+
+
+
+def parse_cli_overrides(argv):
+    overrides = {}
+
+    for arg in argv:
+        if "=" in arg and not arg.startswith("--"):
+            key, value = arg.split("=", 1)
+            if key:
+                overrides[key] = value
+
+    return overrides
+
+
+def apply_overrides(doc, overrides):
+    if not overrides:
+        return doc
+
+    variables = doc.get("variables", {})
+    if not isinstance(variables, dict):
+        variables = {}
+
+    variables.update(overrides)
+    doc["variables"] = variables
+    return doc
+
+def interpolate_value(value, variables):
+    if isinstance(value, str):
+        out = value
+        for key, replacement in variables.items():
+            out = out.replace("${" + key + "}", str(replacement))
+        return out
+
+    if isinstance(value, list):
+        return [interpolate_value(item, variables) for item in value]
+
+    if isinstance(value, dict):
+        return {
+            key: interpolate_value(val, variables)
+            for key, val in value.items()
+        }
+
+    return value
+
+
+def apply_variables(doc):
+    variables = doc.get("variables", {})
+    if not isinstance(variables, dict):
+        variables = {}
+
+    return interpolate_value(doc, variables)
+
+def compile_doc(doc):
+    return {
+        "wil_version": doc.get("version"),
+        "kind": doc.get("kind"),
+        "id": doc.get("id"),
+        "intent": doc.get("intent"),
+        "target": doc.get("target", {}),
+        "desired_state": doc.get("desired_state", {}),
+        "requires": doc.get("requires", []),
+        "verify": doc.get("verify", []),
+        "prove": doc.get("prove", []),
+        "do": doc.get("do", []),
+        "outputs": doc.get("outputs", []),
+        "observe": doc.get("observe", []),
+        "recovery": doc.get("recovery", []),
+        "recover": doc.get("recover", []),
+        "rollback": doc.get("rollback", []),
+        "consequences": doc.get("consequences", {}),
+        "risks": doc.get("risks", [])
+    }
+
+
+def verify(doc):
+    checks = doc.get("verify", [])
+    results = []
+
+    for check in checks:
+        name = check.get("name", "unnamed")
+        command = check.get("command")
+
+        if not command:
+            results.append({
+                "name": name,
+                "status": "FAIL",
+                "reason": "missing command"
+            })
+            continue
+
+        proc = subprocess.run(
+            command,
+            shell=True,
+            cwd=ROOT,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+
+        results.append({
+            "name": name,
+            "command": command,
+            "status": "PASS" if proc.returncode == 0 else "FAIL"
+        })
+
+    return results
+
+
+
+def plan_program(doc):
+    print(f"Program: {doc.get('id')}")
+    print(f"Intent: {doc.get('intent', '')}")
+    print()
+
+    requires = doc.get("requires", [])
+    if requires:
+        print("Requires:")
+        for item in requires:
+            print(f"- {item}")
+        print()
+
+    actions = doc.get("do", [])
+    if actions:
+        print("Actions:")
+        for i, action in enumerate(actions, 1):
+            print(f"{i}. {action.get('name', 'unnamed')}: {action.get('run')}")
+        print()
+
+    proof = doc.get("prove", [])
+    if proof:
+        print("Proof:")
+        for i, check in enumerate(proof, 1):
+            print(f"{i}. {check.get('name', 'unnamed')}: {check.get('command')}")
+        print()
+
+    recover = doc.get("recover", [])
+    if recover:
+        print("Recovery:")
+        for i, action in enumerate(recover, 1):
+            print(f"{i}. {action.get('name', 'unnamed')}: {action.get('run')}")
+        print()
+
+    rollback = doc.get("rollback", [])
+    if rollback:
+        print("Rollback:")
+        for i, action in enumerate(rollback, 1):
+            print(f"{i}. {action.get('name', 'unnamed')}: {action.get('run')}")
+        print()
+
+
+
+
+def validate_requires(doc):
+    results = []
+
+    for item in doc.get("requires", []):
+        if isinstance(item, str):
+            rid = item
+        elif isinstance(item, dict):
+            rid = item.get("artifact") or item.get("id") or item.get("name")
+        else:
+            rid = None
+
+        if not rid:
+            results.append({
+                "requirement": None,
+                "status": "FAIL",
+                "reason": "invalid requirement"
+            })
+            continue
+
+        checks = [
+            ROOT / "bin" / rid,
+            ROOT / "services" / rid,
+            ROOT / "vault/09-Governance/wil/artifacts" / f"{rid}.artifact.json"
+        ]
+
+        ok = any(path.exists() for path in checks)
+
+        results.append({
+            "requirement": rid,
+            "status": "PASS" if ok else "FAIL"
+        })
+
+    return results
+
+def inspect_outputs(doc):
+    results = []
+
+    for item in doc.get("outputs", []):
+        kind = item.get("kind")
+        raw_path = item.get("path")
+
+        if not raw_path:
+            results.append({
+                "kind": kind,
+                "path": None,
+                "status": "FAIL",
+                "reason": "missing path"
+            })
+            continue
+
+        path = ROOT / raw_path
+
+        if kind == "directory":
+            ok = path.is_dir()
+        elif kind == "file":
+            ok = path.is_file()
+        else:
+            ok = path.exists()
+
+        results.append({
+            "kind": kind,
+            "path": raw_path,
+            "status": "PASS" if ok else "FAIL"
+        })
+
+    return results
+
+def run_actions(actions):
+    results = []
+
+    for action in actions:
+        name = action.get("name", "unnamed")
+        command = action.get("run")
+
+        if not command:
+            results.append({
+                "name": name,
+                "status": "FAIL",
+                "reason": "missing run command"
+            })
+            continue
+
+        proc = subprocess.run(command, shell=True, cwd=ROOT)
+
+        results.append({
+            "name": name,
+            "command": command,
+            "status": "PASS" if proc.returncode == 0 else "FAIL"
+        })
+
+        if proc.returncode != 0:
+            break
+
+    return results
+
+
+def prove_program(doc):
+    checks = doc.get("prove", [])
+    results = []
+
+    for check in checks:
+        name = check.get("name", "unnamed")
+        command = check.get("command")
+
+        if not command:
+            results.append({
+                "name": name,
+                "status": "FAIL",
+                "reason": "missing proof command"
+            })
+            continue
+
+        proc = subprocess.run(
+            command,
+            shell=True,
+            cwd=ROOT,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+
+        results.append({
+            "name": name,
+            "command": command,
+            "status": "PASS" if proc.returncode == 0 else "FAIL"
+        })
+
+    return results
+
+def main():
+    if len(sys.argv) < 3:
+        print("usage: wil <compile|verify|report> <file>")
+        sys.exit(1)
+
+    command = sys.argv[1]
+    path = sys.argv[2]
+
+    raw_doc = load_wil(path)
+    raw_doc = apply_overrides(raw_doc, parse_cli_overrides(sys.argv[3:]))
+    doc = apply_variables(raw_doc)
+    compiled = compile_doc(doc)
+
+    if command == "compile":
+        print(json.dumps(compiled, indent=2))
+        return
+
+    if command == "plan":
+        if doc.get("kind") != "program":
+            print("plan only supports kind: program")
+            sys.exit(1)
+        plan_program(doc)
+        return
+
+    if command == "requires":
+        results = validate_requires(doc)
+        passed = all(r["status"] == "PASS" for r in results)
+
+        print(json.dumps({
+            "id": doc.get("id"),
+            "kind": doc.get("kind"),
+            "mode": "requires",
+            "result": "PASS" if passed else "FAIL",
+            "requires": results
+        }, indent=2))
+
+        sys.exit(0 if passed else 1)
+
+    if command == "inspect":
+        if doc.get("kind") != "program":
+            print("inspect only supports kind: program")
+            sys.exit(1)
+
+        results = inspect_outputs(doc)
+        passed = all(r["status"] == "PASS" for r in results)
+
+        print(json.dumps({
+            "id": doc.get("id"),
+            "kind": doc.get("kind"),
+            "mode": "inspect",
+            "result": "PASS" if passed else "FAIL",
+            "outputs": results
+        }, indent=2))
+
+        sys.exit(0 if passed else 1)
+
+    if command == "run":
+        if doc.get("kind") != "program":
+            print("run only supports kind: program")
+            sys.exit(1)
+
+        if "--yes" not in sys.argv:
+            print("Refusing to execute without --yes")
+            print(f"Preview with: wil plan {path}")
+            sys.exit(1)
+
+        require_results = validate_requires(doc)
+
+        if not all(r["status"] == "PASS" for r in require_results):
+            payload = {
+                "id": doc.get("id"),
+                "kind": doc.get("kind"),
+                "mode": "run",
+                "result": "FAIL",
+                "reason": "requirements failed",
+                "requires": require_results,
+                "actions": [],
+                "proof": []
+            }
+            print(json.dumps(payload, indent=2))
+            sys.exit(1)
+
+        action_results = run_actions(doc.get("do", []))
+        proof_results = prove_program(doc)
+
+        passed = (
+            all(r["status"] == "PASS" for r in require_results)
+            and all(r["status"] == "PASS" for r in action_results)
+            and all(r["status"] == "PASS" for r in proof_results)
+        )
+
+        print(json.dumps({
+            "id": doc.get("id"),
+            "kind": doc.get("kind"),
+            "mode": "run",
+            "result": "PASS" if passed else "FAIL",
+            "requires": require_results,
+            "actions": action_results,
+            "proof": proof_results
+        }, indent=2))
+
+        sys.exit(0 if passed else 1)
+
+    if command in ("recover", "rollback"):
+        if doc.get("kind") != "program":
+            print(f"{command} only supports kind: program")
+            sys.exit(1)
+
+        if "--yes" not in sys.argv:
+            print(f"Refusing to execute {command} without --yes")
+            print(f"Preview with: wil plan {path}")
+            sys.exit(1)
+
+        section = "recover" if command == "recover" else "rollback"
+        action_results = run_actions(doc.get(section, []))
+
+        passed = all(r["status"] == "PASS" for r in action_results)
+
+        print(json.dumps({
+            "id": doc.get("id"),
+            "kind": doc.get("kind"),
+            "mode": command,
+            "result": "PASS" if passed else "FAIL",
+            "actions": action_results
+        }, indent=2))
+
+        sys.exit(0 if passed else 1)
+
+    if command == "verify":
+        results = verify(doc)
+        passed = all(r["status"] == "PASS" for r in results)
+
+        print(json.dumps({
+            "id": doc.get("id"),
+            "kind": doc.get("kind"),
+            "result": "PASS" if passed else "FAIL",
+            "checks": results
+        }, indent=2))
+
+        sys.exit(0 if passed else 1)
+
+    if command == "report":
+        results = verify(doc)
+
+        report = {
+            "id": doc.get("id"),
+            "kind": doc.get("kind"),
+            "compiled": compiled,
+            "verification": results
+        }
+
+        out = REPORT_DIR / f"{doc.get('id')}.report.json"
+        out.write_text(json.dumps(report, indent=2))
+        print(out)
+        return
+
+    print(f"unknown command: {command}")
+    sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

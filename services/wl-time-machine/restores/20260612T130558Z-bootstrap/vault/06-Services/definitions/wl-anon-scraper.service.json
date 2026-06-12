@@ -1,0 +1,16 @@
+{
+  "id": "wl-anon-scraper-service-v4",
+  "name": "wl-anon-scraper",
+  "status": "active",
+  "version": 4,
+  "runtime": "containerd",
+  "engine": "nerdctl",
+  "container": "wl-anon-scraper",
+  "compose": null,
+  "verify": "nerdctl ps --filter name=wl-anon-scraper --format '{{.Names}}' | grep -qx wl-anon-scraper",
+  "recover": "wl services recover wl-anon-scraper",
+  "rollback": "wl services rollback wl-anon-scraper",
+  "dependencies": [],
+  "ports": [],
+  "volumes": []
+}

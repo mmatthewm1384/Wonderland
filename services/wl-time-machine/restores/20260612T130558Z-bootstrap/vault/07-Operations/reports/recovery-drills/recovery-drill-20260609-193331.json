@@ -1,0 +1,56 @@
+{
+  "id": "recovery-drill-report-v4",
+  "version": 4,
+  "timestamp": "2026-06-09T19:33:34",
+  "snapshot": "/Users/wonderland/Wonderland/vault/snapshots/vault-snapshot-20260609-193331.tar.gz",
+  "checksum": "/Users/wonderland/Wonderland/vault/snapshots/vault-snapshot-20260609-193331.tar.gz.sha256",
+  "extract_dir": "/Users/wonderland/Wonderland/runtime/recovery-drills/recovery-drill-20260609-193331",
+  "checks": [
+    {
+      "path": "00-Core",
+      "exists": true
+    },
+    {
+      "path": "01-Templates",
+      "exists": true
+    },
+    {
+      "path": "02-Policies",
+      "exists": true
+    },
+    {
+      "path": "03-Runbooks",
+      "exists": true
+    },
+    {
+      "path": "04-Schemas",
+      "exists": true
+    },
+    {
+      "path": "05-Registry",
+      "exists": true
+    },
+    {
+      "path": "06-Services",
+      "exists": true
+    },
+    {
+      "path": "07-Operations",
+      "exists": true
+    },
+    {
+      "path": "08-Intelligence",
+      "exists": true
+    },
+    {
+      "path": "09-Governance",
+      "exists": true
+    },
+    {
+      "path": "99-Archive",
+      "exists": true
+    }
+  ],
+  "failures": [],
+  "result": "PASS"
+}

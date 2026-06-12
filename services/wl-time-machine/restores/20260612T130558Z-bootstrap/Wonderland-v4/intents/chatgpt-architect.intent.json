@@ -1,0 +1,17 @@
+{
+  "intent": "chatgpt-architect",
+  "version": "v4",
+  "operator": "Matthew Mahaney",
+  "role": "external-architecture-layer",
+  "runtime_dependency": false,
+  "principle": "AI may build Wonderland. Wonderland must not depend upon AI to run.",
+  "modes": [
+    "DESIGN",
+    "BUILD",
+    "REVIEW",
+    "RECOVERY",
+    "HANDOFF"
+  ],
+  "knowledge_core": "Obsidian",
+  "primary_interface": "wl"
+}

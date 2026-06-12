@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+set -eu
+
+. "$HOME/Wonderland/tools/lib/wl-common.sh" 2>/dev/null || {
+  SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+  . "$SCRIPT_DIR/../lib/wl-common.sh"
+}
+
+case "${1:-}" in
+  --help)
+    echo "Usage: wl-backup"
+    echo "Create a baseline timestamped backup of repositories."
+    exit 0
+    ;;
+  --version)
+    echo "$WL_VERSION"
+    exit 0
+    ;;
+esac
+
+stamp="$(date +%Y%m%d-%H%M%S)"
+dest="$WL_ROOT/backups/baseline-$stamp"
+mkdir -p "$dest"
+
+[ -d "$WL_ROOT/repos" ] && tar -czf "$dest/repos.tar.gz" -C "$WL_ROOT" repos
+
+wl_info "Created baseline backup at $dest"

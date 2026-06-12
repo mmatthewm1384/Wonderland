@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+OUT_DIR="$ROOT/vault/reports/lifecycle"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+OUT="$OUT_DIR/lifecycle-$STAMP.txt"
+
+mkdir -p "$OUT_DIR"
+
+"$ROOT/bin/wl-lifecycle" | tee "$OUT"
+
+echo
+echo "lifecycle report: $OUT"

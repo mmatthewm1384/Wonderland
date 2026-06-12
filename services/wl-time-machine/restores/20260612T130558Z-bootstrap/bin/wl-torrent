@@ -1,0 +1,146 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WONDERLAND_ROOT:-$HOME/Wonderland}"
+SERVICE_DIR="$ROOT/services/torrent"
+SECRET_FILE="$ROOT/vault/secrets/vpn.env"
+DATA_DIR="$ROOT/vault/data/torrents"
+RUNTIME_DIR="$ROOT/runtime/torrent"
+OVERRIDE_FILE="$RUNTIME_DIR/compose.secrets.yml"
+
+usage() {
+  echo "Usage: wl torrent up|down|status|logs|doctor|repair|export"
+}
+
+write_secret_override() {
+  mkdir -p "$RUNTIME_DIR"
+
+  if [ ! -f "$SECRET_FILE" ]; then
+    echo "FAIL missing $SECRET_FILE"
+    exit 1
+  fi
+
+  set -a
+  # shellcheck disable=SC1090
+  . "$SECRET_FILE"
+  set +a
+
+  : "${WIREGUARD_PRIVATE_KEY:?missing WIREGUARD_PRIVATE_KEY}"
+  : "${WIREGUARD_ADDRESSES:?missing WIREGUARD_ADDRESSES}"
+  : "${SERVER_COUNTRIES:?missing SERVER_COUNTRIES}"
+  : "${SERVER_CITIES:?missing SERVER_CITIES}"
+
+  cat > "$OVERRIDE_FILE" <<EOF
+services:
+  gluetun:
+    environment:
+      WIREGUARD_PRIVATE_KEY: "$WIREGUARD_PRIVATE_KEY"
+      WIREGUARD_ADDRESSES: "$WIREGUARD_ADDRESSES"
+      SERVER_COUNTRIES: "$SERVER_COUNTRIES"
+      SERVER_CITIES: "$SERVER_CITIES"
+EOF
+
+  chmod 600 "$OVERRIDE_FILE"
+}
+
+compose() {
+  nerdctl compose \
+    -f "$SERVICE_DIR/compose.yml" \
+    -f "$OVERRIDE_FILE" \
+    "$@"
+}
+
+case "${1:-}" in
+  up)
+    mkdir -p "$DATA_DIR"/{config,downloads,watch,quarantine,complete}
+    write_secret_override
+    compose up -d gluetun
+    sleep 20
+    compose up -d qbittorrent
+    ;;
+
+  down)
+    mkdir -p "$RUNTIME_DIR"
+    if [ -f "$OVERRIDE_FILE" ]; then
+      compose down
+    else
+      nerdctl compose -f "$SERVICE_DIR/compose.yml" down
+    fi
+    rm -f "$OVERRIDE_FILE"
+    ;;
+
+  status)
+    if [ -f "$OVERRIDE_FILE" ]; then
+      compose ps
+    else
+      nerdctl compose -f "$SERVICE_DIR/compose.yml" ps
+    fi
+    ;;
+
+  logs)
+    shift || true
+    if [ -f "$OVERRIDE_FILE" ]; then
+      compose logs -f "$@"
+    else
+      nerdctl compose -f "$SERVICE_DIR/compose.yml" logs -f "$@"
+    fi
+    ;;
+
+  export)
+    exec "$ROOT/bin/wl-torrent-export"
+    ;;
+
+  doctor)
+    echo "wl-torrent doctor"
+    fail=0
+
+    [ -f "$SECRET_FILE" ] && echo "PASS vpn.env" || { echo "FAIL vpn.env"; fail=1; }
+    [ -d "$DATA_DIR/downloads" ] && echo "PASS downloads" || { echo "FAIL downloads"; fail=1; }
+    [ -d "$DATA_DIR/watch" ] && echo "PASS watch" || { echo "FAIL watch"; fail=1; }
+
+    containers="$(nerdctl ps --format '{{.Names}}' 2>/dev/null || true)"
+
+    if printf '%s\n' "$containers" | grep -qx 'wl-torrent-vpn'; then
+      echo "PASS vpn container"
+    else
+      echo "FAIL vpn container"
+      fail=1
+    fi
+
+    if printf '%s\n' "$containers" | grep -qx 'wl-torrent-client'; then
+      echo "PASS client container"
+    else
+      echo "FAIL client container"
+      fail=1
+    fi
+
+    exit "$fail"
+    ;;
+
+  repair)
+    mkdir -p "$DATA_DIR"/{config,downloads,watch,quarantine,complete}
+    mkdir -p "$(dirname "$SECRET_FILE")"
+
+    if [ ! -f "$SECRET_FILE" ]; then
+      cat > "$SECRET_FILE" <<'EOF'
+WIREGUARD_PRIVATE_KEY=
+WIREGUARD_ADDRESSES=
+SERVER_COUNTRIES="United States"
+SERVER_CITIES="San Francisco"
+EOF
+      chmod 600 "$SECRET_FILE"
+      echo "created vpn.env template; fill with Surfshark WireGuard credentials"
+      exit 1
+    fi
+
+    write_secret_override
+    compose up -d gluetun
+    sleep 20
+    compose up -d qbittorrent
+    ;;
+
+  *)
+    usage
+    exit 1
+    ;;
+esac

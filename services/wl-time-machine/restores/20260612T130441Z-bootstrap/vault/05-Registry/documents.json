@@ -1,0 +1,666 @@
+{
+  "id": "documents-registry-v4",
+  "version": 4,
+  "documents": [
+    {
+      "path": "00-Core/README.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "00-Core/README.md"
+    },
+    {
+      "path": "00-Core/governance/change-management.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "change-management-v4",
+      "title": "Change Management"
+    },
+    {
+      "path": "00-Core/governance/operator-authority.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "operator-authority-v4",
+      "title": "Operator Authority"
+    },
+    {
+      "path": "00-Core/governance/promotion-policy.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "promotion-policy-v4",
+      "title": "Promotion Policy"
+    },
+    {
+      "path": "00-Core/governance/system-principles.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "system-principles-v4",
+      "title": "Wonderland System Principles"
+    },
+    {
+      "path": "00-Core/governance/trust-boundaries.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "trust-boundaries-v4",
+      "title": "Trust Boundaries"
+    },
+    {
+      "path": "00-Core/identity/architectural-doctrine.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "architectural-doctrine-v4",
+      "title": "Architectural Doctrine"
+    },
+    {
+      "path": "00-Core/identity/naming-standards.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "naming-standards-v4",
+      "title": "Naming Standards"
+    },
+    {
+      "path": "00-Core/identity/wonderland-identity.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "wonderland-identity-v4",
+      "title": "Wonderland Identity"
+    },
+    {
+      "path": "00-Core/manifests/core-state.manifest.json",
+      "layer": "00-Core",
+      "type": "json",
+      "id": "00-Core/manifests/core-state.manifest.json"
+    },
+    {
+      "path": "00-Core/manifests/document-registry.json",
+      "layer": "00-Core",
+      "type": "json",
+      "id": "00-Core/manifests/document-registry.json"
+    },
+    {
+      "path": "00-Core/manifests/seed-vault-manifest.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "vault-document-catalog-v4",
+      "title": "Wonderland Seed Vault Manifest"
+    },
+    {
+      "path": "00-Core/manifests/vault-state.json",
+      "layer": "00-Core",
+      "type": "json",
+      "id": "vault-state-v4"
+    },
+    {
+      "path": "00-Core/metadata/layers.json",
+      "layer": "00-Core",
+      "type": "json",
+      "id": "00-Core/metadata/layers.json"
+    },
+    {
+      "path": "00-Core/metadata/lifecycle.json",
+      "layer": "00-Core",
+      "type": "json",
+      "id": "lifecycle-v4"
+    },
+    {
+      "path": "00-Core/metadata/promotions.json",
+      "layer": "00-Core",
+      "type": "json",
+      "id": "00-Core/metadata/promotions.json"
+    },
+    {
+      "path": "00-Core/metadata/protected-paths.json",
+      "layer": "00-Core",
+      "type": "json",
+      "id": "00-Core/metadata/protected-paths.json"
+    },
+    {
+      "path": "00-Core/operations/backup-standard.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "backup-standard-v4"
+    },
+    {
+      "path": "00-Core/operations/command-authority.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "command-authority-v4",
+      "title": "Command Authority"
+    },
+    {
+      "path": "00-Core/operations/observability-standard.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "observability-standard-v4"
+    },
+    {
+      "path": "00-Core/operations/verification-standard.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "verification-standard-v4",
+      "title": "Verification Standard"
+    },
+    {
+      "path": "00-Core/recovery/bootstrap-procedure.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "bootstrap-procedure-v4",
+      "title": "Bootstrap Procedure"
+    },
+    {
+      "path": "00-Core/recovery/continuity-plan.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "continuity-plan-v4",
+      "title": "Continuity Plan"
+    },
+    {
+      "path": "00-Core/recovery/disaster-recovery.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "disaster-recovery-v4",
+      "title": "Disaster Recovery"
+    },
+    {
+      "path": "00-Core/recovery/rebuild-order.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "rebuild-order-v4",
+      "title": "Rebuild Order"
+    },
+    {
+      "path": "00-Core/recovery/recovery-policy.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "recovery-policy-v4",
+      "title": "Recovery Policy"
+    },
+    {
+      "path": "00-Core/recovery/rollback-standard.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "rollback-standard-v4",
+      "title": "Rollback Standard"
+    },
+    {
+      "path": "00-Core/schemas/core-document.schema.json",
+      "layer": "00-Core",
+      "type": "json",
+      "id": "00-Core/schemas/core-document.schema.json"
+    },
+    {
+      "path": "00-Core/schemas/intent.schema.json",
+      "layer": "00-Core",
+      "type": "json",
+      "id": "00-Core/schemas/intent.schema.json"
+    },
+    {
+      "path": "00-Core/schemas/manifest.schema.json",
+      "layer": "00-Core",
+      "type": "json",
+      "id": "00-Core/schemas/manifest.schema.json"
+    },
+    {
+      "path": "00-Core/security/access-control.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "access-control-v4",
+      "title": "Access Control"
+    },
+    {
+      "path": "00-Core/security/secrets-policy.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "secrets-policy-v4",
+      "title": "Secrets Policy"
+    },
+    {
+      "path": "00-Core/security/threat-model.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "threat-model-v4",
+      "title": "Threat Model"
+    },
+    {
+      "path": "00-Core/topology/dependency-model.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "dependency-model-v4"
+    },
+    {
+      "path": "00-Core/topology/root-map.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "root-map-v4",
+      "title": "Wonderland Root Map"
+    },
+    {
+      "path": "00-Core/topology/service-topology.md",
+      "layer": "00-Core",
+      "type": "md",
+      "id": "service-topology-v4"
+    },
+    {
+      "path": "01-Templates/documents/core-document.template.md",
+      "layer": "01-Templates",
+      "type": "md",
+      "id": "01-Templates/documents/core-document.template.md",
+      "title": "{{ title }}"
+    },
+    {
+      "path": "01-Templates/intents/intent.template.json",
+      "layer": "01-Templates",
+      "type": "json",
+      "id": "{{ id }}"
+    },
+    {
+      "path": "01-Templates/runbooks/runbook.template.md",
+      "layer": "01-Templates",
+      "type": "md",
+      "id": "01-Templates/runbooks/runbook.template.md",
+      "title": "{{ title }}"
+    },
+    {
+      "path": "01-Templates/services/service.template.md",
+      "layer": "01-Templates",
+      "type": "md",
+      "id": "01-Templates/services/service.template.md",
+      "title": "{{ service_name }}"
+    },
+    {
+      "path": "01-Templates/template-registry.json",
+      "layer": "01-Templates",
+      "type": "json",
+      "id": "template-registry-v4"
+    },
+    {
+      "path": "02-Policies/governance/core-promotion.policy.md",
+      "layer": "02-Policies",
+      "type": "md",
+      "id": "core-promotion-policy-v4",
+      "title": "Core Promotion Policy"
+    },
+    {
+      "path": "02-Policies/operations/backup.policy.md",
+      "layer": "02-Policies",
+      "type": "md",
+      "id": "backup-policy-v4",
+      "title": "Backup Policy"
+    },
+    {
+      "path": "02-Policies/operations/runtime.policy.md",
+      "layer": "02-Policies",
+      "type": "md",
+      "id": "runtime-policy-v4",
+      "title": "Runtime Policy"
+    },
+    {
+      "path": "02-Policies/operations/snapshot-retention.policy.md",
+      "layer": "02-Policies",
+      "type": "md",
+      "id": "snapshot-retention-policy-v4",
+      "title": "Snapshot Retention Policy"
+    },
+    {
+      "path": "02-Policies/operations/unmanaged-runtime.policy.md",
+      "layer": "02-Policies",
+      "type": "md",
+      "id": "unmanaged-runtime-policy-v4",
+      "title": "Unmanaged Runtime Policy"
+    },
+    {
+      "path": "02-Policies/policy-registry.json",
+      "layer": "02-Policies",
+      "type": "json",
+      "id": "policy-registry-v4"
+    },
+    {
+      "path": "02-Policies/recovery/rollback.policy.md",
+      "layer": "02-Policies",
+      "type": "md",
+      "id": "rollback-policy-v4",
+      "title": "Rollback Policy"
+    },
+    {
+      "path": "02-Policies/security/secrets-handling.policy.md",
+      "layer": "02-Policies",
+      "type": "md",
+      "id": "secrets-handling-policy-v4",
+      "title": "Secrets Handling Policy"
+    },
+    {
+      "path": "03-Runbooks/bootstrap/bootstrap.runbook.md",
+      "layer": "03-Runbooks",
+      "type": "md",
+      "id": "bootstrap-runbook-v4",
+      "title": "Bootstrap Runbook"
+    },
+    {
+      "path": "03-Runbooks/operations/backup.runbook.md",
+      "layer": "03-Runbooks",
+      "type": "md",
+      "id": "backup-runbook-v4",
+      "title": "Backup Runbook"
+    },
+    {
+      "path": "03-Runbooks/recovery/recovery.runbook.md",
+      "layer": "03-Runbooks",
+      "type": "md",
+      "id": "recovery-runbook-v4",
+      "title": "Recovery Runbook"
+    },
+    {
+      "path": "03-Runbooks/runbook-registry.json",
+      "layer": "03-Runbooks",
+      "type": "json",
+      "id": "runbook-registry-v4"
+    },
+    {
+      "path": "03-Runbooks/services/service-restore.runbook.md",
+      "layer": "03-Runbooks",
+      "type": "md",
+      "id": "service-restore-runbook-v4",
+      "title": "Service Restore Runbook"
+    },
+    {
+      "path": "04-Schemas/json/document.schema.json",
+      "layer": "04-Schemas",
+      "type": "json",
+      "id": "04-Schemas/json/document.schema.json"
+    },
+    {
+      "path": "04-Schemas/json/intent.schema.json",
+      "layer": "04-Schemas",
+      "type": "json",
+      "id": "04-Schemas/json/intent.schema.json"
+    },
+    {
+      "path": "04-Schemas/json/policy.schema.json",
+      "layer": "04-Schemas",
+      "type": "json",
+      "id": "04-Schemas/json/policy.schema.json"
+    },
+    {
+      "path": "04-Schemas/json/runbook.schema.json",
+      "layer": "04-Schemas",
+      "type": "json",
+      "id": "04-Schemas/json/runbook.schema.json"
+    },
+    {
+      "path": "04-Schemas/json/service.schema.json",
+      "layer": "04-Schemas",
+      "type": "json",
+      "id": "04-Schemas/json/service.schema.json"
+    },
+    {
+      "path": "04-Schemas/schema-registry.json",
+      "layer": "04-Schemas",
+      "type": "json",
+      "id": "schema-registry-v4"
+    },
+    {
+      "path": "05-Registry/assets.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "assets-registry-v4"
+    },
+    {
+      "path": "05-Registry/commands.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "commands-registry-v4"
+    },
+    {
+      "path": "05-Registry/documents.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "documents-registry-v4"
+    },
+    {
+      "path": "05-Registry/executions/execution-plan-promote-anon-gateway--20260608-185912.execution.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "execution-plan-promote-anon-gateway--20260608-185912"
+    },
+    {
+      "path": "05-Registry/intents/promote-anon-gateway--20260608-185912.intent.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "promote-anon-gateway--20260608-185912"
+    },
+    {
+      "path": "05-Registry/intents/promote-anon-gateway--20260609-125906.intent.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "promote-anon-gateway--20260609-125906"
+    },
+    {
+      "path": "05-Registry/intents/promote-anon-scraper--20260609-125906.intent.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "promote-anon-scraper--20260609-125906"
+    },
+    {
+      "path": "05-Registry/intents.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "intents-registry-v4"
+    },
+    {
+      "path": "05-Registry/operators.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "operators-registry-v4"
+    },
+    {
+      "path": "05-Registry/plans/plan-promote-anon-gateway--20260608-185912.plan.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "plan-promote-anon-gateway--20260608-185912"
+    },
+    {
+      "path": "05-Registry/plans.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "plans-registry-v4"
+    },
+    {
+      "path": "05-Registry/registry-map.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "registry-map-v4"
+    },
+    {
+      "path": "05-Registry/services.json",
+      "layer": "05-Registry",
+      "type": "json",
+      "id": "services-registry-v4"
+    },
+    {
+      "path": "06-Services/blueprints/anon-blueprints.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "anon-blueprints-v4"
+    },
+    {
+      "path": "06-Services/definitions/wl-anon-gateway.service.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "wl-anon-gateway-service-v4"
+    },
+    {
+      "path": "06-Services/definitions/wl-anon-scraper.service.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "wl-anon-scraper-service-v4"
+    },
+    {
+      "path": "06-Services/definitions/wl-anon-tor.service.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "wl-anon-tor-service-v4"
+    },
+    {
+      "path": "06-Services/definitions/wl-dns.service.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "wl-dns-service-v4"
+    },
+    {
+      "path": "06-Services/definitions/wl-grafana.service.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "wl-grafana-service-v4"
+    },
+    {
+      "path": "06-Services/definitions/wl-loki.service.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "wl-loki-service-v4"
+    },
+    {
+      "path": "06-Services/definitions/wl-nats.service.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "wl-nats-service-v4"
+    },
+    {
+      "path": "06-Services/definitions/wl-prometheus.service.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "wl-prometheus-service-v4"
+    },
+    {
+      "path": "06-Services/docs/network-standard.md",
+      "layer": "06-Services",
+      "type": "md",
+      "id": "network-standard-v4"
+    },
+    {
+      "path": "06-Services/docs/network-topology.md",
+      "layer": "06-Services",
+      "type": "md",
+      "id": "network-topology-v4",
+      "title": "Network Topology"
+    },
+    {
+      "path": "06-Services/docs/port-map.md",
+      "layer": "06-Services",
+      "type": "md",
+      "id": "port-map-v4"
+    },
+    {
+      "path": "06-Services/docs/runtime-inventory.md",
+      "layer": "06-Services",
+      "type": "md",
+      "id": "runtime-inventory-v4",
+      "title": "Runtime Inventory"
+    },
+    {
+      "path": "06-Services/docs/runtime-standard.md",
+      "layer": "06-Services",
+      "type": "md",
+      "id": "runtime-standard-v4",
+      "title": "Runtime Standard"
+    },
+    {
+      "path": "06-Services/docs/service-overview.md",
+      "layer": "06-Services",
+      "type": "md",
+      "id": "service-overview-v4"
+    },
+    {
+      "path": "06-Services/docs/service-promotion.md",
+      "layer": "06-Services",
+      "type": "md",
+      "id": "service-promotion-v4",
+      "title": "Service Promotion Standard"
+    },
+    {
+      "path": "06-Services/docs/service-recovery.md",
+      "layer": "06-Services",
+      "type": "md",
+      "id": "06-Services/docs/service-recovery.md",
+      "title": "Service Recovery Standard"
+    },
+    {
+      "path": "06-Services/graphs/service-graph.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "service-graph-v4"
+    },
+    {
+      "path": "06-Services/recovery/recovery-matrix.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "recovery-matrix-v4"
+    },
+    {
+      "path": "06-Services/recovery/service-recovery-order.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "service-recovery-order-v4"
+    },
+    {
+      "path": "06-Services/runtime/runtime-containers.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "runtime-containers-v4"
+    },
+    {
+      "path": "06-Services/runtime/runtime-inventory.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "runtime-inventory-v4"
+    },
+    {
+      "path": "06-Services/runtime/runtime.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "runtime-v4"
+    },
+    {
+      "path": "06-Services/service-dependencies.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "service-dependencies-v4"
+    },
+    {
+      "path": "06-Services/service-health.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "service-health-v4"
+    },
+    {
+      "path": "06-Services/service-registry.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "service-registry-v4"
+    },
+    {
+      "path": "06-Services/service-status.json",
+      "layer": "06-Services",
+      "type": "json",
+      "id": "service-status-v4"
+    },
+    {
+      "path": "99-Archive/archive-policy.md",
+      "layer": "99-Archive",
+      "type": "md",
+      "id": "archive-policy-v4",
+      "title": "Archive Policy"
+    },
+    {
+      "path": "99-Archive/archive-registry.json",
+      "layer": "99-Archive",
+      "type": "json",
+      "id": "archive-registry-v4"
+    },
+    {
+      "id": "authority-backup-restore-runbook-v4",
+      "title": "Authority Backup Restore Runbook",
+      "path": "03-Runbooks/authority/authority-backup-restore.runbook.md",
+      "type": "runbook",
+      "status": "active"
+    }
+  ]
+}

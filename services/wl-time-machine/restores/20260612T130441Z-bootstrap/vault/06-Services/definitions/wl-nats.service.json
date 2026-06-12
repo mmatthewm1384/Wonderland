@@ -1,0 +1,19 @@
+{
+  "id": "wl-nats-service-v4",
+  "name": "wl-nats",
+  "status": "active",
+  "version": 4,
+  "runtime": "containerd",
+  "engine": "nerdctl",
+  "container": "wl-nats",
+  "compose": null,
+  "verify": "bin/wl-nats doctor",
+  "recover": "bin/wl-nats repair",
+  "rollback": "bin/wl-nats down",
+  "dependencies": [],
+  "ports": [
+    "4222",
+    "8222"
+  ],
+  "volumes": []
+}

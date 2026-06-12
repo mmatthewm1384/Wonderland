@@ -1,0 +1,22 @@
+{
+  "id": "plans-registry-v4",
+  "version": 4,
+  "plans": [
+    {
+      "id": "plan-promote-anon-gateway--20260608-185912",
+      "path": "plans/plan-promote-anon-gateway--20260608-185912.plan.json",
+      "status": "executed",
+      "intent_id": "promote-anon-gateway--20260608-185912",
+      "created": "2026-06-08T19:26:55"
+    }
+  ],
+  "executions": [
+    {
+      "id": "execution-plan-promote-anon-gateway--20260608-185912",
+      "path": "executions/execution-plan-promote-anon-gateway--20260608-185912.execution.json",
+      "status": "executed",
+      "plan_id": "plan-promote-anon-gateway--20260608-185912",
+      "created": "2026-06-08T19:29:36"
+    }
+  ]
+}

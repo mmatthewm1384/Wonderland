@@ -1,0 +1,44 @@
+Wonderland Service Promotion
+service: wl-dns
+generated: 20260610-145733
+
+Creating pre-promotion snapshot...
+snapshot: /Volumes/T7_Wonderland/Wonderland/persistence/snapshots/platform/platform-20260610-145733
+
+Verifying service definition...
+definition: /Users/wonderland/Wonderland/vault/06-Services/definitions/wl-dns.service.json
+
+
+Wonderland Service Recovery Certification
+service: wl-dns
+
+definition               PASS
+doctor                  PASS
+recovery                PASS declared
+rollback                PASS declared
+
+CERTIFIED wl-dns
+
+registry integrity: /Users/wonderland/Wonderland/vault/07-Operations/drift/registry-integrity.json
+checks: 120
+failures: 0
+
+
+Wonderland Doctor
+root: /Users/wonderland/Wonderland
+
+vault                   PASS
+registry integrity      PASS
+runtime drift           PASS
+anon route              PASS
+operations              PASS
+intelligence            PASS
+governance              PASS
+storage authority       PASS
+authority backup        PASS
+authority restore       PASS
+recovery drill          PASS
+
+RESULT PASS
+
+PROMOTION PASS wl-dns

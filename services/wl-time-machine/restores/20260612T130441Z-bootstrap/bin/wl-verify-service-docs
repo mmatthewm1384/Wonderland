@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+DOCS="$ROOT/vault/06-Services/docs"
+
+echo
+echo "Wonderland Service Documentation Verification"
+echo "root: $DOCS"
+echo
+
+required=(
+  "service-overview.md"
+  "runtime-standard.md"
+  "runtime-inventory.md"
+  "network-standard.md"
+  "network-topology.md"
+  "port-map.md"
+  "service-recovery.md"
+  "service-promotion.md"
+)
+
+fail=0
+
+for file in "${required[@]}"; do
+  if [[ -f "$DOCS/$file" ]]; then
+    echo "OK      $file"
+  else
+    echo "MISSING $file"
+    fail=1
+  fi
+done
+
+echo
+
+if [[ "$fail" -eq 0 ]]; then
+  echo "RESULT  PASS"
+else
+  echo "RESULT  FAIL"
+  exit 1
+fi

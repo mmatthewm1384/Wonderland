@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "document-schema-v4",
+  "title": "Wonderland Document",
+  "type": "object",
+  "required": ["id", "path", "title", "status", "version"],
+  "properties": {
+    "id": { "type": "string" },
+    "path": { "type": "string" },
+    "title": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "locked", "deprecated", "archived"]
+    },
+    "version": { "type": "integer", "minimum": 1 }
+  }
+}

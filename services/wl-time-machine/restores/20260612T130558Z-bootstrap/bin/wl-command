@@ -1,0 +1,174 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WONDERLAND_ROOT:-$HOME/Wonderland}"
+REG="$ROOT/vault/05-Schemas/cli/command-registry.json"
+REPORT_DIR="$ROOT/vault/07-Operations/reports"
+CATALOG="$REPORT_DIR/command-catalog.md"
+AUDIT="$REPORT_DIR/command-audit.json"
+
+usage() {
+  cat <<EOF
+wl command list
+wl command show <command>
+wl command verify
+wl command export
+wl command audit
+EOF
+}
+
+case "${1:-}" in
+  list)
+    python3 - "$REG" <<'PY'
+import json, sys
+data=json.load(open(sys.argv[1]))
+for c in data["commands"]:
+    print(f'{c["status"]:10} {c["category"]:12} {c["command"]}')
+PY
+    ;;
+
+  show)
+    shift || true
+    q="${*:-}"
+    [ -n "$q" ] || { echo "missing command"; exit 1; }
+    python3 - "$REG" "$q" <<'PY'
+import json, sys
+data=json.load(open(sys.argv[1]))
+q=sys.argv[2]
+for c in data["commands"]:
+    if c["command"] == q:
+        print(json.dumps(c, indent=2))
+        sys.exit(0)
+print(f"not found: {q}")
+sys.exit(1)
+PY
+    ;;
+
+  verify)
+    python3 - "$REG" <<'PY'
+import json, sys
+p=sys.argv[1]
+data=json.load(open(p))
+seen=set()
+required=["command","category","purpose","inputs","outputs","verification","recovery","status"]
+fail=0
+for c in data.get("commands", []):
+    for k in required:
+        if k not in c:
+            print(f"FAIL missing {k}: {c}")
+            fail+=1
+    name=c.get("command")
+    if name in seen:
+        print(f"FAIL duplicate command: {name}")
+        fail+=1
+    seen.add(name)
+print("RESULT", "PASS" if fail == 0 else "FAIL")
+sys.exit(1 if fail else 0)
+PY
+    ;;
+
+  export)
+    mkdir -p "$REPORT_DIR"
+    python3 - "$REG" "$CATALOG" <<'PY'
+import json, sys, datetime
+reg, out = sys.argv[1], sys.argv[2]
+data=json.load(open(reg))
+now=datetime.datetime.now().isoformat(timespec="seconds")
+lines=[
+"# Wonderland Command Catalog",
+"",
+f"Generated: `{now}`",
+"",
+]
+for c in data["commands"]:
+    lines += [
+        f"## `{c['command']}`",
+        "",
+        f"- Category: `{c['category']}`",
+        f"- Status: `{c['status']}`",
+        f"- Purpose: {c['purpose']}",
+        f"- Inputs: {', '.join(c['inputs']) if c['inputs'] else 'none'}",
+        f"- Outputs: {', '.join(c['outputs']) if c['outputs'] else 'none'}",
+        f"- Verification: {', '.join(c['verification']) if c['verification'] else 'none'}",
+        f"- Recovery: {', '.join(c['recovery']) if c['recovery'] else 'none'}",
+        "",
+    ]
+open(out, "w").write("\n".join(lines))
+print(out)
+PY
+    ;;
+
+  audit)
+    mkdir -p "$REPORT_DIR"
+    python3 - "$ROOT" "$REG" "$AUDIT" <<'PY'
+import json, os, sys, datetime
+
+root, reg_path, out_path = sys.argv[1], sys.argv[2], sys.argv[3]
+data=json.load(open(reg_path))
+bin_dir=os.path.join(root, "bin")
+
+implemented=[]
+if os.path.isdir(bin_dir):
+    for name in sorted(os.listdir(bin_dir)):
+        p=os.path.join(bin_dir, name)
+        if name.startswith("wl-") and os.access(p, os.X_OK):
+            implemented.append(name)
+
+explicit = {
+  "wl doctor": "wl-doctor",
+  "wl health": "wl-health",
+  "wl operations verify": "wl-verify-operations",
+  "wl runtime drift": "wl-runtime-drift",
+  "wl snapshot": "wl-vault-snapshot",
+  "wl verify-snapshot": "wl-vault-verify-snapshot",
+  "wl command list": "wl-command",
+  "wl command show <command>": "wl-command",
+  "wl command verify": "wl-command",
+  "wl command export": "wl-command",
+  "wl command audit": "wl-command",
+  "wl service list": "wl-service-list",
+  "wl service show <name>": "wl-service-show",
+  "wl service promote <name>": "wl-service-promote"
+}
+
+registered=[c["command"] for c in data.get("commands", [])]
+expected=[]
+for c in registered:
+    expected.append(explicit.get(c))
+
+missing=[]
+for command, impl in zip(registered, expected):
+    status = next((x.get("status") for x in data["commands"] if x["command"] == command), "")
+    if status == "planned":
+        continue
+    if impl and impl not in implemented:
+        missing.append({"command": command, "expected": impl})
+    elif impl is None:
+        missing.append({"command": command, "expected": None})
+
+expected_impls=set(x for x in expected if x)
+unregistered=[
+    x for x in implemented
+    if x not in expected_impls
+]
+
+report={
+  "id": "wl-command-audit-v1",
+  "generated": datetime.datetime.now().isoformat(timespec="seconds"),
+  "registered_count": len(registered),
+  "implemented_count": len(implemented),
+  "missing_implementations": missing,
+  "unregistered_implementations": unregistered
+}
+
+open(out_path, "w").write(json.dumps(report, indent=2) + "\n")
+print(json.dumps(report, indent=2))
+sys.exit(1 if missing else 0)
+PY
+    ;;
+
+  *)
+    usage
+    exit 1
+    ;;
+esac

@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+WL_DATA="${WL_DATA:-$WL_HOME/data}"
+WL_MIRROR="${WL_MIRROR:-/Volumes/T7_Wonderland}"
+
+mkdir -p "$WL_HOME" "$WL_DATA" "$WL_HOME/bin"
+mkdir -p "$WL_DATA/knowledge" "$WL_DATA/media" "$WL_DATA/archive" "$WL_DATA/backups" "$WL_DATA/snapshots" "$WL_DATA/vaults"
+
+rsync -a --exclude '.git' "$SRC_DIR"/ "$WL_HOME"/
+chmod +x "$WL_HOME"/bin/wl "$WL_HOME"/bin/wl-* || true
+
+PROFILE="$HOME/.zshrc"
+touch "$PROFILE"
+
+grep -q 'WONDERLAND_V4_GA_PLUS_ENV' "$PROFILE" || cat >> "$PROFILE" <<'EOF'
+
+# WONDERLAND_V4_GA_PLUS_ENV
+export WL_HOME="$HOME/Wonderland"
+export WL_DATA="$WL_HOME/data"
+export WL_MIRROR="/Volumes/T7_Wonderland"
+export PATH="$WL_HOME/bin:$PATH"
+EOF
+
+echo "Wonderland-v4 GA+ installed."
+echo "WL_HOME=$WL_HOME"
+echo "WL_DATA=$WL_DATA"
+echo "WL_MIRROR=$WL_MIRROR"
+echo
+echo "Run:"
+echo "  source ~/.zshrc"
+echo "  wl doctor"
