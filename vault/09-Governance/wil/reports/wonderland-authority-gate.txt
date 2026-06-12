@@ -1,0 +1,60 @@
+Wonderland Authority Gate
+
+== root ==
+/Users/wonderland/Wonderland
+/Users/wonderland/Wonderland
+
+== storage ==
+Wonderland Storage Attach
+
+Wonderland Storage Verify
+
+PASS mounted: /Volumes/T7_Wonderland
+PASS exists: /Volumes/T7_Wonderland/Wonderland-v4
+PASS exists: /Volumes/T7_Wonderland/media
+PASS exists: /Volumes/T7_Wonderland/media/music
+PASS exists: /Volumes/T7_Wonderland/media/torrents
+
+RESULT PASS
+PASS runtime mode: full
+
+== chrono ==
+PASS wl-chrono
+WL Chrono Status
+
+Root:      /Users/wonderland/Wonderland
+Authority: /Users/wonderland/Wonderland/vault/07-Operations/platform/root-authority.json
+Mode:      control-plane-internal-storage-plane-t7
+Storage:   /Volumes/T7_Wonderland/Wonderland-v4
+Snapshots: 4
+Latest:    /Users/wonderland/Wonderland/vault/07-Operations/chrono/snapshots/20260612T203308Z.snapshot.json
+
+== WIL ==
+PASS wl-wil
+WIL Status
+
+Artifacts: 3
+Worlds:    1
+Intents:   0
+Reports:   5
+Events:    30
+Audits:    30
+"PASS"
+World: wonderland-v4
+Status: active
+
+PASS artifact wl-time-machine definition
+PASS wl-time-machine:service-dir
+PASS wl-time-machine:cli
+
+PASS artifact wl-chrono definition
+PASS wl-chrono:tool-dir
+PASS wl-chrono:cli
+PASS wl-chrono:snapshot-dir
+
+PASS artifact wl-vm definition
+PASS wl-vm:tool-dir
+PASS wl-vm:cli
+PASS wl-vm:runtime-dir
+
+RESULT PASS

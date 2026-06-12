@@ -1,0 +1,12 @@
+{
+  "id": "wonderland-root-authority-v1",
+  "active_root": "/Users/wonderland/Wonderland",
+  "storage_root": "/Volumes/T7_Wonderland/Wonderland-v4",
+  "mode": "control-plane-internal-storage-plane-t7",
+  "created": "2026-06-12T20:30:00Z",
+  "notes": [
+    "WIL and Chrono are currently being built in /Users/wonderland/Wonderland.",
+    "T7 is attached and verified as external storage authority.",
+    "Do not duplicate new engines into T7 until promotion is intentional."
+  ]
+}

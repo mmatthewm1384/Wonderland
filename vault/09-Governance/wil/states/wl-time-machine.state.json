@@ -1,0 +1,12 @@
+{
+  "kind": "state",
+  "id": "wl-time-machine-state",
+  "version": 0,
+  "artifact": "wl-time-machine",
+  "desired": {
+    "artifact_defined": true,
+    "service_dir": true,
+    "cli_exists": true,
+    "world": "wonderland-v4"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "kind": "artifact",
+  "id": "wl-chrono",
+  "version": 0,
+  "type": "engine",
+  "status": "skeleton",
+  "authority": "wl-governance",
+  "paths": {
+    "tool": "tools/chrono",
+    "cli": "bin/wl-chrono",
+    "state": "vault/07-Operations/chrono"
+  },
+  "capabilities": [
+    "snapshots",
+    "timelines",
+    "branches",
+    "replay"
+  ],
+  "verify": [
+    {
+      "name": "tool-dir",
+      "command": "test -d tools/chrono"
+    },
+    {
+      "name": "cli",
+      "command": "test -x bin/wl-chrono"
+    },
+    {
+      "name": "snapshot-dir",
+      "command": "test -d vault/07-Operations/chrono/snapshots"
+    }
+  ]
+}

@@ -539,6 +539,212 @@ fn graph_json() {
     println!("{}", serde_json::to_string_pretty(&graph).unwrap());
 }
 
+
+fn state_check(state_id: &str) -> Value {
+    let r = root();
+
+    let state_path = r
+        .join("vault/09-Governance/wil/states")
+        .join(format!("{}.state.json", state_id));
+
+    if !state_path.exists() {
+        return json!({
+            "kind": "state-check",
+            "id": state_id,
+            "result": "FAIL",
+            "reason": "state file not found"
+        });
+    }
+
+    let raw = fs::read_to_string(&state_path).expect("failed to read state");
+    let doc: Value = serde_json::from_str(&raw).expect("invalid state json");
+
+    let artifact = doc.get("artifact").and_then(|v| v.as_str()).unwrap_or("");
+    let desired = doc.get("desired").cloned().unwrap_or(json!({}));
+
+    let artifact_defined = r
+        .join("vault/09-Governance/wil/artifacts")
+        .join(format!("{}.artifact.json", artifact))
+        .exists();
+
+    let service_dir = r
+        .join("services")
+        .join(artifact)
+        .is_dir();
+
+    let cli_exists = r
+        .join("bin")
+        .join(artifact)
+        .is_file();
+
+    let mut checks = vec![];
+
+    if let Some(file_path) = desired.get("file_exists").and_then(|v| v.as_str()) {
+        checks.push(json!({
+            "name": "file_exists",
+            "path": file_path,
+            "status": if r.join(file_path).is_file() { "PASS" } else { "FAIL" }
+        }));
+    }
+
+    if let Some(file_path) = desired.get("file_exists").and_then(|v| v.as_str()) {
+        checks.push(json!({
+            "name": "file_exists",
+            "path": file_path,
+            "status": if r.join(file_path).is_file() { "PASS" } else { "FAIL" }
+        }));
+    }
+
+    if desired.get("artifact_defined").and_then(|v| v.as_bool()) == Some(true) {
+        checks.push(json!({
+            "name": "artifact_defined",
+            "status": if artifact_defined { "PASS" } else { "FAIL" }
+        }));
+    }
+
+    if desired.get("service_dir").and_then(|v| v.as_bool()) == Some(true) {
+        checks.push(json!({
+            "name": "service_dir",
+            "status": if service_dir { "PASS" } else { "FAIL" }
+        }));
+    }
+
+    if desired.get("cli_exists").and_then(|v| v.as_bool()) == Some(true) {
+        checks.push(json!({
+            "name": "cli_exists",
+            "status": if cli_exists { "PASS" } else { "FAIL" }
+        }));
+    }
+
+    if let Some(world_id) = desired.get("world").and_then(|v| v.as_str()) {
+        let world_path = r
+            .join("vault/09-Governance/wil/worlds")
+            .join(format!("{}.world.json", world_id));
+
+        let mut in_world = false;
+
+        if world_path.exists() {
+            if let Ok(world_raw) = fs::read_to_string(world_path) {
+                if let Ok(world_doc) = serde_json::from_str::<Value>(&world_raw) {
+                    if let Some(items) = world_doc.get("contains").and_then(|v| v.as_array()) {
+                        in_world = items.iter().any(|item| item.as_str() == Some(artifact));
+                    }
+                }
+            }
+        }
+
+        checks.push(json!({
+            "name": "world_contains_artifact",
+            "world": world_id,
+            "status": if in_world { "PASS" } else { "FAIL" }
+        }));
+    }
+
+    let passed = all_pass(&checks);
+
+    json!({
+        "kind": "state-check",
+        "id": doc.get("id"),
+        "artifact": artifact,
+        "result": if passed { "PASS" } else { "FAIL" },
+        "checks": checks
+    })
+}
+
+fn state(state_id: &str) {
+    let payload = state_check(state_id);
+    let passed = payload.get("result").and_then(|v| v.as_str()) == Some("PASS");
+    println!("{}", serde_json::to_string_pretty(&payload).unwrap());
+    exit(if passed { 0 } else { 1 });
+}
+
+
+fn state_reconcile(state_id: &str) {
+    let before = state_check(state_id);
+    let before_passed = before.get("result").and_then(|v| v.as_str()) == Some("PASS");
+
+    let r = root();
+    let state_path = r
+        .join("vault/09-Governance/wil/states")
+        .join(format!("{}.state.json", state_id));
+
+    let mut actions: Vec<Value> = vec![];
+
+    if !before_passed && state_path.exists() {
+        let raw = fs::read_to_string(&state_path).expect("failed to read state");
+        let doc: Value = serde_json::from_str(&raw).expect("invalid state json");
+
+        let artifact = doc.get("artifact").and_then(|v| v.as_str()).unwrap_or("");
+        let desired = doc.get("desired").cloned().unwrap_or(json!({}));
+
+        if let Some(world_id) = desired.get("world").and_then(|v| v.as_str()) {
+            let world_path = r
+                .join("vault/09-Governance/wil/worlds")
+                .join(format!("{}.world.json", world_id));
+
+            if world_path.exists() {
+                let world_raw = fs::read_to_string(&world_path).expect("failed to read world");
+                let mut world_doc: Value = serde_json::from_str(&world_raw).expect("invalid world json");
+
+                let contains = world_doc
+                    .get_mut("contains")
+                    .and_then(|v| v.as_array_mut());
+
+                if let Some(items) = contains {
+                    let exists = items.iter().any(|item| item.as_str() == Some(artifact));
+
+                    if !exists {
+                        items.push(json!(artifact));
+                        fs::write(
+                            &world_path,
+                            serde_json::to_string_pretty(&world_doc).unwrap()
+                        ).unwrap();
+
+                        actions.push(json!({
+                            "name": "add-artifact-to-world",
+                            "world": world_id,
+                            "artifact": artifact,
+                            "status": "PASS"
+                        }));
+                    }
+                }
+            }
+        }
+    }
+
+    let after = state_check(state_id);
+    let after_passed = after.get("result").and_then(|v| v.as_str()) == Some("PASS");
+
+    let mut payload = json!({
+        "kind": "state-reconcile",
+        "id": state_id,
+        "mode": "state-reconcile",
+        "drift_before": if before_passed { "none" } else { "detected" },
+        "actions": actions,
+        "drift_after": if after_passed { "none" } else { "detected" },
+        "result": if after_passed { "PASS" } else { "FAIL" }
+    });
+
+    let event_doc = json!({
+        "id": state_id,
+        "kind": "state"
+    });
+
+    emit_history(&event_doc, "state-reconcile", &mut payload);
+
+    println!("{}", serde_json::to_string_pretty(&payload).unwrap());
+    exit(if after_passed { 0 } else { 1 });
+}
+
+fn state_drift(state_id: &str) {
+    let mut payload = state_check(state_id);
+    let passed = payload.get("result").and_then(|v| v.as_str()) == Some("PASS");
+    payload["mode"] = json!("state-drift");
+    payload["drift"] = json!(if passed { "none" } else { "detected" });
+    println!("{}", serde_json::to_string_pretty(&payload).unwrap());
+    exit(if passed { 0 } else { 1 });
+}
+
 fn world(world_id: &str) {
     let r = root();
     let world_path = r
@@ -637,6 +843,41 @@ fn main() {
 
     if cmd == "graph-json" {
         graph_json();
+        return;
+    }
+
+    if cmd == "state-reconcile" {
+        if args.len() < 3 {
+            eprintln!("missing state id");
+            exit(1);
+        }
+
+        if !args.contains(&"--yes".to_string()) {
+            eprintln!("Refusing to execute without --yes");
+            exit(1);
+        }
+
+        state_reconcile(&args[2]);
+        return;
+    }
+
+    if cmd == "state-drift" {
+        if args.len() < 3 {
+            eprintln!("missing state id");
+            exit(1);
+        }
+
+        state_drift(&args[2]);
+        return;
+    }
+
+    if cmd == "state" {
+        if args.len() < 3 {
+            eprintln!("missing state id");
+            exit(1);
+        }
+
+        state(&args[2]);
         return;
     }
 

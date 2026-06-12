@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
+
+case "${1:-}" in
+  doctor|verify)
+    test -d "$ROOT/tools/vm"
+    test -d "$ROOT/runtime/vm"
+    echo "PASS wl-vm"
+    ;;
+  status)
+    echo "wl-vm: sandbox engine skeleton"
+    ;;
+  *)
+    cat <<EOF
+wl-vm
+
+Usage:
+  wl-vm doctor
+  wl-vm status
+EOF
+    ;;
+esac

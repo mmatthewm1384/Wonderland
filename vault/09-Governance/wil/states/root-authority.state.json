@@ -1,0 +1,9 @@
+{
+  "kind": "state",
+  "id": "root-authority-state",
+  "version": 0,
+  "artifact": "root-authority",
+  "desired": {
+    "file_exists": "vault/07-Operations/platform/root-authority.json"
+  }
+}

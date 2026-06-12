@@ -1,0 +1,33 @@
+{
+  "kind": "artifact",
+  "id": "wl-vm",
+  "version": 0,
+  "type": "engine",
+  "status": "skeleton",
+  "authority": "wl-governance",
+  "paths": {
+    "tool": "tools/vm",
+    "cli": "bin/wl-vm",
+    "runtime": "runtime/vm"
+  },
+  "capabilities": [
+    "sandbox",
+    "vm-snapshot",
+    "vm-restore",
+    "reality-branch"
+  ],
+  "verify": [
+    {
+      "name": "tool-dir",
+      "command": "test -d tools/vm"
+    },
+    {
+      "name": "cli",
+      "command": "test -x bin/wl-vm"
+    },
+    {
+      "name": "runtime-dir",
+      "command": "test -d runtime/vm"
+    }
+  ]
+}

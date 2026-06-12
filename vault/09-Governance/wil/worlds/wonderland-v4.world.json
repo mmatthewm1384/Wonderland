@@ -1,15 +1,17 @@
 {
-  "kind": "world",
-  "id": "wonderland-v4",
-  "version": 0,
-  "status": "active",
   "contains": [
-    "wl-time-machine"
+    "wl-time-machine",
+    "wl-chrono",
+    "wl-vm"
   ],
+  "id": "wonderland-v4",
+  "kind": "world",
   "rules": [
     "recoverable",
     "auditable",
     "versioned",
     "governed"
-  ]
+  ],
+  "status": "active",
+  "version": 0
 }

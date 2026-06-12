@@ -1,2 +1,60 @@
 #!/usr/bin/env bash
-exec wl-chronosphere "$@"
+set -euo pipefail
+
+ROOT="${WL_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
+
+case "${1:-}" in
+  doctor|verify)
+    test -d "$ROOT/tools/chrono"
+    test -d "$ROOT/vault/07-Operations/chrono/snapshots"
+    echo "PASS wl-chrono"
+    ;;
+  status)
+    authority="$ROOT/vault/07-Operations/platform/root-authority.json"
+    snapshots="$ROOT/vault/07-Operations/chrono/snapshots"
+
+    echo "WL Chrono Status"
+    echo
+    echo "Root:      $ROOT"
+
+    if [[ -f "$authority" ]]; then
+      echo "Authority: $authority"
+      jq -r '"Mode:      " + .mode' "$authority" 2>/dev/null || true
+      jq -r '"Storage:   " + .storage_root' "$authority" 2>/dev/null || true
+    else
+      echo "Authority: missing"
+    fi
+
+    if [[ -d "$snapshots" ]]; then
+      count="$(find "$snapshots" -name '*.snapshot.json' -type f | wc -l | tr -d ' ')"
+      latest="$(find "$snapshots" -name '*.snapshot.json' -type f | sort | tail -1)"
+      echo "Snapshots: $count"
+      echo "Latest:    ${latest:-none}"
+    else
+      echo "Snapshots: missing"
+    fi
+    ;;
+  snapshot)
+    stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+    out="$ROOT/vault/07-Operations/chrono/snapshots/$stamp.snapshot.json"
+    cat > "$out" <<JSON
+{
+  "kind": "chrono-snapshot",
+  "id": "$stamp",
+  "created": "$stamp",
+  "root": "$ROOT"
+}
+JSON
+    echo "$out"
+    ;;
+  *)
+    cat <<EOF
+wl-chrono
+
+Usage:
+  wl-chrono doctor
+  wl-chrono status
+  wl-chrono snapshot
+EOF
+    ;;
+esac

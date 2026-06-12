@@ -21,6 +21,19 @@
     {
       "authority": "wl-governance",
       "capabilities": [
+        "snapshots",
+        "timelines",
+        "branches",
+        "replay"
+      ],
+      "id": "wl-chrono",
+      "kind": "artifact",
+      "status": "skeleton",
+      "type": "engine"
+    },
+    {
+      "authority": "wl-governance",
+      "capabilities": [
         "historical-explorer",
         "journey-intents",
         "reality-replay"
@@ -29,6 +42,19 @@
       "kind": "artifact",
       "status": "skeleton",
       "type": "service"
+    },
+    {
+      "authority": "wl-governance",
+      "capabilities": [
+        "sandbox",
+        "vm-snapshot",
+        "vm-restore",
+        "reality-branch"
+      ],
+      "id": "wl-vm",
+      "kind": "artifact",
+      "status": "skeleton",
+      "type": "engine"
     }
   ]
 }

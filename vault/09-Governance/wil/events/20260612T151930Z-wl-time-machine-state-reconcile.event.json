@@ -1,0 +1,9 @@
+{
+  "id": "20260612T151930Z-wl-time-machine-state-reconcile",
+  "kind": "event",
+  "mode": "state-reconcile",
+  "occurred": "20260612T151930Z",
+  "program": "wl-time-machine",
+  "result": "PASS",
+  "version": 0
+}

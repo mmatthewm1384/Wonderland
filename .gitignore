@@ -32,3 +32,6 @@ vault/data/torrents/quarantine/
 # qBittorrent runtime artifacts
 *.fastresume
 *.torrent
+
+# Rust build artifacts
+tools/wil-rust/target/
