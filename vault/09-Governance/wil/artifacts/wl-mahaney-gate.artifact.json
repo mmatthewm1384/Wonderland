@@ -1,0 +1,10 @@
+{
+  "id": "wl-mahaney-gate",
+  "type": "authority-gate",
+  "command": "bin/wl-mahaney-gate",
+  "report": "vault/09-Governance/wil/reports/mahaney-authority-gate.txt",
+  "status": "active",
+  "required_checks": [
+    "bin/wl-mahaney-gate"
+  ]
+}

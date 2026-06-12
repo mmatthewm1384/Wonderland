@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPORT="$ROOT/vault/09-Governance/wil/reports/mahaney-authority-gate.txt"
+
+{
+  echo "Mahaney Authority Gate"
+  echo
+  "$ROOT/bin/wl-mahaney" verify
+} > "$REPORT"
+
+cat "$REPORT"
