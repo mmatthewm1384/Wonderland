@@ -5,6 +5,8 @@
     "wil_version": 0,
     "kind": "intent",
     "id": "promote-wl-time-machine",
+    "intent": null,
+    "variables": {},
     "target": {
       "artifact": "wl-time-machine"
     },
@@ -30,12 +32,17 @@
         "command": "test -x bin/wl-time-machine"
       }
     ],
+    "prove": [],
+    "do": [],
+    "outputs": [],
+    "observe": [],
     "recovery": [
       {
         "name": "restore-last-snapshot",
         "command": "bin/wl-recovery restore latest"
       }
     ],
+    "recover": [],
     "rollback": [
       {
         "name": "git-revert",

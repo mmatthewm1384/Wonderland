@@ -71,3 +71,14 @@
   "mode": "append-only-local-snapshot",
   "restore_mode": "staged-only"
 }
+{
+  "id": "20260612T133123Z-authority-post-commit",
+  "created": "2026-06-12T13:31:24Z",
+  "label": "post-commit",
+  "scope": "authority",
+  "archive": "root.tar.gz",
+  "sha256": "326dc751e8ad8b39351b1dc2068dc9be3de266d983007653014821520ea1b3c3",
+  "bytes": 2901684,
+  "mode": "append-only-local-snapshot",
+  "restore_mode": "staged-only"
+}

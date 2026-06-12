@@ -1,0 +1,39 @@
+{
+  "kind": "audit",
+  "id": "20260612T142505Z-create-service-rollback",
+  "version": 0,
+  "program": "create-service",
+  "mode": "rollback",
+  "generated": "20260612T142505Z",
+  "payload": {
+    "id": "create-service",
+    "kind": "program",
+    "mode": "rollback",
+    "result": "PASS",
+    "actions": [
+      {
+        "name": "remove-service-skeleton",
+        "command": "rm -rf services/wl-final-test",
+        "status": "PASS"
+      }
+    ],
+    "outputs": [
+      {
+        "kind": "directory",
+        "path": "services/wl-final-test",
+        "status": "FAIL"
+      },
+      {
+        "kind": "directory",
+        "path": "services/wl-final-test/data",
+        "status": "FAIL"
+      },
+      {
+        "kind": "file",
+        "path": "services/wl-final-test/README.md",
+        "status": "FAIL"
+      }
+    ],
+    "event": "/Users/wonderland/Wonderland/vault/09-Governance/wil/events/20260612T142505Z-create-service-rollback.event.json"
+  }
+}
