@@ -1,0 +1,14 @@
+{
+  "kind": "state",
+  "id": "chrono-state",
+  "version": 0,
+  "artifact": "wl-chrono",
+  "desired": {
+    "artifact_defined": true,
+    "service_dir": false,
+    "cli_exists": true,
+    "world": "wonderland-v4",
+    "directory_exists": "vault/07-Operations/chrono/snapshots",
+    "minimum_snapshots": 1
+  }
+}

@@ -587,11 +587,65 @@ fn state_check(state_id: &str) -> Value {
         }));
     }
 
+    if let Some(dir_path) = desired.get("directory_exists").and_then(|v| v.as_str()) {
+        checks.push(json!({
+            "name": "directory_exists",
+            "path": dir_path,
+            "status": if r.join(dir_path).is_dir() { "PASS" } else { "FAIL" }
+        }));
+    }
+
+    if let Some(min) = desired.get("minimum_snapshots").and_then(|v| v.as_u64()) {
+        let snapshots = r.join("vault/07-Operations/chrono/snapshots");
+        let count = fs::read_dir(&snapshots)
+            .map(|entries| {
+                entries
+                    .filter_map(|e| e.ok())
+                    .filter(|e| e.path().to_string_lossy().ends_with(".snapshot.json"))
+                    .count() as u64
+            })
+            .unwrap_or(0);
+
+        checks.push(json!({
+            "name": "minimum_snapshots",
+            "minimum": min,
+            "actual": count,
+            "status": if count >= min { "PASS" } else { "FAIL" }
+        }));
+    }
+
     if let Some(file_path) = desired.get("file_exists").and_then(|v| v.as_str()) {
         checks.push(json!({
             "name": "file_exists",
             "path": file_path,
             "status": if r.join(file_path).is_file() { "PASS" } else { "FAIL" }
+        }));
+    }
+
+    if let Some(dir_path) = desired.get("directory_exists").and_then(|v| v.as_str()) {
+        checks.push(json!({
+            "name": "directory_exists",
+            "path": dir_path,
+            "status": if r.join(dir_path).is_dir() { "PASS" } else { "FAIL" }
+        }));
+    }
+
+    if let Some(min) = desired.get("minimum_snapshots").and_then(|v| v.as_u64()) {
+        let snapshots = r.join("vault/07-Operations/chrono/snapshots");
+        let count = fs::read_dir(&snapshots)
+            .map(|entries| {
+                entries
+                    .filter_map(|e| e.ok())
+                    .filter(|e| e.path().to_string_lossy().ends_with(".snapshot.json"))
+                    .count() as u64
+            })
+            .unwrap_or(0);
+
+        checks.push(json!({
+            "name": "minimum_snapshots",
+            "minimum": min,
+            "actual": count,
+            "status": if count >= min { "PASS" } else { "FAIL" }
         }));
     }
 

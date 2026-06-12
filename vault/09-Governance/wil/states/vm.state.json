@@ -1,0 +1,12 @@
+{
+  "kind": "state",
+  "id": "vm-state",
+  "version": 0,
+  "artifact": "wl-vm",
+  "desired": {
+    "artifact_defined": true,
+    "cli_exists": true,
+    "world": "wonderland-v4",
+    "directory_exists": "runtime/vm"
+  }
+}

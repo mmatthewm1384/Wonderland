@@ -1,0 +1,11 @@
+{
+  "kind": "chrono-snapshot",
+  "id": "20260612T204157Z",
+  "created": "20260612T204157Z",
+  "root": "/Users/wonderland/Wonderland",
+  "git": {
+    "branch": "main",
+    "commit": "5a48561",
+    "dirty": "16"
+  }
+}

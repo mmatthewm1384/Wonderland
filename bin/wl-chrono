@@ -2,16 +2,30 @@
 set -euo pipefail
 
 ROOT="${WL_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
+CHRONO="$ROOT/vault/07-Operations/chrono"
+SNAPSHOTS="$CHRONO/snapshots"
+BRANCHES="$CHRONO/branches"
+TIMELINES="$CHRONO/timelines"
+FUTURES="$CHRONO/futures"
+
+mkdir -p "$SNAPSHOTS" "$BRANCHES" "$TIMELINES" "$FUTURES"
+
+utc_now() {
+  date -u +%Y%m%dT%H%M%SZ
+}
 
 case "${1:-}" in
   doctor|verify)
     test -d "$ROOT/tools/chrono"
-    test -d "$ROOT/vault/07-Operations/chrono/snapshots"
+    test -d "$SNAPSHOTS"
+    test -d "$BRANCHES"
+    test -d "$TIMELINES"
+    test -d "$FUTURES"
     echo "PASS wl-chrono"
     ;;
+
   status)
     authority="$ROOT/vault/07-Operations/platform/root-authority.json"
-    snapshots="$ROOT/vault/07-Operations/chrono/snapshots"
 
     echo "WL Chrono Status"
     echo
@@ -25,28 +39,116 @@ case "${1:-}" in
       echo "Authority: missing"
     fi
 
-    if [[ -d "$snapshots" ]]; then
-      count="$(find "$snapshots" -name '*.snapshot.json' -type f | wc -l | tr -d ' ')"
-      latest="$(find "$snapshots" -name '*.snapshot.json' -type f | sort | tail -1)"
-      echo "Snapshots: $count"
-      echo "Latest:    ${latest:-none}"
-    else
-      echo "Snapshots: missing"
-    fi
+    count="$(find "$SNAPSHOTS" -name '*.snapshot.json' -type f | wc -l | tr -d ' ')"
+    latest="$(find "$SNAPSHOTS" -name '*.snapshot.json' -type f | sort | tail -1)"
+    branches="$(find "$BRANCHES" -name '*.branch.json' -type f | wc -l | tr -d ' ')"
+
+    echo "Snapshots: $count"
+    echo "Branches:  $branches"
+    echo "Latest:    ${latest:-none}"
     ;;
+
   snapshot)
-    stamp="$(date -u +%Y%m%dT%H%M%SZ)"
-    out="$ROOT/vault/07-Operations/chrono/snapshots/$stamp.snapshot.json"
+    stamp="$(utc_now)"
+    out="$SNAPSHOTS/$stamp.snapshot.json"
+
     cat > "$out" <<JSON
 {
   "kind": "chrono-snapshot",
   "id": "$stamp",
   "created": "$stamp",
+  "root": "$ROOT",
+  "git": {
+    "branch": "$(git branch --show-current 2>/dev/null || true)",
+    "commit": "$(git rev-parse --short HEAD 2>/dev/null || true)",
+    "dirty": "$(git status --short 2>/dev/null | wc -l | tr -d ' ')"
+  }
+}
+JSON
+
+    timeline="$TIMELINES/default.timeline.json"
+
+    python3 - "$timeline" "$stamp" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+stamp = sys.argv[2]
+
+if path.exists():
+    doc = json.loads(path.read_text())
+else:
+    doc = {
+        "kind": "timeline",
+        "id": "default",
+        "events": []
+    }
+
+events = doc.setdefault("events", [])
+
+if stamp not in events:
+    events.append(stamp)
+
+path.write_text(json.dumps(doc, indent=2))
+PY
+
+    echo "$out"
+    ;;
+
+  list)
+    find "$SNAPSHOTS" -name '*.snapshot.json' -type f | sort
+    ;;
+
+  timeline)
+    timeline="$TIMELINES/default.timeline.json"
+
+    if [[ ! -f "$timeline" ]]; then
+      echo "No timeline found"
+      exit 1
+    fi
+
+    jq -r '.events[]' "$timeline"
+    ;;
+
+  branch)
+    sub="${2:-}"
+
+    case "$sub" in
+      create)
+        name="${3:?missing branch name}"
+        stamp="$(utc_now)"
+        out="$BRANCHES/$name.branch.json"
+
+        cat > "$out" <<JSON
+{
+  "kind": "chrono-branch",
+  "id": "$name",
+  "created": "$stamp",
+  "parent": "default",
   "root": "$ROOT"
 }
 JSON
-    echo "$out"
+
+        echo "$out"
+        ;;
+
+      list)
+        find "$BRANCHES" -name '*.branch.json' -type f | sort
+        ;;
+
+      *)
+        cat <<EOF
+wl-chrono branch
+
+Usage:
+  wl-chrono branch create <name>
+  wl-chrono branch list
+EOF
+        ;;
+    esac
     ;;
+
   *)
     cat <<EOF
 wl-chrono
@@ -55,6 +157,10 @@ Usage:
   wl-chrono doctor
   wl-chrono status
   wl-chrono snapshot
+  wl-chrono list
+  wl-chrono timeline
+  wl-chrono branch create <name>
+  wl-chrono branch list
 EOF
     ;;
 esac
