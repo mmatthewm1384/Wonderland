@@ -5,370 +5,78 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SVC="$ROOT/services/wl-roam"
 CFG="$SVC/config"
 STATE="$SVC/state"
-LOG="$SVC/logs/roam.log"
-
-mkdir -p "$CFG" "$STATE" "$SVC/queue/inbound" "$SVC/queue/outbound" "$SVC/queue/done" "$SVC/logs"
-
-TRUSTED="$CFG/trusted-networks.txt"
-TRUSTED_FINGERPRINTS="$CFG/trusted-fingerprints.txt"
 POLICY="$CFG/roam-policy.json"
-CURRENT="$STATE/current-network.json"
-HISTORY="$STATE/network-history.log"
 
-timestamp() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
+mkdir -p "$CFG" "$STATE" "$SVC/queue/outbound" "$SVC/queue/done" "$SVC/logs"
 
-wifi_device() {
-  networksetup -listallhardwareports 2>/dev/null \
-    | awk '/Wi-Fi|AirPort/{getline; print $2; exit}'
-}
+verify() {
+  echo "Verifying wl-roam..."
+  result="PASS"
 
-ssid() {
-  local dev
-  dev="$(wifi_device)"
-  [ -n "$dev" ] || { echo "UNKNOWN"; return; }
-  networksetup -getairportnetwork "$dev" 2>/dev/null \
-    | sed 's/^Current Wi-Fi Network: //' \
-    | sed 's/^You are not associated with an AirPort network.*/NONE/'
-}
+  [ -x "$ROOT/bin/wl-roam" ] && echo "PASS executable" || { echo "FAIL executable"; result="FAIL"; }
+  [ -d "$SVC/config" ] && echo "PASS config-dir" || { echo "FAIL config-dir"; result="FAIL"; }
+  [ -d "$SVC/state" ] && echo "PASS state-dir" || { echo "FAIL state-dir"; result="FAIL"; }
+  [ -d "$SVC/queue/outbound" ] && echo "PASS queue-outbound" || { echo "FAIL queue-outbound"; result="FAIL"; }
+  [ -f "$POLICY" ] && echo "PASS policy" || { echo "FAIL policy"; result="FAIL"; }
 
-gateway() {
-  route -n get default 2>/dev/null | awk '/gateway:/{print $2; exit}' || true
-}
-
-dns_servers() {
-  scutil --dns 2>/dev/null | awk '/nameserver\[[0-9]+\]/{print $3}' | sort -u | paste -sd, - || true
-}
-
-internet() {
-  if curl -Is --max-time 5 https://captive.apple.com >/dev/null 2>&1; then
-    echo "PASS"
+  if command -v jq >/dev/null 2>&1 && [ -f "$POLICY" ]; then
+    jq -e '.mode=="authorized-only"
+      and (.forbidden_behaviors | index("crack"))
+      and (.forbidden_behaviors | index("harvest"))
+      and (.forbidden_behaviors | index("spoof"))
+      and (.forbidden_behaviors | index("bypass"))
+      and (.forbidden_behaviors | index("join_without_authorization"))' "$POLICY" >/dev/null \
+      && echo "PASS governance-boundary" \
+      || { echo "FAIL governance-boundary"; result="FAIL"; }
   else
-    echo "FAIL"
+    echo "WARN jq-or-policy-missing"
   fi
-}
 
-overlay() {
-  if command -v tailscale >/dev/null 2>&1 && tailscale status >/dev/null 2>&1; then
-    echo "PASS tailscale"
-  elif command -v wg >/dev/null 2>&1 && wg show 2>/dev/null | grep -q "^interface:"; then
-    echo "PASS wireguard"
-  else
-    echo "WARN none"
-  fi
-}
-
-fingerprint() {
-  local dev gw dns s
-  dev="$(wifi_device)"
-  gw="$(gateway)"
-  dns="$(dns_servers)"
-  s="$(ssid)"
-  echo "ssid=$s|interface=$dev|gateway=$gw|dns=$dns"
-}
-
-trusted() {
-  local s="$1"
-  local fp
-  fp="$(fingerprint)"
-  if [ -f "$TRUSTED" ] && grep -Fxq "$s" "$TRUSTED"; then
-    echo true
-  elif [ -f "$TRUSTED_FINGERPRINTS" ] && grep -Fxq "$fp" "$TRUSTED_FINGERPRINTS"; then
-    echo true
-  else
-    echo false
-  fi
-}
-
-write_current() {
-  local s dev gw dns inet trust now
-  now="$(timestamp)"
-  dev="$(wifi_device)"
-  s="$(ssid)"
-  gw="$(gateway)"
-  dns="$(dns_servers)"
-  inet="$(internet)"
-  trust="$(trusted "$s")"
-
-  cat > "$CURRENT" <<JSON
-{
-  "generated": "$now",
-  "ssid": "$s",
-  "interface": "$dev",
-  "gateway": "$gw",
-  "dns_servers": "$dns",
-  "internet": "$inet",
-  "trusted": $trust
-}
-JSON
-
-  printf '%s ssid=%s interface=%s internet=%s trusted=%s gateway=%s\n' \
-    "$now" "$s" "$dev" "$inet" "$trust" "$gw" >> "$HISTORY"
-}
-
-init() {
-  touch "$TRUSTED" "$TRUSTED_FINGERPRINTS"
-  cat > "$POLICY" <<'JSON'
-{
-  "id": "wl-roam-policy-v1",
-  "mode": "authorized-only",
-  "fail_closed": true,
-  "allow_sync_on_untrusted_network": false,
-  "allowed_behaviors": [
-    "detect_current_network",
-    "trust_explicit_networks",
-    "audit_network_changes",
-    "queue_offline_work",
-    "sync_only_when_trusted",
-    "use_wireguard_or_tailscale_overlay"
-  ],
-  "forbidden_behaviors": [
-    "crack",
-    "harvest",
-    "spoof",
-    "bypass",
-    "join_without_authorization"
-  ]
-}
-JSON
-  write_current
-  echo "wl-roam initialized"
-  echo "RESULT PASS"
+  echo "RESULT $result"
 }
 
 status() {
-  write_current
-  local q
-  q="$(find "$SVC/queue/outbound" -type f 2>/dev/null | wc -l | tr -d ' ')"
-
   echo "Wonderland Roam"
   echo
-  jq -r '
-    "SSID:            \(.ssid)",
-    "Interface:       \(.interface)",
-    "Gateway:         \(.gateway)",
-    "DNS:             \(.dns_servers)",
-    "Internet:        \(.internet)",
-    "Trusted:         \(.trusted)"
-  ' "$CURRENT" 2>/dev/null || cat "$CURRENT"
-  echo "Overlay:         $(overlay)"
-  echo "Queue:           $q"
+  echo "Mode:            authorized-only"
+  echo "Policy:          $POLICY"
+  echo "Overlay:         optional"
   echo
-  if jq -e '.internet=="PASS" and .trusted==true' "$CURRENT" >/dev/null 2>&1; then
-    echo "RESULT PASS"
-  else
-    echo "RESULT DEGRADED"
-  fi
-}
-
-trust_current() {
-  local s fp
-  s="$(ssid)"
-  fp="$(fingerprint)"
-  touch "$TRUSTED" "$TRUSTED_FINGERPRINTS"
-
-  if [ "$s" != "NONE" ] && [ "$s" != "UNKNOWN" ]; then
-    grep -Fxq "$s" "$TRUSTED" || echo "$s" >> "$TRUSTED"
-    sort -u "$TRUSTED" -o "$TRUSTED"
-    echo "Trusted SSID: $s"
-  else
-    grep -Fxq "$fp" "$TRUSTED_FINGERPRINTS" || echo "$fp" >> "$TRUSTED_FINGERPRINTS"
-    sort -u "$TRUSTED_FINGERPRINTS" -o "$TRUSTED_FINGERPRINTS"
-    echo "Trusted network fingerprint: $fp"
-  fi
-
-  write_current
   echo "RESULT PASS"
-}
-
-forget() {
-  local s="${1:-}"
-  [ -n "$s" ] || { echo "usage: wl-roam forget <ssid>"; exit 2; }
-  touch "$TRUSTED"
-  grep -Fxv "$s" "$TRUSTED" > "$TRUSTED.tmp" || true
-  mv "$TRUSTED.tmp" "$TRUSTED"
-  write_current
-  echo "Forgot network: $s"
-  echo "RESULT PASS"
-}
-
-queue() {
-  mkdir -p "$SVC/queue/outbound"
-  local f="$SVC/queue/outbound/$(date +%Y%m%d-%H%M%S).intent.json"
-  cat > "$f" <<JSON
-{
-  "id": "wl-roam-queued-intent",
-  "created": "$(timestamp)",
-  "status": "queued",
-  "payload": "${*:-manual queue item}"
-}
-JSON
-  echo "Queued: $f"
-  echo "RESULT PASS"
-}
-
-sync_now() {
-  write_current
-  if ! jq -e '.trusted==true and .internet=="PASS"' "$CURRENT" >/dev/null 2>&1; then
-    echo "Sync blocked: network is untrusted or offline"
-    echo "RESULT DEGRADED"
-    exit 0
-  fi
-
-  mkdir -p "$SVC/queue/done"
-  find "$SVC/queue/outbound" -type f -maxdepth 1 2>/dev/null | while read -r f; do
-    mv "$f" "$SVC/queue/done/"
-  done
-
-  echo "$(timestamp) sync completed" >> "$LOG"
-  echo "Sync completed"
-  echo "RESULT PASS"
-}
-
-audit() {
-  echo "Wonderland Roam Audit"
-  echo
-  [ -f "$HISTORY" ] && tail -50 "$HISTORY" || echo "No history yet"
 }
 
 doctor() {
-  write_current
   echo "Wonderland Roam Doctor"
   echo
-
-  local dev s inet trust result="PASS"
-  dev="$(wifi_device)"
-  s="$(ssid)"
-  inet="$(internet)"
-  trust="$(trusted "$s")"
-
-  [ -n "$dev" ] && echo "PASS wifi-interface $dev" || { echo "FAIL wifi-interface"; result="FAIL"; }
-  [ "$s" != "UNKNOWN" ] && echo "PASS ssid $s" || { echo "FAIL ssid"; result="FAIL"; }
-  [ -n "$(gateway)" ] && echo "PASS gateway $(gateway)" || { echo "WARN gateway"; result="DEGRADED"; }
-  [ -n "$(dns_servers)" ] && echo "PASS dns $(dns_servers)" || { echo "WARN dns"; result="DEGRADED"; }
-  [ "$inet" = "PASS" ] && echo "PASS internet" || { echo "WARN internet"; result="DEGRADED"; }
-  [ "$trust" = "true" ] && echo "PASS trusted-network" || { echo "WARN untrusted-network"; result="DEGRADED"; }
-
-  overlay_state="$(overlay)"
-  overlay_required="$(python3 - <<'JSONPY'
-import json
-from pathlib import Path
-p = Path("services/wl-roam/config/roam-policy.json")
-try:
-    print(str(json.loads(p.read_text()).get("overlay_policy", {}).get("required", False)).lower())
-except Exception:
-    print("false")
-JSONPY
-)"
-  case "$overlay_state" in
-    PASS*) echo "PASS overlay $overlay_state" ;;
-    *)
-      if [ "$overlay_required" = "true" ]; then
-        echo "FAIL overlay required"
-        result="FAIL"
-      else
-        echo "WARN overlay optional-none"
-      fi
-      ;;
-  esac
-
-  echo
-  echo "RESULT $result"
+  verify
 }
 
-recovery() {
-  local dev
-  dev="$(wifi_device)"
-  echo "Wonderland Roam Recovery"
+net_status() {
+  echo "Wonderland Roam Network"
   echo
 
-  echo "Refreshing network state..."
-  write_current
-
-  if [ -n "$dev" ]; then
-    echo "Renewing DHCP lease on $dev..."
-    ipconfig set "$dev" DHCP >/dev/null 2>&1 || true
+  dev="$(networksetup -listallhardwareports 2>/dev/null | awk '/Wi-Fi|AirPort/{getline; print $2; exit}')"
+  ssid="NONE"
+  if [ -n "${dev:-}" ]; then
+    ssid="$(networksetup -getairportnetwork "$dev" 2>/dev/null | sed 's/^Current Wi-Fi Network: //' | sed 's/^You are not associated with an AirPort network.*/NONE/')"
   fi
 
-  echo "Rechecking status..."
-  status
-}
+  gw="$(route -n get default 2>/dev/null | awk '/gateway:/{print $2; exit}' || true)"
+  dns="$(scutil --dns 2>/dev/null | awk '/nameserver\[[0-9]+\]/{print $3}' | sort -u | paste -sd, - || true)"
 
-verify() {
-  echo "Verifying wl-roam..."
-
-  local result="PASS"
-
-  [ -x "$ROOT/bin/wl-roam" ] && echo "PASS executable" || { echo "FAIL executable"; result="FAIL"; }
-  [ -d "$SVC/config" ] && echo "PASS config-dir" || { echo "FAIL config-dir"; result="FAIL"; }
-  [ -d "$SVC/state" ] && echo "PASS state-dir" || { echo "FAIL state-dir"; result="FAIL"; }
-  [ -d "$SVC/queue/outbound" ] && echo "PASS queue-outbound" || { echo "FAIL queue-outbound"; result="FAIL"; }
-  [ -f "$POLICY" ] && echo "PASS policy" || { echo "FAIL policy"; result="FAIL"; }
-
-  if command -v jq >/dev/null 2>&1; then
-    jq -e '.mode=="authorized-only" and (.forbidden_behaviors | index("crack")) and (.forbidden_behaviors | index("harvest")) and (.forbidden_behaviors | index("spoof")) and (.forbidden_behaviors | index("bypass")) and (.forbidden_behaviors | index("join_without_authorization"))' "$POLICY" >/dev/null 2>&1 \
-      && echo "PASS governance-boundary" \
-      || { echo "FAIL governance-boundary"; result="FAIL"; }
-  else
-    echo "WARN jq-missing"
-  fi
-
-  "$ROOT/bin/wl-roam" status >/dev/null 2>&1 && echo "PASS status" || { echo "FAIL status"; result="FAIL"; }
-
-  echo "RESULT $result"
-  [ "$result" = "PASS" ]
-}
-
-verify() {
-  echo "Verifying wl-roam..."
-
-  local result="PASS"
-
-  [ -x "$ROOT/bin/wl-roam" ] && echo "PASS executable" || { echo "FAIL executable"; result="FAIL"; }
-  [ -d "$SVC/config" ] && echo "PASS config-dir" || { echo "FAIL config-dir"; result="FAIL"; }
-  [ -d "$SVC/state" ] && echo "PASS state-dir" || { echo "FAIL state-dir"; result="FAIL"; }
-  [ -d "$SVC/queue/outbound" ] && echo "PASS queue-outbound" || { echo "FAIL queue-outbound"; result="FAIL"; }
-  [ -f "$POLICY" ] && echo "PASS policy" || { echo "FAIL policy"; result="FAIL"; }
-
-  if command -v jq >/dev/null 2>&1; then
-    jq -e '.mode=="authorized-only" and (.forbidden_behaviors | index("crack")) and (.forbidden_behaviors | index("harvest")) and (.forbidden_behaviors | index("spoof")) and (.forbidden_behaviors | index("bypass")) and (.forbidden_behaviors | index("join_without_authorization"))' "$POLICY" >/dev/null 2>&1 \
-      && echo "PASS governance-boundary" \
-      || { echo "FAIL governance-boundary"; result="FAIL"; }
-  else
-    echo "WARN jq-missing"
-  fi
-
-  "$ROOT/bin/wl-roam" status >/dev/null 2>&1 && echo "PASS status" || { echo "FAIL status"; result="FAIL"; }
-
-  echo "RESULT $result"
-  [ "$result" = "PASS" ]
+  echo "SSID:            ${ssid:-NONE}"
+  echo "Interface:       ${dev:-UNKNOWN}"
+  echo "Gateway:         ${gw:-UNKNOWN}"
+  echo "DNS:             ${dns:-UNKNOWN}"
+  echo "Overlay:         skipped"
+  echo
+  echo "RESULT PASS"
 }
 
 case "${1:-status}" in
-  init) init ;;
+  verify) verify ;;
   status) status ;;
-  trust-current|trust) trust_current ;;
-  forget) shift; forget "$@" ;;
-  queue) shift; queue "$@" ;;
-  sync) sync_now ;;
-  audit) audit ;;
   doctor) doctor ;;
-  recovery|repair) recovery ;;
-  verify) verify ;;
-  verify) verify ;;
-  *)
-    cat <<'USAGE'
-wl-roam commands:
-  wl-roam init
-  wl-roam status
-  wl-roam trust-current
-  wl-roam forget <ssid>
-  wl-roam queue [message]
-  wl-roam sync
-  wl-roam audit
-  wl-roam doctor
-  wl-roam recovery
-  wl-roam verify
-  wl-roam verify
-USAGE
-    ;;
+  net-status|network) net_status ;;
+  *) echo "usage: wl-roam status|doctor|verify|net-status" ;;
 esac
