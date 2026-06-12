@@ -1,0 +1,61 @@
+WIL Rust Parity Gate
+
+== doctor ==
+PASS wl-wil
+
+== status ==
+WIL Status
+
+Artifacts: 1
+Worlds:    1
+Intents:   0
+Reports:   2
+Events:    16
+Audits:    16
+
+Latest:    20260612T142505Z PASS run create-service
+
+== compile ==
+"program"
+"create-service"
+"wl-final-test"
+
+== run ==
+"PASS"
+
+== inspect ==
+"PASS"
+
+== rollback ==
+"PASS"
+
+== recover ==
+"PASS"
+
+== graph-json ==
+{
+  "nodes": 1,
+  "edges": 3
+}
+
+== world ==
+World: wonderland-v4
+Status: active
+
+PASS artifact wl-time-machine definition
+PASS wl-time-machine:service-dir
+PASS wl-time-machine:cli
+
+RESULT PASS
+
+== timeline tail ==
+20260612T075834Z  PASS   rollback    create-service
+20260612T075920Z  PASS   recover     create-service
+20260612T075936Z  PASS   recover     create-service
+20260612T080005Z  PASS   recover     create-service
+20260612T142505Z  PASS   recover     create-service
+20260612T142505Z  PASS   rollback    create-service
+20260612T142505Z  PASS   run         create-service
+20260612T142552Z  PASS   recover     create-service
+20260612T142552Z  PASS   rollback    create-service
+20260612T142552Z  PASS   run         create-service

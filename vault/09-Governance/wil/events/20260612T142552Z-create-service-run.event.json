@@ -1,0 +1,9 @@
+{
+  "kind": "event",
+  "id": "20260612T142552Z-create-service-run",
+  "version": 0,
+  "program": "create-service",
+  "mode": "run",
+  "result": "PASS",
+  "occurred": "20260612T142552Z"
+}

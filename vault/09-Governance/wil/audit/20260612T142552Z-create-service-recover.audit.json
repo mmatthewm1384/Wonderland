@@ -1,0 +1,49 @@
+{
+  "kind": "audit",
+  "id": "20260612T142552Z-create-service-recover",
+  "version": 0,
+  "program": "create-service",
+  "mode": "recover",
+  "generated": "20260612T142552Z",
+  "payload": {
+    "id": "create-service",
+    "kind": "program",
+    "mode": "recover",
+    "result": "PASS",
+    "actions": [
+      {
+        "name": "recreate-service-dir",
+        "command": "mkdir -p services/wl-final-test",
+        "status": "PASS"
+      },
+      {
+        "name": "recreate-data-dir",
+        "command": "mkdir -p services/wl-final-test/data",
+        "status": "PASS"
+      },
+      {
+        "name": "recreate-readme",
+        "command": "test -f services/wl-final-test/README.md || echo '# wl-final-test' > services/wl-final-test/README.md",
+        "status": "PASS"
+      }
+    ],
+    "outputs": [
+      {
+        "kind": "directory",
+        "path": "services/wl-final-test",
+        "status": "PASS"
+      },
+      {
+        "kind": "directory",
+        "path": "services/wl-final-test/data",
+        "status": "PASS"
+      },
+      {
+        "kind": "file",
+        "path": "services/wl-final-test/README.md",
+        "status": "PASS"
+      }
+    ],
+    "event": "/Users/wonderland/Wonderland/vault/09-Governance/wil/events/20260612T142552Z-create-service-recover.event.json"
+  }
+}
