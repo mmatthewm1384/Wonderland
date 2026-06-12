@@ -1,0 +1,9 @@
+{
+  "id": "20260612T144131Z-create-service-reconcile",
+  "kind": "event",
+  "mode": "reconcile",
+  "occurred": "20260612T144131Z",
+  "program": "create-service",
+  "result": "PASS",
+  "version": 0
+}

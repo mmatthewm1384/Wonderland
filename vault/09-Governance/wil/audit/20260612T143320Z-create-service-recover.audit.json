@@ -1,0 +1,49 @@
+{
+  "generated": "20260612T143320Z",
+  "id": "20260612T143320Z-create-service-recover",
+  "kind": "audit",
+  "mode": "recover",
+  "payload": {
+    "actions": [
+      {
+        "command": "mkdir -p services/wl-drift-test",
+        "name": "recreate-service-dir",
+        "status": "PASS"
+      },
+      {
+        "command": "mkdir -p services/wl-drift-test/data",
+        "name": "recreate-data-dir",
+        "status": "PASS"
+      },
+      {
+        "command": "test -f services/wl-drift-test/README.md || echo '# wl-drift-test' > services/wl-drift-test/README.md",
+        "name": "recreate-readme",
+        "status": "PASS"
+      }
+    ],
+    "event": "/Users/wonderland/Wonderland/vault/09-Governance/wil/events/20260612T143320Z-create-service-recover.event.json",
+    "id": "create-service",
+    "kind": "program",
+    "mode": "recover",
+    "outputs": [
+      {
+        "kind": "directory",
+        "path": "services/wl-drift-test",
+        "status": "PASS"
+      },
+      {
+        "kind": "directory",
+        "path": "services/wl-drift-test/data",
+        "status": "PASS"
+      },
+      {
+        "kind": "file",
+        "path": "services/wl-drift-test/README.md",
+        "status": "PASS"
+      }
+    ],
+    "result": "PASS"
+  },
+  "program": "create-service",
+  "version": 0
+}

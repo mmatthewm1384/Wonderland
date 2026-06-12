@@ -276,6 +276,10 @@ fn inspect_outputs(doc: &Value) -> Vec<Value> {
     results
 }
 
+fn has_drift(doc: &Value) -> bool {
+    !all_pass(&inspect_outputs(doc))
+}
+
 fn all_pass(items: &[Value]) -> bool {
     items.iter().all(|v| {
         v.get("status").and_then(|s| s.as_str()) == Some("PASS")
@@ -686,16 +690,20 @@ fn main() {
 
         "plan" => plan(&doc),
 
-        "inspect" => {
+        "inspect" | "drift" => {
             let outputs = inspect_outputs(&doc);
             let passed = all_pass(&outputs);
+            let mode = cmd.as_str();
+
             println!("{}", serde_json::to_string_pretty(&json!({
                 "id": doc.get("id"),
                 "kind": doc.get("kind"),
-                "mode": "inspect",
+                "mode": mode,
                 "result": if passed { "PASS" } else { "FAIL" },
+                "drift": if passed { "none" } else { "detected" },
                 "outputs": outputs
             })).unwrap());
+
             exit(if passed { 0 } else { 1 });
         }
 
@@ -745,6 +753,42 @@ fn main() {
             println!("{}", serde_json::to_string_pretty(&payload).unwrap());
             exit(if passed { 0 } else { 1 });
         }
+
+		"reconcile" => {
+		    if !args.contains(&"--yes".to_string()) {
+       		 eprintln!("Refusing to execute without --yes");
+       		 exit(1);
+   		 }
+
+   		 let before = has_drift(&doc);
+
+   		 let mut repair_results = vec![];
+
+  		  if before {
+       		 repair_results = run_actions(&doc, "recover");
+   		 }
+
+  		  let after = has_drift(&doc);
+
+  		  let passed = !after;
+
+  		  let mut payload = json!({
+      		  "id": doc.get("id"),
+      		  "kind": doc.get("kind"),
+      		  "mode": "reconcile",
+      		  "drift_before": if before { "detected" } else { "none" },
+      		  "repair": if before { "recover" } else { "noop" },
+      		  "repair_actions": repair_results,
+      		  "drift_after": if after { "detected" } else { "none" },
+      		  "result": if passed { "PASS" } else { "FAIL" }
+  		  });
+
+  		  emit_history(&doc, "reconcile", &mut payload);
+
+  		  println!("{}", serde_json::to_string_pretty(&payload).unwrap());
+
+  		  exit(if passed { 0 } else { 1 });
+		}
 
         "recover" | "rollback" => {
             if !args.contains(&"--yes".to_string()) {

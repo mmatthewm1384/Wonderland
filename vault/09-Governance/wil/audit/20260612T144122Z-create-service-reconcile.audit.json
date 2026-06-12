@@ -1,0 +1,19 @@
+{
+  "generated": "20260612T144122Z",
+  "id": "20260612T144122Z-create-service-reconcile",
+  "kind": "audit",
+  "mode": "reconcile",
+  "payload": {
+    "drift_after": "none",
+    "drift_before": "none",
+    "event": "/Users/wonderland/Wonderland/vault/09-Governance/wil/events/20260612T144122Z-create-service-reconcile.event.json",
+    "id": "create-service",
+    "kind": "program",
+    "mode": "reconcile",
+    "repair": "noop",
+    "repair_actions": [],
+    "result": "PASS"
+  },
+  "program": "create-service",
+  "version": 0
+}

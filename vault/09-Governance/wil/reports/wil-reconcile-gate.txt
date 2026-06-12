@@ -1,0 +1,34 @@
+WIL Reconcile Gate
+
+== recover clean state ==
+"PASS"
+
+== confirm no drift ==
+"PASS"
+"none"
+
+== create drift ==
+"FAIL"
+"detected"
+
+== reconcile ==
+"PASS"
+"detected"
+"recover"
+"none"
+
+== confirm repaired ==
+"PASS"
+"none"
+
+== timeline tail ==
+20260612T142954Z  PASS   recover     create-service
+20260612T143320Z  PASS   recover     create-service
+20260612T144014Z  PASS   reconcile   create-service
+20260612T144122Z  PASS   reconcile   create-service
+20260612T144122Z  PASS   recover     create-service
+20260612T144131Z  PASS   reconcile   create-service
+20260612T144347Z  PASS   reconcile   create-service
+20260612T144347Z  PASS   recover     create-service
+20260612T144618Z  PASS   reconcile   create-service
+20260612T144618Z  PASS   recover     create-service

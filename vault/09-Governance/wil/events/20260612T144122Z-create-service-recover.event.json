@@ -1,0 +1,9 @@
+{
+  "id": "20260612T144122Z-create-service-recover",
+  "kind": "event",
+  "mode": "recover",
+  "occurred": "20260612T144122Z",
+  "program": "create-service",
+  "result": "PASS",
+  "version": 0
+}
