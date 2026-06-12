@@ -1,0 +1,17 @@
+2026-06-12T11:50:17Z ssid=NONE interface=en0 internet=FAIL trusted=false gateway=192.168.1.1
+2026-06-12T11:50:22Z ssid=NONE interface=en0 internet=FAIL trusted=false gateway=192.168.1.1
+2026-06-12T11:50:45Z ssid=NONE interface=en0 internet=FAIL trusted=false gateway=192.168.1.1
+2026-06-12T11:50:58Z ssid=NONE interface=en0 internet=FAIL trusted=false gateway=192.168.1.1
+2026-06-12T11:52:49Z ssid=NONE interface=en0 internet=PASS trusted=false gateway=192.168.1.1
+2026-06-12T12:23:15Z ssid=NONE interface=en0 internet=PASS trusted=false gateway=10.176.0.1
+2026-06-12T12:23:58Z ssid=NONE interface=en0 internet=PASS trusted=false gateway=10.176.0.1
+2026-06-12T12:26:31Z ssid=NONE interface=en0 internet=PASS trusted=true gateway=10.176.0.1
+2026-06-12T12:26:31Z ssid=NONE interface=en0 internet=PASS trusted=true gateway=10.176.0.1
+2026-06-12T12:26:34Z ssid=NONE interface=en0 internet=PASS trusted=true gateway=10.176.0.1
+2026-06-12T12:28:14Z ssid=NONE interface=en0 internet=PASS trusted=true gateway=10.176.0.1
+2026-06-12T12:31:01Z ssid=NONE interface=en0 internet=PASS trusted=true gateway=10.176.0.1
+2026-06-12T12:31:01Z ssid=NONE interface=en0 internet=PASS trusted=true gateway=10.176.0.1
+2026-06-12T12:32:04Z ssid=NONE interface=en0 internet=PASS trusted=true gateway=10.176.0.1
+2026-06-12T12:32:23Z ssid=NONE interface=en0 internet=PASS trusted=true gateway=10.176.0.1
+2026-06-12T12:32:36Z ssid=NONE interface=en0 internet=PASS trusted=true gateway=10.176.0.1
+2026-06-12T12:32:37Z ssid=NONE interface=en0 internet=PASS trusted=true gateway=10.176.0.1
