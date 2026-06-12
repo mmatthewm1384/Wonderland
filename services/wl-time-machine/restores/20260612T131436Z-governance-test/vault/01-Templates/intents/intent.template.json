@@ -1,9 +1,0 @@
-{
-  "id": "{{ id }}",
-  "intent": "{{ intent }}",
-  "status": "draft",
-  "created": "{{ created }}",
-  "operator": "Matthew Mahaney",
-  "authority": "operator",
-  "rollback": "{{ rollback }}"
-}

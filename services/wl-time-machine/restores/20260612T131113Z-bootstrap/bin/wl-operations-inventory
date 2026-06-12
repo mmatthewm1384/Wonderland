@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-ROOT="/Users/wonderland/Wonderland"
-
-find "$ROOT/vault/07-Operations" -type f | sort

@@ -1,9 +1,0 @@
-{
-  "id": "service-recovery-order-v4",
-  "version": 4,
-  "order": [
-    "wl-anon-scraper",
-    "wl-anon-tor"
-  ],
-  "cycles_or_unresolved": []
-}

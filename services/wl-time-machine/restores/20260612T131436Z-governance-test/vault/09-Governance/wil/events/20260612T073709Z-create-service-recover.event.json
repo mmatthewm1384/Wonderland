@@ -1,9 +1,0 @@
-{
-  "kind": "event",
-  "id": "20260612T073709Z-create-service-recover",
-  "version": 0,
-  "program": "create-service",
-  "mode": "recover",
-  "result": "PASS",
-  "occurred": "20260612T073709Z"
-}

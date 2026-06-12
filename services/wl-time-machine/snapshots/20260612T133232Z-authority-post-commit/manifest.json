@@ -1,0 +1,11 @@
+{
+  "id": "20260612T133232Z-authority-post-commit",
+  "created": "2026-06-12T13:32:32Z",
+  "label": "post-commit",
+  "scope": "authority",
+  "archive": "root.tar.gz",
+  "sha256": "ee3e66d6c4d01a600e945338132c6e017825f8a5046533a250fcbe617510b670",
+  "bytes": 2901764,
+  "mode": "append-only-local-snapshot",
+  "restore_mode": "staged-only"
+}

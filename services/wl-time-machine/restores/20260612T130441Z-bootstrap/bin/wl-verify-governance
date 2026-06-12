@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-exec /Users/wonderland/Wonderland/vault/09-Governance/checks/verify-governance.sh

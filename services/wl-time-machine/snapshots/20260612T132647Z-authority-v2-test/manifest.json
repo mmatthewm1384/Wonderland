@@ -1,0 +1,11 @@
+{
+  "id": "20260612T132647Z-authority-v2-test",
+  "created": "2026-06-12T13:26:48Z",
+  "label": "v2-test",
+  "scope": "authority",
+  "archive": "root.tar.gz",
+  "sha256": "633b6398eaa761276d8bb7a76571ec802cbaee20b222b97552e6eae80907b27f",
+  "bytes": 2901620,
+  "mode": "append-only-local-snapshot",
+  "restore_mode": "staged-only"
+}

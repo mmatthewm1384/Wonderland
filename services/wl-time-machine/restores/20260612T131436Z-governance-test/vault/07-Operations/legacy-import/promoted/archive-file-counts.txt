@@ -1,9 +1,0 @@
-backups:        0
-containers:        0
-ProResVault:        0
-transfers:        1
-Wonderland-Archive:    15395
-Wonderland-Archives:        6
-Wonderland-Backups:    10265
-Wonderland-v3:     3873
-WonderlandBackups:      343

@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
-
-echo "Architect drop-in installed at: $WL_ROOT"
-echo "Next: wl architect doctor"

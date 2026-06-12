@@ -1,7 +1,0 @@
-{
-  "system_mode": "single_user",
-  "authorized_identity": "wonderland_operator",
-  "isolation_level": "strict",
-  "last_verification_timestamp": "2026-06-06T11:50:46Z",
-  "status": "locked"
-}
