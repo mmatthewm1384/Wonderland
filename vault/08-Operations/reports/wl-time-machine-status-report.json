@@ -1,9 +1,5 @@
 {
   "service": "wl-time-machine",
   "status": "PASS",
-  "snapshot": "PASS",
-  "verify": "PASS",
-  "restore_stage": "PASS",
-  "recovery_bundle": "PASS",
-  "generated": "2026-06-12T13:05:15Z"
+  "generated": "2026-06-12T13:10:13Z"
 }
