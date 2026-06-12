@@ -1,0 +1,12 @@
+{
+  "id": "wl-mahaney",
+  "type": "operator-authority-artifact",
+  "command": "bin/wl-mahaney",
+  "service": "wl-mahaney-core",
+  "intent": "services/wl-mahaney-core/mahaney-core.intent.json",
+  "document": "vault/09-Governance/mahaney/mahaney-core.md",
+  "status": "active",
+  "required_checks": [
+    "bin/wl-mahaney verify"
+  ]
+}

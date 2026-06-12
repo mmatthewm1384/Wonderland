@@ -1,0 +1,16 @@
+{
+  "id": "wl-mahaney-core",
+  "type": "operator-authority",
+  "operator": "Matthew Mahaney",
+  "system": "Wonderland-v4",
+  "principle": "AI may build Wonderland. Wonderland must not depend on AI to run.",
+  "standards": [
+    "persistent",
+    "recoverable",
+    "auditable",
+    "secure",
+    "automated",
+    "versioned",
+    "modular"
+  ]
+}

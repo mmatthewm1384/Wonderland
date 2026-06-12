@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+DOC="$ROOT/vault/09-Governance/mahaney/mahaney-core.md"
+INTENT="$ROOT/services/wl-mahaney-core/mahaney-core.intent.json"
+
+case "${1:-status}" in
+  status)
+    echo "wl-mahaney-core"
+    echo "DOC:    $DOC"
+    echo "INTENT: $INTENT"
+    test -f "$DOC" && echo "PASS doc" || echo "FAIL doc"
+    test -f "$INTENT" && echo "PASS intent" || echo "FAIL intent"
+    ;;
+  show)
+    cat "$DOC"
+    ;;
+  intent)
+    jq . "$INTENT"
+    ;;
+  verify)
+    test -f "$DOC"
+    test -f "$INTENT"
+    jq -e '.id == "wl-mahaney-core"' "$INTENT" >/dev/null
+    echo "PASS wl-mahaney-core"
+    ;;
+  *)
+    echo "Usage: wl-mahaney status|show|intent|verify"
+    exit 2
+    ;;
+esac
