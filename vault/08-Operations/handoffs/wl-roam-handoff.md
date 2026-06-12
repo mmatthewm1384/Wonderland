@@ -2,18 +2,17 @@
 
 Status: PASS
 
-Capabilities:
-- verify
-- doctor
-- status
-- net-status
-- queue
-- recovery
+Mode: authorized-only
 
-Trust:
-- authorized-only
+Commands:
+- bin/wl-roam verify
+- bin/wl-roam status
+- bin/wl-roam doctor
+- bin/wl-roam net-status
+- bin/wl-roam-queue
+- bin/wl-roam-recovery
 
-Forbidden:
+Authorized:
 - crack
 - harvest
 - spoof
