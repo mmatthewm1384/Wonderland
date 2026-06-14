@@ -1,0 +1,11 @@
+{
+  "id": "firefox-certified",
+  "service": "wl-firefox",
+  "type": "managed-browser",
+  "status": "certified",
+  "profiles": [
+    "operations",
+    "research",
+    "sandbox"
+  ]
+}
