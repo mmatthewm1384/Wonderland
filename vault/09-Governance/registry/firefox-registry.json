@@ -1,0 +1,19 @@
+{
+  "id": "wl-firefox-v1",
+  "service": "wl-firefox",
+  "type": "managed-browser",
+  "authority": "Wonderland",
+  "status": "active",
+  "profiles": [
+    "operations",
+    "research",
+    "sandbox"
+  ],
+  "commands": [
+    "wl-firefox install",
+    "wl-firefox verify",
+    "wl-firefox backup",
+    "wl-firefox rollback",
+    "wl-firefox status"
+  ]
+}

@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$HOME/Wonderland"
+BASE="$ROOT/assets/firefox"
+
+case "${1:-}" in
+  install)
+    exec "$BASE/scripts/wl-firefox-install"
+    ;;
+
+  verify)
+    exec "$BASE/scripts/wl-firefox-verify"
+    ;;
+
+  status)
+    exec "$BASE/scripts/wl-firefox-status"
+    ;;
+
+  backup)
+    exec "$BASE/scripts/wl-firefox-backup"
+    ;;
+
+  rollback)
+    exec "$BASE/scripts/wl-firefox-rollback"
+    ;;
+
+  *)
+    cat <<EOF
+Wonderland Firefox
+
+Usage:
+  wl-firefox install
+  wl-firefox verify
+  wl-firefox status
+  wl-firefox backup
+  wl-firefox rollback
+EOF
+    exit 1
+    ;;
+esac

@@ -3,6 +3,11 @@
   "generated": "2026-06-11T22:29:06Z",
   "root": "/Users/wonderland/Wonderland",
   "nodes": [
+	{
+ 	 "id": "wl-firefox",
+ 	 "category": "capability",
+ 	 "enabled": true
+	}
     {
       "id": "universe",
       "type": "authority",

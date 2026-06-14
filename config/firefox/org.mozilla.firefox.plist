@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+ "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>EnterprisePoliciesEnabled</key>
+  <true/>
+
+  <key>DisableTelemetry</key>
+  <true/>
+
+  <key>DisableFirefoxStudies</key>
+  <true/>
+
+  <key>DisablePocket</key>
+  <true/>
+
+  <key>Preferences</key>
+  <dict>
+    <key>toolkit.legacyUserProfileCustomizations.stylesheets</key>
+    <dict>
+      <key>Value</key>
+      <true/>
+      <key>Status</key>
+      <string>locked</string>
+    </dict>
+
+    <key>browser.theme.content-theme</key>
+    <dict>
+      <key>Value</key>
+      <integer>0</integer>
+      <key>Status</key>
+      <string>default</string>
+    </dict>
+
+    <key>browser.theme.toolbar-theme</key>
+    <dict>
+      <key>Value</key>
+      <integer>0</integer>
+      <key>Status</key>
+      <string>default</string>
+    </dict>
+
+    <key>browser.newtabpage.activity-stream.feeds.topsites</key>
+    <dict>
+      <key>Value</key>
+      <false/>
+      <key>Status</key>
+      <string>default</string>
+    </dict>
+
+    <key>browser.newtabpage.activity-stream.showSponsored</key>
+    <dict>
+      <key>Value</key>
+      <false/>
+      <key>Status</key>
+      <string>default</string>
+    </dict>
+
+    <key>browser.newtabpage.activity-stream.showSponsoredTopSites</key>
+    <dict>
+      <key>Value</key>
+      <false/>
+      <key>Status</key>
+      <string>default</string>
+    </dict>
+  </dict>
+</dict>
+</plist>

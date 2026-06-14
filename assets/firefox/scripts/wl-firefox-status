@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Wonderland Firefox"
+echo
+
+for p in operations research sandbox
+do
+    if [ -d "$HOME/Library/Application Support/Firefox/Profiles/$p" ]
+    then
+        echo "PASS $p"
+    else
+        echo "FAIL $p"
+    fi
+done
+
+echo
+
+if [ -f /Library/Preferences/org.mozilla.firefox.plist ]
+then
+    echo "PASS enterprise-policy"
+else
+    echo "FAIL enterprise-policy"
+fi

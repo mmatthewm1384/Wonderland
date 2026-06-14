@@ -17,5 +17,13 @@
     "wl-torrent-vpn",
     "wl-torrent-client",
     "wl-nats"
+{
+  "id": "wl-firefox",
+  "type": "managed-browser",
+  "status": "active",
+  "profiles": [
+    "operations",
+    "research",
+    "sandbox"
   ]
 }

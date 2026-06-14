@@ -1,0 +1,14 @@
+:root {
+  --wl-background: #05070A;
+  --wl-cyan: #00E5FF;
+  --wl-purple: #7000FF;
+  --wl-green: #00FF66;
+
+  --wl-surface: #0A0F14;
+  --wl-surface-raised: #101820;
+  --wl-text: #E6F7FF;
+  --wl-muted: #7A8A99;
+  --wl-border: rgba(0, 229, 255, 0.35);
+  --wl-glow-cyan: 0 0 12px rgba(0, 229, 255, 0.45);
+  --wl-glow-purple: 0 0 14px rgba(112, 0, 255, 0.45);
+}

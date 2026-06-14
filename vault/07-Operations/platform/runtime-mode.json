@@ -1,6 +1,6 @@
 {
   "id": "wonderland-runtime-mode",
-  "mode": "light",
+  "mode": "full",
   "modes": {
     "full": {
       "requires_t7": true,

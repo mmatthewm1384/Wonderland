@@ -1,0 +1,5 @@
+timestamp=$(date -u +%Y%m%dT%H%M%SZ)
+
+tar czf \
+vault/08-Operations/backups/firefox/firefox-${timestamp}.tgz \
+"$HOME/Library/Application Support/Firefox"

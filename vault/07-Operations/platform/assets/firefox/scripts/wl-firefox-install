@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$HOME/Wonderland"
+ASSETS="$ROOT/assets/firefox"
+PROFILE_ROOT="$HOME/Library/Application Support/Firefox/Profiles"
+POLICY_SRC="$ASSETS/policies/org.mozilla.firefox.plist"
+POLICY_DST="/Library/Preferences/org.mozilla.firefox.plist"
+
+mkdir -p "$PROFILE_ROOT"
+
+for p in operations research sandbox; do
+  mkdir -p "$PROFILE_ROOT/$p/chrome"
+  mkdir -p "$ASSETS/profiles/$p/chrome"
+
+  if [ ! -f "$ASSETS/profiles/$p/user.js" ]; then
+    cat > "$ASSETS/profiles/$p/user.js" <<'JS'
+user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+user_pref("browser.startup.homepage", "about:blank");
+user_pref("browser.newtabpage.enabled", false);
+user_pref("privacy.donottrackheader.enabled", true);
+user_pref("privacy.globalprivacycontrol.enabled", true);
+user_pref("browser.send_pings", false);
+user_pref("dom.security.https_only_mode", true);
+JS
+  fi
+
+  if [ ! -f "$ASSETS/profiles/$p/chrome/userChrome.css" ]; then
+    cat > "$ASSETS/profiles/$p/chrome/userChrome.css" <<'CSS'
+:root {
+  --wl-background: #05070A;
+  --wl-cyan: #00E5FF;
+  --wl-purple: #7000FF;
+  --wl-green: #00FF66;
+}
+CSS
+  fi
+
+  cp "$ASSETS/profiles/$p/user.js" "$PROFILE_ROOT/$p/user.js"
+  cp "$ASSETS/profiles/$p/chrome/userChrome.css" "$PROFILE_ROOT/$p/chrome/userChrome.css"
+
+  echo "PASS installed $p"
+done
+
+if [ -f "$POLICY_SRC" ]; then
+  sudo cp "$POLICY_SRC" "$POLICY_DST"
+  echo "PASS enterprise-policy"
+else
+  echo "WARN missing $POLICY_SRC"
+fi
+
+echo "RESULT PASS"

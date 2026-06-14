@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$HOME/Wonderland"
+BACKUP_DIR="$ROOT/vault/08-Operations/backups/firefox"
+TS="$(date -u +%Y%m%dT%H%M%SZ)"
+OUT="$BACKUP_DIR/firefox-$TS.tgz"
+
+mkdir -p "$BACKUP_DIR"
+
+tar czf "$OUT" \
+  "$HOME/Library/Application Support/Firefox" \
+  "$ROOT/assets/firefox" \
+  2>/dev/null
+
+echo "PASS backup $OUT"
+echo "RESULT PASS"

@@ -1,0 +1,12 @@
+{
+  "required_checks": [
+    "bin/wl-seed verify",
+    "bin/wl-time-machine verify",
+    "bin/wl-blackbox verify",
+    "bin/wl-cartographer verify",
+    "bin/wl-hangar verify",
+    "bin/wl-codex verify",
+    "bin/wl-recovery verify",
+    "bin/wl-firefox verify"
+  ]
+}

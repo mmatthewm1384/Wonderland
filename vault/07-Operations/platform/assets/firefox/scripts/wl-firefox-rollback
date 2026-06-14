@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$HOME/Wonderland"
+BACKUP_DIR="$ROOT/vault/08-Operations/backups/firefox"
+
+LATEST="$(ls -t "$BACKUP_DIR"/firefox-*.tgz 2>/dev/null | head -1 || true)"
+
+if [ -z "$LATEST" ]; then
+  echo "FAIL no firefox backup found"
+  exit 1
+fi
+
+pkill firefox 2>/dev/null || true
+
+tar xzf "$LATEST" -C /
+
+echo "PASS restored $LATEST"
+echo "RESULT PASS"
