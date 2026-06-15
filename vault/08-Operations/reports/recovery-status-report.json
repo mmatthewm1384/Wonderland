@@ -1,0 +1,12 @@
+{
+  "id": "wl-recovery-status-v1",
+  "status": "PASS",
+  "checks": {
+    "recovery_drill_binary": "PASS",
+    "service_order_binary": "PASS",
+    "policy": "PASS",
+    "runbook": "PASS",
+    "matrix": "PASS",
+    "service_order": "PASS"
+  }
+}

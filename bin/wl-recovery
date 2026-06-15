@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WONDERLAND_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+REPORT="$ROOT/vault/08-Operations/reports/recovery-status-report.json"
+
+cmd="${1:-verify}"
+
+case "$cmd" in
+  verify|doctor|status)
+    test -x "$ROOT/bin/wl-recovery-drill"
+    test -x "$ROOT/bin/wl-services-recovery-order"
+    test -f "$ROOT/vault/00-Core/recovery/recovery-policy.md"
+    test -f "$ROOT/vault/03-Runbooks/recovery/recovery.runbook.md"
+    test -f "$ROOT/vault/06-Services/recovery/recovery-matrix.json"
+    test -f "$ROOT/vault/06-Services/recovery/service-recovery-order.json"
+
+    mkdir -p "$(dirname "$REPORT")"
+    cat > "$REPORT" <<JSON
+{
+  "id": "wl-recovery-status-v1",
+  "status": "PASS",
+  "checks": {
+    "recovery_drill_binary": "PASS",
+    "service_order_binary": "PASS",
+    "policy": "PASS",
+    "runbook": "PASS",
+    "matrix": "PASS",
+    "service_order": "PASS"
+  }
+}
+JSON
+
+    echo "PASS recovery"
+    echo "RESULT PASS"
+    ;;
+
+  drill|run)
+    shift || true
+    exec "$ROOT/bin/wl-recovery-drill" "$@"
+    ;;
+
+  order)
+    exec "$ROOT/bin/wl-services-recovery-order"
+    ;;
+
+  *)
+    echo "Usage: wl-recovery verify|doctor|status|drill|run|order"
+    exit 1
+    ;;
+esac
