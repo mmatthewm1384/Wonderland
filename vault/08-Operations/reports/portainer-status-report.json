@@ -4,6 +4,5 @@
   "status": "BLOCKED",
   "mode": "container",
   "reason": "nerdctl/containerd Docker Hub pulls fail with TLS bad record MAC and TLS handshake timeout",
-  "fallback": "host binary unavailable on PATH",
   "next_action": "repair Lima/containerd registry transport"
 }
