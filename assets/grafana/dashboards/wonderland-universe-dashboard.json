@@ -1,0 +1,50 @@
+{
+  "title": "Wonderland Universe",
+  "uid": "wonderland-universe",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "tags": ["wonderland", "operations"],
+  "panels": [
+    {
+      "id": 1,
+      "type": "text",
+      "title": "Authority",
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 },
+      "options": {
+        "mode": "markdown",
+        "content": "## Authority\n\n- Mode\n- Storage\n- Storage authority\n\nExpected: **PASS**"
+      }
+    },
+    {
+      "id": 2,
+      "type": "text",
+      "title": "Governance",
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 },
+      "options": {
+        "mode": "markdown",
+        "content": "## Governance\n\n- Governance\n- Recovery\n- Snapshot\n\nExpected: **PASS**"
+      }
+    },
+    {
+      "id": 3,
+      "type": "text",
+      "title": "Runtime",
+      "gridPos": { "x": 12, "y": 0, "w": 6, "h": 4 },
+      "options": {
+        "mode": "markdown",
+        "content": "## Runtime\n\n- DNS\n- NATS\n- Observability\n\nExpected: **PASS**"
+      }
+    },
+    {
+      "id": 4,
+      "type": "text",
+      "title": "Capabilities",
+      "gridPos": { "x": 18, "y": 0, "w": 6, "h": 4 },
+      "options": {
+        "mode": "markdown",
+        "content": "## Capabilities\n\n- Media\n- Torrent\n- Firefox\n- Portainer\n\nExpected: **PASS**"
+      }
+    }
+  ]
+}

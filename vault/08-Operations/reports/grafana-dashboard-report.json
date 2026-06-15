@@ -1,0 +1,6 @@
+{
+  "id": "wl-grafana-dashboard-report-v1",
+  "dashboard": "wonderland-universe",
+  "status": "PASS",
+  "file": "assets/grafana/dashboards/wonderland-universe-dashboard.json"
+}

@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WONDERLAND_ROOT:-$HOME/Wonderland}"
+DASH="$ROOT/assets/grafana/dashboards/wonderland-universe-dashboard.json"
+REPORT="$ROOT/vault/08-Operations/reports/grafana-dashboard-report.json"
+
+usage() {
+  echo "Usage: wl-grafana-dashboard verify|deploy|doctor"
+}
+
+cmd="${1:-}"
+[ -n "$cmd" ] || { usage; exit 1; }
+
+case "$cmd" in
+  verify|doctor)
+    [ -f "$DASH" ] || { echo "FAIL dashboard missing"; exit 1; }
+    jq empty "$DASH"
+    echo "PASS dashboard json"
+
+    if curl -fsS http://127.0.0.1:3000/api/health >/dev/null; then
+      echo "PASS grafana health"
+    else
+      echo "FAIL grafana health"
+      exit 1
+    fi
+
+    cat > "$REPORT" <<JSON
+{
+  "id": "wl-grafana-dashboard-report-v1",
+  "dashboard": "wonderland-universe",
+  "status": "PASS",
+  "file": "assets/grafana/dashboards/wonderland-universe-dashboard.json"
+}
+JSON
+    echo "RESULT PASS"
+    ;;
+
+  deploy)
+    [ -f "$DASH" ] || { echo "FAIL dashboard missing"; exit 1; }
+
+    if [ -z "${GRAFANA_ADMIN_USER:-}" ] || [ -z "${GRAFANA_ADMIN_PASSWORD:-}" ]; then
+      echo "FAIL set GRAFANA_ADMIN_USER and GRAFANA_ADMIN_PASSWORD"
+      exit 1
+    fi
+
+    tmp="$(mktemp)"
+    jq '{dashboard: ., folderId: 0, overwrite: true}' "$DASH" > "$tmp"
+
+    curl -fsS \
+      -u "$GRAFANA_ADMIN_USER:$GRAFANA_ADMIN_PASSWORD" \
+      -H "Content-Type: application/json" \
+      -X POST \
+      --data @"$tmp" \
+      http://127.0.0.1:3000/api/dashboards/db >/dev/null
+
+    rm -f "$tmp"
+    echo "PASS deployed wonderland-universe"
+    ;;
+
+  *)
+    usage
+    exit 1
+    ;;
+esac
