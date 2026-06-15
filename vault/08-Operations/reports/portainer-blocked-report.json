@@ -2,6 +2,6 @@
   "id": "wl-portainer-blocked-v1",
   "service": "wl-portainer",
   "status": "BLOCKED",
-  "reason": "nerdctl/containerd registry pull fails against Docker Hub with TLS bad record MAC and TLS handshake timeout",
-  "next_action": "repair Lima/containerd registry transport path before retrying Portainer image pull"
+  "reason": "nerdctl/containerd registry pull fails with TLS bad record MAC and TLS handshake timeout",
+  "next_action": "repair Lima/containerd registry transport path"
 }
