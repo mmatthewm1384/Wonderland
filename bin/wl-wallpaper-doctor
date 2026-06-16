@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Volumes/T7_Wonderland/Wonderland/assets/wallpapers"
+CERT="$ROOT/iphone/lockscreen/certified"
+REG="$ROOT/manifests/wallpaper-registry.json"
+MARKER="/Volumes/T7_Wonderland/Wonderland/vault/08-Operations/certifications/wallpaper-certified.json"
+
+fail=0
+
+echo "WL Wallpaper Doctor"
+
+[[ -d "$ROOT" ]] && echo "PASS root" || { echo "FAIL root"; fail=1; }
+[[ -d "$CERT" ]] && echo "PASS certified" || { echo "FAIL certified"; fail=1; }
+[[ -f "$REG" ]] && echo "PASS registry" || { echo "FAIL registry"; fail=1; }
+[[ -f "$MARKER" ]] && echo "PASS certification-marker" || { echo "FAIL certification-marker"; fail=1; }
+
+count="$(find "$CERT" -maxdepth 1 -type f -name 'wonderland-iphone16pro-*.png' | wc -l | tr -d ' ')"
+echo "certified_assets=$count"
+
+[[ "$count" -ge 2 ]] && echo "PASS asset-count" || { echo "FAIL asset-count"; fail=1; }
+
+if [[ "$fail" -eq 0 ]]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+fi
+
+exit "$fail"
