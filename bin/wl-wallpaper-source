@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+T7="/Volumes/T7_Wonderland"
+ROOT="$T7/Wonderland"
+ASSETS="$ROOT/assets/wallpapers"
+
+IMPORT="$ASSETS/import"
+SOURCE="$ASSETS/source"
+STAGING="$ASSETS/iphone/lockscreen/staging"
+CERTIFIED="$ASSETS/iphone/lockscreen/certified"
+MANIFESTS="$ASSETS/manifests"
+
+need_t7() {
+  [[ -d "$T7" ]] || {
+    echo "FAIL T7 not mounted: $T7"
+    exit 1
+  }
+}
+
+init() {
+  need_t7
+  mkdir -p "$IMPORT" "$SOURCE" "$STAGING" "$CERTIFIED" "$MANIFESTS"
+  echo "PASS source preservation initialized"
+}
+
+stage() {
+  need_t7
+  init
+
+  for f in "$SOURCE"/*.{png,jpg,jpeg}; do
+    [[ -f "$f" ]] || continue
+    cp -n "$f" "$STAGING/"
+  done
+
+  echo "PASS staged from source: $STAGING"
+}
+
+certify_copy() {
+  need_t7
+  init
+
+  for f in "$STAGING"/*.{png,jpg,jpeg}; do
+    [[ -f "$f" ]] || continue
+    cp -n "$f" "$CERTIFIED/"
+  done
+
+  echo "PASS certified copy: $CERTIFIED"
+}
+
+preserve() {
+  need_t7
+  init
+
+  ts="$(date +%Y%m%d-%H%M%S)"
+  batch="$IMPORT/$ts"
+  mkdir -p "$batch"
+
+  find "$HOME/Downloads" -maxdepth 1 -type f \
+    \( -iname "ChatGPT*.png" -o -iname "ChatGPT*.jpg" -o -iname "*.png" -o -iname "*.jpg" \) \
+    -print0 |
+  while IFS= read -r -d '' f; do
+    cp -n "$f" "$batch/"
+    cp -n "$f" "$SOURCE/"
+  done
+
+  echo "PASS import batch: $batch"
+  echo "PASS source preserved: $SOURCE"
+}
+
+verify() {
+  need_t7
+
+  fail=0
+
+  for d in "$IMPORT" "$SOURCE" "$STAGING" "$CERTIFIED" "$MANIFESTS"; do
+    if [[ -d "$d" ]]; then
+      echo "PASS dir $d"
+    else
+      echo "FAIL missing dir $d"
+      fail=1
+    fi
+  done
+
+  [[ "$fail" -eq 0 ]] && echo "RESULT PASS" || echo "RESULT FAIL"
+  exit "$fail"
+}
+
+status() {
+  need_t7
+  echo "Wallpaper Source Preservation"
+  echo "root: $ASSETS"
+  echo
+  find "$ASSETS" -maxdepth 3 -type d | sort
+  echo
+  find "$SOURCE" -maxdepth 1 -type f | sort
+}
+
+case "${1:-}" in
+  init) init ;;
+  preserve) preserve ;;
+  stage) stage ;;
+  certify-copy) certify_copy ;;
+  verify) verify ;;
+  status) status ;;
+  *)
+    echo "Usage: wl-wallpaper-source init|preserve|stage|certify-copy|verify|status"
+    exit 1
+    ;;
+esac
