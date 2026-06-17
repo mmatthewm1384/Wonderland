@@ -1,14 +1,22 @@
 # Matrix Atom Destroyer
 
-Interactive Matrix-inspired atom visualization.
+Interactive Matrix-style atom visualization.
 
-Controls:
-- Click = Slam Destroy Event
+## Controls
 
-Runtime:
+- Click: slam destroy
+- Space: slam destroy
+- R: reset
+- S: screenshot export
+- Double-click: fullscreen
+
+## Runtime
+
 - Browser
 - HTML5 Canvas
 - No external dependencies
 
-Status:
-- Experimental
+## Wonderland
+
+- Command: `wl-matrix`
+- Asset path: `assets/visualizations/matrix-atom-destroyer`

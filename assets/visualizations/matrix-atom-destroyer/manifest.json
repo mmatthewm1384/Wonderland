@@ -1,0 +1,13 @@
+{
+  "id": "matrix-atom-destroyer",
+  "name": "Matrix Atom Destroyer",
+  "version": "1.0.0",
+  "status": "experimental",
+  "owner": "Wonderland",
+  "runtime": "browser",
+  "dependencies": [],
+  "created": "2026-06-17",
+  "command": "wl-matrix",
+  "entrypoint": "matrix-atom-destroyer.html",
+  "description": "Matrix-style atom visualization with slam-destroy effect."
+}

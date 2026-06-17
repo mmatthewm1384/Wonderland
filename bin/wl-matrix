@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+APP="$WL_ROOT/assets/visualizations/matrix-atom-destroyer/matrix-atom-destroyer.html"
+
+if [[ ! -f "$APP" ]]; then
+  echo "FAIL missing: $APP"
+  exit 1
+fi
+
+open "$APP"
