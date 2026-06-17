@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Matrix Atom Destroyer v4 HUD</title>
+<title>Matrix Atom Destroyer v5 Audio Reactive</title>
 <style>
 html, body {
   margin: 0;
@@ -26,7 +26,7 @@ canvas { display: block; }
 </head>
 <body>
 <canvas id="c"></canvas>
-<div id="label">Matrix Atom Destroyer v4 HUD · SPACE slam · H HUD · O outdoor · G gravity · F fracture · P pulse · R reset · S screenshot</div>
+<div id="label">Matrix Atom Destroyer v5 · SPACE slam · M mic · H HUD · O outdoor · G gravity · F fracture · P pulse · R reset · S screenshot</div>
 
 <script>
 const COLORS = {
@@ -45,12 +45,20 @@ let phase = 0;
 let slam = 0;
 let shockwave = 0;
 let eyeOffset = -180;
+
 let outdoorMode = true;
 let gravityLens = true;
 let fractureRings = true;
 let hudMode = true;
 let pulseField = true;
+let micMode = false;
+
 let audioCtx = null;
+let analyser = null;
+let micSource = null;
+let audioData = null;
+let audioLevel = 0;
+let lastAutoSlam = 0;
 
 function resize() {
   w = canvas.width = window.innerWidth;
@@ -89,6 +97,47 @@ function boom() {
   } catch (_) {}
 }
 
+async function toggleMic() {
+  try {
+    if (micMode) {
+      micMode = false;
+      return;
+    }
+
+    audioCtx = audioCtx || new AudioContext();
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 256;
+    audioData = new Uint8Array(analyser.frequencyBinCount);
+    micSource = audioCtx.createMediaStreamSource(stream);
+    micSource.connect(analyser);
+    micMode = true;
+  } catch (err) {
+    micMode = false;
+    console.warn("Mic unavailable:", err);
+  }
+}
+
+function updateAudioLevel() {
+  if (!micMode || !analyser || !audioData) {
+    audioLevel *= 0.94;
+    return;
+  }
+
+  analyser.getByteFrequencyData(audioData);
+
+  let sum = 0;
+  for (let i = 0; i < audioData.length; i++) sum += audioData[i];
+
+  audioLevel = sum / audioData.length / 255;
+
+  const now = performance.now();
+  if (audioLevel > 0.42 && now - lastAutoSlam > 900) {
+    lastAutoSlam = now;
+    triggerSlam();
+  }
+}
+
 function triggerSlam() {
   phase = 2;
   slam = 1;
@@ -106,7 +155,7 @@ function reset() {
 
 function saveScreenshot() {
   const a = document.createElement("a");
-  a.download = "matrix-atom-destroyer-v4-hud.png";
+  a.download = "matrix-atom-destroyer-v5-audio-reactive.png";
   a.href = canvas.toDataURL("image/png");
   a.click();
 }
@@ -128,16 +177,35 @@ function matrixRain() {
       const dx = ox - x;
       const dy = oy - y;
       const d = Math.max(60, Math.sqrt(dx * dx + dy * dy));
-      const pull = phase === 2 ? 42 / d : 14 / d;
+      const pull = phase === 2 ? 42 / d : (14 + audioLevel * 60) / d;
       x += dx * pull;
       y += dy * pull;
     }
 
-    ctx.fillStyle = cycleColor((angle * 4) + i);
+    ctx.fillStyle = cycleColor((angle * 4) + i + audioLevel * 8);
     ctx.fillText(Math.random() > 0.5 ? "1" : "0", x, y);
   }
 
   ctx.shadowBlur = 0;
+}
+
+function drawAudioBars() {
+  if (!micMode || !audioData) return;
+
+  ctx.save();
+  const barCount = 32;
+  const barWidth = w / barCount;
+
+  for (let i = 0; i < barCount; i++) {
+    const value = audioData[i] / 255;
+    const height = value * 160;
+    ctx.fillStyle = i % 3 === 0 ? COLORS.purple : COLORS.cyan;
+    ctx.globalAlpha = 0.55;
+    ctx.fillRect(i * barWidth, h - height, barWidth * 0.7, height);
+  }
+
+  ctx.globalAlpha = 1;
+  ctx.restore();
 }
 
 function drawPulseField() {
@@ -147,10 +215,10 @@ function drawPulseField() {
   ctx.translate(originX(), originY());
 
   for (let i = 0; i < 12; i++) {
-    const radius = 40 + i * 28 + Math.sin(angle * 4 + i) * 14;
+    const radius = 40 + i * 28 + Math.sin(angle * 4 + i) * 14 + audioLevel * 90;
     ctx.beginPath();
     ctx.strokeStyle = i % 3 === 0 ? COLORS.purple : COLORS.cyan;
-    ctx.globalAlpha = 0.08;
+    ctx.globalAlpha = 0.08 + audioLevel * 0.12;
     ctx.lineWidth = outdoorMode ? 3 : 1;
     ctx.arc(0, 0, radius, 0, Math.PI * 2);
     ctx.stroke();
@@ -168,7 +236,7 @@ function drawFractureRings() {
   ctx.rotate(-angle * 0.4);
 
   for (let i = 0; i < 7; i++) {
-    const radius = 70 + i * 38 + slam * 180;
+    const radius = 70 + i * 38 + slam * 180 + audioLevel * 80;
     ctx.beginPath();
     ctx.strokeStyle = i % 2 === 0 ? COLORS.purple : COLORS.cyan;
     ctx.globalAlpha = Math.max(0.08, shockwave - i * 0.08);
@@ -186,17 +254,15 @@ function drawFractureRings() {
 function atom() {
   ctx.save();
 
-  if (phase === 2) {
-    eyeOffset *= 0.96;
-  }
+  if (phase === 2) eyeOffset *= 0.96;
 
   ctx.translate(originX(), originY());
 
-  const scale = 1 + slam * 2.5;
+  const scale = 1 + slam * 2.5 + audioLevel * 0.4;
   ctx.scale(scale, scale);
   ctx.rotate(angle);
 
-  ctx.strokeStyle = phase === 2 ? "#FF0033" : cycleColor(angle * 2);
+  ctx.strokeStyle = phase === 2 ? "#FF0033" : cycleColor(angle * 2 + audioLevel * 8);
   ctx.shadowColor = ctx.strokeStyle;
   ctx.shadowBlur = outdoorMode ? 42 : 18;
   ctx.lineWidth = outdoorMode ? 7 : 3;
@@ -218,7 +284,7 @@ function atom() {
   ctx.fillStyle = phase === 2 ? "#FF0033" : COLORS.cyan;
 
   for (let i = 0; i < 50; i++) {
-    const spread = phase === 2 ? 160 + slam * 520 : 78;
+    const spread = phase === 2 ? 160 + slam * 520 : 78 + audioLevel * 100;
     const x = Math.cos(angle * 2 + i) * spread * Math.random();
     const y = Math.sin(angle * 3 + i) * spread * Math.random();
     ctx.fillRect(x, y, outdoorMode ? 8 : 4, outdoorMode ? 8 : 4);
@@ -274,7 +340,7 @@ function drawReticle() {
   ctx.lineWidth = outdoorMode ? 3 : 2;
 
   ctx.beginPath();
-  ctx.arc(ox, oy, 155, 0, Math.PI * 2);
+  ctx.arc(ox, oy, 155 + audioLevel * 45, 0, Math.PI * 2);
   ctx.stroke();
 
   ctx.beginPath();
@@ -301,10 +367,10 @@ function drawTelemetry() {
   ctx.shadowBlur = outdoorMode ? 14 : 6;
 
   const lines = [
-    "WL-HUD MATRIX ATOM DESTROYER v4",
-    `PHASE=${phase} SLAM=${slam.toFixed(2)} SHOCK=${Math.max(0, shockwave).toFixed(2)}`,
-    `OUTDOOR=${outdoorMode ? "ON" : "OFF"} GRAVITY=${gravityLens ? "ON" : "OFF"} FRACTURE=${fractureRings ? "ON" : "OFF"}`,
-    `PULSE=${pulseField ? "ON" : "OFF"} LEFT_EYE_OFFSET=${Math.round(eyeOffset)}`
+    "WL-HUD MATRIX ATOM DESTROYER v5 AUDIO",
+    `PHASE=${phase} SLAM=${slam.toFixed(2)} SHOCK=${Math.max(0, shockwave).toFixed(2)} AUDIO=${audioLevel.toFixed(2)}`,
+    `MIC=${micMode ? "ON" : "OFF"} OUTDOOR=${outdoorMode ? "ON" : "OFF"} GRAVITY=${gravityLens ? "ON" : "OFF"} FRACTURE=${fractureRings ? "ON" : "OFF"}`,
+    `PULSE=${pulseField ? "ON" : "OFF"} LEFT_EYE_OFFSET=${Math.round(eyeOffset)} AUTO_SLAM=0.42`
   ];
 
   lines.forEach((line, i) => ctx.fillText(line, 16, h - 88 + i * 20));
@@ -319,24 +385,25 @@ function drawHUD() {
 }
 
 function draw() {
+  updateAudioLevel();
+
   ctx.fillStyle = outdoorMode ? "rgba(5,7,10,0.26)" : "rgba(5,7,10,0.12)";
   ctx.fillRect(0, 0, w, h);
 
   matrixRain();
+  drawAudioBars();
   drawPulseField();
   drawFractureRings();
   atom();
   drawShockwave();
   drawHUD();
 
-  angle += phase === 2 ? 0.12 : 0.045;
+  angle += phase === 2 ? 0.12 + audioLevel * 0.08 : 0.045 + audioLevel * 0.04;
 
   if (slam > 0) slam -= 0.025;
   if (slam < 0) slam = 0;
 
-  if (phase === 2 && shockwave <= 0 && slam === 0) {
-    phase = 0;
-  }
+  if (phase === 2 && shockwave <= 0 && slam === 0) phase = 0;
 
   requestAnimationFrame(draw);
 }
@@ -345,11 +412,8 @@ window.addEventListener("resize", resize);
 window.addEventListener("click", triggerSlam);
 
 window.addEventListener("dblclick", () => {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen();
-  } else {
-    document.exitFullscreen();
-  }
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
 });
 
 window.addEventListener("keydown", e => {
@@ -378,6 +442,9 @@ window.addEventListener("keydown", e => {
       break;
     case "p":
       pulseField = !pulseField;
+      break;
+    case "m":
+      toggleMic();
       break;
   }
 });

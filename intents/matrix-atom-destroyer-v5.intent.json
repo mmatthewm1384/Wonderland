@@ -1,0 +1,42 @@
+{
+  "id": "matrix-atom-destroyer-v5",
+  "version": "5.0.0",
+  "mode": "BUILD",
+  "owner": "Wonderland",
+  "target": "assets/visualizations/matrix-atom-destroyer",
+  "command": "wl-matrix",
+  "doctor": "wl-matrix-doctor",
+  "rollback": "wl-matrix-rollback",
+  "intent": "Upgrade Matrix Atom Destroyer to v5 with audio-reactive mic mode, waveform bars, automatic slam threshold, HUD telemetry, outdoor visibility, gravity lensing, fracture rings, pulse field, screenshot export, and governed rollback.",
+  "principles": [
+    "persistent",
+    "recoverable",
+    "auditable",
+    "secure",
+    "automated",
+    "versioned",
+    "modular"
+  ],
+  "features": [
+    "Wonderland palette",
+    "audio reactive mode",
+    "microphone input",
+    "audio level telemetry",
+    "waveform bars",
+    "automatic slam threshold",
+    "HUD mode",
+    "scanlines",
+    "reticle",
+    "outdoor mode",
+    "left-eye projection",
+    "gravity lens",
+    "fracture rings",
+    "pulse field",
+    "slam destroy",
+    "shockwave",
+    "fullscreen",
+    "screenshot export",
+    "local browser runtime",
+    "no external dependencies"
+  ]
+}

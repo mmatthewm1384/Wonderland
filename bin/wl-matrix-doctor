@@ -5,23 +5,15 @@ WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
 APP_DIR="$WL_ROOT/assets/visualizations/matrix-atom-destroyer"
 HTML="$APP_DIR/matrix-atom-destroyer.html"
 MANIFEST="$APP_DIR/manifest.json"
-INTENT="$WL_ROOT/intents/matrix-atom-destroyer-v4.intent.json"
+INTENT="$WL_ROOT/intents/matrix-atom-destroyer-v5.intent.json"
 LAUNCHER="$WL_ROOT/bin/wl-matrix"
 ROLLBACK="$WL_ROOT/bin/wl-matrix-rollback"
 
 fail=0
 
-check_file() {
-  [[ -f "$1" ]] && echo "PASS $2" || { echo "FAIL $2"; fail=1; }
-}
-
-check_exec() {
-  [[ -x "$1" ]] && echo "PASS $2" || { echo "FAIL $2"; fail=1; }
-}
-
-check_grep() {
-  grep -q "$1" "$2" && echo "PASS $3" || { echo "FAIL $3"; fail=1; }
-}
+check_file() { [[ -f "$1" ]] && echo "PASS $2" || { echo "FAIL $2"; fail=1; }; }
+check_exec() { [[ -x "$1" ]] && echo "PASS $2" || { echo "FAIL $2"; fail=1; }; }
+check_grep() { grep -q "$1" "$2" && echo "PASS $3" || { echo "FAIL $3"; fail=1; }; }
 
 echo "Matrix Atom Destroyer Doctor"
 
@@ -32,19 +24,21 @@ check_exec "$LAUNCHER" "launcher"
 check_exec "$ROLLBACK" "rollback"
 
 check_grep 'const COLORS' "$HTML" "palette"
+check_grep 'micMode' "$HTML" "mic-mode"
+check_grep 'toggleMic' "$HTML" "mic-toggle"
+check_grep 'getUserMedia' "$HTML" "browser-mic-api"
+check_grep 'audioLevel' "$HTML" "audio-level"
+check_grep 'drawAudioBars' "$HTML" "audio-bars"
+check_grep 'AUTO_SLAM' "$HTML" "auto-slam-telemetry"
+check_grep 'hudMode' "$HTML" "hud-mode"
 check_grep 'outdoorMode' "$HTML" "outdoor-mode"
 check_grep 'eyeOffset' "$HTML" "left-eye-projection"
 check_grep 'gravityLens' "$HTML" "gravity-lens"
 check_grep 'fractureRings' "$HTML" "fracture-rings"
-check_grep 'hudMode' "$HTML" "hud-mode"
-check_grep 'drawHUD' "$HTML" "hud-renderer"
-check_grep 'drawScanlines' "$HTML" "scanlines"
-check_grep 'drawReticle' "$HTML" "reticle"
-check_grep 'drawTelemetry' "$HTML" "telemetry"
 check_grep 'pulseField' "$HTML" "pulse-field"
 check_grep 'saveScreenshot' "$HTML" "screenshot-export"
 check_grep 'requestFullscreen' "$HTML" "fullscreen"
-check_grep '"version": "4.0.0"' "$MANIFEST" "manifest-version"
+check_grep '"version": "5.0.0"' "$MANIFEST" "manifest-version"
 
 if [[ "$fail" -eq 0 ]]; then
   echo "RESULT PASS"

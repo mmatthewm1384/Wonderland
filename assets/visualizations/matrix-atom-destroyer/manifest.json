@@ -1,17 +1,17 @@
 {
   "id": "matrix-atom-destroyer",
   "name": "Matrix Atom Destroyer",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "status": "certified-experimental",
   "owner": "Wonderland",
   "runtime": "browser",
   "dependencies": [],
   "created": "2026-06-17",
-  "updated": "2026-06-17T22:52:22Z",
+  "updated": "2026-06-17T22:54:50Z",
   "command": "wl-matrix",
   "doctor": "wl-matrix-doctor",
   "rollback": "wl-matrix-rollback",
-  "intent": "intents/matrix-atom-destroyer-v4.intent.json",
+  "intent": "intents/matrix-atom-destroyer-v5.intent.json",
   "entrypoint": "matrix-atom-destroyer.html",
-  "description": "Matrix Atom Destroyer v4 HUD mode with scanlines, reticle, telemetry, pulse field, gravity lensing, temporal fracture rings, outdoor mode, left-eye projection, shockwave, fullscreen, and screenshot export."
+  "description": "Matrix Atom Destroyer v5 audio-reactive HUD mode with microphone input, waveform bars, automatic slam threshold, outdoor mode, gravity lensing, fracture rings, pulse field, left-eye projection, shockwave, fullscreen, and screenshot export."
 }
