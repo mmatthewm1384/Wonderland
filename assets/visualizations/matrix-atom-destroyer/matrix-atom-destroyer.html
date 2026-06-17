@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Matrix Atom Destroyer v2</title>
+<title>Matrix Atom Destroyer v4 HUD</title>
 <style>
 html, body {
   margin: 0;
@@ -26,7 +26,7 @@ canvas { display: block; }
 </head>
 <body>
 <canvas id="c"></canvas>
-<div id="label">Matrix Atom Destroyer v2 · Outdoor Mode · Click/SPACE slam · R reset · O outdoor · S screenshot · Double-click fullscreen</div>
+<div id="label">Matrix Atom Destroyer v4 HUD · SPACE slam · H HUD · O outdoor · G gravity · F fracture · P pulse · R reset · S screenshot</div>
 
 <script>
 const COLORS = {
@@ -46,11 +46,28 @@ let slam = 0;
 let shockwave = 0;
 let eyeOffset = -180;
 let outdoorMode = true;
+let gravityLens = true;
+let fractureRings = true;
+let hudMode = true;
+let pulseField = true;
 let audioCtx = null;
 
 function resize() {
   w = canvas.width = window.innerWidth;
   h = canvas.height = window.innerHeight;
+}
+
+function cycleColor(t) {
+  const colors = [COLORS.green, COLORS.cyan, COLORS.purple];
+  return colors[Math.floor(t) % colors.length];
+}
+
+function originX() {
+  return (w / 2) + eyeOffset;
+}
+
+function originY() {
+  return h / 2;
 }
 
 function boom() {
@@ -61,7 +78,6 @@ function boom() {
 
     osc.type = "sine";
     osc.frequency.value = 42;
-
     osc.connect(gain);
     gain.connect(audioCtx.destination);
 
@@ -90,25 +106,81 @@ function reset() {
 
 function saveScreenshot() {
   const a = document.createElement("a");
-  a.download = "matrix-atom-destroyer-v2.png";
+  a.download = "matrix-atom-destroyer-v4-hud.png";
   a.href = canvas.toDataURL("image/png");
   a.click();
 }
 
 function matrixRain() {
-  ctx.fillStyle = COLORS.green;
   ctx.font = outdoorMode ? "22px monospace" : "14px monospace";
   ctx.shadowColor = COLORS.green;
   ctx.shadowBlur = outdoorMode ? 12 : 0;
 
-  const count = outdoorMode ? 45 : 90;
+  const count = outdoorMode ? 50 : 100;
+  const ox = originX();
+  const oy = originY();
 
   for (let i = 0; i < count; i++) {
-    const char = Math.random() > 0.5 ? "1" : "0";
-    ctx.fillText(char, Math.random() * w, Math.random() * h);
+    let x = Math.random() * w;
+    let y = Math.random() * h;
+
+    if (gravityLens) {
+      const dx = ox - x;
+      const dy = oy - y;
+      const d = Math.max(60, Math.sqrt(dx * dx + dy * dy));
+      const pull = phase === 2 ? 42 / d : 14 / d;
+      x += dx * pull;
+      y += dy * pull;
+    }
+
+    ctx.fillStyle = cycleColor((angle * 4) + i);
+    ctx.fillText(Math.random() > 0.5 ? "1" : "0", x, y);
   }
 
   ctx.shadowBlur = 0;
+}
+
+function drawPulseField() {
+  if (!pulseField) return;
+
+  ctx.save();
+  ctx.translate(originX(), originY());
+
+  for (let i = 0; i < 12; i++) {
+    const radius = 40 + i * 28 + Math.sin(angle * 4 + i) * 14;
+    ctx.beginPath();
+    ctx.strokeStyle = i % 3 === 0 ? COLORS.purple : COLORS.cyan;
+    ctx.globalAlpha = 0.08;
+    ctx.lineWidth = outdoorMode ? 3 : 1;
+    ctx.arc(0, 0, radius, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+
+  ctx.globalAlpha = 1;
+  ctx.restore();
+}
+
+function drawFractureRings() {
+  if (!fractureRings || phase !== 2) return;
+
+  ctx.save();
+  ctx.translate(originX(), originY());
+  ctx.rotate(-angle * 0.4);
+
+  for (let i = 0; i < 7; i++) {
+    const radius = 70 + i * 38 + slam * 180;
+    ctx.beginPath();
+    ctx.strokeStyle = i % 2 === 0 ? COLORS.purple : COLORS.cyan;
+    ctx.globalAlpha = Math.max(0.08, shockwave - i * 0.08);
+    ctx.lineWidth = outdoorMode ? 5 : 2;
+    ctx.shadowColor = ctx.strokeStyle;
+    ctx.shadowBlur = outdoorMode ? 35 : 14;
+    ctx.arc(0, 0, radius, angle + i, Math.PI * 1.4 + angle + i);
+    ctx.stroke();
+  }
+
+  ctx.globalAlpha = 1;
+  ctx.restore();
 }
 
 function atom() {
@@ -118,15 +190,15 @@ function atom() {
     eyeOffset *= 0.96;
   }
 
-  ctx.translate((w / 2) + eyeOffset, h / 2);
+  ctx.translate(originX(), originY());
 
   const scale = 1 + slam * 2.5;
   ctx.scale(scale, scale);
   ctx.rotate(angle);
 
-  ctx.strokeStyle = phase === 2 ? "#FF0033" : COLORS.green;
+  ctx.strokeStyle = phase === 2 ? "#FF0033" : cycleColor(angle * 2);
   ctx.shadowColor = ctx.strokeStyle;
-  ctx.shadowBlur = outdoorMode ? 38 : 18;
+  ctx.shadowBlur = outdoorMode ? 42 : 18;
   ctx.lineWidth = outdoorMode ? 7 : 3;
 
   for (let i = 0; i < 3; i++) {
@@ -145,8 +217,8 @@ function atom() {
 
   ctx.fillStyle = phase === 2 ? "#FF0033" : COLORS.cyan;
 
-  for (let i = 0; i < 40; i++) {
-    const spread = phase === 2 ? 160 + slam * 500 : 70;
+  for (let i = 0; i < 50; i++) {
+    const spread = phase === 2 ? 160 + slam * 520 : 78;
     const x = Math.cos(angle * 2 + i) * spread * Math.random();
     const y = Math.sin(angle * 3 + i) * spread * Math.random();
     ctx.fillRect(x, y, outdoorMode ? 8 : 4, outdoorMode ? 8 : 4);
@@ -159,7 +231,7 @@ function drawShockwave() {
   if (shockwave <= 0) return;
 
   ctx.save();
-  ctx.translate((w / 2) + eyeOffset, h / 2);
+  ctx.translate(originX(), originY());
   ctx.strokeStyle = `rgba(255,0,51,${shockwave})`;
   ctx.lineWidth = outdoorMode ? 14 : 6;
   ctx.shadowColor = "#FF0033";
@@ -172,13 +244,90 @@ function drawShockwave() {
   shockwave -= 0.018;
 }
 
+function drawScanlines() {
+  if (!hudMode) return;
+
+  ctx.save();
+  ctx.strokeStyle = "rgba(0,255,102,0.10)";
+  ctx.lineWidth = 1;
+
+  for (let y = 0; y < h; y += 8) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(w, y);
+    ctx.stroke();
+  }
+
+  ctx.restore();
+}
+
+function drawReticle() {
+  if (!hudMode) return;
+
+  const ox = originX();
+  const oy = originY();
+
+  ctx.save();
+  ctx.strokeStyle = COLORS.cyan;
+  ctx.shadowColor = COLORS.cyan;
+  ctx.shadowBlur = outdoorMode ? 28 : 14;
+  ctx.lineWidth = outdoorMode ? 3 : 2;
+
+  ctx.beginPath();
+  ctx.arc(ox, oy, 155, 0, Math.PI * 2);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(ox - 220, oy);
+  ctx.lineTo(ox - 165, oy);
+  ctx.moveTo(ox + 165, oy);
+  ctx.lineTo(ox + 220, oy);
+  ctx.moveTo(ox, oy - 220);
+  ctx.lineTo(ox, oy - 165);
+  ctx.moveTo(ox, oy + 165);
+  ctx.lineTo(ox, oy + 220);
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+function drawTelemetry() {
+  if (!hudMode) return;
+
+  ctx.save();
+  ctx.font = outdoorMode ? "16px monospace" : "12px monospace";
+  ctx.fillStyle = COLORS.green;
+  ctx.shadowColor = COLORS.green;
+  ctx.shadowBlur = outdoorMode ? 14 : 6;
+
+  const lines = [
+    "WL-HUD MATRIX ATOM DESTROYER v4",
+    `PHASE=${phase} SLAM=${slam.toFixed(2)} SHOCK=${Math.max(0, shockwave).toFixed(2)}`,
+    `OUTDOOR=${outdoorMode ? "ON" : "OFF"} GRAVITY=${gravityLens ? "ON" : "OFF"} FRACTURE=${fractureRings ? "ON" : "OFF"}`,
+    `PULSE=${pulseField ? "ON" : "OFF"} LEFT_EYE_OFFSET=${Math.round(eyeOffset)}`
+  ];
+
+  lines.forEach((line, i) => ctx.fillText(line, 16, h - 88 + i * 20));
+
+  ctx.restore();
+}
+
+function drawHUD() {
+  drawScanlines();
+  drawReticle();
+  drawTelemetry();
+}
+
 function draw() {
   ctx.fillStyle = outdoorMode ? "rgba(5,7,10,0.26)" : "rgba(5,7,10,0.12)";
   ctx.fillRect(0, 0, w, h);
 
   matrixRain();
+  drawPulseField();
+  drawFractureRings();
   atom();
   drawShockwave();
+  drawHUD();
 
   angle += phase === 2 ? 0.12 : 0.045;
 
@@ -217,6 +366,18 @@ window.addEventListener("keydown", e => {
       break;
     case "o":
       outdoorMode = !outdoorMode;
+      break;
+    case "g":
+      gravityLens = !gravityLens;
+      break;
+    case "f":
+      fractureRings = !fractureRings;
+      break;
+    case "h":
+      hudMode = !hudMode;
+      break;
+    case "p":
+      pulseField = !pulseField;
       break;
   }
 });

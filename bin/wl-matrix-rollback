@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+APP_DIR="$WL_ROOT/assets/visualizations/matrix-atom-destroyer"
+HTML="$APP_DIR/matrix-atom-destroyer.html"
+BACKUP="$(ls -t "$APP_DIR"/versions/matrix-atom-destroyer-pre-v4.*.html 2>/dev/null | head -1 || true)"
+
+if [[ -z "$BACKUP" ]]; then
+  echo "FAIL no pre-v4 backup found"
+  exit 1
+fi
+
+cp "$HTML" "$APP_DIR/versions/matrix-atom-destroyer-v4.rollback-save.$(date +%Y%m%d-%H%M%S).html"
+cp "$BACKUP" "$HTML"
+
+echo "PASS rollback restored:"
+echo "$BACKUP"

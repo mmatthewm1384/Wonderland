@@ -1,16 +1,17 @@
 {
   "id": "matrix-atom-destroyer",
   "name": "Matrix Atom Destroyer",
-  "version": "2.0.0",
+  "version": "4.0.0",
   "status": "certified-experimental",
   "owner": "Wonderland",
   "runtime": "browser",
   "dependencies": [],
   "created": "2026-06-17",
-  "updated": "2026-06-17T22:45:26Z",
+  "updated": "2026-06-17T22:52:22Z",
   "command": "wl-matrix",
   "doctor": "wl-matrix-doctor",
-  "intent": "intents/matrix-atom-destroyer-v2.intent.json",
+  "rollback": "wl-matrix-rollback",
+  "intent": "intents/matrix-atom-destroyer-v4.intent.json",
   "entrypoint": "matrix-atom-destroyer.html",
-  "description": "Matrix-style atom visualization with slam destroy, outdoor mode, left-eye projection, shockwave, fullscreen, and screenshot export."
+  "description": "Matrix Atom Destroyer v4 HUD mode with scanlines, reticle, telemetry, pulse field, gravity lensing, temporal fracture rings, outdoor mode, left-eye projection, shockwave, fullscreen, and screenshot export."
 }

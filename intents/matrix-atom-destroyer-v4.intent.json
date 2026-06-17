@@ -1,0 +1,52 @@
+{
+  "id": "matrix-atom-destroyer-v4",
+  "version": "4.0.0",
+  "mode": "BUILD",
+  "owner": "Wonderland",
+  "target": "assets/visualizations/matrix-atom-destroyer",
+  "command": "wl-matrix",
+  "doctor": "wl-matrix-doctor",
+  "rollback": "wl-matrix-rollback",
+  "intent": "Upgrade Matrix Atom Destroyer to v4 HUD Mode with scanlines, reticle, telemetry, pulse field, left-eye projection, outdoor mode, gravity lensing, fracture rings, screenshot export, and governed rollback.",
+  "principles": [
+    "persistent",
+    "recoverable",
+    "auditable",
+    "secure",
+    "automated",
+    "versioned",
+    "modular"
+  ],
+  "features": [
+    "Wonderland palette",
+    "HUD mode",
+    "scanlines",
+    "reticle",
+    "telemetry overlay",
+    "pulse field",
+    "outdoor mode",
+    "left-eye projection",
+    "gravity lens",
+    "fracture rings",
+    "slam destroy",
+    "shockwave",
+    "fullscreen",
+    "screenshot export",
+    "local browser runtime",
+    "no external dependencies"
+  ],
+  "verification": [
+    "html exists",
+    "manifest exists",
+    "intent exists",
+    "launcher executable",
+    "doctor executable",
+    "rollback executable",
+    "hudMode present",
+    "drawHUD present",
+    "drawScanlines present",
+    "drawReticle present",
+    "drawTelemetry present",
+    "pulseField present"
+  ]
+}
