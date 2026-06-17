@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Matrix Atom Destroyer</title>
+<title>Matrix Atom Destroyer v2</title>
 <style>
 html, body {
   margin: 0;
@@ -18,14 +18,15 @@ canvas { display: block; }
   top: 10px;
   left: 10px;
   color: #00FF66;
-  text-shadow: 0 0 10px #00FF66;
+  text-shadow: 0 0 14px #00FF66;
   user-select: none;
+  font-size: 14px;
 }
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
-<div id="label">Outdoor Mode · Click / SPACE = slam · R = reset · O = outdoor toggle · S = screenshot · Double-click = fullscreen</div>
+<div id="label">Matrix Atom Destroyer v2 · Outdoor Mode · Click/SPACE slam · R reset · O outdoor · S screenshot · Double-click fullscreen</div>
 
 <script>
 const COLORS = {
@@ -89,13 +90,13 @@ function reset() {
 
 function saveScreenshot() {
   const a = document.createElement("a");
-  a.download = "matrix-atom-destroyer.png";
+  a.download = "matrix-atom-destroyer-v2.png";
   a.href = canvas.toDataURL("image/png");
   a.click();
 }
 
 function matrixRain() {
-  ctx.fillStyle = outdoorMode ? COLORS.green : COLORS.green;
+  ctx.fillStyle = COLORS.green;
   ctx.font = outdoorMode ? "22px monospace" : "14px monospace";
   ctx.shadowColor = COLORS.green;
   ctx.shadowBlur = outdoorMode ? 12 : 0;
@@ -112,11 +113,12 @@ function matrixRain() {
 
 function atom() {
   ctx.save();
-  if (phase === 2) {
-  eyeOffset *= 0.96;
-}
 
-ctx.translate((w / 2) + eyeOffset, h / 2);
+  if (phase === 2) {
+    eyeOffset *= 0.96;
+  }
+
+  ctx.translate((w / 2) + eyeOffset, h / 2);
 
   const scale = 1 + slam * 2.5;
   ctx.scale(scale, scale);
@@ -129,7 +131,15 @@ ctx.translate((w / 2) + eyeOffset, h / 2);
 
   for (let i = 0; i < 3; i++) {
     ctx.beginPath();
-    ctx.ellipse(0, 0, outdoorMode ? 125 : 90, outdoorMode ? 46 : 32, i * Math.PI / 1.5 + angle, 0, Math.PI * 2);
+    ctx.ellipse(
+      0,
+      0,
+      outdoorMode ? 125 : 90,
+      outdoorMode ? 46 : 32,
+      i * Math.PI / 1.5 + angle,
+      0,
+      Math.PI * 2
+    );
     ctx.stroke();
   }
 
@@ -149,11 +159,7 @@ function drawShockwave() {
   if (shockwave <= 0) return;
 
   ctx.save();
-  if (phase === 2) {
-  eyeOffset *= 0.96;
-}
-
-ctx.translate((w / 2) + eyeOffset, h / 2);
+  ctx.translate((w / 2) + eyeOffset, h / 2);
   ctx.strokeStyle = `rgba(255,0,51,${shockwave})`;
   ctx.lineWidth = outdoorMode ? 14 : 6;
   ctx.shadowColor = "#FF0033";

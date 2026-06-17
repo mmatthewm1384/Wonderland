@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Matrix Atom Destroyer</title>
+<style>
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #05070A;
+  color: #00FF66;
+  font-family: monospace;
+}
+canvas { display: block; }
+#label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #00FF66;
+  text-shadow: 0 0 10px #00FF66;
+  user-select: none;
+}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="label">Outdoor Mode · Click / SPACE = slam · R = reset · O = outdoor toggle · S = screenshot · Double-click = fullscreen</div>
+
+<script>
+const COLORS = {
+  bg: "#05070A",
+  cyan: "#00E5FF",
+  purple: "#7000FF",
+  green: "#00FF66"
+};
+
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
+
+let w, h;
+let angle = 0;
+let phase = 0;
+let slam = 0;
+let shockwave = 0;
+let eyeOffset = -180;
+let outdoorMode = true;
+let audioCtx = null;
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+}
+
+function boom() {
+  try {
+    audioCtx = audioCtx || new AudioContext();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    osc.type = "sine";
+    osc.frequency.value = 42;
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    gain.gain.setValueAtTime(0.45, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.45);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.45);
+  } catch (_) {}
+}
+
+function triggerSlam() {
+  phase = 2;
+  slam = 1;
+  shockwave = 1;
+  eyeOffset = -180;
+  boom();
+}
+
+function reset() {
+  phase = 0;
+  slam = 0;
+  shockwave = 0;
+  eyeOffset = -180;
+}
+
+function saveScreenshot() {
+  const a = document.createElement("a");
+  a.download = "matrix-atom-destroyer.png";
+  a.href = canvas.toDataURL("image/png");
+  a.click();
+}
+
+function matrixRain() {
+  ctx.fillStyle = outdoorMode ? COLORS.green : COLORS.green;
+  ctx.font = outdoorMode ? "22px monospace" : "14px monospace";
+  ctx.shadowColor = COLORS.green;
+  ctx.shadowBlur = outdoorMode ? 12 : 0;
+
+  const count = outdoorMode ? 45 : 90;
+
+  for (let i = 0; i < count; i++) {
+    const char = Math.random() > 0.5 ? "1" : "0";
+    ctx.fillText(char, Math.random() * w, Math.random() * h);
+  }
+
+  ctx.shadowBlur = 0;
+}
+
+function atom() {
+  ctx.save();
+  if (phase === 2) {
+  eyeOffset *= 0.96;
+}
+
+ctx.translate((w / 2) + eyeOffset, h / 2);
+
+  const scale = 1 + slam * 2.5;
+  ctx.scale(scale, scale);
+  ctx.rotate(angle);
+
+  ctx.strokeStyle = phase === 2 ? "#FF0033" : COLORS.green;
+  ctx.shadowColor = ctx.strokeStyle;
+  ctx.shadowBlur = outdoorMode ? 38 : 18;
+  ctx.lineWidth = outdoorMode ? 7 : 3;
+
+  for (let i = 0; i < 3; i++) {
+    ctx.beginPath();
+    ctx.ellipse(0, 0, outdoorMode ? 125 : 90, outdoorMode ? 46 : 32, i * Math.PI / 1.5 + angle, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+
+  ctx.fillStyle = phase === 2 ? "#FF0033" : COLORS.cyan;
+
+  for (let i = 0; i < 40; i++) {
+    const spread = phase === 2 ? 160 + slam * 500 : 70;
+    const x = Math.cos(angle * 2 + i) * spread * Math.random();
+    const y = Math.sin(angle * 3 + i) * spread * Math.random();
+    ctx.fillRect(x, y, outdoorMode ? 8 : 4, outdoorMode ? 8 : 4);
+  }
+
+  ctx.restore();
+}
+
+function drawShockwave() {
+  if (shockwave <= 0) return;
+
+  ctx.save();
+  if (phase === 2) {
+  eyeOffset *= 0.96;
+}
+
+ctx.translate((w / 2) + eyeOffset, h / 2);
+  ctx.strokeStyle = `rgba(255,0,51,${shockwave})`;
+  ctx.lineWidth = outdoorMode ? 14 : 6;
+  ctx.shadowColor = "#FF0033";
+  ctx.shadowBlur = outdoorMode ? 70 : 30;
+  ctx.beginPath();
+  ctx.arc(0, 0, (1 - shockwave) * Math.max(w, h), 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.restore();
+
+  shockwave -= 0.018;
+}
+
+function draw() {
+  ctx.fillStyle = outdoorMode ? "rgba(5,7,10,0.26)" : "rgba(5,7,10,0.12)";
+  ctx.fillRect(0, 0, w, h);
+
+  matrixRain();
+  atom();
+  drawShockwave();
+
+  angle += phase === 2 ? 0.12 : 0.045;
+
+  if (slam > 0) slam -= 0.025;
+  if (slam < 0) slam = 0;
+
+  if (phase === 2 && shockwave <= 0 && slam === 0) {
+    phase = 0;
+  }
+
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener("resize", resize);
+window.addEventListener("click", triggerSlam);
+
+window.addEventListener("dblclick", () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+});
+
+window.addEventListener("keydown", e => {
+  switch (e.key.toLowerCase()) {
+    case " ":
+      e.preventDefault();
+      triggerSlam();
+      break;
+    case "r":
+      reset();
+      break;
+    case "s":
+      saveScreenshot();
+      break;
+    case "o":
+      outdoorMode = !outdoorMode;
+      break;
+  }
+});
+
+resize();
+draw();
+</script>
+</body>
+</html>

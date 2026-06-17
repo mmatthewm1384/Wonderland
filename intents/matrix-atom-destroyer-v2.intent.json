@@ -1,0 +1,43 @@
+{
+  "id": "matrix-atom-destroyer-v2",
+  "version": "2.0.0",
+  "mode": "BUILD",
+  "owner": "Wonderland",
+  "target": "assets/visualizations/matrix-atom-destroyer",
+  "command": "wl-matrix",
+  "doctor": "wl-matrix-doctor",
+  "intent": "Upgrade Matrix Atom Destroyer into a governed Wonderland v2 visualization asset with outdoor mode, left-eye push-off, keyboard controls, screenshot export, manifest tracking, and verification.",
+  "principles": [
+    "persistent",
+    "recoverable",
+    "auditable",
+    "secure",
+    "automated",
+    "versioned",
+    "modular"
+  ],
+  "features": [
+    "Wonderland palette",
+    "outdoor mode",
+    "left-eye projection",
+    "slam destroy",
+    "shockwave",
+    "fullscreen",
+    "screenshot export",
+    "local browser runtime",
+    "no external dependencies"
+  ],
+  "verification": [
+    "html exists",
+    "manifest exists",
+    "launcher executable",
+    "doctor executable",
+    "outdoorMode present",
+    "eyeOffset present",
+    "Wonderland COLORS present"
+  ],
+  "rollback": {
+    "method": "Restore latest HTML backup from versions/",
+    "path": "assets/visualizations/matrix-atom-destroyer/versions"
+  }
+}

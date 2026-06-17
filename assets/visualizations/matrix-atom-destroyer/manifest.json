@@ -1,13 +1,16 @@
 {
   "id": "matrix-atom-destroyer",
   "name": "Matrix Atom Destroyer",
-  "version": "1.0.0",
-  "status": "experimental",
+  "version": "2.0.0",
+  "status": "certified-experimental",
   "owner": "Wonderland",
   "runtime": "browser",
   "dependencies": [],
   "created": "2026-06-17",
+  "updated": "2026-06-17T22:45:26Z",
   "command": "wl-matrix",
+  "doctor": "wl-matrix-doctor",
+  "intent": "intents/matrix-atom-destroyer-v2.intent.json",
   "entrypoint": "matrix-atom-destroyer.html",
-  "description": "Matrix-style atom visualization with slam-destroy effect."
+  "description": "Matrix-style atom visualization with slam destroy, outdoor mode, left-eye projection, shockwave, fullscreen, and screenshot export."
 }

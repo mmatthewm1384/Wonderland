@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+APP_DIR="$WL_ROOT/assets/visualizations/matrix-atom-destroyer"
+HTML="$APP_DIR/matrix-atom-destroyer.html"
+MANIFEST="$APP_DIR/manifest.json"
+INTENT="$WL_ROOT/intents/matrix-atom-destroyer-v2.intent.json"
+LAUNCHER="$WL_ROOT/bin/wl-matrix"
+
+fail=0
+
+check_file() {
+  if [[ -f "$1" ]]; then
+    echo "PASS $2"
+  else
+    echo "FAIL $2"
+    fail=1
+  fi
+}
+
+check_exec() {
+  if [[ -x "$1" ]]; then
+    echo "PASS $2"
+  else
+    echo "FAIL $2"
+    fail=1
+  fi
+}
+
+check_grep() {
+  if grep -q "$1" "$2"; then
+    echo "PASS $3"
+  else
+    echo "FAIL $3"
+    fail=1
+  fi
+}
+
+echo "Matrix Atom Destroyer Doctor"
+
+check_file "$HTML" "html"
+check_file "$MANIFEST" "manifest"
+check_file "$INTENT" "intent"
+check_exec "$LAUNCHER" "launcher"
+
+check_grep 'const COLORS' "$HTML" "palette"
+check_grep 'outdoorMode' "$HTML" "outdoor-mode"
+check_grep 'eyeOffset' "$HTML" "left-eye-projection"
+check_grep 'saveScreenshot' "$HTML" "screenshot-export"
+check_grep 'requestFullscreen' "$HTML" "fullscreen"
+check_grep '"version": "2.0.0"' "$MANIFEST" "manifest-version"
+
+if [[ "$fail" -eq 0 ]]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+  exit 1
+fi
