@@ -32,8 +32,7 @@ const COLORS = {
   bg: "#05070A",
   cyan: "#00E5FF",
   purple: "#7000FF",
-  green: "#00FF66",
-  red: "#FF0033"
+  green: "#00FF66"
 };
 
 const canvas = document.getElementById("c");
@@ -44,6 +43,7 @@ let angle = 0;
 let phase = 0;
 let slam = 0;
 let shockwave = 0;
+let eyeOffset = -180;
 let audioCtx = null;
 
 function resize() {
@@ -75,6 +75,7 @@ function triggerSlam() {
   phase = 2;
   slam = 1;
   shockwave = 1;
+  eyeOffset = -180;
   boom();
 }
 
@@ -82,6 +83,7 @@ function reset() {
   phase = 0;
   slam = 0;
   shockwave = 0;
+  eyeOffset = -180;
 }
 
 function saveScreenshot() {
@@ -103,13 +105,17 @@ function matrixRain() {
 
 function atom() {
   ctx.save();
-  ctx.translate(w / 2, h / 2);
+  if (phase === 2) {
+  eyeOffset *= 0.96;
+}
+
+ctx.translate((w / 2) + eyeOffset, h / 2);
 
   const scale = 1 + slam * 2.5;
   ctx.scale(scale, scale);
   ctx.rotate(angle);
 
-  ctx.strokeStyle = phase === 2 ? COLORS.red : COLORS.green;
+  ctx.strokeStyle = phase === 2 ? "#FF0033" : COLORS.green;
   ctx.shadowColor = ctx.strokeStyle;
   ctx.shadowBlur = 18;
   ctx.lineWidth = 3;
@@ -120,7 +126,7 @@ function atom() {
     ctx.stroke();
   }
 
-  ctx.fillStyle = phase === 2 ? COLORS.red : COLORS.cyan;
+  ctx.fillStyle = phase === 2 ? "#FF0033" : COLORS.cyan;
 
   for (let i = 0; i < 40; i++) {
     const spread = phase === 2 ? 160 + slam * 500 : 70;
@@ -136,10 +142,14 @@ function drawShockwave() {
   if (shockwave <= 0) return;
 
   ctx.save();
-  ctx.translate(w / 2, h / 2);
+  if (phase === 2) {
+  eyeOffset *= 0.96;
+}
+
+ctx.translate((w / 2) + eyeOffset, h / 2);
   ctx.strokeStyle = `rgba(255,0,51,${shockwave})`;
   ctx.lineWidth = 6;
-  ctx.shadowColor = COLORS.red;
+  ctx.shadowColor = "#FF0033";
   ctx.shadowBlur = 30;
   ctx.beginPath();
   ctx.arc(0, 0, (1 - shockwave) * Math.max(w, h), 0, Math.PI * 2);
