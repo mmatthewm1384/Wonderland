@@ -1,0 +1,17 @@
+{
+  "id": "matrix-iphone-access",
+  "version": "1.0.0",
+  "mode": "BUILD",
+  "owner": "Wonderland",
+  "parent": "matrix-atom-destroyer",
+  "target": "assets/visualizations/matrix-atom-destroyer/iphone",
+  "intent": "Create iPhone access portal for all Matrix visualization features and sub-apps.",
+  "features": [
+    "iPhone launch portal",
+    "Matrix Atom Destroyer access",
+    "Spin City Wave iPhone access",
+    "safe-area mobile layout",
+    "local network browser runtime",
+    "Add to Home Screen support"
+  ]
+}
