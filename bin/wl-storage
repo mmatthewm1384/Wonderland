@@ -130,7 +130,7 @@ eject() {
 
   echo "Switching to Light Mode if available..."
   if command -v wl >/dev/null 2>&1; then
-    bin/wl-mode light || true
+    [[ -x /Users/wonderland/Wonderland/bin/wl-mode ]] && /Users/wonderland/Wonderland/bin/wl-mode light || true
   fi
 
   echo "Syncing filesystem..."
@@ -186,7 +186,7 @@ attach() {
   verify
 
   if command -v wl >/dev/null 2>&1; then
-    bin/wl-mode full || true
+    [[ -x /Users/wonderland/Wonderland/bin/wl-mode ]] && /Users/wonderland/Wonderland/bin/wl-mode full || true
   fi
 
   cat > "$STATE_FILE" <<JSON
