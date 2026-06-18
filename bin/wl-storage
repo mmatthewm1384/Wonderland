@@ -173,6 +173,8 @@ JSON
 }
 
 attach() {
+  local mode="${1:---full}"
+
   echo "Wonderland Storage Attach"
   echo
 
@@ -185,8 +187,22 @@ attach() {
 
   verify
 
+  case "$mode" in
+    --full|full|--light|light) ;;
+    *)
+      echo "FAIL invalid attach mode: $mode"
+      echo "Use: full or light"
+      exit 2
+      ;;
+  esac
+
+  case "$mode" in
+    --full) mode="full" ;;
+    --light) mode="light" ;;
+  esac
+
   if command -v wl >/dev/null 2>&1; then
-    [[ -x /Users/wonderland/Wonderland/bin/wl-mode ]] && /Users/wonderland/Wonderland/bin/wl-mode full || true
+    [[ -x /Users/wonderland/Wonderland/bin/wl-mode ]] && /Users/wonderland/Wonderland/bin/wl-mode "$mode" || true
   fi
 
   cat > "$STATE_FILE" <<JSON
@@ -194,11 +210,11 @@ attach() {
   "generated": "$(now_utc)",
   "volume": "$VOLUME_NAME",
   "state": "ACTIVE",
-  "mode": "full"
+  "mode": "$mode"
 }
 JSON
 
-  json_report "PASS" "attach" "storage attached and verified" >/dev/null
+  json_report "PASS" "attach" "storage attached and verified in $mode mode" >/dev/null
 }
 
 doctor() {
@@ -219,7 +235,7 @@ case "${1:-status}" in
   status) status ;;
   verify) verify ;;
   eject|detach) eject ;;
-  attach) attach ;;
+  attach) attach "${2:---full}" ;;
   doctor) doctor ;;
   authority) "$WL_ROOT/bin/wl-storage-authority" ;;
   *)
@@ -228,6 +244,8 @@ case "${1:-status}" in
     echo "  wl storage verify"
     echo "  wl storage eject"
     echo "  wl storage attach"
+    echo "  wl storage attach --light"
+    echo "  wl storage attach --full"
     echo "  wl storage doctor"
     echo "  wl storage authority"
     exit 2
