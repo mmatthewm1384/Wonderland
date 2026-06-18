@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "== Wonderland Firefox Font Verification =="
+
+need_font_file() {
+  local pattern="$1"
+
+  if find ~/Library/Fonts /Library/Fonts \
+      -iname "*${pattern}*" 2>/dev/null | grep -q .; then
+    echo "PASS font found: $pattern"
+  else
+    echo "FAIL font missing: $pattern"
+    return 1
+  fi
+}
+
+need_font_file "Inter"
+need_font_file "JetBrains"
+
+cat > config/firefox/fonts/firefox-font-settings.md <<'MD'
+# Firefox Font Settings — Wonderland
+
+Open Firefox:
+
+Settings → General → Language and Appearance → Fonts → Advanced
+
+Set:
+
+- Proportional: Sans Serif
+- Size: 16
+- Serif: Inter
+- Sans-serif: Inter
+- Monospace: JetBrainsMonoNL Nerd Font Mono
+- Monospace Size: 13
+- Minimum Font Size: None
+- Allow pages to choose their own fonts: enabled
+MD
+
+echo
+echo "Recommended Firefox settings written to:"
+echo "config/firefox/fonts/firefox-font-settings.md"
+echo
+echo "Open Firefox font settings:"
+echo "about:preferences"
