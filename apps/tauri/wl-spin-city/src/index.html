@@ -246,6 +246,62 @@ canvas.addEventListener("touchend", e => {
 
 canvas.addEventListener("click", triggerPulse);
 
+
+function resetScene() {
+  rotFactor = 1.05;
+  ampFactor = 1.15;
+  freqFactor = 1;
+  waveFactor = 1.5;
+  pulse = 0;
+  initRings();
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+
+document.addEventListener("keydown", e => {
+  const k = e.key.toLowerCase();
+
+  if ([" ", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(k)) {
+    e.preventDefault();
+  }
+
+  switch (k) {
+    case " ":
+      triggerPulse();
+      break;
+    case "r":
+      reverseDirs();
+      break;
+    case "c":
+      randomize();
+      break;
+    case "f":
+      toggleFullscreen();
+      break;
+    case "0":
+      resetScene();
+      break;
+    case "arrowup":
+      rotFactor = Math.min(4, rotFactor + 0.1);
+      break;
+    case "arrowdown":
+      rotFactor = Math.max(0, rotFactor - 0.1);
+      break;
+    case "arrowright":
+      ampFactor = Math.min(4, ampFactor + 0.1);
+      break;
+    case "arrowleft":
+      ampFactor = Math.max(0.2, ampFactor - 0.1);
+      break;
+    case "escape":
+      if (document.fullscreenElement) document.exitFullscreen();
+      break;
+  }
+});
+
 resize();
 requestAnimationFrame(loop);
 </script>

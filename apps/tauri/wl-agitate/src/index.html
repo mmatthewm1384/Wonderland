@@ -53,7 +53,7 @@ canvas {
 <canvas id="c"></canvas>
 <div id="hud">
   <div id="title">AGITATE WAVES</div>
-  <div id="hint">Tap pulse · Double tap reverse · Long press randomize · Swipe amplitude</div>
+  <div id="hint">SPACE pulse · R reverse · ↑↓ frequency · ←→ amplitude · C chaos · F fullscreen · 0 reset</div>
 </div>
 
 <script>
@@ -234,6 +234,62 @@ canvas.addEventListener("touchend", e => {
 }, { passive: false });
 
 canvas.addEventListener("click", triggerPulse);
+
+
+function resetScene() {
+  amplitude = 42;
+  frequency = 0.018;
+  speed = 0.0022;
+  reverse = false;
+  pulse = 0;
+  chaos = 0.35;
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+
+document.addEventListener("keydown", e => {
+  const k = e.key.toLowerCase();
+
+  if ([" ", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(k)) {
+    e.preventDefault();
+  }
+
+  switch (k) {
+    case " ":
+      triggerPulse();
+      break;
+    case "r":
+      reverseDirs();
+      break;
+    case "c":
+      randomize();
+      break;
+    case "f":
+      toggleFullscreen();
+      break;
+    case "0":
+      resetScene();
+      break;
+    case "arrowup":
+      frequency = Math.min(0.08, frequency + 0.002);
+      break;
+    case "arrowdown":
+      frequency = Math.max(0.004, frequency - 0.002);
+      break;
+    case "arrowright":
+      amplitude = Math.min(160, amplitude + 4);
+      break;
+    case "arrowleft":
+      amplitude = Math.max(8, amplitude - 4);
+      break;
+    case "escape":
+      if (document.fullscreenElement) document.exitFullscreen();
+      break;
+  }
+});
 
 resize();
 window.addEventListener("resize", resize);

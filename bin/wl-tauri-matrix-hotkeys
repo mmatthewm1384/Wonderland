@@ -1,0 +1,217 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+APP_ROOT="$WL_ROOT/apps/tauri"
+
+patch_spin_city() {
+  local f="$APP_ROOT/wl-spin-city/src/index.html"
+
+  python3 - "$f" <<'PY'
+from pathlib import Path
+import sys
+
+p = Path(sys.argv[1])
+text = p.read_text()
+
+text = text.replace(
+"Tap pulse · Double tap reverse · Long press randomize · Swipe amplitude",
+"SPACE pulse · R reverse · ↑↓ speed · ←→ amplitude · C randomize · F fullscreen · 0 reset"
+)
+
+hotkeys = r'''
+function resetScene() {
+  rotFactor = 1.05;
+  ampFactor = 1.15;
+  freqFactor = 1;
+  waveFactor = 1.5;
+  pulse = 0;
+  initRings();
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+
+document.addEventListener("keydown", e => {
+  const k = e.key.toLowerCase();
+
+  if ([" ", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(k)) {
+    e.preventDefault();
+  }
+
+  switch (k) {
+    case " ":
+      triggerPulse();
+      break;
+    case "r":
+      reverseDirs();
+      break;
+    case "c":
+      randomize();
+      break;
+    case "f":
+      toggleFullscreen();
+      break;
+    case "0":
+      resetScene();
+      break;
+    case "arrowup":
+      rotFactor = Math.min(4, rotFactor + 0.1);
+      break;
+    case "arrowdown":
+      rotFactor = Math.max(0, rotFactor - 0.1);
+      break;
+    case "arrowright":
+      ampFactor = Math.min(4, ampFactor + 0.1);
+      break;
+    case "arrowleft":
+      ampFactor = Math.max(0.2, ampFactor - 0.1);
+      break;
+    case "escape":
+      if (document.fullscreenElement) document.exitFullscreen();
+      break;
+  }
+});
+'''
+
+if "function resetScene()" not in text:
+    text = text.replace("resize();\nrequestAnimationFrame(loop);", hotkeys + "\nresize();\nrequestAnimationFrame(loop);")
+
+p.write_text(text)
+PY
+}
+
+patch_agitate() {
+  local f="$APP_ROOT/wl-agitate/src/index.html"
+
+  python3 - "$f" <<'PY'
+from pathlib import Path
+import sys
+
+p = Path(sys.argv[1])
+text = p.read_text()
+
+text = text.replace(
+"Tap pulse · Double tap reverse · Long press randomize · Swipe amplitude",
+"SPACE pulse · R reverse · ↑↓ frequency · ←→ amplitude · C chaos · F fullscreen · 0 reset"
+)
+
+hotkeys = r'''
+function resetScene() {
+  amplitude = 42;
+  frequency = 0.018;
+  speed = 0.0022;
+  reverse = false;
+  pulse = 0;
+  chaos = 0.35;
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+
+document.addEventListener("keydown", e => {
+  const k = e.key.toLowerCase();
+
+  if ([" ", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(k)) {
+    e.preventDefault();
+  }
+
+  switch (k) {
+    case " ":
+      triggerPulse();
+      break;
+    case "r":
+      reverseDirs();
+      break;
+    case "c":
+      randomize();
+      break;
+    case "f":
+      toggleFullscreen();
+      break;
+    case "0":
+      resetScene();
+      break;
+    case "arrowup":
+      frequency = Math.min(0.08, frequency + 0.002);
+      break;
+    case "arrowdown":
+      frequency = Math.max(0.004, frequency - 0.002);
+      break;
+    case "arrowright":
+      amplitude = Math.min(160, amplitude + 4);
+      break;
+    case "arrowleft":
+      amplitude = Math.max(8, amplitude - 4);
+      break;
+    case "escape":
+      if (document.fullscreenElement) document.exitFullscreen();
+      break;
+  }
+});
+'''
+
+if "function resetScene()" not in text:
+    text = text.replace("resize();\nwindow.addEventListener(\"resize\", resize);", hotkeys + "\nresize();\nwindow.addEventListener(\"resize\", resize);")
+
+p.write_text(text)
+PY
+}
+
+patch_matrix() {
+  local f="$APP_ROOT/wl-matrix/src/index.html"
+
+  python3 - "$f" <<'PY'
+from pathlib import Path
+import sys
+
+p = Path(sys.argv[1])
+text = p.read_text()
+
+text = text.replace(
+"Matrix Atom Destroyer v5 · SPACE slam · M mic · W agitate · H HUD · O outdoor · G gravity · F fracture · P pulse · R reset · S screenshot",
+"Matrix Atom Destroyer v5 · SPACE slam · M mic · W agitate · H HUD · O outdoor · G gravity · F fracture · P pulse · R reset · S screenshot · ⌘F fullscreen"
+)
+
+if 'case "escape":' not in text:
+    text = text.replace(
+'''    case "m":
+      toggleMic();
+      break;
+  }
+});''',
+'''    case "m":
+      toggleMic();
+      break;
+    case "escape":
+      if (document.fullscreenElement) document.exitFullscreen();
+      break;
+  }
+
+  if (e.metaKey && e.key.toLowerCase() === "f") {
+    e.preventDefault();
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  }
+});'''
+    )
+
+p.write_text(text)
+PY
+}
+
+patch_spin_city
+patch_agitate
+patch_matrix
+
+echo "PASS hotkeys patched into Tauri app HTML"
+
+echo
+echo "Rebuild:"
+echo "  cd ~/Wonderland/apps/tauri/wl-spin-city && npm run tauri build"
+echo "  cd ~/Wonderland/apps/tauri/wl-agitate && npm run tauri build"
+echo "  cd ~/Wonderland/apps/tauri/wl-matrix && npm run tauri build"
