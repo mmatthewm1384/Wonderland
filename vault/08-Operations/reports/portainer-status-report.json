@@ -2,7 +2,6 @@
   "id": "wl-portainer-status-v1",
   "service": "wl-portainer",
   "status": "BLOCKED",
-  "mode": "container",
-  "reason": "nerdctl/containerd Docker Hub pulls fail with TLS bad record MAC and TLS handshake timeout",
-  "next_action": "repair Lima/containerd registry transport"
+  "reason": "Docker Hub and Lima TLS work, alpine pull works, but Portainer image layers fail with TLS bad record MAC",
+  "next_action": "retry Portainer image later or use alternative management UI"
 }

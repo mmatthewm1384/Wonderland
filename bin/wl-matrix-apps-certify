@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+APP_DIR="$WL_ROOT/apps/macos"
+REG_DIR="$WL_ROOT/vault/09-Governance/registry"
+REPORT_DIR="$WL_ROOT/vault/08-Operations/reports"
+STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
+
+mkdir -p "$REG_DIR" "$REPORT_DIR"
+
+REG="$REG_DIR/matrix-apps-registry.json"
+REPORT="$REPORT_DIR/matrix-apps-certification-$STAMP.json"
+
+fail=0
+
+check_app() {
+  local name="$1"
+  local path="$APP_DIR/$name.app"
+
+  if [[ -d "$path" ]]; then
+    echo "PASS $name"
+  else
+    echo "FAIL $name"
+    fail=1
+  fi
+}
+
+check_app "Spin City Wave"
+check_app "Agitate Waves"
+check_app "Matrix Atom Destroyer"
+
+cat > "$REG" <<JSON
+{
+  "id": "matrix-apps",
+  "version": "1.0.0",
+  "status": "$([[ "$fail" -eq 0 ]] && echo certified || echo failed)",
+  "apps": [
+    {
+      "id": "wl-spin-city",
+      "name": "Spin City Wave",
+      "path": "apps/macos/Spin City Wave.app"
+    },
+    {
+      "id": "wl-agitate",
+      "name": "Agitate Waves",
+      "path": "apps/macos/Agitate Waves.app"
+    },
+    {
+      "id": "wl-matrix",
+      "name": "Matrix Atom Destroyer",
+      "path": "apps/macos/Matrix Atom Destroyer.app"
+    }
+  ],
+  "updated": "$STAMP"
+}
+JSON
+
+cp "$REG" "$REPORT"
+
+echo
+echo "registry: $REG"
+echo "report:   $REPORT"
+
+if [[ "$fail" -eq 0 ]]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+  exit 1
+fi

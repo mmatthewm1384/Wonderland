@@ -1,0 +1,23 @@
+{
+  "id": "matrix-apps",
+  "version": "1.0.0",
+  "status": "certified",
+  "apps": [
+    {
+      "id": "wl-spin-city",
+      "name": "Spin City Wave",
+      "path": "apps/macos/Spin City Wave.app"
+    },
+    {
+      "id": "wl-agitate",
+      "name": "Agitate Waves",
+      "path": "apps/macos/Agitate Waves.app"
+    },
+    {
+      "id": "wl-matrix",
+      "name": "Matrix Atom Destroyer",
+      "path": "apps/macos/Matrix Atom Destroyer.app"
+    }
+  ],
+  "updated": "20260618T204343Z"
+}
