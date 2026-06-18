@@ -1,0 +1,14 @@
+{
+  "id": "matrix-spin-city-wave-iphone",
+  "version": "1.0.0",
+  "mode": "BUILD",
+  "owner": "Wonderland",
+  "parent": "matrix-atom-destroyer",
+  "target": "assets/visualizations/matrix-atom-destroyer/apps/spin-city-wave",
+  "intent": "Add Spin City Wave as a governed Matrix sub-app with a real iPhone fullscreen version.",
+  "device_targets": [
+    "iPhone 16 Pro",
+    "mobile Safari",
+    "standalone PWA-capable browser view"
+  ]
+}
