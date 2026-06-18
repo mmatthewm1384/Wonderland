@@ -130,7 +130,7 @@ eject() {
 
   echo "Switching to Light Mode if available..."
   if command -v wl >/dev/null 2>&1; then
-    [[ -x /Users/wonderland/Wonderland/bin/wl-mode ]] && /Users/wonderland/Wonderland/bin/wl-mode light || true
+    [[ -x "$WL_ROOT/bin/wl-mode" ]] && "$WL_ROOT/bin/wl-mode" light || true
   fi
 
   echo "Syncing filesystem..."
@@ -202,7 +202,7 @@ attach() {
   esac
 
   if command -v wl >/dev/null 2>&1; then
-    [[ -x /Users/wonderland/Wonderland/bin/wl-mode ]] && /Users/wonderland/Wonderland/bin/wl-mode "$mode" || true
+    [[ -x "$WL_ROOT/bin/wl-mode" ]] && "$WL_ROOT/bin/wl-mode" "$mode" || true
   fi
 
   cat > "$STATE_FILE" <<JSON
