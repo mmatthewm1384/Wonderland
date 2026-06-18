@@ -1,0 +1,16 @@
+{
+  "id": "matrix-agitate-waves",
+  "version": "1.0.0",
+  "mode": "BUILD",
+  "owner": "Wonderland",
+  "parent": "matrix-atom-destroyer",
+  "target": "assets/visualizations/matrix-atom-destroyer/apps/agitate-waves",
+  "intent": "Add Agitate Waves as a governed sub-app inside Matrix Atom Destroyer.",
+  "features": [
+    "flat frequency wave generation",
+    "Python wave renderer",
+    "shell launcher",
+    "Matrix app integration",
+    "recoverable local asset"
+  ]
+}

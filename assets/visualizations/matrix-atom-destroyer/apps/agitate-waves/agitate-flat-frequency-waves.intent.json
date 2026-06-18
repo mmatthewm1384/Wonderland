@@ -1,0 +1,8 @@
+{
+  "id": "agitate-flat-frequency-waves",
+  "version": "1.0.0",
+  "mode": "BUILD",
+  "owner": "Wonderland",
+  "parent": "matrix-atom-destroyer",
+  "description": "Generate flat-frequency agitated wave line patterns for Matrix Atom Destroyer."
+}
