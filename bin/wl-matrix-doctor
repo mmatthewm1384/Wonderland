@@ -37,6 +37,8 @@ check_grep 'gravityLens' "$HTML" "gravity-lens"
 check_grep 'fractureRings' "$HTML" "fracture-rings"
 check_grep 'pulseField' "$HTML" "pulse-field"
 check_grep 'saveScreenshot' "$HTML" "screenshot-export"
+check_grep 'agitateMode' "$HTML" "agitate-mode"
+check_grep 'drawAgitateWaves' "$HTML" "agitate-wave-renderer"
 check_grep 'requestFullscreen' "$HTML" "fullscreen"
 check_grep '"version": "5.0.0"' "$MANIFEST" "manifest-version"
 

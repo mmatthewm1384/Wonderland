@@ -26,7 +26,7 @@ canvas { display: block; }
 </head>
 <body>
 <canvas id="c"></canvas>
-<div id="label">Matrix Atom Destroyer v5 · SPACE slam · M mic · H HUD · O outdoor · G gravity · F fracture · P pulse · R reset · S screenshot</div>
+<div id="label">Matrix Atom Destroyer v5 · SPACE slam · M mic · W agitate · H HUD · O outdoor · G gravity · F fracture · P pulse · R reset · S screenshot</div>
 
 <script>
 const COLORS = {
@@ -52,6 +52,7 @@ let fractureRings = true;
 let hudMode = true;
 let pulseField = true;
 let micMode = false;
+let agitateMode = false;
 
 let audioCtx = null;
 let analyser = null;
@@ -142,6 +143,7 @@ function triggerSlam() {
   phase = 2;
   slam = 1;
   shockwave = 1;
+  if (agitateMode) shockwave = 1.5;
   eyeOffset = -180;
   boom();
 }
@@ -370,10 +372,48 @@ function drawTelemetry() {
     "WL-HUD MATRIX ATOM DESTROYER v5 AUDIO",
     `PHASE=${phase} SLAM=${slam.toFixed(2)} SHOCK=${Math.max(0, shockwave).toFixed(2)} AUDIO=${audioLevel.toFixed(2)}`,
     `MIC=${micMode ? "ON" : "OFF"} OUTDOOR=${outdoorMode ? "ON" : "OFF"} GRAVITY=${gravityLens ? "ON" : "OFF"} FRACTURE=${fractureRings ? "ON" : "OFF"}`,
-    `PULSE=${pulseField ? "ON" : "OFF"} LEFT_EYE_OFFSET=${Math.round(eyeOffset)} AUTO_SLAM=0.42`
+    `PULSE=${pulseField ? "ON" : "OFF"} AGITATE=${agitateMode ? "ON" : "OFF"} LEFT_EYE_OFFSET=${Math.round(eyeOffset)} AUTO_SLAM=0.42`
   ];
 
   lines.forEach((line, i) => ctx.fillText(line, 16, h - 88 + i * 20));
+
+  ctx.restore();
+}
+
+
+function drawAgitateWaves() {
+  if (!agitateMode) return;
+
+  const ox = originX();
+  const oy = originY();
+
+  ctx.save();
+
+  for (let layer = 0; layer < 6; layer++) {
+    ctx.beginPath();
+
+    ctx.strokeStyle = layer % 2 === 0 ? COLORS.cyan : COLORS.purple;
+    ctx.lineWidth = outdoorMode ? 4 : 2;
+    ctx.shadowColor = ctx.strokeStyle;
+    ctx.shadowBlur = outdoorMode ? 24 : 10;
+
+    for (let x = 0; x < w; x += 4) {
+      const distanceFromCore = Math.abs(x - ox);
+      const gravityWarp = gravityLens ? Math.max(0, 80 - distanceFromCore * 0.04) : 0;
+
+      const y =
+        oy +
+        Math.sin(x * 0.012 + angle * (1 + layer * 0.2)) * (30 + layer * 15 + audioLevel * 120) +
+        Math.sin(x * 0.03 - angle * 2) * (10 + audioLevel * 40) +
+        Math.sin((x + layer * 80) * 0.007 + shockwave * 8) * (slam * 160) -
+        gravityWarp;
+
+      if (x === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+
+    ctx.stroke();
+  }
 
   ctx.restore();
 }
@@ -391,6 +431,7 @@ function draw() {
   ctx.fillRect(0, 0, w, h);
 
   matrixRain();
+  drawAgitateWaves();
   drawAudioBars();
   drawPulseField();
   drawFractureRings();
@@ -445,6 +486,9 @@ window.addEventListener("keydown", e => {
       break;
     case "m":
       toggleMic();
+      break;
+    case "w":
+      agitateMode = !agitateMode;
       break;
   }
 });
