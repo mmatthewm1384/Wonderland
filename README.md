@@ -1,34 +1,30 @@
-# Chronosphere v2
+# THE∅MATRIX
 
-Chronosphere v2 is a Wonderland-v4 Reality Reconstruction Engine.
+Wonderland experimental visualization subsystem.
 
-It creates portals from four coordinates:
+## Current Apps
+
+| App | Purpose |
+|---|---|
+| `wl-matrix` | Matrix Atom Destroyer visual engine |
+| `wl-spin-city` | Ring/orbit/wave city motion engine |
+| `wl-agitate` | Wave agitation and reactive field engine |
+| `atom-slam` | Particle collision and energy burst engine |
+| `fluderation` | Experimental fluid/federated motion framework |
+| `spin-the-city` | Supernatural city orbit, spire, and gravity-well motion engine |
+
+## Structure
 
 ```text
-time + place + identity + reality
+THE-MATRIX/
+├── apps/
+├── shared/
+├── concepts/
+├── governance/
+├── intents/
+└── scripts/
 ```
 
-Examples:
+## Build Principle
 
-```bash
-wl-chrono-v2 create future-matthew \
-  --time "2035-01-01" \
-  --place "Wonderland HQ" \
-  --identity "Future Matthew" \
-  --reality "Projected"
-
-wl-chrono-v2 enter future-matthew
-wl-chrono-v2 status
-wl-chrono-v2 leave
-```
-
-## Install
-
-```bash
-unzip wl-chronosphere-v2.zip
-cd wl-chronosphere-v2
-./bin/wl-chronosphere-v2-install
-source ~/.zshrc
-wl-chrono-v2 init
-wl-chrono-v2 verify
-```
+THE∅MATRIX may be designed with AI assistance, but must remain source-controlled, auditable, recoverable, and runnable without AI.

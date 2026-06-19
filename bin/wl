@@ -1,53 +1,29 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="${WONDERLAND_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+ROOT="${WL_ROOT:-$HOME/Wonderland}"
 
-cmd="${1:-help}"
-shift || true
-
-case "$cmd" in
-  universe)
-    exec "$ROOT/bin/wl-universe" "$@"
+case "${1:-}" in
+  matrix)
+    shift
+    exec "$ROOT/bin/wl-matrix" "$@"
     ;;
-
-  storage)
-    exec "$ROOT/bin/wl-storage" "$@"
-    ;;
-
-  time-machine)
-    exec "$ROOT/bin/wl-time-machine" "$@"
-    ;;
-
-  portainer)
-    exec "$ROOT/bin/wl-portainer" "$@"
-    ;;
-
-
-  recovery)
-    exec "$ROOT/bin/wl-recovery" "$@"
-    ;;
-
-  grafana-dashboard)
-    exec "$ROOT/bin/wl-grafana-dashboard" "$@"
-    ;;
-
-  help|-h|--help)
-    echo "Wonderland CLI"
-    echo "Commands:"
-    echo "  wl universe status"
-    echo "  wl storage doctor"
-    echo "  wl time-machine verify"
-    echo "  wl portainer doctor"
-    echo "  wl grafana-dashboard doctor"
-    ;;
-
   *)
-    target="$ROOT/bin/wl-$cmd"
-    if [ -x "$target" ]; then
-      exec "$target" "$@"
-    fi
-    echo "Unknown wl command: $cmd"
-    exit 1
+    echo "Unknown wl command: ${1:-}"
+    echo "Available:"
+    echo "  wl matrix fluderation"
+    exit 2
+    ;;
+esac
+
+# wl-ai-router drop-in
+case "${1:-}" in
+  ai)
+    shift
+    exec "$WL_HOME/bin/wl-ai" "$@"
+    ;;
+  idea)
+    shift
+    exec "$WL_HOME/bin/wl-idea" "$@"
     ;;
 esac
