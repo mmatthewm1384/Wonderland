@@ -3,6 +3,7 @@ set -euo pipefail
 
 ROOT="$HOME/Wonderland"
 REG="$ROOT/vault/09-Governance/registry/the-matrix.registry.json"
+APP_REG="$ROOT/vault/09-Governance/registry/the-matrix-apps.json"
 
 apps=(
   "$ROOT/apps/tauri/wl-spin-city"
@@ -27,7 +28,12 @@ app_doctor() {
 case "${1:-doctor}" in
   doctor)
     test -f "$REG" || { echo "FAIL registry"; exit 1; }
+    test -f "$APP_REG" || { echo "FAIL app-registry"; exit 1; }
+
     jq -e '.id == "THE∅MATRIX"' "$REG" >/dev/null || { echo "FAIL registry-id"; exit 1; }
+    jq -e '.suite == "THE∅MATRIX" and .status == "certified"' "$APP_REG" >/dev/null || { echo "FAIL app-registry-status"; exit 1; }
+
+    echo "PASS app-registry"
 
     for app in "${apps[@]}"; do
       app_doctor "$app"
