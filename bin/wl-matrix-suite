@@ -7,12 +7,28 @@ PID_FILE="$STATE_DIR/screensaver.pid"
 LOG_FILE="$STATE_DIR/screensaver.log"
 
 usage() {
-  echo "usage: wl-matrix-suite {status|doctor|focus|ambient|energy|emergence|build|open-built <focus|ambient|energy|emergence|all>|screensaver [seconds]|start [seconds]|stop|state|log}"
+  echo "usage: wl-matrix-suite {status|doctor|bundle-doctor|focus|ambient|energy|emergence|build|open-built <focus|ambient|energy|emergence|all>|screensaver [seconds]|start [seconds]|stop|state|log}"
 }
 
 case "${1:-status}" in
   status|doctor)
     "$ROOT/bin/wl-the-matrix" doctor
+    ;;
+
+  bundle-doctor)
+    bundles=(
+      "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos/Spin City Wave.app"
+      "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos/Agitate Waves.app"
+      "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos/Matrix Atom Destroyer.app"
+      "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos/Matrix Fluderation.app"
+    )
+
+    for bundle in "${bundles[@]}"; do
+      test -d "$bundle" || { echo "FAIL missing bundle: $bundle"; exit 1; }
+      echo "PASS $(basename "$bundle")"
+    done
+
+    echo "RESULT PASS"
     ;;
 
   focus|spin-city)
