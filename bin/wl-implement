@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+cd "$WL_HOME"
+
+case "${1:-}" in
+  --from-review)
+    REVIEW="${2:?Missing review file}"
+    ID="$(basename "$REVIEW" .review.md)"
+
+    mkdir -p vault/08-Operations/ai/{decisions,implementations} .wl/snapshots
+
+    SNAP=".wl/snapshots/${ID}-before-implement-$(date -u +%Y%m%dT%H%M%SZ).tar.gz"
+    DECISION="vault/08-Operations/ai/decisions/${ID}.decision.md"
+    IMPL="vault/08-Operations/ai/implementations/${ID}.implementation.md"
+
+    tar --exclude='.git' --exclude='.wl/snapshots' -czf "$SNAP" \
+      bin services config intents vault/09-Governance 2>/dev/null || true
+
+    cat > "$DECISION" <<DECISION
+# Wonderland AI Decision — $ID
+
+Source review:
+
+$REVIEW
+
+## Decision
+
+Pending operator approval.
+
+## Rollback Snapshot
+
+$SNAP
+
+## Rollback
+
+\`\`\`bash
+tar -xzf "$SNAP" -C "$WL_HOME"
+\`\`\`
+DECISION
+
+    cat > "$IMPL" <<IMPL
+# Wonderland Implementation Handoff — $ID
+
+## Status
+
+Prepared, not executed.
+
+## Required
+
+- Review provider outputs
+- Approve decision
+- Apply implementation
+- Verify
+- Commit
+IMPL
+
+    echo "PASS decision: $DECISION"
+    echo "PASS implementation: $IMPL"
+    echo "PASS snapshot: $SNAP"
+    ;;
+  *)
+    echo "Usage: wl-implement --from-review <review.md>"
+    exit 2
+    ;;
+esac

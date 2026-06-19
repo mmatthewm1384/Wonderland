@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+cd "$WL_HOME"
+SNAP="$(ls -t .wl/snapshots/wl_ai_router.py-before-fixed-dropin-* 2>/dev/null | head -1 || true)"
+[ -n "$SNAP" ] || { echo "FAIL no router snapshot found"; exit 1; }
+cp "$SNAP" services/wl-ai-router/wl_ai_router.py
+chmod +x services/wl-ai-router/wl_ai_router.py
+echo "PASS restored $SNAP"

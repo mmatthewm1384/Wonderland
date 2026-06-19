@@ -1,0 +1,10 @@
+{
+  "id": "wl-ai-provider-registry-v1",
+  "authority": "wonderland",
+  "providers": {
+    "chatgpt": { "enabled": true, "type": "remote", "fallback": "local" },
+    "grok": { "enabled": true, "type": "remote", "fallback": "local" },
+    "local": { "enabled": true, "type": "local", "fallback": null }
+  },
+  "rule": "ChatGPT may design. Grok may challenge. Wonderland decides. Local fallback keeps the workflow alive."
+}

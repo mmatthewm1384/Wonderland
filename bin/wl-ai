@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+exec python3 "$WL_HOME/services/wl-ai-router/wl_ai_router.py" "$@"

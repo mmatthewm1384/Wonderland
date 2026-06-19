@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+case "${1:-}" in
+  new) shift; exec "$WL_HOME/bin/wl-ai" new "$*" ;;
+  *) echo "Usage: wl-idea new \"idea title\""; exit 2 ;;
+esac
