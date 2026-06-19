@@ -17,8 +17,11 @@ case "${1:-status}" in
 
   report)
     REPORT_DIR="$ROOT/vault/08-Operations/reports"
+    AUDIT_DIR="$ROOT/vault/09-Governance/wil/audit"
+    STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
     REPORT="$REPORT_DIR/the-matrix-suite-report.json"
-    mkdir -p "$REPORT_DIR"
+    AUDIT="$AUDIT_DIR/${STAMP}-the-matrix-suite-report.audit.json"
+    mkdir -p "$REPORT_DIR" "$AUDIT_DIR"
 
     running="false"
     pid="null"
@@ -51,7 +54,9 @@ case "${1:-status}" in
 }
 JSON
 
+    cp "$REPORT" "$AUDIT"
     cat "$REPORT"
+    echo "audit=$AUDIT" >&2
     ;;
 
   bundle-doctor)
