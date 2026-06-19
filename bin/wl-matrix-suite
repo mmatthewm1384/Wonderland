@@ -31,8 +31,36 @@ case "${1:-status}" in
     "$ROOT/bin/wl-the-matrix" build
     ;;
 
+  screensaver)
+    INTERVAL="${2:-300}"
+
+    apps=(
+      "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos/Spin City Wave.app"
+      "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos/Agitate Waves.app"
+      "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos/Matrix Fluderation.app"
+      "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos/Matrix Atom Destroyer.app"
+    )
+
+    while true; do
+      for app in "${apps[@]}"; do
+        test -d "$app" || {
+          echo "FAIL missing app bundle: $app"
+          echo "Run: wl-matrix-suite build"
+          exit 1
+        }
+
+        echo "OPEN $(basename "$app")"
+        open "$app"
+
+        sleep "$INTERVAL"
+
+        osascript -e "tell application \"$(basename "$app" .app)\" to quit" >/dev/null 2>&1 || true
+      done
+    done
+    ;;
+
   *)
-    echo "usage: wl-matrix-suite {status|doctor|focus|ambient|energy|emergence|build}"
+    echo "usage: wl-matrix-suite {status|doctor|focus|ambient|energy|emergence|build|screensaver [seconds]}"
     exit 2
     ;;
 esac
