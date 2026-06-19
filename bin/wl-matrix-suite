@@ -5,6 +5,10 @@ ROOT="$HOME/Wonderland"
 STATE_DIR="$ROOT/.wl/state/the-matrix"
 PID_FILE="$STATE_DIR/screensaver.pid"
 
+usage() {
+  echo "usage: wl-matrix-suite {status|doctor|focus|ambient|energy|emergence|build|screensaver [seconds]|stop|state}"
+}
+
 case "${1:-status}" in
   status|doctor)
     "$ROOT/bin/wl-the-matrix" doctor
@@ -53,18 +57,41 @@ case "${1:-status}" in
           exit 1
         }
 
-        echo "OPEN $(basename "$app")"
+        app_name="$(basename "$app" .app)"
+        echo "OPEN $app_name"
         open "$app"
 
         sleep "$INTERVAL"
 
-        osascript -e "tell application \"$(basename "$app" .app)\" to quit" >/dev/null 2>&1 || true
+        osascript -e "tell application \"$app_name\" to quit" >/dev/null 2>&1 || true
       done
     done
     ;;
 
+  stop)
+    pkill -f "wl-matrix-suite screensaver" >/dev/null 2>&1 || true
+
+    for name in \
+      "Spin City Wave" \
+      "Agitate Waves" \
+      "Matrix Fluderation" \
+      "Matrix Atom Destroyer"
+    do
+      osascript -e "tell application \"$name\" to quit" >/dev/null 2>&1 || true
+    done
+
+    rm -f "$PID_FILE"
+    echo "PASS stopped THE∅MATRIX screensaver"
+    ;;
+
+  state)
+    mkdir -p "$STATE_DIR"
+    echo "state_dir=$STATE_DIR"
+    test -f "$PID_FILE" && echo "screensaver_pid=$(cat "$PID_FILE")" || echo "screensaver_pid=none"
+    ;;
+
   *)
-    echo "usage: wl-matrix-suite {status|doctor|focus|ambient|energy|emergence|build|screensaver [seconds]|stop|state}"
+    usage
     exit 2
     ;;
 esac
