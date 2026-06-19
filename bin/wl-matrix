@@ -1,12 +1,219 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
-APP="$WL_ROOT/assets/visualizations/matrix-atom-destroyer/matrix-atom-destroyer.html"
+ROOT="${WL_ROOT:-$HOME/Wonderland}"
+APP="$ROOT/apps/matrix/matrix-fluderation"
 
-if [[ ! -f "$APP" ]]; then
-  echo "FAIL missing: $APP"
-  exit 1
-fi
+case "${1:-}" in
+  fluderation)
+    cd "$APP"
+    exec python3 local-server.py
+    ;;
 
-open "$APP"
+  fluderation-open)
+    open "http://127.0.0.1:${WL_MATRIX_FLUDERATION_PORT:-8789}"
+    ;;
+
+  fluderation-verify)
+    test -d "$APP"
+    test -f "$APP/index.html"
+    test -f "$APP/local-server.py"
+    test -f "$APP/fluderation.intent.json"
+    python3 -m json.tool "$ROOT/apps/matrix/matrix-app-profile.json" >/dev/null
+    grep -q '"matrix-fluderation"' "$ROOT/apps/matrix/matrix-app-profile.json"
+    DATA="/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation"
+    test -d "/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation/recordings"
+    test -d "/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation/exports"
+    test -d "/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation/reports"
+    test -d "/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation/scenarios"
+    test -f "/Users/wonderland/Wonderland/apps/matrix/matrix-fluderation/DATA_PATH.md"
+    grep -q '"data_path"' "/Users/wonderland/Wonderland/apps/matrix/matrix-fluderation/fluderation.intent.json"
+    echo "PASS matrix-fluderation standard data paths"
+    echo "PASS matrix-fluderation routed verify"
+    ;;
+
+
+  fluderation-import)
+    DATA="${WL_MATRIX_FLUDERATION_DATA:-$ROOT/vault/08-Operations/matrix/fluderation}"
+    SRC="${2:-}"
+
+    if [ -z "$SRC" ]; then
+      echo "Usage: wl matrix fluderation-import /path/to/fluderation-recording.json"
+      exit 2
+    fi
+
+    test -f "$SRC"
+    mkdir -p "$DATA/recordings"
+
+    base="$(basename "$SRC")"
+
+    case "$base" in
+      fluderation-recording-*.json) ;;
+      *)
+        stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+        base="fluderation-recording-$stamp.json"
+        ;;
+    esac
+
+    cp "$SRC" "$DATA/recordings/$base"
+    python3 -m json.tool "$DATA/recordings/$base" >/dev/null
+
+    echo "PASS fluderation recording imported"
+    echo "$DATA/recordings/$base"
+    ;;
+
+  fluderation-list)
+    DATA="${WL_MATRIX_FLUDERATION_DATA:-$ROOT/vault/08-Operations/matrix/fluderation}"
+    mkdir -p "$DATA/recordings"
+    find "$DATA/recordings" -maxdepth 1 -type f -name 'fluderation-recording-*.json' | sort
+    ;;
+
+
+  fluderation-report)
+    DATA="${WL_MATRIX_FLUDERATION_DATA:-$ROOT/vault/08-Operations/matrix/fluderation}"
+    SRC="${2:-}"
+
+    if [ -z "$SRC" ]; then
+      SRC="$(find "$DATA/recordings" -maxdepth 1 -type f -name 'fluderation-recording-*.json' | sort | tail -1)"
+    fi
+
+    if [ -z "$SRC" ] || [ ! -f "$SRC" ]; then
+      echo "FAIL no fluderation recording found"
+      exit 1
+    fi
+
+    mkdir -p "$DATA/reports"
+
+    stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+    OUT="$DATA/reports/fluderation-report-$stamp.json"
+
+    python3 - "$SRC" "$OUT" <<'PYR'
+import json, sys
+from pathlib import Path
+
+src = Path(sys.argv[1])
+out = Path(sys.argv[2])
+
+data = json.loads(src.read_text())
+frames = data.get("frames", [])
+
+def nums(key):
+    return [f.get(key, 0) for f in frames if isinstance(f.get(key, 0), (int, float))]
+
+report = {
+    "id": out.stem,
+    "source_recording": str(src),
+    "frame_count": len(frames),
+    "max_total": max(nums("total") or [0]),
+    "max_depth_percent": max(nums("depthPercent") or [0]),
+    "max_energy_percent": max(nums("energyPercent") or [0]),
+    "wave_count": max(nums("wave") or [0]),
+    "wave_shapes": sorted(set(f.get("waveShape", "unknown") for f in frames)),
+}
+
+out.write_text(json.dumps(report, indent=2) + "\n")
+print("PASS fluderation report")
+print(out)
+PYR
+    ;;
+
+
+
+  fluderation-summary)
+    DATA="${WL_MATRIX_FLUDERATION_DATA:-$ROOT/vault/08-Operations/matrix/fluderation}"
+    SRC="${2:-}"
+
+    if [ -z "$SRC" ]; then
+      SRC="$(find "$DATA/reports" -maxdepth 1 -type f -name 'fluderation-report-*.json' | sort | tail -1)"
+    fi
+
+    if [ -z "$SRC" ] || [ ! -f "$SRC" ]; then
+      echo "FAIL no fluderation report found"
+      exit 1
+    fi
+
+    python3 - "$SRC" <<'PYR'
+import json, sys
+from pathlib import Path
+
+p = Path(sys.argv[1])
+r = json.loads(p.read_text())
+
+print("Matrix Fluderation Report")
+print("=========================")
+print(f"report:        {p}")
+print(f"recording:     {r.get('source_recording')}")
+print(f"frames:        {r.get('frame_count')}")
+print(f"waves:         {r.get('wave_count')}")
+print(f"max_total:     {r.get('max_total')}")
+print(f"max_depth:     {r.get('max_depth_percent')}%")
+print(f"max_energy:    {r.get('max_energy_percent')}%")
+print(f"wave_shapes:   {', '.join(r.get('wave_shapes', []))}")
+PYR
+    ;;
+
+
+  fluderation-doctor)
+    APP="$ROOT/apps/matrix/matrix-fluderation"
+    DATA="${WL_MATRIX_FLUDERATION_DATA:-$ROOT/vault/08-Operations/matrix/fluderation}"
+    PROFILE="$ROOT/apps/matrix/matrix-app-profile.json"
+
+    fail=0
+
+    check_file() {
+      if [ -f "$1" ]; then echo "PASS file $1"; else echo "FAIL file $1"; fail=1; fi
+    }
+
+    check_dir() {
+      if [ -d "$1" ]; then echo "PASS dir  $1"; else echo "FAIL dir  $1"; fail=1; fi
+    }
+
+    check_file "$APP/index.html"
+    check_file "$APP/local-server.py"
+    check_file "$APP/fluderation.intent.json"
+    check_file "$APP/DATA_PATH.md"
+
+    check_dir "$DATA"
+    check_dir "$DATA/recordings"
+    check_dir "$DATA/exports"
+    check_dir "$DATA/reports"
+    check_dir "$DATA/scenarios"
+
+    python3 -m json.tool "$PROFILE" >/dev/null && echo "PASS profile json" || { echo "FAIL profile json"; fail=1; }
+    grep -q '"matrix-fluderation"' "$PROFILE" && echo "PASS profile registration" || { echo "FAIL profile registration"; fail=1; }
+
+    grep -q 'fluderation-import)' "$ROOT/bin/wl-matrix" && echo "PASS import command" || { echo "FAIL import command"; fail=1; }
+    grep -q 'fluderation-report)' "$ROOT/bin/wl-matrix" && echo "PASS report command" || { echo "FAIL report command"; fail=1; }
+    grep -q 'fluderation-summary)' "$ROOT/bin/wl-matrix" && echo "PASS summary command" || { echo "FAIL summary command"; fail=1; }
+
+    recordings="$(find "$DATA/recordings" -maxdepth 1 -type f -name 'fluderation-recording-*.json' | wc -l | tr -d ' ')"
+    reports="$(find "$DATA/reports" -maxdepth 1 -type f -name 'fluderation-report-*.json' | wc -l | tr -d ' ')"
+    scenarios="$(find "$DATA/scenarios" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')"
+
+    echo "recordings=$recordings"
+    echo "reports=$reports"
+    echo "scenarios=$scenarios"
+
+    if [ "$fail" -eq 0 ]; then
+      echo "RESULT PASS"
+    else
+      echo "RESULT FAIL"
+      exit 1
+    fi
+    ;;
+
+  fluderation-tauri)
+    cd "$APP"
+    npm install
+    npm run tauri dev
+    ;;
+
+  *)
+    echo "Usage:"
+    echo "  wl matrix fluderation"
+    echo "  wl matrix fluderation-open"
+    echo "  wl matrix fluderation-verify"
+    echo "  wl matrix fluderation-tauri"
+    exit 2
+    ;;
+esac

@@ -1,0 +1,44 @@
+{
+  "id": "fluderation-20260619T162020Z",
+  "app": "matrix-fluderation",
+  "mode": "local-visual",
+  "standard_path": "~/Wonderland/vault/08-Operations/matrix/fluderation/recordings",
+  "filename": "fluderation-recording-20260619T162020Z.json",
+  "frame_count": 2,
+  "frames": [
+    {
+      "wave": 6,
+      "pressure": 48,
+      "gravity": 100,
+      "resistance": 18,
+      "density": 100,
+      "elasticity": 18,
+      "damping": 42,
+      "resonance": 34,
+      "hardness": 72,
+      "waveShape": "resonant",
+      "multiplier": 15.717531314385855,
+      "total": 2292,
+      "depthPercent": 100,
+      "energyPercent": 100,
+      "timestamp": "2026-06-19T16:20:02.428Z"
+    },
+    {
+      "wave": 7,
+      "pressure": 48,
+      "gravity": 100,
+      "resistance": 18,
+      "density": 100,
+      "elasticity": 18,
+      "damping": 42,
+      "resonance": 34,
+      "hardness": 72,
+      "waveShape": "resonant",
+      "multiplier": 18.33146624960547,
+      "total": 2786,
+      "depthPercent": 100,
+      "energyPercent": 100,
+      "timestamp": "2026-06-19T16:20:06.830Z"
+    }
+  ]
+}

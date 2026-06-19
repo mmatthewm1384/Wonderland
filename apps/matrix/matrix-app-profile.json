@@ -1,0 +1,37 @@
+{
+  "matrix_apps": [
+    {
+      "id": "matrix-fluderation",
+      "name": "Matrix Fluderation",
+      "status": "active-visual",
+      "runtime": "local-visual-now-tauri-staged",
+      "command": "wl matrix fluderation",
+      "purpose": "Environmental push-down app",
+      "source_path": "apps/matrix/matrix-fluderation"
+    },
+    {
+      "id": "matrix-agitate",
+      "name": "Matrix Agitate",
+      "status": "registered-existing",
+      "runtime": "tauri",
+      "source_path": "apps/tauri/wl-agitate",
+      "future_path": "apps/matrix/matrix-agitate"
+    },
+    {
+      "id": "matrix-spin-city",
+      "name": "Matrix Spin City",
+      "status": "registered-existing",
+      "runtime": "tauri",
+      "source_path": "apps/tauri/wl-spin-city",
+      "future_path": "apps/matrix/matrix-spin-city"
+    },
+    {
+      "id": "matrix-core",
+      "name": "Matrix Core",
+      "status": "registered-existing",
+      "runtime": "tauri",
+      "source_path": "apps/tauri/wl-matrix",
+      "future_path": "apps/matrix/matrix-core"
+    }
+  ]
+}

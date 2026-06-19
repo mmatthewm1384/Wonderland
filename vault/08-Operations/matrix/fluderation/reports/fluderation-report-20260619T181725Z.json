@@ -1,0 +1,12 @@
+{
+  "id": "fluderation-report-20260619T181725Z",
+  "source_recording": "/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation/recordings/fluderation-recording-20260619T162020Z.json",
+  "frame_count": 2,
+  "max_total": 2786,
+  "max_depth_percent": 100,
+  "max_energy_percent": 100,
+  "wave_count": 7,
+  "wave_shapes": [
+    "resonant"
+  ]
+}

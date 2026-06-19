@@ -1,0 +1,12 @@
+{
+  "id": "containment-lockdown",
+  "name": "Containment Lockdown",
+  "pressure": 76,
+  "gravity": 86,
+  "resistance": 12,
+  "density": 150,
+  "elasticity": 6,
+  "damping": 72,
+  "resonance": 44,
+  "waveShape": "standing"
+}

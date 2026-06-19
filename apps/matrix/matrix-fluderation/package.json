@@ -1,0 +1,17 @@
+{
+  "name": "matrix-fluderation",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "tauri": "tauri"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "latest"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "latest"
+  }
+}

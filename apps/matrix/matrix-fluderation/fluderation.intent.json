@@ -1,0 +1,16 @@
+{
+  "id": "matrix-fluderation",
+  "name": "Matrix Fluderation",
+  "type": "matrix-app",
+  "runtime": "local-visual-now-tauri-staged",
+  "status": "active-visual",
+  "command": "wl matrix fluderation",
+  "data_path": "/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation",
+  "artifact_paths": {
+    "recordings": "/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation/recordings",
+    "exports": "/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation/exports",
+    "reports": "/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation/reports",
+    "scenarios": "/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation/scenarios"
+  },
+  "purpose": "Environmental push-down visual simulator using slow consecutive waves and exponentially increasing pressure."
+}

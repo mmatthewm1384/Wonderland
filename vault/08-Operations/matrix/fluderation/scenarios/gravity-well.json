@@ -1,0 +1,12 @@
+{
+  "id": "gravity-well",
+  "name": "Gravity Well",
+  "pressure": 48,
+  "gravity": 100,
+  "resistance": 18,
+  "density": 120,
+  "elasticity": 10,
+  "damping": 58,
+  "resonance": 62,
+  "waveShape": "resonant"
+}
