@@ -53,8 +53,22 @@ case "${1:-doctor}" in
     npm run tauri dev
     ;;
 
+  build)
+    for app in       "$ROOT/apps/tauri/wl-spin-city"       "$ROOT/apps/tauri/wl-agitate"       "$ROOT/apps/tauri/wl-matrix"       "$ROOT/apps/matrix/matrix-fluderation"
+    do
+      echo "BUILD $(basename "$app")"
+      cd "$app"
+      npm run tauri build
+    done
+    echo "RESULT PASS"
+    ;;
+
+  files)
+    find       "$ROOT/apps/tauri/wl-spin-city"       "$ROOT/apps/tauri/wl-agitate"       "$ROOT/apps/tauri/wl-matrix"       "$ROOT/apps/matrix/matrix-fluderation"       -maxdepth 3 -type f | sort
+    ;;
+
   *)
-    echo "usage: wl-the-matrix {doctor|status|spin-city|spin-city-prod|agitate|matrix|fluderation}"
+    echo "usage: wl-the-matrix {doctor|status|files|build|spin-city|spin-city-prod|agitate|matrix|fluderation}"
     exit 2
     ;;
 esac
