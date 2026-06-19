@@ -34,8 +34,27 @@ case "${1:-doctor}" in
     "$ROOT/bin/wl-spin-city" open
     ;;
 
+  spin-city-prod)
+    "$ROOT/bin/wl-spin-city" prod
+    ;;
+
+  agitate)
+    cd "$ROOT/apps/tauri/wl-agitate"
+    npm run tauri dev
+    ;;
+
+  matrix)
+    cd "$ROOT/apps/tauri/wl-matrix"
+    npm run tauri dev
+    ;;
+
+  fluderation)
+    cd "$ROOT/apps/matrix/matrix-fluderation"
+    npm run tauri dev
+    ;;
+
   *)
-    echo "usage: wl-the-matrix {doctor|status|spin-city}"
+    echo "usage: wl-the-matrix {doctor|status|spin-city|spin-city-prod|agitate|matrix|fluderation}"
     exit 2
     ;;
 esac
