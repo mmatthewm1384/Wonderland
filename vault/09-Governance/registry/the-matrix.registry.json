@@ -1,0 +1,39 @@
+{
+  "id": "THE∅MATRIX",
+  "status": "active",
+  "type": "visual-app-suite",
+  "runtime_standard": "tauri",
+  "apps": {
+    "wl-spin-city": {
+      "path": "apps/tauri/wl-spin-city",
+      "launcher": "bin/wl-spin-city",
+      "status": "certified",
+      "role": "counter-rotating vortex / eye-hook engine"
+    },
+    "wl-agitate": {
+      "path": "apps/tauri/wl-agitate",
+      "status": "present",
+      "role": "wave agitation field"
+    },
+    "wl-matrix": {
+      "path": "apps/tauri/wl-matrix",
+      "status": "present",
+      "role": "matrix particle destruction"
+    },
+    "matrix-fluderation": {
+      "path": "apps/matrix/matrix-fluderation",
+      "status": "present",
+      "role": "emergence / fluderation field"
+    }
+  },
+  "principles": [
+    "persistent",
+    "recoverable",
+    "auditable",
+    "secure",
+    "automated",
+    "versioned",
+    "modular"
+  ],
+  "updated_at": "20260619T224540Z"
+}
