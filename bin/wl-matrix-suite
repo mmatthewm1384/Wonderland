@@ -4,9 +4,10 @@ set -euo pipefail
 ROOT="$HOME/Wonderland"
 STATE_DIR="$ROOT/.wl/state/the-matrix"
 PID_FILE="$STATE_DIR/screensaver.pid"
+LOG_FILE="$STATE_DIR/screensaver.log"
 
 usage() {
-  echo "usage: wl-matrix-suite {status|doctor|focus|ambient|energy|emergence|build|screensaver [seconds]|stop|state}"
+  echo "usage: wl-matrix-suite {status|doctor|focus|ambient|energy|emergence|build|screensaver [seconds]|start [seconds]|stop|state|log}"
 }
 
 case "${1:-status}" in
@@ -35,6 +36,20 @@ case "${1:-status}" in
 
   build)
     "$ROOT/bin/wl-the-matrix" build
+    ;;
+
+  start)
+    mkdir -p "$STATE_DIR"
+    INTERVAL="${2:-300}"
+
+    if [[ -f "$PID_FILE" ]] && kill -0 "$(cat "$PID_FILE")" >/dev/null 2>&1; then
+      echo "PASS screensaver already running pid=$(cat "$PID_FILE")"
+      exit 0
+    fi
+
+    nohup "$0" screensaver "$INTERVAL" >> "$LOG_FILE" 2>&1 &
+    echo "$!" > "$PID_FILE"
+    echo "PASS started THE∅MATRIX screensaver pid=$!"
     ;;
 
   screensaver)
@@ -87,7 +102,20 @@ case "${1:-status}" in
   state)
     mkdir -p "$STATE_DIR"
     echo "state_dir=$STATE_DIR"
-    test -f "$PID_FILE" && echo "screensaver_pid=$(cat "$PID_FILE")" || echo "screensaver_pid=none"
+    if [[ -f "$PID_FILE" ]] && kill -0 "$(cat "$PID_FILE")" >/dev/null 2>&1; then
+      echo "screensaver_pid=$(cat "$PID_FILE")"
+      echo "screensaver_status=running"
+    else
+      echo "screensaver_pid=none"
+      echo "screensaver_status=stopped"
+    fi
+    echo "log_file=$LOG_FILE"
+    ;;
+
+  log)
+    mkdir -p "$STATE_DIR"
+    touch "$LOG_FILE"
+    tail -80 "$LOG_FILE"
     ;;
 
   *)
