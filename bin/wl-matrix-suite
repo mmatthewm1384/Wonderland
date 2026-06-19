@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$HOME/Wonderland"
+
+case "${1:-status}" in
+  status|doctor)
+    "$ROOT/bin/wl-the-matrix" doctor
+    ;;
+
+  focus|spin-city)
+    "$ROOT/bin/wl-spin-city" prod
+    ;;
+
+  ambient|agitate)
+    cd "$ROOT/apps/tauri/wl-agitate"
+    npm run tauri dev
+    ;;
+
+  energy|matrix)
+    cd "$ROOT/apps/tauri/wl-matrix"
+    npm run tauri dev
+    ;;
+
+  emergence|fluderation)
+    cd "$ROOT/apps/matrix/matrix-fluderation"
+    npm run tauri dev
+    ;;
+
+  build)
+    "$ROOT/bin/wl-the-matrix" build
+    ;;
+
+  *)
+    echo "usage: wl-matrix-suite {status|doctor|focus|ambient|energy|emergence|build}"
+    exit 2
+    ;;
+esac
