@@ -4,10 +4,7 @@
   "version": "0.1.0",
   "identifier": "com.wonderland.matrix.fluderation",
   "build": {
-    "beforeDevCommand": "",
-    "beforeBuildCommand": "",
-    "frontendDist": "../",
-    "devUrl": "http://localhost:1420"
+    "frontendDist": "../src"
   },
   "app": {
     "windows": [
@@ -21,6 +18,8 @@
   },
   "bundle": {
     "active": true,
-    "targets": "all"
+    "targets": [
+      "app"
+    ]
   }
 }

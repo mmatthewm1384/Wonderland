@@ -4,14 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "tauri": "tauri",
     "dev": "tauri dev",
-    "build": "tauri build",
-    "tauri": "tauri"
+    "build": "tauri build"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "latest"
+    "@tauri-apps/cli": "^2"
   },
   "dependencies": {
-    "@tauri-apps/api": "latest"
+    "@tauri-apps/api": "^2"
+  },
+  "engines": {
+    "node": ">=20 <23"
   }
 }

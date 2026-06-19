@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Matrix Fluderation</title>
+<style>
+:root {
+  --bg:#05070A;
+  --panel:#0B1018;
+  --cyan:#00E5FF;
+  --purple:#7000FF;
+  --green:#00FF66;
+  --text:#E9FBFF;
+  --muted:#7D8799;
+  --danger:#FF3B7A;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  min-height:100vh;
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(112,0,255,.34), transparent 34rem),
+    radial-gradient(circle at bottom right, rgba(0,229,255,.24), transparent 32rem),
+    var(--bg);
+}
+.shell { width:min(1280px, calc(100vw - 44px)); margin:0 auto; padding:24px 0; }
+.topbar,.panel,.stage {
+  border:1px solid rgba(0,229,255,.26);
+  background:rgba(11,16,24,.90);
+  border-radius:24px;
+  box-shadow:0 0 34px rgba(0,229,255,.09);
+}
+.topbar { display:flex; justify-content:space-between; align-items:center; padding:20px 24px; }
+.eyebrow { color:var(--green); letter-spacing:.16em; text-transform:uppercase; font-size:12px; margin:0 0 6px; }
+h1 { margin:0; color:var(--cyan); font-size:44px; }
+.status { color:var(--green); border:1px solid rgba(0,255,102,.6); border-radius:999px; padding:10px 16px; font-weight:800; }
+.panel {
+  margin-top:16px;
+  padding:18px;
+  display:grid;
+  grid-template-columns:repeat(5, minmax(145px,1fr));
+  gap:14px;
+  align-items:end;
+}
+.control {
+  border:1px solid rgba(0,229,255,.12);
+  background:rgba(5,7,10,.42);
+  border-radius:16px;
+  padding:12px;
+}
+label { display:flex; justify-content:space-between; gap:10px; color:var(--muted); margin-bottom:8px; font-size:12px; }
+label span { color:var(--cyan); font-family:"JetBrains Mono",monospace; }
+input[type=range], select {
+  width:100%;
+  accent-color:var(--cyan);
+}
+select {
+  background:#05070A;
+  color:var(--text);
+  border:1px solid rgba(0,229,255,.25);
+  border-radius:12px;
+  padding:9px;
+}
+button {
+  border:0; border-radius:14px; padding:13px 16px; color:white; font-weight:800; cursor:pointer;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+}
+button.secondary { background:linear-gradient(135deg,#1b2534,#334155); }
+.stage { position:relative; margin-top:16px; height:675px; overflow:hidden; }
+.skyline {
+  position:absolute; inset:0;
+  background:
+    radial-gradient(circle at 50% 8%, rgba(0,229,255,.12), transparent 18rem),
+    linear-gradient(to bottom, rgba(0,229,255,.08), transparent 42%),
+    repeating-linear-gradient(90deg, rgba(0,229,255,.055) 0 1px, transparent 1px 64px),
+    repeating-linear-gradient(0deg, rgba(112,0,255,.035) 0 1px, transparent 1px 64px);
+}
+.readout {
+  position:absolute; left:24px; top:24px; z-index:30;
+  color:var(--cyan);
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  line-height:1.62;
+  padding:14px 16px;
+  border:1px solid rgba(0,229,255,.24);
+  border-radius:16px;
+  background:rgba(5,7,10,.74);
+  min-width:300px;
+}
+.history {
+  position:absolute; left:24px; bottom:158px; z-index:30;
+  height:76px; width:320px;
+  display:flex; align-items:end; gap:5px;
+  padding:10px;
+  border:1px solid rgba(0,229,255,.22);
+  border-radius:16px;
+  background:rgba(5,7,10,.62);
+}
+.bar {
+  flex:1; min-width:7px; height:8px;
+  background:linear-gradient(to top,var(--green),var(--cyan),var(--purple),var(--danger));
+  border-radius:999px 999px 0 0;
+}
+.depth-gauge {
+  position:absolute; right:28px; top:24px; width:82px; height:530px; z-index:30;
+  border:1px solid rgba(0,229,255,.3);
+  border-radius:18px;
+  background:rgba(5,7,10,.65);
+  overflow:hidden;
+}
+.depth-fill {
+  position:absolute; left:0; right:0; bottom:0; height:0%;
+  background:linear-gradient(to top, rgba(0,255,102,.78), rgba(0,229,255,.48), rgba(112,0,255,.6), rgba(255,59,122,.75));
+  transition:height var(--object-transition,2.2s) cubic-bezier(.18,.74,.22,1);
+}
+.depth-label {
+  position:absolute; inset:0; display:grid; place-items:center;
+  writing-mode:vertical-rl;
+  color:white;
+  font-weight:900;
+  letter-spacing:.12em;
+  font-size:11px;
+}
+.pressure-field {
+  position:absolute; left:0; right:0; top:0; height:0;
+  background:linear-gradient(to bottom, rgba(112,0,255,.40), rgba(0,229,255,.15), transparent);
+  pointer-events:none;
+  transition:height var(--object-transition,2.2s) cubic-bezier(.18,.74,.22,1);
+}
+.wave {
+  position:absolute; left:50%; top:-170px; width:130vw; height:46px;
+  transform:translateX(-50%);
+  border-radius:999px;
+  background:linear-gradient(90deg, transparent, rgba(0,229,255,.52), rgba(112,0,255,.68), rgba(255,59,122,.42), rgba(0,255,102,.38), transparent);
+  box-shadow:0 0 44px rgba(0,229,255,.42);
+  opacity:0; pointer-events:none; z-index:10;
+}
+.wave.run { animation:waveDown var(--wave-duration,4.2s) cubic-bezier(.12,.72,.18,1) forwards; }
+@keyframes waveDown {
+  0% { top:-170px; opacity:0; transform:translateX(-50%) scaleX(.50); }
+  16% { opacity:1; }
+  76% { opacity:.96; }
+  100% { top:735px; opacity:0; transform:translateX(-50%) scaleX(1.20); }
+}
+.ring {
+  position:absolute; left:50%; bottom:126px; width:44px; height:12px;
+  border:2px solid rgba(0,229,255,.82);
+  border-radius:50%;
+  transform:translateX(-50%) scale(.4);
+  opacity:0; pointer-events:none; z-index:22;
+}
+.ring.run { animation:ringExpand var(--ring-duration,3.2s) ease-out forwards; }
+@keyframes ringExpand {
+  0% { opacity:.95; transform:translateX(-50%) scale(.35); }
+  100% { opacity:0; transform:translateX(-50%) scale(28); }
+}
+.object {
+  position:absolute; top:70px; width:88px; height:88px;
+  border:2px solid var(--cyan);
+  border-radius:18px;
+  background:rgba(0,229,255,.09);
+  box-shadow:0 0 32px rgba(0,229,255,.3);
+  display:grid; place-items:center;
+  z-index:18;
+  transition:transform var(--object-transition,2.65s) cubic-bezier(.12,.78,.18,1), opacity 1s ease, filter 1s ease;
+}
+.object::after {
+  content:""; width:30px; height:30px; border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 24px var(--green);
+}
+.o1 { left:15%; }
+.o2 { left:35%; top:124px; border-color:var(--purple); box-shadow:0 0 32px rgba(112,0,255,.36); }
+.o3 { left:56%; top:92px; }
+.o4 { left:76%; top:150px; border-color:var(--green); }
+.object.buried { filter:brightness(.45) blur(.35px); opacity:.58; }
+.object.critical { border-color:var(--danger); box-shadow:0 0 40px rgba(255,59,122,.45); }
+.floor {
+  position:absolute; left:0; right:0; bottom:0; height:128px; z-index:20;
+  background:
+    linear-gradient(to top, rgba(0,255,102,.31), rgba(0,255,102,.05)),
+    repeating-linear-gradient(45deg, rgba(0,255,102,.16) 0 2px, transparent 2px 18px);
+  border-top:2px solid rgba(0,255,102,.84);
+  box-shadow:0 -18px 48px rgba(0,255,102,.18);
+  transition:height var(--object-transition,2.2s) cubic-bezier(.18,.74,.22,1), transform var(--object-transition,2.2s) cubic-bezier(.18,.74,.22,1);
+}
+.floor.compressed {
+  box-shadow:0 -30px 84px rgba(0,255,102,.35), inset 0 20px 44px rgba(5,7,10,.5);
+}
+.crack {
+  position:absolute; bottom:126px; height:2px; width:0;
+  background:linear-gradient(90deg, transparent, var(--green), var(--cyan), transparent);
+  z-index:24; opacity:0;
+  transition:width 2.2s ease, opacity 1.2s ease;
+}
+.c1 { left:14%; transform:rotate(-5deg); }
+.c2 { left:38%; transform:rotate(3deg); }
+.c3 { left:62%; transform:rotate(-2deg); }
+.c4 { left:78%; transform:rotate(5deg); }
+.crack.open { width:270px; opacity:.92; }
+.dust {
+  position:absolute; bottom:128px; width:8px; height:8px; border-radius:50%;
+  background:rgba(0,255,102,.72);
+  box-shadow:0 0 16px rgba(0,255,102,.52);
+  opacity:0; z-index:26;
+}
+.dust.run { animation:dustRise var(--dust-duration,3.8s) ease-out forwards; }
+@keyframes dustRise {
+  0% { opacity:0; transform:translateY(0) scale(.5); }
+  18% { opacity:.9; }
+  100% { opacity:0; transform:translateY(-210px) scale(2.6); }
+}
+.subduction-glow {
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height:0;
+  z-index:13;
+  background:radial-gradient(ellipse at bottom, rgba(255,59,122,.34), rgba(112,0,255,.14), transparent 70%);
+  opacity:0;
+  transition:height 2.2s ease, opacity 2.2s ease;
+}
+.subduction-glow.active {
+  height:360px;
+  opacity:1;
+}
+
+.subground {
+  position:absolute; left:0; right:0; bottom:-160px; height:330px; z-index:12;
+  background:linear-gradient(to bottom, rgba(0,255,102,.2), rgba(5,7,10,.98));
+}
+
+.energy-meter {
+  position:absolute;
+  right:128px;
+  top:24px;
+  width:230px;
+  z-index:31;
+  padding:14px;
+  border:1px solid rgba(0,229,255,.24);
+  border-radius:16px;
+  background:rgba(5,7,10,.72);
+  font-family:"JetBrains Mono",monospace;
+}
+.energy-title { color:var(--muted); font-size:11px; letter-spacing:.12em; }
+.energy-value { color:var(--green); font-size:26px; font-weight:900; margin:8px 0; }
+.energy-track {
+  height:12px;
+  border-radius:999px;
+  background:rgba(125,135,153,.25);
+  overflow:hidden;
+}
+.energy-fill {
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--green),var(--cyan),var(--purple),var(--danger));
+  transition:width 1.2s ease;
+}
+.sensors {
+  position:absolute;
+  right:128px;
+  top:150px;
+  width:230px;
+  z-index:31;
+  display:grid;
+  gap:8px;
+}
+.sensor {
+  border:1px solid rgba(0,229,255,.18);
+  border-radius:14px;
+  padding:10px;
+  background:rgba(5,7,10,.62);
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+}
+.sensor strong { color:var(--cyan); display:block; margin-bottom:4px; }
+.sensor span { color:var(--green); }
+</style>
+</head>
+
+<body>
+<section class="shell">
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Wonderland Matrix</p>
+      <h1>Fluderation</h1>
+    </div>
+    <div id="status" class="status">ENVIRONMENT READY</div>
+  </header>
+
+  <section class="panel">
+    <div class="control">
+      <label>Preset <span id="vPreset">Custom</span></label>
+      <select id="preset">
+        <option value="custom">Custom</option>
+        <option value="soft">Soft Descent</option>
+        <option value="calibration">Calibration Pulses</option>
+        <option value="settling">Ground Settling</option>
+        <option value="compaction">Material Compaction</option>
+        <option value="seismic">Seismic Wave Train</option>
+        <option value="press">Hydraulic Press</option>
+        <option value="gravity">Gravity Well</option>
+        <option value="containment">Containment Lockdown</option>
+        <option value="heavy">Heavy Compression</option>
+        <option value="critical">Critical Subduction</option>
+      </select>
+    </div>
+    <div class="control"><label>Environmental Pressure <span id="vPressure"></span></label><input id="pressure" type="range" min="0" max="100" value="28"></div>
+    <div class="control"><label>Gravity Bias <span id="vGravity"></span></label><input id="gravity" type="range" min="0" max="100" value="38"></div>
+    <div class="control"><label>Resistance <span id="vResistance"></span></label><input id="resistance" type="range" min="0" max="100" value="22"></div>
+    <div class="control"><label>Wave Count <span id="vWaveCount"></span></label><input id="waveTotal" type="range" min="1" max="18" value="10"></div>
+    <div class="control"><label>Object Count <span id="vObjects"></span></label><input id="objectCount" type="range" min="1" max="4" value="4"></div>
+
+    <div class="control"><label>Wave Interval <span id="vInterval"></span></label><input id="waveInterval" type="range" min="1800" max="6200" step="100" value="4200"></div>
+    <div class="control"><label>Wave Speed <span id="vSpeed"></span></label><input id="waveSpeed" type="range" min="1800" max="7000" step="100" value="4200"></div>
+    <div class="control"><label>Exponential Gain <span id="vGain"></span></label><input id="gain" type="range" min="110" max="200" value="168"></div>
+    <div class="control"><label>Ground Hardness <span id="vHardness"></span></label><input id="hardness" type="range" min="20" max="180" value="90"></div>
+    <div class="control"><label>Density <span id="vDensity"></span></label><input id="density" type="range" min="10" max="200" value="100"></div>
+    <div class="control"><label>Elasticity <span id="vElasticity"></span></label><input id="elasticity" type="range" min="0" max="100" value="18"></div>
+    <div class="control"><label>Damping <span id="vDamping"></span></label><input id="damping" type="range" min="0" max="100" value="42"></div>
+    <div class="control"><label>Resonance <span id="vResonance"></span></label><input id="resonance" type="range" min="0" max="100" value="34"></div>
+    <div class="control">
+      <label>Wave Shape <span id="vWaveShape"></span></label>
+      <select id="waveShape">
+        <option value="linear">Linear</option>
+        <option value="pulse">Pulse</option>
+        <option value="burst">Burst</option>
+        <option value="resonant">Resonant</option>
+        <option value="chaotic">Chaotic</option>
+        <option value="standing">Standing</option>
+      </select>
+    </div>
+
+    <button id="slam">Start Wave Train</button>
+    <button id="single" class="secondary">Single Wave</button>
+    <button id="pause" class="secondary">Pause</button>
+    <button id="record" class="secondary">Record</button>
+    <button id="replay" class="secondary">Replay</button>
+    <button id="exportRun" class="secondary">Export JSON</button>
+    <button id="reset" class="secondary">Reset Field</button>
+  </section>
+
+  <section class="stage">
+    <div class="skyline"></div>
+    <div id="pressureField" class="pressure-field"></div>
+    <div id="wave" class="wave"></div>
+    <div id="ring" class="ring"></div>
+    <div id="readout" class="readout"></div>
+    <div id="history" class="history"></div>
+    <div class="energy-meter">
+      <div class="energy-title">FIELD ENERGY</div>
+      <div id="energyValue" class="energy-value">0%</div>
+      <div class="energy-track"><div id="energyFill" class="energy-fill"></div></div>
+    </div>
+    <div id="sensors" class="sensors"></div>
+    <div class="depth-gauge"><div id="depthFill" class="depth-fill"></div><div class="depth-label">BURIAL DEPTH</div></div>
+
+    <div class="object o1"></div>
+    <div class="object o2"></div>
+    <div class="object o3"></div>
+    <div class="object o4"></div>
+
+    <div class="crack c1"></div>
+    <div class="crack c2"></div>
+    <div class="crack c3"></div>
+    <div class="crack c4"></div>
+
+    <div id="floor" class="floor"></div>
+    <div id="subductionGlow" class="subduction-glow"></div>
+    <div class="subground"></div>
+  </section>
+</section>
+
+<script>
+const $ = id => document.querySelector(id);
+
+const pressure = $("#pressure");
+const gravity = $("#gravity");
+const resistance = $("#resistance");
+const preset = $("#preset");
+const waveTotal = $("#waveTotal");
+const objectCount = $("#objectCount");
+const waveInterval = $("#waveInterval");
+const waveSpeed = $("#waveSpeed");
+const gain = $("#gain");
+const hardness = $("#hardness");
+const density = $("#density");
+const elasticity = $("#elasticity");
+const damping = $("#damping");
+const resonance = $("#resonance");
+const waveShape = $("#waveShape");
+
+const readout = $("#readout");
+const history = $("#history");
+const pressureField = $("#pressureField");
+const depthFill = $("#depthFill");
+const floor = $("#floor");
+const wave = $("#wave");
+const ring = $("#ring");
+const status = $("#status");
+const energyValue = $("#energyValue");
+const energyFill = $("#energyFill");
+const sensors = $("#sensors");
+const subductionGlow = $("#subductionGlow");
+
+const objects = [...document.querySelectorAll(".object")];
+const cracks = [...document.querySelectorAll(".crack")];
+
+let waveCount = 0;
+let waveTimer = null;
+let paused = false;
+let historyValues = [];
+let recording = false;
+let currentRun = [];
+let lastRun = [];
+
+function syncLabels() {
+  $("#vPressure").textContent = pressure.value;
+  $("#vGravity").textContent = gravity.value;
+  $("#vResistance").textContent = resistance.value;
+  $("#vPreset").textContent = preset.options[preset.selectedIndex].text;
+  $("#vWaveCount").textContent = waveTotal.value;
+  $("#vObjects").textContent = objectCount.value;
+  $("#vInterval").textContent = `${(Number(waveInterval.value)/1000).toFixed(1)}s`;
+  $("#vSpeed").textContent = `${(Number(waveSpeed.value)/1000).toFixed(1)}s`;
+  $("#vGain").textContent = `${(Number(gain.value)/100).toFixed(2)}x`;
+  $("#vHardness").textContent = hardness.value;
+  $("#vDensity").textContent = density.value;
+  $("#vElasticity").textContent = elasticity.value;
+  $("#vDamping").textContent = damping.value;
+  $("#vResonance").textContent = resonance.value;
+  $("#vWaveShape").textContent = waveShape.options[waveShape.selectedIndex].text;
+
+  document.documentElement.style.setProperty("--wave-duration", `${Number(waveSpeed.value)}ms`);
+  document.documentElement.style.setProperty("--ring-duration", `${Math.max(1800, Number(waveSpeed.value) - 700)}ms`);
+  document.documentElement.style.setProperty("--dust-duration", `${Math.max(2200, Number(waveSpeed.value) - 400)}ms`);
+  document.documentElement.style.setProperty("--object-transition", `${Math.max(1800, Number(waveSpeed.value) - 900)}ms`);
+}
+
+function waveShapeFactor(index) {
+  const shape = waveShape.value;
+  if (shape === "linear") return 1;
+  if (shape === "pulse") return index % 2 === 0 ? 1.35 : .72;
+  if (shape === "burst") return index < 4 ? .85 : 1.65;
+  if (shape === "resonant") return 1 + Math.sin(index * 1.35) * .42 + Number(resonance.value) / 180;
+  if (shape === "chaotic") return .75 + Math.abs(Math.sin(index * 2.17)) * 1.25;
+  if (shape === "standing") return index % 3 === 0 ? 1.9 : .88;
+  return 1;
+}
+
+function fieldEnergy(total, multiplier) {
+  const densityFactor = Number(density.value) / 100;
+  const resonanceFactor = 1 + Number(resonance.value) / 100;
+  const dampingLoss = 1 - Number(damping.value) / 180;
+  const elasticityReturn = Number(elasticity.value) / 240;
+  return Math.max(0, Math.round(total * densityFactor * resonanceFactor * dampingLoss * multiplier * (1 + elasticityReturn)));
+}
+
+function renderSensors(total, energy) {
+  const layers = [
+    ["SURFACE", .32],
+    ["MID", .58],
+    ["GROUND", .82],
+    ["SUBDUCTION", 1.08]
+  ];
+
+  sensors.innerHTML = layers.map(([name, factor]) => {
+    const p = Math.min(100, Math.round((total * factor) / 7.8));
+    const e = Math.min(100, Math.round((energy * factor) / 10.5));
+    const state = e > 85 ? "CRITICAL" : e > 55 ? "ACTIVE" : "NOMINAL";
+    return `<div class="sensor"><strong>${name}</strong>Pressure <span>${p}%</span><br>Energy <span>${e}%</span><br>State <span>${state}</span></div>`;
+  }).join("");
+}
+
+function baseForce() {
+  return Math.max(0, Number(pressure.value) + Number(gravity.value) - Number(resistance.value));
+}
+
+function gainMultiplier(index) {
+  return Math.pow(Number(gain.value) / 100, Math.max(0, index - 1));
+}
+
+function burialDepth(index) {
+  const hard = Number(hardness.value);
+  return Math.min(700, Math.round((9 * Math.pow(1.62, index)) * (110 / hard)));
+}
+
+function pushHistory(value) {
+  historyValues.push(value);
+  historyValues = historyValues.slice(-22);
+  const max = Math.max(1, ...historyValues);
+  history.innerHTML = historyValues.map(v => {
+    const h = Math.max(8, Math.round((v / max) * 62));
+    return `<div class="bar" style="height:${h}px"></div>`;
+  }).join("");
+}
+
+function pulse(node) {
+  node.classList.remove("run");
+  void node.offsetWidth;
+  node.classList.add("run");
+}
+
+function dustBurst(total) {
+  document.querySelectorAll(".dust").forEach(d => d.remove());
+  const amount = Math.min(64, 8 + Math.floor(total / 18));
+  for (let i = 0; i < amount; i++) {
+    const d = document.createElement("div");
+    d.className = "dust";
+    d.style.left = `${6 + Math.random() * 88}%`;
+    d.style.animationDelay = `${Math.random() * .9}s`;
+    document.querySelector(".stage").appendChild(d);
+    void d.offsetWidth;
+    d.classList.add("run");
+  }
+}
+
+function render(extraDepth = 0, multiplier = 1) {
+  syncLabels();
+
+  const f = Math.round(baseForce() * multiplier);
+  const total = f + extraDepth;
+  const depthPercent = Math.min(100, Math.round((total / 860) * 100));
+  const energy = fieldEnergy(total, multiplier);
+  const energyPercent = Math.min(100, Math.round(energy / 10));
+  energyValue.textContent = `${energyPercent}%`;
+  energyFill.style.width = `${energyPercent}%`;
+  renderSensors(total, energy);
+  captureFrame(total, multiplier, depthPercent, energyPercent);
+
+  pressureField.style.height = `${Math.min(675, 90 + total * 2.35)}px`;
+  depthFill.style.height = `${depthPercent}%`;
+
+  floor.style.height = `${Math.min(245, 128 + total * .13)}px`;
+  floor.style.transform = `translateY(${Math.min(56, total * .04)}px)`;
+  floor.classList.toggle("compressed", total > 140);
+  subductionGlow.classList.toggle("active", total > 420);
+
+  cracks.forEach((c, i) => c.classList.toggle("open", total > 140 + i * 70));
+
+  objects.forEach((obj, i) => {
+    obj.style.display = i < Number(objectCount.value) ? "grid" : "none";
+    const materialSink = Number(density.value) / Math.max(20, Number(hardness.value));
+    const rebound = Number(elasticity.value) / 100;
+    const damp = 1 - Number(damping.value) / 160;
+    const offset = Math.min(700, total * (2.05 + i * .24) * materialSink * damp);
+    const squash = Math.min(.42, total / 1450);
+    const bounce = Math.sin((waveCount + i) * 1.25) * rebound * 22;
+    const drift = Math.sin((waveCount + i) * 0.9) * Math.min(26, total / 31);
+    const rotation = drift / 3;
+    obj.style.transform = `translate(${drift}px, ${offset - bounce}px) scaleX(${1 + squash}) scaleY(${1 - squash}) rotate(${rotation}deg)`;
+    obj.classList.toggle("buried", offset > 465);
+    obj.classList.toggle("critical", total > 280);
+  });
+
+  pushHistory(total);
+
+  const state = total > 560 ? "SUBDUCTING" : total > 360 ? "CRITICAL" : total > 180 ? "COMPRESSING" : "STABLE";
+  status.textContent = state;
+
+  readout.innerHTML =
+    `FIELD_STATE=${state}<br>` +
+    `ENV_PRESSURE=${pressure.value}<br>` +
+    `GRAVITY_BIAS=${gravity.value}<br>` +
+    `RESISTANCE=${resistance.value}<br>` +
+    `GROUND_HARDNESS=${hardness.value}<br>` +
+    `BASE_FORCE=${baseForce()}<br>` +
+    `EXP_MULTIPLIER=${multiplier.toFixed(2)}x<br>` +
+    `WAVE=${waveCount}/${waveTotal.value}<br>` +
+    `BURIAL_DEPTH=${depthPercent}%`;
+}
+
+
+function applyPreset(values) {
+  pressure.value = values.pressure;
+  gravity.value = values.gravity;
+  resistance.value = values.resistance;
+  waveTotal.value = values.waveTotal;
+  waveInterval.value = values.waveInterval;
+  waveSpeed.value = values.waveSpeed;
+  gain.value = values.gain;
+  hardness.value = values.hardness;
+  objectCount.value = values.objectCount;
+}
+
+function setPreset(name) {
+  const presets = {
+    soft: { pressure:36, gravity:44, resistance:48, waveTotal:8, waveInterval:5200, waveSpeed:5600, gain:132, hardness:140, objectCount:4 },
+    calibration: { pressure:22, gravity:25, resistance:55, waveTotal:6, waveInterval:2600, waveSpeed:2400, gain:116, hardness:160, objectCount:2 },
+    settling: { pressure:42, gravity:58, resistance:62, waveTotal:10, waveInterval:4800, waveSpeed:5200, gain:124, hardness:130, objectCount:4 },
+    compaction: { pressure:64, gravity:62, resistance:38, waveTotal:12, waveInterval:3900, waveSpeed:4200, gain:146, hardness:100, objectCount:4 },
+    seismic: { pressure:58, gravity:72, resistance:44, waveTotal:14, waveInterval:2400, waveSpeed:3000, gain:138, hardness:115, objectCount:4 },
+    press: { pressure:86, gravity:70, resistance:26, waveTotal:9, waveInterval:5600, waveSpeed:6400, gain:172, hardness:82, objectCount:3 },
+    gravity: { pressure:48, gravity:100, resistance:18, waveTotal:13, waveInterval:4400, waveSpeed:5000, gain:158, hardness:72, objectCount:4 },
+    containment: { pressure:76, gravity:86, resistance:12, waveTotal:15, waveInterval:3600, waveSpeed:3900, gain:166, hardness:68, objectCount:4 },
+    heavy: { pressure:72, gravity:78, resistance:28, waveTotal:12, waveInterval:4200, waveSpeed:4300, gain:162, hardness:92, objectCount:4 },
+    critical: { pressure:100, gravity:100, resistance:0, waveTotal:16, waveInterval:3200, waveSpeed:3400, gain:186, hardness:54, objectCount:4 }
+  };
+
+  if (presets[name]) applyPreset(presets[name]);
+  render(0, 1);
+}
+
+
+function captureFrame(total, multiplier, depthPercent, energyPercent) {
+  if (!recording) return;
+
+  currentRun.push({
+    wave: waveCount,
+    pressure: Number(pressure.value),
+    gravity: Number(gravity.value),
+    resistance: Number(resistance.value),
+    density: Number(density.value),
+    elasticity: Number(elasticity.value),
+    damping: Number(damping.value),
+    resonance: Number(resonance.value),
+    hardness: Number(hardness.value),
+    waveShape: waveShape.value,
+    multiplier,
+    total,
+    depthPercent,
+    energyPercent,
+    timestamp: new Date().toISOString()
+  });
+}
+
+function fireWave() {
+  waveCount += 1;
+  const multiplier = gainMultiplier(waveCount) * waveShapeFactor(waveCount);
+  const depth = burialDepth(waveCount);
+  const total = Math.round(baseForce() * multiplier) + depth;
+
+  pulse(wave);
+  pulse(ring);
+  dustBurst(total);
+  render(depth, multiplier);
+}
+
+function toggleRecord() {
+  recording = !recording;
+  document.querySelector("#record").textContent = recording ? "Stop Rec" : "Record";
+
+  if (recording) {
+    currentRun = [];
+  } else {
+    lastRun = [...currentRun];
+  }
+}
+
+function exportRun() {
+  const now = new Date();
+  const stamp = now.toISOString().replaceAll("-", "").replaceAll(":", "").replace(/\.\d{3}Z$/, "Z");
+  const filename = `fluderation-recording-${stamp}.json`;
+
+  const payload = {
+    id: `fluderation-${stamp}`,
+    app: "matrix-fluderation",
+    mode: "local-visual",
+    standard_path: "~/Wonderland/vault/08-Operations/matrix/fluderation/recordings",
+    filename,
+    frame_count: lastRun.length || currentRun.length,
+    frames: lastRun.length ? lastRun : currentRun
+  };
+
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+
+  alert(`Export created: ${filename}\n\nMove it to:\n~/Wonderland/vault/08-Operations/matrix/fluderation/recordings`);
+}
+
+function replayRun() {
+  const run = lastRun.length ? lastRun : currentRun;
+  if (!run.length) return;
+
+  if (waveTimer) clearInterval(waveTimer);
+  waveCount = 0;
+
+  let i = 0;
+  waveTimer = setInterval(() => {
+    const frame = run[i];
+    if (!frame) {
+      clearInterval(waveTimer);
+      waveTimer = null;
+      return;
+    }
+
+    pressure.value = frame.pressure;
+    gravity.value = frame.gravity;
+    resistance.value = frame.resistance;
+    density.value = frame.density;
+    elasticity.value = frame.elasticity;
+    damping.value = frame.damping;
+    resonance.value = frame.resonance;
+    hardness.value = frame.hardness;
+    waveShape.value = frame.waveShape;
+    waveCount = frame.wave;
+
+    pulse(wave);
+    pulse(ring);
+    render(0, frame.multiplier);
+
+    i++;
+  }, 900);
+}
+
+function startWaveTrain() {
+  if (waveTimer) clearInterval(waveTimer);
+  waveCount = 0;
+  historyValues = [];
+  currentRun = [];
+  paused = false;
+  $("#pause").textContent = "Pause";
+
+  fireWave();
+  waveTimer = setInterval(() => {
+    if (paused) return;
+    if (waveCount >= Number(waveTotal.value)) {
+      clearInterval(waveTimer);
+      waveTimer = null;
+      return;
+    }
+    fireWave();
+  }, Number(waveInterval.value));
+}
+
+function pauseResume() {
+  paused = !paused;
+  $("#pause").textContent = paused ? "Resume" : "Pause";
+  status.textContent = paused ? "PAUSED" : "ACTIVE";
+}
+
+function resetField() {
+  if (waveTimer) clearInterval(waveTimer);
+  waveTimer = null;
+  waveCount = 0;
+  historyValues = [];
+  history.innerHTML = "";
+
+  pressure.value = 28;
+  gravity.value = 38;
+  resistance.value = 22;
+  waveTotal.value = 10;
+  objectCount.value = 4;
+  waveInterval.value = 4200;
+  waveSpeed.value = 4200;
+  gain.value = 168;
+  hardness.value = 90;
+  density.value = 100;
+  elasticity.value = 18;
+  damping.value = 42;
+  resonance.value = 34;
+  waveShape.value = "linear";
+
+  objects.forEach(obj => {
+    obj.classList.remove("buried", "critical");
+    obj.style.transform = "translateY(0) scale(1)";
+  });
+
+  cracks.forEach(c => c.classList.remove("open"));
+  floor.classList.remove("compressed");
+  floor.style.transform = "translateY(0)";
+  document.querySelectorAll(".dust").forEach(d => d.remove());
+
+  render(0, 1);
+}
+
+[preset, pressure, gravity, resistance, waveTotal, objectCount, waveInterval, waveSpeed, gain, hardness, density, elasticity, damping, resonance, waveShape]
+  .forEach(el => el.addEventListener("input", () => {
+    if (el === preset) setPreset(preset.value);
+    else render(0, 1);
+  }));
+
+$("#slam").onclick = startWaveTrain;
+$("#record").onclick = toggleRecord;
+$("#replay").onclick = replayRun;
+$("#exportRun").onclick = exportRun;
+$("#single").onclick = fireWave;
+$("#pause").onclick = pauseResume;
+$("#reset").onclick = resetField;
+
+render();
+</script>
+</body>
+</html>

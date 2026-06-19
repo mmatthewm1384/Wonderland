@@ -4,19 +4,33 @@ set -euo pipefail
 ROOT="$HOME/Wonderland"
 REG="$ROOT/vault/09-Governance/registry/the-matrix.registry.json"
 
+apps=(
+  "$ROOT/apps/tauri/wl-spin-city"
+  "$ROOT/apps/tauri/wl-agitate"
+  "$ROOT/apps/tauri/wl-matrix"
+  "$ROOT/apps/matrix/matrix-fluderation"
+)
+
+app_doctor() {
+  local app="$1"
+  local name
+  name="$(basename "$app")"
+
+  test -d "$app" || { echo "FAIL $name dir"; return 1; }
+  test -f "$app/package.json" || { echo "FAIL $name package.json"; return 1; }
+  test -f "$app/src-tauri/Cargo.toml" || { echo "FAIL $name Cargo.toml"; return 1; }
+  test -f "$app/src-tauri/tauri.conf.json" || { echo "FAIL $name tauri.conf.json"; return 1; }
+
+  echo "PASS $name"
+}
+
 case "${1:-doctor}" in
   doctor)
     test -f "$REG" || { echo "FAIL registry"; exit 1; }
     jq -e '.id == "THE∅MATRIX"' "$REG" >/dev/null || { echo "FAIL registry-id"; exit 1; }
 
-    for app in \
-      "$ROOT/apps/tauri/wl-spin-city" \
-      "$ROOT/apps/tauri/wl-agitate" \
-      "$ROOT/apps/tauri/wl-matrix" \
-      "$ROOT/apps/matrix/matrix-fluderation"
-    do
-      test -d "$app" || { echo "FAIL missing $app"; exit 1; }
-      echo "PASS $(basename "$app")"
+    for app in "${apps[@]}"; do
+      app_doctor "$app"
     done
 
     test -x "$ROOT/bin/wl-spin-city" || { echo "FAIL wl-spin-city launcher"; exit 1; }
@@ -28,6 +42,51 @@ case "${1:-doctor}" in
 
   status)
     jq . "$REG"
+    ;;
+
+  files)
+    find "${apps[@]}" -maxdepth 3 -type f | sort
+    ;;
+
+  build)
+    failed=0
+
+    for app in "${apps[@]}"; do
+      name="$(basename "$app")"
+      echo "BUILD $name"
+
+      app_doctor "$app" || {
+        echo "FAIL doctor $name"
+        failed=1
+        continue
+      }
+
+      cd "$app"
+
+      if [[ ! -x node_modules/.bin/tauri ]]; then
+        echo "INSTALL $name dependencies"
+        npm install || {
+          echo "FAIL npm install $name"
+          failed=1
+          continue
+        }
+      fi
+
+      npm run tauri build || {
+        echo "FAIL build $name"
+        failed=1
+        continue
+      }
+
+      echo "PASS build $name"
+    done
+
+    if [[ "$failed" -eq 0 ]]; then
+      echo "RESULT PASS"
+    else
+      echo "RESULT FAIL"
+      exit 1
+    fi
     ;;
 
   spin-city)
@@ -51,26 +110,6 @@ case "${1:-doctor}" in
   fluderation)
     cd "$ROOT/apps/matrix/matrix-fluderation"
     npm run tauri dev
-    ;;
-
-  build)
-    for app in       "$ROOT/apps/tauri/wl-spin-city"       "$ROOT/apps/tauri/wl-agitate"       "$ROOT/apps/tauri/wl-matrix"       "$ROOT/apps/matrix/matrix-fluderation"
-    do
-      echo "BUILD $(basename "$app")"
-      cd "$app"
-
-      if [[ ! -x node_modules/.bin/tauri ]]; then
-        echo "INSTALL $(basename "$app") dependencies"
-        npm install
-      fi
-
-      npm run tauri build
-    done
-    echo "RESULT PASS"
-    ;;
-
-  files)
-    find       "$ROOT/apps/tauri/wl-spin-city"       "$ROOT/apps/tauri/wl-agitate"       "$ROOT/apps/tauri/wl-matrix"       "$ROOT/apps/matrix/matrix-fluderation"       -maxdepth 3 -type f | sort
     ;;
 
   *)
