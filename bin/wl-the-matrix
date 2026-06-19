@@ -58,6 +58,12 @@ case "${1:-doctor}" in
     do
       echo "BUILD $(basename "$app")"
       cd "$app"
+
+      if [[ ! -x node_modules/.bin/tauri ]]; then
+        echo "INSTALL $(basename "$app") dependencies"
+        npm install
+      fi
+
       npm run tauri build
     done
     echo "RESULT PASS"
