@@ -7,7 +7,7 @@ PID_FILE="$STATE_DIR/screensaver.pid"
 LOG_FILE="$STATE_DIR/screensaver.log"
 
 usage() {
-  echo "usage: wl-matrix-suite {status|doctor|focus|ambient|energy|emergence|build|screensaver [seconds]|start [seconds]|stop|state|log}"
+  echo "usage: wl-matrix-suite {status|doctor|focus|ambient|energy|emergence|build|open-built <focus|ambient|energy|emergence|all>|screensaver [seconds]|start [seconds]|stop|state|log}"
 }
 
 case "${1:-status}" in
@@ -36,6 +36,35 @@ case "${1:-status}" in
 
   build)
     "$ROOT/bin/wl-the-matrix" build
+    ;;
+
+  open-built)
+    target="${2:-all}"
+
+    case "$target" in
+      focus)
+        open "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos/Spin City Wave.app"
+        ;;
+      ambient)
+        open "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos/Agitate Waves.app"
+        ;;
+      energy)
+        open "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos/Matrix Atom Destroyer.app"
+        ;;
+      emergence)
+        open "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos/Matrix Fluderation.app"
+        ;;
+      all)
+        open "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos/Spin City Wave.app"
+        open "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos/Agitate Waves.app"
+        open "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos/Matrix Fluderation.app"
+        open "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos/Matrix Atom Destroyer.app"
+        ;;
+      *)
+        echo "usage: wl-matrix-suite open-built {focus|ambient|energy|emergence|all}"
+        exit 2
+        ;;
+    esac
     ;;
 
   start)
