@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$HOME/Wonderland"
+REG="$ROOT/vault/09-Governance/registry/the-matrix.registry.json"
+
+case "${1:-doctor}" in
+  doctor)
+    test -f "$REG" || { echo "FAIL registry"; exit 1; }
+    jq -e '.id == "THE∅MATRIX"' "$REG" >/dev/null || { echo "FAIL registry-id"; exit 1; }
+
+    for app in \
+      "$ROOT/apps/tauri/wl-spin-city" \
+      "$ROOT/apps/tauri/wl-agitate" \
+      "$ROOT/apps/tauri/wl-matrix" \
+      "$ROOT/apps/matrix/matrix-fluderation"
+    do
+      test -d "$app" || { echo "FAIL missing $app"; exit 1; }
+      echo "PASS $(basename "$app")"
+    done
+
+    test -x "$ROOT/bin/wl-spin-city" || { echo "FAIL wl-spin-city launcher"; exit 1; }
+    "$ROOT/bin/wl-spin-city" doctor
+
+    echo "PASS THE∅MATRIX"
+    echo "RESULT PASS"
+    ;;
+
+  status)
+    jq . "$REG"
+    ;;
+
+  spin-city)
+    "$ROOT/bin/wl-spin-city" open
+    ;;
+
+  *)
+    echo "usage: wl-the-matrix {doctor|status|spin-city}"
+    exit 2
+    ;;
+esac
