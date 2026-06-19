@@ -2,6 +2,8 @@
 set -euo pipefail
 
 ROOT="$HOME/Wonderland"
+STATE_DIR="$ROOT/.wl/state/the-matrix"
+PID_FILE="$STATE_DIR/screensaver.pid"
 
 case "${1:-status}" in
   status|doctor)
@@ -32,7 +34,9 @@ case "${1:-status}" in
     ;;
 
   screensaver)
+    mkdir -p "$STATE_DIR"
     INTERVAL="${2:-300}"
+    echo "$$" > "$PID_FILE"
 
     apps=(
       "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos/Spin City Wave.app"
@@ -60,7 +64,7 @@ case "${1:-status}" in
     ;;
 
   *)
-    echo "usage: wl-matrix-suite {status|doctor|focus|ambient|energy|emergence|build|screensaver [seconds]}"
+    echo "usage: wl-matrix-suite {status|doctor|focus|ambient|energy|emergence|build|screensaver [seconds]|stop|state}"
     exit 2
     ;;
 esac
