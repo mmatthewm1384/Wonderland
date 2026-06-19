@@ -1,0 +1,11 @@
+{
+  "id": "matrix-spin-city",
+  "name": "Matrix Spin City",
+  "source_app": "wl-spin-city",
+  "role": "rotational-field-generator",
+  "runtime": "tauri",
+  "status": "active-tauri",
+  "event_type": "rotation",
+  "matrix_command": "wl matrix spin-city",
+  "event_command": "wl matrix spin-city-event"
+}

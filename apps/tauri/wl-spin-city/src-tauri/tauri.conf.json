@@ -10,10 +10,12 @@
     "windows": [
       {
         "title": "Spin City Wave",
-        "width": 430,
-        "height": 932,
+        "width": 900,
+        "height": 900,
         "resizable": true,
-        "fullscreen": false
+        "fullscreen": false,
+        "decorations": true,
+        "transparent": false
       }
     ],
     "security": {

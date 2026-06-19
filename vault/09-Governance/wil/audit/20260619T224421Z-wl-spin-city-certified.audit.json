@@ -1,0 +1,25 @@
+{
+  "id": "wl-spin-city",
+  "name": "Spin City Wave",
+  "family": "THE∅MATRIX",
+  "runtime": "tauri",
+  "path": "apps/tauri/wl-spin-city",
+  "launcher": "bin/wl-spin-city",
+  "status": "certified",
+  "visual_model": [
+    "counter-rotating eye hooks",
+    "attached particles",
+    "watchers",
+    "ghost fragments",
+    "breathing vortex",
+    "screensaver mode",
+    "production mode"
+  ],
+  "commands": {
+    "open": "wl-spin-city open",
+    "production": "wl-spin-city prod",
+    "doctor": "wl-spin-city doctor",
+    "build": "wl-spin-city build"
+  },
+  "certified_at": "20260619T224421Z"
+}

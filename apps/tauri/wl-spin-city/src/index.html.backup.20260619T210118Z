@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Matrix Spin City</title>
+<style>
+:root {
+  --wl-background:#05070A;
+  --wl-cyan:#00E5FF;
+  --wl-purple:#7000FF;
+  --wl-green:#00FF66;
+  --text:#E9FBFF;
+  --muted:#7D8799;
+  --panel:#0B1018;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  min-height:100vh;
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 18% 8%, rgba(112,0,255,.22), transparent 34rem),
+    radial-gradient(circle at 82% 82%, rgba(0,229,255,.14), transparent 32rem),
+    var(--wl-background);
+}
+.shell { width:min(1280px, calc(100vw - 32px)); margin:0 auto; padding:18px 0; }
+.topbar,.panel,.stage {
+  border:1px solid rgba(0,229,255,.24);
+  background:rgba(5,7,10,.90);
+  border-radius:20px;
+  box-shadow:0 0 34px rgba(0,229,255,.08);
+}
+.topbar { display:flex; justify-content:space-between; align-items:center; padding:18px 24px; }
+.brand { display:flex; align-items:center; gap:16px; }
+.logo {
+  width:72px; height:72px; border-radius:50%;
+  border:1px solid rgba(0,229,255,.35);
+  background:
+    radial-gradient(circle, var(--wl-cyan), transparent 10%),
+    conic-gradient(from 40deg, var(--wl-cyan), var(--wl-purple), var(--wl-green), var(--wl-cyan));
+  box-shadow:0 0 24px rgba(0,229,255,.25);
+}
+.eyebrow { color:var(--wl-green); letter-spacing:.16em; text-transform:uppercase; font-size:12px; margin:0 0 4px; }
+h1 { margin:0; color:var(--wl-cyan); font-size:42px; }
+.subtitle { margin:4px 0 0; color:var(--wl-cyan); letter-spacing:.08em; font-size:13px; }
+.status { color:var(--wl-green); border:1px solid rgba(0,255,102,.55); border-radius:12px; padding:12px 18px; font-weight:800; }
+.panel {
+  margin-top:14px;
+  padding:14px 18px;
+  display:grid;
+  grid-template-columns:repeat(6, minmax(130px,1fr));
+  gap:14px;
+  align-items:end;
+}
+.control { border-left:1px solid rgba(0,229,255,.16); padding:8px 14px; }
+label {
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  margin-bottom:8px;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+label span { color:var(--wl-cyan); font-family:"JetBrains Mono",monospace; font-size:20px; }
+input[type=range], select { width:100%; accent-color:var(--wl-cyan); }
+select {
+  background:#05070A;
+  color:var(--text);
+  border:1px solid rgba(0,229,255,.25);
+  border-radius:10px;
+  padding:9px;
+}
+button {
+  border:0;
+  border-radius:12px;
+  padding:14px 20px;
+  color:white;
+  font-weight:900;
+  cursor:pointer;
+  background:linear-gradient(135deg,var(--wl-purple),var(--wl-cyan));
+}
+.stage {
+  position:relative;
+  margin-top:14px;
+  height:710px;
+  overflow:hidden;
+}
+.stage:before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(0,229,255,.12), transparent 16rem),
+    radial-gradient(circle at 35% 55%, rgba(112,0,255,.18), transparent 30rem),
+    radial-gradient(circle at 67% 45%, rgba(0,255,102,.12), transparent 34rem),
+    repeating-linear-gradient(90deg, rgba(0,229,255,.035) 0 1px, transparent 1px 80px),
+    repeating-linear-gradient(0deg, rgba(112,0,255,.025) 0 1px, transparent 1px 80px);
+}
+.nebula {
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(0,229,255,.10), transparent 26%),
+    radial-gradient(ellipse at 40% 60%, rgba(112,0,255,.14), transparent 34%),
+    radial-gradient(ellipse at 60% 52%, rgba(0,255,102,.11), transparent 36%);
+  filter:blur(26px);
+  opacity:.70;
+  animation:breathe 10s ease-in-out infinite alternate;
+}
+@keyframes breathe {
+  from { transform:scale(.98); opacity:.48; }
+  to { transform:scale(1.03); opacity:.85; }
+}
+svg {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+.chain-path {
+  fill:none;
+  stroke-width:3.5;
+  stroke-linecap:round;
+  opacity:.9;
+}
+.cyan { stroke:var(--wl-cyan); filter:drop-shadow(0 0 12px var(--wl-cyan)); }
+.purple { stroke:var(--wl-purple); filter:drop-shadow(0 0 12px var(--wl-purple)); }
+.green { stroke:var(--wl-green); filter:drop-shadow(0 0 14px var(--wl-green)); }
+.chain-link {
+  fill:rgba(5,7,10,.52);
+  stroke-width:2.6;
+  filter:drop-shadow(0 0 9px currentColor);
+}
+.chain-link.cyan-link { color:var(--wl-cyan); stroke:var(--wl-cyan); }
+.chain-link.purple-link { color:var(--wl-purple); stroke:var(--wl-purple); }
+.chain-link.green-link { color:var(--wl-green); stroke:var(--wl-green); }
+.hook {
+  fill:rgba(5,7,10,.28);
+  stroke-width:4.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  filter:drop-shadow(0 0 16px currentColor);
+}
+.hook.cyan-hook { color:var(--wl-cyan); stroke:var(--wl-cyan); }
+.hook.purple-hook { color:var(--wl-purple); stroke:var(--wl-purple); }
+.hook.green-hook { color:var(--wl-green); stroke:var(--wl-green); }
+.arrow {
+  fill:none;
+  stroke-width:4;
+  stroke-linecap:round;
+  opacity:.7;
+  filter:drop-shadow(0 0 10px currentColor);
+}
+.core {
+  fill:rgba(0,229,255,.18);
+  stroke:var(--wl-cyan);
+  stroke-width:3;
+  filter:drop-shadow(0 0 24px var(--wl-cyan));
+}
+.core-halo {
+  fill:none;
+  stroke:rgba(0,229,255,.28);
+  stroke-width:1;
+}
+.footer {
+  position:absolute;
+  left:24px;
+  right:24px;
+  bottom:16px;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:18px;
+  border-top:1px solid rgba(0,229,255,.20);
+  padding-top:12px;
+  color:var(--muted);
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+  text-transform:uppercase;
+}
+.footer strong { color:var(--wl-green); }
+</style>
+</head>
+
+<body>
+<section class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <p class="eyebrow">Wonderland Matrix</p>
+        <h1>Spin City</h1>
+        <p class="subtitle">Rotational Field Generator</p>
+      </div>
+    </div>
+    <div id="status" class="status">ROTATION STABLE</div>
+  </header>
+
+  <section class="panel">
+    <div class="control"><label>Inner Speed <span id="vInner"></span></label><input id="innerSpeed" type="range" min="1" max="100" value="72"></div>
+    <div class="control"><label>Middle Speed <span id="vMiddle"></span></label><input id="middleSpeed" type="range" min="1" max="100" value="42"></div>
+    <div class="control"><label>Outer Speed <span id="vOuter"></span></label><input id="outerSpeed" type="range" min="1" max="100" value="24"></div>
+    <div class="control"><label>Waviness <span id="vWave"></span></label><input id="waviness" type="range" min="0" max="100" value="36"></div>
+    <div class="control"><label>Hook Intensity <span id="vHook"></span></label><input id="hookIntensity" type="range" min="10" max="100" value="68"></div>
+    <div class="control"><label>Pattern <span id="vPattern"></span></label>
+      <select id="pattern">
+        <option value="spectral" selected>Spectral Drift</option>
+        <option value="balanced">Balanced</option>
+        <option value="vortex">Vortex</option>
+        <option value="omen">Omen Ring</option>
+      </select>
+    </div>
+    <button id="emit">Emit Rotation Event</button>
+  </section>
+
+  <section class="stage">
+    <div class="nebula"></div>
+    <svg viewBox="0 0 1280 710">
+      <g id="field"></g>
+    </svg>
+
+    <div class="footer">
+      <div>Source: <strong>Matrix Spin City</strong></div>
+      <div>Target: <strong>Matrix Fluderation</strong></div>
+      <div>Palette: <strong>WL-Cyan / WL-Purple / WL-Green</strong></div>
+    </div>
+  </section>
+</section>
+
+<script>
+const $ = id => document.querySelector(id);
+const field = $("#field");
+
+const innerSpeed = $("#innerSpeed");
+const middleSpeed = $("#middleSpeed");
+const outerSpeed = $("#outerSpeed");
+const waviness = $("#waviness");
+const hookIntensity = $("#hookIntensity");
+const pattern = $("#pattern");
+
+let t = 0;
+
+function syncLabels() {
+  $("#vInner").textContent = innerSpeed.value;
+  $("#vMiddle").textContent = middleSpeed.value;
+  $("#vOuter").textContent = outerSpeed.value;
+  $("#vWave").textContent = waviness.value;
+  $("#vHook").textContent = hookIntensity.value;
+  $("#vPattern").textContent = pattern.options[pattern.selectedIndex].text;
+}
+
+function profile() {
+  return {
+    spectral: {
+      inner:[170,72],
+      mid:[305,128],
+      outer:[500,210],
+      phase:[0,1.8,3.2]
+    },
+    balanced: {
+      inner:[165,68],
+      mid:[290,122],
+      outer:[470,198],
+      phase:[0,1.4,2.7]
+    },
+    vortex: {
+      inner:[160,62],
+      mid:[310,118],
+      outer:[520,205],
+      phase:[0,2.2,4.0]
+    },
+    omen: {
+      inner:[185,60],
+      mid:[330,112],
+      outer:[500,178],
+      phase:[0,1.1,3.8]
+    }
+  }[pattern.value];
+}
+
+function point(rx, ry, wave, phase, u) {
+  const a = Math.PI * 2 * u;
+  const wobble =
+    Math.sin(a * 2.7 + phase) * wave +
+    Math.sin(a * 5.1 - phase * .65) * wave * .50 +
+    Math.sin(a * 8.0 + phase * .21) * wave * .20;
+
+  return {
+    x: 640 + Math.cos(a) * (rx + wobble),
+    y: 362 + Math.sin(a) * (ry + wobble * .42),
+    a
+  };
+}
+
+function chainPath(rx, ry, wave, phase) {
+  const pts = [];
+  const steps = 280;
+
+  for (let i = 0; i <= steps; i++) {
+    const p = point(rx, ry, wave, phase, i / steps);
+    pts.push(`${i === 0 ? "M" : "L"} ${p.x.toFixed(2)} ${p.y.toFixed(2)}`);
+  }
+
+  return pts.join(" ") + " Z";
+}
+
+function linkGlyph(p, size, cls, tangent, stretch=1) {
+  const rot = tangent * 180 / Math.PI;
+  return `
+    <rect class="chain-link ${cls}" x="${p.x - size/2}" y="${p.y - size/4}"
+      width="${size * stretch}" height="${size * .48}" rx="${size * .22}"
+      transform="rotate(${rot} ${p.x} ${p.y})" />
+  `;
+}
+
+function hookGlyph(p, size, cls, tangent, flip=false) {
+  const rot = tangent * 180 / Math.PI + (flip ? 180 : 0);
+  return `
+    <g class="hook ${cls}" transform="translate(${p.x} ${p.y}) rotate(${rot}) scale(${size / 58})">
+      <path d="M -8 0 C 10 -46 62 -36 50 6 C 44 32 18 42 -6 28" fill="none"/>
+      <circle cx="0" cy="0" r="8" />
+      <path d="M -22 0 L 20 0" fill="none"/>
+      <path d="M 14 -18 C 28 -12 32 4 20 16" fill="none" opacity=".55"/>
+    </g>
+  `;
+}
+
+function arrowGlyph(p, size, cls, tangent) {
+  const rot = tangent * 180 / Math.PI;
+  return `
+    <path class="arrow ${cls}" d="M ${p.x - size} ${p.y} Q ${p.x} ${p.y - size*.35} ${p.x + size} ${p.y}"
+      transform="rotate(${rot} ${p.x} ${p.y})"/>
+  `;
+}
+
+function ringLayer(name, rx, ry, colorClass, linkClass, hookClass, speed, clockwise, phase, linkCount, hookPositions) {
+  const wave = Number(waviness.value) / 2.7;
+  const dir = clockwise ? 1 : -1;
+  const offset = dir * t * speed;
+  const path = chainPath(rx, ry, wave, phase + t * .55);
+
+  let html = `<path class="chain-path ${colorClass}" d="${path}"/>`;
+
+  for (let i = 0; i < linkCount; i++) {
+    const u = (i / linkCount + offset) % 1;
+    const p = point(rx, ry, wave, phase + t * .55, u < 0 ? u + 1 : u);
+    html += linkGlyph(p, name === "outer" ? 28 : name === "mid" ? 22 : 18, linkClass, p.a + Math.PI/2, name === "outer" ? 1.45 : 1.25);
+  }
+
+  hookPositions.forEach((base, i) => {
+    const u = (base + offset) % 1;
+    const p = point(rx, ry, wave, phase + t * .55, u < 0 ? u + 1 : u);
+    html += hookGlyph(p, Number(hookIntensity.value) * (0.82 + (i % 3) * .13), hookClass, p.a + Math.PI/2, !clockwise);
+  });
+
+  const ap = point(rx, ry, wave, phase + t * .55, (0.18 + offset) % 1);
+  html += arrowGlyph(ap, 42, colorClass, ap.a + (clockwise ? Math.PI/2 : -Math.PI/2));
+
+  return html;
+}
+
+function energy() {
+  return Math.min(100, Math.round(
+    Number(innerSpeed.value) * .36 +
+    Number(middleSpeed.value) * .28 +
+    Number(outerSpeed.value) * .24 +
+    Number(waviness.value) * .12
+  ));
+}
+
+function draw() {
+  syncLabels();
+
+  const prof = profile();
+  const innerRate = Number(innerSpeed.value) / 6400;
+  const midRate = Number(middleSpeed.value) / 9800;
+  const outerRate = Number(outerSpeed.value) / 14000;
+
+  const inner = prof.inner;
+  const mid = prof.mid;
+  const outer = prof.outer;
+
+  let html = `
+    <circle class="core" cx="640" cy="362" r="23"/>
+    <circle class="core-halo" cx="640" cy="362" r="56"/>
+    <circle class="core-halo" cx="640" cy="362" r="86"/>
+  `;
+
+  html += ringLayer("outer", outer[0], outer[1], "green", "green-link", "green-hook", outerRate, false, prof.phase[2], 48, [0.02,0.07,0.17,0.31,0.48,0.64,0.79,0.91]);
+  html += ringLayer("mid", mid[0], mid[1], "purple", "purple-link", "purple-hook", midRate, false, prof.phase[1], 40, [0.05,0.22,0.29,0.47,0.70,0.88]);
+  html += ringLayer("inner", inner[0], inner[1], "cyan", "cyan-link", "cyan-hook", innerRate, true, prof.phase[0], 32, [0.08,0.24,0.41,0.62,0.84]);
+
+  field.innerHTML = html;
+
+  $("#status").textContent = energy() > 75 ? "FIELD INTENSIFYING" : "ROTATION STABLE";
+
+  t += 1;
+  requestAnimationFrame(draw);
+}
+
+function emitEvent() {
+  const stamp = new Date().toISOString().replaceAll("-", "").replaceAll(":", "").replace(/\.\d{3}Z$/, "Z");
+  const event = {
+    id:`evt-matrix-spin-city-${stamp}`,
+    source:"matrix-spin-city",
+    type:"rotation",
+    strength:energy(),
+    timestamp:new Date().toISOString(),
+    payload:{
+      target:"matrix-fluderation",
+      inner_rotation:"clockwise-chain",
+      middle_rotation:"counter-clockwise-chain",
+      outer_rotation:"counter-clockwise-chain",
+      inner_speed:Number(innerSpeed.value),
+      middle_speed:Number(middleSpeed.value),
+      outer_speed:Number(outerSpeed.value),
+      waviness:Number(waviness.value),
+      hook_intensity:Number(hookIntensity.value),
+      pattern:pattern.value,
+      palette:{
+        wlBackground:"#05070A",
+        wlCyan:"#00E5FF",
+        wlPurple:"#7000FF",
+        wlGreen:"#00FF66"
+      }
+    }
+  };
+
+  const blob = new Blob([JSON.stringify(event, null, 2)], { type:"application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${event.id}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  $("#status").textContent = "ROTATION EVENT EXPORTED";
+}
+
+[innerSpeed,middleSpeed,outerSpeed,waviness,hookIntensity,pattern].forEach(el => el.addEventListener("input", syncLabels));
+$("#emit").onclick = emitEvent;
+
+draw();
+</script>
+</body>
+</html>
