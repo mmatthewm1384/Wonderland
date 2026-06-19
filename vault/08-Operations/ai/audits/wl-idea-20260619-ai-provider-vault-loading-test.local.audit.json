@@ -1,0 +1,7 @@
+{
+  "intent": "wl-idea-20260619-ai-provider-vault-loading-test",
+  "provider": "local",
+  "status": "bypass-local",
+  "reason": "remote provider unavailable due to quota/billing/credits",
+  "output": "vault/08-Operations/ai/responses/wl-idea-20260619-ai-provider-vault-loading-test.local.md"
+}

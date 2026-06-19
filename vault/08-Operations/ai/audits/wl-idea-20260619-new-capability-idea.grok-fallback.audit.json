@@ -1,0 +1,9 @@
+{
+  "id": "wl-idea-20260619-new-capability-idea.grok-fallback.20260619T180953Z",
+  "intent": "wl-idea-20260619-new-capability-idea",
+  "provider": "grok-fallback",
+  "status": "fallback",
+  "reason": "HTTP 403: {\"code\":\"permission-denied\",\"error\":\"Your newly created team doesn't have any credits or licenses yet. You can purchase those on https://console.x.ai/team/8f71c303-3122-4b55-8365-190fc61aa9be.\"}",
+  "output": "/Users/wonderland/Wonderland/vault/08-Operations/ai/responses/wl-idea-20260619-new-capability-idea.grok-fallback.md",
+  "created_utc": "20260619T180953Z"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "wl-idea-20260619-new-capability-idea",
+  "mode": "DESIGN",
+  "title": "new capability idea",
+  "objective": "new capability idea",
+  "providers": ["chatgpt", "grok", "local"],
+  "requirements": [
+    "persistent",
+    "recoverable",
+    "auditable",
+    "secure",
+    "automated",
+    "versioned",
+    "modular"
+  ],
+  "outputs": {
+    "design": true,
+    "implementation_plan": true,
+    "verification": true,
+    "rollback": true
+  },
+  "status": "draft"
+}

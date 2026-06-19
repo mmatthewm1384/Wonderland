@@ -1,0 +1,7 @@
+{
+  "intent": "wl-idea-20260619-unified-ai-router",
+  "provider": "local",
+  "status": "local-fallback",
+  "reason": "remote provider unavailable, unfunded, over quota, or intentionally not used",
+  "output": "/Users/wonderland/Wonderland/vault/08-Operations/ai/responses/wl-idea-20260619-unified-ai-router.local.md"
+}

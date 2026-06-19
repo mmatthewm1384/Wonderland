@@ -1,0 +1,30 @@
+{
+  "id": "wl-idea-20260619-ai-provider-vault-loading-test",
+  "mode": "DESIGN",
+  "title": "ai provider vault loading test",
+  "objective": "ai provider vault loading test",
+  "providers": [
+    "chatgpt",
+    "grok"
+  ],
+  "inputs": {
+    "context_root": "/Users/wonderland/Wonderland",
+    "vault_root": "/Users/wonderland/Wonderland/vault"
+  },
+  "requirements": [
+    "persistent",
+    "recoverable",
+    "auditable",
+    "secure",
+    "automated",
+    "versioned",
+    "modular"
+  ],
+  "outputs": {
+    "design": true,
+    "implementation_plan": true,
+    "verification": true,
+    "rollback": true
+  },
+  "status": "draft"
+}
