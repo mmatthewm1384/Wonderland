@@ -7,7 +7,7 @@ PID_FILE="$STATE_DIR/screensaver.pid"
 LOG_FILE="$STATE_DIR/screensaver.log"
 
 usage() {
-  echo "usage: wl-matrix-suite {status|doctor|bundle-doctor|report|focus|ambient|energy|emergence|build|open-built <focus|ambient|energy|emergence|all>|screensaver [seconds]|start [seconds]|stop|state|log}"
+  echo "usage: wl-matrix-suite {status|doctor|bundle-doctor|report|recertify|focus|ambient|energy|emergence|build|open-built <focus|ambient|energy|emergence|all>|screensaver [seconds]|start [seconds]|stop|state|log}"
 }
 
 case "${1:-status}" in
@@ -57,6 +57,15 @@ JSON
     cp "$REPORT" "$AUDIT"
     cat "$REPORT"
     echo "audit=$AUDIT" >&2
+    ;;
+
+  recertify)
+    "$0" doctor
+    "$0" bundle-doctor
+    "$0" report >/dev/null
+
+    echo "PASS THE∅MATRIX recertified"
+    echo "RESULT PASS"
     ;;
 
   bundle-doctor)
