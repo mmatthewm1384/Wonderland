@@ -7,12 +7,51 @@ PID_FILE="$STATE_DIR/screensaver.pid"
 LOG_FILE="$STATE_DIR/screensaver.log"
 
 usage() {
-  echo "usage: wl-matrix-suite {status|doctor|bundle-doctor|focus|ambient|energy|emergence|build|open-built <focus|ambient|energy|emergence|all>|screensaver [seconds]|start [seconds]|stop|state|log}"
+  echo "usage: wl-matrix-suite {status|doctor|bundle-doctor|report|focus|ambient|energy|emergence|build|open-built <focus|ambient|energy|emergence|all>|screensaver [seconds]|start [seconds]|stop|state|log}"
 }
 
 case "${1:-status}" in
   status|doctor)
     "$ROOT/bin/wl-the-matrix" doctor
+    ;;
+
+  report)
+    REPORT_DIR="$ROOT/vault/08-Operations/reports"
+    REPORT="$REPORT_DIR/the-matrix-suite-report.json"
+    mkdir -p "$REPORT_DIR"
+
+    running="false"
+    pid="null"
+    if [[ -f "$PID_FILE" ]] && kill -0 "$(cat "$PID_FILE")" >/dev/null 2>&1; then
+      running="true"
+      pid="$(cat "$PID_FILE")"
+    fi
+
+    cat > "$REPORT" <<JSON
+{
+  "id": "THE∅MATRIX",
+  "status": "active",
+  "screensaver": {
+    "running": $running,
+    "pid": $pid
+  },
+  "commands": {
+    "doctor": "wl-matrix-suite doctor",
+    "bundle_doctor": "wl-matrix-suite bundle-doctor",
+    "build": "wl-matrix-suite build",
+    "start": "wl-matrix-suite start 300",
+    "stop": "wl-matrix-suite stop"
+  },
+  "apps": {
+    "focus": "wl-spin-city",
+    "ambient": "wl-agitate",
+    "energy": "wl-matrix",
+    "emergence": "matrix-fluderation"
+  }
+}
+JSON
+
+    cat "$REPORT"
     ;;
 
   bundle-doctor)
