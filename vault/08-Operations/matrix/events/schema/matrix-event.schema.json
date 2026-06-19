@@ -1,0 +1,21 @@
+{
+  "id": "matrix-event-schema",
+  "version": "1.0.0",
+  "required": ["id", "source", "type", "timestamp"],
+  "event_types": [
+    "impulse",
+    "wave",
+    "rotation",
+    "field-state",
+    "sensor",
+    "stability"
+  ],
+  "fields": {
+    "id": "Unique event id",
+    "source": "Matrix app that emitted the event",
+    "type": "Event type",
+    "strength": "Optional numeric event strength",
+    "timestamp": "UTC ISO-8601 timestamp",
+    "payload": "Optional app-specific event data"
+  }
+}

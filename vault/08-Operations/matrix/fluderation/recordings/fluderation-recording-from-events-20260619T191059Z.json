@@ -1,0 +1,8 @@
+{
+  "id": "fluderation-recording-from-events-20260619T191059Z",
+  "app": "matrix-fluderation",
+  "mode": "matrix-event-consume",
+  "source": "matrix-event-bus",
+  "event_count": 0,
+  "frames": []
+}

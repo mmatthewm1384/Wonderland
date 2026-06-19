@@ -1,5 +1,23 @@
 const canvas = document.getElementById("spin-city");
 const ctx = canvas.getContext("2d");
+
+const cursor = {
+  x: 0,
+  y: 0,
+  active: false,
+  lastMove: 0
+};
+
+window.addEventListener("mousemove", event => {
+  cursor.x = event.clientX;
+  cursor.y = event.clientY;
+  cursor.active = true;
+  cursor.lastMove = performance.now() * 0.001;
+});
+
+window.addEventListener("mouseleave", () => {
+  cursor.active = false;
+});
 const panel = document.getElementById("panel");
 const presetName = document.getElementById("presetName");
 
@@ -239,8 +257,23 @@ function drawGhostFragments(cx, cy, maxR, rawT) {
     const r = Math.min(g.radius + drift, maxR * 1.05);
     const a = g.angle + rawT * g.spin + Math.sin(rawT * 0.09 + g.seed) * 0.3;
 
-    const x = cx + Math.cos(a) * r;
-    const y = cy + Math.sin(a) * r * 0.74;
+    let x = cx + Math.cos(a) * r;
+    let y = cy + Math.sin(a) * r * 0.74;
+
+    if (cursor.active) {
+      const dx = cursor.x - x;
+      const dy = cursor.y - y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const influence = Math.max(0, 1 - dist / 220);
+
+      if (influence > 0) {
+        const pull = Math.sin(rawT * 1.7 + g.seed) * 0.5 + 0.5;
+        x += dx * influence * 0.08 * pull;
+        y += dy * influence * 0.08 * pull;
+
+        ctx.globalAlpha = alpha + influence * 0.16 * settings.glow;
+      }
+    }
 
     ctx.strokeStyle = g.color;
     ctx.globalAlpha = alpha;

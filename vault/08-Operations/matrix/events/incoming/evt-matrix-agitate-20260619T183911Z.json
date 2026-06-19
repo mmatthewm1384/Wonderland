@@ -1,0 +1,10 @@
+{
+  "id": "evt-matrix-agitate-20260619T183911Z",
+  "source": "matrix-agitate",
+  "type": "wave",
+  "strength": 72,
+  "timestamp": "2026-06-19T18:39:11Z",
+  "payload": {
+    "target": "matrix-fluderation"
+  }
+}

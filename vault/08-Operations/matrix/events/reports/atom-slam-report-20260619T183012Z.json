@@ -1,0 +1,12 @@
+{
+  "id": "atom-slam-report-20260619T183012Z",
+  "event_count": 2,
+  "max_strength": 93,
+  "avg_strength": 93.0,
+  "types": {
+    "impulse": 2
+  },
+  "targets": {
+    "matrix-fluderation": 2
+  }
+}

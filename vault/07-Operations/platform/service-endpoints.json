@@ -1,0 +1,72 @@
+{
+  "id": "wl-service-endpoints-v1",
+  "authority": "Wonderland",
+  "status": "active",
+  "updated": "2026-06-14",
+  "services": [
+    {
+      "id": "wl-grafana",
+      "name": "Grafana",
+      "category": "observability",
+      "url": "http://grafana.wl:3000",
+      "fallback_url": "http://127.0.0.1:3000",
+      "verify": "curl -fsS http://127.0.0.1:3000/api/health"
+    },
+    {
+      "id": "wl-prometheus",
+      "name": "Prometheus",
+      "category": "observability",
+      "url": "http://prometheus.wl:9090",
+      "fallback_url": "http://127.0.0.1:9090",
+      "verify": "curl -fsS http://127.0.0.1:9090/-/ready"
+    },
+    {
+      "id": "wl-loki",
+      "name": "Loki",
+      "category": "observability",
+      "url": "http://loki.wl:3100",
+      "fallback_url": "http://127.0.0.1:3100",
+      "verify": "curl -fsS http://127.0.0.1:3100/ready"
+    },
+    {
+      "id": "wl-nats",
+      "name": "NATS",
+      "category": "messaging",
+      "url": "http://nats.wl:8222",
+      "fallback_url": "http://127.0.0.1:8222",
+      "verify": "curl -fsS http://127.0.0.1:8222/varz"
+    },
+    {
+      "id": "wl-portainer",
+      "name": "Portainer",
+      "category": "infrastructure",
+      "url": "https://portainer.wl",
+      "fallback_url": "https://127.0.0.1:9443",
+      "verify": "curl -kfsS https://127.0.0.1:9443/api/status"
+    },
+    {
+      "id": "wl-harbor",
+      "name": "Harbor",
+      "category": "registry",
+      "url": "https://harbor.wl",
+      "fallback_url": "https://127.0.0.1",
+      "verify": "curl -kfsS https://127.0.0.1/api/v2.0/health"
+    },
+    {
+      "id": "wl-docs",
+      "name": "Wonderland Docs",
+      "category": "documentation",
+      "url": "http://docs.wl",
+      "fallback_url": "http://127.0.0.1:8080",
+      "verify": "true"
+    },
+    {
+      "id": "wl-vault",
+      "name": "Wonderland Vault",
+      "category": "knowledge",
+      "url": "file://$HOME/Wonderland/vault",
+      "fallback_url": "file://$HOME/Wonderland/vault",
+      "verify": "test -d $HOME/Wonderland/vault"
+    }
+  ]
+}

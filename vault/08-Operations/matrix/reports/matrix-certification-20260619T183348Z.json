@@ -1,0 +1,31 @@
+{
+  "id": "matrix-certification-20260619T183348Z",
+  "timestamp": "2026-06-19T18:33:48.744027+00:00",
+  "registry": "/Users/wonderland/Wonderland/apps/matrix/matrix-registry.json",
+  "status": "PASS",
+  "apps": [
+    {
+      "id": "matrix-fluderation",
+      "role": "field-engine",
+      "status": "certified",
+      "command": "wl matrix fluderation"
+    },
+    {
+      "id": "matrix-atom-slam",
+      "role": "impulse-generator",
+      "status": "active-prototype",
+      "command": "wl matrix atom-slam-visual"
+    },
+    {
+      "id": "matrix-event-bus",
+      "role": "event-transport",
+      "status": "active",
+      "path": "vault/08-Operations/matrix/events"
+    }
+  ],
+  "pipeline": [
+    "matrix-atom-slam",
+    "matrix-event-bus",
+    "matrix-fluderation"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "evt-matrix-atom-slam-20260619T183012Z",
+  "source": "matrix-atom-slam",
+  "type": "impulse",
+  "strength": 93,
+  "timestamp": "2026-06-19T18:30:12Z",
+  "payload": {
+    "mode": "manual-slam",
+    "target": "matrix-fluderation"
+  }
+}

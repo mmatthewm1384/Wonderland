@@ -10,28 +10,41 @@
       "source_path": "apps/matrix/matrix-fluderation"
     },
     {
+      "id": "matrix-atom-slam",
+      "name": "Matrix Atom Slam",
+      "status": "active-visual",
+      "runtime": "local-visual-now-shell-event-emitter",
+      "role": "impulse-generator",
+      "command": "wl matrix atom-slam-visual",
+      "emitter_command": "wl matrix atom-slam",
+      "source_path": "apps/matrix/matrix-atom-slam"
+    },
+    {
       "id": "matrix-agitate",
       "name": "Matrix Agitate",
-      "status": "registered-existing",
+      "status": "active-tauri",
       "runtime": "tauri",
+      "role": "wave-generator",
       "source_path": "apps/tauri/wl-agitate",
-      "future_path": "apps/matrix/matrix-agitate"
+      "productName": "Agitate Waves"
     },
     {
       "id": "matrix-spin-city",
       "name": "Matrix Spin City",
-      "status": "registered-existing",
+      "status": "active-tauri",
       "runtime": "tauri",
+      "role": "rotational-field-generator",
       "source_path": "apps/tauri/wl-spin-city",
-      "future_path": "apps/matrix/matrix-spin-city"
+      "productName": "Spin City Wave"
     },
     {
       "id": "matrix-core",
       "name": "Matrix Core",
-      "status": "registered-existing",
+      "status": "active-tauri",
       "runtime": "tauri",
+      "role": "matrix-shell",
       "source_path": "apps/tauri/wl-matrix",
-      "future_path": "apps/matrix/matrix-core"
+      "productName": "Matrix Atom Destroyer"
     }
   ]
 }

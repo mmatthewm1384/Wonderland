@@ -1,0 +1,8 @@
+{
+  "id": "fluderation-event-consume-report-20260619T183053Z",
+  "source_recording": "/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation/recordings/fluderation-recording-from-events-20260619T183053Z.json",
+  "consumed_events": 3,
+  "max_total": 119.35,
+  "max_depth_percent": 100,
+  "max_energy_percent": 100
+}

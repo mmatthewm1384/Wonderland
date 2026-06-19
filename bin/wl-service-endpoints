@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$HOME/Wonderland"
+REGISTRY="$ROOT/vault/07-Operations/platform/service-endpoints.json"
+
+case "${1:-}" in
+  list)
+    jq -r '.services[] | "\(.id)	\(.name)	\(.url)	\(.fallback_url)"' "$REGISTRY"
+    ;;
+
+  verify)
+    FAIL=0
+
+    jq -r '.services[] | @base64' "$REGISTRY" | while read -r row; do
+      svc="$(echo "$row" | base64 --decode)"
+      id="$(echo "$svc" | jq -r '.id')"
+      verify="$(echo "$svc" | jq -r '.verify')"
+
+      if bash -lc "$verify" >/dev/null 2>&1; then
+        echo "PASS $id"
+      else
+        echo "FAIL $id"
+        FAIL=1
+      fi
+    done
+
+    ;;
+
+  json)
+    jq . "$REGISTRY"
+    ;;
+
+  *)
+    cat <<EOF
+Wonderland Service Endpoints
+
+Usage:
+  wl-service-endpoints list
+  wl-service-endpoints verify
+  wl-service-endpoints json
+EOF
+    exit 1
+    ;;
+esac

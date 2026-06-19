@@ -37,8 +37,6 @@ THE∅MATRIX is the Wonderland visual app suite.
 
 ## Verification
 
-Run:
-
     wl-the-matrix doctor
     wl-matrix-suite recertify
 
@@ -58,7 +56,7 @@ If screensaver is stuck:
     wl-matrix-suite stop
     pkill -f "wl-matrix-suite screensaver"
 
-If a Tauri app dependency fails:
+If a Tauri dependency fails:
 
     cd <app-path>
     rm -rf node_modules package-lock.json

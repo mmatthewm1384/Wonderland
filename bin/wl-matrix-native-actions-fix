@@ -1,0 +1,219 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+APP="$WL_ROOT/apps/tauri/wl-matrix"
+HTML="$APP/src/index.html"
+
+if [[ ! -f "$HTML" ]]; then
+  echo "FAIL missing: $HTML"
+  exit 1
+fi
+
+cp "$HTML" "$APP/src/index.pre-actions-fix.$(date +%Y%m%d-%H%M%S).html"
+
+python3 - <<'PY'
+from pathlib import Path
+import re
+
+html = Path.home() / "Wonderland/apps/tauri/wl-matrix/src/index.html"
+text = html.read_text()
+
+# Label
+text = re.sub(
+    r'<div id="label">.*?</div>',
+    '<div id="label">Matrix Native · SPACE slam · M mic · W agitate · H HUD · O outdoor · G gravity · F fracture · P pulse · R reset · S screenshot · ENTER fullscreen · ESC exit</div>',
+    text,
+    flags=re.S
+)
+
+# Ensure fullscreen helper.
+if "function toggleFullscreen()" not in text:
+    text = text.replace(
+        "function saveScreenshot() {",
+        '''function toggleFullscreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+
+'''
+        + "function saveScreenshot() {"
+    )
+
+# Ensure action functions exist.
+if "function toggleOutdoorMode()" not in text:
+    insert = r'''
+function toggleOutdoorMode() {
+  outdoorMode = !outdoorMode;
+}
+
+function toggleGravityLens() {
+  gravityLens = !gravityLens;
+}
+
+function toggleFractureRings() {
+  fractureRings = !fractureRings;
+}
+
+function toggleHudMode() {
+  hudMode = !hudMode;
+}
+
+function togglePulseField() {
+  pulseField = !pulseField;
+}
+
+function toggleAgitateMode() {
+  agitateMode = !agitateMode;
+}
+
+function primaryPulse() {
+  if (pulseField) {
+    shockwave = Math.max(shockwave, 0.85);
+    slam = Math.max(slam, 0.35);
+  } else {
+    pulseField = true;
+  }
+}
+
+function matrixAction(action) {
+  switch (action) {
+    case "slam":
+      triggerSlam();
+      break;
+    case "mic":
+      toggleMic();
+      break;
+    case "agitate":
+      toggleAgitateMode();
+      break;
+    case "hud":
+      toggleHudMode();
+      break;
+    case "outdoor":
+      toggleOutdoorMode();
+      break;
+    case "gravity":
+      toggleGravityLens();
+      break;
+    case "fracture":
+      toggleFractureRings();
+      break;
+    case "pulse":
+      primaryPulse();
+      break;
+    case "reset":
+      reset();
+      break;
+    case "screenshot":
+      saveScreenshot();
+      break;
+    case "fullscreen":
+      toggleFullscreen();
+      break;
+    case "exit-fullscreen":
+      if (document.fullscreenElement) document.exitFullscreen();
+      break;
+  }
+}
+'''
+    text = text.replace("function drawHUD() {", insert + "\nfunction drawHUD() {")
+
+# Replace keydown handler with authoritative action map.
+pattern = r'window\.addEventListener\("keydown", e => \{.*?\n\}\);'
+handler = r'''window.addEventListener("keydown", e => {
+  const k = e.key.toLowerCase();
+
+  if ([" ", "enter", "s"].includes(k) || e.metaKey) {
+    e.preventDefault();
+  }
+
+  if (e.metaKey && k === "f") {
+    matrixAction("fullscreen");
+    return;
+  }
+
+  if (e.metaKey && k === "s") {
+    matrixAction("screenshot");
+    return;
+  }
+
+  switch (k) {
+    case " ":
+      matrixAction("slam");
+      break;
+    case "m":
+      matrixAction("mic");
+      break;
+    case "w":
+      matrixAction("agitate");
+      break;
+    case "h":
+      matrixAction("hud");
+      break;
+    case "o":
+      matrixAction("outdoor");
+      break;
+    case "g":
+      matrixAction("gravity");
+      break;
+    case "f":
+      matrixAction("fracture");
+      break;
+    case "p":
+      matrixAction("pulse");
+      break;
+    case "r":
+      matrixAction("reset");
+      break;
+    case "s":
+      matrixAction("screenshot");
+      break;
+    case "enter":
+      matrixAction("fullscreen");
+      break;
+    case "escape":
+      matrixAction("exit-fullscreen");
+      break;
+  }
+});'''
+
+text = re.sub(pattern, handler, text, flags=re.S)
+
+# Mouse/click primary action remains slam.
+text = text.replace(
+    'window.addEventListener("click", triggerSlam);',
+    'window.addEventListener("click", () => matrixAction("slam"));'
+)
+
+# Ensure telemetry includes all toggles.
+text = text.replace(
+    '`MIC=${micMode ? "ON" : "OFF"} OUTDOOR=${outdoorMode ? "ON" : "OFF"} GRAVITY=${gravityLens ? "ON" : "OFF"} FRACTURE=${fractureRings ? "ON" : "OFF"}`',
+    '`MIC=${micMode ? "ON" : "OFF"} OUTDOOR=${outdoorMode ? "ON" : "OFF"} GRAVITY=${gravityLens ? "ON" : "OFF"} FRACTURE=${fractureRings ? "ON" : "OFF"} HUD=${hudMode ? "ON" : "OFF"}`'
+)
+
+text = text.replace(
+    '`PULSE=${pulseField ? "ON" : "OFF"} AGITATE=${agitateMode ? "ON" : "OFF"} LEFT_EYE_OFFSET=${Math.round(eyeOffset)} AUTO_SLAM=0.42`',
+    '`PULSE=${pulseField ? "ON" : "OFF"} AGITATE=${agitateMode ? "ON" : "OFF"} LEFT_EYE_OFFSET=${Math.round(eyeOffset)} AUTO_SLAM=0.42`'
+)
+
+html.write_text(text)
+print("PASS matrix native actions patched")
+PY
+
+echo
+echo "Verify action symbols:"
+grep -n "matrixAction\|toggleFullscreen\|toggleAgitateMode\|toggleHudMode\|keydown" "$HTML"
+
+echo
+echo "Rebuild Matrix Native:"
+cd "$APP"
+npm run tauri build
+
+echo
+echo "Recertify:"
+wl-tauri-matrix-certify
+
+echo
+echo "Open:"
+wl-matrix-native

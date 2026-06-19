@@ -9,26 +9,22 @@
       "id": "wl-spin-city",
       "path": "apps/tauri/wl-spin-city",
       "launcher": "bin/wl-spin-city",
-      "role": "focus",
-      "description": "Hypnotic counter-rotating vortex with eye-hooks, attached particles, watchers, ghost fragments, production mode, and screensaver behavior."
+      "role": "focus"
     },
     {
       "id": "wl-agitate",
       "path": "apps/tauri/wl-agitate",
-      "role": "ambient",
-      "description": "Wave agitation and fluid motion visual engine."
+      "role": "ambient"
     },
     {
       "id": "wl-matrix",
       "path": "apps/tauri/wl-matrix",
-      "role": "energy",
-      "description": "Matrix particle destruction and chain-reaction visual engine."
+      "role": "energy"
     },
     {
       "id": "matrix-fluderation",
       "path": "apps/matrix/matrix-fluderation",
-      "role": "emergence",
-      "description": "Emergence, birth, growth, and swarm-intelligence visual engine."
+      "role": "emergence"
     }
   ]
 }

@@ -1,0 +1,141 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+T7="/Volumes/T7_Wonderland"
+ROOT="$T7/Wonderland"
+ASSETS="$ROOT/assets/wallpapers"
+VAULT="$ROOT/vault"
+REPORTS="$VAULT/08-Operations/reports"
+
+DEVICE="iphone16pro"
+REQUIRED_WIDTH="1290"
+REQUIRED_HEIGHT="2796"
+
+mkdir -p \
+  "$ASSETS/import" \
+  "$ASSETS/source" \
+  "$ASSETS/iphone/lockscreen/staging" \
+  "$ASSETS/iphone/lockscreen/certified" \
+  "$ASSETS/manifests" \
+  "$REPORTS"
+
+need_t7() {
+  [[ -d "$T7" ]] || { echo "FAIL T7 not mounted: $T7"; exit 1; }
+}
+
+import_assets() {
+  need_t7
+  ts="$(date +%Y%m%d-%H%M%S)"
+  dest="$ASSETS/import/$ts"
+  mkdir -p "$dest"
+
+  find "$HOME/Downloads" -maxdepth 1 -type f \
+    \( -iname "ChatGPT*.png" -o -iname "*.png" \) \
+    -print0 | while IFS= read -r -d '' f; do
+      cp "$f" "$dest/"
+    done
+
+  echo "PASS import: $dest"
+}
+
+registry() {
+  need_t7
+  python3 - <<PY
+import json, hashlib
+from pathlib import Path
+from PIL import Image
+
+assets = Path("$ASSETS")
+cert = assets / "iphone/lockscreen/certified"
+manifest = assets / "manifests/wallpaper-registry.json"
+
+items = []
+for p in sorted(cert.glob("*.png")):
+    with Image.open(p) as img:
+        width, height = img.size
+    sha = hashlib.sha256(p.read_bytes()).hexdigest()
+    items.append({
+        "id": p.stem,
+        "device": "$DEVICE",
+        "type": "lockscreen",
+        "path": str(p.relative_to(assets)),
+        "width": width,
+        "height": height,
+        "sha256": sha,
+        "status": "REGISTERED"
+    })
+
+manifest.write_text(json.dumps({
+    "registry": "wonderland-wallpapers",
+    "root": str(assets),
+    "count": len(items),
+    "items": items
+}, indent=2) + "\n")
+
+print(f"PASS registry: {manifest}")
+PY
+}
+
+certify() {
+  need_t7
+  python3 - <<PY
+import json
+from pathlib import Path
+from PIL import Image
+
+assets = Path("$ASSETS")
+cert = assets / "iphone/lockscreen/certified"
+report = Path("$REPORTS/wallpaper-certification-report.json")
+
+required = ($REQUIRED_WIDTH, $REQUIRED_HEIGHT)
+results = []
+
+for p in sorted(cert.glob("*.png")):
+    with Image.open(p) as img:
+        size = img.size
+    status = "PASS" if size == required else "FAIL"
+    results.append({
+        "id": p.stem,
+        "path": str(p.relative_to(assets)),
+        "required": f"{required[0]}x{required[1]}",
+        "actual": f"{size[0]}x{size[1]}",
+        "status": status
+    })
+
+overall = "PASS" if results and all(r["status"] == "PASS" for r in results) else "FAIL"
+
+report.write_text(json.dumps({
+    "asset_class": "wallpaper",
+    "device": "$DEVICE",
+    "type": "lockscreen",
+    "status": overall,
+    "results": results
+}, indent=2) + "\n")
+
+print(f"RESULT {overall}")
+print(f"REPORT {report}")
+PY
+}
+
+status() {
+  need_t7
+  echo "Wallpaper Root: $ASSETS"
+  echo
+  find "$ASSETS" -maxdepth 4 -type f | sort
+}
+
+case "${1:-}" in
+  import) import_assets ;;
+  registry) registry ;;
+  certify) certify ;;
+  status) status ;;
+  all)
+    import_assets
+    registry
+    certify
+    ;;
+  *)
+    echo "Usage: wl-wallpaper import|registry|certify|status|all"
+    exit 1
+    ;;
+esac

@@ -1,0 +1,33 @@
+{
+  "id": "fluderation-recording-from-events-20260619T183140Z",
+  "app": "matrix-fluderation",
+  "mode": "matrix-event-consume",
+  "source": "matrix-event-bus",
+  "event_count": 2,
+  "frames": [
+    {
+      "wave": 1,
+      "source_event": "evt-matrix-atom-slam-20260619T183139Z",
+      "source": "matrix-atom-slam",
+      "event_type": "impulse",
+      "strength": 91.0,
+      "multiplier": 1.0,
+      "total": 98.28,
+      "depthPercent": 98,
+      "energyPercent": 100,
+      "timestamp": "2026-06-19T18:31:40.165264+00:00"
+    },
+    {
+      "wave": 2,
+      "source_event": "evt-matrix-atom-slam-20260619T183140Z",
+      "source": "matrix-atom-slam",
+      "event_type": "shock",
+      "strength": 77.0,
+      "multiplier": 1.25,
+      "total": 111.65,
+      "depthPercent": 100,
+      "energyPercent": 100,
+      "timestamp": "2026-06-19T18:31:40.165449+00:00"
+    }
+  ]
+}

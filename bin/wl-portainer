@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WONDERLAND_ROOT:-$HOME/Wonderland}"
+SERVICE="wl-portainer"
+VOLUME="wl-portainer-data"
+PORT="9443"
+IMAGE="docker.io/portainer/portainer-ce:alpine"
+
+usage() {
+  echo "Usage: wl-portainer up|down|restart|status|logs|verify|doctor|backup|restore"
+}
+
+runtime() {
+  if command -v nerdctl >/dev/null 2>&1; then
+    echo nerdctl
+  elif command -v docker >/dev/null 2>&1; then
+    echo docker
+  else
+    echo "FAIL no container runtime" >&2
+    exit 1
+  fi
+}
+
+cmd="${1:-}"
+[ -n "$cmd" ] || { usage; exit 1; }
+
+RUNTIME="$(runtime)"
+
+case "$cmd" in
+  up)
+    $RUNTIME volume create "$VOLUME" >/dev/null || true
+    $RUNTIME rm -f "$SERVICE" >/dev/null 2>&1 || true
+    $RUNTIME run -d \
+      --name "$SERVICE" \
+      --restart unless-stopped \
+      -p 9443:9443 \
+      -v "$VOLUME:/data" \
+      "$IMAGE" >/dev/null
+    echo "PASS portainer up https://127.0.0.1:${PORT}"
+    ;;
+
+  down)
+    $RUNTIME rm -f "$SERVICE" >/dev/null 2>&1 || true
+    echo "PASS portainer down"
+    ;;
+
+  restart)
+    "$0" down
+    "$0" up
+    ;;
+
+  status)
+    $RUNTIME ps -a --filter "name=$SERVICE"
+    ;;
+
+  logs)
+    $RUNTIME logs "$SERVICE"
+    ;;
+
+  verify|doctor)
+    if $RUNTIME ps --format '{{.Names}}' | grep -qx "$SERVICE"; then
+      echo "PASS portainer container"
+    else
+      echo "FAIL portainer container"
+      exit 1
+    fi
+
+    if curl -kfsS "https://127.0.0.1:${PORT}" >/dev/null; then
+      echo "PASS portainer https"
+    else
+      echo "FAIL portainer https"
+      exit 1
+    fi
+
+    cat > "$ROOT/vault/08-Operations/reports/portainer-status-report.json" <<JSON
+{
+  "id": "wl-portainer-status-v1",
+  "service": "wl-portainer",
+  "status": "PASS",
+  "url": "https://127.0.0.1:${PORT}",
+  "runtime": "${RUNTIME}"
+}
+JSON
+    echo "RESULT PASS"
+    ;;
+
+  backup)
+    mkdir -p "$ROOT/vault/08-Operations/backups/capabilities/portainer"
+    ts="$(date -u +%Y%m%dT%H%M%SZ)"
+    $RUNTIME run --rm \
+      -v "$VOLUME:/data:ro" \
+      -v "$ROOT/vault/08-Operations/backups/capabilities/portainer:/backup" \
+      alpine:3.20 \
+      sh -c "cd /data && tar czf /backup/portainer-${ts}.tar.gz ."
+    echo "PASS backup vault/08-Operations/backups/capabilities/portainer/portainer-${ts}.tar.gz"
+    ;;
+
+  restore)
+    latest="$(ls -t "$ROOT"/vault/08-Operations/backups/capabilities/portainer/portainer-*.tar.gz 2>/dev/null | head -1 || true)"
+    [ -n "$latest" ] || { echo "FAIL no portainer backup"; exit 1; }
+    "$0" down
+    $RUNTIME volume create "$VOLUME" >/dev/null || true
+    $RUNTIME run --rm \
+      -v "$VOLUME:/data" \
+      -v "$ROOT/vault/08-Operations/backups/capabilities/portainer:/backup:ro" \
+      alpine:3.20 \
+      sh -c "rm -rf /data/* && tar xzf /backup/$(basename "$latest") -C /data"
+    "$0" up
+    echo "PASS restored $(basename "$latest")"
+    ;;
+
+  *)
+    usage
+    exit 1
+    ;;
+esac

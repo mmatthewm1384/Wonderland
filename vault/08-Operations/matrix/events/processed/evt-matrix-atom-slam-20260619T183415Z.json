@@ -1,0 +1,11 @@
+{
+  "id": "evt-matrix-atom-slam-20260619T183415Z",
+  "source": "matrix-atom-slam",
+  "type": "shock",
+  "strength": 77,
+  "timestamp": "2026-06-19T18:34:15Z",
+  "payload": {
+    "mode": "manual-slam",
+    "target": "matrix-fluderation"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "evt-matrix-spin-city-20260619T183823Z",
+  "source": "matrix-spin-city",
+  "type": "rotation",
+  "strength": 81,
+  "timestamp": "2026-06-19T18:38:23Z",
+  "payload": {
+    "target": "matrix-fluderation"
+  }
+}

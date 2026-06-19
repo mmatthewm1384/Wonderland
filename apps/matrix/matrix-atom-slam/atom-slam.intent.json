@@ -1,0 +1,11 @@
+{
+  "id": "matrix-atom-slam",
+  "name": "Matrix Atom Slam",
+  "type": "matrix-app",
+  "status": "active-visual",
+  "runtime": "local-visual-now-shell-event-emitter",
+  "role": "impulse-generator",
+  "command": "wl matrix atom-slam",
+  "data_path": "/Users/wonderland/Wonderland/vault/08-Operations/matrix/events",
+  "purpose": "Generate Matrix impulse events for Fluderation and future Matrix apps."
+}

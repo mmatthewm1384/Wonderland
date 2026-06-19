@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+INTENT="${1:?Usage: wl-ai-local <intent.json>}"
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+
+ID="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["id"])' "$INTENT")"
+
+OUT="$WL_HOME/vault/08-Operations/ai/responses/${ID}.local.md"
+AUDIT="$WL_HOME/vault/08-Operations/ai/audits/${ID}.local.audit.json"
+
+mkdir -p "$(dirname "$OUT")" "$(dirname "$AUDIT")"
+
+cat > "$OUT" <<LOCAL
+# Local Provider Response — $ID
+
+Remote AI provider unavailable or intentionally bypassed.
+
+## Manual Architecture
+
+Describe the architecture here.
+
+## Implementation
+
+Describe files, commands, and mutations here.
+
+## Verification
+
+List verification commands here.
+
+## Recovery
+
+List recovery procedure here.
+
+## Rollback
+
+List rollback procedure here.
+
+## Risks
+
+List known risks here.
+
+## Decision
+
+Pending Wonderland approval.
+LOCAL
+
+cat > "$AUDIT" <<AUDIT
+{
+  "intent": "$ID",
+  "provider": "local",
+  "status": "local-fallback",
+  "reason": "remote provider unavailable, unfunded, over quota, or intentionally not used",
+  "output": "$OUT"
+}
+AUDIT
+
+echo "PASS local provider: $OUT"

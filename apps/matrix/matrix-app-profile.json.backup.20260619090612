@@ -1,0 +1,12 @@
+{
+  "matrix_apps": [
+    {
+      "id": "matrix-fluderation",
+      "name": "Matrix Fluderation",
+      "status": "active-visual",
+      "runtime": "local-visual-now-tauri-staged",
+      "command": "wl matrix fluderation",
+      "purpose": "Environmental push-down app"
+    }
+  ]
+}

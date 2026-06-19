@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_ROOT:-$HOME/Wonderland}"
+EVENTS="$ROOT/vault/08-Operations/matrix/events/incoming"
+
+source="${1:?source required}"
+type="${2:?type required}"
+strength="${3:-50}"
+
+mkdir -p "$EVENTS"
+
+stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+id="evt-${source}-${stamp}"
+out="$EVENTS/$id.json"
+
+cat > "$out" <<JSON
+{
+  "id": "$id",
+  "source": "$source",
+  "type": "$type",
+  "strength": $strength,
+  "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "payload": {
+    "target": "matrix-fluderation"
+  }
+}
+JSON
+
+python3 -m json.tool "$out" >/dev/null
+echo "PASS matrix event emitted"
+echo "$out"

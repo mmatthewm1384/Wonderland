@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+export PATH="$HOME/.rustup/toolchains/stable-aarch64-apple-darwin/bin:$HOME/.cargo/bin:/opt/homebrew/bin:$PATH"
+export RUSTUP_TOOLCHAIN=stable
+
+echo "cargo: $(which cargo)"
+echo "rustc: $(which rustc)"
+echo "rustup targets:"
+rustup target list --installed | grep apple-ios || true

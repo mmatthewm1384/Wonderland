@@ -1,0 +1,13 @@
+{
+  "id": "theomatrix-build",
+  "project": "THE∅MATRIX",
+  "mode": "BUILD",
+  "apps": ["wl-matrix", "wl-spin-city", "wl-agitate", "atom-slam", "fluderation", "spin-the-city"],
+  "principles": ["persistent", "recoverable", "auditable", "secure", "automated", "versioned", "modular"],
+  "palette": {
+    "wlBackground": "#05070A",
+    "wlCyan": "#00E5FF",
+    "wlPurple": "#7000FF",
+    "wlGreen": "#00FF66"
+  }
+}

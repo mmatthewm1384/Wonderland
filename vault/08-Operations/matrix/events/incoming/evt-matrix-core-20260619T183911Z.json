@@ -1,0 +1,10 @@
+{
+  "id": "evt-matrix-core-20260619T183911Z",
+  "source": "matrix-core",
+  "type": "shell-open",
+  "strength": 50,
+  "timestamp": "2026-06-19T18:39:11Z",
+  "payload": {
+    "target": "matrix-fluderation"
+  }
+}

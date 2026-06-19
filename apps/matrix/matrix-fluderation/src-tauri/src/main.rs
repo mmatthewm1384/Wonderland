@@ -11,7 +11,7 @@ use std::{
     thread,
     time::{Duration, SystemTime},
 };
-use tauri::{AppHandle, Emitter, Manager, State};
+use tauri::{AppHandle, Emitter, State};
 
 struct WatchState {
     running: Arc<AtomicBool>,

@@ -1,0 +1,29 @@
+{
+  "id": "matrix-registry",
+  "version": "1.0.0",
+  "apps": [
+    {
+      "id": "matrix-fluderation",
+      "role": "field-engine",
+      "status": "certified",
+      "command": "wl matrix fluderation"
+    },
+    {
+      "id": "matrix-atom-slam",
+      "role": "impulse-generator",
+      "status": "active-prototype",
+      "command": "wl matrix atom-slam-visual"
+    },
+    {
+      "id": "matrix-event-bus",
+      "role": "event-transport",
+      "status": "active",
+      "path": "vault/08-Operations/matrix/events"
+    }
+  ],
+  "pipeline": [
+    "matrix-atom-slam",
+    "matrix-event-bus",
+    "matrix-fluderation"
+  ]
+}
