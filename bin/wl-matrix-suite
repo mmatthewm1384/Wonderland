@@ -86,20 +86,24 @@ JSON
     ;;
 
   focus|spin-city)
+    "$ROOT/bin/wl-matrix-presence" set-realm focus >/dev/null 2>&1 || true
     "$ROOT/bin/wl-spin-city" prod
     ;;
 
   ambient|agitate)
+    "$ROOT/bin/wl-matrix-presence" set-realm ambient >/dev/null 2>&1 || true
     cd "$ROOT/apps/tauri/wl-agitate"
     npm run tauri dev
     ;;
 
   energy|matrix)
+    "$ROOT/bin/wl-matrix-presence" set-realm energy >/dev/null 2>&1 || true
     cd "$ROOT/apps/tauri/wl-matrix"
     npm run tauri dev
     ;;
 
   emergence|fluderation)
+    "$ROOT/bin/wl-matrix-presence" set-realm emergence >/dev/null 2>&1 || true
     cd "$ROOT/apps/matrix/matrix-fluderation"
     npm run tauri dev
     ;;
@@ -172,6 +176,13 @@ JSON
         }
 
         app_name="$(basename "$app" .app)"
+        case "$app_name" in
+          "Spin City Wave") "$ROOT/bin/wl-matrix-presence" set-realm focus >/dev/null 2>&1 || true ;;
+          "Agitate Waves") "$ROOT/bin/wl-matrix-presence" set-realm ambient >/dev/null 2>&1 || true ;;
+          "Matrix Atom Destroyer") "$ROOT/bin/wl-matrix-presence" set-realm energy >/dev/null 2>&1 || true ;;
+          "Matrix Fluderation") "$ROOT/bin/wl-matrix-presence" set-realm emergence >/dev/null 2>&1 || true ;;
+        esac
+
         echo "OPEN $app_name"
         open "$app"
 
