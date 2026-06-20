@@ -216,6 +216,12 @@ JSON
       echo "screensaver_status=stopped"
     fi
     echo "log_file=$LOG_FILE"
+
+    if [[ -f "$ROOT/.wl/state/the-matrix/presence.json" ]]; then
+      echo "active_realm=$(jq -r .active_realm "$ROOT/.wl/state/the-matrix/presence.json")"
+    else
+      echo "active_realm=unknown"
+    fi
     ;;
 
   log)
