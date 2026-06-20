@@ -1,52 +1,52 @@
 {
   "suite": "THE∅MATRIX",
   "version": 1,
-  "updated_at": "20260620T071332Z",
+  "updated_at": "20260620T071554Z",
   "memory": {
-    "global_attention": 0.280968,
-    "global_interest": 0.3127375,
+    "global_attention": 0.25849056,
+    "global_interest": 0.3080464375,
     "encounters": 1
   },
   "watchers": [
     {
       "id": "watcher-01",
-      "age": 2,
-      "attention": 0.24333999999999997,
-      "interest": 0.27333749999999996,
+      "age": 3,
+      "attention": 0.22387279999999998,
+      "interest": 0.26923743749999995,
       "curiosity": 0.22,
-      "memory": 0.1171000625
+      "memory": 0.1211386240625
     },
     {
       "id": "watcher-02",
-      "age": 3,
-      "attention": 0.26358000000000004,
-      "interest": 0.3324375,
+      "age": 4,
+      "attention": 0.24249360000000003,
+      "interest": 0.3274509375,
       "curiosity": 0.34,
-      "memory": 0.13798656250000002
+      "memory": 0.1428983265625
     },
     {
       "id": "watcher-03",
-      "age": 4,
-      "attention": 0.29946,
-      "interest": 0.2536375,
+      "age": 5,
+      "attention": 0.2755032,
+      "interest": 0.24983293750000002,
       "curiosity": 0.28,
-      "memory": 0.1068045625
+      "memory": 0.1105520565625
     },
     {
       "id": "watcher-04",
-      "age": 6,
-      "attention": 0.27094,
-      "interest": 0.3915375,
+      "age": 7,
+      "attention": 0.24926480000000004,
+      "interest": 0.38566443749999996,
       "curiosity": 0.42,
-      "memory": 0.17887306249999999
+      "memory": 0.18465802906249998
     },
     {
       "id": "watcher-05",
-      "age": 9,
-      "attention": 0.32752,
-      "interest": 0.3127375,
+      "age": 10,
+      "attention": 0.3013184,
+      "interest": 0.3080464375,
       "curiosity": 0.31,
-      "memory": 0.1576910625
+      "memory": 0.1623117590625
     }
   ]
 }

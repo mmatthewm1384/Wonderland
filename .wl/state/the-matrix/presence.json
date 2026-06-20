@@ -1,13 +1,13 @@
 {
   "suite": "THE∅MATRIX",
-  "updated_at": "20260620T071400Z",
+  "updated_at": "20260620T071554Z",
   "active_realm": "focus",
   "entities": {
     "watchers": 4,
     "ghost_fragments": 12,
-    "swarm_density": 96,
-    "matrix_energy": 107,
-    "wave_tension": 1.494962447691
+    "swarm_density": 94,
+    "matrix_energy": 106,
+    "wave_tension": 1.484114423978595
   },
   "modes": {
     "focus": "Watchers",
@@ -17,164 +17,164 @@
   },
   "watcher_state": {
     "population": 5,
-    "attention": 0.280968,
-    "interest": 0.3127375,
+    "attention": 0.25849056,
+    "interest": 0.3080464375,
     "false_positive_rate": 0.006
   },
   "cross_realm": {
-    "watchers_to_reactor": 0.292087325,
-    "reactor_to_swarm": 0.2395116065,
-    "swarm_to_waves": 0.17723858881,
-    "wave_turbulence": 1.1772385888099999
+    "watchers_to_reactor": 0.275835117125,
+    "reactor_to_swarm": 0.22618479604249997,
+    "swarm_to_waves": 0.16737674907144998,
+    "wave_turbulence": 1.16737674907145
   },
   "watcher_memory": {
-    "global_attention": 0.280968,
-    "global_interest": 0.3127375,
+    "global_attention": 0.25849056,
+    "global_interest": 0.3080464375,
     "encounters": 1
   },
   "watchers": [
     {
       "id": "watcher-01",
-      "age": 2,
-      "attention": 0.24333999999999997,
-      "interest": 0.27333749999999996,
+      "age": 3,
+      "attention": 0.22387279999999998,
+      "interest": 0.26923743749999995,
       "curiosity": 0.22,
-      "memory": 0.1171000625
+      "memory": 0.1211386240625
     },
     {
       "id": "watcher-02",
-      "age": 3,
-      "attention": 0.26358000000000004,
-      "interest": 0.3324375,
+      "age": 4,
+      "attention": 0.24249360000000003,
+      "interest": 0.3274509375,
       "curiosity": 0.34,
-      "memory": 0.13798656250000002
+      "memory": 0.1428983265625
     },
     {
       "id": "watcher-03",
-      "age": 4,
-      "attention": 0.29946,
-      "interest": 0.2536375,
+      "age": 5,
+      "attention": 0.2755032,
+      "interest": 0.24983293750000002,
       "curiosity": 0.28,
-      "memory": 0.1068045625
+      "memory": 0.1105520565625
     },
     {
       "id": "watcher-04",
-      "age": 6,
-      "attention": 0.27094,
-      "interest": 0.3915375,
+      "age": 7,
+      "attention": 0.24926480000000004,
+      "interest": 0.38566443749999996,
       "curiosity": 0.42,
-      "memory": 0.17887306249999999
+      "memory": 0.18465802906249998
     },
     {
       "id": "watcher-05",
-      "age": 9,
-      "attention": 0.32752,
-      "interest": 0.3127375,
+      "age": 10,
+      "attention": 0.3013184,
+      "interest": 0.3080464375,
       "curiosity": 0.31,
-      "memory": 0.1576910625
+      "memory": 0.1623117590625
     }
   ],
   "ghost_population": {
     "count": 12,
-    "visibility": 0.43364099999999994,
+    "visibility": 0.43096867761533336,
     "drift": 0.45749999999999996,
-    "curiosity": 0.39840280766666664
+    "curiosity": 0.397638567921282
   },
   "ghosts": [
     {
       "id": "ghost-01",
-      "age": 2,
-      "visibility": 0.333937,
+      "age": 3,
+      "visibility": 0.331889296874,
       "drift": 0.345,
-      "curiosity": 0.311896437,
+      "curiosity": 0.311292636985874,
       "phase": 0
     },
     {
       "id": "ghost-02",
-      "age": 3,
-      "visibility": 0.382625,
+      "age": 4,
+      "visibility": 0.38026765025000003,
       "drift": 0.39,
-      "curiosity": 0.351825125,
+      "curiosity": 0.35114991727525,
       "phase": 0
     },
     {
       "id": "ghost-03",
-      "age": 4,
-      "visibility": 0.431313,
+      "age": 5,
+      "visibility": 0.42864600362599997,
       "drift": 0.435,
-      "curiosity": 0.39175381299999995,
+      "curiosity": 0.391007197564626,
       "phase": 0
     },
     {
       "id": "ghost-04",
-      "age": 5,
-      "visibility": 0.48000100000000007,
+      "age": 6,
+      "visibility": 0.4770243570020001,
       "drift": 0.48,
-      "curiosity": 0.431682501,
+      "curiosity": 0.43086447785400195,
       "phase": 0
     },
     {
       "id": "ghost-05",
-      "age": 6,
-      "visibility": 0.528689,
+      "age": 7,
+      "visibility": 0.525402710378,
       "drift": 0.5249999999999999,
-      "curiosity": 0.47161118900000004,
+      "curiosity": 0.470721758143378,
       "phase": 1
     },
     {
       "id": "ghost-06",
-      "age": 7,
-      "visibility": 0.577377,
+      "age": 8,
+      "visibility": 0.573781063754,
       "drift": 0.5700000000000001,
-      "curiosity": 0.511539877,
+      "curiosity": 0.5105790384327541,
       "phase": 1
     },
     {
       "id": "ghost-07",
-      "age": 8,
-      "visibility": 0.383025,
+      "age": 9,
+      "visibility": 0.38106325105,
       "drift": 0.615,
-      "curiosity": 0.551225525,
+      "curiosity": 0.54995291167605,
       "phase": 1
     },
     {
       "id": "ghost-08",
-      "age": 9,
-      "visibility": 0.319969,
+      "age": 10,
+      "visibility": 0.317953252938,
       "drift": 0.6599999999999999,
-      "curiosity": 0.27200246899999997,
+      "curiosity": 0.27150441484593796,
       "phase": 1
     },
     {
       "id": "ghost-09",
-      "age": 10,
-      "visibility": 0.36865699999999996,
+      "age": 11,
+      "visibility": 0.36633160631399997,
       "drift": 0.3,
-      "curiosity": 0.311931157,
+      "curiosity": 0.31136169513531403,
       "phase": 1
     },
     {
       "id": "ghost-10",
-      "age": 11,
-      "visibility": 0.417345,
+      "age": 12,
+      "visibility": 0.41470995969,
       "drift": 0.345,
-      "curiosity": 0.351859845,
+      "curiosity": 0.35121897542469,
       "phase": 2
     },
     {
       "id": "ghost-11",
-      "age": 12,
-      "visibility": 0.46603300000000003,
+      "age": 13,
+      "visibility": 0.46308831306600007,
       "drift": 0.39,
-      "curiosity": 0.39178853299999994,
+      "curiosity": 0.39107625571406596,
       "phase": 2
     },
     {
       "id": "ghost-12",
-      "age": 13,
-      "visibility": 0.514721,
+      "age": 14,
+      "visibility": 0.511466666442,
       "drift": 0.435,
-      "curiosity": 0.431717221,
+      "curiosity": 0.430933536003442,
       "phase": 2
     }
   ]

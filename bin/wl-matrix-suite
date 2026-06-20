@@ -139,6 +139,10 @@ JSON
     "$0" atmosphere oracle
     ;;
 
+  tick)
+    "$ROOT/bin/wl-matrix-tick"
+    ;;
+
   ghost-show)
     "$ROOT/bin/wl-matrix-ghosts" show
     ;;

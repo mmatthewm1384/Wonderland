@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$HOME/Wonderland"
+
+"$ROOT/bin/wl-matrix-watchers" tick >/dev/null
+"$ROOT/bin/wl-matrix-ghosts" tick >/dev/null
+"$ROOT/bin/wl-matrix-influence" >/dev/null
+
+echo "PASS THE∅MATRIX ecosystem tick"
+"$ROOT/bin/wl-matrix-presence" summary
