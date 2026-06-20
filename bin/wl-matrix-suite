@@ -7,7 +7,7 @@ PID_FILE="$STATE_DIR/screensaver.pid"
 LOG_FILE="$STATE_DIR/screensaver.log"
 
 usage() {
-  echo "usage: wl-matrix-suite {status|doctor|bundle-doctor|report|recertify|focus|ambient|energy|emergence|build|open-built <focus|ambient|energy|emergence|all>|screensaver [seconds]|start [seconds]|stop|state|log}"
+  echo "usage: wl-matrix-suite {status|doctor|bundle-doctor|report|recertify|mode <realm> <mode>|focus|ambient|energy|emergence|build|open-built <focus|ambient|energy|emergence|all>|screensaver [seconds]|start [seconds]|stop|state|log}"
 }
 
 case "${1:-status}" in
@@ -93,6 +93,12 @@ JSON
     done
 
     echo "RESULT PASS"
+    ;;
+
+  mode)
+    realm="${2:?realm required}"
+    mode="${3:?mode required}"
+    "$ROOT/bin/wl-matrix-presence" set-mode "$realm" "$mode"
     ;;
 
   focus|spin-city)
