@@ -2,12 +2,47 @@ const canvas=document.getElementById("stage"),ctx=canvas.getContext("2d"),panel=
 let w=0,h=0,dpr=1,production=false;const colors=["#00E5FF","#7000FF","#00FF66"];
 const settings={speed:.24,density:76,glow:.86,fade:.08,growth:1.4};
 const presets={emergence:{speed:.22,density:76,glow:.86,fade:.08,growth:1.4},swarm:{speed:.42,density:130,glow:1.0,fade:.12,growth:1.0},oracle:{speed:.10,density:52,glow:.7,fade:.045,growth:2.1},wonderland:{speed:.24,density:96,glow:.9,fade:.07,growth:1.75}};
+
+async function loadPresenceMode() {
+  try {
+    const response = await fetch("file:///Users/wonderland/Wonderland/.wl/state/the-matrix/presence.json", { cache: "no-store" });
+    const presence = await response.json();
+    const mode = presence?.modes?.["emergence"];
+
+    if (mode) {
+      const map = {
+        "Drift": "hypnotic",
+        "Watchers": "haunted",
+        "Orbit Storm": "storm",
+        "Tide": "ambient",
+        "Echo": "haunted",
+        "Tempest": "storm",
+        "Forge": "energy",
+        "Collapse": "collapse",
+        "Reactor": "storm",
+        "Seed": "emergence",
+        "Swarm": "swarm",
+        "Oracle": "oracle",
+        "Wonderland": "wonderland"
+      };
+
+      if (map[mode] && presets[map[mode]]) {
+        applyPreset(map[mode]);
+        if (typeof presetName !== "undefined") presetName.textContent = "MODE: " + mode.toUpperCase();
+      }
+    }
+  } catch {}
+}
+
 function sync(){for(const k of Object.keys(settings)){let i=document.getElementById(k),v=document.getElementById(k+"Val");if(i)i.value=settings[k];if(v)v.textContent=settings[k]}}
 function applyPreset(n){Object.assign(settings,presets[n]);presetName.textContent="MODE: "+n;sync()}
 for(const k of Object.keys(settings)){document.getElementById(k).addEventListener("input",e=>{settings[k]=Number(e.target.value);document.getElementById(k+"Val").textContent=e.target.value;presetName.textContent="MODE: custom"})}
 document.querySelectorAll("[data-preset]").forEach(b=>b.onclick=()=>applyPreset(b.dataset.preset));
-window.onkeydown=e=>{const k=e.key.toLowerCase();if(k==="h")panel.classList.toggle("hidden");if(k==="c")ctx.clearRect(0,0,w,h);if(k==="f")document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{});if(k==="p"){production=!production;applyPreset("wonderland");panel.classList.toggle("hidden",production);if(production&&!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{})}if(k==="1")applyPreset("emergence");if(k==="2")applyPreset("swarm");if(k==="3")applyPreset("oracle");if(k==="4")applyPreset("wonderland")};
+window.onkeydown=e=>{const k=e.key.toLowerCase();if(k==="h")panel.classList.toggle("hidden");if(k==="c")ctx.clearRect(0,0,w,h);if(k==="f")document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{});if(k==="p"){production=!production;applyPreset("wonderland");
+loadPresenceMode();panel.classList.toggle("hidden",production);if(production&&!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{})}if(k==="1")applyPreset("emergence");
+loadPresenceMode();if(k==="2")applyPreset("swarm");if(k==="3")applyPreset("oracle");if(k==="4")applyPreset("wonderland")};
 function resize(){dpr=devicePixelRatio||1;w=innerWidth;h=innerHeight;canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener("resize",resize);resize();applyPreset("emergence");
+loadPresenceMode();
 function frame(ms){const raw=ms*.001,t=raw*settings.speed,cx=w/2,cy=h/2,max=Math.min(w,h)*.55;ctx.globalCompositeOperation="source-over";ctx.fillStyle=`rgba(5,7,10,${settings.fade})`;ctx.fillRect(0,0,w,h);ctx.globalCompositeOperation="lighter";
 for(let i=0;i<settings.density;i++){const n=i/settings.density;const life=(raw*.08+i*.013)%1;const grow=Math.sin(life*Math.PI);const branch=3+(i%5);const baseA=i*.77+Math.sin(t+i)*.4;const baseR=max*(.1+n*.75)*grow*settings.growth;const color=colors[i%3];let px=cx+Math.cos(baseA)*baseR,py=cy+Math.sin(baseA)*baseR*.74;ctx.strokeStyle=color;ctx.globalAlpha=.12*settings.glow*grow;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(cx,cy);for(let b=0;b<branch;b++){const a=baseA+b*.38+Math.sin(t*2+i+b)*.2;const r=baseR*(.45+b/branch*.65);const x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r*.74;ctx.lineTo(x,y);px=x;py=y}ctx.stroke();ctx.fillStyle=color;ctx.globalAlpha=.55*settings.glow*grow;ctx.beginPath();ctx.arc(px,py,1.5+(i%4),0,Math.PI*2);ctx.fill()}
 for(let i=0;i<4;i++){const a=raw*(i%2?.05:-.04)+i*1.57,r=max*(.22+i*.08);ctx.strokeStyle=colors[i%3];ctx.globalAlpha=.16*settings.glow;ctx.beginPath();ctx.arc(cx+Math.cos(a)*r,cy+Math.sin(a)*r*.74,9+i*2,0,Math.PI*2);ctx.stroke()}

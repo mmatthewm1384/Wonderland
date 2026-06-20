@@ -141,11 +141,13 @@ window.addEventListener("keydown", event => {
   }
 
   if (key === "1") applyPreset("hypnotic");
+loadPresenceMode();
   if (key === "2") applyPreset("haunted");
   if (key === "3") applyPreset("storm");
   if (key === "4") applyPreset("singularity");
   if (key === "5") applyPreset("abyss");
   if (key === "6") applyPreset("wonderland");
+loadPresenceMode();
   if (key === "7") applyPreset("oracle");
 
   if (key === "s") {
@@ -161,6 +163,7 @@ window.addEventListener("keydown", event => {
 
     if (productionMode) {
       applyPreset("wonderland");
+loadPresenceMode();
       screensaver = true;
       panel.classList.add("hidden");
 
@@ -190,6 +193,7 @@ loadSettings();
 
 if (!localStorage.getItem("wl-spin-city-settings")) {
   applyPreset("wonderland");
+loadPresenceMode();
 }
 
 function drawHook(cx, cy, angle, radius, curl, color, alpha, clockwise, thickness, t, seed) {

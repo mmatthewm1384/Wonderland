@@ -1,0 +1,26 @@
+{
+  "id": "THE∅MATRIX",
+  "status": "active",
+  "screensaver": {
+    "running": false,
+    "pid": null
+  },
+  "presence": {
+    "active_realm": "focus",
+    "file": ".wl/state/the-matrix/presence.json"
+  },
+  "commands": {
+    "doctor": "wl-matrix-suite doctor",
+    "bundle_doctor": "wl-matrix-suite bundle-doctor",
+    "build": "wl-matrix-suite build",
+    "start": "wl-matrix-suite start 300",
+    "stop": "wl-matrix-suite stop"
+  },
+  "apps": {
+    "focus": "wl-spin-city",
+    "ambient": "wl-agitate",
+    "energy": "wl-matrix",
+    "emergence": "matrix-fluderation"
+  },
+  "modes": "vault/09-Governance/registry/the-matrix-modes.json"
+}
