@@ -7,7 +7,7 @@ PID_FILE="$STATE_DIR/screensaver.pid"
 LOG_FILE="$STATE_DIR/screensaver.log"
 
 usage() {
-  echo "usage: wl-matrix-suite {status|doctor|bundle-doctor|report|recertify|mode <realm> <mode>|drift|watchers|orbit-storm|tide|echo|tempest|forge|collapse|reactor|seed|swarm|oracle|wonderland|focus|ambient|energy|emergence|build|open-built <focus|ambient|energy|emergence|all>|screensaver [seconds]|start [seconds]|stop|state|log}"
+  echo "usage: wl-matrix-suite {status|doctor|bundle-doctor|report|recertify|mode <realm> <mode>|atmosphere <calm|haunted|storm|oracle|wonderland>|drift|watchers|orbit-storm|tide|echo|tempest|forge|collapse|reactor|seed|swarm|oracle|wonderland|focus|ambient|energy|emergence|build|open-built <focus|ambient|energy|emergence|all>|screensaver [seconds]|start [seconds]|stop|state|log}"
 }
 
 case "${1:-status}" in
@@ -116,6 +116,54 @@ JSON
         exit 2
         ;;
     esac
+    ;;
+
+  atmosphere)
+    atmosphere="${2:?atmosphere required}"
+
+    case "$atmosphere" in
+      calm)
+        "$0" mode focus Drift
+        "$0" mode ambient Tide
+        "$0" mode energy Forge
+        "$0" mode emergence Seed
+        ;;
+
+      haunted)
+        "$0" mode focus Watchers
+        "$0" mode ambient Echo
+        "$0" mode energy Collapse
+        "$0" mode emergence Oracle
+        ;;
+
+      storm)
+        "$0" mode focus "Orbit Storm"
+        "$0" mode ambient Tempest
+        "$0" mode energy Reactor
+        "$0" mode emergence Swarm
+        ;;
+
+      oracle)
+        "$0" mode focus Watchers
+        "$0" mode ambient Echo
+        "$0" mode energy Forge
+        "$0" mode emergence Oracle
+        ;;
+
+      wonderland)
+        "$0" mode focus Wonderland
+        "$0" mode ambient Wonderland
+        "$0" mode energy Wonderland
+        "$0" mode emergence Wonderland
+        ;;
+
+      *)
+        echo "usage: wl-matrix-suite atmosphere {calm|haunted|storm|oracle|wonderland}"
+        exit 2
+        ;;
+    esac
+
+    "$ROOT/bin/wl-matrix-presence" summary
     ;;
 
   drift)
