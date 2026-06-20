@@ -170,6 +170,18 @@ JSON
     "$0" state
     ;;
 
+  ecosystem-report)
+    "$0" report
+    echo
+    "$ROOT/bin/wl-matrix-presence" summary
+    echo
+    "$ROOT/bin/wl-matrix-watchers" summary
+    echo
+    "$ROOT/bin/wl-matrix-ghosts" summary
+    echo
+    "$ROOT/bin/wl-matrix-auto-tick" state
+    ;;
+
   ecosystem-state)
     "$0" state
     ;;
