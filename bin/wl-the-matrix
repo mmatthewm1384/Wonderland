@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT="$HOME/Wonderland"
 REG="$ROOT/vault/09-Governance/registry/the-matrix.registry.json"
 APP_REG="$ROOT/vault/09-Governance/registry/the-matrix-apps.json"
+PRESENCE="$ROOT/.wl/state/the-matrix/presence.json"
 
 apps=(
   "$ROOT/apps/tauri/wl-spin-city"
@@ -29,11 +30,15 @@ case "${1:-doctor}" in
   doctor)
     test -f "$REG" || { echo "FAIL registry"; exit 1; }
     test -f "$APP_REG" || { echo "FAIL app-registry"; exit 1; }
+    test -f "$PRESENCE" || { echo "FAIL presence"; exit 1; }
 
     jq -e '.id == "THE∅MATRIX"' "$REG" >/dev/null || { echo "FAIL registry-id"; exit 1; }
     jq -e '.suite == "THE∅MATRIX" and .status == "certified"' "$APP_REG" >/dev/null || { echo "FAIL app-registry-status"; exit 1; }
 
+    jq -e '.suite == "THE∅MATRIX" and .active_realm and .modes.focus and .modes.ambient and .modes.energy and .modes.emergence' "$PRESENCE" >/dev/null || { echo "FAIL presence-schema"; exit 1; }
+
     echo "PASS app-registry"
+    echo "PASS presence"
 
     for app in "${apps[@]}"; do
       app_doctor "$app"
