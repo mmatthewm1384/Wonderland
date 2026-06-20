@@ -12,7 +12,9 @@
         "title": "Matrix Fluderation",
         "width": 1180,
         "height": 780,
-        "resizable": true
+        "resizable": true,
+        "fullscreen": false,
+        "decorations": true
       }
     ]
   },

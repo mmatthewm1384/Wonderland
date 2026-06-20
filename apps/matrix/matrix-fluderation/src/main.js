@@ -1,89 +1,14 @@
-import "./style.css";
-
-const app = document.querySelector("#app");
-
-app.innerHTML = `
-  <section class="shell">
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">Wonderland Matrix</p>
-        <h1>Fluderation</h1>
-      </div>
-      <div id="status" class="status active">LOCAL VISUAL</div>
-    </header>
-
-    <section class="panel">
-      <label>Watch Path</label>
-      <input id="watchPath" value="$HOME/Wonderland" />
-      <div class="actions">
-        <button id="start">Start Visual Stream</button>
-        <button id="test">Add Test Event</button>
-        <button id="clear">Clear</button>
-      </div>
-    </section>
-
-    <section class="grid">
-      <article class="card">
-        <span class="metric-label">Events</span>
-        <strong id="eventCount">0</strong>
-      </article>
-      <article class="card">
-        <span class="metric-label">Mode</span>
-        <strong>Local</strong>
-      </article>
-      <article class="card">
-        <span class="metric-label">Target</span>
-        <strong>Tauri</strong>
-      </article>
-    </section>
-
-    <section class="events">
-      <h2>Event Stream</h2>
-      <ol id="events"></ol>
-    </section>
-  </section>
-`;
-
-const events = document.querySelector("#events");
-const eventCount = document.querySelector("#eventCount");
-const status = document.querySelector("#status");
-
-let count = 0;
-let timer = null;
-
-function addEvent(kind, path) {
-  count += 1;
-  eventCount.textContent = String(count);
-
-  const item = document.createElement("li");
-  item.innerHTML = `
-    <span class="time">${new Date().toLocaleTimeString()}</span>
-    <span class="kind">${kind}</span>
-    <span class="path">${path}</span>
-  `;
-
-  events.prepend(item);
-}
-
-document.querySelector("#start").addEventListener("click", () => {
-  status.textContent = "ACTIVE";
-  status.className = "status active";
-
-  if (timer) clearInterval(timer);
-
-  timer = setInterval(() => {
-    addEvent("VISUAL_HEARTBEAT", document.querySelector("#watchPath").value);
-  }, 2500);
-});
-
-document.querySelector("#test").addEventListener("click", () => {
-  addEvent("MATRIX_FLUDERATION_TEST", document.querySelector("#watchPath").value + "/.fluderation-visual-test");
-});
-
-document.querySelector("#clear").addEventListener("click", () => {
-  count = 0;
-  eventCount.textContent = "0";
-  events.innerHTML = "";
-});
-
-addEvent("BOOT", "Matrix Fluderation local visual mode loaded");
+const canvas=document.getElementById("stage"),ctx=canvas.getContext("2d"),panel=document.getElementById("panel"),presetName=document.getElementById("presetName");
+let w=0,h=0,dpr=1,production=false;const colors=["#00E5FF","#7000FF","#00FF66"];
+const settings={speed:.24,density:76,glow:.86,fade:.08,growth:1.4};
+const presets={emergence:{speed:.22,density:76,glow:.86,fade:.08,growth:1.4},swarm:{speed:.42,density:130,glow:1.0,fade:.12,growth:1.0},oracle:{speed:.10,density:52,glow:.7,fade:.045,growth:2.1},wonderland:{speed:.24,density:96,glow:.9,fade:.07,growth:1.75}};
+function sync(){for(const k of Object.keys(settings)){let i=document.getElementById(k),v=document.getElementById(k+"Val");if(i)i.value=settings[k];if(v)v.textContent=settings[k]}}
+function applyPreset(n){Object.assign(settings,presets[n]);presetName.textContent="preset: "+n;sync()}
+for(const k of Object.keys(settings)){document.getElementById(k).addEventListener("input",e=>{settings[k]=Number(e.target.value);document.getElementById(k+"Val").textContent=e.target.value;presetName.textContent="preset: custom"})}
+document.querySelectorAll("[data-preset]").forEach(b=>b.onclick=()=>applyPreset(b.dataset.preset));
+window.onkeydown=e=>{const k=e.key.toLowerCase();if(k==="h")panel.classList.toggle("hidden");if(k==="c")ctx.clearRect(0,0,w,h);if(k==="f")document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{});if(k==="p"){production=!production;applyPreset("wonderland");panel.classList.toggle("hidden",production);if(production&&!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{})}if(k==="1")applyPreset("emergence");if(k==="2")applyPreset("swarm");if(k==="3")applyPreset("oracle");if(k==="4")applyPreset("wonderland")};
+function resize(){dpr=devicePixelRatio||1;w=innerWidth;h=innerHeight;canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener("resize",resize);resize();applyPreset("emergence");
+function frame(ms){const raw=ms*.001,t=raw*settings.speed,cx=w/2,cy=h/2,max=Math.min(w,h)*.55;ctx.globalCompositeOperation="source-over";ctx.fillStyle=`rgba(5,7,10,${settings.fade})`;ctx.fillRect(0,0,w,h);ctx.globalCompositeOperation="lighter";
+for(let i=0;i<settings.density;i++){const n=i/settings.density;const life=(raw*.08+i*.013)%1;const grow=Math.sin(life*Math.PI);const branch=3+(i%5);const baseA=i*.77+Math.sin(t+i)*.4;const baseR=max*(.1+n*.75)*grow*settings.growth;const color=colors[i%3];let px=cx+Math.cos(baseA)*baseR,py=cy+Math.sin(baseA)*baseR*.74;ctx.strokeStyle=color;ctx.globalAlpha=.12*settings.glow*grow;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(cx,cy);for(let b=0;b<branch;b++){const a=baseA+b*.38+Math.sin(t*2+i+b)*.2;const r=baseR*(.45+b/branch*.65);const x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r*.74;ctx.lineTo(x,y);px=x;py=y}ctx.stroke();ctx.fillStyle=color;ctx.globalAlpha=.55*settings.glow*grow;ctx.beginPath();ctx.arc(px,py,1.5+(i%4),0,Math.PI*2);ctx.fill()}
+for(let i=0;i<4;i++){const a=raw*(i%2?.05:-.04)+i*1.57,r=max*(.22+i*.08);ctx.strokeStyle=colors[i%3];ctx.globalAlpha=.16*settings.glow;ctx.beginPath();ctx.arc(cx+Math.cos(a)*r,cy+Math.sin(a)*r*.74,9+i*2,0,Math.PI*2);ctx.stroke()}
+requestAnimationFrame(frame)}requestAnimationFrame(frame);

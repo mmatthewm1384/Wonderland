@@ -1,0 +1,29 @@
+{
+  "suite": "THE∅MATRIX",
+  "preset_names": {
+    "wl-spin-city": {
+      "1": "Drift",
+      "2": "Watchers",
+      "3": "Orbit Storm",
+      "4": "Wonderland"
+    },
+    "wl-agitate": {
+      "1": "Tide",
+      "2": "Echo",
+      "3": "Tempest",
+      "4": "Wonderland"
+    },
+    "wl-matrix": {
+      "1": "Forge",
+      "2": "Collapse",
+      "3": "Reactor",
+      "4": "Wonderland"
+    },
+    "matrix-fluderation": {
+      "1": "Seed",
+      "2": "Swarm",
+      "3": "Oracle",
+      "4": "Wonderland"
+    }
+  }
+}
