@@ -134,6 +134,29 @@ JSON
     "$0" atmosphere oracle
     ;;
 
+  watcher-show)
+    "$ROOT/bin/wl-matrix-presence" watcher show
+    ;;
+
+  watcher-reset)
+    "$ROOT/bin/wl-matrix-presence" watcher reset
+    ;;
+
+  watcher-attention)
+    value="${2:?attention required}"
+    "$ROOT/bin/wl-matrix-presence" watcher set attention "$value"
+    ;;
+
+  watcher-interest)
+    value="${2:?interest required}"
+    "$ROOT/bin/wl-matrix-presence" watcher set interest "$value"
+    ;;
+
+  watcher-population)
+    value="${2:?population required}"
+    "$ROOT/bin/wl-matrix-presence" watcher set population "$value"
+    ;;
+
   atmosphere)
     atmosphere="${2:?atmosphere required}"
 
