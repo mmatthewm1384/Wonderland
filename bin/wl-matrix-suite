@@ -33,6 +33,11 @@ case "${1:-status}" in
       pid="$(cat "$PID_FILE")"
     fi
 
+    if [[ -f "$ROOT/.wl/state/the-matrix/auto-tick.pid" ]] && kill -0 "$(cat "$ROOT/.wl/state/the-matrix/auto-tick.pid")" >/dev/null 2>&1; then
+      auto_tick_running="true"
+      auto_tick_pid="$(cat "$ROOT/.wl/state/the-matrix/auto-tick.pid")"
+    fi
+
     if [[ -f "$ROOT/.wl/state/the-matrix/presence.json" ]]; then
       active_realm="$(jq -r .active_realm "$ROOT/.wl/state/the-matrix/presence.json")"
       watcher_state="$(jq -c .watcher_state "$ROOT/.wl/state/the-matrix/presence.json")"
@@ -46,6 +51,10 @@ case "${1:-status}" in
   "screensaver": {
     "running": $running,
     "pid": $pid
+  },
+  "auto_tick": {
+    "running": $auto_tick_running,
+    "pid": $auto_tick_pid
   },
   "presence": {
     "active_realm": "$active_realm",
@@ -473,6 +482,10 @@ JSON
       echo "screensaver_status=stopped"
     fi
     echo "log_file=$LOG_FILE"
+
+    if [[ -x "$ROOT/bin/wl-matrix-auto-tick" ]]; then
+      "$ROOT/bin/wl-matrix-auto-tick" state 2>/dev/null || true
+    fi
 
     echo
     "$ROOT/bin/wl-matrix-presence" summary 2>/dev/null || true
