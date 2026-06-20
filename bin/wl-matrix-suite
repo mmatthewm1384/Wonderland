@@ -87,8 +87,14 @@ JSON
   recertify)
     "$0" doctor
     "$0" bundle-doctor
+
+    test -x "$ROOT/bin/wl-matrix-tick" || { echo "FAIL tick"; exit 1; }
+    test -x "$ROOT/bin/wl-matrix-auto-tick" || { echo "FAIL auto-tick"; exit 1; }
+
     "$0" report >/dev/null
 
+    echo "PASS tick"
+    echo "PASS auto-tick"
     echo "PASS THE∅MATRIX recertified"
     echo "RESULT PASS"
     ;;
