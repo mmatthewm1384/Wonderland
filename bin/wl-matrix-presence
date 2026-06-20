@@ -10,6 +10,17 @@ case "${1:-show}" in
     jq . "$PRESENCE"
     ;;
 
+  summary)
+    test -f "$PRESENCE" || { echo "FAIL missing presence"; exit 1; }
+
+    echo "THE∅MATRIX Presence"
+    echo "active_realm=$(jq -r .active_realm "$PRESENCE")"
+    echo "focus=$(jq -r .modes.focus "$PRESENCE")"
+    echo "ambient=$(jq -r .modes.ambient "$PRESENCE")"
+    echo "energy=$(jq -r .modes.energy "$PRESENCE")"
+    echo "emergence=$(jq -r .modes.emergence "$PRESENCE")"
+    ;;
+
   reset)
     mkdir -p "$(dirname "$PRESENCE")"
     cat > "$PRESENCE" <<JSON
@@ -60,7 +71,7 @@ JSON
     ;;
 
   *)
-    echo "usage: wl-matrix-presence {show|status|reset|set-realm <name>|set-mode <realm> <mode>|mode <realm>}"
+    echo "usage: wl-matrix-presence {show|status|summary|reset|set-realm <name>|set-mode <realm> <mode>|mode <realm>}"
     exit 2
     ;;
 esac
