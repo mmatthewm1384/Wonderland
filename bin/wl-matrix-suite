@@ -305,11 +305,8 @@ JSON
     fi
     echo "log_file=$LOG_FILE"
 
-    if [[ -f "$ROOT/.wl/state/the-matrix/presence.json" ]]; then
-      echo "active_realm=$(jq -r .active_realm "$ROOT/.wl/state/the-matrix/presence.json")"
-    else
-      echo "active_realm=unknown"
-    fi
+    echo
+    "$ROOT/bin/wl-matrix-presence" summary 2>/dev/null || true
     ;;
 
   log)
