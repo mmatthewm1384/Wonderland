@@ -50,7 +50,8 @@ case "${1:-status}" in
     "ambient": "wl-agitate",
     "energy": "wl-matrix",
     "emergence": "matrix-fluderation"
-  }
+  },
+  "modes": "vault/09-Governance/registry/the-matrix-modes.json"
 }
 JSON
 
@@ -70,10 +71,10 @@ JSON
 
   bundle-doctor)
     bundles=(
-      "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos/Spin City Wave.app"
-      "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos/Agitate Waves.app"
-      "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos/Matrix Atom Destroyer.app"
-      "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos/Matrix Fluderation.app"
+      "$(find "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+      "$(find "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+      "$(find "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+      "$(find "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
     )
 
     for bundle in "${bundles[@]}"; do
@@ -112,22 +113,22 @@ JSON
 
     case "$target" in
       focus)
-        open "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos/Spin City Wave.app"
+        open "$(find "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         ;;
       ambient)
-        open "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos/Agitate Waves.app"
+        open "$(find "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         ;;
       energy)
-        open "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos/Matrix Atom Destroyer.app"
+        open "$(find "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         ;;
       emergence)
-        open "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos/Matrix Fluderation.app"
+        open "$(find "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         ;;
       all)
-        open "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos/Spin City Wave.app"
-        open "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos/Agitate Waves.app"
-        open "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos/Matrix Fluderation.app"
-        open "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos/Matrix Atom Destroyer.app"
+        open "$(find "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+        open "$(find "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+        open "$(find "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+        open "$(find "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         ;;
       *)
         echo "usage: wl-matrix-suite open-built {focus|ambient|energy|emergence|all}"
@@ -156,10 +157,10 @@ JSON
     echo "$$" > "$PID_FILE"
 
     apps=(
-      "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos/Spin City Wave.app"
-      "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos/Agitate Waves.app"
-      "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos/Matrix Fluderation.app"
-      "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos/Matrix Atom Destroyer.app"
+      "$(find "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+      "$(find "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+      "$(find "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+      "$(find "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
     )
 
     while true; do

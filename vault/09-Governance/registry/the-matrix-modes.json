@@ -1,0 +1,10 @@
+{
+  "suite": "THE∅MATRIX",
+  "mode_engine": "certified",
+  "apps": {
+    "wl-spin-city": ["Drift", "Watchers", "Orbit Storm", "Wonderland"],
+    "wl-agitate": ["Tide", "Echo", "Tempest", "Wonderland"],
+    "wl-matrix": ["Forge", "Collapse", "Reactor", "Wonderland"],
+    "matrix-fluderation": ["Seed", "Swarm", "Oracle", "Wonderland"]
+  }
+}

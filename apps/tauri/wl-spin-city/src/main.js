@@ -84,7 +84,7 @@ function loadSettings() {
     if (!raw) return;
     const saved = JSON.parse(raw);
     Object.assign(settings, saved.settings || {});
-    presetName.textContent = `preset: ${saved.name || "custom"}`;
+    presetName.textContent = `MODE: ${saved.name || "custom"}`;
     syncControls();
   } catch {}
 }
@@ -93,7 +93,7 @@ function applyPreset(name) {
   const preset = presets[name];
   if (!preset) return;
   Object.assign(settings, preset);
-  presetName.textContent = `preset: ${name}`;
+  presetName.textContent = `MODE: ${name}`;
   syncControls();
   saveSettings(name);
 }
@@ -107,7 +107,7 @@ function randomize() {
   settings.curl = +(0.7 + Math.random() * 1.4).toFixed(2);
   settings.depth = +(0.7 + Math.random() * 0.9).toFixed(2);
   settings.pull = +(0.7 + Math.random() * 1.4).toFixed(2);
-  presetName.textContent = "preset: random";
+  presetName.textContent = "MODE: random";
   syncControls();
   saveSettings("random");
 }
@@ -118,7 +118,7 @@ for (const key of Object.keys(settings)) {
   input.addEventListener("input", () => {
     settings[key] = Number(input.value);
     val.textContent = input.value;
-    presetName.textContent = "preset: custom";
+    presetName.textContent = "MODE: custom";
     saveSettings("custom");
   });
 }

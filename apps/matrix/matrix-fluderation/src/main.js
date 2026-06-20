@@ -3,8 +3,8 @@ let w=0,h=0,dpr=1,production=false;const colors=["#00E5FF","#7000FF","#00FF66"];
 const settings={speed:.24,density:76,glow:.86,fade:.08,growth:1.4};
 const presets={emergence:{speed:.22,density:76,glow:.86,fade:.08,growth:1.4},swarm:{speed:.42,density:130,glow:1.0,fade:.12,growth:1.0},oracle:{speed:.10,density:52,glow:.7,fade:.045,growth:2.1},wonderland:{speed:.24,density:96,glow:.9,fade:.07,growth:1.75}};
 function sync(){for(const k of Object.keys(settings)){let i=document.getElementById(k),v=document.getElementById(k+"Val");if(i)i.value=settings[k];if(v)v.textContent=settings[k]}}
-function applyPreset(n){Object.assign(settings,presets[n]);presetName.textContent="preset: "+n;sync()}
-for(const k of Object.keys(settings)){document.getElementById(k).addEventListener("input",e=>{settings[k]=Number(e.target.value);document.getElementById(k+"Val").textContent=e.target.value;presetName.textContent="preset: custom"})}
+function applyPreset(n){Object.assign(settings,presets[n]);presetName.textContent="MODE: "+n;sync()}
+for(const k of Object.keys(settings)){document.getElementById(k).addEventListener("input",e=>{settings[k]=Number(e.target.value);document.getElementById(k+"Val").textContent=e.target.value;presetName.textContent="MODE: custom"})}
 document.querySelectorAll("[data-preset]").forEach(b=>b.onclick=()=>applyPreset(b.dataset.preset));
 window.onkeydown=e=>{const k=e.key.toLowerCase();if(k==="h")panel.classList.toggle("hidden");if(k==="c")ctx.clearRect(0,0,w,h);if(k==="f")document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{});if(k==="p"){production=!production;applyPreset("wonderland");panel.classList.toggle("hidden",production);if(production&&!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{})}if(k==="1")applyPreset("emergence");if(k==="2")applyPreset("swarm");if(k==="3")applyPreset("oracle");if(k==="4")applyPreset("wonderland")};
 function resize(){dpr=devicePixelRatio||1;w=innerWidth;h=innerHeight;canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener("resize",resize);resize();applyPreset("emergence");

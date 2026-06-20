@@ -17,5 +17,6 @@
     "ambient": "wl-agitate",
     "energy": "wl-matrix",
     "emergence": "matrix-fluderation"
-  }
+  },
+  "modes": "vault/09-Governance/registry/the-matrix-modes.json"
 }
