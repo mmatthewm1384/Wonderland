@@ -117,42 +117,38 @@ JSON
 
     case "$target" in
       focus)
+        "$ROOT/bin/wl-matrix-presence" set-realm focus
         open "$(find "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         ;;
+
       ambient)
+        "$ROOT/bin/wl-matrix-presence" set-realm ambient
         open "$(find "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         ;;
+
       energy)
+        "$ROOT/bin/wl-matrix-presence" set-realm energy
         open "$(find "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         ;;
+
       emergence)
+        "$ROOT/bin/wl-matrix-presence" set-realm emergence
         open "$(find "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         ;;
+
       all)
+        "$ROOT/bin/wl-matrix-presence" set-realm all
         open "$(find "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         open "$(find "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
-        open "$(find "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         open "$(find "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+        open "$(find "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         ;;
+
       *)
         echo "usage: wl-matrix-suite open-built {focus|ambient|energy|emergence|all}"
         exit 2
         ;;
     esac
-    ;;
-
-  start)
-    mkdir -p "$STATE_DIR"
-    INTERVAL="${2:-300}"
-
-    if [[ -f "$PID_FILE" ]] && kill -0 "$(cat "$PID_FILE")" >/dev/null 2>&1; then
-      echo "PASS screensaver already running pid=$(cat "$PID_FILE")"
-      exit 0
-    fi
-
-    nohup "$0" screensaver "$INTERVAL" >> "$LOG_FILE" 2>&1 &
-    echo "$!" > "$PID_FILE"
-    echo "PASS started THE∅MATRIX screensaver pid=$!"
     ;;
 
   screensaver)
