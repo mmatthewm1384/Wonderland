@@ -27,6 +27,75 @@ let dpr = 1;
 
 const colors = ["#00E5FF", "#7000FF", "#00FF66"];
 
+const ghostRuntime = {
+  visibility: 0.25,
+  drift: 0.4,
+  curiosity: 0.3,
+  count: 12,
+  lastLoad: 0
+};
+
+async function loadGhostPresence(rawT) {
+  if (rawT - ghostRuntime.lastLoad < 4) return;
+  ghostRuntime.lastLoad = rawT;
+
+  try {
+    const response = await fetch("file:///Users/wonderland/Wonderland/.wl/state/the-matrix/presence.json", { cache: "no-store" });
+    const presence = await response.json();
+    const gp = presence?.ghost_population;
+
+    if (gp) {
+      ghostRuntime.visibility = Number(gp.visibility ?? ghostRuntime.visibility);
+      ghostRuntime.drift = Number(gp.drift ?? ghostRuntime.drift);
+      ghostRuntime.curiosity = Number(gp.curiosity ?? ghostRuntime.curiosity);
+      ghostRuntime.count = Number(gp.count ?? ghostRuntime.count);
+    }
+  } catch {}
+}
+
+function drawManifestGhosts(cx, cy, maxR, rawT) {
+  const count = Math.max(4, Math.min(36, Math.floor(ghostRuntime.count)));
+  const visibility = Math.max(0, Math.min(1, ghostRuntime.visibility));
+  const drift = ghostRuntime.drift;
+  const curiosity = ghostRuntime.curiosity;
+
+  for (let i = 0; i < count; i++) {
+    const color = colors[(i + 2) % 3];
+    const phase = rawT * (0.035 + drift * 0.04) + i * 0.73;
+    const radius = maxR * (0.18 + ((i * 37) % 100) / 140);
+    const wobble = Math.sin(rawT * 0.11 + i) * 18 * drift;
+
+    const x = cx + Math.cos(phase) * (radius + wobble);
+    const y = cy + Math.sin(phase) * (radius + wobble) * 0.74;
+
+    const alpha = visibility * (0.06 + curiosity * 0.08) * settings.glow;
+    const arcRadius = 18 + ((i * 11) % 34) + curiosity * 18;
+
+    ctx.strokeStyle = color;
+    ctx.globalAlpha = alpha;
+    ctx.lineWidth = 1.1;
+
+    ctx.beginPath();
+    ctx.arc(
+      x,
+      y,
+      arcRadius,
+      phase,
+      phase + Math.PI * (0.45 + visibility * 0.55)
+    );
+    ctx.stroke();
+
+    ctx.globalAlpha = alpha * 0.72;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(
+      x + Math.cos(phase + Math.PI * 0.5) * arcRadius * 1.8,
+      y + Math.sin(phase + Math.PI * 0.5) * arcRadius * 1.1
+    );
+    ctx.stroke();
+  }
+}
+
 const watcherMind = {
   attention: 0,
   interest: 0,
@@ -424,6 +493,8 @@ function frame(ms) {
   const rawT = ms * 0.001;
   const t = rawT * settings.speed;
 
+  loadGhostPresence(rawT);
+
   const watcherMultiplier = currentWatcherMultiplier();
   const cursorRecent = cursor.active && rawT - cursor.lastMove < 2.8;
   const falsePositivePulse = Math.sin(rawT * 0.071) > 0.997 ? 1 : 0;
@@ -461,6 +532,7 @@ function frame(ms) {
   ctx.globalCompositeOperation = "lighter";
 
   drawGhostFragments(cx, cy, maxR, rawT);
+  drawManifestGhosts(cx, cy, maxR, rawT);
   drawWatchers(cx, cy, maxR, rawT);
 
   const innerCount = Math.floor(settings.hooks * 0.36);
