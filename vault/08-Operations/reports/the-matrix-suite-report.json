@@ -6,7 +6,7 @@
     "pid": null
   },
   "presence": {
-    "active_realm": "unknown",
+    "active_realm": "all",
     "file": ".wl/state/the-matrix/presence.json"
   },
   "commands": {

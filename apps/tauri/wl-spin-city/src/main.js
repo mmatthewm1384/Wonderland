@@ -27,6 +27,41 @@ let dpr = 1;
 
 const colors = ["#00E5FF", "#7000FF", "#00FF66"];
 
+const watcherMind = {
+  attention: 0,
+  interest: 0,
+  lastWrite: 0,
+  falsePositive: 0
+};
+
+const watcherModeMultipliers = {
+  Drift: 0.2,
+  Watchers: 1.0,
+  "Orbit Storm": 0.6,
+  Oracle: 1.4,
+  Wonderland: 0.8
+};
+
+function currentWatcherMultiplier() {
+  const text = typeof presetName !== "undefined" ? presetName.textContent : "";
+  if (text.includes("WATCHERS")) return watcherModeMultipliers.Watchers;
+  if (text.includes("DRIFT")) return watcherModeMultipliers.Drift;
+  if (text.includes("ORBIT STORM")) return watcherModeMultipliers["Orbit Storm"];
+  if (text.includes("ORACLE")) return watcherModeMultipliers.Oracle;
+  return watcherModeMultipliers.Wonderland;
+}
+
+async function writeWatcherPresence(rawT) {
+  if (rawT - watcherMind.lastWrite < 2.5) return;
+  watcherMind.lastWrite = rawT;
+
+  try {
+    // Browser file writes are intentionally not allowed here.
+    // The visual runtime keeps local watcher state in memory.
+    // CLI/state authority remains wl-matrix-presence.
+  } catch {}
+}
+
 const ghostFragments = Array.from({ length: 28 }, (_, i) => ({
   seed: i * 41.73,
   born: Math.random() * 20,
@@ -299,33 +334,88 @@ function drawGhostFragments(cx, cy, maxR, rawT) {
 }
 
 function drawWatchers(cx, cy, maxR, rawT) {
+  const attention = watcherMind.attention;
+  const interest = watcherMind.interest;
+  const lockStrength = Math.max(0, attention - 0.62) * 2.4;
+
   for (let i = 0; i < 5; i++) {
     const color = colors[i % 3];
     const orbit = maxR * (0.22 + i * 0.085);
-    const angle = rawT * (i % 2 === 0 ? 0.045 : -0.038) + i * Math.PI * 0.42;
+    const baseAngle = rawT * (i % 2 === 0 ? 0.045 : -0.038) + i * Math.PI * 0.42;
+
+    let angle = baseAngle;
+
+    if (cursor.active) {
+      const ox = cx + Math.cos(baseAngle) * orbit;
+      const oy = cy + Math.sin(baseAngle) * orbit * 0.74;
+      const target = Math.atan2((cursor.y - oy) / 0.74, cursor.x - ox);
+      const blend = Math.min(0.28, attention * 0.22 + lockStrength * 0.06);
+      angle = baseAngle * (1 - blend) + target * blend;
+    } else if (watcherMind.falsePositive > 0.05) {
+      angle += Math.sin(rawT * 1.7 + i) * watcherMind.falsePositive;
+    }
 
     const x = cx + Math.cos(angle) * orbit;
     const y = cy + Math.sin(angle) * orbit * 0.74;
 
-    const pulse = 1 + Math.sin(rawT * 0.7 + i) * 0.18;
+    const pulse = 1 + Math.sin(rawT * 0.7 + i) * 0.18 + attention * 0.22;
     const size = (10 + i * 1.8) * pulse;
 
     ctx.strokeStyle = color;
-    ctx.globalAlpha = 0.22 * settings.glow;
-    ctx.lineWidth = 2.2;
+    ctx.globalAlpha = (0.18 + attention * 0.18) * settings.glow;
+    ctx.lineWidth = 2.2 + lockStrength;
     ctx.beginPath();
     ctx.arc(x, y, size, 0, Math.PI * 2);
     ctx.stroke();
 
-    ctx.globalAlpha = 0.14 * settings.glow;
+    ctx.globalAlpha = (0.10 + interest * 0.18) * settings.glow;
     ctx.beginPath();
-    ctx.arc(x, y, size * 2.2, angle, angle + Math.PI * 1.2);
+    ctx.arc(x, y, size * (2.2 + attention), angle, angle + Math.PI * (1.05 + attention * 0.5));
     ctx.stroke();
 
+    // watcher eye line: only appears when attention is high
+    if (attention > 0.35 && cursor.active) {
+      ctx.strokeStyle = "#FFFFFF";
+      ctx.globalAlpha = (attention - 0.35) * 0.18;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(
+        x + (cursor.x - x) * Math.min(0.28, attention * 0.22),
+        y + (cursor.y - y) * Math.min(0.28, attention * 0.22)
+      );
+      ctx.stroke();
+    }
+
     for (let h = 0; h < 3; h++) {
-      const hookAngle = angle + h * Math.PI * 0.72 + rawT * 0.12;
-      drawHook(x, y, hookAngle, size * (2.4 + h), Math.PI * 0.55, color, 0.12, h % 2 === 0, 1.0, rawT, i * 10 + h);
-      drawAttachedDots(x, y, hookAngle, size * (2.4 + h), Math.PI * 0.55, 3, color, h % 2 === 0, rawT, i * 20 + h, 0.8);
+      const hookAngle = angle + h * Math.PI * 0.72 + rawT * (0.10 + attention * 0.08);
+      const clockwise = h % 2 === 0;
+      drawHook(
+        x,
+        y,
+        hookAngle,
+        size * (2.4 + h + attention * 0.6),
+        Math.PI * (0.52 + attention * 0.18),
+        color,
+        0.10 + attention * 0.10,
+        clockwise,
+        1.0 + attention * 0.6,
+        rawT,
+        i * 10 + h
+      );
+      drawAttachedDots(
+        x,
+        y,
+        hookAngle,
+        size * (2.4 + h + attention * 0.6),
+        Math.PI * (0.52 + attention * 0.18),
+        3 + Math.floor(attention * 3),
+        color,
+        clockwise,
+        rawT,
+        i * 20 + h,
+        0.8 + attention * 0.4
+      );
     }
   }
 }
@@ -333,6 +423,18 @@ function drawWatchers(cx, cy, maxR, rawT) {
 function frame(ms) {
   const rawT = ms * 0.001;
   const t = rawT * settings.speed;
+
+  const watcherMultiplier = currentWatcherMultiplier();
+  const cursorRecent = cursor.active && rawT - cursor.lastMove < 2.8;
+  const falsePositivePulse = Math.sin(rawT * 0.071) > 0.997 ? 1 : 0;
+
+  watcherMind.falsePositive = Math.max(0, watcherMind.falsePositive * 0.985 + falsePositivePulse * 0.22);
+  watcherMind.attention += (cursorRecent ? 0.018 : -0.006) * watcherMultiplier;
+  watcherMind.attention += watcherMind.falsePositive * 0.012 * watcherMultiplier;
+  watcherMind.attention = Math.max(0, Math.min(1, watcherMind.attention));
+
+  watcherMind.interest += (watcherMind.attention - watcherMind.interest) * 0.025;
+  writeWatcherPresence(rawT);
   const breath = 1.0 + Math.sin(rawT * 0.72) * 0.045;
   const cx = w / 2 + Math.sin(rawT * 0.13) * 8;
   const cy = h / 2 + Math.cos(rawT * 0.11) * 6;
