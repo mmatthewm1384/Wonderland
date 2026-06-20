@@ -7,7 +7,7 @@ PID_FILE="$STATE_DIR/screensaver.pid"
 LOG_FILE="$STATE_DIR/screensaver.log"
 
 usage() {
-  echo "usage: wl-matrix-suite {status|doctor|bundle-doctor|report|recertify|mode <realm> <mode>|atmosphere <calm|haunted|storm|oracle|wonderland>|run-atmosphere <calm|haunted|storm|oracle|wonderland>|drift|watchers|orbit-storm|tide|echo|tempest|forge|collapse|reactor|seed|swarm|oracle|wonderland|focus|ambient|energy|emergence|build|open-built <focus|ambient|energy|emergence|all>|screensaver [seconds]|start [seconds]|stop|state|log}"
+  echo "usage: wl-matrix-suite {status|doctor|bundle-doctor|report|recertify|mode <realm> <mode>|atmosphere <calm|haunted|storm|oracle|wonderland>|run-atmosphere <calm|haunted|storm|oracle|wonderland>|start-atmosphere <calm|haunted|storm|oracle|wonderland> [seconds]|drift|watchers|orbit-storm|tide|echo|tempest|forge|collapse|reactor|seed|swarm|oracle|wonderland|focus|ambient|energy|emergence|build|open-built <focus|ambient|energy|emergence|all>|screensaver [seconds]|start [seconds]|stop|state|log}"
 }
 
 case "${1:-status}" in
@@ -170,6 +170,13 @@ JSON
     atmosphere="${2:?atmosphere required}"
     "$0" atmosphere "$atmosphere"
     "$0" open-built all
+    ;;
+
+  start-atmosphere)
+    atmosphere="${2:?atmosphere required}"
+    interval="${3:-300}"
+    "$0" atmosphere "$atmosphere"
+    "$0" start "$interval"
     ;;
 
   drift)
