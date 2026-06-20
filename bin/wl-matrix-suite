@@ -137,6 +137,23 @@ JSON
     "$0" atmosphere oracle
     ;;
 
+  watcher-memory)
+    "$ROOT/bin/wl-matrix-watchers" show
+    ;;
+
+  watcher-memory-summary)
+    "$ROOT/bin/wl-matrix-watchers" summary
+    ;;
+
+  watcher-notice)
+    strength="${2:-0.25}"
+    "$ROOT/bin/wl-matrix-watchers" notice "$strength"
+    ;;
+
+  watcher-tick)
+    "$ROOT/bin/wl-matrix-watchers" tick
+    ;;
+
   watcher-show)
     "$ROOT/bin/wl-matrix-presence" watcher show
     ;;
