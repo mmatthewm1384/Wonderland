@@ -154,6 +154,26 @@ JSON
     "$0" atmosphere oracle
     ;;
 
+  ecosystem-start)
+    atmosphere="${2:-wonderland}"
+    interval="${3:-300}"
+
+    "$0" atmosphere "$atmosphere"
+    "$0" auto-tick-start 60
+    "$0" start "$interval"
+    "$0" state
+    ;;
+
+  ecosystem-stop)
+    "$0" stop
+    "$0" auto-tick-stop
+    "$0" state
+    ;;
+
+  ecosystem-state)
+    "$0" state
+    ;;
+
   auto-tick-start)
     interval="${2:-60}"
     "$ROOT/bin/wl-matrix-auto-tick" start "$interval"

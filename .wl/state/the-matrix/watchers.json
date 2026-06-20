@@ -1,52 +1,52 @@
 {
   "suite": "THE∅MATRIX",
   "version": 1,
-  "updated_at": "20260620T071842Z",
+  "updated_at": "20260620T072059Z",
   "memory": {
-    "global_attention": 0.21878640998400006,
-    "global_interest": 0.2988743548234375,
+    "global_attention": 0.20128349718528007,
+    "global_interest": 0.2943912395010859,
     "encounters": 1
   },
   "watchers": [
     {
       "id": "watcher-01",
-      "age": 5,
-      "attention": 0.18948593792,
-      "interest": 0.26122089279843747,
+      "age": 6,
+      "attention": 0.1743270628864,
+      "interest": 0.2573025794064609,
       "curiosity": 0.22,
-      "memory": 0.12903492059353908
+      "memory": 0.132894459284636
     },
     {
       "id": "watcher-02",
-      "age": 6,
-      "attention": 0.20524658304000004,
-      "interest": 0.3177010858359375,
+      "age": 7,
+      "attention": 0.18882685639680005,
+      "interest": 0.3129355695483984,
       "curiosity": 0.34,
-      "memory": 0.1525019304516016
+      "memory": 0.15719596399482758
     },
     {
       "id": "watcher-03",
-      "age": 7,
-      "attention": 0.23318590848000004,
-      "interest": 0.2423941617859375,
+      "age": 8,
+      "attention": 0.21453103580160005,
+      "interest": 0.23875824935914844,
       "curiosity": 0.28,
-      "memory": 0.11787925064085157
+      "memory": 0.1214606243812388
     },
     {
       "id": "watcher-04",
-      "age": 9,
-      "attention": 0.21097772672000004,
-      "interest": 0.37418127887343744,
+      "age": 10,
+      "attention": 0.19409950858240005,
+      "interest": 0.36856855969033586,
       "curiosity": 0.42,
-      "memory": 0.19596894030966402
+      "memory": 0.20149746870501906
     },
     {
       "id": "watcher-05",
-      "age": 12,
-      "attention": 0.25503589376,
-      "interest": 0.29887435482343744,
+      "age": 13,
+      "attention": 0.23463302225920002,
+      "interest": 0.29439123950108587,
       "curiosity": 0.31,
-      "memory": 0.17134626049891408
+      "memory": 0.17576212909143035
     }
   ]
 }
