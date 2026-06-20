@@ -139,6 +139,23 @@ JSON
     "$0" atmosphere oracle
     ;;
 
+  auto-tick-start)
+    interval="${2:-60}"
+    "$ROOT/bin/wl-matrix-auto-tick" start "$interval"
+    ;;
+
+  auto-tick-stop)
+    "$ROOT/bin/wl-matrix-auto-tick" stop
+    ;;
+
+  auto-tick-state)
+    "$ROOT/bin/wl-matrix-auto-tick" state
+    ;;
+
+  auto-tick-log)
+    "$ROOT/bin/wl-matrix-auto-tick" log
+    ;;
+
   tick)
     "$ROOT/bin/wl-matrix-tick"
     ;;

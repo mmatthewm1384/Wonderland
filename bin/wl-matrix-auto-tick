@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$HOME/Wonderland"
+STATE_DIR="$ROOT/.wl/state/the-matrix"
+PID_FILE="$STATE_DIR/auto-tick.pid"
+LOG_FILE="$STATE_DIR/auto-tick.log"
+
+mkdir -p "$STATE_DIR"
+
+case "${1:-start}" in
+  start)
+    INTERVAL="${2:-60}"
+
+    if [[ -f "$PID_FILE" ]] && kill -0 "$(cat "$PID_FILE")" >/dev/null 2>&1; then
+      echo "PASS auto-tick already running pid=$(cat "$PID_FILE")"
+      exit 0
+    fi
+
+    nohup "$0" run "$INTERVAL" >> "$LOG_FILE" 2>&1 &
+    echo "$!" > "$PID_FILE"
+    echo "PASS started THE∅MATRIX auto-tick pid=$!"
+    ;;
+
+  run)
+    INTERVAL="${2:-60}"
+    while true; do
+      date -u +"%Y%m%dT%H%M%SZ"
+      "$ROOT/bin/wl-matrix-tick"
+      sleep "$INTERVAL"
+    done
+    ;;
+
+  stop)
+    if [[ -f "$PID_FILE" ]]; then
+      kill "$(cat "$PID_FILE")" >/dev/null 2>&1 || true
+    fi
+    pkill -f "wl-matrix-auto-tick run" >/dev/null 2>&1 || true
+    rm -f "$PID_FILE"
+    echo "PASS stopped THE∅MATRIX auto-tick"
+    ;;
+
+  state)
+    test -f "$PID_FILE" && echo "auto_tick_pid=$(cat "$PID_FILE")" || echo "auto_tick_pid=none"
+    ;;
+
+  log)
+    touch "$LOG_FILE"
+    tail -80 "$LOG_FILE"
+    ;;
+
+  *)
+    echo "usage: wl-matrix-auto-tick {start [seconds]|run [seconds]|stop|state|log}"
+    exit 2
+    ;;
+esac
