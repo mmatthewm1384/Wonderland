@@ -137,6 +137,32 @@ JSON
     "$0" atmosphere oracle
     ;;
 
+  ghost-show)
+    "$ROOT/bin/wl-matrix-ghosts" show
+    ;;
+
+  ghost-summary)
+    "$ROOT/bin/wl-matrix-ghosts" summary
+    ;;
+
+  ghost-tick)
+    "$ROOT/bin/wl-matrix-ghosts" tick
+    ;;
+
+  ghost-appear)
+    strength="${2:-0.25}"
+    "$ROOT/bin/wl-matrix-ghosts" appear "$strength"
+    ;;
+
+  ghost-spawn)
+    count="${2:-1}"
+    "$ROOT/bin/wl-matrix-ghosts" spawn "$count"
+    ;;
+
+  ghost-reset)
+    "$ROOT/bin/wl-matrix-ghosts" reset
+    ;;
+
   watcher-memory)
     "$ROOT/bin/wl-matrix-watchers" show
     ;;

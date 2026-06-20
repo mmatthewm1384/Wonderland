@@ -1,10 +1,10 @@
 {
   "suite": "THE∅MATRIX",
-  "updated_at": "20260620T071332Z",
+  "updated_at": "20260620T071400Z",
   "active_realm": "focus",
   "entities": {
     "watchers": 4,
-    "ghost_fragments": 28,
+    "ghost_fragments": 12,
     "swarm_density": 96,
     "matrix_energy": 107,
     "wave_tension": 1.494962447691
@@ -72,6 +72,110 @@
       "interest": 0.3127375,
       "curiosity": 0.31,
       "memory": 0.1576910625
+    }
+  ],
+  "ghost_population": {
+    "count": 12,
+    "visibility": 0.43364099999999994,
+    "drift": 0.45749999999999996,
+    "curiosity": 0.39840280766666664
+  },
+  "ghosts": [
+    {
+      "id": "ghost-01",
+      "age": 2,
+      "visibility": 0.333937,
+      "drift": 0.345,
+      "curiosity": 0.311896437,
+      "phase": 0
+    },
+    {
+      "id": "ghost-02",
+      "age": 3,
+      "visibility": 0.382625,
+      "drift": 0.39,
+      "curiosity": 0.351825125,
+      "phase": 0
+    },
+    {
+      "id": "ghost-03",
+      "age": 4,
+      "visibility": 0.431313,
+      "drift": 0.435,
+      "curiosity": 0.39175381299999995,
+      "phase": 0
+    },
+    {
+      "id": "ghost-04",
+      "age": 5,
+      "visibility": 0.48000100000000007,
+      "drift": 0.48,
+      "curiosity": 0.431682501,
+      "phase": 0
+    },
+    {
+      "id": "ghost-05",
+      "age": 6,
+      "visibility": 0.528689,
+      "drift": 0.5249999999999999,
+      "curiosity": 0.47161118900000004,
+      "phase": 1
+    },
+    {
+      "id": "ghost-06",
+      "age": 7,
+      "visibility": 0.577377,
+      "drift": 0.5700000000000001,
+      "curiosity": 0.511539877,
+      "phase": 1
+    },
+    {
+      "id": "ghost-07",
+      "age": 8,
+      "visibility": 0.383025,
+      "drift": 0.615,
+      "curiosity": 0.551225525,
+      "phase": 1
+    },
+    {
+      "id": "ghost-08",
+      "age": 9,
+      "visibility": 0.319969,
+      "drift": 0.6599999999999999,
+      "curiosity": 0.27200246899999997,
+      "phase": 1
+    },
+    {
+      "id": "ghost-09",
+      "age": 10,
+      "visibility": 0.36865699999999996,
+      "drift": 0.3,
+      "curiosity": 0.311931157,
+      "phase": 1
+    },
+    {
+      "id": "ghost-10",
+      "age": 11,
+      "visibility": 0.417345,
+      "drift": 0.345,
+      "curiosity": 0.351859845,
+      "phase": 2
+    },
+    {
+      "id": "ghost-11",
+      "age": 12,
+      "visibility": 0.46603300000000003,
+      "drift": 0.39,
+      "curiosity": 0.39178853299999994,
+      "phase": 2
+    },
+    {
+      "id": "ghost-12",
+      "age": 13,
+      "visibility": 0.514721,
+      "drift": 0.435,
+      "curiosity": 0.431717221,
+      "phase": 2
     }
   ]
 }
