@@ -19,6 +19,16 @@ case "${1:-show}" in
     echo "ambient=$(jq -r .modes.ambient "$PRESENCE")"
     echo "energy=$(jq -r .modes.energy "$PRESENCE")"
     echo "emergence=$(jq -r .modes.emergence "$PRESENCE")"
+
+    if jq -e '.ghost_population' "$PRESENCE" >/dev/null 2>&1; then
+      echo "ghosts=$(jq -r .ghost_population.count "$PRESENCE")"
+      echo "ghost_visibility=$(jq -r .ghost_population.visibility "$PRESENCE")"
+    fi
+
+    if jq -e '.watcher_memory' "$PRESENCE" >/dev/null 2>&1; then
+      echo "watcher_attention=$(jq -r .watcher_memory.global_attention "$PRESENCE")"
+      echo "watcher_interest=$(jq -r .watcher_memory.global_interest "$PRESENCE")"
+    fi
     ;;
 
   reset)

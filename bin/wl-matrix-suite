@@ -36,6 +36,7 @@ case "${1:-status}" in
     if [[ -f "$ROOT/.wl/state/the-matrix/presence.json" ]]; then
       active_realm="$(jq -r .active_realm "$ROOT/.wl/state/the-matrix/presence.json")"
       watcher_state="$(jq -c .watcher_state "$ROOT/.wl/state/the-matrix/presence.json")"
+      ghost_population="$(jq -c '.ghost_population // null' "$ROOT/.wl/state/the-matrix/presence.json")"
     fi
 
     cat > "$REPORT" <<JSON
@@ -49,7 +50,8 @@ case "${1:-status}" in
   "presence": {
     "active_realm": "$active_realm",
     "file": ".wl/state/the-matrix/presence.json",
-    "watcher_state": $watcher_state
+    "watcher_state": $watcher_state,
+    "ghost_population": $ghost_population
   },
   "commands": {
     "doctor": "wl-matrix-suite doctor",
