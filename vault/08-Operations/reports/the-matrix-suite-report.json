@@ -6,8 +6,9 @@
     "pid": null
   },
   "presence": {
-    "active_realm": "all",
-    "file": ".wl/state/the-matrix/presence.json"
+    "active_realm": "focus",
+    "file": ".wl/state/the-matrix/presence.json",
+    "watcher_state": {"population":12,"attention":0.7,"interest":0.0,"false_positive_rate":0.006}
   },
   "commands": {
     "doctor": "wl-matrix-suite doctor",

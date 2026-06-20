@@ -1,6 +1,6 @@
 {
   "suite": "THE∅MATRIX",
-  "updated_at": "20260620T055635Z",
+  "updated_at": "20260620T055753Z",
   "active_realm": "focus",
   "entities": {
     "watchers": 4,
@@ -17,7 +17,7 @@
   },
   "watcher_state": {
     "population": 12,
-    "attention": 0.0,
+    "attention": 0.7,
     "interest": 0.0,
     "false_positive_rate": 0.006
   }

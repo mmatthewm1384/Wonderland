@@ -26,6 +26,7 @@ case "${1:-status}" in
     running="false"
     pid="null"
     active_realm="unknown"
+    watcher_state='null'
 
     if [[ -f "$PID_FILE" ]] && kill -0 "$(cat "$PID_FILE")" >/dev/null 2>&1; then
       running="true"
@@ -34,6 +35,7 @@ case "${1:-status}" in
 
     if [[ -f "$ROOT/.wl/state/the-matrix/presence.json" ]]; then
       active_realm="$(jq -r .active_realm "$ROOT/.wl/state/the-matrix/presence.json")"
+      watcher_state="$(jq -c .watcher_state "$ROOT/.wl/state/the-matrix/presence.json")"
     fi
 
     cat > "$REPORT" <<JSON
@@ -46,7 +48,8 @@ case "${1:-status}" in
   },
   "presence": {
     "active_realm": "$active_realm",
-    "file": ".wl/state/the-matrix/presence.json"
+    "file": ".wl/state/the-matrix/presence.json",
+    "watcher_state": $watcher_state
   },
   "commands": {
     "doctor": "wl-matrix-suite doctor",
