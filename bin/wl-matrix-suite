@@ -25,9 +25,15 @@ case "${1:-status}" in
 
     running="false"
     pid="null"
+    active_realm="unknown"
+
     if [[ -f "$PID_FILE" ]] && kill -0 "$(cat "$PID_FILE")" >/dev/null 2>&1; then
       running="true"
       pid="$(cat "$PID_FILE")"
+    fi
+
+    if [[ -f "$ROOT/.wl/state/the-matrix/presence.json" ]]; then
+      active_realm="$(jq -r .active_realm "$ROOT/.wl/state/the-matrix/presence.json")"
     fi
 
     cat > "$REPORT" <<JSON
@@ -37,6 +43,10 @@ case "${1:-status}" in
   "screensaver": {
     "running": $running,
     "pid": $pid
+  },
+  "presence": {
+    "active_realm": "$active_realm",
+    "file": ".wl/state/the-matrix/presence.json"
   },
   "commands": {
     "doctor": "wl-matrix-suite doctor",
