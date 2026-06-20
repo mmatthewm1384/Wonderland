@@ -16,6 +16,12 @@ case "${1:-status}" in
     ;;
 
   report)
+    auto_tick_running="false"
+    auto_tick_pid="null"
+    watcher_state='null'
+    ghost_population='null'
+    active_realm="unknown"
+
     REPORT_DIR="$ROOT/vault/08-Operations/reports"
     AUDIT_DIR="$ROOT/vault/09-Governance/wil/audit"
     STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
