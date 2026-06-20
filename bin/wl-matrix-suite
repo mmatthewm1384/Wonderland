@@ -118,6 +118,22 @@ JSON
     esac
     ;;
 
+  calm)
+    "$0" atmosphere calm
+    ;;
+
+  haunted)
+    "$0" atmosphere haunted
+    ;;
+
+  storm)
+    "$0" atmosphere storm
+    ;;
+
+  oracle-atmosphere)
+    "$0" atmosphere oracle
+    ;;
+
   atmosphere)
     atmosphere="${2:?atmosphere required}"
 

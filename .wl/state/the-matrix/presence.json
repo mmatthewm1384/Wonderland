@@ -1,6 +1,6 @@
 {
   "suite": "THE∅MATRIX",
-  "updated_at": "20260620T050016Z",
+  "updated_at": "20260620T050057Z",
   "active_realm": "all",
   "entities": {
     "watchers": 4,
@@ -10,9 +10,9 @@
     "wave_tension": 1.3
   },
   "modes": {
-    "focus": "Watchers",
-    "ambient": "Echo",
-    "energy": "Collapse",
-    "emergence": "Oracle"
+    "focus": "Drift",
+    "ambient": "Tide",
+    "energy": "Forge",
+    "emergence": "Seed"
   }
 }
