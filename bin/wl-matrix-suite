@@ -98,7 +98,24 @@ JSON
   mode)
     realm="${2:?realm required}"
     mode="${3:?mode required}"
-    "$ROOT/bin/wl-matrix-presence" set-mode "$realm" "$mode"
+
+    case "$realm:$mode" in
+      focus:Drift|focus:Watchers|focus:"Orbit Storm"|focus:Wonderland|\
+      ambient:Tide|ambient:Echo|ambient:Tempest|ambient:Wonderland|\
+      energy:Forge|energy:Collapse|energy:Reactor|energy:Wonderland|\
+      emergence:Seed|emergence:Swarm|emergence:Oracle|emergence:Wonderland)
+        "$ROOT/bin/wl-matrix-presence" set-mode "$realm" "$mode"
+        ;;
+      *)
+        echo "FAIL invalid mode: $realm $mode"
+        echo "valid:"
+        echo "  focus: Drift | Watchers | Orbit Storm | Wonderland"
+        echo "  ambient: Tide | Echo | Tempest | Wonderland"
+        echo "  energy: Forge | Collapse | Reactor | Wonderland"
+        echo "  emergence: Seed | Swarm | Oracle | Wonderland"
+        exit 2
+        ;;
+    esac
     ;;
 
   focus|spin-city)
