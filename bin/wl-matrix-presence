@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$HOME/Wonderland"
+PRESENCE="$ROOT/.wl/state/the-matrix/presence.json"
+
+case "${1:-show}" in
+  show|status)
+    test -f "$PRESENCE" || { echo "FAIL missing presence"; exit 1; }
+    jq . "$PRESENCE"
+    ;;
+
+  reset)
+    mkdir -p "$(dirname "$PRESENCE")"
+    cat > "$PRESENCE" <<JSON
+{
+  "suite": "THE∅MATRIX",
+  "updated_at": "$(date -u +%Y%m%dT%H%M%SZ)",
+  "active_realm": "unknown",
+  "entities": {
+    "watchers": 4,
+    "ghost_fragments": 28,
+    "swarm_density": 76,
+    "matrix_energy": 90,
+    "wave_tension": 1.3
+  },
+  "modes": {
+    "focus": "Wonderland",
+    "ambient": "Wonderland",
+    "energy": "Wonderland",
+    "emergence": "Wonderland"
+  }
+}
+JSON
+    echo "PASS reset THE∅MATRIX presence"
+    ;;
+
+  set-realm)
+    realm="${2:?realm required}"
+    tmp="$(mktemp)"
+    jq --arg realm "$realm" --arg ts "$(date -u +%Y%m%dT%H%M%SZ)" \
+      '.active_realm=$realm | .updated_at=$ts' "$PRESENCE" > "$tmp"
+    mv "$tmp" "$PRESENCE"
+    echo "PASS active_realm=$realm"
+    ;;
+
+  *)
+    echo "usage: wl-matrix-presence {show|status|reset|set-realm <name>}"
+    exit 2
+    ;;
+esac
