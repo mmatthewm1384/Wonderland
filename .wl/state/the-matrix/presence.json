@@ -1,13 +1,13 @@
 {
   "suite": "THE∅MATRIX",
-  "updated_at": "20260620T055753Z",
+  "updated_at": "20260620T071310Z",
   "active_realm": "focus",
   "entities": {
     "watchers": 4,
     "ghost_fragments": 28,
-    "swarm_density": 76,
-    "matrix_energy": 90,
-    "wave_tension": 1.3
+    "swarm_density": 123,
+    "matrix_energy": 131,
+    "wave_tension": 1.7638986
   },
   "modes": {
     "focus": "Watchers",
@@ -17,8 +17,14 @@
   },
   "watcher_state": {
     "population": 12,
-    "attention": 0.7,
-    "interest": 0.0,
+    "attention": 0.8,
+    "interest": 0.5,
     "false_positive_rate": 0.006
+  },
+  "cross_realm": {
+    "watchers_to_reactor": 0.6950000000000001,
+    "reactor_to_swarm": 0.5699,
+    "swarm_to_waves": 0.421726,
+    "wave_turbulence": 1.421726
   }
 }

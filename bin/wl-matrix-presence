@@ -46,6 +46,10 @@ JSON
     echo "PASS reset THE∅MATRIX presence"
     ;;
 
+  influence)
+    "$ROOT/bin/wl-matrix-influence"
+    ;;
+
   watcher)
     action="${2:-show}"
 
@@ -67,6 +71,7 @@ JSON
         ' "$PRESENCE" > "$tmp"
         mv "$tmp" "$PRESENCE"
         echo "PASS watcher reset"
+        "$ROOT/bin/wl-matrix-influence" >/dev/null 2>&1 || true
         ;;
 
       set)
@@ -82,6 +87,7 @@ JSON
             ' "$PRESENCE" > "$tmp"
             mv "$tmp" "$PRESENCE"
             echo "PASS watcher $key=$value"
+            "$ROOT/bin/wl-matrix-influence" >/dev/null 2>&1 || true
             ;;
           *)
             echo "FAIL invalid watcher key: $key"
@@ -123,7 +129,7 @@ JSON
     ;;
 
   *)
-    echo "usage: wl-matrix-presence {show|status|summary|reset|watcher {show|reset|set}|set-realm <name>|set-mode <realm> <mode>|mode <realm>}"
+    echo "usage: wl-matrix-presence {show|status|summary|reset|influence|watcher {show|reset|set}|set-realm <name>|set-mode <realm> <mode>|mode <realm>}"
     exit 2
     ;;
 esac
