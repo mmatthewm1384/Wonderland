@@ -44,8 +44,23 @@ JSON
     echo "PASS active_realm=$realm"
     ;;
 
+  set-mode)
+    realm="${2:?realm required}"
+    mode="${3:?mode required}"
+    tmp="$(mktemp)"
+    jq --arg realm "$realm" --arg mode "$mode" --arg ts "$(date -u +%Y%m%dT%H%M%SZ)" \
+      '.modes[$realm]=$mode | .updated_at=$ts' "$PRESENCE" > "$tmp"
+    mv "$tmp" "$PRESENCE"
+    echo "PASS mode $realm=$mode"
+    ;;
+
+  mode)
+    realm="${2:?realm required}"
+    jq -r --arg realm "$realm" '.modes[$realm]' "$PRESENCE"
+    ;;
+
   *)
-    echo "usage: wl-matrix-presence {show|status|reset|set-realm <name>}"
+    echo "usage: wl-matrix-presence {show|status|reset|set-realm <name>|set-mode <realm> <mode>|mode <realm>}"
     exit 2
     ;;
 esac

@@ -1,7 +1,7 @@
 {
   "suite": "THE∅MATRIX",
-  "updated_at": "20260620T043725Z",
-  "active_realm": "focus",
+  "updated_at": "20260620T044346Z",
+  "active_realm": "unknown",
   "entities": {
     "watchers": 4,
     "ghost_fragments": 28,
@@ -10,7 +10,7 @@
     "wave_tension": 1.3
   },
   "modes": {
-    "focus": "Wonderland",
+    "focus": "Watchers",
     "ambient": "Wonderland",
     "energy": "Wonderland",
     "emergence": "Wonderland"
