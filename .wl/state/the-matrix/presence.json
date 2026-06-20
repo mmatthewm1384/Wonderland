@@ -1,6 +1,6 @@
 {
   "suite": "THE∅MATRIX",
-  "updated_at": "20260620T044435Z",
+  "updated_at": "20260620T045000Z",
   "active_realm": "unknown",
   "entities": {
     "watchers": 4,
@@ -11,8 +11,8 @@
   },
   "modes": {
     "focus": "Watchers",
-    "ambient": "Wonderland",
-    "energy": "Wonderland",
-    "emergence": "Wonderland"
+    "ambient": "Echo",
+    "energy": "Reactor",
+    "emergence": "Oracle"
   }
 }

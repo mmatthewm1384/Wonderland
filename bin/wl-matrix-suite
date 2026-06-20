@@ -7,7 +7,7 @@ PID_FILE="$STATE_DIR/screensaver.pid"
 LOG_FILE="$STATE_DIR/screensaver.log"
 
 usage() {
-  echo "usage: wl-matrix-suite {status|doctor|bundle-doctor|report|recertify|mode <realm> <mode>|focus|ambient|energy|emergence|build|open-built <focus|ambient|energy|emergence|all>|screensaver [seconds]|start [seconds]|stop|state|log}"
+  echo "usage: wl-matrix-suite {status|doctor|bundle-doctor|report|recertify|mode <realm> <mode>|drift|watchers|orbit-storm|tide|echo|tempest|forge|collapse|reactor|seed|swarm|oracle|wonderland|focus|ambient|energy|emergence|build|open-built <focus|ambient|energy|emergence|all>|screensaver [seconds]|start [seconds]|stop|state|log}"
 }
 
 case "${1:-status}" in
@@ -116,6 +116,61 @@ JSON
         exit 2
         ;;
     esac
+    ;;
+
+  drift)
+    "$0" mode focus Drift
+    ;;
+
+  watchers)
+    "$0" mode focus Watchers
+    ;;
+
+  orbit-storm)
+    "$0" mode focus "Orbit Storm"
+    ;;
+
+  tide)
+    "$0" mode ambient Tide
+    ;;
+
+  echo)
+    "$0" mode ambient Echo
+    ;;
+
+  tempest)
+    "$0" mode ambient Tempest
+    ;;
+
+  forge)
+    "$0" mode energy Forge
+    ;;
+
+  collapse)
+    "$0" mode energy Collapse
+    ;;
+
+  reactor)
+    "$0" mode energy Reactor
+    ;;
+
+  seed)
+    "$0" mode emergence Seed
+    ;;
+
+  swarm)
+    "$0" mode emergence Swarm
+    ;;
+
+  oracle)
+    "$0" mode emergence Oracle
+    ;;
+
+  wonderland)
+    "$0" mode focus Wonderland
+    "$0" mode ambient Wonderland
+    "$0" mode energy Wonderland
+    "$0" mode emergence Wonderland
     ;;
 
   focus|spin-city)
