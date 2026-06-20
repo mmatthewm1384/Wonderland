@@ -46,6 +46,58 @@ JSON
     echo "PASS reset THE∅MATRIX presence"
     ;;
 
+  watcher)
+    action="${2:-show}"
+
+    case "$action" in
+      show)
+        jq .watcher_state "$PRESENCE"
+        ;;
+
+      reset)
+        tmp="$(mktemp)"
+        jq --arg ts "$(date -u +%Y%m%dT%H%M%SZ)" '
+          .watcher_state = {
+            "population": 12,
+            "attention": 0.0,
+            "interest": 0.0,
+            "false_positive_rate": 0.006
+          }
+          | .updated_at=$ts
+        ' "$PRESENCE" > "$tmp"
+        mv "$tmp" "$PRESENCE"
+        echo "PASS watcher reset"
+        ;;
+
+      set)
+        key="${3:?key required}"
+        value="${4:?value required}"
+
+        case "$key" in
+          population|attention|interest|false_positive_rate)
+            tmp="$(mktemp)"
+            jq --arg key "$key" --argjson value "$value" --arg ts "$(date -u +%Y%m%dT%H%M%SZ)" '
+              .watcher_state[$key]=$value
+              | .updated_at=$ts
+            ' "$PRESENCE" > "$tmp"
+            mv "$tmp" "$PRESENCE"
+            echo "PASS watcher $key=$value"
+            ;;
+          *)
+            echo "FAIL invalid watcher key: $key"
+            echo "valid: population attention interest false_positive_rate"
+            exit 2
+            ;;
+        esac
+        ;;
+
+      *)
+        echo "usage: wl-matrix-presence watcher {show|reset|set <population|attention|interest|false_positive_rate> <number>}"
+        exit 2
+        ;;
+    esac
+    ;;
+
   set-realm)
     realm="${2:?realm required}"
     tmp="$(mktemp)"
@@ -71,7 +123,7 @@ JSON
     ;;
 
   *)
-    echo "usage: wl-matrix-presence {show|status|summary|reset|set-realm <name>|set-mode <realm> <mode>|mode <realm>}"
+    echo "usage: wl-matrix-presence {show|status|summary|reset|watcher {show|reset|set}|set-realm <name>|set-mode <realm> <mode>|mode <realm>}"
     exit 2
     ;;
 esac
