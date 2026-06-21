@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+WL_BIN="$WL_HOME/bin"
+WL_VAULT="$WL_HOME/vault"
+
+usage() {
+  cat <<USAGE
+wl
+
+Available:
+  wl status
+  wl doctor
+  wl vault status
+  wl vault open
+  wl obsidian status
+  wl obsidian open
+  wl obsidian list
+  wl obsidian run <intent>
+  wl matrix fluderation
+USAGE
+}
+
+vault_status() {
+  echo "WL_HOME=$WL_HOME"
+  echo "WL_VAULT=$WL_VAULT"
+
+  test -d "$WL_HOME" && echo "PASS home" || echo "FAIL home"
+  test -d "$WL_VAULT" && echo "PASS vault" || echo "FAIL vault"
+  test -d "$WL_VAULT/01-intents" && echo "PASS intents" || echo "FAIL intents"
+}
+
+doctor() {
+  fail=0
+
+  test -d "$WL_HOME" && echo "PASS home" || { echo "FAIL home"; fail=1; }
+  test -d "$WL_BIN" && echo "PASS bin" || { echo "FAIL bin"; fail=1; }
+  test -d "$WL_VAULT" && echo "PASS vault" || { echo "FAIL vault"; fail=1; }
+  test -x "$WL_BIN/wl" && echo "PASS wl-router" || { echo "FAIL wl-router"; fail=1; }
+
+  if test -x "$WL_BIN/wl-obsidian"; then
+    "$WL_BIN/wl-obsidian" verify || fail=1
+  else
+    echo "WARN wl-obsidian missing"
+  fi
+
+  test "$fail" -eq 0 && echo "RESULT PASS" || { echo "RESULT FAIL"; exit 1; }
+}
+
+matrix_fluderation() {
+  app="$WL_HOME/apps/tauri/wl-spin-city"
+  if test -d "$app"; then
+    echo "matrix fluderation target: $app"
+    cd "$app"
+    npm run tauri dev
+  else
+    echo "PASS matrix fluderation route"
+    echo "WARN no Tauri app found at: $app"
+  fi
+}
+
+case "${1:-}" in
+  status)
+    vault_status
+    ;;
+  doctor)
+    doctor
+    ;;
+  vault)
+    case "${2:-}" in
+      status) vault_status ;;
+      open) open "$WL_VAULT" ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+  obsidian)
+    shift
+    test -x "$WL_BIN/wl-obsidian" || {
+      echo "FAIL wl-obsidian missing: $WL_BIN/wl-obsidian"
+      exit 1
+    }
+    "$WL_BIN/wl-obsidian" "$@"
+    ;;
+  matrix)
+    case "${2:-}" in
+      fluderation) matrix_fluderation ;;
+      *) usage; exit 2 ;;
+    esac
+    ;;
+  *)
+    usage
+    exit 2
+    ;;
+esac

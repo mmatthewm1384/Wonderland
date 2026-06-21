@@ -1,0 +1,38 @@
+vmType: vz
+arch: aarch64
+cpus: 4
+memory: 6GiB
+disk: 80GiB
+
+images:
+  - location: "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-arm64.img"
+    arch: "aarch64"
+
+mounts:
+  - location: "/Users/wonderland/Wonderland"
+    writable: true
+
+containerd:
+  system: false
+  user: true
+
+provision:
+  - mode: system
+    script: |
+      apt-get update
+      apt-get install -y ca-certificates curl uidmap dbus-user-session slirp4netns fuse-overlayfs
+  - mode: user
+    script: |
+      set -e
+      if ! command -v nerdctl >/dev/null 2>&1; then
+        VER="2.0.5"
+        curl -fsSL -o /tmp/nerdctl.tgz "https://github.com/containerd/nerdctl/releases/download/v${VER}/nerdctl-${VER}-linux-arm64.tar.gz"
+        mkdir -p ~/.local/bin
+        tar -xzf /tmp/nerdctl.tgz -C ~/.local/bin nerdctl
+      fi
+      systemctl --user enable --now containerd
+      ~/.local/bin/nerdctl version || true
+
+probes:
+  - script: |
+      systemctl --user is-active containerd

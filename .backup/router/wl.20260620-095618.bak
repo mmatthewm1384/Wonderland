@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_ROOT:-$HOME/Wonderland}"
+
+case "${1:-}" in
+  matrix)
+    shift
+    exec "$ROOT/bin/wl-matrix" "$@"
+    ;;
+  *)
+    echo "Unknown wl command: ${1:-}"
+    echo "Available:"
+    echo "  wl matrix fluderation"
+    exit 2
+    ;;
+esac
+
+# wl-ai-router drop-in
+case "${1:-}" in
+  ai)
+    shift
+    exec "$WL_HOME/bin/wl-ai" "$@"
+    ;;
+  idea)
+    shift
+    exec "$WL_HOME/bin/wl-idea" "$@"
+    ;;
+esac

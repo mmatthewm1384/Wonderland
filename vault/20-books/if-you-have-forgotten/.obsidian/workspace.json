@@ -1,0 +1,218 @@
+{
+  "main": {
+    "id": "33b403355d9647fe",
+    "type": "split",
+    "children": [
+      {
+        "id": "7cca4acac53e7654",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8a845f77ae5562f4",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "59c8a8361a2ad034",
+    "type": "split",
+    "children": [
+      {
+        "id": "1b709d8733ad260d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6aeb9a2c5af7bf1c",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "82d996ad9544bbd1",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "a96a445942008b27",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "7232462b993c1ea8",
+    "type": "split",
+    "children": [
+      {
+        "id": "d71e95a5c19fe276",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "51ac89c5ed72ec21",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "ae6319fc19f08d67",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "d953588f1d00d3d2",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "5818d8357fec88cb",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "8814d605107aa6d5",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "8a845f77ae5562f4",
+  "lastOpenFiles": [
+    "build/theme/wonderland-archive.css.bak.20260620-222721",
+    "build/theme/wonderland-archive.css.bak.20260620-222720",
+    "scripts/build/wl-archive-recovery-notes-only-fix.sh",
+    "build/theme/wonderland-archive.css.bak.20260620-222405",
+    "build/theme/wonderland-archive.css.bak.20260620-222404",
+    "scripts/build/wl-archive-chapter-divider-only-fix.sh",
+    "build/theme/wonderland-archive.css.bak.20260620-222046",
+    "scripts/build/wl-archive-restore-and-minimal-fix.sh",
+    "build/theme/wonderland-archive.css.bak.20260620-221808",
+    "build/theme/wonderland-archive.css.bak.20260620-221807",
+    "scripts/build/wl-archive-final-layout-tune.sh",
+    "manuscript.backup.20260620-153649/25-identity-recovery-verification.md",
+    "manuscript.backup.20260620-153649/24-album-era-timeline.md",
+    "manuscript.backup.20260620-153649/23-known-truths-appendix.md",
+    "manuscript.backup.20260620-153649/22-core-values-matrix.md",
+    "manuscript.backup.20260620-153649/21-identity-graphs.md",
+    "manuscript.backup.20260620-153649/20-recovery-notes-appendix.md",
+    "manuscript.backup.20260620-153649/14-chapter-05-the-woman-beyond-the-name.md",
+    "manuscript.backup.20260620-153649/13-chapter-04-the-people-the-music-and-the-meaning.md",
+    "manuscript.backup.20260620-153649/12-chapter-03-the-storms-you-survived.md",
+    "manuscript.backup.20260620-153649/11-chapter-02-building-taylor-swift.md",
+    "manuscript.backup.20260620-153649/10-chapter-01-the-girl-before-the-myth.md",
+    "manuscript.backup.20260620-153649/02-dedication.md",
+    "manuscript.backup.20260620-153649/01-certification.md",
+    "manuscript.backup.20260620-153649/00-cover.md",
+    "build/manuscript.pre-normalize.md",
+    "build/manuscript.md",
+    "manuscript/14-chapter-05-the-woman-beyond-the-name.md",
+    "manuscript/13-chapter-04-the-people-the-music-and-the-meaning.md",
+    "manuscript/12-chapter-03-the-storms-you-survived.md",
+    "manuscript/11-chapter-02-building-taylor-swift.md",
+    "manuscript/10-chapter-01-the-girl-before-the-myth.md",
+    "manuscript/25-identity-recovery-verification.md",
+    "manuscript/24-album-era-timeline.md",
+    "manuscript/23-known-truths-appendix.md",
+    "manuscript/22-core-values-matrix.md"
+  ]
+}

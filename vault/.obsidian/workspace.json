@@ -1,0 +1,225 @@
+{
+  "main": {
+    "id": "86326d0661d68c67",
+    "type": "split",
+    "children": [
+      {
+        "id": "3020786b77bd7f79",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3c0f6f96aa94d091",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "20-books/if-you-have-forgotten/manuscript/22-core-values-matrix.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "22-core-values-matrix"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "725545b75d07829f",
+    "type": "split",
+    "children": [
+      {
+        "id": "bf3a3c6a19fe12ae",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "474e21fd0f4d721c",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "9c43eb1893e2e677",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "---path:\"20-books/if-you-have-forgotten/\"",
+                "matchingCase": true,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "a7589ce47d82306c",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "e1f9a583589dad1b",
+    "type": "split",
+    "children": [
+      {
+        "id": "7fce4775e89b3855",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a85700c9b41cde9d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "90-Operator/dashboard/home.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for home"
+            }
+          },
+          {
+            "id": "1cadf6699a9fa19e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "90-Operator/dashboard/home.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from home"
+            }
+          },
+          {
+            "id": "456f9056b8162588",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "6ff664e2f04c6c87",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "d2970d85de219fdb",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "90-Operator/dashboard/home.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of home"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "3c0f6f96aa94d091",
+  "lastOpenFiles": [
+    "20-books/if-you-have-forgotten/build/theme/wonderland-archive.css.bak.20260620-222721",
+    "20-books/if-you-have-forgotten/build/theme/wonderland-archive.css.bak.20260620-222720",
+    "20-books/if-you-have-forgotten/scripts/build/wl-archive-recovery-notes-only-fix.sh",
+    "20-books/if-you-have-forgotten/build/theme/wonderland-archive.css.bak.20260620-222405",
+    "20-books/if-you-have-forgotten/build/theme/wonderland-archive.css.bak.20260620-222404",
+    "20-books/if-you-have-forgotten/scripts/build/wl-archive-chapter-divider-only-fix.sh",
+    "20-books/if-you-have-forgotten/build/theme/wonderland-archive.css.bak.20260620-222046",
+    "20-books/if-you-have-forgotten/scripts/build/wl-archive-restore-and-minimal-fix.sh",
+    "20-books/if-you-have-forgotten/build/theme/wonderland-archive.css.bak.20260620-221808",
+    "20-books/if-you-have-forgotten/build/theme/wonderland-archive.css.bak.20260620-221807",
+    "20-books/if-you-have-forgotten/scripts/build/wl-archive-final-layout-tune.sh",
+    "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/25-identity-recovery-verification.md",
+    "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/24-album-era-timeline.md",
+    "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/23-known-truths-appendix.md",
+    "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/22-core-values-matrix.md",
+    "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/21-identity-graphs.md",
+    "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/20-recovery-notes-appendix.md",
+    "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/14-chapter-05-the-woman-beyond-the-name.md",
+    "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/13-chapter-04-the-people-the-music-and-the-meaning.md",
+    "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/12-chapter-03-the-storms-you-survived.md",
+    "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/11-chapter-02-building-taylor-swift.md",
+    "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/10-chapter-01-the-girl-before-the-myth.md",
+    "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/02-dedication.md",
+    "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/01-certification.md",
+    "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/00-cover.md",
+    "20-books/if-you-have-forgotten/build/manuscript.pre-normalize.md",
+    "20-books/if-you-have-forgotten/build/manuscript.md",
+    "20-books/if-you-have-forgotten/manuscript/10-chapter-01-the-girl-before-the-myth.md",
+    "20-books/if-you-have-forgotten/manuscript/00-cover.md",
+    "20-books/if-you-have-forgotten/manuscript/20-recovery-notes-appendix.md",
+    "20-books/if-you-have-forgotten/manuscript/11-chapter-02-building-taylor-swift.md",
+    "20-books/if-you-have-forgotten/manuscript/02-dedication.md",
+    "20-books/if-you-have-forgotten/manuscript/01-certification.md",
+    "20-books/if-you-have-forgotten/manuscript/21-identity-graphs.md",
+    "20-books/if-you-have-forgotten/manuscript/13-chapter-04-the-people-the-music-and-the-meaning.md",
+    "20-books/if-you-have-forgotten/manuscript/14-chapter-05-the-woman-beyond-the-name.md"
+  ]
+}

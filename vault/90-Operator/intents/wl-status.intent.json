@@ -1,0 +1,6 @@
+{
+"name": "wl-status",
+"mode": "REVIEW",
+"command": "/Users/wonderland/Wonderland/bin/wl status",
+"audit": true
+}

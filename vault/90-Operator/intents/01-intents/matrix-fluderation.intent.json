@@ -1,0 +1,6 @@
+{
+  "name": "matrix-fluderation",
+  "mode": "BUILD",
+  "command": "$HOME/Wonderland/bin/wl matrix fluderation",
+  "audit": true
+}

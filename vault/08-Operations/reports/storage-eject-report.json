@@ -1,8 +1,8 @@
 {
-  "generated": "2026-06-20T04:40:28Z",
+  "generated": "2026-06-21T07:54:16Z",
   "action": "eject",
   "volume": "T7_Wonderland",
   "volume_path": "/Volumes/T7_Wonderland",
-  "status": "PASS",
-  "message": "safe to remove"
+  "status": "FAIL",
+  "message": "volume busy; eject aborted"
 }

@@ -1,0 +1,198 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+WL_BIN="$WL_HOME/bin"
+WL_VAULT="$WL_HOME/vault"
+
+usage() {
+  cat <<USAGE
+wl
+
+Core:
+  wl status
+  wl doctor
+
+Dispatch:
+  wl <name> <args...>  ->  ~/Wonderland/bin/wl-<name> <args...>
+
+Examples:
+  wl storage doctor
+  wl governance doctor
+  wl universe status
+  wl recovery verify
+  wl seed verify
+  wl cartographer status
+  wl vault-authority verify
+  wl firefox verify
+  wl obsidian status
+
+Vault:
+  wl vault status
+  wl vault open
+  wl vault tree
+  wl vault intents
+  wl vault dashboard
+  wl vault runbooks
+  wl vault governance
+  wl vault recovery
+  wl vault audit
+
+Matrix:
+  wl matrix fluderation
+USAGE
+}
+
+open_path() {
+  local path="$1"
+  test -e "$path" || { echo "FAIL missing: $path"; exit 1; }
+  open "$path"
+}
+
+vault_status() {
+  echo "WL_HOME=$WL_HOME"
+  echo "WL_BIN=$WL_BIN"
+  echo "WL_VAULT=$WL_VAULT"
+  test -d "$WL_HOME" && echo "PASS home" || echo "FAIL home"
+  test -d "$WL_BIN" && echo "PASS bin" || echo "FAIL bin"
+  test -d "$WL_VAULT" && echo "PASS vault" || echo "FAIL vault"
+}
+
+vault_tree() {
+  find "$WL_VAULT" -maxdepth "${1:-2}" -type d | sort
+}
+
+vault_route() {
+  local sub="${1:-status}"
+  shift || true
+
+  case "$sub" in
+    status) vault_status ;;
+    open) open_path "$WL_VAULT" ;;
+    tree) vault_tree "${1:-2}" ;;
+
+    intents|intent)
+      open_path "$WL_VAULT/90-Operator/intents"
+      ;;
+
+    dashboard)
+      open_path "$WL_VAULT/90-Operator/dashboard"
+      ;;
+
+    runbooks|runbook)
+      open_path "$WL_VAULT/90-Operator/runbooks"
+      ;;
+
+    governance)
+      open_path "$WL_VAULT/09-Governance"
+      ;;
+
+    audit)
+      open_path "$WL_VAULT/09-Governance/audit"
+      ;;
+
+    recovery)
+      if [[ -d "$WL_VAULT/00-Core/recovery" ]]; then
+        open_path "$WL_VAULT/00-Core/recovery"
+      elif [[ -d "$WL_VAULT/09-Governance/recovery" ]]; then
+        open_path "$WL_VAULT/09-Governance/recovery"
+      else
+        echo "FAIL missing recovery directory"
+        exit 1
+      fi
+      ;;
+
+    *)
+      usage
+      exit 2
+      ;;
+  esac
+}
+
+doctor() {
+  fail=0
+
+  test -d "$WL_HOME" && echo "PASS home" || { echo "FAIL home"; fail=1; }
+  test -d "$WL_BIN" && echo "PASS bin" || { echo "FAIL bin"; fail=1; }
+  test -d "$WL_VAULT" && echo "PASS vault" || { echo "FAIL vault"; fail=1; }
+  test -x "$WL_BIN/wl" && echo "PASS wl-router" || { echo "FAIL wl-router"; fail=1; }
+
+  for d in \
+    "$WL_VAULT/90-Operator" \
+    "$WL_VAULT/90-Operator/intents" \
+    "$WL_VAULT/90-Operator/dashboard" \
+    "$WL_VAULT/90-Operator/runbooks" \
+    "$WL_VAULT/09-Governance" \
+    "$WL_VAULT/09-Governance/audit"
+  do
+    test -d "$d" && echo "PASS $d" || echo "WARN missing $d"
+  done
+
+  echo
+  echo "Available wl-* dispatch targets:"
+  find "$WL_BIN" -maxdepth 1 -type f -name 'wl-*' -perm -111 -print | sed "s#$WL_BIN/wl-#  wl #" | sort || true
+
+  test "$fail" -eq 0 && echo "RESULT PASS" || { echo "RESULT FAIL"; exit 1; }
+}
+
+matrix_fluderation() {
+  app="$WL_HOME/apps/tauri/wl-spin-city"
+  if test -d "$app"; then
+    echo "matrix fluderation target: $app"
+    cd "$app"
+    npm run tauri dev
+  else
+    echo "PASS matrix fluderation route"
+    echo "WARN no Tauri app found at: $app"
+  fi
+}
+
+dispatch() {
+  local cmd="$1"
+  shift || true
+
+  local target="$WL_BIN/wl-$cmd"
+
+  if [[ -x "$target" ]]; then
+    exec "$target" "$@"
+  fi
+
+  case "$cmd" in
+    vault) vault_route "$@" ;;
+    matrix)
+      case "${1:-}" in
+        fluderation) matrix_fluderation ;;
+        *) usage; exit 2 ;;
+      esac
+      ;;
+    obsidian)
+      if [[ -x "$WL_BIN/wl-obsidian" ]]; then
+        exec "$WL_BIN/wl-obsidian" "$@"
+      fi
+      echo "FAIL missing executable: $WL_BIN/wl-obsidian"
+      exit 1
+      ;;
+    ephemeral)
+      if [[ -x "$WL_BIN/wl-ephemeral" ]]; then
+        exec "$WL_BIN/wl-ephemeral" "$@"
+      elif [[ -x "$WL_HOME/Wonderland-v4/ephemeral/bin/wl-ephemeral" ]]; then
+        exec "$WL_HOME/Wonderland-v4/ephemeral/bin/wl-ephemeral" "$@"
+      fi
+      echo "FAIL missing wl-ephemeral"
+      exit 1
+      ;;
+    *)
+      echo "Unknown wl command: $cmd"
+      echo
+      usage
+      exit 2
+      ;;
+  esac
+}
+
+case "${1:-}" in
+  ""|help|-h|--help) usage ;;
+  status) vault_status ;;
+  doctor) doctor ;;
+  *) dispatch "$@" ;;
+esac

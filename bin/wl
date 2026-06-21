@@ -1,29 +1,115 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="${WL_ROOT:-$HOME/Wonderland}"
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+export WL_HOME
 
-case "${1:-}" in
-  matrix)
-    shift
-    exec "$ROOT/bin/wl-matrix" "$@"
+cmd="${1:-help}"
+shift || true
+
+die() {
+  echo "wl: $*" >&2
+  exit 1
+}
+
+run_if_exists() {
+  local target="$1"
+  shift
+  [[ -x "$target" ]] && exec "$target" "$@"
+  return 1
+}
+
+case "$cmd" in
+  help|-h|--help)
+    cat <<'HELP'
+Wonderland command surface
+
+Usage:
+  wl help
+  wl doctor
+  wl status
+  wl universe status|doctor|dashboard
+  wl storage status|attach|attach-light|attach-full|eject|force-eject|verify|doctor|authority
+  wl governance doctor|verify|status
+  wl runtime start|stop|status|doctor
+  wl repair doctor
+HELP
     ;;
+
+  doctor)
+    "$WL_HOME/bin/wl" storage doctor || true
+    "$WL_HOME/bin/wl" universe status || true
+    ;;
+
+  status)
+    "$WL_HOME/bin/wl" universe status
+    ;;
+
+  storage)
+    sub="${1:-status}"
+    shift || true
+    case "$sub" in
+      attach-light) exec "$WL_HOME/bin/wl-storage" attach --light "$@" ;;
+      attach-full)  exec "$WL_HOME/bin/wl-storage" attach --full "$@" ;;
+      *)            exec "$WL_HOME/bin/wl-storage" "$sub" "$@" ;;
+    esac
+    ;;
+
+  universe)
+    run_if_exists "$WL_HOME/bin/wl-universe" "$@" || die "wl-universe not found"
+    ;;
+
+  governance)
+    run_if_exists "$WL_HOME/bin/wl-governance" "$@" || die "wl-governance not found"
+    ;;
+
+  runtime)
+    sub="${1:-status}"
+    shift || true
+
+    case "$sub" in
+      status|ps)
+        exec "$WL_HOME/bin/wl-runtime" ps "$@"
+        ;;
+      logs|inspect|images|compose)
+        exec "$WL_HOME/bin/wl-runtime" "$sub" "$@"
+        ;;
+      start)
+        "$WL_HOME/bin/wl-dns" up || true
+        "$WL_HOME/bin/wl-nats" up || true
+        "$WL_HOME/bin/wl-observability" up || true
+        exec "$WL_HOME/bin/wl-universe" status
+        ;;
+      stop)
+        echo "Use explicit service stops: wl dns down, wl nats down, wl observability down"
+        ;;
+      doctor)
+        exec "$WL_HOME/bin/wl-universe" status
+        ;;
+      *)
+        echo "wl runtime commands:"
+        echo "  wl runtime status"
+        echo "  wl runtime start"
+        echo "  wl runtime doctor"
+        echo "  wl runtime logs <container>"
+        echo "  wl runtime inspect <container>"
+        echo "  wl runtime compose ..."
+        exit 1
+        ;;
+    esac
+    ;;
+
+  repair)
+    echo "WL_HOME=$WL_HOME"
+    echo "wl=$(command -v wl || true)"
+    echo "canonical=$WL_HOME/bin/wl"
+    ls -l "$WL_HOME/bin/wl"
+    type wl || true
+    ;;
+
   *)
-    echo "Unknown wl command: ${1:-}"
-    echo "Available:"
-    echo "  wl matrix fluderation"
-    exit 2
-    ;;
-esac
-
-# wl-ai-router drop-in
-case "${1:-}" in
-  ai)
-    shift
-    exec "$WL_HOME/bin/wl-ai" "$@"
-    ;;
-  idea)
-    shift
-    exec "$WL_HOME/bin/wl-idea" "$@"
+    candidate="$WL_HOME/bin/wl-$cmd"
+    [[ -x "$candidate" ]] && exec "$candidate" "$@"
+    die "unknown wl command: $cmd"
     ;;
 esac

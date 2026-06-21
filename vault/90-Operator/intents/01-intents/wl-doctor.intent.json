@@ -1,0 +1,6 @@
+{
+  "name": "wl-doctor",
+  "mode": "REVIEW",
+  "command": "$HOME/Wonderland/bin/wl doctor",
+  "audit": true
+}
