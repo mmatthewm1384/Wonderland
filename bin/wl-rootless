@@ -1,107 +1,39 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VM="wonderland-rootless"
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
 
-CMD="${1:-status}"
-
-case "$CMD" in
+case "${1:-status}" in
+  status)
+    echo "Wonderland Rootless Status"
+    echo
+    limactl list 2>/dev/null | grep -E 'NAME|wonderland|default' || true
+    echo
+    nerdctl ps --format '{{.Names}}\t{{.Status}}\t{{.Ports}}' 2>/dev/null || true
+    ;;
 
   start)
-    echo "Wonderland Rootless: START"
-    limactl start "$VM"
+    echo "Starting Wonderland rootless runtime..."
+    wl storage status || true
+    nerdctl start wl-dns 2>/dev/null || wl dns up || true
+    nerdctl start wl-nats 2>/dev/null || wl nats up || true
+    wl observability up || true
+    wl universe status
     ;;
 
   stop)
-    echo "Wonderland Rootless: STOP"
-    limactl stop "$VM"
+    echo "Stopping visible Wonderland runtime services..."
+    nerdctl stop wl-grafana wl-prometheus wl-loki wl-nats wl-dns 2>/dev/null || true
+    wl universe status || true
     ;;
 
-  restart)
-    echo "Wonderland Rootless: RESTART"
-    limactl stop "$VM" || true
-    limactl start "$VM"
-    ;;
-
-  status)
-    limactl list | grep -E "NAME|$VM" || true
-    ;;
-
-  shell)
-    limactl shell "$VM"
-    ;;
-
-  nerdctl)
-    shift
-    limactl shell "$VM" nerdctl "$@"
-    ;;
-
-  ps)
-    limactl shell "$VM" nerdctl ps -a
-    ;;
-
-  images)
-    limactl shell "$VM" nerdctl images
-    ;;
-
-  logs)
-    limactl shell "$VM" \
-      journalctl --user -u containerd --no-pager -n 200
-    ;;
-
-  doctor|verify)
-    echo "Wonderland Rootless Doctor"
-
-    limactl list | grep -q "$VM" \
-      && echo "PASS vm" \
-      || { echo "FAIL vm"; exit 1; }
-
-    limactl shell "$VM" \
-      systemctl --user is-active containerd \
-      | grep -q active \
-      && echo "PASS containerd" \
-      || { echo "FAIL containerd"; exit 1; }
-
-    limactl shell "$VM" nerdctl version >/dev/null \
-      && echo "PASS nerdctl" \
-      || { echo "FAIL nerdctl"; exit 1; }
-
-    limactl shell "$VM" \
-      nerdctl run --rm docker.io/library/alpine:3.20 \
-      echo PASS-runtime
-
-    echo "RESULT PASS"
-    ;;
-
-  delete)
-    if [[ "${2:-}" != "--force" ]]; then
-      echo "Refusing delete."
-      echo "Use:"
-      echo "  wl-rootless delete --force"
-      exit 1
-    fi
-
-    echo "Deleting Wonderland Rootless VM"
-
-    limactl stop "$VM" || true
-    limactl delete "$VM" --force || true
-
-    echo "PASS deleted"
+  doctor)
+    wl storage doctor
+    wl universe status
     ;;
 
   *)
-    echo "usage:"
-    echo "  wl-rootless start"
-    echo "  wl-rootless stop"
-    echo "  wl-rootless restart"
-    echo "  wl-rootless status"
-    echo "  wl-rootless shell"
-    echo "  wl-rootless nerdctl ..."
-    echo "  wl-rootless ps"
-    echo "  wl-rootless images"
-    echo "  wl-rootless logs"
-    echo "  wl-rootless doctor"
-    echo "  wl-rootless delete --force"
-    exit 2
+    echo "Usage: wl rootless status|start|stop|doctor"
+    exit 1
     ;;
 esac

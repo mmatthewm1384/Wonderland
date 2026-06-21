@@ -63,6 +63,10 @@ HELP
     run_if_exists "$WL_HOME/bin/wl-governance" "$@" || die "wl-governance not found"
     ;;
 
+  rootless)
+    run_if_exists "$WL_HOME/bin/wl-rootless" "$@" || die "wl-rootless not found"
+    ;;
+
   runtime)
     sub="${1:-status}"
     shift || true
