@@ -57,3 +57,18 @@ apps/macos/wl-chaos-menubar/backups/
 *.backup.*
 .DS_Store
 .wl/
+
+# Wonderland generated artifacts
+apps/**/node_modules/
+apps/**/src-tauri/target/
+apps/**/*.app/
+apps/**/.build/
+apps/**/build/
+apps/**/backups/
+*.backup.*
+*.dSYM/
+.DS_Store
+.wl/
+vault/chaos/*.log
+vault/chaos/*.pid
+vault/08-Operations/recovery/git-rescue/*.tar.gz
