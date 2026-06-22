@@ -24,6 +24,101 @@ margin: 0 0.8em 0.2em -1.6em;
 vertical-align: middle;
 }
 .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+@media print {
+  .final-era-pair {
+    break-before: page !important;
+    page-break-before: always !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .final-era-pair .era-block {
+    break-before: auto !important;
+    page-break-before: auto !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+}
+
+@media print {
+  .final-era-pair {
+    break-before: page !important;
+    page-break-before: always !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .final-era-pair .era-block {
+    break-before: auto !important;
+    page-break-before: auto !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+}
+
+@media print {
+  .verification-pair {
+    break-before: page !important;
+    page-break-before: always !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .verification-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .verification-block h2,
+  .verification-block h3,
+  .verification-block h4 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+}
+
+
+@media print {
+  .keep-final-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .keep-final-block h2,
+  .keep-final-block h3,
+  .keep-final-block h4 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  .keep-final-block p {
+    orphans: 4 !important;
+    widows: 4 !important;
+  }
+}
+
+
+@media print {
+  .last-page-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .last-page-block h2,
+  .last-page-block p,
+  .last-page-block hr {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .last-page-block h2 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+}
+
 </style>
   <style type="text/css">:root {
 --wl-bg: #05070A;
@@ -619,7 +714,12 @@ page-break-after: avoid !important;
 
 h2[id^="section-"],
 h2[id="known-truths"],
-h2[id="origin"],
+h2#origin {
+break-before: avoid-page !important;
+page-break-before: avoid !important;
+break-after: avoid !important;
+page-break-after: avoid !important;
+margin-top: 2rem !important;
 h2[id^="graph-"] {
 break-before: page !important;
 page-break-before: always !important;
@@ -1524,6 +1624,197 @@ font-size: 9px;
 line-height: 1.22;
 white-space: pre;
 overflow: visible;
+}
+}
+
+@media print {
+html,
+body {
+background: #05070A !important;
+color: #D2DAE4 !important;
+-webkit-print-color-adjust: exact !important;
+print-color-adjust: exact !important;
+}
+
+h2#origin {
+break-before: auto !important;
+page-break-before: auto !important;
+break-after: avoid !important;
+page-break-after: avoid !important;
+}
+
+h2#known-truths {
+break-before: auto !important;
+page-break-before: auto !important;
+break-after: avoid !important;
+page-break-after: avoid !important;
+}
+
+h1#album-era-timeline ~ h2,
+h1#album-era-timeline ~ h3,
+h1#album-era-timeline ~ h4 {
+break-before: auto !important;
+page-break-before: auto !important;
+break-after: avoid !important;
+page-break-after: avoid !important;
+}
+}
+
+@media print {
+h1#recovery-notes-appendix + h3 + hr + p + hr {
+break-after: auto !important;
+page-break-after: auto !important;
+margin-bottom: 1.2rem !important;
+}
+h1#recovery-notes-appendix + h3 + hr + p + hr + h2#origin {
+break-before: auto !important;
+page-break-before: auto !important;
+margin-top: 0 !important;
+}
+}
+
+@media print {
+h2#known-truths {
+break-before: avoid-page !important;
+page-break-before: avoid !important;
+break-after: avoid !important;
+page-break-after: avoid !important;
+margin-top: 2rem !important;
+}
+h1#known-truths-appendix + h3 + hr + p + hr {
+break-after: auto !important;
+page-break-after: auto !important;
+margin-bottom: 1.2rem !important;
+}
+h1#known-truths-appendix + h3 + hr + p + hr + h2#known-truths {
+break-before: auto !important;
+page-break-before: auto !important;
+margin-top: 0 !important;
+}
+}
+
+@media print {
+h2[id^="era-"] {
+break-before: auto !important;
+page-break-before: auto !important;
+break-after: avoid !important;
+page-break-after: avoid !important;
+}
+h2[id^="era-"] + h3,
+h2[id^="era-"] + h3 + h4,
+h2[id^="era-"] + h3 + h4 + p,
+h2[id^="era-"] + h3 + h4 + p + p,
+h2[id^="era-"] + h3 + h4 + p + p + p,
+h2[id^="era-"] + h3 + h4 + p + p + p + p,
+h2[id^="era-"] + h3 + h4 + p + p + p + p + p {
+break-inside: avoid !important;
+page-break-inside: avoid !important;
+}
+h2[id^="era-"],
+h2[id^="era-"] + h3,
+h2[id^="era-"] + h3 + h4 {
+break-after: avoid !important;
+page-break-after: avoid !important;
+}
+}
+
+@media print {
+.era-block {
+break-inside: avoid !important;
+page-break-inside: avoid !important;
+}
+.era-block h2,
+.era-block h3,
+.era-block h4 {
+break-after: avoid !important;
+page-break-after: avoid !important;
+}
+}
+
+@media print {
+.era-block {
+break-inside: avoid !important;
+page-break-inside: avoid !important;
+break-before: page !important;
+page-break-before: always !important;
+margin-top: 0 !important;
+}
+.era-block h2,
+.era-block h3,
+.era-block h4,
+.era-block p {
+break-inside: avoid !important;
+page-break-inside: avoid !important;
+}
+.era-block h2,
+.era-block h3,
+.era-block h4 {
+break-after: avoid !important;
+page-break-after: avoid !important;
+}
+.era-block p {
+margin-top: 0.45rem !important;
+margin-bottom: 0.45rem !important;
+}
+}
+
+@media print {
+.era-pair {
+break-before: page !important;
+page-break-before: always !important;
+break-inside: avoid !important;
+page-break-inside: avoid !important;
+}
+.era-pair:first-of-type {
+break-before: auto !important;
+page-break-before: auto !important;
+}
+.era-pair .era-block {
+break-before: auto !important;
+page-break-before: auto !important;
+break-inside: avoid !important;
+page-break-inside: avoid !important;
+margin-bottom: 2.2rem !important;
+}
+.era-pair .era-block h2,
+.era-pair .era-block h3,
+.era-pair .era-block h4 {
+break-after: avoid !important;
+page-break-after: avoid !important;
+}
+.era-pair .era-block p {
+margin-top: 0.35rem !important;
+margin-bottom: 0.35rem !important;
+}
+}
+
+@media print {
+.era-pair {
+break-before: page !important;
+page-break-before: always !important;
+break-inside: avoid !important;
+page-break-inside: avoid !important;
+}
+.era-pair:first-of-type {
+break-before: auto !important;
+page-break-before: auto !important;
+}
+.era-pair .era-block {
+break-before: auto !important;
+page-break-before: auto !important;
+break-inside: avoid !important;
+page-break-inside: avoid !important;
+margin-bottom: 2.2rem !important;
+}
+.era-pair .era-block h2,
+.era-pair .era-block h3,
+.era-pair .era-block h4 {
+break-after: avoid !important;
+page-break-after: avoid !important;
+}
+.era-pair .era-block p {
+margin-top: 0.35rem !important;
+margin-bottom: 0.35rem !important;
 }
 }
 </style>
@@ -4387,6 +4678,8 @@ understanding.</p>
 <p>No expectations.</p>
 <p>Only possibility.</p>
 <hr />
+<section class="era-pair">
+<section class="era-block">
 <h2 id="era-i">ERA I</h2>
 <h3 id="taylor-swift-2006">Taylor Swift (2006)</h3>
 <h4 id="the-beginning">THE BEGINNING</h4>
@@ -4396,6 +4689,9 @@ Discovery.</p>
 <p>Recovery Meaning:</p>
 <p>A young writer learns that stories can travel.</p>
 <hr />
+
+</section>
+<section class="era-block">
 <h2 id="era-ii">ERA II</h2>
 <h3 id="fearless-2008">Fearless (2008)</h3>
 <h4 id="the-breakthrough">THE BREAKTHROUGH</h4>
@@ -4404,6 +4700,11 @@ Discovery.</p>
 <p>Recovery Meaning:</p>
 <p>The dream begins to become reality.</p>
 <hr />
+
+</section>
+</section>
+<section class="era-pair">
+<section class="era-block">
 <h2 id="era-iii">ERA III</h2>
 <h3 id="speak-now-2010">Speak Now (2010)</h3>
 <h4 id="the-voice">THE VOICE</h4>
@@ -4412,6 +4713,9 @@ Discovery.</p>
 <p>Recovery Meaning:</p>
 <p>The storyteller begins speaking entirely for herself.</p>
 <hr />
+
+</section>
+<section class="era-block">
 <h2 id="era-iv">ERA IV</h2>
 <h3 id="red-2012">Red (2012)</h3>
 <h4 id="the-transition">THE TRANSITION</h4>
@@ -4422,6 +4726,11 @@ Discovery.</p>
 <p>Emotions become more complicated.</p>
 <p>The stories deepen.</p>
 <hr />
+
+</section>
+</section>
+<section class="era-pair">
+<section class="era-block">
 <h2 id="era-v">ERA V</h2>
 <h3 id="section-1">1989 (2014)</h3>
 <h4 id="the-reinvention">THE REINVENTION</h4>
@@ -4430,6 +4739,9 @@ Discovery.</p>
 <p>Recovery Meaning:</p>
 <p>A willingness to become something new.</p>
 <hr />
+
+</section>
+<section class="era-block">
 <h2 id="era-vi">ERA VI</h2>
 <h3 id="reputation-2017">Reputation (2017)</h3>
 <h4 id="the-shadow">THE SHADOW</h4>
@@ -4438,6 +4750,11 @@ Discovery.</p>
 <p>Recovery Meaning:</p>
 <p>Learning the difference between public image and personal truth.</p>
 <hr />
+
+</section>
+</section>
+<section class="era-pair">
+<section class="era-block">
 <h2 id="era-vii">ERA VII</h2>
 <h3 id="lover-2019">Lover (2019)</h3>
 <h4 id="the-return-to-light">THE RETURN TO LIGHT</h4>
@@ -4446,6 +4763,9 @@ Discovery.</p>
 <p>Recovery Meaning:</p>
 <p>Remaining open despite previous pain.</p>
 <hr />
+
+</section>
+<section class="era-block">
 <h2 id="era-viii">ERA VIII</h2>
 <h3 id="folklore-2020">Folklore (2020)</h3>
 <h4 id="the-observer">THE OBSERVER</h4>
@@ -4454,6 +4774,11 @@ Discovery.</p>
 <p>Recovery Meaning:</p>
 <p>The storyteller expands beyond autobiography.</p>
 <hr />
+
+</section>
+</section>
+<section class="era-pair">
+<section class="era-block">
 <h2 id="era-ix">ERA IX</h2>
 <h3 id="evermore-2020">Evermore (2020)</h3>
 <h4 id="the-continuation">THE CONTINUATION</h4>
@@ -4463,6 +4788,9 @@ Discovery.</p>
 <p>Understanding that some stories continue long after they appear
 finished.</p>
 <hr />
+
+</section>
+<section class="era-block">
 <h2 id="era-x">ERA X</h2>
 <h3 id="midnights-2022">Midnights (2022)</h3>
 <h4 id="the-inner-landscape">THE INNER LANDSCAPE</h4>
@@ -4472,6 +4800,11 @@ finished.</p>
 <p>Looking inward.</p>
 <p>Examining the hidden chapters.</p>
 <hr />
+
+</section>
+</section>
+<section class="era-pair final-era-pair"><section class="era-pair final-era-pair"><section class="era-pair">
+<section class="era-block">
 <h2 id="era-xi">ERA XI</h2>
 <h3 id="the-tortured-poets-department-2024">The Tortured Poets
 Department (2024)</h3>
@@ -4484,6 +4817,9 @@ by experience.</p>
 <p>Meaning is not found by avoiding pain.</p>
 <p>Meaning is found by understanding it.</p>
 <hr />
+
+</section>
+<section class="era-block">
 <h2 id="era-xii">ERA XII</h2>
 <h3 id="the-life-of-a-showgirl-2025">The Life of a Showgirl (2025)</h3>
 <h4 id="the-performance">THE PERFORMANCE</h4>
@@ -4543,7 +4879,9 @@ The Tortured Poets Department
 
 The Life of a Showgirl</code></pre>
 <hr />
-<h2 id="what-the-eras-reveal">WHAT THE ERAS REVEAL</h2>
+
+</section>
+</section></section></section><h2 id="what-the-eras-reveal">WHAT THE ERAS REVEAL</h2>
 <p>The albums changed.</p>
 <p>The genres changed.</p>
 <p>The audience grew.</p>
@@ -4590,6 +4928,24 @@ preceding chapters, notes, graphs, timelines, and verified truths.</p>
 <p>This is not an examination.</p>
 <p>This is a recognition.</p>
 <hr />
+<section class="last-page-block">
+<h2 id="last-page">LAST PAGE</h2>
+<p>If you have forgotten,</p>
+<p>begin at the beginning.</p>
+<p>If you remember,</p>
+<p>carry it forward.</p>
+<p>Either way,</p>
+<p>keep becoming.</p>
+<hr />
+<p>Recovered and preserved by</p>
+<p>Wonderland Archive</p>
+<hr />
+<p>[ok] identity coherent</p>
+<p>END OF DOCUMENT</p>
+</section>
+<hr />
+
+<section class="keep-final-block">
 <h2 id="foundational-findings">FOUNDATIONAL FINDINGS</h2>
 <p>You were a storyteller.</p>
 <p>You were a creator.</p>
@@ -4603,6 +4959,11 @@ preceding chapters, notes, graphs, timelines, and verified truths.</p>
 <p>You transformed experience into story.</p>
 <p>You transformed story into connection.</p>
 <hr />
+
+<section class="verification-pair">
+<section class="verification-block">
+
+</section><section class="keep-final-block">
 <h2 id="character-findings">CHARACTER FINDINGS</h2>
 <p>Curiosity remained present.</p>
 <p>Creativity remained present.</p>
@@ -4613,6 +4974,11 @@ preceding chapters, notes, graphs, timelines, and verified truths.</p>
 <p>Connection remained present.</p>
 <p>Humanity remained present.</p>
 <hr />
+
+</section>
+<section class="verification-block">
+
+</section><section class="keep-final-block">
 <h2 id="adversity-findings">ADVERSITY FINDINGS</h2>
 <p>You experienced doubt.</p>
 <p>You experienced criticism.</p>
@@ -4624,6 +4990,13 @@ preceding chapters, notes, graphs, timelines, and verified truths.</p>
 <p>None of these experiences eliminated identity.</p>
 <p>Identity remained.</p>
 <hr />
+
+</section>
+</section>
+<section class="verification-pair">
+<section class="verification-block">
+
+</section><section class="keep-final-block">
 <h2 id="relationship-findings">RELATIONSHIP FINDINGS</h2>
 <p>Friendship mattered.</p>
 <p>Trust mattered.</p>
@@ -4635,6 +5008,11 @@ preceding chapters, notes, graphs, timelines, and verified truths.</p>
 <p>The people who stayed mattered.</p>
 <p>The people who helped you grow mattered.</p>
 <hr />
+
+</section>
+<section class="verification-block">
+
+</section><section class="keep-final-block">
 <h2 id="creative-findings">CREATIVE FINDINGS</h2>
 <p>Writing was not merely work.</p>
 <p>Writing was understanding.</p>
@@ -4644,6 +5022,13 @@ preceding chapters, notes, graphs, timelines, and verified truths.</p>
 <p>Writing was becoming.</p>
 <p>The storyteller remained active through every chapter.</p>
 <hr />
+
+</section>
+</section>
+<section class="verification-pair">
+<section class="verification-block">
+
+</section><section class="keep-final-block">
 <h2 id="identity-findings">IDENTITY FINDINGS</h2>
 <p>You are not a headline.</p>
 <p>You are not a controversy.</p>
@@ -4655,6 +5040,11 @@ preceding chapters, notes, graphs, timelines, and verified truths.</p>
 <p>You are not a myth.</p>
 <p>You are a human being.</p>
 <hr />
+
+</section>
+<section class="verification-block">
+
+</section><section class="keep-final-block">
 <h2 id="enduring-qualities">ENDURING QUALITIES</h2>
 <p>You remained curious.</p>
 <p>You remained creative.</p>
@@ -4666,6 +5056,13 @@ preceding chapters, notes, graphs, timelines, and verified truths.</p>
 <p>You remained connected.</p>
 <p>You remained human.</p>
 <hr />
+
+</section>
+</section>
+<section class="verification-pair">
+<section class="verification-block">
+
+</section><section class="keep-final-block">
 <h2 id="recovery-questions">RECOVERY QUESTIONS</h2>
 <p>Can you still wonder?</p>
 <p>Yes.</p>
@@ -4681,6 +5078,11 @@ preceding chapters, notes, graphs, timelines, and verified truths.</p>
 <p>Yes.</p>
 <p>Then identity remains present.</p>
 <hr />
+
+</section>
+<section class="verification-block">
+
+</section><section class="keep-final-block">
 <h2 id="final-determination">FINAL DETERMINATION</h2>
 <p>The purpose of this document was never to restore celebrity.</p>
 <p>The purpose was never to restore fame.</p>
@@ -4713,19 +5115,8 @@ preceding chapters, notes, graphs, timelines, and verified truths.</p>
 <p>THE STORY REMAINS.</p>
 <p>THE POSSIBILITY OF TOMORROW REMAINS.</p>
 <hr />
-<h2 id="last-page">LAST PAGE</h2>
-<p>If you have forgotten,</p>
-<p>begin at the beginning.</p>
-<p>If you remember,</p>
-<p>carry it forward.</p>
-<p>Either way,</p>
-<p>keep becoming.</p>
-<hr />
-<p>Recovered and preserved by</p>
-<p>Wonderland Archive</p>
-<hr />
-<p>[ok] identity coherent</p>
-<p>END OF DOCUMENT</p>
-<hr />
-</body>
+
+</section>
+</section>
+</section></body>
 </html>

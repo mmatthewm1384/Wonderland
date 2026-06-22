@@ -705,7 +705,13 @@ a {
   /* These sections should remain as opening blocks */
   h2[id^="section-"],
   h2[id="known-truths"],
-  h2[id="origin"],
+  h2#origin {
+  break-before: avoid-page !important;
+  page-break-before: avoid !important;
+  break-after: avoid !important;
+  page-break-after: avoid !important;
+  margin-top: 2rem !important;
+
   h2[id^="graph-"] {
     break-before: page !important;
     page-break-before: always !important;
@@ -1797,5 +1803,231 @@ a {
     line-height: 1.22;
     white-space: pre;
     overflow: visible;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   FINAL PDF CORRECTIONS — MINIMAL
+   -------------------------------------------------------------------------- */
+
+@media print {
+  html,
+  body {
+    background: #05070A !important;
+    color: #D2DAE4 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Recovery Notes: ORIGIN stays below appendix opener */
+  h2#origin {
+    break-before: auto !important;
+    page-break-before: auto !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  /* Known Truths: KNOWN TRUTHS stays below appendix opener */
+  h2#known-truths {
+    break-before: auto !important;
+    page-break-before: auto !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  /* Album timeline flows naturally */
+  h1#album-era-timeline ~ h2,
+  h1#album-era-timeline ~ h3,
+  h1#album-era-timeline ~ h4 {
+    break-before: auto !important;
+    page-break-before: auto !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+}
+
+/* FINAL MICRO-FIX: keep Origin on Recovery Notes opener page */
+@media print {
+  h1#recovery-notes-appendix + h3 + hr + p + hr {
+    break-after: auto !important;
+    page-break-after: auto !important;
+    margin-bottom: 1.2rem !important;
+  }
+
+  h1#recovery-notes-appendix + h3 + hr + p + hr + h2#origin {
+    break-before: auto !important;
+    page-break-before: auto !important;
+    margin-top: 0 !important;
+  }
+}
+
+/* FINAL MICRO-FIX: keep Known Truths on Known Truths Appendix opener page */
+@media print {
+  h2#known-truths {
+    break-before: avoid-page !important;
+    page-break-before: avoid !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+    margin-top: 2rem !important;
+  }
+
+  h1#known-truths-appendix + h3 + hr + p + hr {
+    break-after: auto !important;
+    page-break-after: auto !important;
+    margin-bottom: 1.2rem !important;
+  }
+
+  h1#known-truths-appendix + h3 + hr + p + hr + h2#known-truths {
+    break-before: auto !important;
+    page-break-before: auto !important;
+    margin-top: 0 !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   ALBUM ERA BLOCK FIX
+   Prevent ERA blocks from splitting across pages.
+   -------------------------------------------------------------------------- */
+
+@media print {
+  h2[id^="era-"] {
+    break-before: auto !important;
+    page-break-before: auto !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  h2[id^="era-"] + h3,
+  h2[id^="era-"] + h3 + h4,
+  h2[id^="era-"] + h3 + h4 + p,
+  h2[id^="era-"] + h3 + h4 + p + p,
+  h2[id^="era-"] + h3 + h4 + p + p + p,
+  h2[id^="era-"] + h3 + h4 + p + p + p + p,
+  h2[id^="era-"] + h3 + h4 + p + p + p + p + p {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  h2[id^="era-"],
+  h2[id^="era-"] + h3,
+  h2[id^="era-"] + h3 + h4 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+}
+
+/* FINAL ERA WRAP FIX */
+@media print {
+  .era-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .era-block h2,
+  .era-block h3,
+  .era-block h4 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+}
+
+/* FINAL ERA BLOCK FIX — CSS BEFORE PANDOC EMBED */
+@media print {
+  .era-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    break-before: page !important;
+    page-break-before: always !important;
+    margin-top: 0 !important;
+  }
+
+  .era-block h2,
+  .era-block h3,
+  .era-block h4,
+  .era-block p {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .era-block h2,
+  .era-block h3,
+  .era-block h4 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  .era-block p {
+    margin-top: 0.45rem !important;
+    margin-bottom: 0.45rem !important;
+  }
+}
+
+/* FINAL ERA TWO-PER-PAGE FIX */
+@media print {
+  .era-pair {
+    break-before: page !important;
+    page-break-before: always !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .era-pair:first-of-type {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  .era-pair .era-block {
+    break-before: auto !important;
+    page-break-before: auto !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 2.2rem !important;
+  }
+
+  .era-pair .era-block h2,
+  .era-pair .era-block h3,
+  .era-pair .era-block h4 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  .era-pair .era-block p {
+    margin-top: 0.35rem !important;
+    margin-bottom: 0.35rem !important;
+  }
+}
+
+/* FINAL ERA TWO-PER-PAGE FIX */
+@media print {
+  .era-pair {
+    break-before: page !important;
+    page-break-before: always !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .era-pair:first-of-type {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  .era-pair .era-block {
+    break-before: auto !important;
+    page-break-before: auto !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 2.2rem !important;
+  }
+
+  .era-pair .era-block h2,
+  .era-pair .era-block h3,
+  .era-pair .era-block h4 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  .era-pair .era-block p {
+    margin-top: 0.35rem !important;
+    margin-bottom: 0.35rem !important;
   }
 }
