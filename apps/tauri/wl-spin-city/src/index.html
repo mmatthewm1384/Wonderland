@@ -38,11 +38,8 @@
       canvas.style.width = `${window.innerWidth}px`;
       canvas.style.height = `${window.innerHeight}px`;
 
-      if (!engine) {
-        engine = new SpinCityEngine(canvas.width, canvas.height);
-      } else {
-        engine.resize(canvas.width, canvas.height);
-      }
+      if (!engine) engine = new SpinCityEngine(canvas.width, canvas.height);
+      else engine.resize(canvas.width, canvas.height);
     }
 
     function frame(time) {

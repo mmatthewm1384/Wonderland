@@ -6,11 +6,10 @@ export const WL_PALETTE = {
 };
 
 export const SpinCityOntology = Object.freeze({
-  trajectory: "central vector of cognitive momentum",
-  rings: "gaze-flow currents",
-  hooks: "crossing-trigger redirects",
-  echoes: "recent attention history",
-  watchers: "likely unrealized thoughts",
-  ghosts: "unlikely coherent possibilities",
-  collapse: "visual thought emergence",
+  rings: "dominant counter-spinning orbital thought currents",
+  hooks: "sparse capture points that move gaze into paths",
+  paths: "capture -> travel -> release journeys",
+  watchers: "mostly invisible pauses where likely thoughts could emerge",
+  ghosts: "rare peripheral off-trajectory hook possibilities",
+  trajectory: "invisible causal vector",
 });

@@ -1,5 +1,5 @@
 export class AttentionDecay {
-  constructor({ baseRate = 0.1, threshold = 0.2 } = {}) {
+  constructor({ baseRate = 0.055, threshold = 0.2 } = {}) {
     this.value = 1.0;
     this.baseRate = baseRate;
     this.threshold = threshold;
@@ -18,13 +18,5 @@ export class AttentionDecay {
 
   shouldRelease() {
     return this.value < this.threshold;
-  }
-
-  snapshot() {
-    return {
-      attention: this.value,
-      threshold: this.threshold,
-      drift: this.shouldRelease(),
-    };
   }
 }

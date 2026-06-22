@@ -1,16 +1,17 @@
-# Spin City Engine
+# wl-spin-city core-v1
 
-Core definition:
+Active systems:
 
-- Rings move gaze.
-- Trajectory is the central vector dictating ring speeds and watcher alignment.
-- Hooks redirect gaze at trajectory crossings.
-- Watchers represent likely unrealized thoughts.
-- Ghosts represent unlikely but coherent possibilities.
-- Echoes reveal recent attention history.
-- Collapse represents visual thought emergence.
-- Interest determines journey depth.
-- Attention determines time until next attraction.
-- Saturation determines available journeys.
+- Invisible trajectory
+- Counter-spinning orbital rings
+- Sparse ring riders
+- Single visible hook/path journey
+- Capture -> travel -> release
 
-Causal attention is forward-only. Decay sets the interval to the next hook. Capture pivots trajectory irreversibly, exposing new watchers while prior ghosts and echoes remain fixed.
+Disabled for foundation pass:
+
+- Watchers
+- Ghosts
+- Collapse
+- Echoes
+- Presence coupling

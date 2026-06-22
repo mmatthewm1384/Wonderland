@@ -2,7 +2,7 @@ export class Trajectory {
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.angle = -Math.PI / 8;
+    this.angle = -0.18;
     this.origin = { x: width / 2, y: height / 2 };
     this.vector = { x: Math.cos(this.angle), y: Math.sin(this.angle) };
   }
