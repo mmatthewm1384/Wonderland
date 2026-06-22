@@ -35,3 +35,25 @@ vault/data/torrents/quarantine/
 
 # Rust build artifacts
 tools/wil-rust/target/
+
+# Wonderland generated app/build artifacts
+apps/**/node_modules/
+apps/**/src-tauri/target/
+apps/**/*.app/
+apps/macos/wl-chaos-menubar/.build/
+apps/macos/wl-chaos-menubar/build/
+apps/macos/wl-chaos-menubar/backups/
+*.backup.*
+.DS_Store
+.wl/
+
+# Wonderland generated app/build artifacts
+apps/**/node_modules/
+apps/**/src-tauri/target/
+apps/**/*.app/
+apps/macos/wl-chaos-menubar/.build/
+apps/macos/wl-chaos-menubar/build/
+apps/macos/wl-chaos-menubar/backups/
+*.backup.*
+.DS_Store
+.wl/
