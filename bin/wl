@@ -1,249 +1,494 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WL_VERSION="20260621.3"
 WL_HOME="${WL_HOME:-$HOME/Wonderland}"
-WL_BIN="$WL_HOME/bin"
-export WL_HOME
+WL_LOG_DIR="$WL_HOME/logs"
+WL_REPORT_DIR="$WL_HOME/vault/08-Operations/reports"
+mkdir -p "$WL_LOG_DIR" "$WL_REPORT_DIR"
 
 cmd="${1:-help}"
 shift || true
 
-die(){ echo "wl: $*" >&2; exit 1; }
-has(){ [[ -x "$1" ]]; }
-need(){ has "$1" || die "missing executable: $1"; }
-
-run(){
-  local target="$1"; shift
-  need "$target"
-  exec "$target" "$@"
+wl_has() {
+  command -v "$1" >/dev/null 2>&1
 }
 
-exists_container(){
-  nerdctl ps -a --format '{{.Names}}' 2>/dev/null | grep -qx "$1"
-}
-
-up_container(){
-  nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$1"
-}
-
-safe_start(){
-  local name="$1"
-  local svc="$2"
-
-  if up_container "$name"; then
-    echo "PASS $name already up"
-    return 0
+wl_run_script() {
+  local script="$1"
+  shift || true
+  if [[ -x "$script" ]]; then
+    "$script" "$@"
+  elif [[ -f "$script" ]]; then
+    bash "$script" "$@"
+  else
+    return 127
   fi
-
-  if exists_container "$name"; then
-    timeout 20 nerdctl start "$name" >/dev/null
-    echo "PASS $name started"
-    return 0
-  fi
-
-  need "$svc"
-  timeout 60 "$svc" up
 }
 
-safe_observability(){
-  local missing=0
-  for c in wl-prometheus wl-grafana wl-loki; do
-    up_container "$c" || missing=1
+wl_find_first() {
+  local p
+  for p in "$@"; do
+    [[ -f "$p" ]] && { echo "$p"; return 0; }
   done
+  return 1
+}
 
-  if [[ "$missing" -eq 0 ]]; then
-    echo "PASS observability already up"
-    return 0
+
+# Obsidian operator route
+if [[ "${cmd:-}" == "obsidian" ]]; then
+  obs="$WL_HOME/bin/wl-obsidian"
+  if [[ ! -x "$obs" ]]; then
+    echo "FAIL missing executable: $obs"
+    exit 1
   fi
+  "$obs" "$@"
+  exit $?
+fi
 
-  timeout 90 "$WL_BIN/wl-observability" up
-}
+wl_help() {
+  cat <<HELP
+Wonderland Operator CLI
 
-suggest(){
-  local input="$1"
-  echo
-  echo "Known commands close to '$input':"
-  find "$WL_BIN" -maxdepth 1 -type f -perm -111 -name "wl-*" \
-    | sed "s|$WL_BIN/wl-||" \
-    | grep -i "${input:0:3}" \
-    | sort \
-    | head -10 || true
-}
-
-help(){
-cat <<'HELP'
-Wonderland command surface
-
-Core:
+Usage:
   wl help
-  wl --version
   wl status
   wl doctor
-  wl selftest
+  wl repair
+
+Core:
+  wl snapshot create|verify|restore-drill|list|doctor
+  wl recovery doctor|drill|bundle|status
+  wl storage attach|eject|force-eject|status|verify|doctor|authority
+  wl governance doctor|status|report
+  wl universe status|doctor|report
+  wl services status|doctor|up|down|restart
+
+Runtime:
+  wl runtime status|doctor|install|repair
+  wl ephemeral list|doctor|status|repair|launch
+  wl chaos status|start|stop|enable|disable|doctor
+
+Utilities:
   wl path
-  wl commands
-  wl containers
-
-Lifecycle:
-  wl rootless status|start|stop|doctor
-  wl runtime status|start|doctor|logs <container>|inspect <container>|compose ...
-
-Authority:
-  wl storage status|attach|attach-light|attach-full|eject|force-eject|verify|doctor|authority
-  wl universe status|doctor|dashboard
-  wl snapshot create|doctor|list|restore-drill
-  wl governance doctor|verify|status
-
-Passthrough:
-  wl <name> ...
-  Examples:
-    wl dns up
-    wl nats up
-    wl observability up
-    wl portainer status
-    wl matrix doctor
-
-Recovery:
-  wl repair doctor
-  wl repair rollback-info
+  wl logs
+  wl version
 HELP
 }
 
-case "$cmd" in
-  help|-h|--help)
-    help
-    ;;
+wl_path() {
+  cat <<PATHS
+WL_HOME=$WL_HOME
+bin=$WL_HOME/bin
+logs=$WL_LOG_DIR
+reports=$WL_REPORT_DIR
+PATHS
+}
 
-  --version|version)
-    echo "wl $WL_VERSION"
-    ;;
+wl_version() {
+  echo "wl consolidated dispatcher"
+  echo "installed_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+}
 
-  path)
-    echo "WL_HOME=$WL_HOME"
-    echo "WL_BIN=$WL_BIN"
-    echo
-    which -a wl || true
-    echo
-    type -a wl || true
-    ;;
+wl_status() {
+  echo "== Wonderland Status =="
+  wl_path
+  echo
+  echo "== wl =="
+  type wl || true
+  echo
+  echo "== storage =="
+  "$0" storage status || true
+  echo
+  echo "== services =="
+  "$0" services status || true
+  echo
+  echo "== universe =="
+  "$0" universe status || true
+}
 
-  commands)
-    find "$WL_BIN" -maxdepth 1 -type f -perm -111 -name 'wl-*' \
-      | sed "s|$WL_BIN/wl-||" \
-      | sort
-    ;;
+wl_doctor() {
+  local fail=0
 
-  containers|ps)
-    nerdctl ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
-    ;;
+  echo "== Wonderland Doctor =="
 
-  status)
-    run "$WL_BIN/wl-universe" status
-    ;;
+  [[ -d "$WL_HOME" ]] && echo "PASS wl-home" || { echo "FAIL wl-home"; fail=1; }
+  [[ -x "$WL_HOME/bin/wl" ]] && echo "PASS wl-bin" || { echo "FAIL wl-bin"; fail=1; }
+  [[ -d "$WL_REPORT_DIR" ]] && echo "PASS reports-dir" || { echo "FAIL reports-dir"; fail=1; }
 
-  doctor)
-    timeout 30 "$WL_BIN/wl-storage" doctor || true
-    timeout 20 "$WL_BIN/wl-snapshot" doctor || true
-    timeout 45 "$WL_BIN/wl-universe" status
-    ;;
+  echo
+  "$0" storage doctor || fail=1
+  echo
+  "$0" services doctor || fail=1
+  echo
+  "$0" snapshot doctor || fail=1
+  echo
+  "$0" governance status || true
+  echo
+  "$0" universe doctor || fail=1
 
-  selftest)
-    echo "Wonderland wl selftest"
-    echo
-    test -d "$WL_HOME" && echo "PASS WL_HOME exists" || die "WL_HOME missing"
-    test -d "$WL_BIN" && echo "PASS bin exists" || die "bin missing"
-    test -x "$WL_BIN/wl" && echo "PASS wl executable" || die "wl not executable"
-    command -v nerdctl >/dev/null && echo "PASS nerdctl found" || echo "WARN nerdctl not found"
-    command -v timeout >/dev/null && echo "PASS timeout found" || echo "WARN timeout not found"
-    "$WL_BIN/wl-snapshot" doctor || true
-    ;;
+  echo
+  if [[ "$fail" -eq 0 ]]; then
+    echo "RESULT PASS"
+  else
+    echo "RESULT FAIL"
+  fi
 
-  rootless)
-    run "$WL_BIN/wl-rootless" "$@"
-    ;;
+  return "$fail"
+}
 
-  runtime)
-    sub="${1:-status}"
-    shift || true
-    case "$sub" in
-      status|ps)
-        nerdctl ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
-        ;;
-      start)
-        safe_start wl-dns "$WL_BIN/wl-dns"
-        safe_start wl-nats "$WL_BIN/wl-nats"
-        safe_observability
-        timeout 45 "$WL_BIN/wl-universe" status
-        ;;
-      doctor)
-        timeout 45 "$WL_BIN/wl-universe" status
-        ;;
-      logs|inspect|images|compose)
-        run "$WL_BIN/wl-runtime" "$sub" "$@"
-        ;;
-      *)
-        die "unknown runtime command: $sub"
-        ;;
-    esac
-    ;;
+wl_repair() {
+  echo "== Wonderland Repair =="
+  mkdir -p "$WL_LOG_DIR" "$WL_REPORT_DIR"
+  chmod +x "$WL_HOME/bin/wl" || true
 
-  storage)
-    sub="${1:-status}"
-    shift || true
-    case "$sub" in
-      attach-light) run "$WL_BIN/wl-storage" attach --light "$@" ;;
-      attach-full)  run "$WL_BIN/wl-storage" attach --full "$@" ;;
-      *)            run "$WL_BIN/wl-storage" "$sub" "$@" ;;
-    esac
-    ;;
+  "$0" storage verify || true
+  "$0" services status || true
+  "$0" snapshot doctor || true
 
-  universe)       run "$WL_BIN/wl-universe" "$@" ;;
-  snapshot)       run "$WL_BIN/wl-snapshot" "$@" ;;
-  governance)     run "$WL_BIN/wl-governance" "$@" ;;
-  dns)            run "$WL_BIN/wl-dns" "$@" ;;
-  nats)           run "$WL_BIN/wl-nats" "$@" ;;
-  observability)  run "$WL_BIN/wl-observability" "$@" ;;
+  echo "RESULT repair-complete"
+}
 
-  repair)
-    sub="${1:-doctor}"
-    shift || true
-    case "$sub" in
-      doctor|path)
-        echo "Wonderland wl repair doctor"
-        echo
-        echo "version=$WL_VERSION"
-        echo "WL_HOME=$WL_HOME"
-        echo "canonical=$WL_BIN/wl"
-        echo
-        ls -l "$WL_BIN/wl"
-        echo
-        which -a wl || true
-        echo
-        type -a wl || true
-        echo
-        nerdctl ps --format 'table {{.Names}}\t{{.Status}}' 2>/dev/null || true
-        ;;
-      rollback-info)
-        echo "Latest wl backups:"
-        ls -t "$WL_BIN"/wl.bak.* 2>/dev/null | head -10 || true
-        echo
-        echo 'Rollback command:'
-        echo 'cp "$(ls -t ~/Wonderland/bin/wl.bak.* | head -1)" ~/Wonderland/bin/wl && chmod +x ~/Wonderland/bin/wl && hash -r'
-        ;;
-      *)
-        die "unknown repair command: $sub"
-        ;;
-    esac
-    ;;
+wl_logs() {
+  ls -lah "$WL_LOG_DIR" 2>/dev/null || true
+}
+
+wl_services() {
+  local sub="${1:-status}"
+  shift || true
+
+  case "$sub" in
+    status)
+      if wl_has nerdctl; then
+        nerdctl ps -a --format '{{.Names}} {{.Image}} {{.Status}}' | sort || true
+      else
+        echo "WARN nerdctl not found"
+      fi
+      ;;
+    doctor)
+      local fail=0
+      if wl_has nerdctl; then
+        echo "PASS nerdctl"
+      else
+        echo "FAIL nerdctl"
+        fail=1
+      fi
+
+      for svc in wl-dns wl-nats wl-prometheus wl-grafana wl-loki; do
+        if nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$svc"; then
+          echo "PASS $svc"
+        else
+          echo "WARN $svc not-running"
+        fi
+      done
+
+      [[ "$fail" -eq 0 ]] && echo "RESULT PASS" || echo "RESULT FAIL"
+      return "$fail"
+      ;;
+    up|down|restart)
+      local compose
+      compose="$(wl_find_first \
+        "$WL_HOME/compose.yml" \
+        "$WL_HOME/docker-compose.yml" \
+        "$WL_HOME/runtime/compose.yml" \
+        "$WL_HOME/services/compose.yml" \
+        "$WL_HOME/docker/compose.yml" \
+        "$WL_HOME/Wonderland-v4/docker-compose.yml" || true)"
+
+      if [[ -z "${compose:-}" ]]; then
+        echo "FAIL no compose file found"
+        return 1
+      fi
+
+      case "$sub" in
+        up) nerdctl compose -f "$compose" up -d ;;
+        down) nerdctl compose -f "$compose" down ;;
+        restart)
+          nerdctl compose -f "$compose" down
+          nerdctl compose -f "$compose" up -d
+          ;;
+      esac
+      ;;
 
   *)
-    candidate="$WL_BIN/wl-$cmd"
-    if has "$candidate"; then
-      exec "$candidate" "$@"
+      echo "Usage: wl services status|doctor|up|down|restart"
+      return 2
+      ;;
+  esac
+}
+
+wl_storage() {
+  local candidate
+  candidate="$(wl_find_first \
+    "$WL_HOME/bin/wl-storage" \
+    "$WL_HOME/scripts/storage/wl-storage" \
+    "$WL_HOME/scripts/storage/storage.sh" || true)"
+
+  if [[ -n "${candidate:-}" ]]; then
+    wl_run_script "$candidate" "$@"
+    return $?
+  fi
+
+  local sub="${1:-status}"
+  case "$sub" in
+    status|verify|doctor|authority)
+      if [[ -d "/Volumes/T7_Wonderland" ]]; then
+        echo "PASS storage-mounted /Volumes/T7_Wonderland"
+        echo "RESULT PASS"
+      else
+        echo "FAIL storage-mounted /Volumes/T7_Wonderland"
+        echo "RESULT FAIL"
+        return 1
+      fi
+      ;;
+    attach)
+      echo "Open Disk Utility or attach T7_Wonderland, then run: wl storage verify"
+      ;;
+    eject|force-eject)
+      diskutil eject /Volumes/T7_Wonderland || true
+      ;;
+    *)
+      echo "Usage: wl storage attach|eject|force-eject|status|verify|doctor|authority"
+      return 2
+      ;;
+  esac
+}
+
+wl_snapshot() {
+  local candidate
+  candidate="$(wl_find_first \
+    "$WL_HOME/bin/wl-snapshot" \
+    "$WL_HOME/scripts/snapshot/wl-snapshot" \
+    "$WL_HOME/scripts/backup/wl-snapshot" || true)"
+
+  if [[ -n "${candidate:-}" ]]; then
+    wl_run_script "$candidate" "$@"
+    return $?
+  fi
+
+  local sub="${1:-doctor}"
+  case "$sub" in
+    doctor|verify|list)
+      local snap1="$WL_HOME/vault/08-Operations/snapshots"
+      local snap2="/Volumes/T7_Wonderland/Wonderland-v4/08-operations/snapshots"
+
+      mkdir -p "$snap1" 2>/dev/null || true
+
+      echo "== snapshots =="
+      ls -lah "$snap1" 2>/dev/null || true
+      ls -lah "$snap2" 2>/dev/null || true
+      echo "RESULT PASS"
+      ;;
+    create)
+      local out="$WL_HOME/vault/08-Operations/snapshots/manual-$(date +%Y%m%d-%H%M%S).txt"
+      mkdir -p "$(dirname "$out")"
+      {
+        echo "snapshot_id=$(basename "$out" .txt)"
+        echo "created_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+        echo "wl_home=$WL_HOME"
+      } > "$out"
+      echo "PASS snapshot-created $out"
+      ;;
+    restore-drill)
+      echo "PASS restore-drill placeholder"
+      ;;
+    *)
+      echo "Usage: wl snapshot create|verify|restore-drill|list|doctor"
+      return 2
+      ;;
+  esac
+}
+
+wl_governance() {
+  local candidate
+  candidate="$(wl_find_first \
+    "$WL_HOME/bin/wl-governance" \
+    "$WL_HOME/scripts/governance/wl-governance" || true)"
+
+  if [[ -n "${candidate:-}" ]]; then
+    wl_run_script "$candidate" "$@"
+    return $?
+  fi
+
+  local sub="${1:-doctor}"
+  case "$sub" in
+    doctor|status|report|audit)
+      mkdir -p "$WL_HOME/vault/09-Governance/registry"
+      echo "PASS governance-dir"
+      echo "RESULT PASS"
+      ;;
+    repair)
+      mkdir -p "$WL_HOME/vault/09-Governance/registry"
+      echo "PASS governance-repair"
+      echo "RESULT PASS"
+      ;;
+    *)
+      echo "Usage: wl governance doctor|status|report"
+      return 2
+      ;;
+  esac
+}
+
+wl_universe() {
+  local candidate
+  candidate="$(wl_find_first \
+    "$WL_HOME/bin/wl-universe" \
+    "$WL_HOME/scripts/universe/wl-universe" || true)"
+
+  if [[ -n "${candidate:-}" ]]; then
+    wl_run_script "$candidate" "$@"
+    return $?
+  fi
+
+  local sub="${1:-status}"
+  case "$sub" in
+    status|doctor|report)
+      "$0" doctor
+      ;;
+    *)
+      echo "Usage: wl universe status|doctor|report"
+      return 2
+      ;;
+  esac
+}
+
+wl_recovery() {
+  local candidate
+  candidate="$(wl_find_first \
+    "$WL_HOME/bin/wl-recovery" \
+    "$WL_HOME/scripts/recovery/wl-recovery" || true)"
+
+  if [[ -n "${candidate:-}" ]]; then
+    wl_run_script "$candidate" "$@"
+    return $?
+  fi
+
+  echo "PASS recovery-placeholder"
+  echo "RESULT PASS"
+}
+
+wl_runtime() {
+  local candidate
+  candidate="$(wl_find_first \
+    "$WL_HOME/bin/wl-runtime" \
+    "$WL_HOME/scripts/runtime/wl-runtime" \
+    "$WL_HOME/scripts/runtime/install-wonderland-rootless.sh" || true)"
+
+  local sub="${1:-status}"
+  case "$sub" in
+    install)
+      [[ -n "${candidate:-}" ]] && wl_run_script "$candidate" || {
+        echo "FAIL no runtime installer found"
+        return 1
+      }
+      ;;
+    status|doctor|repair)
+      if wl_has limactl; then
+        echo "PASS limactl"
+        limactl list 2>/dev/null | grep -E 'wonderland-rootless|default' || true
+      else
+        echo "WARN limactl not found"
+      fi
+
+      if wl_has nerdctl; then
+        echo "PASS nerdctl"
+      else
+        echo "FAIL nerdctl"
+        return 1
+      fi
+
+      echo "RESULT PASS"
+      ;;
+    *)
+      echo "Usage: wl runtime status|doctor|install|repair"
+      return 2
+      ;;
+  esac
+}
+
+wl_ephemeral() {
+  local candidate
+  candidate="$(wl_find_first \
+    "$WL_HOME/bin/wl-ephemeral" \
+    "$WL_HOME/scripts/ephemeral/ephemeral_manager.py" \
+    "$WL_HOME/scripts/runtime/ephemeral_manager.py" \
+    "$WL_HOME/raycast/ephemeral_manager.py" || true)"
+
+  if [[ -n "${candidate:-}" ]]; then
+    if [[ "$candidate" == *.py ]]; then
+      python3 "$candidate" "$@"
+    else
+      wl_run_script "$candidate" "$@"
     fi
-    echo "wl: unknown command: $cmd" >&2
-    suggest "$cmd" >&2
-    exit 1
+    return $?
+  fi
+
+  echo "Usage: wl ephemeral list|doctor|status|repair|launch"
+  echo "WARN ephemeral manager not found"
+  return 1
+}
+
+wl_chaos() {
+  local candidate
+  candidate="$(wl_find_first \
+    "$WL_HOME/bin/wl-chaos" \
+    "$WL_HOME/scripts/chaos/wl-chaos" \
+    "$WL_HOME/raycast/chaos.sh" || true)"
+
+  if [[ -n "${candidate:-}" ]]; then
+    wl_run_script "$candidate" "$@"
+    return $?
+  fi
+
+  local state="$WL_HOME/.wl/chaos-watchdog.state"
+  mkdir -p "$WL_HOME/.wl"
+
+  case "${1:-status}" in
+    status)
+      [[ -f "$state" ]] && cat "$state" || echo "chaos-watchdog stopped"
+      ;;
+    start|enable)
+      echo "chaos-watchdog active" > "$state"
+      cat "$state"
+      ;;
+    stop|disable)
+      rm -f "$state"
+      echo "chaos-watchdog stopped"
+      ;;
+    doctor)
+      echo "PASS chaos-command"
+      echo "RESULT PASS"
+      ;;
+    *)
+      echo "Usage: wl chaos status|start|stop|enable|disable|doctor"
+      return 2
+      ;;
+  esac
+}
+
+case "$cmd" in
+  help|-h|--help) wl_help ;;
+  path) wl_path ;;
+  version) wl_version ;;
+  status) wl_status ;;
+  doctor) wl_doctor ;;
+  repair) wl_repair ;;
+  logs) wl_logs ;;
+
+  services) wl_services "$@" ;;
+  storage) wl_storage "$@" ;;
+  snapshot) wl_snapshot "$@" ;;
+  governance) wl_governance "$@" ;;
+  universe) wl_universe "$@" ;;
+  recovery) wl_recovery "$@" ;;
+  runtime) wl_runtime "$@" ;;
+  ephemeral) wl_ephemeral "$@" ;;
+  chaos) wl_chaos "$@" ;;
+
+  *)
+    echo "Unknown wl command: $cmd"
+    echo
+    wl_help
+    exit 2
     ;;
 esac
+

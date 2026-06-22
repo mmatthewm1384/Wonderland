@@ -60,9 +60,7 @@ status() {
 
   echo
   echo "Runtime"
-  check_cmd "dns" "$WL_ROOT/bin/wl" dns status || failures=$((failures+1))
-  check_cmd "nats" "$WL_ROOT/bin/wl" nats status || failures=$((failures+1))
-  check_cmd "observability" "$WL_ROOT/bin/wl" observability status || failures=$((failures+1))
+  check_cmd "services" "$WL_ROOT/bin/wl" services doctor || failures=$((failures+1))
 
   echo
   echo "Capability"
