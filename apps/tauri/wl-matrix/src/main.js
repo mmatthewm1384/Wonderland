@@ -1,3 +1,19 @@
+
+async function wlNativeReadChaosContract() {
+  try {
+    if (window.__TAURI__?.core?.invoke) {
+      return await window.__TAURI__.core.invoke("read_chaos_contract");
+    }
+  } catch {}
+
+  try {
+    const mod = await import("@tauri-apps/api/core");
+    return await mod.invoke("read_chaos_contract");
+  } catch {}
+
+  return null;
+}
+
 const canvas=document.getElementById("stage"),ctx=canvas.getContext("2d"),panel=document.getElementById("panel"),presetName=document.getElementById("presetName");
 let w=0,h=0,dpr=1,production=false;const colors=["#00E5FF","#7000FF","#00FF66"];
 const settings={speed:.36,density:90,glow:.95,fade:.12,chaos:1.3};
@@ -47,3 +63,78 @@ function frame(ms){const raw=ms*.001,t=raw*settings.speed,cx=w/2,cy=h/2,max=Math
 for(let i=0;i<settings.density;i++){const n=i/settings.density;const shell=Math.floor(i%9);const r=max*(.08+n*.92)+Math.sin(t*3+i)*18*settings.chaos;const a=t*(shell%2?-1:1)*(0.5+n)+i*.618;const x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r*.74;const color=colors[i%3];ctx.fillStyle=color;ctx.globalAlpha=(.35+n*.45)*settings.glow;ctx.beginPath();ctx.arc(x,y,1.4+(i%5),0,Math.PI*2);ctx.fill();if(i%3===0){const x2=cx+Math.cos(a+.12)*r*.82,y2=cy+Math.sin(a+.12)*r*.82*.74;ctx.strokeStyle=color;ctx.globalAlpha=.16*settings.glow;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x2,y2);ctx.stroke()}}
 const event=raw%29;if(event>24){const q=Math.sin((event-24)/5*Math.PI);ctx.strokeStyle="#fff";ctx.globalAlpha=.22*q;ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,max*(.2+.12*q),0,Math.PI*2);ctx.stroke()}
 requestAnimationFrame(frame)}requestAnimationFrame(frame);
+
+
+// WL_CHAOS_DROP_IN_MATRIX
+async function loadChaosContract() {
+  try {
+    const native = await wlNativeReadChaosContract();
+    if (native) return JSON.parse(native);
+  } catch {}
+
+  try {
+    const response = await fetch("file:///Users/wonderland/Wonderland/vault/chaos/visual-chaos-contract.json?t=" + Date.now(), { cache: "no-store" });
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
+async function applyChaosContract() {
+  const contract = await loadChaosContract();
+  const cfg = contract?.chaos_active ? contract?.apps?.["wl-matrix"] : null;
+
+  if (cfg) {
+    settings.density = Math.max(settings.density, Math.round((cfg.particles ?? 10000) / 45));
+    settings.speed = Math.max(settings.speed, 0.9);
+    settings.glow = Math.max(settings.glow, 1.4);
+    settings.chaos = Math.max(settings.chaos, cfg.slam_force ?? 2.5);
+    if (typeof presetName !== "undefined") presetName.textContent = "MODE: CHAOS";
+  } else {
+    Object.assign(settings, presets.energy);
+    if (typeof presetName !== "undefined") presetName.textContent = "MODE: energy";
+  }
+
+  sync();
+}
+
+setInterval(applyChaosContract, 30000);
+window.addEventListener("focus", applyChaosContract);
+document.addEventListener("visibilitychange", applyChaosContract);
+
+applyChaosContract();
+
+// WL_PHASE_D1_MATRIX_LIVE_APPLY
+let wlMatrixLastContract = "";
+
+async function wlMatrixLiveApply() {
+  try {
+    const native = await wlNativeReadChaosContract();
+    if (!native || native === wlMatrixLastContract) return;
+
+    wlMatrixLastContract = native;
+
+    const contract = JSON.parse(native);
+    const cfg = contract?.chaos_active ? contract?.apps?.["wl-matrix"] : null;
+
+    if (cfg) {
+      settings.density = Math.max(220, Math.round((cfg.particles ?? 10000) / 45));
+      settings.speed = 0.9;
+      settings.glow = 1.4;
+      settings.chaos = Math.max(2.5, cfg.slam_force ?? 2.5);
+      if (typeof presetName !== "undefined") presetName.textContent = "MODE: CHAOS LIVE";
+    } else {
+      Object.assign(settings, presets.energy);
+      if (typeof presetName !== "undefined") presetName.textContent = "MODE: energy";
+    }
+
+    sync();
+  } catch (error) {
+    console.warn("wl-matrix live chaos apply failed", error);
+  }
+}
+
+setInterval(wlMatrixLiveApply, 5000);
+window.addEventListener("focus", wlMatrixLiveApply);
+document.addEventListener("visibilitychange", wlMatrixLiveApply);
+wlMatrixLiveApply();

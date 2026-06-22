@@ -1,3 +1,19 @@
+
+async function wlNativeReadChaosContract() {
+  try {
+    if (window.__TAURI__?.core?.invoke) {
+      return await window.__TAURI__.core.invoke("read_chaos_contract");
+    }
+  } catch {}
+
+  try {
+    const mod = await import("@tauri-apps/api/core");
+    return await mod.invoke("read_chaos_contract");
+  } catch {}
+
+  return null;
+}
+
 const canvas=document.getElementById("stage"),ctx=canvas.getContext("2d"),panel=document.getElementById("panel"),presetName=document.getElementById("presetName");
 let w=0,h=0,dpr=1,production=false;const colors=["#00E5FF","#7000FF","#00FF66"];
 const settings={speed:.22,density:36,glow:.82,fade:.10,tension:1.3};
@@ -47,3 +63,78 @@ function frame(ms){const raw=ms*.001,t=raw*settings.speed,cx=w/2,cy=h/2;ctx.glob
 for(let i=0;i<settings.density;i++){const n=i/settings.density,y=cy+(n-.5)*h*.9+Math.sin(t*2+i)*18;ctx.strokeStyle=colors[i%3];ctx.globalAlpha=(.12+.18*Math.sin(t+i)**2)*settings.glow;ctx.lineWidth=1.1+(i%4)*.35;ctx.beginPath();for(let x=-40;x<=w+40;x+=18){const q=x/w;const wave=Math.sin(q*Math.PI*4*settings.tension+t*4+i*.37)*32+Math.sin(q*Math.PI*9+t*2.1+i)*9;const pull=Math.exp(-Math.abs(q-.5)*2.2);const yy=y+wave*pull;if(x===-40)ctx.moveTo(x,yy);else ctx.lineTo(x,yy)}ctx.stroke()}
 for(let i=0;i<5;i++){const a=raw*.08+i*1.3,r=Math.min(w,h)*(.18+i*.07),x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r*.55;ctx.strokeStyle=colors[i%3];ctx.globalAlpha=.18*settings.glow;ctx.beginPath();ctx.arc(x,y,10+i*2,0,Math.PI*2);ctx.stroke()}
 requestAnimationFrame(frame)}requestAnimationFrame(frame);
+
+
+// WL_CHAOS_DROP_IN_AGITATE
+async function loadChaosContract() {
+  try {
+    const native = await wlNativeReadChaosContract();
+    if (native) return JSON.parse(native);
+  } catch {}
+
+  try {
+    const response = await fetch("file:///Users/wonderland/Wonderland/vault/chaos/visual-chaos-contract.json?t=" + Date.now(), { cache: "no-store" });
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
+async function applyChaosContract() {
+  const contract = await loadChaosContract();
+  const cfg = contract?.chaos_active ? contract?.apps?.["wl-agitate"] : null;
+
+  if (cfg) {
+    settings.density = Math.max(settings.density, Math.round((cfg.intensity ?? 2.0) * 60));
+    settings.speed = Math.max(settings.speed, 0.55);
+    settings.glow = Math.max(settings.glow, 1.25);
+    settings.tension = Math.max(settings.tension, 2.2);
+    if (typeof presetName !== "undefined") presetName.textContent = "MODE: CHAOS";
+  } else {
+    Object.assign(settings, presets.ambient);
+    if (typeof presetName !== "undefined") presetName.textContent = "MODE: ambient";
+  }
+
+  sync();
+}
+
+setInterval(applyChaosContract, 30000);
+window.addEventListener("focus", applyChaosContract);
+document.addEventListener("visibilitychange", applyChaosContract);
+
+applyChaosContract();
+
+// WL_PHASE_D1_AGITATE_LIVE_APPLY
+let wlAgitateLastContract = "";
+
+async function wlAgitateLiveApply() {
+  try {
+    const native = await wlNativeReadChaosContract();
+    if (!native || native === wlAgitateLastContract) return;
+
+    wlAgitateLastContract = native;
+
+    const contract = JSON.parse(native);
+    const cfg = contract?.chaos_active ? contract?.apps?.["wl-agitate"] : null;
+
+    if (cfg) {
+      settings.density = Math.max(120, Math.round((cfg.intensity ?? 2.0) * 60));
+      settings.speed = 0.55;
+      settings.glow = 1.25;
+      settings.tension = 2.2;
+      if (typeof presetName !== "undefined") presetName.textContent = "MODE: CHAOS LIVE";
+    } else {
+      Object.assign(settings, presets.ambient);
+      if (typeof presetName !== "undefined") presetName.textContent = "MODE: ambient";
+    }
+
+    sync();
+  } catch (error) {
+    console.warn("wl-agitate live chaos apply failed", error);
+  }
+}
+
+setInterval(wlAgitateLiveApply, 5000);
+window.addEventListener("focus", wlAgitateLiveApply);
+document.addEventListener("visibilitychange", wlAgitateLiveApply);
+wlAgitateLiveApply();
