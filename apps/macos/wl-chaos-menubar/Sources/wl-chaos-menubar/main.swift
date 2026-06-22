@@ -333,6 +333,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(.separator())
         menu.addItem(action("Governance Check", #selector(governance)))
+        menu.addItem(action("Recovery Drill", #selector(recoveryDrill)))
         menu.addItem(action("Start Watchdog", #selector(startWatchdog)))
         menu.addItem(action("Stop Watchdog", #selector(stopWatchdog)))
 
@@ -421,6 +422,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let output = shell("python3 \(wlRoot)/Wonderland-v4/governance/verify-chaos.py")
         lastCountdown = output
         mark(output.contains("RESULT PASS") ? "Governance PASS" : "Governance FAIL")
+    }
+
+    // WL_DRILL_MENU_ACTION
+    @objc func recoveryDrill() {
+        let output = shell("\(wlRoot)/bin/wl-chaos-drill")
+        lastCountdown = output
+        updateCountdown()
+        updateContractPreview()
+        updateActivityAges()
+        updateRecentActivity()
+        mark(output.contains("RESULT PASS") ? "Recovery Drill PASS" : "Recovery Drill FAIL")
     }
 
     @objc func startWatchdog() {
