@@ -1020,7 +1020,7 @@
 				<real>0.042999999999999997</real>
 			</dict>
 			<key>Background Image Location</key>
-			<string>/Users/wonderland/Wonderland/assets/wallpapers/iterm2/Certified/wonderland-neon-genesis-v1.png</string>
+			<string>/Users/wonderland/Wonderland/assets/wallpapers/iterm2/Certified/wonderland-iterm2-hotkey-certified-5120x900-v1.png</string>
 			<key>Background Image Mode</key>
 			<integer>0</integer>
 			<key>Badge Color</key>
@@ -1498,7 +1498,7 @@
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Transparency</key>
-			<real>0.14921016483516483</real>
+			<real>0.095750060379181254</real>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -1531,6 +1531,8 @@
 	<false/>
 	<key>OpenTmuxWindowsIn</key>
 	<integer>0</integer>
+	<key>PMPrintingPanelSize</key>
+	<string>{780, 1009}</string>
 	<key>PasteSpecialRegex</key>
 	<string></string>
 	<key>PasteSpecialSubstitution</key>
@@ -1570,6 +1572,8 @@
 			<string>kNextWindowPointerAction</string>
 		</dict>
 	</dict>
+	<key>Print In Black And White</key>
+	<true/>
 	<key>SoundForEsc</key>
 	<false/>
 	<key>UseCustomScriptsFolder</key>
