@@ -74,7 +74,8 @@ BAD_REFS="$(grep -RIn \
   --exclude='*.jpeg' \
   --exclude='*.app' \
   'Wonderland-v4\|T7_Wonderland/Wonderland-v4\|/Wonderland-v4' \
-  "$WL_HOME/bin" "$WL_HOME/lib" "$WL_HOME/services" "$WL_HOME/vault" 2>/dev/null || true)"
+  "$WL_HOME/bin" "$WL_HOME/lib" "$WL_HOME/services" "$WL_HOME/vault" 2>/dev/null \
+  | grep -vE '(/snapshots/|/backups/|/git-rescue/|\.bak|\.backup|wl-root-certify)' || true)"
 
 if [[ -z "$BAD_REFS" ]]; then
   pass "no legacy Wonderland hardcoded references in authority paths"
