@@ -401,24 +401,18 @@ wl_governance() {
 }
 
 wl_universe() {
-  local candidate
-  candidate="$(wl_find_first \
-    "$WL_HOME/bin/wl-universe" \
-    "$WL_HOME/scripts/universe/wl-universe" || true)"
-
-  if [[ -n "${candidate:-}" ]]; then
-    wl_run_script "$candidate" "$@"
-    return $?
-  fi
-
-  local sub="${1:-status}"
-  case "$sub" in
-    status|doctor|report)
-      "$0" doctor
+  case "${2:-}" in
+    start)
+      exec "$WL_HOME/bin/wl-start"
+      ;;
+    stop)
+      exec "$WL_HOME/bin/wl-stop"
+      ;;
+    status|report|"")
+      exec "$WL_HOME/bin/wl-universe" "${@:2}"
       ;;
     *)
-      echo "Usage: wl universe status|doctor|report"
-      return 2
+      exec "$WL_HOME/bin/wl-universe" "${@:2}"
       ;;
   esac
 }

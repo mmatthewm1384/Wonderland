@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+cd "$WL_HOME"
+
 ROOT="${WONDERLAND_ROOT:-$HOME/Wonderland}"
 REPORT_DIR="$ROOT/vault/09-Governance/reports"
 REPORT="$REPORT_DIR/governance-status.json"
