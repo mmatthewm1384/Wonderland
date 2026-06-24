@@ -1,6 +1,7 @@
 import readline from "node:readline";
 import { EventBus } from "../core/event-bus.js";
 import { MatrixState } from "../core/matrix-state.js";
+import { EntityRegistry, seedMatrixEntities } from "../core/entity-registry.js";
 import { SimulationLoop } from "../core/simulation-loop.js";
 import { Recorder } from "../telemetry/recorder.js";
 
@@ -13,21 +14,25 @@ import { installArielShield } from "../systems/ariel-shield.js";
 const bus = new EventBus();
 const state = new MatrixState();
 const recorder = new Recorder(new URL("../data", import.meta.url).pathname);
+const registry = new EntityRegistry();
+seedMatrixEntities(registry);
 const loop = new SimulationLoop(bus, state, recorder);
 
 bus.on("*", event => recorder.recordEvent(event));
 
-installAtomSlam(bus, state);
-installAgitateWaves(bus, state);
-installSpinTheCity(bus, state);
-installFluderation(bus, state);
-installArielShield(bus, state);
+installAtomSlam(bus, state, registry);
+installAgitateWaves(bus, state, registry);
+installSpinTheCity(bus, state, registry);
+installFluderation(bus, state, registry);
+installArielShield(bus, state, registry);
 
 function render() {
   console.clear();
   console.log("THE∅MATRIX v0.1");
   console.log("================");
   console.log(JSON.stringify(state.snapshot(), null, 2));
+  console.log("\nEntities:");
+  console.log(JSON.stringify(registry.snapshot(), null, 2));
   console.log("");
   console.log("Commands:");
   console.log("  slam   wave   spin   flude   heal   tick   quit");

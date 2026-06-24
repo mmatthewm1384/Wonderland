@@ -4,6 +4,7 @@ const required = [
   "core/event-bus.js",
   "core/matrix-state.js",
   "core/simulation-loop.js",
+  "core/entity-registry.js",
   "systems/atom-slam.js",
   "systems/agitate-waves.js",
   "systems/spin-the-city.js",

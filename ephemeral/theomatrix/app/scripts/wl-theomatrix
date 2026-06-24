@@ -3,20 +3,85 @@ set -euo pipefail
 
 APP="$HOME/Wonderland/ephemeral/theomatrix/app"
 
+port_in_use() {
+  lsof -nP -iTCP:$1 -sTCP:LISTEN 2>/dev/null
+}
+
+port_pid() {
+  lsof -ti tcp:$1 2>/dev/null | head -1
+}
+
 case "${1:-help}" in
-start) cd "$APP" && npm start ;;
-doctor) cd "$APP" && npm run doctor ;;
-certify) cd "$APP" && npm run certify ;;
-replay) cd "$APP" && npm run replay ;;
-path) echo "$APP" ;;
-*)
-cat <<HELP
+
+  start)
+    cd "$APP"
+    npm start
+    ;;
+
+  doctor)
+    cd "$APP"
+    npm run doctor
+    ;;
+
+  certify)
+    cd "$APP"
+    npm run certify
+    ;;
+
+  replay)
+    cd "$APP"
+    npm run replay
+    ;;
+
+  web)
+    PORT="${THEOMATRIX_PORT:-8787}"
+
+    if port_in_use "$PORT" >/dev/null; then
+      echo "PASS existing service detected on port $PORT"
+      port_in_use "$PORT"
+
+      echo
+      echo "Open:"
+      echo "http://localhost:$PORT"
+
+      open "http://localhost:$PORT" >/dev/null 2>&1 || true
+      exit 0
+    fi
+
+    if [ ! -f "$APP/web/index.html" ]; then
+      echo "FAIL dashboard missing:"
+      echo "  $APP/web/index.html"
+      exit 1
+    fi
+
+    cd "$APP/web"
+
+    echo "Starting THE∅MATRIX dashboard on port $PORT"
+    echo "Open: http://localhost:$PORT"
+
+    open "http://localhost:$PORT" >/dev/null 2>&1 || true
+
+    python3 -m http.server "$PORT"
+    ;;
+
+  path)
+    echo "$APP"
+    ;;
+
+  *)
+    cat <<'HELP'
 wl-theomatrix commands:
-start
-doctor
-certify
-replay
-path
+
+  start      Start terminal simulation
+  doctor     Verify installation
+  certify    Run certification suite
+  replay     Replay event log
+  web        Launch visual dashboard
+  path       Show application path
+
+Environment:
+
+  THEOMATRIX_PORT=8787 wl-theomatrix web
 HELP
-;;
+    ;;
 esac
