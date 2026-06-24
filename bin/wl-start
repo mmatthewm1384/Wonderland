@@ -1,35 +1,38 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ok(){ echo "PASS $*"; }
-warn(){ echo "WARN $*"; }
-step(){ echo; echo "== $* =="; }
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+source "$WL_HOME/lib/wl-lifecycle-lib.sh"
 
-step "Wonderland Start"
+wl_step "Wonderland Start"
 
-step "Starting Lima default"
+wl_step "Preflight"
+command -v limactl >/dev/null 2>&1 && wl_pass "limactl" || wl_fail "limactl"
+command -v nerdctl >/dev/null 2>&1 && wl_pass "nerdctl" || wl_fail "nerdctl"
+[ -d "$WL_HOME" ] && wl_pass "root" "$WL_HOME" || wl_fail "root"
+[ -f "$WL_SERVICE_REGISTRY" ] && wl_pass "service registry" || wl_fail "service registry"
+wl storage authority >/dev/null 2>&1 && wl_pass "storage authority" || wl_warn "storage authority"
+wl governance status >/dev/null 2>&1 && wl_pass "governance" || wl_warn "governance"
+
+wl_step "Starting Lima default"
 limactl start default >/dev/null 2>&1 || true
-limactl list | grep -q '^default[[:space:]].*Running' && ok "default running" || warn "default not running"
+wl_lima_running default && wl_pass "default running" || wl_fail "default not running"
 
-step "Starting core services"
-for svc in wl-grafana wl-prometheus wl-loki wl-nats wl-dns; do
+wl_step "Starting core services"
+for svc in $(wl_services); do
   nerdctl start "$svc" >/dev/null 2>&1 || true
-  if nerdctl ps --format '{{.Names}}' | grep -qx "$svc"; then
-    ok "$svc up"
-  else
-    warn "$svc not up"
-  fi
+  wl_container_running "$svc" && wl_pass "$svc" "up" || wl_warn "$svc" "not up"
 done
 
-step "Starting wonderland-rootless"
+wl_step "Starting wonderland-rootless"
 limactl start wonderland-rootless >/dev/null 2>&1 || true
-limactl list | grep -q '^wonderland-rootless[[:space:]].*Running' && ok "wonderland-rootless running" || warn "wonderland-rootless not running"
+wl_lima_running wonderland-rootless && wl_pass "wonderland-rootless running" || wl_warn "wonderland-rootless not running"
 
-step "Ensuring rootless Loki config"
-mkdir -p "$HOME/Wonderland/runtime/wl-loki/config"
+wl_step "Ensuring rootless Loki config"
+mkdir -p "$WL_HOME/runtime/wl-loki/config"
 
-if [ ! -f "$HOME/Wonderland/runtime/wl-loki/config/local-config.yaml" ]; then
-cat > "$HOME/Wonderland/runtime/wl-loki/config/local-config.yaml" <<'YAML'
+if [ ! -f "$WL_HOME/runtime/wl-loki/config/local-config.yaml" ]; then
+cat > "$WL_HOME/runtime/wl-loki/config/local-config.yaml" <<'YAML'
 auth_enabled: false
 server:
   http_listen_port: 3100
@@ -61,24 +64,18 @@ compactor:
   retention_enabled: true
   delete_request_store: filesystem
 YAML
-  ok "rootless Loki config created"
+  wl_pass "rootless loki config" "created"
 else
-  ok "rootless Loki config exists"
+  wl_pass "rootless loki config" "exists"
 fi
 
-step "Starting rootless Loki"
-LIMA_INSTANCE=wonderland-rootless nerdctl start wl-loki >/dev/null 2>&1 || true
-LIMA_INSTANCE=wonderland-rootless nerdctl ps --format '{{.Names}}' | grep -qx wl-loki \
-  && ok "rootless wl-loki up" \
-  || warn "rootless wl-loki not up"
+wl_step "Starting rootless services"
+for svc in $(wl_rootless_services); do
+  LIMA_INSTANCE=wonderland-rootless nerdctl start "$svc" >/dev/null 2>&1 || true
+  wl_rootless_container_running "$svc" && wl_pass "rootless $svc" "up" || wl_warn "rootless $svc" "not up"
+done
 
-step "Repairing authority and governance"
-wl storage authority || true
-echo "INFO running governance repair"
-wl governance repair || true
-
-echo "INFO running governance doctor"
-wl governance status || true
-
-step "Universe verification"
-wl universe status
+wl_step "Verification"
+"$WL_HOME/bin/wl-doctor-lifecycle" || true
+"$WL_HOME/bin/wl-lifecycle-report" start || true
+"$WL_HOME/bin/wl-universe" status
