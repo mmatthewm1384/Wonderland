@@ -1,0 +1,9 @@
+{
+  "id": "REC-0001",
+  "type": "recommendation",
+  "status": "active",
+  "created": "2026-06-22T15:32:05Z",
+  "confidence": "medium",
+  "summary": "",
+  "hypothesis": "HYP-0001"
+}

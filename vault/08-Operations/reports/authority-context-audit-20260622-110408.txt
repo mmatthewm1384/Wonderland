@@ -1,0 +1,216 @@
+Wonderland Authority Context Audit
+WL_HOME=/Users/wonderland/Wonderland
+created=20260622-110408
+
+== WAT ==
+path: /Users/wonderland/Wonderland/vault/09-Governance/authorities/core/wat.md
+PASS authority-code
+PASS purpose
+PASS scope
+PASS authority-hierarchy
+PASS principles
+PASS context-model
+PASS inputs-or-applicability
+PASS outputs-or-artifacts
+PASS verification
+PASS recovery
+PASS rollback
+FAIL certification
+PASS pass-criteria
+PASS result-block
+PASS machine-readable-context
+FAIL minimum-length words=156 min=220
+
+== WDSA ==
+path: /Users/wonderland/Wonderland/vault/09-Governance/authorities/core/wdsa.md
+PASS authority-code
+PASS purpose
+PASS scope
+PASS authority-hierarchy
+PASS principles
+PASS context-model
+PASS inputs-or-applicability
+PASS outputs-or-artifacts
+PASS verification
+PASS recovery
+PASS rollback
+FAIL certification
+PASS pass-criteria
+PASS result-block
+PASS machine-readable-context
+FAIL minimum-length words=156 min=220
+
+== WVSA ==
+path: /Users/wonderland/Wonderland/vault/09-Governance/authorities/core/wvsa.md
+PASS authority-code
+PASS purpose
+PASS scope
+PASS authority-hierarchy
+PASS principles
+PASS context-model
+PASS inputs-or-applicability
+PASS outputs-or-artifacts
+PASS verification
+PASS recovery
+PASS rollback
+FAIL certification
+PASS pass-criteria
+PASS result-block
+PASS machine-readable-context
+FAIL minimum-length words=160 min=220
+
+== WGA ==
+path: /Users/wonderland/Wonderland/vault/09-Governance/authorities/governance/wga.md
+PASS authority-code
+PASS purpose
+PASS scope
+PASS authority-hierarchy
+PASS principles
+PASS context-model
+PASS inputs-or-applicability
+PASS outputs-or-artifacts
+PASS verification
+PASS recovery
+PASS rollback
+FAIL certification
+PASS pass-criteria
+PASS result-block
+PASS machine-readable-context
+FAIL minimum-length words=154 min=180
+
+== WRA ==
+path: /Users/wonderland/Wonderland/vault/09-Governance/authorities/governance/wra.md
+PASS authority-code
+PASS purpose
+PASS scope
+PASS authority-hierarchy
+PASS principles
+PASS context-model
+PASS inputs-or-applicability
+PASS outputs-or-artifacts
+PASS verification
+PASS recovery
+PASS rollback
+FAIL certification
+PASS pass-criteria
+PASS result-block
+PASS machine-readable-context
+FAIL minimum-length words=154 min=180
+
+== WCA ==
+path: /Users/wonderland/Wonderland/vault/09-Governance/authorities/governance/wca.md
+PASS authority-code
+PASS purpose
+PASS scope
+PASS authority-hierarchy
+PASS principles
+PASS context-model
+PASS inputs-or-applicability
+PASS outputs-or-artifacts
+PASS verification
+PASS recovery
+PASS rollback
+FAIL certification
+PASS pass-criteria
+PASS result-block
+PASS machine-readable-context
+FAIL minimum-length words=155 min=180
+
+== WCPA ==
+path: /Users/wonderland/Wonderland/vault/09-Governance/authorities/experience/wcpa.md
+PASS authority-code
+PASS purpose
+PASS scope
+PASS authority-hierarchy
+PASS principles
+PASS context-model
+PASS inputs-or-applicability
+PASS outputs-or-artifacts
+PASS verification
+FAIL recovery
+FAIL rollback
+FAIL certification
+PASS pass-criteria
+PASS result-block
+PASS machine-readable-context
+PASS minimum-length words=260 min=150
+
+== TMA ==
+path: /Users/wonderland/Wonderland/vault/09-Governance/theomatrix/constitution/tma.md
+PASS authority-code
+PASS purpose
+PASS scope
+PASS authority-hierarchy
+PASS principles
+PASS context-model
+PASS inputs-or-applicability
+PASS outputs-or-artifacts
+PASS verification
+PASS recovery
+PASS rollback
+FAIL certification
+PASS pass-criteria
+PASS result-block
+PASS machine-readable-context
+FAIL minimum-length words=155 min=180
+
+== TMVA ==
+path: /Users/wonderland/Wonderland/vault/09-Governance/theomatrix/constitution/tmva.md
+PASS authority-code
+PASS purpose
+PASS scope
+PASS authority-hierarchy
+PASS principles
+PASS context-model
+PASS inputs-or-applicability
+PASS outputs-or-artifacts
+PASS verification
+PASS recovery
+PASS rollback
+FAIL certification
+PASS pass-criteria
+PASS result-block
+PASS machine-readable-context
+FAIL minimum-length words=158 min=180
+
+== TMBA ==
+path: /Users/wonderland/Wonderland/vault/09-Governance/theomatrix/constitution/tmba.md
+PASS authority-code
+PASS purpose
+PASS scope
+PASS authority-hierarchy
+PASS principles
+PASS context-model
+PASS inputs-or-applicability
+PASS outputs-or-artifacts
+PASS verification
+PASS recovery
+PASS rollback
+FAIL certification
+PASS pass-criteria
+PASS result-block
+PASS machine-readable-context
+FAIL minimum-length words=157 min=180
+
+== TMCA ==
+path: /Users/wonderland/Wonderland/vault/09-Governance/theomatrix/constitution/tmca.md
+PASS authority-code
+FAIL purpose
+FAIL scope
+PASS authority-hierarchy
+PASS principles
+PASS context-model
+PASS inputs-or-applicability
+PASS outputs-or-artifacts
+FAIL verification
+FAIL recovery
+FAIL rollback
+FAIL certification
+PASS pass-criteria
+PASS result-block
+PASS machine-readable-context
+PASS minimum-length words=214 min=150
+
+Report: /Users/wonderland/Wonderland/vault/08-Operations/reports/authority-context-audit-20260622-110408.txt
+
+RESULT FAIL

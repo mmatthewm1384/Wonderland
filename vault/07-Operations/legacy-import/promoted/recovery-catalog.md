@@ -35,6 +35,6 @@
 
 ## Status
 
-Recovered into Wonderland-v4.
+Recovered into Wonderland.
 
 Archive remains authoritative.

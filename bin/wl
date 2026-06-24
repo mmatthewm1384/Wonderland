@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
+# wl-veil route
+if [ "${1:-}" = "veil" ]; then
+  shift
+  exec "$HOME/Wonderland/services/wl-veil/bin/wl-veil" "$@"
+fi
+
 # wl root-certify route
 if [[ "${1:-}" == "root-certify" ]]; then
   exec "$HOME/Wonderland/bin/wl-root-certify"

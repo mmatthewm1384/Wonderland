@@ -1,0 +1,39 @@
+timestamp=20260622-161737
+wl_home=/Users/wonderland/Wonderland
+storage=attached
+
+containers:
+wl-grafana Up docker.io/grafana/grafana:11.1.4
+wl-prometheus Up docker.io/prom/prometheus:latest
+wl-loki Up docker.io/grafana/loki:latest
+wl-nats Up docker.io/library/nats:2-alpine
+wl-dns Up docker.io/coredns/coredns:latest
+wl-portainer Up docker.io/portainer/portainer-ce:alpine
+wl-sandbox Up docker.io/library/alpine:latest
+wl-torrent-client Up lscr.io/linuxserver/qbittorrent:latest
+wl-torrent-vpn Up docker.io/qmcgaw/gluetun:v3
+wl-seed Up docker.io/library/python:3.12-alpine
+wl-document-cleaner Up docker.io/library/document-cleaner-wl-document-cleaner:latest
+wl-anon-scraper Up docker.io/library/alpine:3.18
+wl-anon-tor Up docker.io/library/alpine:3.18
+
+git:
+ D apps/tauri/wl-spin-city/src/App.jsx
+ D apps/tauri/wl-spin-city/src/index.html.backup-20260620-093132
+ D apps/tauri/wl-spin-city/src/index.html.backup.20260619T192214Z
+ D apps/tauri/wl-spin-city/src/index.html.backup.20260619T192702Z
+ D apps/tauri/wl-spin-city/src/index.html.backup.20260619T204426Z
+ D apps/tauri/wl-spin-city/src/index.html.backup.20260619T205645Z
+ D apps/tauri/wl-spin-city/src/index.html.backup.20260619T210118Z
+ D apps/tauri/wl-spin-city/src/index.html.bad-presence.20260619T205109Z
+ D apps/tauri/wl-spin-city/src/index.html.bak.20260619123518
+ D apps/tauri/wl-spin-city/src/index.html.bak.20260619123631
+ D apps/tauri/wl-spin-city/src/style.css
+ M bin/wl
+ M vault/07-Operations/platform/runtime-mode.json
+ M vault/07-Operations/platform/storage-state.json
+ M vault/08-Operations/reports/storage-authority-report.json
+ M vault/08-Operations/reports/storage-eject-report.json
+ M vault/08-Operations/reports/storage-verify-report.json
+ M vault/08-Operations/reports/universe-status-report.json
+ M vault/08-Operations/snapshots/latest

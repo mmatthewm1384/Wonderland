@@ -17,7 +17,7 @@ compose() {
 }
 
 status() {
-  echo "Wonderland-v4 GA+"
+  echo "Wonderland GA+"
   echo "WL_HOME=$WL_HOME"
   echo "WL_DATA=$WL_DATA"
   echo "WL_MIRROR=$WL_MIRROR"
@@ -47,7 +47,7 @@ dns_test() {
 
 doctor() {
   local fail=0
-  echo "Wonderland-v4 GA+ Doctor"
+  echo "Wonderland GA+ Doctor"
   echo "=========================="
   for c in nerdctl curl rsync; do
     if need_cmd "$c"; then echo "$c: OK"; else echo "$c: MISSING"; fail=1; fi
@@ -180,7 +180,7 @@ case "${1:-help}" in
     ;;
   help|*)
     cat <<'EOF'
-Wonderland-v4 GA+
+Wonderland GA+
 
 Usage:
   wl status

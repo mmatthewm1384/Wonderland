@@ -1,0 +1,36 @@
+{
+  "checks": [
+    {
+      "detail": "",
+      "name": "wl-runtime-chaos-doctor",
+      "passed": true
+    },
+    {
+      "detail": "",
+      "name": "menubar-launchagent",
+      "passed": true
+    },
+    {
+      "detail": "",
+      "name": "menubar-process",
+      "passed": true
+    },
+    {
+      "detail": "",
+      "name": "watchdog",
+      "passed": true
+    },
+    {
+      "detail": "",
+      "name": "visual-contract",
+      "passed": true
+    },
+    {
+      "detail": "",
+      "name": "runtime-cert-report",
+      "passed": true
+    }
+  ],
+  "result": "PASS",
+  "timestamp": "2026-06-24T00:29:12.196259+00:00"
+}

@@ -4,7 +4,7 @@
 ## Canonical Root
 
 ```text
-/Volumes/T7_Wonderland/Wonderland-v4
+/Wonderland
 Structure
 00-inbox
 01-architect

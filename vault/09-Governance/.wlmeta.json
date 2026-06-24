@@ -1,0 +1,7 @@
+{
+  "name": "Governance",
+  "type": "authority-domain",
+  "owner": "WGA",
+  "authority": "WGA",
+  "description": "Governance root for Wonderland authorities, registries, reports, and THEOMATRIX constitution."
+}

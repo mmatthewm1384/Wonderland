@@ -1,8 +1,8 @@
-# Wonderland-v4 Overview
+# Wonderland Overview
 
 ## Purpose
 
-Wonderland-v4 is a modular ecosystem for infrastructure, automation, software development, knowledge management, creative systems, and operational governance.
+Wonderland is a modular ecosystem for infrastructure, automation, software development, knowledge management, creative systems, and operational governance.
 
 ## Philosophy
 
@@ -30,7 +30,7 @@ Each domain has its own folder, documents, operational notes, and recovery mater
 
 ## Runtime Architecture
 
-Wonderland-v4 should remain:
+Wonderland should remain:
 
 - Local-first
 - Recoverable

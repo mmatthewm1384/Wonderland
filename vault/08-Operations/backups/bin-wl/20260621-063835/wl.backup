@@ -175,8 +175,8 @@ dispatch() {
     ephemeral)
       if [[ -x "$WL_BIN/wl-ephemeral" ]]; then
         exec "$WL_BIN/wl-ephemeral" "$@"
-      elif [[ -x "$WL_HOME/Wonderland-v4/ephemeral/bin/wl-ephemeral" ]]; then
-        exec "$WL_HOME/Wonderland-v4/ephemeral/bin/wl-ephemeral" "$@"
+      elif [[ -x "$WL_HOME/Wonderland/ephemeral/bin/wl-ephemeral" ]]; then
+        exec "$WL_HOME/Wonderland/ephemeral/bin/wl-ephemeral" "$@"
       fi
       echo "FAIL missing wl-ephemeral"
       exit 1

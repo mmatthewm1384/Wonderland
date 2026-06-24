@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-APP="$HOME/Wonderland/apps/tauri/wl-spin-city"
+APP="$HOME/Workshop/apps/tauri/wl-spin-city"
 
 case "${1:-open}" in
   open|dev)

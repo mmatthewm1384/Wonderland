@@ -1,8 +1,0 @@
-{
-  "id": "wl-matrix-slam-watch",
-  "type": "matrix-app",
-  "status": "active",
-  "command": "wl-matrix-slam-watch",
-  "watch_path_env": "WL_MATRIX_SLAM_WATCH_PATH",
-  "purpose": "Watch filesystem events and emit Matrix slam-to-ground events."
-}

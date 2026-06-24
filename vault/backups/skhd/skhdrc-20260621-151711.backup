@@ -1,0 +1,17 @@
+# Wonderland Emergency Panic Hotkey
+cmd + ctrl + alt + shift - p : export PATH="$HOME/Wonderland/Wonderland/ephemeral/bin:$PATH"; wl-chaos-panic --force "Global hotkey panic triggered"
+
+# Reload skhd config
+cmd + ctrl + alt + shift - r : skhd --reload
+
+# Wonderland Chaos Reset Hotkey
+# Clears aether, keeps watchdog recoverable, writes normal visual contract
+cmd + ctrl + alt + shift - o : export PATH="$HOME/Wonderland/Wonderland/ephemeral/bin:$PATH"; wl chaos reset; wl visual-chaos write-contract; wl visual-chaos launch-all
+
+# Wonderland Chaos Check-In Hotkey
+# Resets inactivity timer without changing mode
+cmd + ctrl + alt + shift - i : export PATH="$HOME/Wonderland/Wonderland/ephemeral/bin:$PATH"; wl chaos checkin
+
+# Wonderland Chaos Countdown Hotkey
+# Logs/display countdown in terminal context when skhd can surface it
+cmd + ctrl + alt + shift - t : export PATH="$HOME/Wonderland/Wonderland/ephemeral/bin:$PATH"; wl chaos countdown

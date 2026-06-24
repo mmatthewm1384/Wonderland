@@ -1,0 +1,6 @@
+{
+  "name": "runtime-certify",
+  "mode": "REVIEW",
+  "command": "$HOME/Wonderland/scripts/install/wl-universe-runtime-certify.sh",
+  "audit": true
+}

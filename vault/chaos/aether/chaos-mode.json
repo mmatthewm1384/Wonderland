@@ -1,0 +1,6 @@
+{
+  "mode": "chaos",
+  "active": true,
+  "source": "panic",
+  "reason": "menubar-panic"
+}

@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+BASE="$WL_HOME/services/wl-grok-keyless"
+LIMA="${LIMA_INSTANCE:-default}"
+
+compose() {
+  cd "$BASE"
+  limactl shell "$LIMA" nerdctl compose "$@"
+}
+
+case "${1:-}" in
+  install)
+    limactl shell "$LIMA" nerdctl network inspect wonderland-matrix >/dev/null 2>&1 \
+      || limactl shell "$LIMA" nerdctl network create wonderland-matrix
+    echo "PASS install"
+    ;;
+  start)
+    "$0" install
+    compose up -d --build
+    ;;
+  stop)
+    compose down
+    ;;
+  status)
+    compose ps
+    ;;
+  logs)
+    limactl shell "$LIMA" nerdctl logs wl-grok-keyless --tail 100
+    ;;
+  doctor)
+    test -f "$BASE/docker-compose.yml" && echo "PASS compose"
+    test -f "$BASE/server.js" && echo "PASS server"
+    test -f "$BASE/public/bridge.html" && echo "PASS bridge-ui"
+    curl -fsS http://127.0.0.1:8089/health >/dev/null && echo "PASS health"
+    ;;
+  backup)
+    ts="$(date +%Y%m%d-%H%M%S)"
+    dst="/Volumes/T7_Wonderland/backups/wl-grok-keyless-$ts"
+    mkdir -p "$dst"
+    rsync -a "$BASE/" "$dst/"
+    echo "PASS backup: $dst"
+    ;;
+  restore)
+    src="${2:?usage: wl-grok-keyless restore /Volumes/T7_Wonderland/backups/wl-grok-keyless-TS}"
+    mkdir -p "$BASE"
+    rsync -a "$src/" "$BASE/"
+    echo "PASS restore"
+    ;;
+  open)
+    open "http://127.0.0.1:8089/bridge.html"
+    ;;
+  rollback)
+    compose down || true
+    limactl shell "$LIMA" nerdctl volume rm wl-grok-keyless-data || true
+    echo "PASS rollback"
+    ;;
+  *)
+    echo "Usage: wl-grok-keyless {install|start|stop|status|logs|doctor|backup|restore <path>|open|rollback}"
+    exit 1
+    ;;
+esac

@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+
+ROOTLIB="$WL_HOME/lib/wl-roots.sh"
+if [[ -f "$ROOTLIB" ]]; then
+  source "$ROOTLIB"
+fi
+
+WL_AUTHORITY_ROOT="${WL_AUTHORITY_ROOT:-$HOME/Wonderland}"
+WL_WORKSHOP_ROOT="${WL_WORKSHOP_ROOT:-$HOME/Workshop}"
+WL_RUNTIME_ROOT="${WL_RUNTIME_ROOT:-$HOME/Runtime}"
+WL_ARCHIVE_ROOT="${WL_ARCHIVE_ROOT:-$HOME/Archive}"
+WL_MEDIA_ROOT="${WL_MEDIA_ROOT:-$HOME/Media}"
+WL_APPS="${WL_APPS:-$WL_WORKSHOP_ROOT/apps}"
+WL_SERVICES="${WL_SERVICES:-$WL_WORKSHOP_ROOT/services}"
+
+usage() {
+  cat <<HELP
+Wonderland Navigator
+
+Usage:
+  wl nav <target>
+
+Root Targets:
+  authority
+  workshop
+  runtime
+  archive
+  media
+
+Authority Targets:
+  vault
+  governance
+  canon
+  registries
+  docs
+  reports
+
+Build Targets:
+  apps
+  services
+  theomatrix
+HELP
+}
+
+target="${1:-help}"
+
+case "$target" in
+  help|-h|--help)
+    usage
+    exit 0
+    ;;
+
+  authority)
+    TARGET="$WL_AUTHORITY_ROOT"
+    ;;
+
+  workshop)
+    TARGET="$WL_WORKSHOP_ROOT"
+    ;;
+
+  runtime)
+    TARGET="$WL_RUNTIME_ROOT"
+    ;;
+
+  archive)
+    TARGET="$WL_ARCHIVE_ROOT"
+    ;;
+
+  media)
+    TARGET="$WL_MEDIA_ROOT"
+    ;;
+
+  vault)
+    TARGET="$WL_AUTHORITY_ROOT/vault"
+    ;;
+
+  governance)
+    TARGET="$WL_AUTHORITY_ROOT/vault/00-Governance"
+    ;;
+
+  canon)
+    TARGET="$WL_AUTHORITY_ROOT/canon"
+    ;;
+
+  registries)
+    TARGET="$WL_AUTHORITY_ROOT/registries"
+    ;;
+
+  docs)
+    TARGET="$WL_AUTHORITY_ROOT/docs"
+    ;;
+
+  reports)
+    TARGET="$WL_AUTHORITY_ROOT/vault/08-Operations/reports"
+    ;;
+
+  apps)
+    TARGET="$WL_APPS"
+    ;;
+
+  services)
+    TARGET="$WL_SERVICES"
+    ;;
+
+  theomatrix)
+    if [[ -d "$WL_SERVICES/wl-theomatrix" ]]; then
+      TARGET="$WL_SERVICES/wl-theomatrix"
+    elif [[ -d "$WL_AUTHORITY_ROOT/vault/08-Operations/theomatrix" ]]; then
+      TARGET="$WL_AUTHORITY_ROOT/vault/08-Operations/theomatrix"
+    else
+      TARGET="$WL_WORKSHOP_ROOT"
+    fi
+    ;;
+
+  *)
+    echo "Unknown nav target: $target"
+    echo
+    usage
+    exit 1
+    ;;
+esac
+
+if [[ ! -e "$TARGET" ]]; then
+  echo "FAIL target does not exist: $TARGET"
+  exit 1
+fi
+
+echo "$TARGET"

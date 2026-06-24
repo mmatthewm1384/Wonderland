@@ -1,0 +1,13 @@
+{
+  "schema": "theomatrix.decision.v1",
+  "version": "3.1",
+  "next_id": 2,
+  "records": [
+    {
+      "id": "DEC-0001",
+      "path": "decisions/DEC-0001.json",
+      "status": "approved",
+      "created": "2026-06-22T17:13:26Z"
+    }
+  ]
+}

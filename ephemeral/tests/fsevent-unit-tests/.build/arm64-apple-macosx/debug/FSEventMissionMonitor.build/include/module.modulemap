@@ -1,0 +1,3 @@
+module FSEventMissionMonitor {
+    header "/Users/wonderland/Wonderland/ephemeral/tests/fsevent-unit-tests/.build/arm64-apple-macosx/debug/FSEventMissionMonitor.build/include/FSEventMissionMonitor-Swift.h"
+}

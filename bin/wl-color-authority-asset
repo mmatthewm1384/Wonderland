@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+ASSET_DIR="$WL_HOME/assets/governance/color-authorities"
+IMG="$ASSET_DIR/wonderland-theomatrix-color-authority-v1.png"
+META="$ASSET_DIR/wonderland-theomatrix-color-authority-v1.metadata.json"
+SHA="$ASSET_DIR/wonderland-theomatrix-color-authority-v1.sha256"
+WCPA="$WL_HOME/vault/09-Governance/authorities/experience/wcpa.md"
+TMCA="$WL_HOME/vault/09-Governance/theomatrix/constitution/tmca.md"
+
+case "${1:-verify}" in
+  verify)
+    fail=0
+
+    [[ -f "$IMG" ]] && echo "PASS image" || { echo "FAIL image"; fail=1; }
+    [[ -f "$META" ]] && echo "PASS metadata" || { echo "FAIL metadata"; fail=1; }
+    [[ -f "$SHA" ]] && shasum -a 256 -c "$SHA" >/dev/null && echo "PASS checksum" || { echo "FAIL checksum"; fail=1; }
+
+    [[ -f "$WCPA" ]] && grep -q "wonderland-theomatrix-color-authority-v1.png" "$WCPA" \
+      && echo "PASS WCPA-reference" || { echo "WARN WCPA-reference"; }
+
+    [[ -f "$TMCA" ]] && grep -q "wonderland-theomatrix-color-authority-v1.png" "$TMCA" \
+      && echo "PASS TMCA-reference" || { echo "WARN TMCA-reference"; }
+
+    echo
+    [[ "$fail" -eq 0 ]] && echo "RESULT PASS" || { echo "RESULT FAIL"; exit 1; }
+    ;;
+
+  open)
+    open "$ASSET_DIR"
+    ;;
+
+  path)
+    echo "$IMG"
+    ;;
+
+  *)
+    echo "Usage: wl-color-authority-asset verify|open|path"
+    exit 2
+    ;;
+esac

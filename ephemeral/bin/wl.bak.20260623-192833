@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_ROOT:-$HOME/Wonderland}"
+MANAGER="$ROOT/ephemeral/ephemeral_manager.py"
+
+mkdir -p "$ROOT/ephemeral" "$ROOT/vault/renders"
+
+if [[ ! -f "$MANAGER" ]]; then
+  echo "Missing manager: $MANAGER"
+  exit 1
+fi
+
+exec python3 "$MANAGER" "$@"

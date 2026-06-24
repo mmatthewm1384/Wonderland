@@ -1,6 +1,6 @@
-# Wonderland-v4
+# Wonderland
 
-Wonderland-v4 is a modular digital ecosystem operated by Matthew Mahaney.
+Wonderland is a modular digital ecosystem operated by Matthew Mahaney.
 
 ## Philosophy
 

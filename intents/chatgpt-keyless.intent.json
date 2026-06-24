@@ -1,0 +1,23 @@
+{
+  "intent": "wl-chatgpt-keyless-user-pays-fallback",
+  "version": "1.0.0",
+  "target_platform": "Wonderland Ephemeral",
+  "project": "THE∅MATRIX",
+  "sub_modules": ["atom-slam", "event-bus"],
+  "runtime": {
+    "engine": "lima-nerdctl",
+    "network": "wonderland-matrix",
+    "container": "wl-chatgpt-keyless",
+    "volume": "wl-chatgpt-keyless-data",
+    "port": "127.0.0.1:8090"
+  },
+  "provider": {
+    "bridge": "puter.js",
+    "mode": "keyless-user-pays",
+    "default_model": "gpt-4o-mini"
+  },
+  "security": {
+    "server_side_openai_key": false,
+    "local_bind_only": true
+  }
+}

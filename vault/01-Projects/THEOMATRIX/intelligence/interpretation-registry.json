@@ -1,0 +1,12 @@
+{
+  "schema": "theomatrix.interpretation-output.v1",
+  "next_id": 2,
+  "records": [
+    {
+      "id": "INTEL-INT-0001",
+      "path": "interpretations/INTEL-INT-0001.json",
+      "status": "active",
+      "created": "2026-06-22T15:32:05Z"
+    }
+  ]
+}

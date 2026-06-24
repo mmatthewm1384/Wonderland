@@ -1,0 +1,22 @@
+{
+  "required_directories": [
+    "canon",
+    "graph",
+    "memory",
+    "reports",
+    "registries",
+    "certification",
+    "runtime",
+    "observatory",
+    "intelligence",
+    "simulation"
+  ],
+  "required_registries": [
+    "source-registry.json",
+    "canon-registry.json",
+    "memory-registry.json",
+    "graph-registry.json",
+    "runtime-registry.json",
+    "release-registry.json"
+  ]
+}

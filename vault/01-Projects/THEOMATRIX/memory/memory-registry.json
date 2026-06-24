@@ -1,0 +1,19 @@
+{
+  "schema": "theomatrix.memory.v1",
+  "next_id": 3,
+  "records": [
+    {
+      "id": "MEM-0001",
+      "path": "recovered/MEM-0001.json",
+      "status": "recovered",
+      "created": "2026-06-22T15:24:34Z",
+      "updated": "2026-06-22T15:24:35Z"
+    },
+    {
+      "id": "MEM-0002",
+      "path": "working/MEM-0002.json",
+      "status": "working",
+      "created": "2026-06-22T15:24:34Z"
+    }
+  ]
+}

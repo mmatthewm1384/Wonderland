@@ -25,7 +25,7 @@ print("[RESTORE] Successfully restored original working ~/.zshrc file.")
 # 3. Safely append our isolated path optimization string directly to the very end
 path_append_payload = """
 
-# --- Wonderland-v4 Structural Path Strategy ---
+# --- Wonderland Structural Path Strategy ---
 # Using native Zsh array parameters to guarantee absolute unique values
 typeset -U path cdpath fpath manpath
 path=(

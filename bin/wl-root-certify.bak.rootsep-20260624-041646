@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+REPORT_DIR="$WL_HOME/reports/root-separation"
+CERT_DIR="$WL_HOME/vault/certifications"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+REPORT="$REPORT_DIR/root-separation-certification-$STAMP.md"
+CERT="$CERT_DIR/root-separation-certified-$(date +%Y%m%d).md"
+
+mkdir -p "$REPORT_DIR" "$CERT_DIR"
+
+pass() { echo "PASS $*" | tee -a "$REPORT"; }
+fail() { echo "FAIL $*" | tee -a "$REPORT"; FAILED=1; }
+
+FAILED=0
+
+cat > "$REPORT" <<HDR
+# Root Separation Certification
+
+Date: $(date -Iseconds)
+WL_HOME=$WL_HOME
+
+## Checks
+HDR
+
+[[ -d "$WL_HOME/bin" ]] && pass "bin exists" || fail "bin missing"
+[[ -d "$WL_HOME/lib" ]] && pass "lib exists" || fail "lib missing"
+[[ -f "$WL_HOME/lib/wl-roots.sh" ]] && pass "wl-roots.sh exists" || fail "wl-roots.sh missing"
+
+for root in \
+  "$HOME/Wonderland" \
+  "$HOME/Workshop" \
+  "$HOME/Runtime" \
+  "$HOME/Archive" \
+  "$HOME/Media"
+do
+  [[ -d "$root" ]] && pass "root exists: $root" || fail "root missing: $root"
+done
+
+if command -v wl >/dev/null 2>&1; then
+  pass "wl command available: $(command -v wl)"
+else
+  fail "wl command unavailable"
+fi
+
+if wl path >/dev/null 2>&1; then
+  pass "wl path works"
+else
+  fail "wl path fails"
+fi
+
+if wl nav >/dev/null 2>&1; then
+  pass "wl nav works"
+else
+  fail "wl nav fails"
+fi
+
+echo "" >> "$REPORT"
+echo "## Hardcoded Path Audit" >> "$REPORT"
+
+BAD_REFS="$(grep -RIn \
+  --exclude-dir=.git \
+  --exclude-dir=reports \
+  --exclude-dir=.build \
+  --exclude='*.png' \
+  --exclude='*.jpg' \
+  --exclude='*.jpeg' \
+  --exclude='*.app' \
+  'Wonderland-v4\|T7_Wonderland/Wonderland-v4\|/Wonderland-v4' \
+  "$WL_HOME/bin" "$WL_HOME/lib" "$WL_HOME/services" "$WL_HOME/vault" 2>/dev/null || true)"
+
+if [[ -z "$BAD_REFS" ]]; then
+  pass "no legacy Wonderland-v4 hardcoded references in authority paths"
+else
+  fail "legacy Wonderland-v4 references found"
+  echo "$BAD_REFS" >> "$REPORT"
+fi
+
+echo "" >> "$REPORT"
+
+if [[ "$FAILED" -eq 0 ]]; then
+  {
+    echo "# Root Separation Certified"
+    echo
+    echo "Date: $(date -Iseconds)"
+    echo "Authority: $WL_HOME"
+    echo
+    echo "## Result"
+    echo
+    echo "RESULT PASS"
+    echo
+    echo "## Report"
+    echo
+    echo "$REPORT"
+  } > "$CERT"
+
+  echo "RESULT PASS" | tee -a "$REPORT"
+  echo "CERT=$CERT"
+else
+  echo "RESULT FAIL" | tee -a "$REPORT"
+  echo "REPORT=$REPORT"
+  exit 1
+fi

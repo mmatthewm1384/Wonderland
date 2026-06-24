@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+"$HOME/Wonderland/bin/wl" chaos countdown
+read -r -p "Press Return to close..."

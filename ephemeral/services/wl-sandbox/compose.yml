@@ -1,0 +1,16 @@
+networks:
+  wl-net:
+    name: wl-network
+    driver: bridge
+
+services:
+  wl-sandbox:
+    container_name: wl-sandbox
+    image: alpine:latest
+    command: sleep infinity
+    restart: always
+    volumes:
+      - ./data:/data
+      - ./runtime:/runtime
+    networks:
+      - wl-net

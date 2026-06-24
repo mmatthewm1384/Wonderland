@@ -1,0 +1,253 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+VOLUME_NAME="${WL_STORAGE_VOLUME:-T7_Wonderland}"
+VOLUME_PATH="/Volumes/$VOLUME_NAME"
+REPORT_DIR="$WL_ROOT/vault/08-Operations/reports"
+STATE_FILE="$WL_ROOT/vault/07-Operations/platform/storage-state.json"
+
+mkdir -p "$REPORT_DIR" "$(dirname "$STATE_FILE")"
+
+now_utc() {
+  date -u +"%Y-%m-%dT%H:%M:%SZ"
+}
+
+json_report() {
+  local status="$1"
+  local action="$2"
+  local message="$3"
+  local report="$REPORT_DIR/storage-${action}-report.json"
+
+  cat > "$report" <<JSON
+{
+  "generated": "$(now_utc)",
+  "action": "$action",
+  "volume": "$VOLUME_NAME",
+  "volume_path": "$VOLUME_PATH",
+  "status": "$status",
+  "message": "$message"
+}
+JSON
+
+  echo "$report"
+}
+
+mounted() {
+  mount | grep -q "on $VOLUME_PATH "
+}
+
+mode_status() {
+  if command -v wl >/dev/null 2>&1; then
+    wl mode status 2>/dev/null || true
+  fi
+}
+
+status() {
+  echo "Wonderland Storage Authority"
+  echo
+  echo "Volume:      $VOLUME_NAME"
+  echo "Path:        $VOLUME_PATH"
+
+  if mounted; then
+    echo "Mounted:     YES"
+    df -h "$VOLUME_PATH" | tail -1 | awk '{print "Size:        "$2"\nUsed:        "$3"\nAvailable:   "$4"\nUse:         "$5}'
+    echo "State:       ATTACHED"
+  else
+    echo "Mounted:     NO"
+    echo "State:       DETACHED"
+  fi
+}
+
+verify() {
+  local fail=0
+
+  echo "Wonderland Storage Verify"
+  echo
+
+  if mounted; then
+    echo "PASS mounted: $VOLUME_PATH"
+  else
+    echo "FAIL mounted: $VOLUME_PATH"
+    fail=1
+  fi
+
+  for p in \
+    "$VOLUME_PATH/Wonderland-v4" \
+    "$VOLUME_PATH/media" \
+    "$VOLUME_PATH/media/music" \
+    "$VOLUME_PATH/media/torrents"
+  do
+    if [ -e "$p" ]; then
+      echo "PASS exists: $p"
+    else
+      echo "WARN missing: $p"
+    fi
+  done
+
+  if [ "$fail" -eq 0 ]; then
+    json_report "PASS" "verify" "storage authority verified" >/dev/null
+    echo
+    echo "RESULT PASS"
+  else
+    json_report "FAIL" "verify" "storage authority verification failed" >/dev/null
+    echo
+    echo "RESULT FAIL"
+    exit 1
+  fi
+}
+
+busy_check() {
+  if ! mounted; then
+    return 0
+  fi
+
+  if command -v lsof >/dev/null 2>&1; then
+    lsof +D "$VOLUME_PATH" 2>/dev/null | grep -v "^COMMAND" || true
+  fi
+}
+
+eject() {
+  echo "Wonderland Storage Eject"
+  echo
+
+  if ! mounted; then
+    echo "PASS already detached: $VOLUME_NAME"
+    json_report "PASS" "eject" "volume already detached" >/dev/null
+    return 0
+  fi
+
+  echo "Checking active file handles..."
+  BUSY="$(busy_check || true)"
+
+  if [ -n "$BUSY" ]; then
+    echo "FAIL volume busy"
+    echo
+    echo "$BUSY" | head -40
+    json_report "FAIL" "eject" "volume busy; eject aborted" >/dev/null
+    exit 1
+  fi
+
+  echo "Switching to Light Mode if available..."
+  if command -v wl >/dev/null 2>&1; then
+    [[ -x /Users/wonderland/Wonderland/bin/wl-mode ]] && /Users/wonderland/Wonderland/bin/wl-mode light || true
+  fi
+
+  echo "Syncing filesystem..."
+  sync
+  sync
+  sync
+
+  DISK_ID="$(diskutil info "$VOLUME_PATH" 2>/dev/null | awk -F: '/Part of Whole/ {gsub(/^[ \\t]+/, "", $2); print $2}')"
+
+  echo "Unmounting..."
+  diskutil unmount "$VOLUME_PATH"
+
+  echo "Ejecting..."
+  if [ -n "$DISK_ID" ]; then
+    diskutil eject "$DISK_ID" || true
+  else
+    echo "WARN disk identifier not found before unmount"
+  fi
+
+  if mount | grep -q "$VOLUME_PATH"; then
+    echo "FAIL still mounted"
+    json_report "FAIL" "eject" "volume still mounted after eject attempt" >/dev/null
+    exit 1
+  fi
+
+  cat > "$STATE_FILE" <<JSON
+{
+  "generated": "$(now_utc)",
+  "volume": "$VOLUME_NAME",
+  "state": "EJECTED",
+  "mode": "light"
+}
+JSON
+
+  json_report "PASS" "eject" "safe to remove" >/dev/null
+
+  echo
+  echo "RESULT PASS"
+  echo "SAFE TO REMOVE: $VOLUME_NAME"
+}
+
+attach() {
+  local mode="${1:---full}"
+
+  echo "Wonderland Storage Attach"
+  echo
+
+  if ! mounted; then
+    echo "FAIL not mounted: $VOLUME_PATH"
+    echo "Reconnect the T7, then run again."
+    json_report "FAIL" "attach" "volume not mounted" >/dev/null
+    exit 1
+  fi
+
+  verify
+
+  case "$mode" in
+    --full|full|--light|light) ;;
+    *)
+      echo "FAIL invalid attach mode: $mode"
+      echo "Use: full or light"
+      exit 2
+      ;;
+  esac
+
+  case "$mode" in
+    --full) mode="full" ;;
+    --light) mode="light" ;;
+  esac
+
+  if command -v wl >/dev/null 2>&1; then
+    [[ -x /Users/wonderland/Wonderland/bin/wl-mode ]] && /Users/wonderland/Wonderland/bin/wl-mode "$mode" || true
+  fi
+
+  cat > "$STATE_FILE" <<JSON
+{
+  "generated": "$(now_utc)",
+  "volume": "$VOLUME_NAME",
+  "state": "ACTIVE",
+  "mode": "$mode"
+}
+JSON
+
+  json_report "PASS" "attach" "storage attached and verified in $mode mode" >/dev/null
+}
+
+doctor() {
+  echo "Wonderland Storage Doctor"
+  echo
+
+  status
+  echo
+
+  echo "Open handles:"
+  busy_check | head -30 || true
+  echo
+
+  verify || true
+}
+
+case "${1:-status}" in
+  status) status ;;
+  verify) verify ;;
+  eject|detach) eject ;;
+  attach) attach "${2:---full}" ;;
+  doctor) doctor ;;
+  authority) "$WL_ROOT/bin/wl-storage-authority" ;;
+  *)
+    echo "Usage:"
+    echo "  wl storage status"
+    echo "  wl storage verify"
+    echo "  wl storage eject"
+    echo "  wl storage attach"
+    echo "  wl storage attach --light"
+    echo "  wl storage attach --full"
+    echo "  wl storage doctor"
+    echo "  wl storage authority"
+    exit 2
+    ;;
+esac

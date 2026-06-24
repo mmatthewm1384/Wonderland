@@ -12,19 +12,19 @@ rm -f "$BIN/wl-spin-city-app" "$BIN/wl-agitate-app"
 cat > "$BIN/wl-spin-city" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
-open "$HOME/Wonderland/apps/macos/Spin City Wave.app"
+open "$HOME/Workshop/apps/macos/Spin City Wave.app"
 EOF
 
 cat > "$BIN/wl-agitate" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
-open "$HOME/Wonderland/apps/macos/Agitate Waves.app"
+open "$HOME/Workshop/apps/macos/Agitate Waves.app"
 EOF
 
 cat > "$BIN/wl-matrix-native" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
-open "$HOME/Wonderland/apps/macos/Matrix Atom Destroyer.app"
+open "$HOME/Workshop/apps/macos/Matrix Atom Destroyer.app"
 EOF
 
 chmod +x "$BIN/wl-spin-city" "$BIN/wl-agitate" "$BIN/wl-matrix-native"

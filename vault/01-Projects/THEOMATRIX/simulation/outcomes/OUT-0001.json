@@ -1,0 +1,10 @@
+{
+  "id": "OUT-0001",
+  "type": "outcome",
+  "status": "active",
+  "created": "2026-06-22T15:44:05Z",
+  "summary": "",
+  "risk_level": "medium",
+  "opportunity_level": "medium",
+  "branch": "BRN-0001"
+}

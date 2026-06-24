@@ -1,0 +1,9 @@
+{
+  "schema":"wonderland.root.inventory.v1",
+
+  "authority":"~/Wonderland",
+  "workshop":"~/Workshop",
+  "runtime":"~/Runtime",
+  "archive":"~/Archive",
+  "media":"~/Media"
+}

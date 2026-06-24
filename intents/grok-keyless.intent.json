@@ -1,0 +1,21 @@
+{
+  "intent": "wl-grok-keyless-user-pays-fallback",
+  "version": "1.0.0",
+  "target_platform": "Wonderland Ephemeral",
+  "project": "THE∅MATRIX",
+  "runtime": {
+    "engine": "lima-nerdctl",
+    "network": "wonderland-matrix",
+    "container": "wl-grok-keyless",
+    "volume": "wl-grok-keyless-data"
+  },
+  "provider": {
+    "bridge": "puter.js",
+    "mode": "keyless-user-pays",
+    "default_model": "x-ai/grok-4.3"
+  },
+  "security": {
+    "server_side_provider_keys": false,
+    "local_bind": "127.0.0.1:8089"
+  }
+}

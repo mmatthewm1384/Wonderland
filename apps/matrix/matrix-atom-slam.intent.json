@@ -1,8 +1,0 @@
-{
-  "id": "matrix-atom-slam",
-  "name": "Matrix Atom Slam",
-  "status": "planned",
-  "type": "matrix-app",
-  "role": "impulse-generator",
-  "purpose": "Generate impulse events that can later feed Matrix Fluderation."
-}

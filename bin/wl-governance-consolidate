@@ -1,0 +1,240 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+GOV="$WL_HOME/vault/09-Governance"
+DATE="$(date +%Y%m%d-%H%M%S)"
+ARCHIVE="$GOV/archive/authority-consolidation-$DATE"
+REPORT_DIR="$WL_HOME/vault/08-Operations/reports"
+REPORT="$REPORT_DIR/governance-consolidation-$DATE.txt"
+MODE="${1:-dry-run}"
+
+mkdir -p "$REPORT_DIR"
+
+log() {
+  echo "$*" | tee -a "$REPORT"
+}
+
+usage() {
+  cat <<USAGE
+Usage:
+  wl-governance-consolidate dry-run
+  wl-governance-consolidate apply
+  wl-governance-consolidate status
+
+Purpose:
+  Detect duplicate governance authority documents, preserve canonical files,
+  archive legacy duplicates, repair registry references, and verify authority context.
+
+Canonical authority paths:
+  authorities/core/wat.md
+  authorities/core/wdsa.md
+  authorities/core/wvsa.md
+  authorities/governance/wga.md
+  authorities/governance/wra.md
+  authorities/governance/wca.md
+  authorities/governance/wonderland-registry-authority.md
+  authorities/platform/wla.md
+  authorities/experience/wcpa.md
+  theomatrix/constitution/tma.md
+  theomatrix/constitution/tmva.md
+  theomatrix/constitution/tmba.md
+  theomatrix/constitution/tmca.md
+  theomatrix/constitution/theomatrix-canon-authority.md
+USAGE
+}
+
+canonical_exists() {
+  local label="$1"
+  local path="$2"
+
+  if [[ -f "$path" ]]; then
+    log "PASS canonical-$label: $path"
+  else
+    log "FAIL canonical-$label: $path"
+    return 1
+  fi
+}
+
+archive_if_duplicate() {
+  local label="$1"
+  local canonical="$2"
+  local duplicate="$3"
+
+  [[ -f "$duplicate" ]] || return 0
+
+  if [[ "$duplicate" == "$canonical" ]]; then
+    return 0
+  fi
+
+  log "DUPLICATE $label"
+  log "  canonical: $canonical"
+  log "  duplicate: $duplicate"
+
+  if [[ "$MODE" == "apply" ]]; then
+    local rel="${duplicate#$GOV/}"
+    local dest="$ARCHIVE/$rel"
+    mkdir -p "$(dirname "$dest")"
+    mv "$duplicate" "$dest"
+    log "  archived:  $dest"
+  fi
+}
+
+ensure_json_registry() {
+  local path="$1"
+  local registry="$2"
+
+  if [[ "$MODE" != "apply" ]]; then
+    log "DRY-RUN registry would ensure: $path"
+    return 0
+  fi
+
+  mkdir -p "$(dirname "$path")"
+  cat > "$path" <<EOFJSON
+{
+  "registry": "$registry",
+  "status": "active",
+  "updated": "$DATE",
+  "canonical_paths": {
+    "WAT": "authorities/core/wat.md",
+    "WDSA": "authorities/core/wdsa.md",
+    "WVSA": "authorities/core/wvsa.md",
+    "WGA": "authorities/governance/wga.md",
+    "WRA": "authorities/governance/wra.md",
+    "WCA": "authorities/governance/wca.md",
+    "WRegA": "authorities/governance/wonderland-registry-authority.md",
+    "WLA": "authorities/platform/wla.md",
+    "WCPA": "authorities/experience/wcpa.md",
+    "TMA": "theomatrix/constitution/tma.md",
+    "TMVA": "theomatrix/constitution/tmva.md",
+    "TMBA": "theomatrix/constitution/tmba.md",
+    "TMCA": "theomatrix/constitution/tmca.md",
+    "TMCanon": "theomatrix/constitution/theomatrix-canon-authority.md"
+  }
+}
+EOFJSON
+  log "PASS registry-updated: $path"
+}
+
+status_report() {
+  log "Wonderland Governance Consolidation Status"
+  log "GOV=$GOV"
+  log
+
+  find "$GOV/authorities" "$GOV/theomatrix" \
+    -type f -name "*.md" 2>/dev/null | sort | tee -a "$REPORT"
+
+  log
+  log "RESULT PASS"
+}
+
+run_consolidation() {
+  local fail=0
+
+  log "Wonderland Governance Consolidation"
+  log "mode=$MODE"
+  log "created=$DATE"
+  log "archive=$ARCHIVE"
+  log
+
+  if [[ "$MODE" == "apply" ]]; then
+    mkdir -p "$ARCHIVE"
+  fi
+
+  canonical_exists WAT "$GOV/authorities/core/wat.md" || fail=1
+  canonical_exists WDSA "$GOV/authorities/core/wdsa.md" || fail=1
+  canonical_exists WVSA "$GOV/authorities/core/wvsa.md" || fail=1
+  canonical_exists WGA "$GOV/authorities/governance/wga.md" || fail=1
+  canonical_exists WRA "$GOV/authorities/governance/wra.md" || fail=1
+  canonical_exists WCA "$GOV/authorities/governance/wca.md" || fail=1
+  canonical_exists WRegA "$GOV/authorities/governance/wonderland-registry-authority.md" || fail=1
+  canonical_exists WLA "$GOV/authorities/platform/wla.md" || fail=1
+  canonical_exists WCPA "$GOV/authorities/experience/wcpa.md" || fail=1
+
+  canonical_exists TMA "$GOV/theomatrix/constitution/tma.md" || fail=1
+  canonical_exists TMVA "$GOV/theomatrix/constitution/tmva.md" || fail=1
+  canonical_exists TMBA "$GOV/theomatrix/constitution/tmba.md" || fail=1
+  canonical_exists TMCA "$GOV/theomatrix/constitution/tmca.md" || fail=1
+  canonical_exists TMCanon "$GOV/theomatrix/constitution/theomatrix-canon-authority.md" || fail=1
+
+  log
+  log "== Duplicate Detection =="
+
+  archive_if_duplicate WAT "$GOV/authorities/core/wat.md" \
+    "$GOV/authorities/wonderland-universal-authority-template.md"
+
+  archive_if_duplicate WDSA "$GOV/authorities/core/wdsa.md" \
+    "$GOV/authorities/documentation-style-authority.md"
+
+  archive_if_duplicate WVSA "$GOV/authorities/core/wvsa.md" \
+    "$GOV/authorities/visual-style-authority.md"
+
+  archive_if_duplicate WGA "$GOV/authorities/governance/wga.md" \
+    "$GOV/authorities/governance-authority.md"
+
+  archive_if_duplicate WRA "$GOV/authorities/governance/wra.md" \
+    "$GOV/authorities/recovery-authority.md"
+
+  archive_if_duplicate WCA "$GOV/authorities/governance/wca.md" \
+    "$GOV/authorities/certification-authority.md"
+
+  archive_if_duplicate TMA "$GOV/theomatrix/constitution/tma.md" \
+    "$GOV/theomatrix/theomatrix-architecture-authority.md"
+
+  archive_if_duplicate TMVA "$GOV/theomatrix/constitution/tmva.md" \
+    "$GOV/theomatrix/theomatrix-visual-authority.md"
+
+  archive_if_duplicate TMBA "$GOV/theomatrix/constitution/tmba.md" \
+    "$GOV/theomatrix/theomatrix-behavior-authority.md"
+
+  archive_if_duplicate WRegA "$GOV/authorities/governance/wonderland-registry-authority.md" \
+    "$GOV/authorities/governance/wrega.md"
+
+  archive_if_duplicate TMCanon "$GOV/theomatrix/constitution/theomatrix-canon-authority.md" \
+    "$GOV/theomatrix/constitution/tmcanon.md"
+
+  log
+  log "== Registry Repair =="
+
+  ensure_json_registry \
+    "$GOV/authorities/registry/wonderland-authority-registry.json" \
+    "wonderland.authorities.v1"
+
+  ensure_json_registry \
+    "$GOV/theomatrix/registry/theomatrix-authority-registry.json" \
+    "theomatrix.authorities.v1"
+
+  log
+  log "== Post Checks =="
+
+  if [[ -x "$WL_HOME/scripts/governance/audit-authority-context.sh" ]]; then
+    "$WL_HOME/scripts/governance/audit-authority-context.sh" | tee -a "$REPORT" || fail=1
+  else
+    log "WARN missing authority-context-audit"
+  fi
+
+  if [[ "$fail" -eq 0 ]]; then
+    log
+    log "RESULT PASS"
+  else
+    log
+    log "RESULT FAIL"
+    exit 1
+  fi
+}
+
+case "$MODE" in
+  dry-run|apply)
+    run_consolidation
+    ;;
+  status)
+    status_report
+    ;;
+  help|-h|--help)
+    usage
+    ;;
+  *)
+    usage
+    exit 2
+    ;;
+esac

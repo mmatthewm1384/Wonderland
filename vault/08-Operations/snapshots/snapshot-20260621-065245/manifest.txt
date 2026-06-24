@@ -36105,7 +36105,7 @@ git:
  D .wl/backups/wl-spin-city-stabilize/20260619-153913/wl-spin-city.before/src-tauri/target/release/libwl_spin_city_lib.rlib
  D .wl/backups/wl-spin-city-stabilize/20260619-153913/wl-spin-city.before/src-tauri/target/release/wl-spin-city
  D .wl/backups/wl-spin-city-stabilize/20260619-153913/wl-spin-city.before/src-tauri/target/release/wl-spin-city.d
- M Wonderland-v4
+ M Wonderland
  M apps/matrix/matrix-fluderation/src-tauri/target/release/.fingerprint/matrix-fluderation-789bee00487c6aaa/dep-bin-matrix-fluderation
  M apps/tauri/wl-agitate/src-tauri/target/release/.fingerprint/wl-agitate-1f8148ae19538454/dep-lib-wl_agitate_lib
  M apps/tauri/wl-matrix/src-tauri/target/release/.fingerprint/wl-matrix-29f6aeaf744889f7/dep-lib-wl_matrix_lib

@@ -1,0 +1,12 @@
+{
+  "schema": "theomatrix.outcome.v1",
+  "next_id": 2,
+  "records": [
+    {
+      "id": "OUT-0001",
+      "path": "outcomes/OUT-0001.json",
+      "status": "active",
+      "created": "2026-06-22T15:44:05Z"
+    }
+  ]
+}

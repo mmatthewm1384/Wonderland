@@ -1,0 +1,24 @@
+{
+  "schema": "theomatrix.intelligence.v1",
+  "next_id": 1,
+  "records": [
+    {
+      "id": "INTEL-INT-0001",
+      "type": "interpretation",
+      "path": "interpretations/INTEL-INT-0001.json",
+      "created": "2026-06-22T15:32:05Z"
+    },
+    {
+      "id": "HYP-0001",
+      "type": "hypothesis",
+      "path": "hypotheses/HYP-0001.json",
+      "created": "2026-06-22T15:32:05Z"
+    },
+    {
+      "id": "REC-0001",
+      "type": "recommendation",
+      "path": "recommendations/REC-0001.json",
+      "created": "2026-06-22T15:32:05Z"
+    }
+  ]
+}

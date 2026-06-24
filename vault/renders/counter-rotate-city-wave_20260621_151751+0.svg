@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#121218;stop-opacity:0.95"/>
+      <stop offset="100%" style="stop-color:#0a0a12;stop-opacity:0.98"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#00f0ff" stroke-width="0.35" opacity="0.08"/>
+    </pattern>
+  </defs>
+
+  <!-- Deep black background -->
+  <rect width="800" height="600" fill="#0a0a0f"/>
+
+  <!-- Subtle grid for cyberpunk depth -->
+  <rect width="800" height="600" fill="url(#grid)"/>
+
+  <!-- Main content panel -->
+  <rect x="40" y="40" width="720" height="520" rx="12" ry="12" fill="url(#panelGrad)" stroke="#00f0ff" stroke-width="1.5" opacity="0.9"/>
+
+  <!-- Accent top bar -->
+  <rect x="40" y="40" width="720" height="8" rx="4" ry="4" fill="#00f0ff" opacity="0.6"/>
+  <line x1="80" y1="120" x2="247" y2="102" 
+        stroke="#00f0ff" stroke-width="1.25" stroke-opacity="0.65" filter="url(#neon-glow)"/>
+  <circle cx="80" cy="120" r="3.5" fill="#00f0ff" opacity="0.7" filter="url(#neon-glow)"/>
+  <line x1="127" y1="151" x2="270" y2="133" 
+        stroke="#c000ff" stroke-width="1.25" stroke-opacity="0.65" filter="url(#neon-glow)"/>
+  <circle cx="127" cy="151" r="3.5" fill="#c000ff" opacity="0.7" filter="url(#neon-glow)"/>
+  <line x1="174" y1="182" x2="305" y2="164" 
+        stroke="#ff00aa" stroke-width="1.25" stroke-opacity="0.65" filter="url(#neon-glow)"/>
+  <circle cx="174" cy="182" r="3.5" fill="#ff00aa" opacity="0.7" filter="url(#neon-glow)"/>
+  <line x1="221" y1="213" x2="386" y2="195" 
+        stroke="#00f0ff" stroke-width="1.25" stroke-opacity="0.65" filter="url(#neon-glow)"/>
+  <circle cx="221" cy="213" r="3.5" fill="#00f0ff" opacity="0.7" filter="url(#neon-glow)"/>
+  <line x1="268" y1="244" x2="410" y2="226" 
+        stroke="#c000ff" stroke-width="1.25" stroke-opacity="0.65" filter="url(#neon-glow)"/>
+  <circle cx="268" cy="244" r="3.5" fill="#c000ff" opacity="0.7" filter="url(#neon-glow)"/>
+  <circle cx="400" cy="280" r="55" fill="none" 
+        stroke="#00f0ff" stroke-width="1.8" stroke-opacity="0.75" filter="url(#neon-glow)"/>
+  <circle cx="454.6" cy="284.0" r="4" fill="#00f0ff" opacity="0.85" filter="url(#neon-glow)"/>
+  <circle cx="366.9" cy="306.4" r="4" fill="#00f0ff" opacity="0.85" filter="url(#neon-glow)"/>
+  <circle cx="378.5" cy="249.6" r="4" fill="#00f0ff" opacity="0.85" filter="url(#neon-glow)"/>
+  <circle cx="400" cy="280" r="83" fill="none" 
+        stroke="#c000ff" stroke-width="1.5" stroke-opacity="0.75" filter="url(#neon-glow)"/>
+  <circle cx="482.4" cy="286.1" r="4" fill="#c000ff" opacity="0.85" filter="url(#neon-glow)"/>
+  <circle cx="350.0" cy="319.8" r="4" fill="#c000ff" opacity="0.85" filter="url(#neon-glow)"/>
+  <circle cx="367.6" cy="234.2" r="4" fill="#c000ff" opacity="0.85" filter="url(#neon-glow)"/>
+  <circle cx="400" cy="280" r="111" fill="none" 
+        stroke="#ff00aa" stroke-width="1.2000000000000002" stroke-opacity="0.75" filter="url(#neon-glow)"/>
+  <circle cx="510.2" cy="288.1" r="4" fill="#ff00aa" opacity="0.85" filter="url(#neon-glow)"/>
+  <circle cx="333.2" cy="333.2" r="4" fill="#ff00aa" opacity="0.85" filter="url(#neon-glow)"/>
+  <circle cx="356.6" cy="218.7" r="4" fill="#ff00aa" opacity="0.85" filter="url(#neon-glow)"/>
+  <text x="400" y="195" text-anchor="middle" fill="#00f0ff" font-family="monospace" font-size="28" font-weight="700" letter-spacing="3" filter="url(#neon-glow)">COUNTER-ROTATE-CITY-WAVE</text>
+  <text x="400" y="225" text-anchor="middle" fill="#8080a0" font-family="monospace" font-size="11" letter-spacing="1">INTENT: Render cognitive possibility space as counter-rotating city waves with t...</text>
+  <rect x="280" y="245" width="240" height="28" rx="4" ry="4" fill="#1a1a22" stroke="#c000ff" stroke-width="1"/>
+  <text x="400" y="264" text-anchor="middle" fill="#e0e0ff" font-family="monospace" font-size="12">CATEGORY: visual-generator  |  TIMEOUT: 50s</text>
+  <rect x="40" y="520" width="720" height="40" rx="6" ry="6" fill="#0f0f14" stroke="#ff00aa" stroke-width="1" opacity="0.85"/>
+  <text x="60" y="545" fill="#ff00aa" font-family="monospace" font-size="13" font-weight="600">EPHEMERAL</text>
+  <text x="200" y="545" fill="#8080a0" font-family="monospace" font-size="12">FULFILLED • SELF-TERMINATED • ZERO RESIDUAL STATE</text>
+  <text x="740" y="545" text-anchor="end" fill="#00f0ff" font-family="monospace" font-size="11">2026-06-21T15:17:51+00:00</text>
+  <text x="400" y="580" text-anchor="middle" fill="#8080a0" font-family="monospace" font-size="9" letter-spacing="2">WONDERLAND SYSTEMS • RECOVERABILITY • AUDITABILITY • SIMPLICITY</text>
+</svg>

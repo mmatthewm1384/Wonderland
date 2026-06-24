@@ -23,7 +23,7 @@ Recovered from:
 
 ## Purpose
 
-This index captures the recovered Wonderland-v3 runtime model for use in Wonderland-v4 architecture planning.
+This index captures the recovered Wonderland-v3 runtime model for use in Wonderland architecture planning.
 
 ## Recovery Rule
 

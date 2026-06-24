@@ -1,0 +1,145 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+REPORT_DIR="$WL_HOME/vault/08-Operations/reports"
+REPORT="$REPORT_DIR/chaos-recovery-drill.json"
+LOG="$REPORT_DIR/chaos-recovery-drill.log"
+
+mkdir -p "$REPORT_DIR"
+
+TMP="$(mktemp)"
+RESULT="PASS"
+
+ts() {
+  date -u +"%Y-%m-%dT%H:%M:%SZ"
+}
+
+json_escape() {
+  python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))'
+}
+
+record() {
+  local name="$1"
+  local status="$2"
+  local detail="$3"
+
+  [[ "$status" == "PASS" ]] || RESULT="FAIL"
+
+  printf '%s %s %s\n' "$status" "$name" "$detail"
+
+  cat >> "$TMP" <<EOF
+{"name":"$name","status":"$status","detail":$(printf "%s" "$detail" | json_escape)}
+EOF
+}
+
+check_cmd() {
+  local name="$1"
+  shift
+
+  local output
+  if output="$("$@" 2>&1)"; then
+    record "$name" "PASS" "$output"
+  else
+    record "$name" "FAIL" "$output"
+  fi
+}
+
+START="$(ts)"
+
+echo "== Wonderland Chaos Recovery Drill ==" | tee "$LOG"
+echo "started=$START" | tee -a "$LOG"
+echo | tee -a "$LOG"
+
+check_cmd "watchdog-status" \
+  "$WL_HOME/Wonderland-v4/ephemeral/bin/wl-chaos-watchdog" status
+
+check_cmd "visual-contract-present" \
+  test -f "$WL_HOME/vault/chaos/visual-chaos-contract.json"
+
+check_cmd "menubar-process" \
+  pgrep -fl wl-chaos-menubar
+
+check_cmd "runtime-chaos-doctor" \
+  "$WL_HOME/bin/wl-runtime-chaos-doctor"
+
+check_cmd "runtime-chaos-governance" \
+  "$WL_HOME/bin/wl-governance-runtime-chaos"
+
+echo | tee -a "$LOG"
+echo "== contract cycle ==" | tee -a "$LOG"
+
+check_cmd "reset-chaos" \
+  "$WL_HOME/bin/wl-chaos" reset
+
+check_cmd "write-normal-contract" \
+  "$WL_HOME/bin/wl-visual-chaos" write-contract
+
+sleep 2
+
+NORMAL_ACTIVE="$(python3 - <<PY
+import json
+from pathlib import Path
+p = Path("$WL_HOME/vault/chaos/visual-chaos-contract.json")
+print(json.loads(p.read_text()).get("chaos_active"))
+PY
+)"
+
+if [[ "$NORMAL_ACTIVE" == "False" ]]; then
+  record "normal-contract-state" "PASS" "chaos_active=false"
+else
+  record "normal-contract-state" "FAIL" "chaos_active=$NORMAL_ACTIVE"
+fi
+
+check_cmd "escalate-chaos" \
+  "$WL_HOME/bin/wl-chaos" escalate
+
+check_cmd "write-chaos-contract" \
+  "$WL_HOME/bin/wl-visual-chaos" write-contract
+
+sleep 2
+
+CHAOS_ACTIVE="$(python3 - <<PY
+import json
+from pathlib import Path
+p = Path("$WL_HOME/vault/chaos/visual-chaos-contract.json")
+print(json.loads(p.read_text()).get("chaos_active"))
+PY
+)"
+
+if [[ "$CHAOS_ACTIVE" == "True" ]]; then
+  record "chaos-contract-state" "PASS" "chaos_active=true"
+else
+  record "chaos-contract-state" "FAIL" "chaos_active=$CHAOS_ACTIVE"
+fi
+
+END="$(ts)"
+
+python3 - "$TMP" "$REPORT" "$START" "$END" "$RESULT" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+tmp, report, start, end, result = sys.argv[1:]
+
+checks = []
+for line in Path(tmp).read_text().splitlines():
+    if line.strip():
+        checks.append(json.loads(line))
+
+payload = {
+    "system": "chaos-runtime",
+    "started": start,
+    "completed": end,
+    "result": result,
+    "checks": checks,
+}
+
+Path(report).write_text(json.dumps(payload, indent=2, sort_keys=True))
+PY
+
+rm -f "$TMP"
+
+echo | tee -a "$LOG"
+echo "RESULT $RESULT" | tee -a "$LOG"
+echo "Report: $REPORT" | tee -a "$LOG"

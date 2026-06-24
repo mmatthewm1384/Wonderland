@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SKHD_BIN="$(command -v skhd 2>/dev/null || echo /opt/homebrew/bin/skhd)"
+
+echo "skhd path: $SKHD_BIN"
+echo "Opening System Settings → Privacy & Security → Accessibility..."
+open "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
+
+if [[ -x "$SKHD_BIN" ]]; then
+  echo "If skhd is not listed, add:"
+  echo "$SKHD_BIN"
+else
+  echo "skhd binary not found. Install with: brew install skhd"
+fi

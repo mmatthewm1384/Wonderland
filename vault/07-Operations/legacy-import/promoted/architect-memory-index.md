@@ -6,7 +6,7 @@ Matthew Mahaney
 
 ## System
 
-Wonderland-v4
+Wonderland
 
 ## Primary Knowledge Core
 

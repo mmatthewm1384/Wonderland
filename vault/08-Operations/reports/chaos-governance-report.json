@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-06-22T00:22:03.328504+00:00",
+  "result": "FAIL",
+  "checks": [
+    {
+      "name": "launchd",
+      "passed": true,
+      "detail": "/Users/wonderland/Library/LaunchAgents/com.wonderland.chaos-watchdog.plist"
+    },
+    {
+      "name": "watchdog",
+      "passed": false,
+      "detail": "/Users/wonderland/Wonderland/vault/chaos/chaos-watchdog.pid"
+    },
+    {
+      "name": "aether",
+      "passed": false,
+      "detail": "/Users/wonderland/Wonderland/vault/chaos/chaos-aether.json"
+    },
+    {
+      "name": "visual-contract",
+      "passed": true,
+      "detail": "/Users/wonderland/Wonderland/vault/chaos/visual-chaos-contract.json"
+    },
+    {
+      "name": "panic",
+      "passed": true,
+      "detail": "/Users/wonderland/Wonderland/Wonderland-v4/ephemeral/bin/wl-chaos-panic"
+    },
+    {
+      "name": "skhd",
+      "passed": false,
+      "detail": "/Users/wonderland/.skhdrc"
+    },
+    {
+      "name": "audit",
+      "passed": true,
+      "detail": "/Users/wonderland/Wonderland/vault/ephemeral-runs.log"
+    }
+  ]
+}

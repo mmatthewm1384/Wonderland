@@ -2,7 +2,7 @@
 
 ## Objective
 
-Provide persistent, recoverable, auditable infrastructure for Wonderland-v4.
+Provide persistent, recoverable, auditable infrastructure for Wonderland.
 
 ## Core Components
 
