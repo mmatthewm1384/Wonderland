@@ -2,36 +2,48 @@
 set -euo pipefail
 
 WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+source "$WL_HOME/lib/wl-lifecycle-lib.sh"
 
 echo "Wonderland Lifecycle Audit"
 echo
 
-check_file() {
-  local f="$1"
-  if [ -x "$WL_HOME/bin/$f" ]; then
-    echo "PASS $f"
-  else
-    echo "FAIL $f"
-  fi
-}
-
-check_file wl
-check_file wl-lifecycle
-check_file wl-start
-check_file wl-stop
-check_file wl-status
-check_file wl-doctor-lifecycle
-check_file wl-lifecycle-report
-check_file wl-lifecycle-services
-check_file wl-lifecycle-snapshot
+for f in \
+  bin/wl \
+  bin/wl-lifecycle \
+  bin/wl-start \
+  bin/wl-stop \
+  bin/wl-status \
+  bin/wl-doctor-lifecycle \
+  bin/wl-lifecycle-report \
+  bin/wl-lifecycle-services \
+  bin/wl-lifecycle-snapshot \
+  lib/wl-lifecycle-lib.sh
+do
+  [ -x "$WL_HOME/$f" ] || [ -f "$WL_HOME/$f" ] \
+    && wl_pass "$f" \
+    || wl_fail "$f"
+done
 
 echo
 echo "Routes"
-grep -n "start) exec.*wl-lifecycle" "$WL_HOME/bin/wl" >/dev/null && echo "PASS wl start route" || echo "FAIL wl start route"
-grep -n "stop) exec.*wl-lifecycle" "$WL_HOME/bin/wl" >/dev/null && echo "PASS wl stop route" || echo "FAIL wl stop route"
-grep -n "doctor) exec.*wl-doctor-lifecycle" "$WL_HOME/bin/wl" >/dev/null && echo "PASS wl doctor route" || echo "FAIL wl doctor route"
+grep -q 'start) exec "$WL_HOME/bin/wl-lifecycle" start' "$WL_HOME/bin/wl" \
+  && wl_pass "wl start route" \
+  || wl_fail "wl start route"
+
+grep -q 'stop) exec "$WL_HOME/bin/wl-lifecycle" stop' "$WL_HOME/bin/wl" \
+  && wl_pass "wl stop route" \
+  || wl_fail "wl stop route"
+
+grep -q 'doctor) exec "$WL_HOME/bin/wl-doctor-lifecycle"' "$WL_HOME/bin/wl" \
+  && wl_pass "wl doctor route" \
+  || wl_fail "wl doctor route"
 
 echo
-echo "Registry"
-[ -f "$WL_HOME/governance/registries/lifecycle-services.json" ] && echo "PASS lifecycle-services.json" || echo "FAIL lifecycle-services.json"
-[ -f "$WL_HOME/governance/registries/lifecycle-certification.json" ] && echo "PASS lifecycle-certification.json" || echo "WARN lifecycle-certification.json missing"
+echo "Registries"
+[ -f "$WL_HOME/governance/registries/lifecycle-services.json" ] \
+  && wl_pass "lifecycle-services.json" \
+  || wl_fail "lifecycle-services.json"
+
+[ -f "$WL_HOME/governance/registries/lifecycle-certification.json" ] \
+  && wl_pass "lifecycle-certification.json" \
+  || wl_warn "lifecycle-certification.json"
