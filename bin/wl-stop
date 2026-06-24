@@ -1,33 +1,33 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ok(){ echo "PASS $*"; }
-warn(){ echo "WARN $*"; }
-step(){ echo; echo "== $* =="; }
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+source "$WL_HOME/lib/wl-lifecycle-lib.sh"
 
-step "Wonderland Stop"
+wl_step "Wonderland Stop"
 
-step "Stopping rootless services"
-LIMA_INSTANCE=wonderland-rootless nerdctl stop wl-loki >/dev/null 2>&1 || true
-ok "rootless stop attempted"
-
-step "Stopping wonderland-rootless"
-limactl stop wonderland-rootless >/dev/null 2>&1 || true
-ok "wonderland-rootless stop attempted"
-
-step "Stopping core services"
-for svc in wl-grafana wl-prometheus wl-loki wl-nats wl-dns; do
-  nerdctl stop "$svc" >/dev/null 2>&1 || true
-  ok "$svc stop attempted"
+wl_step "Stopping rootless services"
+for svc in $(wl_rootless_services); do
+  LIMA_INSTANCE=wonderland-rootless nerdctl stop "$svc" >/dev/null 2>&1 || true
+  wl_pass "rootless $svc" "stop attempted"
 done
 
-step "Syncing filesystem"
-sync
-ok "filesystem synced"
+wl_step "Stopping wonderland-rootless"
+limactl stop wonderland-rootless >/dev/null 2>&1 || true
+wl_lima_running wonderland-rootless && wl_warn "wonderland-rootless" "still running" || wl_pass "wonderland-rootless" "stopped"
 
-step "Final state"
-limactl list
-nerdctl ps 2>/dev/null || true
+wl_step "Stopping core services"
+for svc in $(wl_services | sort -r); do
+  nerdctl stop "$svc" >/dev/null 2>&1 || true
+  wl_container_running "$svc" && wl_warn "$svc" "still running" || wl_pass "$svc" "stopped"
+done
+
+wl_step "Syncing filesystem"
+sync
+wl_pass "filesystem" "synced"
+
+wl_step "Report"
+"$WL_HOME/bin/wl-lifecycle-report" stop || true
 
 echo
-echo "PASS wl-stop complete"
+echo "RESULT PASS"
