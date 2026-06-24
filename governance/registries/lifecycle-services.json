@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "mode": "light",
+  "services": [
+    { "name": "wl-dns",        "priority": 10, "required": true, "health": "dns" },
+    { "name": "wl-nats",       "priority": 20, "required": true, "health": "nats" },
+    { "name": "wl-loki",       "priority": 30, "required": true, "health": "loki" },
+    { "name": "wl-prometheus", "priority": 40, "required": true, "health": "prometheus" },
+    { "name": "wl-grafana",    "priority": 50, "required": true, "health": "grafana" }
+  ],
+  "rootless": [
+    { "name": "wl-loki", "priority": 10, "required": false, "health": "container" }
+  ]
+}

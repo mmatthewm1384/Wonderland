@@ -1,8 +1,9 @@
 {
   "subsystem": "wl-lifecycle",
-  "version": "1.0",
-  "operational_status": "PASS",
+  "version": "1.1",
+  "operational_status": "FAIL",
   "certification_status": "PROVISIONAL",
+  "timestamp": "2026-06-24T10:57:18-07:00",
   "operator_interface": [
     "wl start",
     "wl stop",
@@ -12,21 +13,18 @@
     "wl status",
     "wl doctor"
   ],
-  "current_capabilities": {
-    "lima_orchestration": true,
-    "service_orchestration": true,
-    "universe_validation": true,
-    "reporting": true,
-    "recovery_baseline": true
+  "capabilities": {
+    "service_registry": true,
+    "lifecycle_reports": true,
+    "lifecycle_doctor": true,
+    "health_score": true,
+    "snapshot_hooks": true,
+    "audit": true
   },
-  "phase_2_required": [
-    "service registry",
-    "dependency graph",
-    "snapshot hooks",
-    "health scoring",
+  "pending_phase_2": [
+    "full dependency graph",
     "machine shutdown integration",
     "login startup automation",
-    "complete audit trail"
-  ],
-  "assessment": "Operationally complete. Wonderland-certified lifecycle subsystem is provisional pending Phase 2 certification."
+    "formal rollback restore target"
+  ]
 }

@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+REG="$WL_HOME/governance/registries/lifecycle-services.json"
+
+services() {
+  python3 - "$REG" <<'PY'
+import json, sys
+from pathlib import Path
+data=json.loads(Path(sys.argv[1]).read_text())
+for s in sorted(data["services"], key=lambda x:x["priority"]):
+    print(s["name"])
+PY
+}
+
+rootless_services() {
+  python3 - "$REG" <<'PY'
+import json, sys
+from pathlib import Path
+data=json.loads(Path(sys.argv[1]).read_text())
+for s in sorted(data.get("rootless", []), key=lambda x:x["priority"]):
+    print(s["name"])
+PY
+}
+
+case "${1:-services}" in
+  services) services ;;
+  rootless) rootless_services ;;
+  *)
+    echo "Usage: wl-lifecycle-services [services|rootless]"
+    exit 2
+    ;;
+esac
