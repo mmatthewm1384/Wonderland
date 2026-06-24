@@ -27,7 +27,4 @@ sync
 wl_pass "filesystem" "synced"
 
 wl_step "Report"
-"$WL_HOME/bin/wl-lifecycle-report" stop || true
-
-echo
-echo "RESULT PASS"
+exec "$WL_HOME/bin/wl-lifecycle-report" stop
