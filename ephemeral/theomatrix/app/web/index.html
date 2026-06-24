@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>THE∅MATRIX v0.1</title>
+  <style>
+    body {
+      margin: 0;
+      background: #05070A;
+      color: #EAF7FF;
+      font-family: Inter, system-ui, sans-serif;
+      overflow: hidden;
+    }
+    canvas { display: block; }
+    #hud {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 16px;
+      border: 1px solid #00E5FF;
+      background: rgba(5,7,10,.72);
+      box-shadow: 0 0 24px rgba(0,229,255,.25);
+      min-width: 280px;
+    }
+    button {
+      background: #05070A;
+      color: #00E5FF;
+      border: 1px solid #00E5FF;
+      padding: 8px 10px;
+      margin: 3px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div id="hud">
+  <strong>THE∅MATRIX v0.1</strong>
+  <pre id="state"></pre>
+  <button onclick="emit('atom-slam')">Atom Slam</button>
+  <button onclick="emit('agitate-waves')">Agitate</button>
+  <button onclick="emit('spin-the-city')">Spin</button>
+  <button onclick="emit('fluderation')">Flude</button>
+  <button onclick="emit('matrix-heal')">Heal</button>
+</div>
+
+<script>
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+const stateEl = document.getElementById("state");
+
+let W, H;
+let state = {
+  tick: 0,
+  energy: 0.5,
+  pressure: 0.2,
+  coherence: 1,
+  rotation: 0,
+  wave: 0,
+  shieldIntegrity: 1,
+  phase: "stable"
+};
+
+function resize() {
+  W = canvas.width = innerWidth;
+  H = canvas.height = innerHeight;
+}
+addEventListener("resize", resize);
+resize();
+
+function clamp(v) { return Math.max(0, Math.min(1, v)); }
+
+function emit(type) {
+  if (type === "atom-slam") {
+    state.energy += .35;
+    state.pressure += .14;
+    state.coherence -= .04;
+    state.shieldIntegrity -= .06;
+    state.phase = "slam";
+  }
+  if (type === "agitate-waves") {
+    state.wave += .3;
+    state.coherence -= .03;
+    state.shieldIntegrity -= .02;
+    state.phase = "wave";
+  }
+  if (type === "spin-the-city") {
+    state.rotation += .25;
+    state.energy += .05;
+    state.phase = "spin";
+  }
+  if (type === "fluderation") {
+    state.pressure += .35;
+    state.coherence -= .05;
+    state.shieldIntegrity -= .04;
+    state.phase = "flude";
+  }
+  if (type === "matrix-heal") {
+    state.shieldIntegrity += .2;
+    state.coherence += .1;
+    state.phase = "healing";
+  }
+
+  state.energy = clamp(state.energy);
+  state.pressure = clamp(state.pressure);
+  state.coherence = clamp(state.coherence);
+  state.shieldIntegrity = clamp(state.shieldIntegrity);
+}
+
+function polygon(cx, cy, r, sides, rot) {
+  ctx.beginPath();
+  for (let i = 0; i < sides; i++) {
+    const a = rot + i * Math.PI * 2 / sides;
+    const x = cx + Math.cos(a) * r;
+    const y = cy + Math.sin(a) * r;
+    i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+  }
+  ctx.closePath();
+}
+
+function draw() {
+  requestAnimationFrame(draw);
+
+  state.tick++;
+  state.energy *= .992;
+  state.pressure *= .988;
+  state.wave *= .975;
+  state.coherence += (1 - state.coherence) * .004;
+  state.shieldIntegrity += (1 - state.shieldIntegrity) * .002;
+
+  const cx = W / 2;
+  const cy = H / 2;
+  const base = Math.min(W, H) * .24;
+  const pulse = Math.sin(state.tick * .025) * 12 * state.energy;
+
+  ctx.clearRect(0, 0, W, H);
+
+  ctx.fillStyle = "#05070A";
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(state.rotation + state.tick * .002);
+  ctx.translate(-cx, -cy);
+
+  for (let i = 0; i < 7; i++) {
+    const r = base + i * 34 + pulse + Math.sin(state.tick * .02 + i) * state.wave * 28;
+    ctx.strokeStyle = i % 2 ? "#7000FF" : "#00E5FF";
+    ctx.globalAlpha = .18 + state.shieldIntegrity * .1;
+    ctx.lineWidth = 1 + state.energy * 2;
+    polygon(cx, cy, r, 6, state.tick * .002 * (i + 1));
+    ctx.stroke();
+  }
+
+  ctx.restore();
+
+  ctx.globalAlpha = .9;
+  ctx.fillStyle = "#00FF66";
+  ctx.beginPath();
+  ctx.arc(cx, cy, 8 + state.energy * 16, 0, Math.PI * 2);
+  ctx.fill();
+
+  stateEl.textContent = JSON.stringify({
+    tick: state.tick,
+    phase: state.phase,
+    energy: +state.energy.toFixed(3),
+    pressure: +state.pressure.toFixed(3),
+    coherence: +state.coherence.toFixed(3),
+    shieldIntegrity: +state.shieldIntegrity.toFixed(3)
+  }, null, 2);
+}
+
+draw();
+</script>
+</body>
+</html>

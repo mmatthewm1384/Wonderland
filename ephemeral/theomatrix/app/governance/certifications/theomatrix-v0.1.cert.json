@@ -1,0 +1,21 @@
+{
+  "project": "THE∅MATRIX",
+  "version": "0.1.0",
+  "status": "certified",
+  "scope": [
+    "event-bus",
+    "canonical-state",
+    "simulation-loop",
+    "systems",
+    "ariel-shield",
+    "telemetry",
+    "terminal-dashboard",
+    "web-dashboard",
+    "doctor",
+    "certify",
+    "replay",
+    "recovery",
+    "rollback"
+  ],
+  "certification": "THEOMATRIX-v0.1-CERTIFIED"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "theomatrix-v0.1",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "node ui/dashboard.js",
+    "doctor": "node scripts/doctor.js",
+    "certify": "node scripts/certify.js",
+    "replay": "node telemetry/replay.js"
+  }
+}
