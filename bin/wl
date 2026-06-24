@@ -1,13 +1,38 @@
 #!/usr/bin/env bash
+
+# wl-secrets route
+if [ "${1:-}" = "secrets" ]; then
+  exec "$HOME/Wonderland/ephemeral/secrets/bin/wl-secrets" "${@:2}"
+fi
+
 set -euo pipefail
 
 WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+ROOTLIB="$WL_HOME/lib/wl-roots.sh"
+
+if [ -f "$ROOTLIB" ]; then
+  source "$ROOTLIB"
+fi
 WL_LOG_DIR="$WL_HOME/logs"
 WL_REPORT_DIR="$WL_HOME/vault/08-Operations/reports"
 mkdir -p "$WL_LOG_DIR" "$WL_REPORT_DIR"
 
 cmd="${1:-help}"
 shift || true
+
+
+# Wonderland navigator early routes
+case "${cmd:-}" in
+  nav)
+    exec "$WL_HOME/bin/wl-nav" "$@"
+    ;;
+  inspect)
+    exec "$WL_HOME/bin/wl-inspect" "$@"
+    ;;
+  tree)
+    exec "$WL_HOME/bin/wl-tree" "$@"
+    ;;
+esac
 
 wl_has() {
   command -v "$1" >/dev/null 2>&1
@@ -64,11 +89,14 @@ Core:
   wl services status|doctor|up|down|restart
 
 Runtime:
-  wl runtime status|doctor|install|repair
+  wl runtime status|up|down|exec|doctor
   wl ephemeral list|doctor|status|repair|launch
   wl chaos status|start|stop|enable|disable|doctor
 
 Utilities:
+  wl nav [governance|theomatrix|services|assets|reports]
+  wl inspect [path]
+  wl tree [path]
   wl path
   wl logs
   wl version
@@ -78,7 +106,16 @@ HELP
 wl_path() {
   cat <<PATHS
 WL_HOME=$WL_HOME
-bin=$WL_HOME/bin
+
+AUTHORITY=${WL_AUTHORITY_ROOT:-$HOME/Wonderland}
+WORKSHOP=${WL_WORKSHOP_ROOT:-$HOME/Workshop}
+RUNTIME=${WL_RUNTIME_ROOT:-$HOME/Runtime}
+ARCHIVE=${WL_ARCHIVE_ROOT:-$HOME/Archive}
+MEDIA=${WL_MEDIA_ROOT:-$HOME/Media}
+
+APPS=${WL_APPS:-$HOME/Workshop/apps}
+SERVICES=${WL_SERVICES:-$HOME/Workshop/services}
+
 logs=$WL_LOG_DIR
 reports=$WL_REPORT_DIR
 PATHS
@@ -156,61 +193,83 @@ wl_services() {
   local sub="${1:-status}"
   shift || true
 
+  local VM="${WL_RUNTIME_VM:-wonderland-rootless}"
+  local compose="$WL_HOME/runtime/compose.yml"
+
   case "$sub" in
     status)
+      echo "== host/default services =="
       if wl_has nerdctl; then
-        nerdctl ps -a --format '{{.Names}} {{.Image}} {{.Status}}' | sort || true
+        nerdctl ps -a --format '{{.Names}} {{.Image}} {{.Status}} {{.Ports}}' | sort || true
       else
-        echo "WARN nerdctl not found"
+        echo "WARN host nerdctl not found"
+      fi
+
+      echo
+      echo "== runtime services: $VM =="
+      if command -v limactl >/dev/null 2>&1; then
+        limactl shell "$VM" -- nerdctl ps -a --format '{{.Names}} {{.Image}} {{.Status}} {{.Ports}}' 2>/dev/null | sort || true
+      else
+        echo "FAIL limactl not found"
+        return 1
       fi
       ;;
+
     doctor)
       local fail=0
-      if wl_has nerdctl; then
-        echo "PASS nerdctl"
+
+      command -v limactl >/dev/null 2>&1 && echo "PASS limactl" || { echo "FAIL limactl"; fail=1; }
+
+      if limactl list 2>/dev/null | awk '{print $1, $2}' | grep -qx "$VM Running"; then
+        echo "PASS $VM running"
       else
-        echo "FAIL nerdctl"
+        echo "FAIL $VM not-running"
+        fail=1
+      fi
+
+      [[ -f "$compose" ]] && echo "PASS runtime-compose $compose" || { echo "FAIL runtime-compose $compose"; fail=1; }
+
+      if limactl shell "$VM" -- nerdctl version >/dev/null 2>&1; then
+        echo "PASS runtime nerdctl"
+      else
+        echo "FAIL runtime nerdctl"
         fail=1
       fi
 
       for svc in wl-dns wl-nats wl-prometheus wl-grafana wl-loki; do
-        if nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$svc"; then
-          echo "PASS $svc"
+        if limactl shell "$VM" -- nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$svc"; then
+          echo "PASS runtime $svc"
         else
-          echo "WARN $svc not-running"
+          echo "WARN runtime $svc not-running"
         fi
       done
 
       [[ "$fail" -eq 0 ]] && echo "RESULT PASS" || echo "RESULT FAIL"
       return "$fail"
       ;;
-    up|down|restart)
-      local compose
-      compose="$(wl_find_first \
-        "$WL_HOME/compose.yml" \
-        "$WL_HOME/docker-compose.yml" \
-        "$WL_HOME/runtime/compose.yml" \
-        "$WL_HOME/services/compose.yml" \
-        "$WL_HOME/docker/compose.yml" \
-        "$WL_HOME/Wonderland-v4/docker-compose.yml" || true)"
 
-      if [[ -z "${compose:-}" ]]; then
-        echo "FAIL no compose file found"
-        return 1
-      fi
-
-      case "$sub" in
-        up) nerdctl compose -f "$compose" up -d ;;
-        down) nerdctl compose -f "$compose" down ;;
-        restart)
-          nerdctl compose -f "$compose" down
-          nerdctl compose -f "$compose" up -d
-          ;;
-      esac
+    up)
+      [[ -f "$compose" ]] || { echo "FAIL runtime compose missing: $compose"; return 1; }
+      limactl shell "$VM" -- nerdctl compose -f "$compose" up -d
       ;;
 
-  *)
-      echo "Usage: wl services status|doctor|up|down|restart"
+    down)
+      [[ -f "$compose" ]] || { echo "FAIL runtime compose missing: $compose"; return 1; }
+      limactl shell "$VM" -- nerdctl compose -f "$compose" down
+      ;;
+
+    restart)
+      [[ -f "$compose" ]] || { echo "FAIL runtime compose missing: $compose"; return 1; }
+      limactl shell "$VM" -- nerdctl compose -f "$compose" down
+      limactl shell "$VM" -- nerdctl compose -f "$compose" up -d
+      ;;
+
+    host-status)
+      nerdctl ps -a --format '{{.Names}} {{.Image}} {{.Status}} {{.Ports}}' | sort || true
+      ;;
+
+    *)
+      echo "Usage: wl services status|doctor|up|down|restart|host-status"
       return 2
       ;;
   esac
@@ -367,39 +426,82 @@ wl_recovery() {
 }
 
 wl_runtime() {
-  local candidate
-  candidate="$(wl_find_first \
-    "$WL_HOME/bin/wl-runtime" \
-    "$WL_HOME/scripts/runtime/wl-runtime" \
-    "$WL_HOME/scripts/runtime/install-wonderland-rootless.sh" || true)"
-
   local sub="${1:-status}"
+  shift || true
+
+  local VM="${WL_RUNTIME_VM:-wonderland-rootless}"
+
   case "$sub" in
-    install)
-      [[ -n "${candidate:-}" ]] && wl_run_script "$candidate" || {
-        echo "FAIL no runtime installer found"
-        return 1
-      }
-      ;;
-    status|doctor|repair)
-      if wl_has limactl; then
-        echo "PASS limactl"
-        limactl list 2>/dev/null | grep -E 'wonderland-rootless|default' || true
-      else
-        echo "WARN limactl not found"
-      fi
-
-      if wl_has nerdctl; then
-        echo "PASS nerdctl"
-      else
-        echo "FAIL nerdctl"
+    status)
+      if ! command -v limactl >/dev/null 2>&1; then
+        echo "FAIL limactl"
         return 1
       fi
-
-      echo "RESULT PASS"
+      limactl list
       ;;
+
+    up|start)
+      if ! command -v limactl >/dev/null 2>&1; then
+        echo "FAIL limactl"
+        return 1
+      fi
+      limactl start "$VM"
+      ;;
+
+    down|stop)
+      if ! command -v limactl >/dev/null 2>&1; then
+        echo "FAIL limactl"
+        return 1
+      fi
+      limactl stop "$VM"
+      ;;
+
+    exec|shell)
+      if [[ "$#" -eq 0 ]]; then
+        echo "Usage: wl runtime exec <command>"
+        return 2
+      fi
+      limactl shell "$VM" -- "$@"
+      ;;
+
+    doctor|verify)
+      local fail=0
+
+      command -v limactl >/dev/null 2>&1 && echo "PASS limactl" || { echo "FAIL limactl"; fail=1; }
+
+      if limactl list 2>/dev/null | awk '{print $1, $2}' | grep -qx "$VM Running"; then
+        echo "PASS $VM running"
+      else
+        echo "FAIL $VM not-running"
+        fail=1
+      fi
+
+      if command -v nerdctl >/dev/null 2>&1; then
+        echo "PASS host nerdctl"
+      else
+        echo "WARN host nerdctl missing"
+      fi
+
+      if limactl shell "$VM" -- nerdctl version >/dev/null 2>&1; then
+        echo "PASS runtime nerdctl"
+      else
+        echo "FAIL runtime nerdctl"
+        fail=1
+      fi
+
+      if limactl shell "$VM" -- test -d "$HOME/Wonderland" >/dev/null 2>&1; then
+        echo "PASS runtime mount ~/Wonderland"
+      else
+        echo "FAIL runtime mount ~/Wonderland"
+        fail=1
+      fi
+
+      [[ "$fail" -eq 0 ]] && echo "RESULT PASS" || echo "RESULT FAIL"
+      return "$fail"
+      ;;
+
     *)
-      echo "Usage: wl runtime status|doctor|install|repair"
+      echo "Usage: wl runtime status|up|down|exec|doctor"
       return 2
       ;;
   esac
@@ -484,6 +586,8 @@ case "$cmd" in
   ephemeral) wl_ephemeral "$@" ;;
   chaos) wl_chaos "$@" ;;
 
+  roots) exec "$WL_HOME/bin/wl-roots" "$@" ;;
+  root-status) exec "$WL_HOME/bin/wl-root-status" "$@" ;;
   *)
     echo "Unknown wl command: $cmd"
     echo
