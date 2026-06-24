@@ -3,7 +3,7 @@
 set -euo pipefail
 
 ROOT="${WONDERLAND_ROOT:-$HOME/Wonderland}"
-ROOT_V4="${WONDERLAND_ROOT_V4:-$HOME/Wonderland-v4}"
+ROOT_V4="${WONDERLAND_ROOT_V4:-$HOME/Wonderland}"
 BIN="$ROOT/bin"
 CORE="$ROOT/core"
 GOV="$ROOT/intelligence/obsidian/00-Core/Governance.md"

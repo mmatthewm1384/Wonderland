@@ -63,6 +63,12 @@ BAD_REFS="$(grep -RIn \
   --exclude-dir=.git \
   --exclude-dir=reports \
   --exclude-dir=.build \
+  --exclude-dir=backups \
+  --exclude-dir=snapshots \
+  --exclude-dir=git-rescue \
+  --exclude='*.bak*' \
+  --exclude='*.backup*' \
+  --exclude='wl-root-certify' \
   --exclude='*.png' \
   --exclude='*.jpg' \
   --exclude='*.jpeg' \
@@ -71,7 +77,7 @@ BAD_REFS="$(grep -RIn \
   "$WL_HOME/bin" "$WL_HOME/lib" "$WL_HOME/services" "$WL_HOME/vault" 2>/dev/null || true)"
 
 if [[ -z "$BAD_REFS" ]]; then
-  pass "no legacy Wonderland-v4 hardcoded references in authority paths"
+  pass "no legacy Wonderland hardcoded references in authority paths"
 else
   fail "legacy Wonderland-v4 references found"
   echo "$BAD_REFS" >> "$REPORT"

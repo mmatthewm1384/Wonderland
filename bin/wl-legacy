@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="/Users/wonderland/Wonderland"
-LEGACY="/Volumes/T7_Wonderland/Wonderland-v4"
+LEGACY="/Wonderland"
 OPS="$ROOT/vault/07-Operations/legacy-import"
 ARCHIVE="/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy"
 STAMP="$(date +%Y%m%d-%H%M%S)"
@@ -132,7 +132,7 @@ PY
     latest_cls="$(find "$OPS/classifications" -type f -name 'legacy-classification-*.tsv' | sort | tail -1)"
     [[ -n "$latest_cls" ]] || { echo "FAIL no classification found"; exit 1; }
 
-    DEST="$ARCHIVE/Wonderland-v4-archive-$STAMP"
+    DEST="$ARCHIVE/Wonderland-archive-$STAMP"
     mkdir -p "$DEST"
 
     awk -F'\t' 'NR>1 && $4=="archive" {print $1}' "$latest_cls" |

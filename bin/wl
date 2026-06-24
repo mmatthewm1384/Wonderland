@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# wl root-certify route
+if [[ "${1:-}" == "root-certify" ]]; then
+  exec "$HOME/Wonderland/bin/wl-root-certify"
+fi
+
 
 # wl-secrets route
 if [ "${1:-}" = "secrets" ]; then
@@ -328,7 +333,7 @@ wl_snapshot() {
   case "$sub" in
     doctor|verify|list)
       local snap1="$WL_HOME/vault/08-Operations/snapshots"
-      local snap2="/Volumes/T7_Wonderland/Wonderland-v4/08-operations/snapshots"
+      local snap2="/Wonderland/08-operations/snapshots"
 
       mkdir -p "$snap1" 2>/dev/null || true
 

@@ -73,7 +73,7 @@ verify() {
   fi
 
   for p in \
-    "$VOLUME_PATH/Wonderland-v4" \
+    "$VOLUME_PATH/Wonderland" \
     "$VOLUME_PATH/media" \
     "$VOLUME_PATH/media/music" \
     "$VOLUME_PATH/media/torrents"

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="/Users/wonderland/Wonderland"
-LEGACY="/Volumes/T7_Wonderland/Wonderland-v4"
+LEGACY="/Wonderland"
 MANIFEST="$ROOT/vault/07-Operations/legacy-import/promotion/legacy-promotion-manifest.tsv"
 ROLLBACK="$ROOT/vault/07-Operations/legacy-import/rollback/rollback-$(date +%Y%m%d-%H%M%S).tsv"
 
