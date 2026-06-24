@@ -13,7 +13,7 @@ Legacy material must be inventoried, classified, archived, or promoted through r
 ## Legacy Source
 
 ```text
-/Volumes/T7_Wonderland/Wonderland-v4
+/Wonderland
 Authority Root
 /Users/wonderland/Wonderland
 Rule

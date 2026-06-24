@@ -1,0 +1,9 @@
+{
+  "schema": "theomatrix.graph.v1",
+  "version": "3.0",
+  "exports": [
+    "theomatrix.graph.json",
+    "theomatrix.nodes.csv",
+    "theomatrix.edges.csv"
+  ]
+}

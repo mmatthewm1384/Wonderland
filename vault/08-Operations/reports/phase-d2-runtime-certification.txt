@@ -1,0 +1,24 @@
+PASS wl-spin-city: rust command file
+PASS wl-spin-city: rust invoke handler
+PASS wl-spin-city: js marker wlNativeReadChaosContract
+PASS wl-spin-city: js marker WL_PHASE_D1_SPIN_CITY_LIVE_APPLY
+PASS wl-spin-city: macOS app bundle
+PASS wl-agitate: rust command file
+PASS wl-agitate: rust invoke handler
+PASS wl-agitate: js marker wlNativeReadChaosContract
+PASS wl-agitate: js marker WL_PHASE_D1_AGITATE_LIVE_APPLY
+PASS wl-agitate: macOS app bundle
+PASS wl-matrix: rust command file
+PASS wl-matrix: rust invoke handler
+PASS wl-matrix: js marker wlNativeReadChaosContract
+PASS wl-matrix: js marker WL_PHASE_D1_MATRIX_LIVE_APPLY
+PASS wl-matrix: macOS app bundle
+PASS visual contract exists
+PASS visual contract json valid
+PASS visual contract has chaos_active
+PASS visual contract has apps
+PASS wl-chaos wrapper
+PASS wl-visual-chaos wrapper
+
+RESULT PASS
+Report: /Users/wonderland/Wonderland/vault/08-Operations/reports/phase-d2-runtime-certification.json

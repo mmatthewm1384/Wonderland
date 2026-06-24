@@ -1,0 +1,24 @@
+{
+  "schema": "theomatrix.simulation.v1",
+  "next_id": 1,
+  "records": [
+    {
+      "id": "SIM-0001",
+      "type": "scenario",
+      "path": "scenarios/SIM-0001.json",
+      "created": "2026-06-22T15:44:05Z"
+    },
+    {
+      "id": "BRN-0001",
+      "type": "branch",
+      "path": "branches/BRN-0001.json",
+      "created": "2026-06-22T15:44:05Z"
+    },
+    {
+      "id": "OUT-0001",
+      "type": "outcome",
+      "path": "outcomes/OUT-0001.json",
+      "created": "2026-06-22T15:44:05Z"
+    }
+  ]
+}

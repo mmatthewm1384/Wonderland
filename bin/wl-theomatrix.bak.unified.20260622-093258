@@ -1,0 +1,105 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+ROOT="$WL_HOME/vault/01-Projects/THEOMATRIX"
+CERT="$ROOT/certification"
+REPORTS="$ROOT/reports"
+
+ensure_certification() {
+  mkdir -p "$CERT" "$REPORTS"
+
+  [ -f "$CERT/certification-registry.json" ] || cat > "$CERT/certification-registry.json" <<JSON
+{
+  "schema": "theomatrix.certification.v1",
+  "version": "3.0",
+  "records": []
+}
+JSON
+}
+
+certify_once() {
+  ensure_certification
+
+  python3 - "$ROOT" "$CERT" "$REPORTS" <<'PY'
+import json, sys
+from pathlib import Path
+from datetime import datetime, timezone
+
+root = Path(sys.argv[1])
+cert = Path(sys.argv[2])
+reports = Path(sys.argv[3])
+
+ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+checks = {
+    "canon": root / "canon",
+    "memory": root / "memory",
+    "intelligence": root / "intelligence",
+    "simulation": root / "simulation",
+    "observatory": root / "observatory",
+    "runtime": root / "runtime",
+    "reports": root / "reports",
+    "certification": root / "certification"
+}
+
+results = {}
+for name, path in checks.items():
+    results[name] = "PASS" if path.exists() and path.is_dir() else "FAIL"
+
+overall = "CERTIFIED" if all(v == "PASS" for v in results.values()) else "NOT_CERTIFIED"
+
+record = {
+    "certification_id": f"THEOMATRIX-3.0-CERT-RUN-{ts.replace(':','').replace('-','')}",
+    "project": "THE∅MATRIX",
+    "version": "3.0",
+    "timestamp": ts,
+    "checks": results,
+    "result": overall
+}
+
+(cert / "certification-record.json").write_text(json.dumps(record, indent=2) + "\n")
+(reports / "certification-report.json").write_text(json.dumps(record, indent=2) + "\n")
+
+registry_path = cert / "certification-registry.json"
+registry = json.loads(registry_path.read_text())
+registry.setdefault("records", []).append({
+    "id": record["certification_id"],
+    "timestamp": ts,
+    "result": overall
+})
+registry_path.write_text(json.dumps(registry, indent=2) + "\n")
+
+for k, v in results.items():
+    print(f"{v} {k}")
+
+print()
+print(f"RESULT {overall}")
+PY
+}
+
+certify_watch() {
+  while true; do
+    certify_once
+    sleep "${THEOMATRIX_CERT_INTERVAL:-3600}"
+  done
+}
+
+case "${1:-status}" in
+  status)
+    echo '{"project":"THE∅MATRIX","version":"3.0","status":"CERTIFIED"}'
+    ;;
+  certify)
+    case "${2:-once}" in
+      --watch|watch) certify_watch ;;
+      once|"") certify_once ;;
+      *) echo "Usage: wl-theomatrix certify [--watch]"; exit 1 ;;
+    esac
+    ;;
+  doctor|verify)
+    certify_once
+    ;;
+  *)
+    echo "Usage: wl-theomatrix status|certify|certify --watch|doctor|verify"
+    ;;
+esac

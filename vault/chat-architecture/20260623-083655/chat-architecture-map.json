@@ -1,0 +1,25 @@
+{
+  "title": "Chat Architecture Map \u2014 Wonderland Knowledge Core",
+  "version": "2026-06-22",
+  "classification": "OPERATOR EYES ONLY",
+  "layers": [
+    "Core Reasoning (Grok + Wonderland context)",
+    "Tool Layer (search, browse, code, image, memory, connected)",
+    "Render Layer (citations, images, files)",
+    "Memory & Style Enforcement (durable facts, 8-part blueprint)",
+    "Sandbox Environment (Linux artifacts, persistent shell)",
+    "Wonderland Integration (ephemeral agents, ZT, wl CLI, vault drops)"
+  ],
+  "data_flow": "Query \u2192 Reason (with memory/style) \u2192 Parallel tools if needed \u2192 Synthesize + renders \u2192 Final response",
+  "key_tenets": [
+    "Recoverability > Convenience",
+    "Auditability > Speed",
+    "Simplicity > Cleverness",
+    "Ephemeral/secret-agent native + Zero-Trust aligned"
+  ],
+  "drop_metadata": {
+    "dropped_at": "2026-06-23T08:36:55.475649",
+    "source": "auto-drop-chat-map.py",
+    "target": "/Users/wonderland/Wonderland/vault/chat-architecture/20260623-083655"
+  }
+}

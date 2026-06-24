@@ -1,0 +1,15 @@
+Wonderland Chaos Menubar Certification
+created=2026-06-23T09:44:59-07:00
+
+PASS source exists
+PASS binary exists
+PASS panic exists
+PASS source reads chaos marker
+PASS source has panic action
+PASS panic writes chaos marker
+
+PASS aether exists
+PASS aether active
+PASS panic log updated
+
+RESULT PASS

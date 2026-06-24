@@ -17,7 +17,7 @@ usage() {
   cat <<'EOF'
 wl-mind-body
 
-Mind + Body Time Travel for Wonderland-v4.
+Mind + Body Time Travel for Wonderland.
 
 Usage:
   wl-mind-body init

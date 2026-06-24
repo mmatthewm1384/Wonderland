@@ -1,0 +1,5 @@
+{
+  "mission_id": "sample-fsevent-001",
+  "watch_paths": ["/tmp/wonderland-test"],
+  "fsevent_latency": 0.1
+}

@@ -1,7 +1,7 @@
 # mahaney-core
 
 Operator: Matthew Mahaney  
-System: Wonderland-v4  
+System: Wonderland  
 Role: root authority / ecosystem custodian
 
 ## Principle

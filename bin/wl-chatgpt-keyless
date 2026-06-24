@@ -1,0 +1,128 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+BASE="$WL_HOME/services/wl-chatgpt-keyless"
+LIMA_INSTANCE="${LIMA_INSTANCE:-default}"
+NETWORK="wonderland-matrix"
+VOLUME="wl-chatgpt-keyless-data"
+CONTAINER="wl-chatgpt-keyless"
+PORT="8090"
+
+compose() {
+  cd "$BASE"
+  limactl shell "$LIMA_INSTANCE" nerdctl compose "$@"
+}
+
+ensure_network() {
+  limactl shell "$LIMA_INSTANCE" nerdctl network inspect "$NETWORK" >/dev/null 2>&1 \
+    || limactl shell "$LIMA_INSTANCE" nerdctl network create "$NETWORK"
+}
+
+case "${1:-}" in
+  install)
+    test -d "$BASE" || { echo "FAIL missing service dir: $BASE"; exit 1; }
+    ensure_network
+    echo "PASS install"
+    ;;
+
+  start)
+    "$0" install
+    compose up -d --build
+    echo "PASS start"
+    ;;
+
+  stop)
+    compose down
+    echo "PASS stop"
+    ;;
+
+  restart)
+    "$0" stop
+    "$0" start
+    ;;
+
+  status)
+    compose ps
+    ;;
+
+  logs)
+    limactl shell "$LIMA_INSTANCE" nerdctl logs "$CONTAINER" --tail "${2:-100}"
+    ;;
+
+  health)
+    curl -fsS "http://127.0.0.1:$PORT/health" | jq .
+    ;;
+
+  models)
+    curl -fsS "http://127.0.0.1:$PORT/v1/models" | jq .
+    ;;
+
+  doctor)
+    echo "== wl-chatgpt-keyless doctor =="
+    test -d "$BASE" && echo "PASS service-dir"
+    test -f "$BASE/docker-compose.yml" && echo "PASS compose"
+    test -f "$BASE/Dockerfile" && echo "PASS dockerfile"
+    test -f "$BASE/package.json" && echo "PASS package"
+    test -f "$BASE/app.js" && echo "PASS app"
+    test -f "$BASE/public/bridge.html" && echo "PASS bridge-ui"
+    limactl shell "$LIMA_INSTANCE" nerdctl network inspect "$NETWORK" >/dev/null 2>&1 && echo "PASS network"
+    curl -fsS "http://127.0.0.1:$PORT/health" >/dev/null && echo "PASS health"
+    echo "RESULT PASS"
+    ;;
+
+  open)
+    open "http://127.0.0.1:$PORT/bridge.html"
+    ;;
+
+  backup)
+    ts="$(date +%Y%m%d-%H%M%S)"
+    dst="/Volumes/T7_Wonderland/backups/wl-chatgpt-keyless-$ts"
+    mkdir -p "$dst"
+    rsync -a "$BASE/" "$dst/"
+    echo "PASS backup: $dst"
+    ;;
+
+  restore)
+    src="${2:?usage: wl-chatgpt-keyless restore /Volumes/T7_Wonderland/backups/wl-chatgpt-keyless-YYYYMMDD-HHMMSS}"
+    test -d "$src" || { echo "FAIL missing restore source: $src"; exit 1; }
+    mkdir -p "$BASE"
+    rsync -a "$src/" "$BASE/"
+    echo "PASS restore"
+    ;;
+
+  rollback)
+    compose down || true
+    limactl shell "$LIMA_INSTANCE" nerdctl volume rm "$VOLUME" || true
+    echo "PASS rollback"
+    ;;
+
+  purge)
+    "$0" rollback || true
+    rm -rf "$BASE"
+    rm -f "$WL_HOME/bin/wl-chatgpt-keyless"
+    rm -f "$WL_HOME/intents/chatgpt-keyless.intent.json"
+    echo "PASS purge"
+    ;;
+
+  *)
+    cat <<HELP
+Usage:
+  wl-chatgpt-keyless install
+  wl-chatgpt-keyless start
+  wl-chatgpt-keyless stop
+  wl-chatgpt-keyless restart
+  wl-chatgpt-keyless status
+  wl-chatgpt-keyless logs [lines]
+  wl-chatgpt-keyless health
+  wl-chatgpt-keyless models
+  wl-chatgpt-keyless doctor
+  wl-chatgpt-keyless open
+  wl-chatgpt-keyless backup
+  wl-chatgpt-keyless restore <backup-path>
+  wl-chatgpt-keyless rollback
+  wl-chatgpt-keyless purge
+HELP
+    exit 1
+    ;;
+esac

@@ -1,0 +1,20 @@
+services:
+  matrix-atom-slam:
+    image: wonderland/matrix-atom-slam:latest   # build from local Dockerfile or registry
+    platform: linux/arm64
+    restart: "no"                               # one-shot ephemeral
+    volumes:
+      - ${WONDERLAND_VAULT:-/Users/wonderland/Wonderland/vault}:/vault:rw
+    environment:
+      - INTENT=matrix-atom-slam
+      - BITEMPORAL_LOG=/vault/ephemeral-runs.log
+      - TIMEOUT_S=60
+    command: ["python", "-m", "matrix_atom_slam", "--intent", "slam"]  # or native binary
+    working_dir: /app
+    # networks / devices as needed for GPU/CUDA on host
+
+# Build context (optional section)
+# Build with: nerdctl compose build
+# x-build:
+#   context: .
+#   dockerfile: Dockerfile

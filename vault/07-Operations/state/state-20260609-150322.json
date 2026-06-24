@@ -23,7 +23,7 @@
     " M vault/vault-map.json",
     "?? .wl-registry",
     "?? README.md",
-    "?? Wonderland-v4/",
+    "?? Wonderland/",
     "?? apps/",
     "?? backups/",
     "?? bin/wl-audit-report",

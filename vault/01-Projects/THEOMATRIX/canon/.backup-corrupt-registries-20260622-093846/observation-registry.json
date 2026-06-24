@@ -1,0 +1,13 @@
+{
+  "schema": "theomatrix.observation.v1",
+  "next_id": 2,
+  "records": [
+    {
+      "id": "OBS-0001",
+      "path": "observations/OBS-0001.json",
+      "status": "active",
+      "created": "2026-06-22T15:13:22Z"
+    }
+  ],
+  "version": "3.1"
+}\n

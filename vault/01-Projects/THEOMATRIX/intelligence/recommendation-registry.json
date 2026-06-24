@@ -1,0 +1,12 @@
+{
+  "schema": "theomatrix.recommendation.v1",
+  "next_id": 2,
+  "records": [
+    {
+      "id": "REC-0001",
+      "path": "recommendations/REC-0001.json",
+      "status": "active",
+      "created": "2026-06-22T15:32:05Z"
+    }
+  ]
+}

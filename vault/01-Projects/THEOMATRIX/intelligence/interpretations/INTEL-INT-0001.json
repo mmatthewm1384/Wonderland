@@ -1,0 +1,9 @@
+{
+  "id": "INTEL-INT-0001",
+  "type": "interpretation",
+  "status": "active",
+  "created": "2026-06-22T15:32:05Z",
+  "confidence": "medium",
+  "summary": "",
+  "source": "MEM-0001"
+}

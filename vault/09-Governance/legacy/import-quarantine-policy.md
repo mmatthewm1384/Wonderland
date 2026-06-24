@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Prevent unsafe legacy artifacts from being promoted into Wonderland-v4 active domains.
+Prevent unsafe legacy artifacts from being promoted into Wonderland active domains.
 
 ## Quarantined Artifacts
 

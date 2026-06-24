@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+ROOTLIB="$WL_HOME/lib/wl-roots.sh"
+
+if [[ -f "$ROOTLIB" ]]; then
+  source "$ROOTLIB"
+fi
+
+for label_path in \
+  "authority:$WL_AUTHORITY_ROOT" \
+  "workshop:$WL_WORKSHOP_ROOT" \
+  "runtime:$WL_RUNTIME_ROOT" \
+  "archive:$WL_ARCHIVE_ROOT" \
+  "media:$WL_MEDIA_ROOT"
+do
+  label="${label_path%%:*}"
+  path="${label_path#*:}"
+
+  if [[ -d "$path" ]]; then
+    size="$(du -sh "$path" 2>/dev/null | awk '{print $1}')"
+    printf "PASS %-10s %-8s %s\n" "$label" "$size" "$path"
+  else
+    printf "FAIL %-10s missing  %s\n" "$label" "$path"
+  fi
+done

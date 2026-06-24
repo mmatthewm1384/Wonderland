@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+TARGET="${1:-.}"
+
+if [[ ! -e "$TARGET" ]]; then
+  echo "FAIL target-missing: $TARGET"
+  exit 1
+fi
+
+TARGET="$(cd "$(dirname "$TARGET")" && pwd)/$(basename "$TARGET")"
+
+echo "Wonderland Inspect"
+echo "Target: $TARGET"
+echo
+
+if [[ -d "$TARGET" ]]; then
+  files="$(find "$TARGET" -maxdepth 1 -type f 2>/dev/null | wc -l | tr -d ' ')"
+  dirs="$(find "$TARGET" -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d ' ')"
+  md="$(find "$TARGET" -maxdepth 1 -type f -name "*.md" 2>/dev/null | wc -l | tr -d ' ')"
+  json="$(find "$TARGET" -maxdepth 1 -type f -name "*.json" 2>/dev/null | wc -l | tr -d ' ')"
+  sh="$(find "$TARGET" -maxdepth 1 -type f -name "*.sh" 2>/dev/null | wc -l | tr -d ' ')"
+
+  echo "Type: directory"
+  echo "Directories: $((dirs - 1))"
+  echo "Files: $files"
+  echo "Markdown: $md"
+  echo "JSON: $json"
+  echo "Shell: $sh"
+  echo
+
+  if [[ -f "$TARGET/.wlmeta.json" ]]; then
+    echo "Metadata:"
+    cat "$TARGET/.wlmeta.json"
+    echo
+  fi
+
+  echo "Contents:"
+  if command -v eza >/dev/null 2>&1; then
+    eza -lah --group-directories-first "$TARGET"
+  else
+    ls -lah "$TARGET"
+  fi
+
+elif [[ -f "$TARGET" ]]; then
+  echo "Type: file"
+  echo "Size: $(du -h "$TARGET" | awk '{print $1}')"
+  echo "Lines: $(wc -l < "$TARGET" | tr -d ' ')"
+  echo "Words: $(wc -w < "$TARGET" | tr -d ' ')"
+  echo
+
+  case "$TARGET" in
+    *.md)
+      echo "Markdown headings:"
+      grep -E '^#{1,4}[[:space:]]+' "$TARGET" || true
+      ;;
+    *.json)
+      echo "JSON validation:"
+      python3 -m json.tool "$TARGET" >/dev/null && echo "PASS json-valid" || echo "FAIL json-valid"
+      ;;
+    *)
+      echo "Preview:"
+      sed -n '1,40p' "$TARGET"
+      ;;
+  esac
+fi
+
+echo
+echo "RESULT PASS"

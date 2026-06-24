@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+CHAOS="$WL_HOME/vault/chaos"
+AETHER="$CHAOS/chaos-aether.json"
+LOG="$CHAOS/panic.log"
+REASON="menubar-panic"
+YES=0
+
+mkdir -p "$CHAOS"
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --yes|-y|--force) YES=1; shift ;;
+    --reason=*) REASON="${1#--reason=}"; shift ;;
+    --reason) REASON="${2:-menubar-panic}"; shift 2 ;;
+    *) REASON="$1"; shift ;;
+  esac
+done
+
+if [[ "$YES" != "1" ]]; then
+  read -r -p "Start CHAOS MODE? [y/N] " ans
+  [[ "$ans" =~ ^[Yy]$ ]] || exit 1
+fi
+
+cat > "$AETHER" <<JSON
+{
+  "mode": "permanent_high_chaos",
+  "active": true,
+  "reason": "$REASON",
+  "entered_at": "$(date -Iseconds)"
+}
+JSON
+
+{
+  echo "[$(date -Iseconds)] panic start: $REASON"
+  echo "[$(date -Iseconds)] chaos mode active"
+} >> "$LOG"
+
+echo "CHAOS MODE ACTIVE"

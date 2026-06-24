@@ -1,0 +1,11 @@
+{
+  "schema": "theomatrix.release.v1",
+  "version": "3.0",
+  "releases": [
+    {
+      "version": "3.0",
+      "status": "CERTIFIED",
+      "certification_id": "THEOMATRIX-3.0-CERT-001"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+name: veil
+services:
+  veil:
+    build: {context: ., dockerfile: Dockerfile}
+    container_name: veil
+    network_mode: none
+    tmpfs:
+      - /tmp:size=128m,mode=1777
+      - /work:size=128m,mode=1777
+    volumes:
+      - ${HOME}/Wonderland/vault:/vault:rw
+    stdin_open: true
+    tty: true
+    # remove security_opt line    security_opt: [no-new-privileges:true]

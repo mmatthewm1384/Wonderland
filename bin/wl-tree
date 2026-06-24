@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+ROOT="${1:-$WL_HOME}"
+DEPTH="${WL_TREE_DEPTH:-3}"
+
+if command -v eza >/dev/null 2>&1; then
+  eza --tree --level="$DEPTH" --group-directories-first "$ROOT"
+elif command -v tree >/dev/null 2>&1; then
+  tree -L "$DEPTH" "$ROOT"
+else
+  find "$ROOT" -maxdepth "$DEPTH" | sort
+fi

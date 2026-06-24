@@ -68,7 +68,7 @@ doctor() {
     fi
   done
 
-  if [[ -x "$WL_HOME/Wonderland-v4/ephemeral/bin/wl-ephemeral" ]]; then
+  if [[ -x "$WL_HOME/Wonderland/ephemeral/bin/wl-ephemeral" ]]; then
     echo "PASS wl-ephemeral"
   else
     echo "WARN missing wl-ephemeral"
@@ -120,10 +120,10 @@ case "${1:-}" in
 
   ephemeral)
     shift
-    if [[ -x "$WL_HOME/Wonderland-v4/ephemeral/bin/wl-ephemeral" ]]; then
-      exec "$WL_HOME/Wonderland-v4/ephemeral/bin/wl-ephemeral" "$@"
+    if [[ -x "$WL_HOME/Wonderland/ephemeral/bin/wl-ephemeral" ]]; then
+      exec "$WL_HOME/Wonderland/ephemeral/bin/wl-ephemeral" "$@"
     fi
-    echo "FAIL missing executable: $WL_HOME/Wonderland-v4/ephemeral/bin/wl-ephemeral"
+    echo "FAIL missing executable: $WL_HOME/Wonderland/ephemeral/bin/wl-ephemeral"
     exit 1
     ;;
 

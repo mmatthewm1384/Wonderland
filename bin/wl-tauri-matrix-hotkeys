@@ -212,6 +212,6 @@ echo "PASS hotkeys patched into Tauri app HTML"
 
 echo
 echo "Rebuild:"
-echo "  cd ~/Wonderland/apps/tauri/wl-spin-city && npm run tauri build"
-echo "  cd ~/Wonderland/apps/tauri/wl-agitate && npm run tauri build"
-echo "  cd ~/Wonderland/apps/tauri/wl-matrix && npm run tauri build"
+echo "  cd ~/Workshop/apps/tauri/wl-spin-city && npm run tauri build"
+echo "  cd ~/Workshop/apps/tauri/wl-agitate && npm run tauri build"
+echo "  cd ~/Workshop/apps/tauri/wl-matrix && npm run tauri build"

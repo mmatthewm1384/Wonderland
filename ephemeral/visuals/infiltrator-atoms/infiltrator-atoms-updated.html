@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wonderland Infiltrator Atoms - Particle Physics</title>
+    <style>
+        body { margin: 0; background: #000; overflow: hidden; }
+        canvas { display: block; }
+        #info { position: absolute; top: 10px; left: 10px; color: #0ff; font-family: monospace; pointer-events: none; }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<div id="info">Infiltrator Atoms - Stealth Spawn | Intel Collection | Slam Destruction</div>
+<script>
+class Particle {
+    constructor(x, y, vx, vy, life, color) {
+        this.x = x;
+        this.y = y;
+        this.vx = vx;
+        this.vy = vy;
+        this.life = life;
+        this.alpha = 0;
+        this.color = color;
+        this.size = Math.random() * 3 + 1;
+    }
+
+    update(gravity = 0.05) {
+        this.vy += gravity;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.life--;
+        this.alpha = Math.min(this.alpha + 0.08, this.life / 80);
+    }
+
+    draw(ctx) {
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+    }
+}
+
+class ParticleEngine {
+    constructor(canvas) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.particles = [];
+    }
+
+    emit(x, y, count = 30, vxRange = 5, vyRange = 5, life = 120, color = '#0ff') {
+        for (let i = 0; i < count; i++) {
+            const vx = (Math.random() - 0.5) * vxRange;
+            const vy = (Math.random() - 0.5) * vyRange - 3;
+            this.particles.push(new Particle(x, y, vx, vy, life, color));
+        }
+    }
+
+    updateAndDraw() {
+        this.ctx.fillStyle = 'rgba(0,0,0,0.15)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+            const p = this.particles[i];
+            p.update();
+            p.draw(this.ctx);
+            if (p.life <= 0) this.particles.splice(i, 1);
+        }
+    }
+}
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const engine = new ParticleEngine(canvas);
+
+let missionActive = true;
+
+const missionInterval = setInterval(() => {
+    if (!missionActive) return;
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height / 2;
+    engine.emit(x, y, 40, 6, 6, 140, '#f0f');
+}, 800);
+
+setInterval(() => {
+    if (!missionActive) return;
+    engine.emit(canvas.width / 2, canvas.height / 2, 80, 8, 8, 60, '#ff0');
+}, 5000);
+
+setTimeout(() => {
+    missionActive = false;
+    console.log("Mission complete - particles dispersing");
+}, 30000);
+
+function animate() {
+    engine.updateAndDraw();
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+</body>

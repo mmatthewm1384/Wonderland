@@ -1,0 +1,21 @@
+{
+  "registry": "wonderland.authorities.v1",
+  "status": "active",
+  "updated": "20260622-135537",
+  "canonical_paths": {
+    "WAT": "authorities/core/wat.md",
+    "WDSA": "authorities/core/wdsa.md",
+    "WVSA": "authorities/core/wvsa.md",
+    "WGA": "authorities/governance/wga.md",
+    "WRA": "authorities/governance/wra.md",
+    "WCA": "authorities/governance/wca.md",
+    "WRegA": "authorities/governance/wonderland-registry-authority.md",
+    "WLA": "authorities/platform/wla.md",
+    "WCPA": "authorities/experience/wcpa.md",
+    "TMA": "theomatrix/constitution/tma.md",
+    "TMVA": "theomatrix/constitution/tmva.md",
+    "TMBA": "theomatrix/constitution/tmba.md",
+    "TMCA": "theomatrix/constitution/tmca.md",
+    "TMCanon": "theomatrix/constitution/theomatrix-canon-authority.md"
+  }
+}

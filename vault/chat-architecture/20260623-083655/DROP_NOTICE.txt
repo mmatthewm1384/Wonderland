@@ -1,0 +1,19 @@
+Wonderland Vault Auto-Drop Notice
+=====================================
+Chat Architecture Map dropped at: 2026-06-23T08:36:55.475735
+Source: auto-drop-chat-map.py (self-contained stdlib)
+Classification: OPERATOR EYES ONLY
+Target (this drop): /Users/wonderland/Wonderland/vault/chat-architecture/20260623-083655
+Vault base: /Users/wonderland/Wonderland/vault
+
+This is a living bitemporal knowledge artifact.
+Previous versions retained for time-travel / audit.
+Clean old drops with: find /Users/wonderland/Wonderland/vault/chat-architecture -maxdepth 1 -type d -mtime +90 -exec rm -rf {} +
+
+Integrates with:
+- Ephemeral/Secret Agent Catalog
+- Zero-Trust Investigation Report
+- All wl <service> components
+- Intent-driven workflows
+
+Operator has final authority. System runs independently of AI.

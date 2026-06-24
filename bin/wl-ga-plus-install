@@ -24,7 +24,7 @@ export WL_MIRROR="/Volumes/T7_Wonderland"
 export PATH="$WL_HOME/bin:$PATH"
 EOF
 
-echo "Wonderland-v4 GA+ installed."
+echo "Wonderland GA+ installed."
 echo "WL_HOME=$WL_HOME"
 echo "WL_DATA=$WL_DATA"
 echo "WL_MIRROR=$WL_MIRROR"

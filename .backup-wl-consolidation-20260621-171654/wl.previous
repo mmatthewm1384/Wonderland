@@ -1,0 +1,249 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_VERSION="20260621.3"
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+WL_BIN="$WL_HOME/bin"
+export WL_HOME
+
+cmd="${1:-help}"
+shift || true
+
+die(){ echo "wl: $*" >&2; exit 1; }
+has(){ [[ -x "$1" ]]; }
+need(){ has "$1" || die "missing executable: $1"; }
+
+run(){
+  local target="$1"; shift
+  need "$target"
+  exec "$target" "$@"
+}
+
+exists_container(){
+  nerdctl ps -a --format '{{.Names}}' 2>/dev/null | grep -qx "$1"
+}
+
+up_container(){
+  nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$1"
+}
+
+safe_start(){
+  local name="$1"
+  local svc="$2"
+
+  if up_container "$name"; then
+    echo "PASS $name already up"
+    return 0
+  fi
+
+  if exists_container "$name"; then
+    timeout 20 nerdctl start "$name" >/dev/null
+    echo "PASS $name started"
+    return 0
+  fi
+
+  need "$svc"
+  timeout 60 "$svc" up
+}
+
+safe_observability(){
+  local missing=0
+  for c in wl-prometheus wl-grafana wl-loki; do
+    up_container "$c" || missing=1
+  done
+
+  if [[ "$missing" -eq 0 ]]; then
+    echo "PASS observability already up"
+    return 0
+  fi
+
+  timeout 90 "$WL_BIN/wl-observability" up
+}
+
+suggest(){
+  local input="$1"
+  echo
+  echo "Known commands close to '$input':"
+  find "$WL_BIN" -maxdepth 1 -type f -perm -111 -name "wl-*" \
+    | sed "s|$WL_BIN/wl-||" \
+    | grep -i "${input:0:3}" \
+    | sort \
+    | head -10 || true
+}
+
+help(){
+cat <<'HELP'
+Wonderland command surface
+
+Core:
+  wl help
+  wl --version
+  wl status
+  wl doctor
+  wl selftest
+  wl path
+  wl commands
+  wl containers
+
+Lifecycle:
+  wl rootless status|start|stop|doctor
+  wl runtime status|start|doctor|logs <container>|inspect <container>|compose ...
+
+Authority:
+  wl storage status|attach|attach-light|attach-full|eject|force-eject|verify|doctor|authority
+  wl universe status|doctor|dashboard
+  wl snapshot create|doctor|list|restore-drill
+  wl governance doctor|verify|status
+
+Passthrough:
+  wl <name> ...
+  Examples:
+    wl dns up
+    wl nats up
+    wl observability up
+    wl portainer status
+    wl matrix doctor
+
+Recovery:
+  wl repair doctor
+  wl repair rollback-info
+HELP
+}
+
+case "$cmd" in
+  help|-h|--help)
+    help
+    ;;
+
+  --version|version)
+    echo "wl $WL_VERSION"
+    ;;
+
+  path)
+    echo "WL_HOME=$WL_HOME"
+    echo "WL_BIN=$WL_BIN"
+    echo
+    which -a wl || true
+    echo
+    type -a wl || true
+    ;;
+
+  commands)
+    find "$WL_BIN" -maxdepth 1 -type f -perm -111 -name 'wl-*' \
+      | sed "s|$WL_BIN/wl-||" \
+      | sort
+    ;;
+
+  containers|ps)
+    nerdctl ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+    ;;
+
+  status)
+    run "$WL_BIN/wl-universe" status
+    ;;
+
+  doctor)
+    timeout 30 "$WL_BIN/wl-storage" doctor || true
+    timeout 20 "$WL_BIN/wl-snapshot" doctor || true
+    timeout 45 "$WL_BIN/wl-universe" status
+    ;;
+
+  selftest)
+    echo "Wonderland wl selftest"
+    echo
+    test -d "$WL_HOME" && echo "PASS WL_HOME exists" || die "WL_HOME missing"
+    test -d "$WL_BIN" && echo "PASS bin exists" || die "bin missing"
+    test -x "$WL_BIN/wl" && echo "PASS wl executable" || die "wl not executable"
+    command -v nerdctl >/dev/null && echo "PASS nerdctl found" || echo "WARN nerdctl not found"
+    command -v timeout >/dev/null && echo "PASS timeout found" || echo "WARN timeout not found"
+    "$WL_BIN/wl-snapshot" doctor || true
+    ;;
+
+  rootless)
+    run "$WL_BIN/wl-rootless" "$@"
+    ;;
+
+  runtime)
+    sub="${1:-status}"
+    shift || true
+    case "$sub" in
+      status|ps)
+        nerdctl ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+        ;;
+      start)
+        safe_start wl-dns "$WL_BIN/wl-dns"
+        safe_start wl-nats "$WL_BIN/wl-nats"
+        safe_observability
+        timeout 45 "$WL_BIN/wl-universe" status
+        ;;
+      doctor)
+        timeout 45 "$WL_BIN/wl-universe" status
+        ;;
+      logs|inspect|images|compose)
+        run "$WL_BIN/wl-runtime" "$sub" "$@"
+        ;;
+      *)
+        die "unknown runtime command: $sub"
+        ;;
+    esac
+    ;;
+
+  storage)
+    sub="${1:-status}"
+    shift || true
+    case "$sub" in
+      attach-light) run "$WL_BIN/wl-storage" attach --light "$@" ;;
+      attach-full)  run "$WL_BIN/wl-storage" attach --full "$@" ;;
+      *)            run "$WL_BIN/wl-storage" "$sub" "$@" ;;
+    esac
+    ;;
+
+  universe)       run "$WL_BIN/wl-universe" "$@" ;;
+  snapshot)       run "$WL_BIN/wl-snapshot" "$@" ;;
+  governance)     run "$WL_BIN/wl-governance" "$@" ;;
+  dns)            run "$WL_BIN/wl-dns" "$@" ;;
+  nats)           run "$WL_BIN/wl-nats" "$@" ;;
+  observability)  run "$WL_BIN/wl-observability" "$@" ;;
+
+  repair)
+    sub="${1:-doctor}"
+    shift || true
+    case "$sub" in
+      doctor|path)
+        echo "Wonderland wl repair doctor"
+        echo
+        echo "version=$WL_VERSION"
+        echo "WL_HOME=$WL_HOME"
+        echo "canonical=$WL_BIN/wl"
+        echo
+        ls -l "$WL_BIN/wl"
+        echo
+        which -a wl || true
+        echo
+        type -a wl || true
+        echo
+        nerdctl ps --format 'table {{.Names}}\t{{.Status}}' 2>/dev/null || true
+        ;;
+      rollback-info)
+        echo "Latest wl backups:"
+        ls -t "$WL_BIN"/wl.bak.* 2>/dev/null | head -10 || true
+        echo
+        echo 'Rollback command:'
+        echo 'cp "$(ls -t ~/Wonderland/bin/wl.bak.* | head -1)" ~/Wonderland/bin/wl && chmod +x ~/Wonderland/bin/wl && hash -r'
+        ;;
+      *)
+        die "unknown repair command: $sub"
+        ;;
+    esac
+    ;;
+
+  *)
+    candidate="$WL_BIN/wl-$cmd"
+    if has "$candidate"; then
+      exec "$candidate" "$@"
+    fi
+    echo "wl: unknown command: $cmd" >&2
+    suggest "$cmd" >&2
+    exit 1
+    ;;
+esac

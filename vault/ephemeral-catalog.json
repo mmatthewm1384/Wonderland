@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-06-21T06:00:00Z",
+  "description": "Wonderland Ephemeral Catalog - Single source of truth for transient self-terminating components. All entries are auditable, intent-driven, and produce bitemporal artifacts only.",
+  "operator": "Matthew Mahaney",
+  "entries": [
+    {
+      "name": "wave-agitator",
+      "description": "Perturbs flat or stale frequency lines into dynamic generative waves using sine, jitter, and agitation intensity parameters.",
+      "intent": "Transform static visual frequency data into living, animated wave patterns for downstream generative pipelines.",
+      "category": "visual-generator",
+      "timeout_s": 45,
+      "entrypoint": "agitate_lines.py",
+      "artifact_type": "svg-preview",
+      "tags": ["wave", "agitation", "generative", "sine-jitter"]
+    },
+    {
+      "name": "matrix-atom-slam",
+      "description": "Matrix-style spinning atom that collects, blends, disperses, and slams with living object forms and harmless waste elimination.",
+      "intent": "Execute phase-transition slam destruction sequence on generative atom entities while preserving audit trail of ephemeral state transitions.",
+      "category": "visual-generator",
+      "timeout_s": 60,
+      "entrypoint": "matrix_atom.py",
+      "artifact_type": "svg-preview",
+      "tags": ["matrix", "atom", "slam", "phase-transition", "destruction"]
+    },
+    {
+      "name": "counter-rotate-city-wave",
+      "description": "Counter-clockwise outer ring with clockwise inner rotation, smooth easing trajectories, rings, watchers, hooks, and attention decay visualization.",
+      "intent": "Render cognitive possibility space as counter-rotating city waves with temporal easing and decay mechanics for visual analysis.",
+      "category": "visual-generator",
+      "timeout_s": 50,
+      "entrypoint": "spin_city.py",
+      "artifact_type": "svg-preview",
+      "tags": ["spin", "city", "counter-rotate", "easing", "cognitive-viz"]
+    },
+    {
+      "name": "fsevent-drop-trigger",
+      "description": "macOS FSEventStream-based file drop trigger with 60s timeout, graceful shutdown, SlamError handling, and centralized logging integration.",
+      "intent": "Monitor filesystem events for drop triggers, emit bitemporal intent artifacts, self-terminate cleanly without residual state or orphaned streams.",
+      "category": "system-monitor",
+      "timeout_s": 60,
+      "entrypoint": "fsevent_drop_trigger.swift",
+      "artifact_type": "svg-preview",
+      "tags": ["fsevent", "macos", "file-monitor", "drop-trigger", "slamerror"]
+    },
+    {
+      "name": "intent-schema-validator",
+      "description": "Validates incoming intent JSON drops against strict schema, ensures Recoverability > Convenience, Auditability > Speed, Simplicity > Cleverness invariants.",
+      "intent": "Guard all intent-driven workflows by schema enforcement prior to ephemeral launch or automation execution.",
+      "category": "validator",
+      "timeout_s": 20,
+      "entrypoint": "intent_validator.py",
+      "artifact_type": "svg-preview",
+      "tags": ["intent", "schema", "validation", "guard"]
+    },
+    {
+      "name": "neon-log-visualizer",
+      "description": "Renders bitemporal ephemeral-runs.log and prior artifacts as restrained cyberpunk neon (cyan/violet/magenta) timeline visualizations on deep black.",
+      "intent": "Provide human-auditable visual summary of all ephemeral execution history with neon accent overlays and temporal clustering.",
+      "category": "visualizer",
+      "timeout_s": 30,
+      "entrypoint": "neon_timeline.py",
+      "artifact_type": "svg-preview",
+      "tags": ["neon", "log", "bitemporal", "visualizer", "timeline"]
+    },
+    {
+      "name": "slam-waste-eliminator",
+      "description": "Harmless waste elimination pass for slam-to-ground and matrix atom destruction sequences; purges temp artifacts while preserving bitemporal records.",
+      "intent": "Ensure zero residual state after ephemeral component termination by targeted, auditable cleanup of transient workspaces.",
+      "category": "cleanup",
+      "timeout_s": 25,
+      "entrypoint": "waste_eliminator.py",
+      "artifact_type": "svg-preview",
+      "tags": ["slam", "waste", "eliminator", "cleanup", "zero-residual"]
+    },
+    {
+      "name": "venv-bootstrap-guard",
+      "description": "Python venv isolation guard: auto-creates venv, installs deps from requirements, validates imports, provides repair() hook for environment corruption recovery.",
+      "intent": "Enforce Python execution guardrails (isolate, automate, validate, recover) for all child ephemeral Python components without global package pollution.",
+      "category": "guard",
+      "timeout_s": 35,
+      "entrypoint": "venv_bootstrap.py",
+      "artifact_type": "svg-preview",
+      "tags": ["venv", "bootstrap", "guard", "python", "recovery"]
+    }
+  ]
+}

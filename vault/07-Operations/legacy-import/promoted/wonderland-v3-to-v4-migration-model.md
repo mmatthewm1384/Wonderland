@@ -1,4 +1,4 @@
-# Wonderland-v3 to Wonderland-v4 Migration Model
+# Wonderland-v3 to Wonderland Migration Model
 
 ## Source
 
@@ -78,6 +78,6 @@ Runtime inventory, service maps, operational playbooks.
 
 ## Rule
 
-Wonderland-v4 may reuse Wonderland-v3 knowledge.
+Wonderland may reuse Wonderland-v3 knowledge.
 
-Wonderland-v4 must not inherit Wonderland-v3 runtime fragility.
+Wonderland must not inherit Wonderland-v3 runtime fragility.

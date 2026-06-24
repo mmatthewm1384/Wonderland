@@ -60,7 +60,24 @@ status() {
 
   echo
   echo "Runtime"
-  check_cmd "services" "$WL_ROOT/bin/wl" services doctor || failures=$((failures+1))
+  required_services="wl-grafana wl-prometheus wl-loki wl-nats wl-dns"
+missing=0
+
+for svc in $required_services; do
+  if nerdctl ps --format '{{.Names}}' | grep -qx "$svc"; then
+    :
+  else
+    echo "FAIL service $svc"
+    missing=$((missing+1))
+  fi
+done
+
+if [ "$missing" -eq 0 ]; then
+  echo "PASS services"
+else
+  echo "FAIL services"
+  failures=$((failures+1))
+fi
 
   echo
   echo "Capability"

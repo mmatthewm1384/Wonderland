@@ -1,0 +1,11 @@
+{
+  "required_directories": [
+    "canon",
+    "graph",
+    "memory",
+    "reports",
+    "registries",
+    "certification",
+    "runtime"
+  ]
+}

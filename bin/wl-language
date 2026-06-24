@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+GOV="$WL_HOME/vault/09-Governance"
+AUTH="$GOV/authorities/platform/wla.md"
+REG="$GOV/authorities/registry/language-registry.json"
+
+case "${1:-verify}" in
+verify)
+fail=0
+
+[[ -f "$AUTH" ]] && echo "PASS WLA-document" || { echo "FAIL WLA-document"; fail=1; }
+[[ -f "$REG" ]] && echo "PASS language-registry" || { echo "FAIL language-registry"; fail=1; }
+
+if [[ -f "$REG" ]]; then
+  python3 -m json.tool "$REG" >/dev/null && echo "PASS registry-json" || { echo "FAIL registry-json"; fail=1; }
+fi
+
+for term in bash python swift typescript json markdown css; do
+  grep -qi "$term" "$AUTH" && echo "PASS language-$term" || { echo "FAIL language-$term"; fail=1; }
+done
+
+echo
+[[ "$fail" -eq 0 ]] && echo "RESULT PASS" || { echo "RESULT FAIL"; exit 1; }
+;;
+
+show)
+cat "$AUTH"
+;;
+
+registry)
+cat "$REG"
+;;
+
+path)
+echo "$AUTH"
+;;
+
+*)
+echo "Usage: wl-language verify|show|registry|path"
+exit 2
+;;
+esac

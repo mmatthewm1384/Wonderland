@@ -1,0 +1,13 @@
+{
+  "schema": "theomatrix.runtime.v1",
+  "version": "3.0",
+  "commands": [
+    "init",
+    "status",
+    "doctor",
+    "verify",
+    "graph build",
+    "report",
+    "handoff"
+  ]
+}

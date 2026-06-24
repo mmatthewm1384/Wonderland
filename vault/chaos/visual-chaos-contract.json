@@ -1,0 +1,24 @@
+{
+  "apps": {
+    "wl-agitate": {
+      "intensity": 0.6,
+      "mode": "normal",
+      "trail_decay": "normal"
+    },
+    "wl-matrix": {
+      "living_ratio": 0.35,
+      "particles": 1200,
+      "slam_force": 0.7,
+      "waste_decay": "normal"
+    },
+    "wl-spin-city": {
+      "easing": "normal",
+      "jitter": 0.35,
+      "rings": 3,
+      "rotation_speed": 1.0
+    }
+  },
+  "chaos_active": false,
+  "updated_at": "2026-06-23T16:56:15.635227+00:00",
+  "version": "1.0"
+}

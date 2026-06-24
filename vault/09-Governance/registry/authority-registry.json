@@ -1,0 +1,15 @@
+{
+  "registry": "wonderland.authorities.v1",
+  "status": "certified",
+  "authorities": [
+    "WAT",
+    "WDSA",
+    "WVSA",
+    "WGA",
+    "WRA",
+    "WCA",
+    "TMA",
+    "TMVA",
+    "TMBA"
+  ]
+}

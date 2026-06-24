@@ -1,0 +1,19 @@
+Wonderland Governance Consolidation Status
+GOV=/Users/wonderland/Wonderland/vault/09-Governance
+
+/Users/wonderland/Wonderland/vault/09-Governance/authorities/core/wat.md
+/Users/wonderland/Wonderland/vault/09-Governance/authorities/core/wdsa.md
+/Users/wonderland/Wonderland/vault/09-Governance/authorities/core/wvsa.md
+/Users/wonderland/Wonderland/vault/09-Governance/authorities/experience/wcpa.md
+/Users/wonderland/Wonderland/vault/09-Governance/authorities/governance/wca.md
+/Users/wonderland/Wonderland/vault/09-Governance/authorities/governance/wga.md
+/Users/wonderland/Wonderland/vault/09-Governance/authorities/governance/wonderland-registry-authority.md
+/Users/wonderland/Wonderland/vault/09-Governance/authorities/governance/wra.md
+/Users/wonderland/Wonderland/vault/09-Governance/authorities/platform/wla.md
+/Users/wonderland/Wonderland/vault/09-Governance/theomatrix/constitution/theomatrix-canon-authority.md
+/Users/wonderland/Wonderland/vault/09-Governance/theomatrix/constitution/tma.md
+/Users/wonderland/Wonderland/vault/09-Governance/theomatrix/constitution/tmba.md
+/Users/wonderland/Wonderland/vault/09-Governance/theomatrix/constitution/tmca.md
+/Users/wonderland/Wonderland/vault/09-Governance/theomatrix/constitution/tmva.md
+
+RESULT PASS

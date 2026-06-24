@@ -1,0 +1,17 @@
+{
+  "schema": "theomatrix.telemetry.v1",
+  "records": [
+    {
+      "timestamp": "2026-06-22T15:45:30Z",
+      "type": "observe.run",
+      "status": "PASS",
+      "total_objects": 12
+    },
+    {
+      "timestamp": "2026-06-22T15:45:30Z",
+      "type": "observe.run",
+      "status": "PASS",
+      "total_objects": 12
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-06-22T15:45:30Z",
+  "project": "THE\u2205MATRIX",
+  "version": "3.0",
+  "canon": {
+    "observations": 1,
+    "interpretations": 1,
+    "decisions": 1,
+    "canonical_records": 1
+  },
+  "memory": {
+    "working": 1,
+    "long_term": 0,
+    "archived": 0,
+    "recovered": 1
+  },
+  "intelligence": {
+    "interpretations": 1,
+    "hypotheses": 1,
+    "recommendations": 1
+  },
+  "simulation": {
+    "scenarios": 1,
+    "branches": 1,
+    "outcomes": 1
+  }
+}

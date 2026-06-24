@@ -1,4 +1,4 @@
-# Wonderland-v4 Docker Runtime Candidates
+# Wonderland Docker Runtime Candidates
 
 ## Status
 

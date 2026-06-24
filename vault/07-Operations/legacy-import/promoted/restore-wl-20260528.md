@@ -10,7 +10,7 @@ Preserved
 
 Purpose:
 
-Primary Wonderland-v3 recovery snapshot imported into Wonderland-v4 archive.
+Primary Wonderland-v3 recovery snapshot imported into Wonderland archive.
 
 Policy:
 

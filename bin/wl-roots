@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_ENV="$HOME/Wonderland/config/wonderland-roots.env"
+[ -f "$ROOT_ENV" ] && source "$ROOT_ENV"
+
+fail=0
+
+check_dir() {
+  local name="$1"
+  local path="$2"
+  if [ -d "$path" ]; then
+    echo "PASS $name: $path"
+  else
+    echo "FAIL $name: $path"
+    fail=1
+  fi
+}
+
+echo "Wonderland Root Doctor"
+
+check_dir authority "${WL_AUTHORITY_ROOT:-$HOME/Wonderland}"
+check_dir vault "$HOME/Wonderland/vault"
+check_dir workshop "${WL_WORKSHOP_ROOT:-$HOME/Workshop}"
+check_dir runtime "${WL_RUNTIME_ROOT:-$HOME/Runtime}"
+check_dir archive "${WL_ARCHIVE_ROOT:-$HOME/Archive}"
+check_dir media "${WL_MEDIA_ROOT:-$HOME/Media}"
+
+echo
+
+if find "$HOME/Wonderland" -maxdepth 1 \( -name node_modules -o -name .build -o -name dist -o -name logs -o -name tmp \) -type d 2>/dev/null | grep -q .; then
+  echo "FAIL disposable directories found in authority root"
+  find "$HOME/Wonderland" -maxdepth 1 \( -name node_modules -o -name .build -o -name dist -o -name logs -o -name tmp \) -type d
+  fail=1
+else
+  echo "PASS no obvious disposable dirs in authority root"
+fi
+
+echo
+
+if [ "$fail" -eq 0 ]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+fi
+
+exit "$fail"

@@ -1,0 +1,13 @@
+{
+  "schema": "theomatrix.canonical.v1",
+  "version": "3.1",
+  "next_id": 2,
+  "records": [
+    {
+      "id": "CAN-0001",
+      "path": "approved/CAN-0001.json",
+      "status": "canonical",
+      "created": "2026-06-22T17:13:26Z"
+    }
+  ]
+}

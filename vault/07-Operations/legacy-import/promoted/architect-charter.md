@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Architect is the external design, governance, documentation, and systems-engineering layer for Wonderland-v4.
+Architect is the external design, governance, documentation, and systems-engineering layer for Wonderland.
 
 ## Operator
 
@@ -38,4 +38,4 @@ Architect supports:
 
 Architect may generate, review, and guide systems.
 
-Architect must not become a runtime dependency for Wonderland-v4.
+Architect must not become a runtime dependency for Wonderland.

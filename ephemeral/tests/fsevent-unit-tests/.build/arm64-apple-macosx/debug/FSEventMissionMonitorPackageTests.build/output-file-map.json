@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/wonderland/Wonderland/ephemeral/tests/fsevent-unit-tests/.build/arm64-apple-macosx/debug/FSEventMissionMonitorPackageTests.build/primary.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/ephemeral/tests/fsevent-unit-tests/.build/arm64-apple-macosx/debug/FSEventMissionMonitorPackageTests.derived/runner.swift": {
+    "dependencies": "/Users/wonderland/Wonderland/ephemeral/tests/fsevent-unit-tests/.build/arm64-apple-macosx/debug/FSEventMissionMonitorPackageTests.build/runner.d",
+    "object": "/Users/wonderland/Wonderland/ephemeral/tests/fsevent-unit-tests/.build/arm64-apple-macosx/debug/FSEventMissionMonitorPackageTests.build/runner.swift.o",
+    "swiftmodule": "/Users/wonderland/Wonderland/ephemeral/tests/fsevent-unit-tests/.build/arm64-apple-macosx/debug/FSEventMissionMonitorPackageTests.build/runner~partial.swiftmodule",
+    "swift-dependencies": "/Users/wonderland/Wonderland/ephemeral/tests/fsevent-unit-tests/.build/arm64-apple-macosx/debug/FSEventMissionMonitorPackageTests.build/runner.swiftdeps",
+    "diagnostics": "/Users/wonderland/Wonderland/ephemeral/tests/fsevent-unit-tests/.build/arm64-apple-macosx/debug/FSEventMissionMonitorPackageTests.build/runner.dia"
+  }
+}

@@ -1,0 +1,177 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+LEGACY="/Volumes/T7_Wonderland/Wonderland-v4"
+OPS="$ROOT/vault/07-Operations/legacy-import"
+ARCHIVE="/Volumes/T7_Wonderland/Wonderland/persistence/archives/legacy"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+
+case "${1:-}" in
+  inventory)
+    [[ -d "$LEGACY" ]] || { echo "FAIL missing legacy root: $LEGACY"; exit 1; }
+
+    mkdir -p "$OPS/inventories" "$OPS/reports"
+
+    OUT="$OPS/inventories/legacy-inventory-$STAMP.tsv"
+    REPORT="$OPS/reports/legacy-report-$STAMP.json"
+
+    {
+      echo -e "path\ttype\tsize_bytes"
+      find "$LEGACY" -mindepth 1 -maxdepth 3 -print0 |
+      while IFS= read -r -d '' p; do
+        rel="${p#$LEGACY/}"
+        if [[ -d "$p" ]]; then
+          type="dir"
+          size="$(du -sk "$p" 2>/dev/null | awk '{print $1 * 1024}')"
+        else
+          type="file"
+          size="$(stat -f%z "$p" 2>/dev/null || echo 0)"
+        fi
+        printf "%s\t%s\t%s\n" "$rel" "$type" "$size"
+      done
+    } > "$OUT"
+
+    python3 - <<PY
+import json
+from pathlib import Path
+inv = Path("$OUT")
+rows = inv.read_text(errors="ignore").splitlines()[1:]
+total = 0
+dirs = 0
+files = 0
+for r in rows:
+    parts = r.split("\\t")
+    if len(parts) != 3:
+        continue
+    if parts[1] == "dir":
+        dirs += 1
+    else:
+        files += 1
+    try:
+        total += int(parts[2])
+    except Exception:
+        pass
+
+Path("$REPORT").write_text(json.dumps({
+    "id": "legacy-import-report",
+    "generated": "$STAMP",
+    "legacy_root": "$LEGACY",
+    "inventory": "$OUT",
+    "entries": len(rows),
+    "files": files,
+    "directories": dirs,
+    "approx_size_bytes": total
+}, indent=2) + "\\n")
+PY
+
+    echo "PASS legacy inventory"
+    echo "$OUT"
+    echo "$REPORT"
+  ;;
+
+  classify)
+    latest="$(find "$OPS/inventories" -type f -name 'legacy-inventory-*.tsv' | sort | tail -1)"
+    [[ -n "$latest" ]] || { echo "FAIL no inventory found"; exit 1; }
+
+    OUT="$OPS/classifications/legacy-classification-$STAMP.tsv"
+    mkdir -p "$OPS/classifications"
+
+    awk -F'\t' '
+      NR==1 { print "path\ttype\tsize_bytes\tclassification\treason"; next }
+      {
+        class="candidate"; reason="requires review"
+
+        if ($2 == "dir") {
+          class="container"; reason="directory container"
+        }
+
+        if ($1 ~ /(^|\/)(\.git|node_modules|__pycache__|\.venv|venv|dist|build|target|DerivedData|Library|Caches)(\/|$)/) {
+          class="reject"; reason="generated cache or dependency"
+        }
+        else if ($1 ~ /(^|\/)(backups|archive|archives|logs|runtime|tmp|exports)(\/|$)/) {
+          class="archive"; reason="persistence or historical state"
+        }
+        else if ($1 ~ /(^|\/)(secrets|\.env|vpn\.env|id_rsa|private|key)(\/|$)/) {
+          class="reject"; reason="secret or sensitive material"
+        }
+        else if ($1 ~ /(^|\/)(docs|documentation|vault|intelligence|intents)(\/|$)/) {
+          class="candidate"; reason="possible authority material"
+        }
+        else if ($1 ~ /(^|\/)(media|assets|wallpapers|photos|video|audio)(\/|$)/) {
+          class="archive"; reason="media belongs in persistence"
+        }
+
+        print $1 "\t" $2 "\t" $3 "\t" class "\t" reason
+      }
+    ' "$latest" > "$OUT"
+
+    echo "PASS legacy classification"
+    echo "$OUT"
+  ;;
+
+  report)
+    latest_inv="$(find "$OPS/inventories" -type f -name 'legacy-inventory-*.tsv' 2>/dev/null | sort | tail -1)"
+    latest_cls="$(find "$OPS/classifications" -type f -name 'legacy-classification-*.tsv' 2>/dev/null | sort | tail -1)"
+
+    echo
+    echo "Wonderland Legacy Import Report"
+    echo "legacy: $LEGACY"
+    echo
+
+    [[ -n "$latest_inv" ]] && echo "inventory: $latest_inv" || echo "inventory: missing"
+    [[ -n "$latest_cls" ]] && echo "classification: $latest_cls" || echo "classification: missing"
+
+    if [[ -n "$latest_cls" ]]; then
+      echo
+      awk -F'\t' 'NR>1 { c[$4]++ } END { for (k in c) printf "%-12s %s\n", k, c[k] }' "$latest_cls" | sort
+    fi
+  ;;
+
+  archive)
+    latest_cls="$(find "$OPS/classifications" -type f -name 'legacy-classification-*.tsv' | sort | tail -1)"
+    [[ -n "$latest_cls" ]] || { echo "FAIL no classification found"; exit 1; }
+
+    DEST="$ARCHIVE/Wonderland-v4-archive-$STAMP"
+    mkdir -p "$DEST"
+
+    awk -F'\t' 'NR>1 && $4=="archive" {print $1}' "$latest_cls" |
+    while IFS= read -r rel; do
+      src="$LEGACY/$rel"
+      [[ -e "$src" ]] || continue
+      mkdir -p "$DEST/$(dirname "$rel")"
+      rsync -a "$src" "$DEST/$rel" 2>/dev/null || true
+    done
+
+    echo "PASS legacy archive copy"
+    echo "$DEST"
+  ;;
+
+  doctor|verify|status)
+    FAIL=0
+    echo
+    echo "Wonderland Legacy Doctor"
+    echo "legacy: $LEGACY"
+    echo "ops: $OPS"
+    echo "archive: $ARCHIVE"
+    echo
+
+    [[ -d "$LEGACY" ]] && echo "legacy root                PASS" || { echo "legacy root                WARN"; }
+    [[ -d "$OPS" ]] && echo "legacy ops                 PASS" || { echo "legacy ops                 FAIL"; FAIL=1; }
+    find "$OPS/inventories" -type f -name 'legacy-inventory-*.tsv' 2>/dev/null | grep -q . && echo "legacy inventory           PASS" || { echo "legacy inventory           FAIL"; FAIL=1; }
+    find "$OPS/classifications" -type f -name 'legacy-classification-*.tsv' 2>/dev/null | grep -q . && echo "legacy classification      PASS" || { echo "legacy classification      FAIL"; FAIL=1; }
+
+    echo
+    if [[ "$FAIL" -eq 0 ]]; then
+      echo "RESULT PASS"
+    else
+      echo "RESULT FAIL"
+      exit 1
+    fi
+  ;;
+
+  *)
+    echo "Usage: wl legacy inventory|classify|report|archive|doctor|verify|status"
+    exit 1
+  ;;
+esac

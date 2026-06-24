@@ -1,0 +1,28 @@
+{
+"registry": "wonderland.languages.v1",
+"status": "certified",
+"authority": "WLA",
+"approved": {
+"shell": ["bash"],
+"automation": ["python"],
+"native_apps": ["swift", "swiftui"],
+"cross_platform_ui": ["typescript", "tauri"],
+"runtime_services": ["python", "go"],
+"data": ["json"],
+"documentation": ["markdown"],
+"styling": ["css"],
+"containers": ["dockerfile", "compose"]
+},
+"requires_justification": [
+"ruby",
+"perl",
+"php",
+"java",
+"csharp",
+"lua",
+"rust",
+"kotlin",
+"elixir",
+"yaml_logic"
+]
+}

@@ -23,7 +23,7 @@ if [[ -f "$ZSHRC" ]]; then
     # Append the single definitive path injection anchor to the base configuration file
     cat << 'EOF' >> "$CLEAN_TMP"
 
-# --- Wonderland-v4 Structural Path Strategy ---
+# --- Wonderland Structural Path Strategy ---
 typeset -U path cdpath fpath manpath # Native Zsh feature to automatically prevent duplicate array values
 path=(
   /Users/wonderland/Wonderland/bin

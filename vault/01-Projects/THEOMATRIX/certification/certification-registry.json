@@ -1,0 +1,11 @@
+{
+  "schema": "theomatrix.certification.v1",
+  "version": "3.0",
+  "records": [
+    {
+      "id": "THEOMATRIX-3.0-CERT-RUN-20260622T162303Z",
+      "timestamp": "2026-06-22T16:23:03Z",
+      "result": "CERTIFIED"
+    }
+  ]
+}

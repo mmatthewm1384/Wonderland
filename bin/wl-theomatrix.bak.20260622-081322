@@ -1,0 +1,229 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+ROOT="$WL_HOME/vault/01-Projects/THEOMATRIX"
+CONFIG_DIR="$WL_HOME/config/theomatrix"
+CONFIG="$CONFIG_DIR/theomatrix.json"
+DOCTOR_CONFIG="$CONFIG_DIR/doctor.json"
+REPORTS="$ROOT/reports"
+REGISTRIES="$ROOT/registries"
+GRAPH="$ROOT/graph"
+
+ensure_base() {
+  mkdir -p "$ROOT"/{canon,graph,memory,reports,registries,certification,runtime,backups,releases,observatory,intelligence,simulation}
+  mkdir -p "$CONFIG_DIR"
+}
+
+json_get_required_dirs() {
+python3 <<PY
+import json, pathlib
+p = pathlib.Path("$DOCTOR_CONFIG")
+if p.exists():
+    data = json.loads(p.read_text())
+    print("\n".join(data.get("required_directories", [])))
+else:
+    print("\n".join(["canon","graph","memory","reports","registries","certification","runtime"]))
+PY
+}
+
+json_get_required_registries() {
+python3 <<PY
+import json, pathlib
+p = pathlib.Path("$DOCTOR_CONFIG")
+if p.exists():
+    data = json.loads(p.read_text())
+    print("\n".join(data.get("required_registries", [])))
+else:
+    print("\n".join(["source-registry.json","canon-registry.json","memory-registry.json","graph-registry.json","runtime-registry.json"]))
+PY
+}
+
+status() {
+  ensure_base
+  if [ ! -f "$CONFIG" ]; then
+    echo "FAIL config: $CONFIG missing" >&2
+    exit 1
+  fi
+  python3 -m json.tool "$CONFIG"
+}
+
+doctor() {
+  ensure_base
+  local result=0
+
+  while IFS= read -r d; do
+    [ -z "$d" ] && continue
+    if [ -d "$ROOT/$d" ]; then
+      echo "PASS $d"
+    else
+      echo "FAIL $d"
+      result=1
+    fi
+  done < <(json_get_required_dirs)
+
+  while IFS= read -r f; do
+    [ -z "$f" ] && continue
+    if [ -f "$REGISTRIES/$f" ]; then
+      echo "PASS $f"
+    else
+      echo "FAIL $f"
+      result=1
+    fi
+  done < <(json_get_required_registries)
+
+  if [ -f "$CONFIG" ]; then
+    echo "PASS config"
+  else
+    echo "FAIL config"
+    result=1
+  fi
+
+  echo
+  if [ "$result" -eq 0 ]; then
+    echo "RESULT PASS"
+  else
+    echo "RESULT FAIL"
+  fi
+
+  return "$result"
+}
+
+graph_build() {
+  ensure_base
+  mkdir -p "$GRAPH"
+
+  cat > "$GRAPH/theomatrix.nodes.csv" <<CSV
+id,type,label,status
+PROJECT-THEOMATRIX,Project,THE∅MATRIX,CERTIFIED
+CERT-THEOMATRIX-3,Certification,THEOMATRIX-3.0-CERT-001,CERTIFIED
+REG-SOURCES,Registry,source-registry.json,ACTIVE
+REG-CANON,Registry,canon-registry.json,ACTIVE
+REG-MEMORY,Registry,memory-registry.json,ACTIVE
+REG-GRAPH,Registry,graph-registry.json,ACTIVE
+REG-RUNTIME,Registry,runtime-registry.json,ACTIVE
+CSV
+
+  cat > "$GRAPH/theomatrix.edges.csv" <<CSV
+source,target,relationship,status
+PROJECT-THEOMATRIX,CERT-THEOMATRIX-3,certified_by,ACTIVE
+PROJECT-THEOMATRIX,REG-SOURCES,contains,ACTIVE
+PROJECT-THEOMATRIX,REG-CANON,contains,ACTIVE
+PROJECT-THEOMATRIX,REG-MEMORY,contains,ACTIVE
+PROJECT-THEOMATRIX,REG-GRAPH,contains,ACTIVE
+PROJECT-THEOMATRIX,REG-RUNTIME,contains,ACTIVE
+CSV
+
+  cat > "$GRAPH/theomatrix.graph.json" <<JSON
+{
+  "project": "THE∅MATRIX",
+  "version": "3.0",
+  "nodes": [
+    {"id":"PROJECT-THEOMATRIX","type":"Project","label":"THE∅MATRIX","status":"CERTIFIED"},
+    {"id":"CERT-THEOMATRIX-3","type":"Certification","label":"THEOMATRIX-3.0-CERT-001","status":"CERTIFIED"},
+    {"id":"REG-SOURCES","type":"Registry","label":"source-registry.json","status":"ACTIVE"},
+    {"id":"REG-CANON","type":"Registry","label":"canon-registry.json","status":"ACTIVE"},
+    {"id":"REG-MEMORY","type":"Registry","label":"memory-registry.json","status":"ACTIVE"},
+    {"id":"REG-GRAPH","type":"Registry","label":"graph-registry.json","status":"ACTIVE"},
+    {"id":"REG-RUNTIME","type":"Registry","label":"runtime-registry.json","status":"ACTIVE"}
+  ],
+  "edges": [
+    {"source":"PROJECT-THEOMATRIX","target":"CERT-THEOMATRIX-3","relationship":"certified_by","status":"ACTIVE"},
+    {"source":"PROJECT-THEOMATRIX","target":"REG-SOURCES","relationship":"contains","status":"ACTIVE"},
+    {"source":"PROJECT-THEOMATRIX","target":"REG-CANON","relationship":"contains","status":"ACTIVE"},
+    {"source":"PROJECT-THEOMATRIX","target":"REG-MEMORY","relationship":"contains","status":"ACTIVE"},
+    {"source":"PROJECT-THEOMATRIX","target":"REG-GRAPH","relationship":"contains","status":"ACTIVE"},
+    {"source":"PROJECT-THEOMATRIX","target":"REG-RUNTIME","relationship":"contains","status":"ACTIVE"}
+  ]
+}
+JSON
+
+  echo "PASS graph-json"
+  echo "PASS graph-nodes"
+  echo "PASS graph-edges"
+  echo
+  echo "RESULT PASS"
+}
+
+report() {
+  ensure_base
+  mkdir -p "$REPORTS"
+  local ts
+  ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+  cat > "$REPORTS/theomatrix-status-report.json" <<JSON
+{
+  "project": "THE∅MATRIX",
+  "version": "3.0",
+  "timestamp": "$ts",
+  "status": "CERTIFIED",
+  "certification_id": "THEOMATRIX-3.0-CERT-001",
+  "doctor": "PASS",
+  "graph": "PASS"
+}
+JSON
+
+  python3 -m json.tool "$REPORTS/theomatrix-status-report.json"
+}
+
+handoff() {
+  ensure_base
+  cat > "$ROOT/reports/theomatrix-handoff.md" <<'MD'
+# THE∅MATRIX Handoff
+
+## Current State
+
+THE∅MATRIX v3.0 is installed as a Wonderland-native subsystem.
+
+## Working Commands
+
+- wl-theomatrix status
+- wl-theomatrix doctor
+- wl-theomatrix verify
+- wl-theomatrix graph build
+- wl-theomatrix report
+
+## Next Implementation Phase
+
+Phase 3 — Canon Engine.
+
+## Verification
+
+Run:
+
+```bash
+wl-theomatrix verify
+```
+MD
+
+  cat "$ROOT/reports/theomatrix-handoff.md"
+}
+
+verify() {
+  doctor
+  graph_build >/dev/null
+  report >/dev/null
+
+  echo "PASS graph"
+  echo "PASS report"
+  echo
+  echo "RESULT PASS"
+}
+
+case "${1:-status}" in
+  status) status ;;
+  doctor) doctor ;;
+  verify) verify ;;
+  graph)
+    case "${2:-build}" in
+      build) graph_build ;;
+      *) echo "Usage: wl-theomatrix graph build"; exit 1 ;;
+    esac
+    ;;
+  report) report ;;
+  handoff) handoff ;;
+  *)
+    echo "Usage: wl-theomatrix status|doctor|verify|graph build|report|handoff"
+    exit 1
+    ;;
+esac

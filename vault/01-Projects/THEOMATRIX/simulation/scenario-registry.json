@@ -1,0 +1,12 @@
+{
+  "schema": "theomatrix.scenario.v1",
+  "next_id": 2,
+  "records": [
+    {
+      "id": "SIM-0001",
+      "path": "scenarios/SIM-0001.json",
+      "status": "active",
+      "created": "2026-06-22T15:44:05Z"
+    }
+  ]
+}

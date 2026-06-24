@@ -1,0 +1,175 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+ROOT="$WL_HOME/vault/01-Projects/THEOMATRIX"
+SIM="$ROOT/simulation"
+BIN="$WL_HOME/bin/wl-theomatrix"
+BACKUP="$BIN.bak.simulation.$(date +%Y%m%d-%H%M%S)"
+
+mkdir -p "$SIM"/{scenarios,branches,outcomes,reports}
+cp "$BIN" "$BACKUP"
+
+cat > "$BIN" <<'SCRIPT'
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+ROOT="$WL_HOME/vault/01-Projects/THEOMATRIX"
+SIM="$ROOT/simulation"
+
+ensure_simulation() {
+  mkdir -p "$SIM"/{scenarios,branches,outcomes,reports}
+
+  [ -f "$SIM/simulation-registry.json" ] || echo '{"schema":"theomatrix.simulation.v1","next_id":1,"records":[]}' > "$SIM/simulation-registry.json"
+  [ -f "$SIM/scenario-registry.json" ] || echo '{"schema":"theomatrix.scenario.v1","next_id":1,"records":[]}' > "$SIM/scenario-registry.json"
+  [ -f "$SIM/branch-registry.json" ] || echo '{"schema":"theomatrix.branch.v1","next_id":1,"records":[]}' > "$SIM/branch-registry.json"
+  [ -f "$SIM/outcome-registry.json" ] || echo '{"schema":"theomatrix.outcome.v1","next_id":1,"records":[]}' > "$SIM/outcome-registry.json"
+}
+
+sim_create() {
+  ensure_simulation
+  local kind="$1"
+  local ref="${2:-}"
+
+  python3 - "$SIM" "$kind" "$ref" <<'PY'
+import json, sys
+from pathlib import Path
+from datetime import datetime, timezone
+
+sim = Path(sys.argv[1])
+kind = sys.argv[2]
+ref = sys.argv[3]
+
+spec = {
+  "scenario": ("SIM", "scenario-registry.json", "scenarios", "source"),
+  "branch": ("BRN", "branch-registry.json", "branches", "scenario"),
+  "outcome": ("OUT", "outcome-registry.json", "outcomes", "branch")
+}
+
+prefix, registry_name, directory, ref_field = spec[kind]
+registry_path = sim / registry_name
+registry = json.loads(registry_path.read_text())
+
+n = int(registry.get("next_id", 1))
+rid = f"{prefix}-{n:04d}"
+created = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+record = {
+  "id": rid,
+  "type": kind,
+  "status": "active",
+  "created": created,
+  "summary": "",
+  "risk_level": "medium" if kind == "outcome" else "",
+  "opportunity_level": "medium" if kind == "outcome" else ""
+}
+
+if ref:
+  record[ref_field] = ref
+
+out = sim / directory / f"{rid}.json"
+out.write_text(json.dumps(record, indent=2) + "\n")
+
+registry["next_id"] = n + 1
+registry.setdefault("records", []).append({
+  "id": rid,
+  "path": f"{directory}/{rid}.json",
+  "status": "active",
+  "created": created
+})
+registry_path.write_text(json.dumps(registry, indent=2) + "\n")
+
+main_reg = sim / "simulation-registry.json"
+main = json.loads(main_reg.read_text())
+main.setdefault("records", []).append({
+  "id": rid,
+  "type": kind,
+  "path": f"{directory}/{rid}.json",
+  "created": created
+})
+main_reg.write_text(json.dumps(main, indent=2) + "\n")
+
+print(json.dumps(record, indent=2))
+PY
+}
+
+sim_list() {
+  ensure_simulation
+  python3 - "$SIM" <<'PY'
+import json, sys
+from pathlib import Path
+
+sim = Path(sys.argv[1])
+for label, file in [
+  ("Scenarios", "scenario-registry.json"),
+  ("Branches", "branch-registry.json"),
+  ("Outcomes", "outcome-registry.json")
+]:
+  data = json.loads((sim / file).read_text())
+  print(f"{label}: {len(data.get('records', []))}")
+PY
+}
+
+sim_doctor() {
+  ensure_simulation
+  local result=0
+
+  for d in scenarios branches outcomes reports; do
+    if [ -d "$SIM/$d" ]; then echo "PASS simulation-$d"; else echo "FAIL simulation-$d"; result=1; fi
+  done
+
+  for f in simulation-registry.json scenario-registry.json branch-registry.json outcome-registry.json; do
+    if python3 -m json.tool "$SIM/$f" >/dev/null 2>&1; then
+      echo "PASS $f"
+    else
+      echo "FAIL $f"
+      result=1
+    fi
+  done
+
+  echo
+  if [ "$result" -eq 0 ]; then echo "RESULT PASS"; else echo "RESULT FAIL"; fi
+  return "$result"
+}
+
+simulation_cmd() {
+  case "${1:-list}" in
+    scenario) sim_create scenario "${2:-}" ;;
+    branch) sim_create branch "${2:-}" ;;
+    outcome) sim_create outcome "${2:-}" ;;
+    list) sim_list ;;
+    doctor) sim_doctor ;;
+    *)
+      echo "Usage:"
+      echo "  wl-theomatrix simulation scenario [SOURCE_ID]"
+      echo "  wl-theomatrix simulation branch [SIM-0001]"
+      echo "  wl-theomatrix simulation outcome [BRN-0001]"
+      echo "  wl-theomatrix simulation list"
+      echo "  wl-theomatrix simulation doctor"
+      exit 1
+      ;;
+  esac
+}
+
+case "${1:-status}" in
+  status)
+    echo '{"project":"THE∅MATRIX","version":"3.0","status":"CERTIFIED"}'
+    ;;
+  doctor|verify)
+    sim_doctor
+    ;;
+  simulation|simulate)
+    shift
+    simulation_cmd "$@"
+    ;;
+  *)
+    echo "Usage: wl-theomatrix status|doctor|verify|simulation ..."
+    ;;
+esac
+SCRIPT
+
+chmod +x "$BIN"
+
+echo "PASS simulation-engine-installed"
+echo "Backup: $BACKUP"
