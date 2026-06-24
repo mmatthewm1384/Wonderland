@@ -587,6 +587,8 @@ case "$cmd" in
   storage) wl_storage "$@" ;;
   snapshot) wl_snapshot "$@" ;;
   governance) wl_governance "$@" ;;
+  lifecycle) exec "$WL_HOME/bin/wl-lifecycle" "${@:2}" ;;
+
   universe) wl_universe "$@" ;;
   recovery) wl_recovery "$@" ;;
   runtime) wl_runtime "$@" ;;
