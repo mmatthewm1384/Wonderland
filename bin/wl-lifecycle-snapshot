@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+LABEL="${1:-lifecycle}"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+
+echo "== Lifecycle Snapshot =="
+
+if command -v wl >/dev/null 2>&1 && wl snapshot create "$LABEL-$STAMP" >/dev/null 2>&1; then
+  echo "PASS wl snapshot create $LABEL-$STAMP"
+  exit 0
+fi
+
+if command -v wl >/dev/null 2>&1 && wl time-machine snapshot "$LABEL-$STAMP" >/dev/null 2>&1; then
+  echo "PASS wl time-machine snapshot $LABEL-$STAMP"
+  exit 0
+fi
+
+echo "WARN snapshot command unavailable; continuing"
+exit 0

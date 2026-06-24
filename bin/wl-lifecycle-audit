@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+
+echo "Wonderland Lifecycle Audit"
+echo
+
+check_file() {
+  local f="$1"
+  if [ -x "$WL_HOME/bin/$f" ]; then
+    echo "PASS $f"
+  else
+    echo "FAIL $f"
+  fi
+}
+
+check_file wl
+check_file wl-lifecycle
+check_file wl-start
+check_file wl-stop
+check_file wl-status
+check_file wl-doctor-lifecycle
+check_file wl-lifecycle-report
+check_file wl-lifecycle-services
+check_file wl-lifecycle-snapshot
+
+echo
+echo "Routes"
+grep -n "start) exec.*wl-lifecycle" "$WL_HOME/bin/wl" >/dev/null && echo "PASS wl start route" || echo "FAIL wl start route"
+grep -n "stop) exec.*wl-lifecycle" "$WL_HOME/bin/wl" >/dev/null && echo "PASS wl stop route" || echo "FAIL wl stop route"
+grep -n "doctor) exec.*wl-doctor-lifecycle" "$WL_HOME/bin/wl" >/dev/null && echo "PASS wl doctor route" || echo "FAIL wl doctor route"
+
+echo
+echo "Registry"
+[ -f "$WL_HOME/governance/registries/lifecycle-services.json" ] && echo "PASS lifecycle-services.json" || echo "FAIL lifecycle-services.json"
+[ -f "$WL_HOME/governance/registries/lifecycle-certification.json" ] && echo "PASS lifecycle-certification.json" || echo "WARN lifecycle-certification.json missing"

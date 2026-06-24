@@ -402,11 +402,11 @@ wl_governance() {
 
 wl_universe() {
   case "${2:-}" in
-    start)
-      exec "$WL_HOME/bin/wl-start"
+    start|stop|restart|sleep|wake)
+      exec "$WL_HOME/bin/wl-lifecycle" "${@:2}"
       ;;
-    stop)
-      exec "$WL_HOME/bin/wl-stop"
+    lifecycle)
+      exec "$WL_HOME/bin/wl-lifecycle" "${@:3}"
       ;;
     status|report|"")
       exec "$WL_HOME/bin/wl-universe" "${@:2}"

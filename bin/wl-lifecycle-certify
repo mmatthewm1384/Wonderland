@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+CERT="$WL_HOME/governance/registries/lifecycle-certification.json"
+REPORT_DIR="$WL_HOME/vault/08-Operations/reports"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+REPORT="$REPORT_DIR/lifecycle-certification-$STAMP.json"
+
+mkdir -p "$REPORT_DIR" "$WL_HOME/governance/registries"
+
+echo "Wonderland Lifecycle Certification"
+echo
+
+audit_result="FAIL"
+doctor_result="FAIL"
+
+if "$WL_HOME/bin/wl-lifecycle-audit" >/tmp/wl-lifecycle-audit.$$ 2>&1; then
+  if ! grep -q '^FAIL ' /tmp/wl-lifecycle-audit.$$; then
+    audit_result="PASS"
+  fi
+fi
+
+if "$WL_HOME/bin/wl-doctor-lifecycle" >/tmp/wl-lifecycle-doctor.$$ 2>&1; then
+  if grep -q 'RESULT PASS' /tmp/wl-lifecycle-doctor.$$; then
+    doctor_result="PASS"
+  fi
+fi
+
+cat /tmp/wl-lifecycle-audit.$$
+echo
+cat /tmp/wl-lifecycle-doctor.$$
+echo
+
+if [ "$audit_result" = "PASS" ] && [ "$doctor_result" = "PASS" ]; then
+  status="CERTIFIED-CORE"
+  result="PASS"
+else
+  status="PROVISIONAL"
+  result="FAIL"
+fi
+
+cat > "$CERT" <<JSON
+{
+  "subsystem": "wl-lifecycle",
+  "version": "1.1",
+  "operational_status": "$result",
+  "certification_status": "$status",
+  "timestamp": "$(date -Iseconds)",
+  "operator_interface": [
+    "wl start",
+    "wl stop",
+    "wl restart",
+    "wl sleep",
+    "wl wake",
+    "wl status",
+    "wl doctor"
+  ],
+  "capabilities": {
+    "service_registry": true,
+    "lifecycle_reports": true,
+    "lifecycle_doctor": true,
+    "health_score": true,
+    "snapshot_hooks": true,
+    "audit": true
+  },
+  "pending_phase_2": [
+    "full dependency graph",
+    "machine shutdown integration",
+    "login startup automation",
+    "formal rollback restore target"
+  ]
+}
+JSON
+
+cat > "$REPORT" <<JSON
+{
+  "subsystem": "wl-lifecycle",
+  "timestamp": "$(date -Iseconds)",
+  "audit_result": "$audit_result",
+  "doctor_result": "$doctor_result",
+  "result": "$result",
+  "certification_status": "$status",
+  "certification_file": "$CERT"
+}
+JSON
+
+rm -f /tmp/wl-lifecycle-audit.$$ /tmp/wl-lifecycle-doctor.$$
+
+echo "CERTIFICATION $status"
+echo "REPORT $REPORT"
+
+[ "$result" = "PASS" ]
