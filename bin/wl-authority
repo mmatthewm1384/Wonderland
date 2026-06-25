@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/Users/wonderland/Wonderland"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
 T7="/Volumes/T7_Wonderland/Wonderland/persistence"
 STAMP="$(date +%Y%m%d-%H%M%S)"
 DEST="$T7/backups/authority/authority-$STAMP"

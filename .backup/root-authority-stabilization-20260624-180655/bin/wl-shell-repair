@@ -1,0 +1,51 @@
+#!/usr/bin/env python3
+import os
+import glob
+import sys
+import shutil
+
+ZSHRC = os.path.expanduser("~/.zshrc")
+BACKUP_DIR = os.path.expanduser("~/Wonderland/backups")
+
+print("=== 🛠️ Wonderland Emergency Shell Repair ===")
+
+# 1. Find the latest backup snapshot created before the crash
+backup_files = glob.glob(os.path.join(BACKUP_DIR, ".zshrc.bak.*"))
+if not backup_files:
+    print("ERROR: No automated .zshrc backups found to restore from!", file=sys.stderr)
+    sys.exit(1)
+
+latest_backup = max(backup_files, key=os.path.getmtime)
+print(f"[RESTORE] Found authentic clean backup snapshot: {latest_backup}")
+
+# 2. Revert back to the pristine working state
+shutil.copy2(latest_backup, ZSHRC)
+print("[RESTORE] Successfully restored original working ~/.zshrc file.")
+
+# 3. Safely append our isolated path optimization string directly to the very end
+path_append_payload = """
+
+# --- Wonderland Structural Path Strategy ---
+# Using native Zsh array parameters to guarantee absolute unique values
+typeset -U path cdpath fpath manpath
+path=(
+  /Users/wonderland/Wonderland/bin
+  /Users/wonderland/Wonderland/tools/bin
+  /Users/wonderland/.grok/bin
+  /Users/wonderland/.local/bin
+  /opt/homebrew/bin
+  /opt/homebrew/sbin
+  /usr/local/bin
+  /usr/bin
+  /bin
+  /usr/sbin
+  /sbin
+  /Users/wonderland/.orbstack/bin
+)
+export PATH
+"""
+
+with open(ZSHRC, "a") as f:
+    f.write(path_append_payload)
+
+print("[SUCCESS] Appended isolated unique path matrix safely to bottom of file.")

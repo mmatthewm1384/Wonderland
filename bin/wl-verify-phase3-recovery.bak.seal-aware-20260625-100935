@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+CERT="$ROOT/vault/05-Registry/certifications/wonderland-phase-3.json"
+SEAL="$ROOT/vault/05-Registry/certifications/wonderland-phase-3.seal.json"
+REPORT_DIR="$ROOT/vault/08-Operations/reports"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+REPORT="$REPORT_DIR/wonderland-phase3-recovery-drill-$STAMP.md"
+BACKUP="$ROOT/.backup/phase3-recovery-$STAMP"
+
+mkdir -p "$REPORT_DIR" "$BACKUP"
+
+{
+  echo "# wonderland-phase3-recovery-drill"
+  echo
+  date
+  echo
+  echo "## precheck"
+  timeout 20 "$ROOT/bin/wl-verify-phase-3"
+  echo
+  echo "## backup"
+  cp -p "$CERT" "$BACKUP/wonderland-phase-3.json"
+  cp -p "$SEAL" "$BACKUP/wonderland-phase-3.seal.json"
+  echo "PASS backup $BACKUP"
+  echo
+  echo "## corrupt"
+  printf '{ "state": "corrupt-test" }\n' > "$CERT"
+  if timeout 20 "$ROOT/bin/wl-verify-phase-3"; then
+    echo "FAIL corruption was not detected"
+    exit 1
+  else
+    echo "PASS corruption detected"
+  fi
+  echo
+  echo "## restore"
+  cp -p "$BACKUP/wonderland-phase-3.json" "$CERT"
+  "$ROOT/bin/wl-phase3-seal"
+  echo
+  echo "## postcheck"
+  timeout 20 "$ROOT/bin/wl-verify-phase-3"
+  timeout 30 "$ROOT/bin/wl-doctor"
+} | tee "$REPORT"
+
+echo
+echo "REPORT=$REPORT"
+echo "BACKUP=$BACKUP"

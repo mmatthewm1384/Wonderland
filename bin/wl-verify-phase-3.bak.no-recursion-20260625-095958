@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+
+[[ -f "$ROOT/lib/wl-authority.sh" ]] || { echo "FAIL missing shell authority resolver"; exit 1; }
+[[ -f "$ROOT/lib/wl_authority.py" ]] || { echo "FAIL missing python authority resolver"; exit 1; }
+
+"$ROOT/bin/wl-verify-paths" >/dev/null || {
+  "$ROOT/bin/wl-verify-paths"
+  exit 1
+}
+
+"$ROOT/bin/wl-doctor" >/dev/null || {
+  "$ROOT/bin/wl-doctor"
+  exit 1
+}
+
+"$ROOT/bin/wl-status" >/dev/null || {
+  "$ROOT/bin/wl-status"
+  exit 1
+}
+
+echo "PASS phase 3 authority consolidated"

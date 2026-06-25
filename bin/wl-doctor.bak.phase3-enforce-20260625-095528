@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+
+score=0
+total=100
+
+check() {
+  local name="$1"
+  local points="$2"
+  shift 2
+
+  if "$@" >/dev/null 2>&1; then
+    printf "PASS %-24s +%s\n" "$name" "$points"
+    score=$((score + points))
+  else
+    printf "FAIL %-24s +0\n" "$name"
+  fi
+}
+
+container_running() {
+  nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$1"
+}
+
+lima_running() {
+  limactl list --format '{{.Name}} {{.Status}}' 2>/dev/null \
+    | grep -Eq "^$1[[:space:]]+Running$"
+}
+
+echo "Wonderland Doctor"
+echo
+
+check "storage"      10 test -d "$ROOT/vault"
+check "governance"  10 test -d "$ROOT/vault/09-Governance"
+check "universe"    10 "$ROOT/bin/wl-universe" status
+check "rootless"    10 bash -c 'limactl list --format "{{.Name}} {{.Status}}" | grep -Eq "^wonderland-rootless[[:space:]]+Running$"'
+check "dns"         10 bash -c 'nerdctl ps --format "{{.Names}}" | grep -qx wl-dns'
+check "nats"        10 bash -c 'nerdctl ps --format "{{.Names}}" | grep -qx wl-nats'
+check "loki"        10 bash -c 'nerdctl ps --format "{{.Names}}" | grep -qx wl-loki'
+check "prometheus"  10 bash -c 'nerdctl ps --format "{{.Names}}" | grep -qx wl-prometheus'
+check "grafana"     10 bash -c 'nerdctl ps --format "{{.Names}}" | grep -qx wl-grafana'
+check "registry"    10 "$ROOT/bin/wl-registry" doctor
+
+echo
+echo "Health Score: $score/$total"
+
+if [[ "$score" -eq "$total" ]]; then
+  echo "RESULT PASS"
+  exit 0
+else
+  echo "RESULT FAIL"
+  exit 1
+fi

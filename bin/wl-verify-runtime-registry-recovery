@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+REPORT_DIR="$ROOT/vault/08-Operations/reports"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+REPORT="$REPORT_DIR/runtime-registry-recovery-drill-$STAMP.md"
+REGISTRY="$ROOT/vault/05-Registry/runtime/rootless-runtime.json"
+
+mkdir -p "$REPORT_DIR"
+
+{
+  echo "# runtime-registry-recovery-drill"
+  echo
+  date
+  echo
+  echo "## pre-verify"
+  "$ROOT/bin/wl-verify-runtime-registry"
+  echo
+  echo "## snapshot"
+  "$ROOT/bin/wl-runtime-registry-snapshot"
+  echo
+  echo "## corrupt-test"
+  cp -p "$REGISTRY" "$REGISTRY.test-corrupt.bak"
+  printf '{ "state": "corrupt-test" }\n' > "$REGISTRY"
+  "$ROOT/bin/wl-verify-runtime-registry" && exit 1 || echo "PASS corruption detected"
+  echo
+  echo "## restore"
+  "$ROOT/bin/wl-runtime-registry-restore"
+  echo
+  echo "## post-verify"
+  "$ROOT/bin/wl-verify-runtime-registry"
+  echo
+  echo "## doctor"
+  "$ROOT/bin/wl-doctor"
+  rm -f "$REGISTRY.test-corrupt.bak"
+} | tee "$REPORT"
+
+echo
+echo "REPORT=$REPORT"

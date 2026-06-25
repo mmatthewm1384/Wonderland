@@ -1,30 +1,54 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WL_HOME="${WL_HOME:-$HOME/Wonderland}"
-source "$WL_HOME/lib/wl-lifecycle-lib.sh"
+status_of() {
+  limactl list --format '{{.Name}} {{.Status}}' 2>/dev/null \
+    | awk -v n="$1" '$1==n {print $2; found=1} END{if(!found) print "Missing"}'
+}
 
-wl_step "Wonderland Stop"
+stop_lima() {
+  local name="$1"
+  local status
+  status="$(status_of "$name")"
 
-wl_step "Stopping rootless services"
-for svc in $(wl_rootless_services); do
-  LIMA_INSTANCE=wonderland-rootless nerdctl stop "$svc" >/dev/null 2>&1 || true
-  wl_pass "rootless $svc" "stop attempted"
-done
+  case "$status" in
+    Running)
+      limactl stop "$name" || limactl stop "$name" --force || true
+      ;;
+    Stopped)
+      echo "PASS $name already stopped"
+      ;;
+    Missing)
+      echo "WARN $name missing"
+      ;;
+    *)
+      echo "WARN $name status=$status; forcing stop"
+      limactl stop "$name" --force || true
+      ;;
+  esac
+}
 
-wl_step "Stopping wonderland-rootless"
-limactl stop wonderland-rootless >/dev/null 2>&1 || true
-wl_lima_running wonderland-rootless && wl_warn "wonderland-rootless" "still running" || wl_pass "wonderland-rootless" "stopped"
+target="${1:-rootless}"
 
-wl_step "Stopping core services"
-for svc in $(wl_services | sort -r); do
-  nerdctl stop "$svc" >/dev/null 2>&1 || true
-  wl_container_running "$svc" && wl_warn "$svc" "still running" || wl_pass "$svc" "stopped"
-done
+case "$target" in
+  rootless|wonderland-rootless)
+    echo "== Stopping Wonderland Rootless Runtime =="
+    stop_lima wonderland-rootless
+    ;;
 
-wl_step "Syncing filesystem"
-sync
-wl_pass "filesystem" "synced"
+  default|legacy)
+    echo "== Stopping Legacy Default Runtime =="
+    stop_lima default
+    ;;
 
-wl_step "Report"
-exec "$WL_HOME/bin/wl-lifecycle-report" stop
+  all)
+    echo "== Stopping Wonderland Runtimes =="
+    stop_lima wonderland-rootless
+    stop_lima default
+    ;;
+
+  *)
+    echo "Usage: wl-stop [rootless|default|legacy|all]"
+    exit 2
+    ;;
+esac

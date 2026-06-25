@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/Users/wonderland/Wonderland"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
 SNAPSHOT_DIR="$ROOT/vault/snapshots"
 KEEP="${1:-20}"
 

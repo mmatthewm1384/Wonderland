@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+CANONICAL="${WL_CANONICAL_ROOT:-$ROOT}"
+
+IGNORE_RE='(/\.git/|/\.backup/|/target/|/\.build/|/\.venv/|/venv/|/node_modules/|/dist/|/build/|/vault/08-Operations/reports/|/vault/09-Governance/wil/reports/|/vault/07-Operations/drift/|/vault/90-Operator/|/vault/99-Archive/|\.bak|\.broken|rootsep|REJECTED|[0-9]{8}|com\.googlecode\.iterm2\.plist|\.wl-registry$)'
+
+hits="$(
+  grep -RIn "$CANONICAL" "$ROOT" 2>/dev/null \
+    | grep -Ev "$IGNORE_RE" || true
+)"
+
+if [[ -z "$hits" ]]; then
+  echo "PASS no active hardcoded authority paths"
+  exit 0
+fi
+
+echo "FAIL active hardcoded authority paths"
+echo "$hits"
+exit 1

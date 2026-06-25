@@ -13,7 +13,7 @@ python3 - <<'PY'
 from pathlib import Path
 import re
 
-p = Path("/Users/wonderland/Wonderland/bin/wl")
+p = Path("${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/bin/wl")
 s = p.read_text()
 
 # Remove bad block if it was inserted inside wl_services or another function.

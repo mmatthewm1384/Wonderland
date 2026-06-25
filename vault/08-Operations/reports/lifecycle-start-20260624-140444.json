@@ -1,0 +1,7 @@
+{
+  "action": "start",
+  "timestamp": "2026-06-24T14:04:46.349694-07:00",
+  "root": "/Users/wonderland/Wonderland",
+  "result": "FAIL",
+  "check_output": "Wonderland Doctor\n\nPASS storage                  +10\nPASS governance               +10\nPASS universe                 +10\nPASS lima-default             +10\nPASS rootless                 +10\nPASS dns                      +10\nPASS nats                     +10\nFAIL loki                     +0\nPASS prometheus               +10\nPASS grafana                  +10\n\nHealth Score: 90/100\nRESULT WARN\nINFO universe is PASS but one or more endpoint checks are unavailable\n"
+}

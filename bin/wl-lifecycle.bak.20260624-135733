@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+REPORT_DIR="$WL_HOME/vault/08-Operations/reports"
+mkdir -p "$REPORT_DIR"
+
+ts() { date +%Y%m%d-%H%M%S; }
+step() { echo; echo "== $* =="; }
+ok() { echo "PASS $*"; }
+warn() { echo "WARN $*"; }
+fail() { echo "FAIL $*"; }
+
+json_report() {
+  local action="$1"
+  local result="$2"
+  local file="$REPORT_DIR/lifecycle-${action}-$(ts).json"
+
+  cat > "$file" <<JSON
+{
+  "action": "$action",
+  "result": "$result",
+  "timestamp": "$(date -Iseconds)",
+  "root": "$WL_HOME",
+  "mode": "$(cat "$WL_HOME/.wl-mode" 2>/dev/null || echo light)"
+}
+JSON
+
+  echo "REPORT $file"
+}
+
+status() {
+  step "Wonderland Lifecycle Status"
+
+  echo "Root: $WL_HOME"
+  echo
+
+  step "Universe"
+  "$WL_HOME/bin/wl-universe" status || true
+
+  step "Lima"
+  limactl list || true
+
+  step "Core Services"
+  nerdctl ps --format '{{.Names}} {{.Status}} {{.Ports}}' 2>/dev/null || warn "default Lima not available"
+
+  step "Rootless Services"
+  LIMA_INSTANCE=wonderland-rootless nerdctl ps --format '{{.Names}} {{.Status}} {{.Ports}}' 2>/dev/null || warn "rootless runtime not available"
+}
+
+start() {
+  step "Lifecycle Start"
+  "$WL_HOME/bin/wl-start"
+  "$WL_HOME/bin/wl-lifecycle-report" start || true
+}
+
+stop() {
+  step "Lifecycle Stop"
+  "$WL_HOME/bin/wl-stop"
+  "$WL_HOME/bin/wl-lifecycle-report" stop || true
+}
+
+restart() {
+  step "Lifecycle Restart"
+  "$WL_HOME/bin/wl-stop"
+  "$WL_HOME/bin/wl-start"
+  "$WL_HOME/bin/wl-lifecycle-report" restart || true
+}
+
+sleep_mode() {
+  step "Lifecycle Sleep"
+  echo "INFO stopping services but preserving host session"
+  LIMA_INSTANCE=wonderland-rootless nerdctl stop wl-loki >/dev/null 2>&1 || true
+  nerdctl stop wl-grafana wl-prometheus wl-loki wl-nats wl-dns >/dev/null 2>&1 || true
+  sync
+  ok "sleep complete"
+  "$WL_HOME/bin/wl-lifecycle-report" sleep || true
+}
+
+wake() {
+  step "Lifecycle Wake"
+  "$WL_HOME/bin/wl-start"
+  "$WL_HOME/bin/wl-lifecycle-report" wake || true
+}
+
+case "${1:-status}" in
+  start) start ;;
+  stop) stop ;;
+  restart) restart ;;
+  status) status ;;
+  sleep) sleep_mode ;;
+  wake) wake ;;
+  registry) "$WL_HOME/bin/wl-lifecycle-registry" ;;
+  audit) "$WL_HOME/bin/wl-lifecycle-audit" ;;
+  certify) "$WL_HOME/bin/wl-lifecycle-certify" ;;
+  *)
+    echo "Usage:"
+    echo "  wl-lifecycle start"
+    echo "  wl-lifecycle stop"
+    echo "  wl-lifecycle restart"
+    echo "  wl-lifecycle status"
+    echo "  wl-lifecycle sleep"
+    echo "  wl-lifecycle wake"
+    echo "  wl-lifecycle registry"
+    echo "  wl-lifecycle audit"
+    echo "  wl-lifecycle certify"
+    exit 2
+    ;;
+esac

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 WL_HOME="${WL_HOME:-$HOME/Wonderland}"
-BACKUP="/Users/wonderland/Wonderland/.backup-wl-consolidation-20260621-171654"
+BACKUP="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/.backup-wl-consolidation-20260621-171654"
 
 if [[ -f "$BACKUP/wl.previous" ]]; then
   cp "$BACKUP/wl.previous" "$WL_HOME/bin/wl"

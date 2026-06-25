@@ -1,0 +1,9 @@
+{
+  "action": "start",
+  "timestamp": "2026-06-24T11:10:54-07:00",
+  "root": "/Users/wonderland/Wonderland",
+  "result": "PASS",
+  "health_score": 100,
+  "doctor_output": "Wonderland Doctor\n\nPASS storage                  +10\nPASS governance               +10\nPASS universe                 +10\nPASS lima-default             +10\nPASS rootless                 +10\nPASS dns                      +10\nPASS nats                     +10\nPASS loki                     +10\nPASS prometheus               +10\nPASS grafana                  +10\n\nHealth Score: 100/100\nRESULT PASS\n",
+  "universe_output": "Wonderland Universe Status\n\nRoot:  /Users/wonderland/Wonderland\nMode:  light\n\nAuthority\nPASS mode                   \nPASS storage                \nPASS storage authority      \n\nGovernance\nPASS governance             \nPASS recovery               \nPASS snapshot               \n\nRuntime\nPASS services\n\nCapability\nWARN media                  unavailable in current mode\nWARN torrent                unavailable in current mode\n\nRESULT PASS\n"
+}

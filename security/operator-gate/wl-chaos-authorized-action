@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+GATE="$WL_ROOT/security/operator-gate"
+SECRET="$GATE/operator-secret.key"
+LEASE="$GATE/lease.json"
+AETHER="$WL_ROOT/vault/chaos/chaos-aether.json"
+LOG="$WL_ROOT/vault/chaos/operator-gate.log"
+ACTION="${1:-}"
+
+case "$ACTION" in
+  checkin|reset|panic|verify) ;;
+  *) echo "DENY unknown action"; exit 2 ;;
+esac
+
+CONSOLE_USER="$(stat -f %Su /dev/console)"
+CURRENT_USER="$(id -un)"
+
+if [ "$CONSOLE_USER" != "$CURRENT_USER" ]; then
+  echo "DENY not console operator"
+  exit 1
+fi
+
+if [ ! -f "$SECRET" ]; then
+  echo "DENY missing operator secret"
+  exit 1
+fi
+
+chmod 600 "$SECRET"
+
+if [ "$ACTION" != "verify" ]; then
+  /usr/bin/osascript -e 'do shell script "true" with administrator privileges' >/dev/null
+fi
+
+python3 - "$ACTION" "$SECRET" "$LEASE" "$AETHER" "$LOG" <<'PY'
+import json, sys, hmac, hashlib, secrets
+from pathlib import Path
+from datetime import datetime, timezone, timedelta
+
+action = sys.argv[1]
+secret_path = Path(sys.argv[2])
+lease_path = Path(sys.argv[3])
+aether_path = Path(sys.argv[4])
+log_path = Path(sys.argv[5])
+
+secret = secret_path.read_text().strip().encode()
+
+def now():
+    return datetime.now(timezone.utc)
+
+def iso(dt):
+    return dt.isoformat()
+
+def sign(payload):
+    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
+    return hmac.new(secret, canonical, hashlib.sha256).hexdigest()
+
+def verify_lease():
+    if not lease_path.exists():
+        return False, "missing"
+
+    obj = json.loads(lease_path.read_text())
+    sig = obj.pop("signature", "")
+
+    if not hmac.compare_digest(sig, sign(obj)):
+        return False, "bad-signature"
+
+    exp = datetime.fromisoformat(obj["expires_at"])
+    if exp <= now():
+        return False, "expired"
+
+    return True, "valid"
+
+def log(msg):
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    with log_path.open("a") as f:
+        f.write(f"{iso(now())} {msg}\n")
+
+if action == "verify":
+    ok, reason = verify_lease()
+    print("PASS lease valid" if ok else f"DENY lease {reason}")
+    sys.exit(0 if ok else 1)
+
+issued = now()
+expires = issued + timedelta(hours=8)
+
+lease = {
+    "operator": "console-user",
+    "issued_at": iso(issued),
+    "expires_at": iso(expires),
+    "nonce": secrets.token_hex(16),
+    "scope": ["checkin", "reset", "panic"]
+}
+lease["signature"] = sign(lease)
+
+lease_path.write_text(json.dumps(lease, indent=2, sort_keys=True) + "\n")
+lease_path.chmod(0o600)
+
+data = json.loads(aether_path.read_text()) if aether_path.exists() else {}
+data.setdefault("contract", {})
+
+if action == "checkin":
+    data["mode"] = "normal"
+    data["last_activity"] = "operator_checkin"
+    data["contract"]["chaos_active"] = False
+    data["escalation_deadline"] = iso(expires)
+
+elif action == "reset":
+    data["mode"] = "normal"
+    data["last_activity"] = "operator_reset"
+    data["contract"]["chaos_active"] = False
+    data["escalation_deadline"] = iso(expires)
+
+elif action == "panic":
+    data["mode"] = "chaos"
+    data["last_activity"] = "operator_panic"
+    data["contract"]["chaos_active"] = True
+    data["escalation_deadline"] = iso(issued)
+
+data["aether"] = "active"
+data["watchdog"] = "running"
+data["last_checkin"] = iso(issued)
+data["lease_signature"] = lease["signature"]
+
+aether_path.parent.mkdir(parents=True, exist_ok=True)
+aether_path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+aether_path.chmod(0o600)
+
+log(f"AUTHORIZED {action} lease={lease['signature'][:12]} expires={lease['expires_at']}")
+print(f"PASS authorized {action}; lease expires {lease['expires_at']}")
+PY

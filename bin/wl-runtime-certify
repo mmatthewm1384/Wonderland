@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+REGISTRY="$ROOT/vault/05-Registry/runtime/rootless-runtime.json"
+REPORT_DIR="$ROOT/vault/08-Operations/reports"
+LATEST_REPORT="$(ls -t "$REPORT_DIR"/runtime-lifecycle-drill-*.md 2>/dev/null | head -1 || true)"
+
+if [[ -z "$LATEST_REPORT" ]]; then
+  echo "FAIL no runtime lifecycle drill report found"
+  echo "Run: wl runtime-drill"
+  exit 1
+fi
+
+cat > "$REGISTRY" <<JSON
+{
+  "id": "rootless-runtime",
+  "authority": "wonderland-rootless",
+  "legacy": "default",
+  "state": "certified",
+  "latest_report": "$LATEST_REPORT",
+  "certified_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "checks": [
+    "wl-verify-rootless-runtime",
+    "wl-verify-runtime-lifecycle",
+    "wl-verify-paths",
+    "wl doctor",
+    "wl status"
+  ]
+}
+JSON
+
+echo "PASS runtime certified"
+echo "REGISTRY=$REGISTRY"

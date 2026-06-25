@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-ROOT_DIR="/Users/wonderland/Wonderland"
+ROOT_DIR="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
 SECRETS_DIR="$ROOT_DIR/secrets"
 echo "=== 🛡️ Wonderland Multi-Intel Token Matrix Verification ==="
 mkdir -p "$SECRETS_DIR"

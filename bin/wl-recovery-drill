@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/Users/wonderland/Wonderland"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
 REPORT_DIR="$ROOT/vault/07-Operations/reports/recovery-drills"
 TMP_ROOT="$ROOT/runtime/recovery-drills"
 STAMP="$(date +%Y%m%d-%H%M%S)"

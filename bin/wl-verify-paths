@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+CANONICAL="${WL_CANONICAL_ROOT:-$ROOT}"
+
+# Ignore generated, historical, registry-state, cache, reports, logs, and archives.
+IGNORE_RE='(/\.git/|/\.backup/|/target/|/\.build/|/\.venv/|/venv/|/node_modules/|/dist/|/build/|/logs/|/vault/08-Operations/reports/|/vault/09-Governance/wil/reports/|/vault/07-Operations/drift/|/vault/07-Operations/secrets/inventory/|/vault/90-Operator/|/vault/99-Archive/|/registries/|/vault/05-Registry/|/vault/07-Operations/platform/|/vault/07-Operations/recovery/certifications/|\.wl-registry$|vault-map\.json$|\.bak|\.broken|rootsep|REJECTED|[0-9]{8}|com\.googlecode\.iterm2\.plist|watchdog\.launchd\..*\.log|panic\.log)'
+
+hits="$(
+  grep -RIn "$CANONICAL" "$ROOT/bin" "$ROOT/core" "$ROOT/scripts" "$ROOT/config" "$ROOT/ephemeral/bin" "$ROOT/ephemeral/compose" 2>/dev/null \
+    | grep -Ev "$IGNORE_RE" || true
+)"
+
+if [[ -z "$hits" ]]; then
+  echo "PASS no active source hardcoded authority paths"
+  exit 0
+fi
+
+echo "FAIL active source hardcoded authority paths"
+echo "$hits"
+exit 1

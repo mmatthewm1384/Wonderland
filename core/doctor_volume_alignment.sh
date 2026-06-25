@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VAULT_SCRIPT="/Users/wonderland/Wonderland/bin/wl-vault"
+ROOT_DIR="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+VAULT_SCRIPT="$ROOT_DIR/bin/wl-vault"
 
 echo "=== 🩺 Verifying Cryptographic Volume Alignment ==="
 

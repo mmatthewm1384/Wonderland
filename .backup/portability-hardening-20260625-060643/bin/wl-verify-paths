@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+
+IGNORE_RE='(/\.git/|/\.backup/|/target/|/\.build/|/\.venv/|/venv/|/node_modules/|/dist/|/build/|\.bak|\.broken|rootsep|REJECTED|[0-9]{8}|com\.googlecode\.iterm2\.plist)'
+
+hits="$(
+  grep -RIn '/Users/wonderland/Wonderland' "$ROOT" 2>/dev/null \
+    | grep -Ev "$IGNORE_RE" || true
+)"
+
+if [[ -z "$hits" ]]; then
+  echo "PASS no active hardcoded authority paths"
+  exit 0
+fi
+
+echo "FAIL active hardcoded authority paths"
+echo "$hits"
+exit 1

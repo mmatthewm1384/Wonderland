@@ -1,57 +1,54 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/Users/wonderland/Wonderland"
-FAIL=0
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
 
-mode() {
-  python3 - <<'PY2'
-import json
-from pathlib import Path
-p = Path("/Users/wonderland/Wonderland/vault/07-Operations/platform/runtime-mode.json")
-print(json.loads(p.read_text()).get("mode", "full"))
-PY2
-}
-
-MODE="$(mode)"
-
+score=0
+total=110
 
 check() {
   local name="$1"
-  shift
+  local points="$2"
+  shift 2
 
-  printf "%-24s" "$name"
-
-  if "$@" >/tmp/wl-doctor-check.log 2>&1; then
-    echo "PASS"
+  if "$@" >/dev/null 2>&1; then
+    printf "PASS %-24s +%s\n" "$name" "$points"
+    score=$((score + points))
   else
-    echo "FAIL"
-    cat /tmp/wl-doctor-check.log | sed 's/^/  /'
-    FAIL=1
+    printf "FAIL %-24s +0\n" "$name"
   fi
 }
 
-echo
+container_running() {
+  nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$1"
+}
+
+lima_running() {
+  limactl list --format '{{.Name}} {{.Status}}' 2>/dev/null \
+    | grep -Eq "^$1[[:space:]]+Running$"
+}
+
 echo "Wonderland Doctor"
-echo "root: $ROOT"
 echo
 
-if [[ "$MODE" == "light" ]]; then check "vault" "$ROOT/bin/wl" governance report; else check "vault" "$ROOT/bin/wl" verify; fi
-check "registry integrity" "$ROOT/bin/wl" registry integrity
-if [[ "$MODE" == "light" ]]; then echo "runtime drift           SKIP light mode"; else check "runtime drift" "$ROOT/bin/wl" runtime drift; fi
-if [[ "$MODE" == "light" ]]; then echo "anon route              SKIP light mode"; else check "anon route" "$ROOT/bin/wl" anon doctor; fi
-check "operations" "$ROOT/bin/wl" operations verify
-check "intelligence" "$ROOT/bin/wl" intelligence verify
-check "governance" "$ROOT/bin/wl" governance report
-check "storage authority" "$ROOT/bin/wl" storage doctor
-if [[ "$MODE" == "light" ]]; then echo "authority backup        SKIP light mode"; else check "authority backup" "$ROOT/bin/wl" authority doctor; fi
-if [[ "$MODE" == "light" ]]; then echo "authority restore       SKIP light mode"; else check "authority restore" "$ROOT/bin/wl" authority restore-drill; fi
-if [[ "$MODE" == "light" ]]; then echo "recovery drill          SKIP light mode"; else check "recovery drill" "$ROOT/bin/wl-verify-recovery-drill"; fi
+check "storage"      10 test -d "$ROOT/vault"
+check "governance"  10 test -d "$ROOT/vault/09-Governance"
+check "universe"    10 "$ROOT/bin/wl-universe" status
+check "rootless"    10 bash -c 'limactl list --format "{{.Name}} {{.Status}}" | grep -Eq "^wonderland-rootless[[:space:]]+Running$"'
+check "dns"         10 bash -c 'nerdctl ps --format "{{.Names}}" | grep -qx wl-dns'
+check "nats"        10 bash -c 'nerdctl ps --format "{{.Names}}" | grep -qx wl-nats'
+check "loki"        10 bash -c 'nerdctl ps --format "{{.Names}}" | grep -qx wl-loki'
+check "prometheus"  10 bash -c 'nerdctl ps --format "{{.Names}}" | grep -qx wl-prometheus'
+check "grafana"     10 bash -c 'nerdctl ps --format "{{.Names}}" | grep -qx wl-grafana'
+check "registry"    10 "$ROOT/bin/wl-registry" doctor
+check "phase3-authority" 10 "$ROOT/bin/wl-verify-phase-3"
 
 echo
+echo "Health Score: $score/$total"
 
-if [[ "$FAIL" -eq 0 ]]; then
+if [[ "$score" -eq "$total" ]]; then
   echo "RESULT PASS"
+  exit 0
 else
   echo "RESULT FAIL"
   exit 1

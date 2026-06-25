@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-LOCK="/Users/wonderland/Wonderland/vault/locks/vault-lock.json"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+LOCK="$ROOT/vault/locks/vault-lock.json"
 
 echo
 echo "Wonderland Lock Verification"

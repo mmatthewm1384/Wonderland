@@ -1,0 +1,19 @@
+{
+  "id": "wonderland-phase-3-seal",
+  "state": "sealed",
+  "sealed_at": "2026-06-25T16:54:43+00:00",
+  "certification": "/Users/wonderland/Wonderland/vault/05-Registry/certifications/wonderland-phase-3.json",
+  "certification_sha256": "aa81d9627c5739f9172e4b0e23bf2ff8dc679575c279a64407f3cf1f731eb138",
+  "authority_root": "/Users/wonderland/Wonderland",
+  "authority_resolution": [
+    "WL_AUTHORITY_ROOT",
+    "WL_HOME",
+    "$HOME/Wonderland"
+  ],
+  "checks": {
+    "phase3": "PASS",
+    "paths": "PASS",
+    "doctor": "PASS",
+    "status": "PASS"
+  }
+}

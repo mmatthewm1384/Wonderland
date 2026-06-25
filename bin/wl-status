@@ -1,43 +1,67 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
 
-pass(){ printf "PASS %-20s %s\n" "$1" "${2:-}"; }
-warn(){ printf "WARN %-20s %s\n" "$1" "${2:-}"; }
-fail(){ printf "FAIL %-20s %s\n" "$1" "${2:-}"; }
+pass(){ echo "PASS $*"; }
+fail(){ echo "FAIL $*"; }
+warn(){ echo "WARN $*"; }
+
+lima_running() {
+  local name="$1"
+  limactl list --format '{{.Name}} {{.Status}}' 2>/dev/null \
+    | grep -Eq "^${name}[[:space:]]+Running$"
+}
+
+container_running() {
+  local name="$1"
+  nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$name"
+}
 
 echo "Wonderland Status"
 echo "================="
 echo
 
 echo "Universe"
-if "$WL_HOME/bin/wl-universe" status >/tmp/wl-universe-status.$$ 2>&1; then
-  if grep -q "RESULT PASS" /tmp/wl-universe-status.$$; then pass "universe"; else fail "universe"; fi
+if [[ -x "$ROOT/bin/wl-universe" ]]; then
+  "$ROOT/bin/wl-universe" status >/dev/null 2>&1 && pass universe || fail universe
+elif [[ -x "$ROOT/bin/wl-universe-status" ]]; then
+  "$ROOT/bin/wl-universe-status" >/dev/null 2>&1 && pass universe || fail universe
 else
-  fail "universe"
+  warn "universe checker missing"
 fi
-rm -f /tmp/wl-universe-status.$$
 
 echo
 echo "Lima"
-limactl list | grep -q '^default[[:space:]].*Running' && pass "default" || fail "default"
-limactl list | grep -q '^wonderland-rootless[[:space:]].*Running' && pass "wonderland-rootless" || warn "wonderland-rootless"
+lima_running default && pass "default legacy" || warn "default legacy unavailable"
+lima_running wonderland-rootless && pass "wonderland-rootless primary" || fail "wonderland-rootless primary"
 
 echo
 echo "Services"
-for svc in $("$WL_HOME/bin/wl-lifecycle-services" services); do
-  nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$svc" && pass "$svc" || fail "$svc"
+for svc in wl-dns wl-nats wl-loki wl-prometheus wl-grafana; do
+  container_running "$svc" && pass "$svc" || fail "$svc"
 done
 
 echo
 echo "Storage"
-wl storage authority >/dev/null 2>&1 && pass "authority" "external optional in light mode" || fail "authority"
+if [[ -x "$ROOT/bin/wl-storage" ]]; then
+  "$ROOT/bin/wl-storage" status 2>/dev/null || true
+else
+  warn "storage checker missing"
+fi
 
 echo
 echo "Governance"
-wl governance status >/dev/null 2>&1 && pass "governance" || fail "governance"
+if [[ -x "$ROOT/bin/wl-governance" ]]; then
+  "$ROOT/bin/wl-governance" status >/dev/null 2>&1 && pass governance || fail governance
+else
+  warn "governance checker missing"
+fi
 
 echo
 echo "Doctor"
-wl doctor || true
+if [[ -x "$ROOT/bin/wl-doctor" ]]; then
+  "$ROOT/bin/wl-doctor" || true
+else
+  warn "doctor missing"
+fi

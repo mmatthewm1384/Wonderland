@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CORE="/Users/wonderland/Wonderland/vault/00-Core"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+CORE="$ROOT/vault/00-Core"
 
 if [[ ! -d "$CORE" ]]; then
   echo "FAIL core vault not found: $CORE"

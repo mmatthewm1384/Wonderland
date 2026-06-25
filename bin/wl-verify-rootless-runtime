@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+rootless_status="$(
+  limactl list --format '{{.Name}} {{.Status}}' 2>/dev/null \
+    | grep -E '^wonderland-rootless[[:space:]]+' \
+    | awk '{print $2}' || true
+)"
+
+if [[ "$rootless_status" == "Running" ]]; then
+  echo "PASS rootless runtime running"
+  exit 0
+fi
+
+echo "FAIL rootless runtime not running"
+limactl list 2>/dev/null || true
+exit 1

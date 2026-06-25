@@ -119,7 +119,7 @@ def replace_loader(name, text):
   }} catch {{}}
 
   try {{
-    const response = await fetch("file:///Users/wonderland/Wonderland/vault/chaos/visual-chaos-contract.json?t=" + Date.now(), {{ cache: "no-store" }});
+    const response = await fetch("file://${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/vault/chaos/visual-chaos-contract.json?t=" + Date.now(), {{ cache: "no-store" }});
     return await response.json();
   }} catch {{
     return null;

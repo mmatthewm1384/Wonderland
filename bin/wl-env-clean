@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Define new clean data space paths
-NEW_HF_HOME="/Users/wonderland/Wonderland/data/models/whisper"
+NEW_HF_HOME="${ROOT}/data/models/whisper"
 
 echo "=== 🧹 Wonderland Path & Variable Optimization ==="
 

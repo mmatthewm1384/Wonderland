@@ -1,0 +1,19 @@
+{
+  "schema": "wonderland.root-registry.v1",
+  "roots": {
+    "authority": "/Users/wonderland/Wonderland",
+    "build": "/Users/wonderland/Workshop",
+    "runtime": "/Users/wonderland/Runtime",
+    "archive": "/Users/wonderland/Archive",
+    "media": "/Users/wonderland/Media"
+  },
+  "doctrine": {
+    "wonderland": "authority only",
+    "workshop": "source and build",
+    "runtime": "execution state",
+    "archive": "retired material",
+    "media": "assets"
+  },
+  "authority": "${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}",
+  "resolved_authority_note": "Resolve through WL_AUTHORITY_ROOT, then WL_HOME, then $HOME/Wonderland."
+}

@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+GRAPH="$ROOT/vault/06-Services/graphs/service-graph.json"
+OUT="$ROOT/vault/06-Services/recovery/service-recovery-order.json"
+
+if [[ ! -f "$GRAPH" ]]; then
+  "$ROOT/bin/wl-services-graph"
+fi
+
+python3 - "$GRAPH" "$OUT" <<'PY'
+import json
+import pathlib
+import sys
+from collections import defaultdict, deque
+
+graph = json.loads(pathlib.Path(sys.argv[1]).read_text())
+out = pathlib.Path(sys.argv[2])
+
+nodes = [n["id"] for n in graph.get("nodes", [])]
+deps = defaultdict(set)
+reverse = defaultdict(set)
+
+for edge in graph.get("edges", []):
+    src = edge["from"]
+    dst = edge["to"]
+    deps[src].add(dst)
+    reverse[dst].add(src)
+
+ready = deque(sorted([n for n in nodes if not deps[n]]))
+order = []
+
+while ready:
+    n = ready.popleft()
+    order.append(n)
+
+    for child in sorted(reverse[n]):
+        deps[child].discard(n)
+        if not deps[child]:
+            ready.append(child)
+
+remaining = sorted([n for n in nodes if n not in order])
+
+payload = {
+    "id": "service-recovery-order-v4",
+    "version": 4,
+    "order": order,
+    "cycles_or_unresolved": remaining
+}
+
+out.parent.mkdir(parents=True, exist_ok=True)
+out.write_text(json.dumps(payload, indent=2) + "\n")
+
+print(f"recovery order: {out}")
+print(f"services: {len(order)}")
+
+if remaining:
+    print(f"unresolved: {', '.join(remaining)}")
+    sys.exit(1)
+PY

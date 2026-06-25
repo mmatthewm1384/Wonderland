@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ARCHIVE="/Users/wonderland/Wonderland/vault/99-Archive"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+ARCHIVE="$ROOT/vault/99-Archive"
 
 if [[ ! -d "$ARCHIVE" ]]; then
   echo "FAIL archive vault not found: $ARCHIVE"

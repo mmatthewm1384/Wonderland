@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+REPORT_DIR="$WL_HOME/vault/08-Operations/reports"
+mkdir -p "$REPORT_DIR"
+
+ACTION="${1:-status}"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+OUT="$REPORT_DIR/lifecycle-${ACTION}-${STAMP}.json"
+
+check_output="$(mktemp)"
+universe_output="$(mktemp)"
+trap 'rm -f "$check_output" "$universe_output"' EXIT
+
+result="FAIL"
+score=0
+
+case "$ACTION" in
+  stop|sleep)
+    {
+      echo "== Stop Verification =="
+
+      fail=0
+
+      for svc in wl-dns wl-nats wl-prometheus wl-grafana wl-loki; do
+        if nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$svc"; then
+          echo "FAIL $svc still-running"
+          fail=1
+        else
+          echo "PASS $svc stopped"
+        fi
+      done
+
+      if limactl list 2>/dev/null | awk '{print $1, $2}' | grep -qx "wonderland-rootless Running"; then
+        echo "FAIL wonderland-rootless still-running"
+        fail=1
+      else
+        echo "PASS wonderland-rootless stopped"
+      fi
+
+      [[ "$fail" -eq 0 ]] && echo "RESULT PASS" || echo "RESULT FAIL"
+      exit "$fail"
+    } >"$check_output" 2>&1 || rc=$?
+
+    rc="${rc:-0}"
+    [[ "$rc" -eq 0 ]] && result="PASS" || result="FAIL"
+    ;;
+
+  start|wake|restart|status|*)
+    if wl doctor >"$check_output" 2>&1; then
+      grep -q "RESULT PASS" "$check_output" && result="PASS" || result="FAIL"
+    else
+      result="FAIL"
+    fi
+    ;;
+esac
+
+wl universe status >"$universe_output" 2>&1 || true
+
+score="$(awk '/Health Score:/ {print $3}' "$check_output" | tail -1 | cut -d/ -f1)"
+score="${score:-0}"
+
+cat > "$OUT" <<JSON
+{
+  "action": "$ACTION",
+  "timestamp": "$(date -Iseconds)",
+  "root": "$WL_HOME",
+  "result": "$result",
+  "health_score": $score,
+  "check_output": $(python3 -c 'import json,sys; print(json.dumps(open(sys.argv[1]).read()))' "$check_output"),
+  "universe_output": $(python3 -c 'import json,sys; print(json.dumps(open(sys.argv[1]).read()))' "$universe_output")
+}
+JSON
+
+echo "REPORT $OUT"
+echo "RESULT $result"
+
+[[ "$result" == "PASS" ]] && exit 0 || exit 1

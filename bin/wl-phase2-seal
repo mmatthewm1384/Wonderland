@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+CERT="$ROOT/vault/05-Registry/certifications/wonderland-phase-2.json"
+SEAL="$ROOT/vault/05-Registry/certifications/wonderland-phase-2.seal.json"
+FINAL_REPORT="$(ls -t "$ROOT"/vault/08-Operations/reports/wonderland-phase-2-final-certification-*.md 2>/dev/null | head -1 || true)"
+
+[[ -f "$CERT" ]] || {
+  echo "FAIL missing phase 2 cert"
+  exit 1
+}
+
+python3 - "$CERT" "$SEAL" "$FINAL_REPORT" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+from datetime import datetime, timezone
+
+cert_path = Path(sys.argv[1])
+seal_path = Path(sys.argv[2])
+final_report = sys.argv[3]
+
+cert_bytes = cert_path.read_bytes()
+cert = json.loads(cert_bytes)
+
+seal = {
+    "id": "wonderland-phase-2-seal",
+    "state": "sealed",
+    "sealed_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+    "certification": str(cert_path),
+    "certification_sha256": hashlib.sha256(cert_bytes).hexdigest(),
+    "final_report": final_report,
+    "primary_runtime": cert.get("primary_runtime"),
+    "legacy_runtime_required": cert.get("legacy_runtime_required"),
+    "doctor": cert.get("checks", {}).get("doctor"),
+    "status": cert.get("checks", {}).get("status")
+}
+
+seal_path.write_text(json.dumps(seal, indent=2) + "\n")
+print("PASS phase 2 sealed")
+print(f"SEAL={seal_path}")
+PY

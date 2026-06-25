@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+CERT="$ROOT/vault/05-Registry/certifications/wonderland-phase-2.json"
+
+[[ -f "$CERT" ]] || {
+  echo "FAIL missing phase 2 certification"
+  exit 1
+}
+
+jq -e '
+  .id == "wonderland-phase-2" and
+  .state == "certified" and
+  .primary_runtime == "wonderland-rootless" and
+  .legacy_runtime_required == false and
+  .checks.doctor == "PASS" and
+  .checks.status == "PASS"
+' "$CERT" >/dev/null
+
+echo "PASS phase 2 certified"

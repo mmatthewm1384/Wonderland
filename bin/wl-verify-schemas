@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SCHEMAS="/Users/wonderland/Wonderland/vault/04-Schemas"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+SCHEMAS="$ROOT/vault/04-Schemas"
 
 if [[ ! -d "$SCHEMAS" ]]; then
   echo "FAIL schema vault not found: $SCHEMAS"

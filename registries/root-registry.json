@@ -1,17 +1,8 @@
 {
-  "schema": "wonderland.root-registry.v1",
-  "roots": {
-    "authority": "/Users/wonderland/Wonderland",
-    "build": "/Users/wonderland/Workshop",
-    "runtime": "/Users/wonderland/Runtime",
-    "archive": "/Users/wonderland/Archive",
-    "media": "/Users/wonderland/Media"
-  },
-  "doctrine": {
-    "wonderland": "authority only",
-    "workshop": "source and build",
-    "runtime": "execution state",
-    "archive": "retired material",
-    "media": "assets"
-  }
+  "id": "root-registry",
+  "generated_at": "2026-06-25T13:11:51Z",
+  "authority": "/Users/wonderland/Wonderland",
+  "rootless_runtime": "wonderland-rootless",
+  "legacy_runtime": "default",
+  "mode": "phase-2-rootless-primary"
 }

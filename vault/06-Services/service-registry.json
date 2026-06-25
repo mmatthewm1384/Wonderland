@@ -3,30 +3,31 @@
   "version": 4,
   "services": [
     {
-      "id": "wl-anon-scraper-service-v4",
-      "name": "wl-anon-scraper",
-      "path": "definitions/wl-anon-scraper.service.json",
-      "runtime": "containerd",
-      "engine": "nerdctl",
-      "container": "wl-anon-scraper",
+      "id": "wl-matrix-atom-slam-service-v4",
+      "name": "wl-matrix-atom-slam",
+      "path": "definitions/wl-matrix-atom-slam.service.json",
+      "compose": ".backup/portability-hardening-20260625-060643/ephemeral/compose/matrix-atom-slam/compose.yml",
       "status": "active"
     },
     {
-      "id": "wl-anon-tor-service-v4",
-      "name": "wl-anon-tor",
-      "path": "definitions/wl-anon-tor.service.json",
-      "runtime": "containerd",
-      "engine": "nerdctl",
-      "container": "wl-anon-tor",
+      "id": "wl-docker-service-v4",
+      "name": "wl-docker",
+      "path": "definitions/wl-docker.service.json",
+      "compose": "docker/compose.yml",
       "status": "active"
     },
     {
-      "id": "wl-document-cleaner-service-v4",
-      "name": "wl-document-cleaner",
-      "path": "definitions/wl-document-cleaner.service.json",
-      "runtime": "containerd",
-      "engine": "nerdctl",
-      "container": "wl-document-cleaner",
+      "id": "wl-matrix-atom-slam-service-v4",
+      "name": "wl-matrix-atom-slam",
+      "path": "definitions/wl-matrix-atom-slam.service.json",
+      "compose": "ephemeral/compose/matrix-atom-slam/compose.yml",
+      "status": "active"
+    },
+    {
+      "id": "wl-sandbox-service-v4",
+      "name": "wl-sandbox",
+      "path": "definitions/wl-sandbox.service.json",
+      "compose": "ephemeral/services/wl-sandbox/compose.yml",
       "status": "active"
     }
   ]

@@ -1,0 +1,15 @@
+{
+  "id": "rootless-runtime",
+  "authority": "wonderland-rootless",
+  "legacy": "default",
+  "state": "certified",
+  "latest_report": "/Users/wonderland/Wonderland/vault/08-Operations/reports/runtime-lifecycle-drill-20260625-054321.md",
+  "certified_at": "2026-06-25T12:44:15Z",
+  "checks": [
+    "wl-verify-rootless-runtime",
+    "wl-verify-runtime-lifecycle",
+    "wl-verify-paths",
+    "wl doctor",
+    "wl status"
+  ]
+}

@@ -1,4 +1,149 @@
 #!/usr/bin/env bash
+
+# Phase 3 recovery drill route
+case "${1:-}" in
+  phase3-drill|phase-3-drill)
+    exec "${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/bin/wl-verify-phase3-recovery" "${@:2}"
+    ;;
+esac
+
+
+# Phase 3 seal route
+case "${1:-}" in
+  phase3-seal|phase-3-seal)
+    exec "${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/bin/wl-phase3-seal" "${@:2}"
+    ;;
+esac
+
+
+# Phase 3 authority consolidation route
+case "${1:-}" in
+  phase3|phase-3)
+    shift
+    case "${1:-verify}" in
+      verify|status|doctor)
+        exec "${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/bin/wl-verify-phase-3"
+        ;;
+      certify|cert)
+        exec "${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/bin/wl-phase3-certify"
+        ;;
+      json)
+        exec cat "${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/vault/05-Registry/certifications/wonderland-phase-3.json"
+        ;;
+      *)
+        echo "Usage: wl phase3 [verify|certify|json]"
+        exit 2
+        ;;
+    esac
+    ;;
+esac
+
+
+# Phase 2 seal route
+case "${1:-}" in
+  phase2-seal|phase-2-seal)
+    exec "${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/bin/wl-phase2-seal" "${@:2}"
+    ;;
+esac
+
+
+# Phase 2 certification route
+case "${1:-}" in
+  phase2|phase-2)
+    shift
+    case "${1:-status}" in
+      status|doctor|verify)
+        exec "${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/bin/wl-verify-phase-2"
+        ;;
+      report)
+        ls -t "${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"/vault/08-Operations/reports/wonderland-phase-2-completion-*.md 2>/dev/null | head -1
+        ;;
+      cert)
+        exec cat "${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/vault/05-Registry/certifications/wonderland-phase-2.json"
+        ;;
+      *)
+        echo "Usage: wl phase2 [status|doctor|verify|report|cert]"
+        exit 2
+        ;;
+    esac
+    ;;
+esac
+
+
+# Phase 2 service reconciliation route
+case "${1:-}" in
+  services-reconcile)
+    exec "${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/bin/wl-rootless-services-reconcile" "${@:2}"
+    ;;
+esac
+
+
+# Phase 2 namespace routes
+case "${1:-}" in
+  registry)
+    exec "${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/bin/wl-registry" "${@:2}"
+    ;;
+  operations)
+    exec "${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/bin/wl-operations" "${@:2}"
+    ;;
+  intelligence)
+    exec "${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/bin/wl-intelligence" "${@:2}"
+    ;;
+esac
+
+
+case "${1:-}" in
+  runtime-index)
+    exec "$HOME/Wonderland/bin/wl-runtime-index" "${@:2}"
+    ;;
+esac
+
+
+# Runtime registry recovery drill route
+case "${1:-}" in
+  runtime-registry-drill)
+    exec "$HOME/Wonderland/bin/wl-verify-runtime-registry-recovery" "${@:2}"
+    ;;
+esac
+
+
+# Runtime registry recovery routes
+case "${1:-}" in
+  runtime-registry-snapshot)
+    exec "$HOME/Wonderland/bin/wl-runtime-registry-snapshot" "${@:2}"
+    ;;
+  runtime-registry-restore)
+    exec "$HOME/Wonderland/bin/wl-runtime-registry-restore" "${@:2}"
+    ;;
+esac
+
+
+# Runtime certification route
+case "${1:-}" in
+  runtime-certify)
+    exec "$HOME/Wonderland/bin/wl-runtime-certify" "${@:2}"
+    ;;
+esac
+
+
+# Runtime lifecycle route
+case "${1:-}" in
+  runtime-drill)
+    exec "$HOME/Wonderland/bin/wl-verify-runtime-lifecycle" "${@:2}"
+    ;;
+esac
+
+
+# Rootless runtime routes
+case "${1:-}" in
+  rootless-drill)
+    exec "$HOME/Wonderland/bin/wl-verify-rootless-recovery" "${@:2}"
+    ;;
+  rootless-recover)
+    exec "$HOME/Wonderland/bin/wl-rootless-recover" "${@:2}"
+    ;;
+esac
+
 set -euo pipefail
 
 # wl-veil route
@@ -578,8 +723,6 @@ case "$cmd" in
   help|-h|--help) wl_help ;;
   path) wl_path ;;
   version) wl_version ;;
-  status) wl_status ;;
-  doctor) wl_doctor ;;
   repair) wl_repair ;;
   logs) wl_logs ;;
 
@@ -587,6 +730,15 @@ case "$cmd" in
   storage) wl_storage "$@" ;;
   snapshot) wl_snapshot "$@" ;;
   governance) wl_governance "$@" ;;
+
+
+  start) exec "$WL_HOME/bin/wl-lifecycle" start ;;
+  stop) exec "$WL_HOME/bin/wl-lifecycle" stop ;;
+  restart) exec "$WL_HOME/bin/wl-lifecycle" restart ;;
+  sleep) exec "$WL_HOME/bin/wl-lifecycle" sleep ;;
+  wake) exec "$WL_HOME/bin/wl-lifecycle" wake ;;
+  status) exec "$WL_HOME/bin/wl-status" ;;
+  doctor) exec "$WL_HOME/bin/wl-doctor-lifecycle" ;;
   lifecycle) exec "$WL_HOME/bin/wl-lifecycle" "${@:2}" ;;
 
   universe) wl_universe "$@" ;;

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+SRC="$ROOT/vault/05-Registry/runtime/rootless-runtime.json"
+SNAP_DIR="$ROOT/vault/99-Archive/runtime-registry-snapshots/$STAMP"
+
+[[ -f "$SRC" ]] || { echo "FAIL missing runtime registry"; exit 1; }
+
+mkdir -p "$SNAP_DIR"
+cp -p "$SRC" "$SNAP_DIR/rootless-runtime.json"
+
+report="$(jq -r '.latest_report // empty' "$SRC")"
+if [[ -n "$report" && -f "$report" ]]; then
+  cp -p "$report" "$SNAP_DIR/$(basename "$report")"
+fi
+
+echo "PASS runtime registry snapshot"
+echo "SNAPSHOT=$SNAP_DIR"

@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+
+pass(){ printf "PASS %-20s %s\n" "$1" "${2:-}"; }
+warn(){ printf "WARN %-20s %s\n" "$1" "${2:-}"; }
+fail(){ printf "FAIL %-20s %s\n" "$1" "${2:-}"; }
+
+echo "Wonderland Status"
+echo "================="
+echo
+
+echo "Universe"
+if "$WL_HOME/bin/wl-universe" status >/tmp/wl-universe-status.$$ 2>&1; then
+  if grep -q "RESULT PASS" /tmp/wl-universe-status.$$; then pass "universe"; else fail "universe"; fi
+else
+  fail "universe"
+fi
+rm -f /tmp/wl-universe-status.$$
+
+echo
+echo "Lima"
+limactl list --format '{{.Name}} {{.Status}}' 2>/dev/null | awk '$1=="default" && $2=="Running"{found=1} END{exit found?0:1}' && pass "default" || fail "default"
+limactl list | grep -q '^wonderland-rootless[[:space:]].*Running' && pass "wonderland-rootless" || warn "wonderland-rootless"
+
+echo
+echo "Services"
+for svc in $("$WL_HOME/bin/wl-lifecycle-services" services); do
+  nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$svc" && pass "$svc" || fail "$svc"
+done
+
+echo
+echo "Storage"
+wl storage authority >/dev/null 2>&1 && pass "authority" "external optional in light mode" || fail "authority"
+
+echo
+echo "Governance"
+wl governance status >/dev/null 2>&1 && pass "governance" || fail "governance"
+
+echo
+echo "Doctor"
+wl doctor || true

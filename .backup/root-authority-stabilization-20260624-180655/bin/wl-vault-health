@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+VAULT="$ROOT/vault"
+
+echo "Wonderland Vault Health"
+echo "root: $VAULT"
+echo
+
+echo "Layers:"
+for layer in 00-Core 01-Templates 02-Policies 03-Runbooks 04-Schemas 99-Archive; do
+  if [[ -d "$VAULT/$layer" ]]; then
+    echo "OK      $layer"
+  else
+    echo "MISSING $layer"
+  fi
+done
+
+echo
+echo "Snapshots:"
+ls -1 "$VAULT/snapshots"/*.tar.gz 2>/dev/null | wc -l | awk '{print "count: "$1}'
+
+echo
+echo "Reports:"
+ls -1 "$VAULT/reports"/*.txt 2>/dev/null | wc -l | awk '{print "count: "$1}'
+
+echo
+echo "Verification:"
+"$ROOT/bin/wl" verify

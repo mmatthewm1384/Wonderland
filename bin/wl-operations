@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+
+case "${1:-status}" in
+  status|doctor)
+    test -d "$ROOT/vault/08-Operations"
+    test -d "$ROOT/vault/08-Operations/reports"
+    echo "PASS operations"
+    ;;
+  report)
+    ls -t "$ROOT/vault/08-Operations/reports" 2>/dev/null | head -20
+    ;;
+  *)
+    echo "Usage: wl operations [status|doctor|report]"
+    exit 2
+    ;;
+esac

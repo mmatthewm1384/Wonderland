@@ -19,8 +19,8 @@ fi
 
 echo "OK      nerdctl ps"
 
-if [[ -f "/Users/wonderland/Wonderland/vault/06-Services/runtime/runtime.json" ]]; then
-  python3 -m json.tool /Users/wonderland/Wonderland/vault/06-Services/runtime/runtime.json >/dev/null
+if [[ -f "${ROOT}/vault/06-Services/runtime/runtime.json" ]]; then
+  python3 -m json.tool ${ROOT}/vault/06-Services/runtime/runtime.json >/dev/null
   echo "OK      runtime.json"
 else
   echo "FAIL    runtime.json missing"

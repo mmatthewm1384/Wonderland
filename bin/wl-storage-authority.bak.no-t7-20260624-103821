@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+REGISTRY="$WL_ROOT/vault/07-Operations/platform/storage-authority.json"
+
+if [ -f "$REGISTRY" ]; then
+  echo "PASS storage authority"
+  exit 0
+fi
+
+echo "FAIL storage authority registry missing"
+echo "expected: $REGISTRY"
+exit 1

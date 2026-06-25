@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+
+[[ -f "$ROOT/lib/wl-authority.sh" ]] || {
+  echo "FAIL missing shell authority resolver"
+  exit 1
+}
+
+[[ -f "$ROOT/lib/wl_authority.py" ]] || {
+  echo "FAIL missing python authority resolver"
+  exit 1
+}
+
+"$ROOT/bin/wl-verify-paths" >/dev/null || {
+  "$ROOT/bin/wl-verify-paths"
+  exit 1
+}
+
+limactl list --format '{{.Name}} {{.Status}}' 2>/dev/null \
+  | grep -Eq '^wonderland-rootless[[:space:]]+Running$' || {
+    echo "FAIL wonderland-rootless not running"
+    exit 1
+  }
+
+for svc in wl-dns wl-nats wl-loki wl-prometheus wl-grafana; do
+  nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$svc" || {
+    echo "FAIL service not running: $svc"
+    exit 1
+  }
+done
+
+[[ -f "$ROOT/vault/05-Registry/certifications/wonderland-phase-3.json" ]] || {
+  echo "FAIL missing phase 3 certification"
+  exit 1
+}
+
+python3 -m json.tool "$ROOT/vault/05-Registry/certifications/wonderland-phase-3.json" >/dev/null || {
+  echo "FAIL invalid phase 3 certification JSON"
+  exit 1
+}
+
+echo "PASS phase 3 authority consolidated"

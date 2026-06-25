@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/Users/wonderland/Wonderland"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
 OUT="$ROOT/vault/05-Registry/commands.json"
 
 python3 - "$ROOT" "$OUT" <<'PY'

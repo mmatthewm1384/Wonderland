@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+REGISTRY="$ROOT/vault/05-Registry/runtime/rootless-runtime.json"
+
+[[ -f "$REGISTRY" ]] || {
+  echo "FAIL missing runtime registry"
+  exit 1
+}
+
+jq -e '
+  .id == "rootless-runtime" and
+  .authority == "wonderland-rootless" and
+  .legacy == "default" and
+  .state == "certified" and
+  (.latest_report | type == "string") and
+  (.certified_at | type == "string")
+' "$REGISTRY" >/dev/null || {
+  echo "FAIL invalid runtime registry"
+  exit 1
+}
+
+report="$(jq -r '.latest_report' "$REGISTRY")"
+
+[[ -f "$report" ]] || {
+  echo "FAIL missing latest runtime report: $report"
+  exit 1
+}
+
+echo "PASS runtime registry certified"

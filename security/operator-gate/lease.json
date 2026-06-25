@@ -1,0 +1,12 @@
+{
+  "expires_at": "2026-06-25T08:45:18.559099+00:00",
+  "issued_at": "2026-06-25T00:45:18.559099+00:00",
+  "nonce": "fbc42f2419301fd66a63ed13eddaae17",
+  "operator": "console-user",
+  "scope": [
+    "checkin",
+    "reset",
+    "panic"
+  ],
+  "signature": "07d3c7a63a5b183e25e6f16765a7158938027dd5ec9de4575c2157d87496eec7"
+}

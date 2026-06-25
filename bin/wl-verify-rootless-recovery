@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+REPORT_DIR="$ROOT/vault/08-Operations/reports"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+REPORT="$REPORT_DIR/rootless-recovery-drill-$STAMP.md"
+
+mkdir -p "$REPORT_DIR"
+
+{
+  echo "# rootless-recovery-drill"
+  echo
+  date
+  echo
+  echo "## pre-state"
+  limactl list
+  echo
+  echo "## stop rootless"
+  limactl stop wonderland-rootless --force || true
+  echo
+  echo "## recover rootless"
+  "$ROOT/bin/wl-rootless-recover"
+  echo
+  echo "## post-status"
+  "$ROOT/bin/wl-status"
+  echo
+  echo "## post-doctor"
+  "$ROOT/bin/wl-doctor"
+} | tee "$REPORT"
+
+echo
+echo "REPORT=$REPORT"

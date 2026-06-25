@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+source "$WL_HOME/lib/wl-lifecycle-lib.sh"
+
+wl_step "Wonderland Stop"
+
+wl_step "Stopping rootless services"
+for svc in $(wl_rootless_services); do
+  LIMA_INSTANCE=wonderland-rootless nerdctl stop "$svc" >/dev/null 2>&1 || true
+  wl_pass "rootless $svc" "stop attempted"
+done
+
+wl_step "Stopping wonderland-rootless"
+limactl stop wonderland-rootless >/dev/null 2>&1 || true
+wl_lima_running wonderland-rootless && wl_warn "wonderland-rootless" "still running" || wl_pass "wonderland-rootless" "stopped"
+
+wl_step "Stopping core services"
+for svc in $(wl_services | sort -r); do
+  nerdctl stop "$svc" >/dev/null 2>&1 || true
+  wl_container_running "$svc" && wl_warn "$svc" "still running" || wl_pass "$svc" "stopped"
+done
+
+wl_step "Syncing filesystem"
+sync
+wl_pass "filesystem" "synced"
+
+wl_step "Report"
+exec "$WL_HOME/bin/wl-lifecycle-report" stop

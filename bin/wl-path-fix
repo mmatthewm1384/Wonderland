@@ -26,8 +26,8 @@ if [[ -f "$ZSHRC" ]]; then
 # --- Wonderland Structural Path Strategy ---
 typeset -U path cdpath fpath manpath # Native Zsh feature to automatically prevent duplicate array values
 path=(
-  /Users/wonderland/Wonderland/bin
-  /Users/wonderland/Wonderland/tools/bin
+  ${ROOT}/bin
+  ${ROOT}/tools/bin
   /Users/wonderland/.grok/bin
   /Users/wonderland/.local/bin
   /opt/homebrew/bin

@@ -2,7 +2,8 @@
 set -euo pipefail
 VOLUME_NAME="Wonderland_Secret_Zone"
 RAM_DISK_SIZE_SECTORS=204800
-REGISTRY_TOKEN="/Users/wonderland/Wonderland/secrets/.vault_token"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+REGISTRY_TOKEN="$ROOT/secrets/.vault_token"
 up() {
     if [ -f "$REGISTRY_TOKEN" ]; then echo "[WARN] Active."; exit 0; fi
     echo "[INIT] Allocating memory blocks..."

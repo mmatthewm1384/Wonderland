@@ -1,0 +1,13 @@
+{
+  "id": "wl-matrix-atom-slam-service-v4",
+  "name": "wl-matrix-atom-slam",
+  "status": "active",
+  "version": 4,
+  "compose": "ephemeral/compose/matrix-atom-slam/compose.yml",
+  "verify": "wl services verify wl-matrix-atom-slam",
+  "recover": "wl services recover wl-matrix-atom-slam",
+  "rollback": "wl services rollback wl-matrix-atom-slam",
+  "dependencies": [],
+  "ports": [],
+  "volumes": []
+}

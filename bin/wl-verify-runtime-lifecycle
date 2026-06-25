@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+REPORT_DIR="$ROOT/vault/08-Operations/reports"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+REPORT="$REPORT_DIR/runtime-lifecycle-drill-$STAMP.md"
+
+mkdir -p "$REPORT_DIR"
+
+{
+  echo "# runtime-lifecycle-drill"
+  echo
+  date
+  echo
+  echo "## pre-state"
+  limactl list
+  echo
+  echo "## stop rootless first pass"
+  "$ROOT/bin/wl-stop" rootless
+  echo
+  echo "## stop rootless second pass"
+  "$ROOT/bin/wl-stop" rootless
+  echo
+  echo "## start"
+  "$ROOT/bin/wl-start"
+  echo
+  echo "## status"
+  "$ROOT/bin/wl-status"
+  echo
+  echo "## doctor"
+  "$ROOT/bin/wl-doctor"
+} | tee "$REPORT"
+
+echo
+echo "REPORT=$REPORT"

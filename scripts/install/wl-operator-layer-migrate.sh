@@ -143,7 +143,7 @@ data=json.load(open(sys.argv[1]))
 cmd=data.get("command","").strip()
 if not cmd:
 raise SystemExit("missing command")
-allowed=("$HOME/Wonderland/bin/wl ", "~/Wonderland/bin/wl ", "/Users/wonderland/Wonderland/bin/wl ")
+allowed=("$HOME/Wonderland/bin/wl ", "~/Wonderland/bin/wl ", "${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/bin/wl ")
 if not cmd.startswith(allowed):
 raise SystemExit(f"unsafe command: {cmd}")
 print(cmd)

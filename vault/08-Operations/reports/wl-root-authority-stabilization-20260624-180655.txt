@@ -1,0 +1,186 @@
+== Wonderland Root Authority Stabilization ==
+ROOT=/Users/wonderland/Wonderland
+BIN=/Users/wonderland/Wonderland/bin
+BACKUP_DIR=/Users/wonderland/Wonderland/.backup/root-authority-stabilization-20260624-180655
+
+Active files to patch: 88
+PATCH bin/wl-anon
+PATCH bin/wl-audit-report
+PATCH bin/wl-authority
+PATCH bin/wl-disposable
+PATCH bin/wl-dns
+PATCH bin/wl-doctor
+PATCH bin/wl-document-cleaner
+PATCH bin/wl-drift-check
+PATCH bin/wl-env-clean
+PATCH bin/wl-health
+PATCH bin/wl-health-report
+PATCH bin/wl-intel
+PATCH bin/wl-intent-plan
+PATCH bin/wl-intent-status
+PATCH bin/wl-legacy
+PATCH bin/wl-legacy-promote
+PATCH bin/wl-lifecycle-capture
+PATCH bin/wl-lifecycle-registry
+PATCH bin/wl-link-runtime
+PATCH bin/wl-matrix
+PATCH bin/wl-matrix-agitate
+PATCH bin/wl-matrix-agitate-iphone
+PATCH bin/wl-matrix-spin-city-iphone
+PATCH bin/wl-mode
+PATCH bin/wl-observability
+PATCH bin/wl-obsidian
+PATCH bin/wl-operations-index-reports
+PATCH bin/wl-operations-inventory
+PATCH bin/wl-ops-capture
+PATCH bin/wl-parse-anon-blueprint
+PATCH bin/wl-path-fix
+PATCH bin/wl-plan-execute
+PATCH bin/wl-plan-status
+PATCH bin/wl-promote
+PATCH bin/wl-recover
+PATCH bin/wl-recovery-drill
+PATCH bin/wl-registry-audit
+PATCH bin/wl-registry-integrity
+PATCH bin/wl-registry-refresh
+PATCH bin/wl-registry-refresh-commands
+PATCH bin/wl-registry-refresh-documents
+PATCH bin/wl-registry-refresh-intents
+PATCH bin/wl-registry-refresh-plans
+PATCH bin/wl-registry-refresh-services
+PATCH bin/wl-runtime-drift
+PATCH bin/wl-runtime-inventory
+PATCH bin/wl-runtime-promote-intent
+PATCH bin/wl-secrets
+PATCH bin/wl-service-certify
+PATCH bin/wl-service-health
+PATCH bin/wl-service-health-refresh
+PATCH bin/wl-services-discover-runtime
+PATCH bin/wl-services-graph
+PATCH bin/wl-services-recovery-order
+PATCH bin/wl-services-refresh
+PATCH bin/wl-services-status
+PATCH bin/wl-shell-repair
+PATCH bin/wl-state-capture
+PATCH bin/wl-vault
+PATCH bin/wl-vault-audit
+PATCH bin/wl-vault-capture-state
+PATCH bin/wl-vault-guard
+PATCH bin/wl-vault-health
+PATCH bin/wl-vault-lock
+PATCH bin/wl-vault-prune-snapshots
+PATCH bin/wl-vault-restore
+PATCH bin/wl-vault-snapshot
+PATCH bin/wl-vault-state
+PATCH bin/wl-vault-write
+PATCH bin/wl-verify-archive
+PATCH bin/wl-verify-completion
+PATCH bin/wl-verify-core
+PATCH bin/wl-verify-executions
+PATCH bin/wl-verify-governance
+PATCH bin/wl-verify-intelligence
+PATCH bin/wl-verify-intents
+PATCH bin/wl-verify-locks
+PATCH bin/wl-verify-operations
+PATCH bin/wl-verify-plans
+PATCH bin/wl-verify-policies
+PATCH bin/wl-verify-recovery-drill
+PATCH bin/wl-verify-registry
+PATCH bin/wl-verify-runtime
+PATCH bin/wl-verify-schemas
+PATCH bin/wl-verify-service-docs
+PATCH bin/wl-verify-services
+PATCH bin/wl-verify-templates
+PATCH bin/wl-verify-vault
+
+== Remaining active hardcoded paths ==
+
+== Syntax check ==
+PASS syntax bin/wl-anon
+PASS syntax bin/wl-audit-report
+PASS syntax bin/wl-authority
+PASS syntax bin/wl-disposable
+PASS syntax bin/wl-dns
+PASS syntax bin/wl-doctor
+PASS syntax bin/wl-document-cleaner
+PASS syntax bin/wl-drift-check
+PASS syntax bin/wl-env-clean
+PASS syntax bin/wl-health
+PASS syntax bin/wl-health-report
+PASS syntax bin/wl-intel
+PASS syntax bin/wl-intent-plan
+PASS syntax bin/wl-intent-status
+PASS syntax bin/wl-legacy
+PASS syntax bin/wl-legacy-promote
+PASS syntax bin/wl-lifecycle-capture
+PASS syntax bin/wl-lifecycle-registry
+PASS syntax bin/wl-link-runtime
+PASS syntax bin/wl-matrix
+PASS syntax bin/wl-matrix-agitate
+PASS syntax bin/wl-matrix-agitate-iphone
+PASS syntax bin/wl-matrix-spin-city-iphone
+PASS syntax bin/wl-mode
+PASS syntax bin/wl-observability
+PASS syntax bin/wl-obsidian
+PASS syntax bin/wl-operations-index-reports
+PASS syntax bin/wl-operations-inventory
+PASS syntax bin/wl-ops-capture
+PASS syntax bin/wl-parse-anon-blueprint
+PASS syntax bin/wl-path-fix
+PASS syntax bin/wl-plan-execute
+PASS syntax bin/wl-plan-status
+PASS syntax bin/wl-promote
+PASS syntax bin/wl-recover
+PASS syntax bin/wl-recovery-drill
+PASS syntax bin/wl-registry-audit
+PASS syntax bin/wl-registry-integrity
+PASS syntax bin/wl-registry-refresh
+PASS syntax bin/wl-registry-refresh-commands
+PASS syntax bin/wl-registry-refresh-documents
+PASS syntax bin/wl-registry-refresh-intents
+PASS syntax bin/wl-registry-refresh-plans
+PASS syntax bin/wl-registry-refresh-services
+PASS syntax bin/wl-runtime-drift
+PASS syntax bin/wl-runtime-inventory
+PASS syntax bin/wl-runtime-promote-intent
+PASS syntax bin/wl-secrets
+PASS syntax bin/wl-service-certify
+PASS syntax bin/wl-service-health
+PASS syntax bin/wl-service-health-refresh
+PASS syntax bin/wl-services-discover-runtime
+PASS syntax bin/wl-services-graph
+PASS syntax bin/wl-services-recovery-order
+PASS syntax bin/wl-services-refresh
+PASS syntax bin/wl-services-status
+PASS syntax bin/wl-state-capture
+PASS syntax bin/wl-vault
+PASS syntax bin/wl-vault-audit
+PASS syntax bin/wl-vault-capture-state
+PASS syntax bin/wl-vault-guard
+PASS syntax bin/wl-vault-health
+PASS syntax bin/wl-vault-lock
+PASS syntax bin/wl-vault-prune-snapshots
+PASS syntax bin/wl-vault-restore
+PASS syntax bin/wl-vault-snapshot
+PASS syntax bin/wl-vault-state
+PASS syntax bin/wl-vault-write
+PASS syntax bin/wl-verify-archive
+PASS syntax bin/wl-verify-completion
+PASS syntax bin/wl-verify-core
+PASS syntax bin/wl-verify-executions
+PASS syntax bin/wl-verify-governance
+PASS syntax bin/wl-verify-intelligence
+PASS syntax bin/wl-verify-intents
+PASS syntax bin/wl-verify-locks
+PASS syntax bin/wl-verify-operations
+PASS syntax bin/wl-verify-plans
+PASS syntax bin/wl-verify-policies
+PASS syntax bin/wl-verify-recovery-drill
+PASS syntax bin/wl-verify-registry
+PASS syntax bin/wl-verify-runtime
+PASS syntax bin/wl-verify-schemas
+PASS syntax bin/wl-verify-service-docs
+PASS syntax bin/wl-verify-services
+PASS syntax bin/wl-verify-templates
+PASS syntax bin/wl-verify-vault
+

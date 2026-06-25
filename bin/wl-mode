@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MODE_FILE="/Users/wonderland/Wonderland/vault/07-Operations/platform/runtime-mode.json"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+MODE_FILE="$ROOT/vault/07-Operations/platform/runtime-mode.json"
 
 case "${1:-status}" in
   full|light)

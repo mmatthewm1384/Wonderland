@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+REPORT_DIR="$ROOT/vault/08-Operations/reports"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+REPORT="$REPORT_DIR/rootless-services-reconcile-$STAMP.md"
+
+mkdir -p "$REPORT_DIR"
+
+log(){ echo "$*" | tee -a "$REPORT"; }
+
+limactl start wonderland-rootless >/dev/null 2>&1 || true
+
+log "# rootless-services-reconcile"
+log
+log "ROOT=$ROOT"
+log
+log "## lima"
+limactl list | tee -a "$REPORT" || true
+
+log
+log "## current containers"
+nerdctl ps -a --format '{{.Names}} {{.Status}}' | tee -a "$REPORT" || true
+
+need_service() {
+  local name="$1"
+  nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$name"
+}
+
+start_compose_if_exists() {
+  local dir="$1"
+  [[ -d "$dir" ]] || return 1
+
+  if [[ -f "$dir/compose.yml" ]]; then
+    (cd "$dir" && nerdctl compose -f compose.yml up -d)
+    return 0
+  fi
+
+  if [[ -f "$dir/docker-compose.yml" ]]; then
+    (cd "$dir" && nerdctl compose -f docker-compose.yml up -d)
+    return 0
+  fi
+
+  return 1
+}
+
+log
+log "## reconcile compose services"
+
+for dir in \
+  "$ROOT/ephemeral/compose" \
+  "$ROOT/runtime/compose" \
+  "$ROOT/services" \
+  "$ROOT/ephemeral/services" \
+  "$ROOT/config/compose"
+do
+  [[ -d "$dir" ]] || continue
+  find "$dir" -maxdepth 3 \( -name compose.yml -o -name docker-compose.yml \) -print \
+    | while read -r compose; do
+        cdir="$(dirname "$compose")"
+        log "COMPOSE $cdir"
+        (cd "$cdir" && nerdctl compose -f "$(basename "$compose")" up -d) \
+          | tee -a "$REPORT" || true
+      done
+done
+
+log
+log "## post containers"
+nerdctl ps -a --format '{{.Names}} {{.Status}}' | tee -a "$REPORT" || true
+
+log
+log "## required service status"
+
+fail=0
+for svc in wl-dns wl-nats wl-loki wl-prometheus wl-grafana; do
+  if need_service "$svc"; then
+    log "PASS $svc"
+  else
+    log "FAIL $svc"
+    fail=1
+  fi
+done
+
+log
+log "REPORT=$REPORT"
+
+exit "$fail"

@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+FAIL=0
+
+mode() {
+  python3 - <<'PY2'
+import json
+from pathlib import Path
+import os
+p = Path(os.environ.get("WL_AUTHORITY_ROOT") or os.environ.get("WL_HOME") or str(Path.home() / "Wonderland")) / "vault/07-Operations/platform/runtime-mode.json"
+print(json.loads(p.read_text()).get("mode", "full"))
+PY2
+}
+
+MODE="$(mode)"
+
+
+check() {
+  local name="$1"
+  shift
+
+  printf "%-24s" "$name"
+
+  if "$@" >/tmp/wl-doctor-check.log 2>&1; then
+    echo "PASS"
+  else
+    echo "FAIL"
+    cat /tmp/wl-doctor-check.log | sed 's/^/  /'
+    FAIL=1
+  fi
+}
+
+echo
+echo "Wonderland Doctor"
+echo "root: $ROOT"
+echo
+
+if [[ "$MODE" == "light" ]]; then check "vault" "$ROOT/bin/wl" governance report; else check "vault" "$ROOT/bin/wl" verify; fi
+check "registry integrity" "$ROOT/bin/wl" registry integrity
+if [[ "$MODE" == "light" ]]; then echo "runtime drift           SKIP light mode"; else check "runtime drift" "$ROOT/bin/wl" runtime drift; fi
+if [[ "$MODE" == "light" ]]; then echo "anon route              SKIP light mode"; else check "anon route" "$ROOT/bin/wl" anon doctor; fi
+check "operations" "$ROOT/bin/wl" operations verify
+check "intelligence" "$ROOT/bin/wl" intelligence verify
+check "governance" "$ROOT/bin/wl" governance report
+check "storage authority" "$ROOT/bin/wl" storage doctor
+if [[ "$MODE" == "light" ]]; then echo "authority backup        SKIP light mode"; else check "authority backup" "$ROOT/bin/wl" authority doctor; fi
+if [[ "$MODE" == "light" ]]; then echo "authority restore       SKIP light mode"; else check "authority restore" "$ROOT/bin/wl" authority restore-drill; fi
+if [[ "$MODE" == "light" ]]; then echo "recovery drill          SKIP light mode"; else check "recovery drill" "$ROOT/bin/wl-verify-recovery-drill"; fi
+
+echo
+
+if [[ "$FAIL" -eq 0 ]]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+  exit 1
+fi

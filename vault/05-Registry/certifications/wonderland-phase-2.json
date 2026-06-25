@@ -1,0 +1,20 @@
+{
+  "id": "wonderland-phase-2",
+  "name": "Wonderland Phase 2 Rootless Runtime Authority",
+  "state": "certified",
+  "authority_root": "/Users/wonderland/Wonderland",
+  "primary_runtime": "wonderland-rootless",
+  "legacy_runtime": "default",
+  "legacy_runtime_required": false,
+  "certified_at": "2026-06-25T16:48:33+00:00",
+  "latest_report": "/Users/wonderland/Wonderland/vault/08-Operations/reports/wonderland-phase-2-completion-20260625-094321.md",
+  "checks": {
+    "doctor": "PASS",
+    "status": "PASS",
+    "rootless": "PASS",
+    "services": "PASS",
+    "storage": "PASS",
+    "governance": "PASS",
+    "registry": "PASS"
+  }
+}

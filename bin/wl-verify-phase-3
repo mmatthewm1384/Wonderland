@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+CERT="$ROOT/vault/05-Registry/certifications/wonderland-phase-3.json"
+
+[[ -f "$ROOT/lib/wl-authority.sh" ]] || {
+  echo "FAIL missing shell authority resolver"
+  exit 1
+}
+
+[[ -f "$ROOT/lib/wl_authority.py" ]] || {
+  echo "FAIL missing python authority resolver"
+  exit 1
+}
+
+"$ROOT/bin/wl-verify-paths" >/dev/null || {
+  "$ROOT/bin/wl-verify-paths"
+  exit 1
+}
+
+limactl list --format '{{.Name}} {{.Status}}' 2>/dev/null \
+  | grep -Eq '^wonderland-rootless[[:space:]]+Running$' || {
+    echo "FAIL wonderland-rootless not running"
+    exit 1
+  }
+
+for svc in wl-dns wl-nats wl-loki wl-prometheus wl-grafana; do
+  nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$svc" || {
+    echo "FAIL service not running: $svc"
+    exit 1
+  }
+done
+
+[[ -f "$CERT" ]] || {
+  echo "FAIL missing phase 3 certification"
+  exit 1
+}
+
+python3 - "$CERT" "$ROOT" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+cert = Path(sys.argv[1])
+root = Path(sys.argv[2])
+
+try:
+    doc = json.loads(cert.read_text())
+except Exception as e:
+    print(f"FAIL invalid phase 3 certification JSON: {e}")
+    raise SystemExit(1)
+
+required = {
+    "id": "wonderland-phase-3",
+    "state": "certified",
+    "authority_root": str(root),
+}
+
+for key, expected in required.items():
+    if doc.get(key) != expected:
+        print(f"FAIL phase 3 certification field {key}: expected {expected!r}, got {doc.get(key)!r}")
+        raise SystemExit(1)
+
+checks = doc.get("checks")
+if not isinstance(checks, dict):
+    print("FAIL phase 3 certification missing checks object")
+    raise SystemExit(1)
+
+for key in ("phase3", "paths", "doctor", "status"):
+    if checks.get(key) != "PASS":
+        print(f"FAIL phase 3 certification check {key}: expected PASS, got {checks.get(key)!r}")
+        raise SystemExit(1)
+
+for key in ("shell_resolver", "python_resolver", "latest_report"):
+    value = doc.get(key)
+    if not isinstance(value, str) or not value:
+        print(f"FAIL phase 3 certification missing {key}")
+        raise SystemExit(1)
+
+print("PASS phase 3 certification content")
+PY
+
+echo "PASS phase 3 authority consolidated"

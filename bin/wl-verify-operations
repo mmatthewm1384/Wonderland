@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 set -euo pipefail
-exec /Users/wonderland/Wonderland/vault/07-Operations/checks/verify-operations.sh
+exec ${ROOT}/vault/07-Operations/checks/verify-operations.sh

@@ -5,7 +5,7 @@
 ## 1. Vault
 
 * System: Wonderland
-* Path: `/Users/wonderland/Wonderland/intelligence/obsidian/00-Core/`
+* Path: `$WL_AUTHORITY_ROOT/intelligence/obsidian/00-Core/`
 * Owner: Matthew Mahaney
 * Status: Ready
 

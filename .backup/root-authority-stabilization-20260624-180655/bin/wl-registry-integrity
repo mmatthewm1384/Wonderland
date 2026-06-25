@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+VAULT="$ROOT/vault"
+REG="$VAULT/05-Registry"
+OUT="$VAULT/07-Operations/drift/registry-integrity.json"
+
+mkdir -p "$(dirname "$OUT")"
+
+python3 - "$ROOT" "$VAULT" "$REG" "$OUT" <<'PY'
+import json
+import pathlib
+import sys
+import datetime
+
+root = pathlib.Path(sys.argv[1])
+vault = pathlib.Path(sys.argv[2])
+reg = pathlib.Path(sys.argv[3])
+out = pathlib.Path(sys.argv[4])
+
+failures = []
+checks = []
+
+def resolve_path(rel):
+    rel = str(rel)
+
+    if rel.startswith("/"):
+        return pathlib.Path(rel)
+
+    if rel.startswith("vault/"):
+        return root / rel
+
+    # Vault-layer paths like 00-Core/README.md, 06-Services/...
+    if rel.split("/", 1)[0].endswith("-Core") or rel[:2].isdigit() or rel.startswith("99-Archive"):
+        return vault / rel
+
+    # Registry-local paths like intents/foo.intent.json
+    return reg / rel
+
+def check_file(rel):
+    p = resolve_path(rel)
+    ok = p.exists()
+    checks.append({
+        "path": rel,
+        "resolved": str(p),
+        "exists": ok
+    })
+    if not ok:
+        failures.append(f"missing referenced file: {rel} -> {p}")
+
+for name in ["documents", "services", "intents", "plans", "assets"]:
+    p = reg / f"{name}.json"
+    if not p.exists():
+        failures.append(f"missing registry: {p}")
+        continue
+
+    data = json.loads(p.read_text())
+    items = data.get(name, [])
+
+    for item in items:
+        rel = item.get("path")
+        if rel:
+            check_file(rel)
+
+payload = {
+    "id": "registry-integrity-v4",
+    "version": 4,
+    "timestamp": datetime.datetime.now().isoformat(timespec="seconds"),
+    "checks": checks,
+    "failures": failures
+}
+
+out.write_text(json.dumps(payload, indent=2) + "\n")
+
+print(f"registry integrity: {out}")
+print(f"checks: {len(checks)}")
+print(f"failures: {len(failures)}")
+
+if failures:
+    for failure in failures:
+        print(f"FAIL {failure}")
+    sys.exit(1)
+PY

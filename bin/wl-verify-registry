@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REGISTRY="/Users/wonderland/Wonderland/vault/05-Registry"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+REGISTRY="$ROOT/vault/05-Registry"
 
 if [[ ! -d "$REGISTRY" ]]; then
   echo "FAIL registry vault not found: $REGISTRY"

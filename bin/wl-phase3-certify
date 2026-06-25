@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+CERT_DIR="$ROOT/vault/05-Registry/certifications"
+REPORT_DIR="$ROOT/vault/08-Operations/reports"
+CERT="$CERT_DIR/wonderland-phase-3.json"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+REPORT="$REPORT_DIR/wonderland-phase-3-completion-$STAMP.md"
+
+mkdir -p "$CERT_DIR" "$REPORT_DIR"
+
+{
+  echo "# wonderland-phase-3-completion"
+  echo
+  date
+  echo
+  echo "## phase 3 verify"
+  "$ROOT/bin/wl-verify-phase-3"
+  echo
+  echo "## paths"
+  "$ROOT/bin/wl-verify-paths"
+  echo
+  echo "## doctor"
+  "$ROOT/bin/wl-doctor"
+  echo
+  echo "## status"
+  "$ROOT/bin/wl-status"
+} > "$REPORT"
+
+python3 - "$ROOT" "$CERT" "$REPORT" <<'PY'
+import json
+import sys
+from pathlib import Path
+from datetime import datetime, timezone
+
+root = Path(sys.argv[1])
+cert = Path(sys.argv[2])
+report = Path(sys.argv[3])
+
+doc = {
+    "id": "wonderland-phase-3",
+    "name": "Wonderland Phase 3 Authority Consolidation",
+    "state": "certified",
+    "authority_root": str(root),
+    "authority_resolution": [
+        "WL_AUTHORITY_ROOT",
+        "WL_HOME",
+        "$HOME/Wonderland"
+    ],
+    "shell_resolver": str(root / "lib/wl-authority.sh"),
+    "python_resolver": str(root / "lib/wl_authority.py"),
+    "certified_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+    "latest_report": str(report),
+    "checks": {
+        "phase3": "PASS",
+        "paths": "PASS",
+        "doctor": "PASS",
+        "status": "PASS"
+    }
+}
+
+cert.write_text(json.dumps(doc, indent=2) + "\n")
+print("PASS phase 3 certified")
+print(f"CERT={cert}")
+print(f"REPORT={report}")
+PY

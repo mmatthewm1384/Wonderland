@@ -1,24 +1,24 @@
 {
   "apps": {
     "wl-agitate": {
-      "intensity": 0.6,
-      "mode": "normal",
-      "trail_decay": "normal"
+      "intensity": 2.0,
+      "mode": "hybrid-max-jitter",
+      "trail_decay": "slow"
     },
     "wl-matrix": {
-      "living_ratio": 0.35,
-      "particles": 1200,
-      "slam_force": 0.7,
-      "waste_decay": "normal"
+      "living_ratio": 0.9,
+      "particles": 10000,
+      "slam_force": 2.0,
+      "waste_decay": "slow"
     },
     "wl-spin-city": {
-      "easing": "normal",
-      "jitter": 0.35,
-      "rings": 3,
-      "rotation_speed": 1.0
+      "easing": "extreme",
+      "jitter": 2.0,
+      "rings": 5,
+      "rotation_speed": 2.0
     }
   },
-  "chaos_active": false,
-  "updated_at": "2026-06-23T16:56:15.635227+00:00",
+  "chaos_active": true,
+  "updated_at": "2026-06-25T17:05:04.100966+00:00",
   "version": "1.0"
 }

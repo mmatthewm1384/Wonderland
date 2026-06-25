@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+REPORT_DIR="$ROOT/vault/08-Operations/reports"
+INDEX="$ROOT/vault/05-Registry/runtime/runtime-certification-index.json"
+
+mkdir -p "$(dirname "$INDEX")"
+
+latest() {
+  ls -t "$REPORT_DIR"/"$1" 2>/dev/null | head -1 || true
+}
+
+cat > "$INDEX" <<JSON
+{
+  "id": "runtime-certification-index",
+  "generated_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "rootless_runtime": "$(latest 'rootless-runtime-promotion-*.md')",
+  "runtime_lifecycle": "$(latest 'runtime-lifecycle-drill-*.md')",
+  "runtime_registry_recovery": "$(latest 'runtime-registry-recovery-drill-*.md')",
+  "rootless_recovery": "$(latest 'rootless-recovery-drill-*.md')",
+  "registry": "$ROOT/vault/05-Registry/runtime/rootless-runtime.json"
+}
+JSON
+
+jq . "$INDEX"

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+target="${1:-rootless}"
+
+case "$target" in
+  rootless|wonderland-rootless)
+    echo "== Stopping Wonderland Rootless Runtime =="
+    limactl stop wonderland-rootless
+    ;;
+
+  default|legacy)
+    echo "== Stopping Legacy Default Runtime =="
+    limactl stop default
+    ;;
+
+  all)
+    echo "== Stopping Wonderland Runtimes =="
+    limactl stop wonderland-rootless || true
+    limactl stop default || true
+    ;;
+
+  *)
+    echo "Usage: wl-stop [rootless|default|legacy|all]"
+    exit 2
+    ;;
+esac

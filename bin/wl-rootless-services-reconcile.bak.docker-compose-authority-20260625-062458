@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+REPORT_DIR="$ROOT/vault/08-Operations/reports"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+REPORT="$REPORT_DIR/rootless-services-reconcile-$STAMP.md"
+
+mkdir -p "$REPORT_DIR"
+
+log(){ echo "$*" | tee -a "$REPORT"; }
+
+required=(
+  wl-dns
+  wl-nats
+  wl-loki
+  wl-prometheus
+  wl-grafana
+)
+
+core_compose_candidates=(
+  "$ROOT/ephemeral/compose/core/compose.yml"
+  "$ROOT/ephemeral/compose/runtime/compose.yml"
+  "$ROOT/ephemeral/compose/observability/compose.yml"
+  "$ROOT/runtime/compose/core/compose.yml"
+  "$ROOT/runtime/compose/observability/compose.yml"
+  "$ROOT/config/compose/core/compose.yml"
+  "$ROOT/config/compose/observability/compose.yml"
+)
+
+is_running() {
+  local name="$1"
+  nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$name"
+}
+
+exists_container() {
+  local name="$1"
+  nerdctl ps -a --format '{{.Names}}' 2>/dev/null | grep -qx "$name"
+}
+
+start_existing() {
+  local name="$1"
+  if exists_container "$name"; then
+    log "START existing $name"
+    nerdctl start "$name" | tee -a "$REPORT" || true
+  fi
+}
+
+compose_up() {
+  local compose="$1"
+  [[ -f "$compose" ]] || return 0
+  log "COMPOSE core $(dirname "$compose")"
+  (
+    cd "$(dirname "$compose")"
+    nerdctl compose -f "$(basename "$compose")" up -d
+  ) | tee -a "$REPORT" || true
+}
+
+log "# rootless-services-reconcile"
+log
+log "ROOT=$ROOT"
+
+log
+log "## ensure lima rootless"
+limactl start wonderland-rootless >/dev/null 2>&1 || true
+limactl list | tee -a "$REPORT" || true
+
+log
+log "## start existing certified containers"
+for svc in "${required[@]}"; do
+  if is_running "$svc"; then
+    log "PASS already running $svc"
+  else
+    start_existing "$svc"
+  fi
+done
+
+log
+log "## compose core candidates"
+for compose in "${core_compose_candidates[@]}"; do
+  compose_up "$compose"
+done
+
+log
+log "## post containers"
+nerdctl ps -a --format '{{.Names}} {{.Status}}' | tee -a "$REPORT" || true
+
+log
+log "## required service status"
+fail=0
+for svc in "${required[@]}"; do
+  if is_running "$svc"; then
+    log "PASS $svc"
+  else
+    log "FAIL $svc"
+    fail=1
+  fi
+done
+
+log
+log "REPORT=$REPORT"
+exit "$fail"

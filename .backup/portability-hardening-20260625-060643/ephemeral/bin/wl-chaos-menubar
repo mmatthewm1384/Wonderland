@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec "/Users/wonderland/Wonderland/apps/macos/wl-chaos-menubar/build/wl-chaos-menubar"

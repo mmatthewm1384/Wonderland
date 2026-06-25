@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ok(){ echo "PASS $*"; }
+warn(){ echo "WARN $*"; }
+step(){ echo; echo "== $* =="; }
+
+step "Wonderland Start"
+
+step "Starting Lima default"
+limactl start default >/dev/null 2>&1 || true
+limactl list | grep -q '^default[[:space:]].*Running' && ok "default running" || warn "default not running"
+
+step "Starting core services"
+for svc in wl-grafana wl-prometheus wl-loki wl-nats wl-dns; do
+  nerdctl start "$svc" >/dev/null 2>&1 || true
+  if nerdctl ps --format '{{.Names}}' | grep -qx "$svc"; then
+    ok "$svc up"
+  else
+    warn "$svc not up"
+  fi
+done
+
+step "Starting wonderland-rootless"
+limactl start wonderland-rootless >/dev/null 2>&1 || true
+limactl list | grep -q '^wonderland-rootless[[:space:]].*Running' && ok "wonderland-rootless running" || warn "wonderland-rootless not running"
+
+step "Ensuring rootless Loki config"
+mkdir -p "$HOME/Wonderland/runtime/wl-loki/config"
+
+if [ ! -f "$HOME/Wonderland/runtime/wl-loki/config/local-config.yaml" ]; then
+cat > "$HOME/Wonderland/runtime/wl-loki/config/local-config.yaml" <<'YAML'
+auth_enabled: false
+server:
+  http_listen_port: 3100
+  grpc_listen_port: 9096
+common:
+  path_prefix: /loki
+  storage:
+    filesystem:
+      chunks_directory: /loki/chunks
+      rules_directory: /loki/rules
+  replication_factor: 1
+  ring:
+    kvstore:
+      store: inmemory
+schema_config:
+  configs:
+    - from: 2024-01-01
+      store: tsdb
+      object_store: filesystem
+      schema: v13
+      index:
+        prefix: index_
+        period: 24h
+limits_config:
+  allow_structured_metadata: false
+  retention_period: 168h
+compactor:
+  working_directory: /loki/compactor
+  retention_enabled: true
+  delete_request_store: filesystem
+YAML
+  ok "rootless Loki config created"
+else
+  ok "rootless Loki config exists"
+fi
+
+step "Starting rootless Loki"
+LIMA_INSTANCE=wonderland-rootless nerdctl start wl-loki >/dev/null 2>&1 || true
+LIMA_INSTANCE=wonderland-rootless nerdctl ps --format '{{.Names}}' | grep -qx wl-loki \
+  && ok "rootless wl-loki up" \
+  || warn "rootless wl-loki not up"
+
+step "Repairing authority and governance"
+wl storage authority || true
+echo "INFO running governance repair"
+wl governance repair || true
+
+echo "INFO running governance doctor"
+wl governance status || true
+
+step "Universe verification"
+wl universe status

@@ -1,0 +1,16 @@
+{
+  "id": "wl-sandbox-service-v4",
+  "name": "wl-sandbox",
+  "status": "active",
+  "version": 4,
+  "compose": "ephemeral/services/wl-sandbox/compose.yml",
+  "verify": "wl services verify wl-sandbox",
+  "recover": "wl services recover wl-sandbox",
+  "rollback": "wl services rollback wl-sandbox",
+  "dependencies": [],
+  "ports": [],
+  "volumes": [
+    "data",
+    "runtime"
+  ]
+}

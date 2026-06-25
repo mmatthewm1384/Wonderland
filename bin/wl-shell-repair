@@ -29,8 +29,8 @@ path_append_payload = """
 # Using native Zsh array parameters to guarantee absolute unique values
 typeset -U path cdpath fpath manpath
 path=(
-  /Users/wonderland/Wonderland/bin
-  /Users/wonderland/Wonderland/tools/bin
+  ${ROOT}/bin
+  ${ROOT}/tools/bin
   /Users/wonderland/.grok/bin
   /Users/wonderland/.local/bin
   /opt/homebrew/bin

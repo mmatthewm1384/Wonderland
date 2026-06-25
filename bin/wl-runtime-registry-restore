@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+SNAP="${1:-}"
+DEST="$ROOT/vault/05-Registry/runtime/rootless-runtime.json"
+
+if [[ -z "$SNAP" ]]; then
+  SNAP="$(ls -td "$ROOT"/vault/99-Archive/runtime-registry-snapshots/* 2>/dev/null | head -1 || true)"
+fi
+
+[[ -n "$SNAP" && -d "$SNAP" ]] || {
+  echo "FAIL no snapshot found"
+  exit 1
+}
+
+[[ -f "$SNAP/rootless-runtime.json" ]] || {
+  echo "FAIL snapshot missing rootless-runtime.json"
+  exit 1
+}
+
+mkdir -p "$(dirname "$DEST")"
+cp -p "$SNAP/rootless-runtime.json" "$DEST"
+
+echo "PASS runtime registry restored"
+echo "SNAPSHOT=$SNAP"

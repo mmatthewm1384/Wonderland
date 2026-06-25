@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/Users/wonderland/Wonderland"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
 GRAPH="$ROOT/vault/06-Services/graphs/service-graph.json"
 OUT="$ROOT/vault/06-Services/recovery/service-recovery-order.json"
 

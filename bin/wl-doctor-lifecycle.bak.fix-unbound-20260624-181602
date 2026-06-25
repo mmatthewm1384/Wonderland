@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+source "$WL_HOME/lib/wl-lifecycle-lib.sh"
+
+score=0
+total=100
+
+check() {
+  local name="$1"
+  local points="$2"
+  shift 2
+
+  if "$@" >/dev/null 2>&1; then
+    wl_pass "$name" "+$points"
+    score=$((score + points))
+  else
+    wl_fail "$name" "+0"
+  fi
+}
+
+echo "Wonderland Doctor"
+echo
+
+check "storage"        10 wl storage authority
+check "governance"     10 wl governance status
+check "universe"       10 bash -c "wl universe status | grep -q 'RESULT PASS'"
+check "lima-default"   10 bash -c "limactl list --format '{{.Name}} {{.Status}}' 2>/dev/null | awk '$1==\"default\" && $2==\"Running\"{found=1} END{exit found?0:1}'"
+check "rootless"       10 bash -c "limactl list | grep -q '^wonderland-rootless[[:space:]].*Running'"
+check "dns"            10 bash -c "dig @127.0.0.1 -p 1053 grafana.wl >/dev/null 2>&1"
+check "nats"           10 bash -c "curl -fsS http://127.0.0.1:8222/varz >/dev/null"
+check "loki"           10 bash -c "curl -fsS http://127.0.0.1:3100/ready >/dev/null"
+check "prometheus"     10 bash -c "curl -fsS http://127.0.0.1:9090/-/healthy >/dev/null"
+check "grafana"        10 bash -c "curl -fsS http://127.0.0.1:3000/api/health >/dev/null"
+
+echo
+echo "Health Score: $score/$total"
+
+if [ "$score" -eq "$total" ]; then
+  echo "RESULT PASS"
+  exit 0
+fi
+
+if wl universe status | grep -q 'RESULT PASS'; then
+  echo "RESULT WARN"
+  echo "INFO universe is PASS but one or more endpoint checks are unavailable"
+  exit 0
+fi
+
+echo "RESULT FAIL"
+exit 1

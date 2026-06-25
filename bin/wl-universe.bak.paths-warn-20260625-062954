@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+
+pass(){ echo "PASS $*"; }
+fail(){ echo "FAIL $*"; }
+warn(){ echo "WARN $*"; }
+
+container_running() {
+  local name="$1"
+  nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$name"
+}
+
+lima_running() {
+  local name="$1"
+  limactl list --format '{{.Name}} {{.Status}}' 2>/dev/null \
+    | grep -Eq "^${name}[[:space:]]+Running$"
+}
+
+cmd="${1:-status}"
+
+case "$cmd" in
+  status|doctor|report)
+    echo "Wonderland Universe Status"
+    echo
+    echo "Root:  $ROOT"
+    echo "Mode:  phase-2-rootless-primary"
+    echo
+
+    result=0
+
+    echo "Authority"
+    [[ -d "$ROOT/vault" ]] && pass vault || { fail vault; result=1; }
+    [[ -d "$ROOT/vault/09-Governance" ]] && pass governance || { fail governance; result=1; }
+
+    echo
+    echo "Runtime"
+    lima_running wonderland-rootless && pass "wonderland-rootless primary" || { fail "wonderland-rootless primary"; result=1; }
+    lima_running default && pass "default legacy" || warn "default legacy unavailable"
+
+    echo
+    echo "Services"
+    for svc in wl-dns wl-nats wl-loki wl-prometheus wl-grafana; do
+      container_running "$svc" && pass "$svc" || { fail "$svc"; result=1; }
+    done
+
+    echo
+    echo "Governance"
+    if [[ -x "$ROOT/bin/wl-verify-paths" ]]; then
+      "$ROOT/bin/wl-verify-paths" >/dev/null 2>&1 && pass paths || { fail paths; result=1; }
+    else
+      warn "path verifier missing"
+    fi
+
+    if [[ -x "$ROOT/bin/wl-verify-runtime-registry" ]]; then
+      "$ROOT/bin/wl-verify-runtime-registry" >/dev/null 2>&1 && pass runtime-registry || warn "runtime-registry uncertified"
+    else
+      warn "runtime registry verifier missing"
+    fi
+
+    echo
+    if [[ "$result" -eq 0 ]]; then
+      echo "RESULT PASS"
+    else
+      echo "RESULT FAIL"
+    fi
+    exit "$result"
+    ;;
+
+  *)
+    echo "Usage: wl universe [status|doctor|report]"
+    exit 2
+    ;;
+esac

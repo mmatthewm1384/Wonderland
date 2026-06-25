@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+COMPOSE="$ROOT/docker/compose.yml"
+REPORT_DIR="$ROOT/vault/08-Operations/reports"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+REPORT="$REPORT_DIR/rootless-services-reconcile-$STAMP.md"
+
+mkdir -p "$REPORT_DIR"
+
+log(){ echo "$*" | tee -a "$REPORT"; }
+
+required=(
+  wl-dns
+  wl-nats
+  wl-loki
+  wl-prometheus
+  wl-grafana
+)
+
+is_running() {
+  local name="$1"
+  nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$name"
+}
+
+log "# rootless-services-reconcile"
+log
+log "ROOT=$ROOT"
+log "COMPOSE=$COMPOSE"
+
+log
+log "## lima"
+limactl start wonderland-rootless >/dev/null 2>&1 || true
+limactl list | tee -a "$REPORT" || true
+
+log
+log "## compose authority"
+if [[ -f "$COMPOSE" ]]; then
+  (
+    cd "$(dirname "$COMPOSE")"
+    nerdctl compose -f "$(basename "$COMPOSE")" up -d wl-dns wl-nats wl-loki wl-prometheus wl-grafana
+  ) | tee -a "$REPORT" || true
+else
+  log "WARN missing compose authority: $COMPOSE"
+fi
+
+log
+log "## post containers"
+nerdctl ps -a --format '{{.Names}} {{.Image}} {{.Status}}' | tee -a "$REPORT" || true
+
+log
+log "## required service status"
+fail=0
+for svc in "${required[@]}"; do
+  if is_running "$svc"; then
+    log "PASS $svc"
+  else
+    log "FAIL $svc"
+    fail=1
+  fi
+done
+
+log
+log "REPORT=$REPORT"
+exit "$fail"

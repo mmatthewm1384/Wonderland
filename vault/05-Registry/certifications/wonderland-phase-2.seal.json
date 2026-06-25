@@ -1,0 +1,12 @@
+{
+  "id": "wonderland-phase-2-seal",
+  "state": "sealed",
+  "sealed_at": "2026-06-25T16:50:11+00:00",
+  "certification": "/Users/wonderland/Wonderland/vault/05-Registry/certifications/wonderland-phase-2.json",
+  "certification_sha256": "1e06fba8a95ae5cd1831a9b1b551274030758f8fe1012530104d6b284f3be0db",
+  "final_report": "/Users/wonderland/Wonderland/vault/08-Operations/reports/wonderland-phase-2-final-certification-20260625-094914.md",
+  "primary_runtime": "wonderland-rootless",
+  "legacy_runtime_required": false,
+  "doctor": "PASS",
+  "status": "PASS"
+}

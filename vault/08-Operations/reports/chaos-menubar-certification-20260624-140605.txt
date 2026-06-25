@@ -1,0 +1,18 @@
+Wonderland Chaos Menubar Certification
+
+timestamp: 20260624-140605
+status: PASS
+policy: never-kill
+binary: /Users/wonderland/Wonderland/apps/macos/wl-chaos-menubar/build/wl-chaos-menubar
+wrapper: /Users/wonderland/Wonderland/ephemeral/bin/wl-chaos-menubar
+launch-agent: /Users/wonderland/Library/LaunchAgents/com.wonderland.chaos-menubar.plist
+aether: /Users/wonderland/Wonderland/vault/chaos/chaos-aether.json
+contract: /Users/wonderland/Wonderland/vault/chaos/visual-chaos-contract.json
+
+Certified behavior:
+- Panic sets chaos_active true
+- Menu turns purple
+- Reset returns normal
+- Watchdog remains managed by launchd
+- No pkill required
+- Reload uses launchctl kickstart only

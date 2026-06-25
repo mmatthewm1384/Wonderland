@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+SERVICE_DIR="$ROOT/vault/06-Services"
+REGISTRY="$SERVICE_DIR/service-registry.json"
+OUT="$SERVICE_DIR/graphs/service-graph.json"
+
+mkdir -p "$SERVICE_DIR/graphs"
+
+python3 - "$ROOT" "$REGISTRY" "$OUT" <<'PY'
+import json
+import pathlib
+import sys
+
+root = pathlib.Path(sys.argv[1])
+registry_path = pathlib.Path(sys.argv[2])
+out = pathlib.Path(sys.argv[3])
+
+registry = json.loads(registry_path.read_text())
+
+nodes = []
+edges = []
+
+for svc in registry.get("services", []):
+    name = svc.get("name")
+    path = svc.get("path")
+
+    if not name or not path:
+        continue
+
+    definition_path = root / "vault" / "06-Services" / path
+    data = json.loads(definition_path.read_text())
+
+    nodes.append({
+        "id": name,
+        "type": "service",
+        "status": data.get("status", "unknown"),
+        "compose": data.get("compose")
+    })
+
+    for dep in data.get("dependencies", []):
+        edges.append({
+            "from": name,
+            "to": dep,
+            "type": "depends_on"
+        })
+
+payload = {
+    "id": "service-graph-v4",
+    "version": 4,
+    "nodes": nodes,
+    "edges": edges
+}
+
+out.write_text(json.dumps(payload, indent=2) + "\n")
+print(f"service graph: {out}")
+print(f"nodes: {len(nodes)}")
+print(f"edges: {len(edges)}")
+PY

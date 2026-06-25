@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+
+echo "== Rootless Services Recovery =="
+
+limactl start wonderland-rootless >/dev/null 2>&1 || true
+
+# Prefer existing service command.
+if [[ -x "$ROOT/bin/wl-services" ]]; then
+  "$ROOT/bin/wl-services" up 2>/dev/null || true
+fi
+
+if [[ -x "$ROOT/bin/wl-services-refresh" ]]; then
+  "$ROOT/bin/wl-services-refresh" 2>/dev/null || true
+fi
+
+if [[ -x "$ROOT/bin/wl-services-status" ]]; then
+  "$ROOT/bin/wl-services-status" || true
+else
+  nerdctl ps --format '{{.Names}} {{.Status}}' 2>/dev/null || true
+fi
+
+echo "PASS rootless services recovery attempted"

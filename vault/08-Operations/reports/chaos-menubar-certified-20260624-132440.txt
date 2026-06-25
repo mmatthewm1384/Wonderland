@@ -1,0 +1,23 @@
+Wonderland Universe Status
+
+Root:  /Users/wonderland/Wonderland
+Mode:  light
+
+Authority
+PASS mode                   
+PASS storage                
+PASS storage authority      
+
+Governance
+PASS governance             
+PASS recovery               
+PASS snapshot               
+
+Runtime
+PASS services
+
+Capability
+WARN media                  unavailable in current mode
+WARN torrent                unavailable in current mode
+
+RESULT PASS

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-WORKSPACE_ROOT="/Users/wonderland/Wonderland"
+WORKSPACE_ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
 SESSION_ID="disposable_$(date +%s)"
 TARGET_DIR="$WORKSPACE_ROOT/data/$SESSION_ID"
 echo "[PRE-FLIGHT] Forcing Obsidian governance sync..."

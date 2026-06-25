@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec "/Users/wonderland/Wonderland/apps/macos/wl-chaos-menubar/build/wl-chaos-menubar"
+exec "${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/apps/macos/wl-chaos-menubar/build/wl-chaos-menubar"

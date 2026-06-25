@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+REPORT_DIR="$WL_HOME/vault/08-Operations/reports"
+mkdir -p "$REPORT_DIR"
+
+ACTION="${1:-status}"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+OUT="$REPORT_DIR/lifecycle-${ACTION}-${STAMP}.json"
+
+doctor_output="$(mktemp)"
+status_output="$(mktemp)"
+
+if wl doctor >"$doctor_output" 2>&1; then
+  if grep -q "RESULT PASS" "$doctor_output"; then
+    result="PASS"
+  elif grep -q "RESULT WARN" "$doctor_output"; then
+    result="WARN"
+  else
+    result="FAIL"
+  fi
+else
+  if grep -q "RESULT WARN" "$doctor_output"; then
+    result="WARN"
+  else
+    result="FAIL"
+  fi
+fi
+
+wl universe status >"$status_output" 2>&1 || true
+
+score="$(awk '/Health Score:/ {print $3}' "$doctor_output" | tail -1 | cut -d/ -f1)"
+score="${score:-0}"
+
+cat > "$OUT" <<JSON
+{
+  "action": "$ACTION",
+  "timestamp": "$(date -Iseconds)",
+  "root": "$WL_HOME",
+  "result": "$result",
+  "health_score": $score,
+  "doctor_output": $(python3 -c 'import json,sys; print(json.dumps(open(sys.argv[1]).read()))' "$doctor_output"),
+  "universe_output": $(python3 -c 'import json,sys; print(json.dumps(open(sys.argv[1]).read()))' "$status_output")
+}
+JSON
+
+rm -f "$doctor_output" "$status_output"
+
+echo "REPORT $OUT"
+echo "RESULT $result"

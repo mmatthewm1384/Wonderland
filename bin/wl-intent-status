@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/Users/wonderland/Wonderland"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
 INTENTS="$ROOT/vault/05-Registry/intents"
 ID="${1:-}"
 STATUS="${2:-}"

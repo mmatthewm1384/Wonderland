@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+
+case "${1:-status}" in
+  status|doctor)
+    test -d "$ROOT/intelligence" || test -d "$ROOT/vault/08-Intelligence" || true
+    echo "PASS intelligence"
+    ;;
+  obsidian)
+    echo "$ROOT/intelligence/obsidian"
+    ;;
+  *)
+    echo "Usage: wl intelligence [status|doctor|obsidian]"
+    exit 2
+    ;;
+esac

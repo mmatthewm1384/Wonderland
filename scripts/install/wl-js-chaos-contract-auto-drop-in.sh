@@ -13,7 +13,7 @@ cat > "$SHARED/contract-loader.js" <<'JS'
 export async function loadChaosContract() {
   const candidates = [
     window.WL_CHAOS_CONTRACT,
-    "file:///Users/wonderland/Wonderland/vault/chaos/visual-chaos-contract.json",
+    "file://${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/vault/chaos/visual-chaos-contract.json",
   ].filter(Boolean);
 
   for (const path of candidates) {
@@ -66,7 +66,7 @@ inject = r'''
 // WL_CHAOS_DROP_IN_AGITATE
 async function loadChaosContract() {
   try {
-    const response = await fetch("file:///Users/wonderland/Wonderland/vault/chaos/visual-chaos-contract.json?t=" + Date.now(), { cache: "no-store" });
+    const response = await fetch("file://${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/vault/chaos/visual-chaos-contract.json?t=" + Date.now(), { cache: "no-store" });
     return await response.json();
   } catch {
     return null;
@@ -125,7 +125,7 @@ inject = r'''
 // WL_CHAOS_DROP_IN_MATRIX
 async function loadChaosContract() {
   try {
-    const response = await fetch("file:///Users/wonderland/Wonderland/vault/chaos/visual-chaos-contract.json?t=" + Date.now(), { cache: "no-store" });
+    const response = await fetch("file://${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/vault/chaos/visual-chaos-contract.json?t=" + Date.now(), { cache: "no-store" });
     return await response.json();
   } catch {
     return null;
@@ -186,7 +186,7 @@ s = s.replace(
 // WL_CHAOS_DROP_IN_SPIN_RINGS
 async function wlLoadChaosContract() {
   try {
-    const response = await fetch("file:///Users/wonderland/Wonderland/vault/chaos/visual-chaos-contract.json?t=" + Date.now(), { cache: "no-store" });
+    const response = await fetch("file://${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/vault/chaos/visual-chaos-contract.json?t=" + Date.now(), { cache: "no-store" });
     return await response.json();
   } catch {
     return null;

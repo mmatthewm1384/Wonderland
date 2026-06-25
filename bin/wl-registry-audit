@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/Users/wonderland/Wonderland"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
 
 "$ROOT/bin/wl-registry-refresh"
 
@@ -15,7 +15,7 @@ python3 - <<'PY'
 import json
 from pathlib import Path
 
-root = Path("/Users/wonderland/Wonderland/vault/05-Registry")
+root = Path("${ROOT}/vault/05-Registry")
 
 for name in [
     "documents",

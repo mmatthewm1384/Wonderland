@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/Users/wonderland/Wonderland"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
 REPORT_DIR="$ROOT/vault/reports"
 STAMP="$(date +%Y%m%d-%H%M%S)"
 REPORT="$REPORT_DIR/vault-audit-$STAMP.txt"

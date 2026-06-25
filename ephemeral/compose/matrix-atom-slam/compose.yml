@@ -4,7 +4,7 @@ services:
     platform: linux/arm64
     restart: "no"                               # one-shot ephemeral
     volumes:
-      - ${WONDERLAND_VAULT:-/Users/wonderland/Wonderland/vault}:/vault:rw
+      - ${WONDERLAND_VAULT:-${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}/vault}:/vault:rw
     environment:
       - INTENT=matrix-atom-slam
       - BITEMPORAL_LOG=/vault/ephemeral-runs.log

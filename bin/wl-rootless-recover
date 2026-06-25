@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "== Wonderland Rootless Recovery =="
+
+echo
+echo "== Current Lima State =="
+limactl list || true
+
+echo
+echo "== Stop rootless if half-open =="
+limactl stop wonderland-rootless --force 2>/dev/null || true
+
+echo
+echo "== Start rootless =="
+limactl start wonderland-rootless
+
+echo
+echo "== Verify rootless =="
+limactl list --format '{{.Name}} {{.Status}}' \
+  | grep -Eq '^wonderland-rootless[[:space:]]+Running$'
+
+echo "PASS wonderland-rootless recovered"

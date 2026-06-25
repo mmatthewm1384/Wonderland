@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+CERT="$ROOT/vault/05-Registry/certifications/wonderland-phase-3.json"
+SEAL="$ROOT/vault/05-Registry/certifications/wonderland-phase-3.seal.json"
+
+[[ -f "$CERT" ]] || {
+  echo "FAIL missing phase 3 cert"
+  echo "Run: wl phase3 certify"
+  exit 1
+}
+
+python3 - "$CERT" "$SEAL" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+from datetime import datetime, timezone
+
+cert = Path(sys.argv[1])
+seal = Path(sys.argv[2])
+
+data = cert.read_bytes()
+doc = json.loads(data)
+
+seal_doc = {
+    "id": "wonderland-phase-3-seal",
+    "state": "sealed",
+    "sealed_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+    "certification": str(cert),
+    "certification_sha256": hashlib.sha256(data).hexdigest(),
+    "authority_root": doc.get("authority_root"),
+    "authority_resolution": doc.get("authority_resolution"),
+    "checks": doc.get("checks")
+}
+
+seal.write_text(json.dumps(seal_doc, indent=2) + "\n")
+print("PASS phase 3 sealed")
+print(f"SEAL={seal}")
+PY

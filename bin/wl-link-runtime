@@ -2,7 +2,8 @@
 set -euo pipefail
 
 TARGET_BIN="nerdctl"
-DESTINATION_DIR="/Users/wonderland/Wonderland/bin"
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+DESTINATION_DIR="$ROOT/bin"
 
 echo "=== 🔍 Searching for Rootless Runtime Binary ==="
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-ROOT_DIR="/Users/wonderland/Wonderland"
+ROOT_DIR="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
 VAULT_SOURCE="$ROOT_DIR/vault"
 OBSIDIAN_TARGET="$ROOT_DIR/intelligence/obsidian"
 echo "=== 🔄 Executing Wonderland-V4 Governance Document Consolidation ==="
