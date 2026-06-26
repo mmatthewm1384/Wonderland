@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+cd "$WL_HOME"
+
+cert="vault/05-Registry/certifications/wonderland-rootless-runtime.json"
+report="vault/08-Operations/reports/rootless-certification-$(date +%Y%m%d-%H%M%S).txt"
+
+fail=0
+
+{
+  echo "Wonderland Rootless Certification"
+  echo "Generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  echo
+
+  bin/wl-rootless status || fail=1
+  echo
+
+  bin/wl-rootless-services || fail=1
+  echo
+
+  if grep -RIn \
+    --exclude-dir=.git \
+    --exclude='wl-certify-rootless' \
+    --exclude='wl-rootless-audit' \
+    --exclude='wl-rootless-quarantine-obsolete' \
+    -E 'LIMA_INSTANCE=default|limactl (start|stop|shell|delete) default|lima://default' \
+    bin scripts config services apps 2>/dev/null; then
+    echo "FAIL obsolete default runtime references remain"
+    fail=1
+  else
+    echo "PASS no default Lima assumptions"
+  fi
+} | tee "$report"
+
+state="certified"
+[[ "$fail" -eq 0 ]] || state="failed"
+
+cat > "$cert" <<JSON
+{
+  "id": "wonderland-rootless-runtime",
+  "name": "Wonderland Rootless Runtime Authority",
+  "state": "$state",
+  "runtime": "wonderland-rootless",
+  "container_runtime": "nerdctl",
+  "latest_report": "$report",
+  "generated_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+}
+JSON
+
+if [[ "$fail" -eq 0 ]]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+  exit 1
+fi

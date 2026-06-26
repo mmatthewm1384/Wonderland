@@ -1,0 +1,23 @@
+Wonderland Rootless Certification
+Generated: 2026-06-26T19:04:00Z
+
+wonderland-rootless    Running    127.0.0.1:49311    vz        aarch64    4       6GiB      80GiB     ~/.lima/wonderland-rootless
+PASS wonderland-rootless running
+
+== Wonderland Rootless Services ==
+FAIL wl-dns not up
+FAIL wl-nats not up
+PASS wl-loki up
+FAIL wl-prometheus not up
+FAIL wl-grafana not up
+
+bin/wl-lifecycle:48:  LIMA_INSTANCE=wonderland-rootless nerdctl ps --format '{{.Names}} {{.Status}} {{.Ports}}' 2>/dev/null || warn "rootless runtime not available"
+bin/wl-lifecycle:76:  LIMA_INSTANCE=wonderland-rootless nerdctl stop wl-loki >/dev/null 2>&1 || true
+bin/wl-certify-rootless:24:    -E 'LIMA_INSTANCE=wonderland-rootless|limactl (start|stop|shell|delete) default|lima://default' \
+bin/wl-rootless-quarantine-obsolete:12:  -E 'LIMA_INSTANCE=wonderland-rootless|limactl (start|stop|shell|delete) default|lima://default' \
+bin/wl-rootless-quarantine-obsolete:24:    -e 's/LIMA_INSTANCE=wonderland-rootless/LIMA_INSTANCE=wonderland-rootless/g' \
+bin/wl-rootless-audit:16:    -E 'LIMA_INSTANCE=wonderland-rootless|limactl (start|stop|shell|delete) default|lima://default|/default/' \
+bin/wl-rootless-audit:29:  LIMA_INSTANCE=wonderland-rootless nerdctl ps -a || true
+bin/wl-start:74:  LIMA_INSTANCE=wonderland-rootless nerdctl start "$svc" >/dev/null 2>&1 || true
+bin/wl-stop:11:  LIMA_INSTANCE=wonderland-rootless nerdctl stop "$svc" >/dev/null 2>&1 || true
+FAIL obsolete default runtime references remain

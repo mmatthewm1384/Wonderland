@@ -1,0 +1,16 @@
+Wonderland Rootless Certification
+Generated: 2026-06-26T20:00:58Z
+
+wonderland-rootless    Running    127.0.0.1:49311    vz        aarch64    4       6GiB      80GiB     ~/.lima/wonderland-rootless
+PASS wonderland-rootless running
+
+== Wonderland Rootless Services ==
+PASS wl-vaultwarden up
+PASS wl-vaultwarden-db up
+PASS wl-loki up
+
+bin/wl-certify-rootless:24:    -E 'LIMA_INSTANCE=default|limactl (start|stop|shell|delete) default|lima://default' \
+bin/wl-rootless-quarantine-obsolete:12:  -E 'LIMA_INSTANCE=default|limactl (start|stop|shell|delete) default|lima://default' \
+bin/wl-rootless-quarantine-obsolete:24:    -e 's/LIMA_INSTANCE=default/LIMA_INSTANCE=wonderland-rootless/g' \
+bin/wl-rootless-audit:16:    -E 'LIMA_INSTANCE=default|limactl (start|stop|shell|delete) default|lima://default|/default/' \
+FAIL obsolete default runtime references remain

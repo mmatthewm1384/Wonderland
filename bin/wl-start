@@ -14,13 +14,13 @@ command -v nerdctl >/dev/null 2>&1 && wl_pass "nerdctl" || wl_fail "nerdctl"
 wl storage authority >/dev/null 2>&1 && wl_pass "storage authority" || wl_warn "storage authority"
 wl governance status >/dev/null 2>&1 && wl_pass "governance" || wl_warn "governance"
 
-wl_step "Starting Lima default"
-limactl start default >/dev/null 2>&1 || true
-wl_lima_running default && wl_pass "default running" || wl_fail "default not running"
+wl_step "Starting wonderland-rootless"
+limactl start wonderland-rootless >/dev/null 2>&1 || true
+wl_lima_running wonderland-rootless && wl_pass "wonderland-rootless running" || wl_fail "wonderland-rootless not running"
 
 wl_step "Starting core services"
 for svc in $(wl_services); do
-  nerdctl start "$svc" >/dev/null 2>&1 || true
+  LIMA_INSTANCE=wonderland-rootless nerdctl start "$svc" >/dev/null 2>&1 || true
   wl_container_running "$svc" && wl_pass "$svc" "up" || wl_warn "$svc" "not up"
 done
 
@@ -71,7 +71,7 @@ fi
 
 wl_step "Starting rootless services"
 for svc in $(wl_rootless_services); do
-  LIMA_INSTANCE=wonderland-rootless nerdctl start "$svc" >/dev/null 2>&1 || true
+  LIMA_INSTANCE=wonderland-rootless LIMA_INSTANCE=wonderland-rootless nerdctl start "$svc" >/dev/null 2>&1 || true
   wl_rootless_container_running "$svc" && wl_pass "rootless $svc" "up" || wl_warn "rootless $svc" "not up"
 done
 

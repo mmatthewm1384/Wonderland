@@ -2,38 +2,37 @@
 set -euo pipefail
 
 WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+source "$WL_HOME/bin/wl-runtime-env"
 
 case "${1:-status}" in
-  status)
-    echo "Wonderland Rootless Status"
-    echo
-    limactl list 2>/dev/null | grep -E 'NAME|wonderland|default' || true
-    echo
-    nerdctl ps --format '{{.Names}}\t{{.Status}}\t{{.Ports}}' 2>/dev/null || true
-    ;;
-
   start)
-    echo "Starting Wonderland rootless runtime..."
-    wl storage status || true
-    nerdctl start wl-dns 2>/dev/null || wl dns up || true
-    nerdctl start wl-nats 2>/dev/null || wl nats up || true
-    wl observability up || true
-    wl universe status
+    limactl start wonderland-rootless
     ;;
-
   stop)
-    echo "Stopping visible Wonderland runtime services..."
-    nerdctl stop wl-grafana wl-prometheus wl-loki wl-nats wl-dns 2>/dev/null || true
-    wl universe status || true
+    limactl stop wonderland-rootless
     ;;
-
-  doctor)
-    wl storage doctor
-    wl universe status
+  restart)
+    limactl stop wonderland-rootless || true
+    limactl start wonderland-rootless
     ;;
+  status)
+    limactl list | grep -E '^wonderland-rootless[[:space:]]' || {
+      echo "FAIL wonderland-rootless not found"
+      exit 1
+    }
 
+    limactl list | grep -E '^wonderland-rootless[[:space:]]+Running' >/dev/null || {
+      echo "FAIL wonderland-rootless not running"
+      exit 1
+    }
+
+    echo "PASS wonderland-rootless running"
+    ;;
+  shell)
+    limactl shell wonderland-rootless
+    ;;
   *)
-    echo "Usage: wl rootless status|start|stop|doctor"
-    exit 1
+    echo "usage: wl-rootless {start|stop|restart|status|shell}"
+    exit 2
     ;;
 esac

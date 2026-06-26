@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+export WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+export LIMA_INSTANCE="${LIMA_INSTANCE:-wonderland-rootless}"
+export WL_CONTAINER_RUNTIME="${WL_CONTAINER_RUNTIME:-nerdctl}"
+export WL_NERDCTL="LIMA_INSTANCE=$LIMA_INSTANCE nerdctl"
+
+if [[ "$LIMA_INSTANCE" != "wonderland-rootless" ]]; then
+  echo "FAIL LIMA_INSTANCE must be wonderland-rootless, got: $LIMA_INSTANCE"
+  exit 1
+fi
