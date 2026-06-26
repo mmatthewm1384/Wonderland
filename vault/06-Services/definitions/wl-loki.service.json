@@ -1,20 +1,8 @@
 {
-  "id": "wl-loki-service-v4",
-  "name": "wl-loki",
-  "status": "active",
-  "version": 4,
-  "runtime": "containerd",
-  "engine": "nerdctl",
+  "id": "wl-loki",
+  "name": "Wonderland Loki",
+  "runtime": "wonderland-rootless",
   "container": "wl-loki",
-  "compose": null,
-  "verify": "bin/wl-observability doctor-loki",
-  "recover": "bin/wl-observability repair",
-  "rollback": "bin/wl-observability down",
-  "dependencies": [],
-  "ports": [
-    "3100"
-  ],
-  "volumes": [
-    "docker/wl-loki/config/local-config.yaml"
-  ]
+  "required": true,
+  "state": "active"
 }

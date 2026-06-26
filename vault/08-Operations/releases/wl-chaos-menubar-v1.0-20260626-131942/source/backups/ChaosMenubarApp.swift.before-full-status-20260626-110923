@@ -1,0 +1,231 @@
+import AppKit
+import Foundation
+
+@main
+final class ChaosMenubarApp: NSObject, NSApplicationDelegate {
+    private let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    private var timer: Timer?
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        NSApp.setActivationPolicy(.accessory)
+        item.button?.title = "☄︎"
+        refresh()
+        timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { [weak self] _ in
+            self?.refresh()
+        }
+    }
+
+    private func refresh() {
+        let state = ChaosStatus.load()
+        item.button?.title = state.chaos_active ? "☄︎ CHAOS" : "☄︎"
+        item.menu = buildMenu(state)
+    }
+
+    private func buildMenu(_ state: ChaosStatus) -> NSMenu {
+        let menu = NSMenu()
+
+        menu.addItem(disabled("☄︎ Mode: \(state.mode)"))
+        menu.addItem(disabled("Aether: \(state.aether)"))
+        menu.addItem(disabled("Watchdog: \(state.watchdog)"))
+        menu.addItem(.separator())
+
+        menu.addItem(disabled("Escalation In — V2"))
+        menu.addItem(disabled("Countdown: \(state.countdownSummary)"))
+        menu.addItem(.separator())
+
+        menu.addItem(disabled("Last Check-In: \(state.last_checkin)"))
+        menu.addItem(disabled("Last Activity: \(state.last_activity)"))
+        menu.addItem(disabled("Escalation Window: \(state.escalation_window)"))
+        menu.addItem(.separator())
+
+        menu.addItem(disabled("Contract"))
+        menu.addItem(disabled("chaos_active: \(state.chaos_active)"))
+        menu.addItem(disabled("rings: \(state.rings)"))
+        menu.addItem(disabled("rotation: \(state.rotation)"))
+        menu.addItem(disabled("intensity: \(state.intensity)"))
+        menu.addItem(disabled("particles: \(state.particles)"))
+        menu.addItem(disabled("living_ratio: \(state.living_ratio)"))
+        menu.addItem(.separator())
+
+        menu.addItem(action("Check In", #selector(checkIn)))
+        menu.addItem(action("Reset Chaos", #selector(resetChaos)))
+        menu.addItem(action("Panic", #selector(panic)))
+        menu.addItem(.separator())
+
+        menu.addItem(action("Open Chaos Folder", #selector(openChaosFolder)))
+        menu.addItem(action("Open Audit Log", #selector(openAuditLog)))
+
+        let advanced = NSMenuItem(title: "Advanced", action: nil, keyEquivalent: "")
+        let submenu = NSMenu()
+        submenu.addItem(action("Verify Lease", #selector(verifyLease)))
+        submenu.addItem(action("Verify Providers", #selector(verifyProviders)))
+        submenu.addItem(action("Open Policy", #selector(openPolicy)))
+        submenu.addItem(action("Open Gate Folder", #selector(openGateFolder)))
+        submenu.addItem(action("Reload Menubar", #selector(reloadMenubar)))
+        advanced.submenu = submenu
+        menu.addItem(advanced)
+
+        menu.addItem(action("Quit", #selector(quit)))
+        menu.addItem(.separator())
+        menu.addItem(disabled("Last: \(state.lastResult)"))
+        menu.addItem(disabled("At: \(DateFormatter.localizedString(from: Date(), dateStyle: .none, timeStyle: .medium))"))
+
+        return menu
+    }
+
+    private func disabled(_ title: String) -> NSMenuItem {
+        let item = NSMenuItem(title: title, action: nil, keyEquivalent: "")
+        item.isEnabled = false
+        return item
+    }
+
+    private func action(_ title: String, _ selector: Selector) -> NSMenuItem {
+        let item = NSMenuItem(title: title, action: selector, keyEquivalent: "")
+        item.target = self
+        return item
+    }
+
+    @objc private func checkIn() {
+        _ = ChaosCommand.run(["checkin"])
+        refresh()
+    }
+
+    @objc private func resetChaos() {
+        _ = ChaosCommand.run(["reset"])
+        refresh()
+    }
+
+    @objc private func panic() {
+        _ = ChaosCommand.run(["panic"])
+        refresh()
+    }
+
+    @objc private func verifyLease() {
+        _ = ChaosCommand.run(["doctor"])
+        refresh()
+    }
+
+    @objc private func verifyProviders() {
+        _ = ChaosCommand.run(["status"])
+        refresh()
+    }
+
+    @objc private func openChaosFolder() {
+        NSWorkspace.shared.open(URL(fileURLWithPath: "/Users/wonderland/Wonderland/vault/chaos"))
+    }
+
+    @objc private func openAuditLog() {
+        NSWorkspace.shared.open(URL(fileURLWithPath: "/Users/wonderland/Wonderland/vault/chaos/menubar-actions.log"))
+    }
+
+    @objc private func openPolicy() {
+        NSWorkspace.shared.open(URL(fileURLWithPath: "/Users/wonderland/Wonderland/security/operator-gate"))
+    }
+
+    @objc private func openGateFolder() {
+        NSWorkspace.shared.open(URL(fileURLWithPath: "/Users/wonderland/Wonderland/security/operator-gate"))
+    }
+
+    @objc private func reloadMenubar() {
+        refresh()
+    }
+
+    @objc private func quit() {
+        NSApp.terminate(nil)
+    }
+}
+
+struct ChaosStatus: Codable {
+    let mode: String
+    let aether: String
+    let watchdog: String
+    let countdown: String
+    let last_checkin: String
+    let last_activity: String
+    let escalation_window: String
+    let chaos_active: Bool
+    let rings: Int
+    let rotation: Double
+    let intensity: Double
+    let particles: Int
+    let living_ratio: Double
+
+    var countdownSummary: String {
+        countdown
+            .split(separator: "\n")
+            .first(where: { $0.contains("Escalation in:") })
+            .map { String($0).replacingOccurrences(of: "Escalation in: ", with: "") }
+            ?? countdown
+    }
+
+    var lastResult: String {
+        if aether == "active" && watchdog == "running" { return "OK" }
+        return "DEGRADED"
+    }
+
+    static func fallback() -> ChaosStatus {
+        ChaosStatus(
+            mode: "normal",
+            aether: "unknown",
+            watchdog: "unknown",
+            countdown: "Unavailable",
+            last_checkin: "Unavailable",
+            last_activity: "unknown",
+            escalation_window: "unknown",
+            chaos_active: false,
+            rings: 0,
+            rotation: 0.0,
+            intensity: 0.0,
+            particles: 0,
+            living_ratio: 0.0
+        )
+    }
+
+    static func load() -> ChaosStatus {
+        let result = Shell.run("/Users/wonderland/Wonderland/bin/wl-chaos-menubar-status", [])
+        guard result.exitCode == 0,
+              let data = result.stdout.data(using: .utf8),
+              let decoded = try? JSONDecoder().decode(ChaosStatus.self, from: data)
+        else {
+            return fallback()
+        }
+        return decoded
+    }
+}
+
+enum ChaosCommand {
+    static func run(_ args: [String]) -> Shell.Result {
+        Shell.run("/Users/wonderland/Wonderland/security/operator-gate/wl-chaos-authorized-action", args)
+    }
+}
+
+enum Shell {
+    struct Result {
+        let exitCode: Int32
+        let stdout: String
+        let stderr: String
+    }
+
+    static func run(_ path: String, _ args: [String]) -> Result {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: path)
+        process.arguments = args
+
+        let stdout = Pipe()
+        let stderr = Pipe()
+        process.standardOutput = stdout
+        process.standardError = stderr
+
+        do {
+            try process.run()
+            process.waitUntilExit()
+
+            let out = String(data: stdout.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8) ?? ""
+            let err = String(data: stderr.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8) ?? ""
+
+            return Result(exitCode: process.terminationStatus, stdout: out, stderr: err)
+        } catch {
+            return Result(exitCode: 127, stdout: "", stderr: String(describing: error))
+        }
+    }
+}

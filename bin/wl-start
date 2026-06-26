@@ -21,7 +21,7 @@ wl_lima_running wonderland-rootless && wl_pass "wonderland-rootless running" || 
 wl_step "Starting core services"
 for svc in $(wl_services); do
   LIMA_INSTANCE=wonderland-rootless nerdctl start "$svc" >/dev/null 2>&1 || true
-  wl_container_running "$svc" && wl_pass "$svc" "up" || wl_warn "$svc" "not up"
+  wl_rootless_container_running "$svc" && wl_pass "$svc" "up" || wl_warn "$svc" "not up"
 done
 
 wl_step "Starting wonderland-rootless"
@@ -76,6 +76,6 @@ for svc in $(wl_rootless_services); do
 done
 
 wl_step "Verification"
-"$WL_HOME/bin/wl-doctor-lifecycle" || true
-"$WL_HOME/bin/wl-lifecycle-report" start || true
+"$WL_HOME/bin/wl-doctor-lifecycle"
 "$WL_HOME/bin/wl-universe" status
+"$WL_HOME/bin/wl-lifecycle-report" start

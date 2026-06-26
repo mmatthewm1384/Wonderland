@@ -1,0 +1,155 @@
+import AppKit
+
+final class ChaosMenubarApp: NSObject, NSApplicationDelegate {
+    let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    let menu = NSMenu()
+
+    var timer: Timer?
+    var lastMessage = "ready"
+    var lastActionAt = ""
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        refresh()
+
+        timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
+            self?.refresh()
+        }
+    }
+
+    func refresh() {
+        let active = AetherStore.chaosActive
+        item.button?.attributedTitle = active
+            ? wlTitle("◉ CHAOS", color: WLColor.purple)
+            : wlTitle("◉ WL", color: WLColor.cyan)
+
+        buildMenu()
+    }
+
+    func disabled(_ title: String) -> NSMenuItem {
+        let m = NSMenuItem(title: title, action: nil, keyEquivalent: "")
+        m.isEnabled = false
+        return m
+    }
+
+    func colored(_ title: String, color: NSColor) -> NSMenuItem {
+        let m = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        m.attributedTitle = wlTitle(title, color: color)
+        m.isEnabled = false
+        return m
+    }
+
+    func action(_ title: String, _ selector: Selector) -> NSMenuItem {
+        let m = NSMenuItem(title: title, action: selector, keyEquivalent: "")
+        m.target = self
+        return m
+    }
+
+    func buildMenu() {
+        let state = AetherStore.load()
+        let active = AetherStore.chaosActive
+
+        menu.removeAllItems()
+
+        menu.addItem(colored(active ? "☄︎ Mode: CHAOS ACTIVE" : "☄︎ Mode: normal", color: active ? WLColor.purple : WLColor.cyan))
+        menu.addItem(disabled("Aether: \(AetherStore.aether)"))
+        menu.addItem(disabled("Watchdog: \(AetherStore.watchdog)"))
+
+        menu.addItem(.separator())
+        menu.addItem(disabled("Escalation In — V2"))
+        menu.addItem(colored("Countdown: \(AetherStore.escalationCountdown)", color: active ? WLColor.purple : WLColor.cyan))
+
+        menu.addItem(.separator())
+        menu.addItem(disabled("Last Check-In: \(AetherStore.lastCheckinAge)"))
+        menu.addItem(disabled("Last Activity: \(state.last_activity ?? "unknown")"))
+        menu.addItem(disabled("Escalation Window: 30m"))
+
+        menu.addItem(.separator())
+        menu.addItem(disabled("Contract"))
+        menu.addItem(disabled("chaos_active: \(active)"))
+        menu.addItem(disabled("rings: \(state.contract?.rings ?? 0)"))
+        menu.addItem(disabled("rotation: \(state.contract?.rotation ?? 0)"))
+        menu.addItem(disabled("intensity: \(state.contract?.intensity ?? 0)"))
+        menu.addItem(disabled("particles: \(state.contract?.particles ?? 0)"))
+        menu.addItem(disabled("living_ratio: \(state.contract?.living_ratio ?? 0)"))
+
+        menu.addItem(.separator())
+        menu.addItem(action("Check In", #selector(checkIn)))
+        menu.addItem(action("Reset Chaos", #selector(resetChaos)))
+        menu.addItem(action("Panic", #selector(panic)))
+
+        menu.addItem(.separator())
+        menu.addItem(action("Open Chaos Folder", #selector(openChaosFolder)))
+        menu.addItem(action("Open Audit Log", #selector(openAuditLog)))
+
+        let advanced = NSMenu()
+        advanced.addItem(action("Verify Lease", #selector(verifyLease)))
+        advanced.addItem(action("Verify Providers", #selector(verifyProviders)))
+        advanced.addItem(action("Open Policy", #selector(openPolicy)))
+        advanced.addItem(action("Open Gate Folder", #selector(openGateFolder)))
+        advanced.addItem(action("Reload Menubar", #selector(reloadMenubar)))
+
+        let advancedItem = NSMenuItem(title: "Advanced", action: nil, keyEquivalent: "")
+        advancedItem.submenu = advanced
+        menu.addItem(advancedItem)
+
+        menu.addItem(action("Quit", #selector(quit)))
+
+        menu.addItem(.separator())
+        menu.addItem(disabled("Last: \(lastMessage)"))
+        if !lastActionAt.isEmpty {
+            menu.addItem(disabled("At: \(lastActionAt)"))
+        }
+
+        item.menu = menu
+    }
+}
+
+struct ChaosStatus: Codable {
+    let mode: String
+    let aether: String
+    let watchdog: String
+    let countdown: String
+    let last_checkin: String
+    let last_activity: String
+    let escalation_window: String
+    let chaos_active: Bool
+    let rings: Int
+    let rotation: Double
+    let intensity: Double
+    let particles: Int
+    let living_ratio: Double
+
+    static func load() -> ChaosStatus {
+        let fallback = ChaosStatus(
+            mode: "normal",
+            aether: "unknown",
+            watchdog: "unknown",
+            countdown: "Unavailable",
+            last_checkin: "Unavailable",
+            last_activity: "unknown",
+            escalation_window: "30m",
+            chaos_active: false,
+            rings: 0,
+            rotation: 0.0,
+            intensity: 0.0,
+            particles: 0,
+            living_ratio: 0.0
+        )
+
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/Users/wonderland/Wonderland/bin/wl-chaos-menubar-status")
+
+        let output = Pipe()
+        process.standardOutput = output
+        process.standardError = Pipe()
+
+        do {
+            try process.run()
+            process.waitUntilExit()
+            let data = output.fileHandleForReading.readDataToEndOfFile()
+            return try JSONDecoder().decode(ChaosStatus.self, from: data)
+        } catch {
+            return fallback
+        }
+    }
+}

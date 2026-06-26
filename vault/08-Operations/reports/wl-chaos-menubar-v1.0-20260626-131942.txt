@@ -1,0 +1,32 @@
+wl-chaos-menubar v1.0 stable release
+Fri Jun 26 13:19:42 PDT 2026
+
+SOURCE=/Users/wonderland/Wonderland/apps/macos/wl-chaos-menubar
+BINARY=/Users/wonderland/Wonderland/ephemeral/bin/wl-chaos-menubar
+RELEASE=/Users/wonderland/Wonderland/vault/08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942
+
+== status adapter ==
+{
+  "mode": "normal",
+  "aether": "clear",
+  "watchdog": "running",
+  "countdown": "Threshold: 6.00h\nLast activity: 0.06h ago\nEscalation in: 5.94h\nEscalation eligible: NO",
+  "last_checkin": "No active chaos session",
+  "last_activity": "No recent chaos activity",
+  "escalation_window": "6.0h",
+  "chaos_active": false,
+  "rings": 0,
+  "rotation": 0.0,
+  "intensity": 0.0,
+  "particles": 0,
+  "living_ratio": 0.0,
+  "health": "OK"
+}
+
+== action wrapper ==
+
+== runtime ==
+wonderland       30334   0.0  0.0 435299904   1168 s000  S+    1:19PM   0:00.00 tee /Users/wonderland/Wonderland/vault/08-Operations/reports/wl-chaos-menubar-v1.0-20260626-131942.txt
+wonderland       27492   0.0  0.4 435604416  63312 s000  SN    1:16PM   0:00.23 /Users/wonderland/Wonderland/ephemeral/bin/wl-chaos-menubar
+
+RESULT PASS

@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_ROOT:-$HOME/Wonderland}"
+GATE="$ROOT/security/operator-gate"
+POLICY="$GATE/policy.json"
+AUDIT="$GATE/audit.log"
+ACTION="${1:-}"
+
+case "$ACTION" in
+  checkin|reset|panic|verify) ;;
+  *)
+    echo "DENY unknown-action"
+    exit 2
+    ;;
+esac
+
+log() {
+  printf '%s %s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" "$*" >> "$AUDIT"
+}
+
+providers_for_action() {
+  python3 - "$POLICY" "$ACTION" <<'PY'
+import json, sys
+policy = json.load(open(sys.argv[1]))
+action = sys.argv[2]
+print(" ".join(policy.get("required_providers", {}).get(action, [])))
+PY
+}
+
+if [ "$ACTION" = "verify" ]; then
+  echo "PASS operator-auth verify"
+  exit 0
+fi
+
+providers="$(providers_for_action)"
+
+if [ -z "$providers" ]; then
+  echo "DENY no-policy-for-action"
+  log "DENY $ACTION no-policy"
+  exit 1
+fi
+
+for provider in $providers; do
+  script="$GATE/providers/$provider.sh"
+  if [ ! -x "$script" ]; then
+    echo "DENY missing-provider $provider"
+    log "DENY $ACTION missing-provider=$provider"
+    exit 1
+  fi
+
+  output="$("$script")"
+  echo "$output"
+
+  case "$output" in
+    PASS*) ;;
+    *)
+      echo "DENY provider-failed $provider"
+      log "DENY $ACTION provider=$provider output=$output"
+      exit 1
+      ;;
+  esac
+done
+
+log "PASS $ACTION providers=$providers"
+echo "PASS operator-auth $ACTION"

@@ -1,0 +1,8 @@
+{
+  "id": "wl-vaultwarden-db",
+  "name": "Wonderland Vaultwarden Database",
+  "runtime": "wonderland-rootless",
+  "container": "wl-vaultwarden-db",
+  "required": true,
+  "state": "active"
+}

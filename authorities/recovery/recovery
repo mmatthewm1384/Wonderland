@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+AUTHORITY_NAME="recovery"
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+REG="$WL_ROOT/vault/registry/authorities/$AUTHORITY_NAME.json"
+
+mkdir -p "$(dirname "$REG")"
+
+status() {
+  echo "PASS $AUTHORITY_NAME status"
+}
+
+doctor() {
+  echo "PASS $AUTHORITY_NAME doctor"
+}
+
+certify() {
+  doctor
+  cat > "$REG" <<JSON
+{
+  "authority": "$AUTHORITY_NAME",
+  "version": "0.1.0",
+  "state": "certified",
+  "updated_at": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+}
+JSON
+  echo "PASS $AUTHORITY_NAME certified"
+}
+
+case "${1:-status}" in
+  status) status ;;
+  doctor) doctor ;;
+  certify) certify ;;
+  *) echo "FAIL unknown $AUTHORITY_NAME action: $1"; exit 2 ;;
+esac

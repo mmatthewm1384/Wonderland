@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec "$HOME/Wonderland/security/operator-gate/wl-chaos-authorized-action" verify

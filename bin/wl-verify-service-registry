@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+REGISTRY="$ROOT/vault/05-Registry/services/core-services.json"
+
+[[ -f "$REGISTRY" ]] || {
+  echo "FAIL missing core service registry"
+  exit 1
+}
+
+jq -e '
+  .id == "core-services" and
+  .runtime.primary == "wonderland-rootless" and
+  .runtime.engine == "nerdctl" and
+  (.services | type == "array") and
+  (.services | length >= 5) and
+  all(.services[]; .name and (.required | type == "boolean"))
+' "$REGISTRY" >/dev/null || {
+  echo "FAIL invalid core service registry"
+  exit 1
+}
+
+echo "PASS service registry"
