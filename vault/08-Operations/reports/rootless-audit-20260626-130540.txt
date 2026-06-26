@@ -1,0 +1,19 @@
+Wonderland Rootless Runtime Audit
+Generated: 2026-06-26T20:05:40Z
+
+== Hardcoded default Lima references ==
+
+== Compose files ==
+./archive/legacy-veil/veil.grok.20260624-042258/compose.yaml
+./intelligence/obsidian/03-Platform/service-template/compose.yaml
+
+== Runtime status ==
+NAME                   STATUS     SSH                VMTYPE    ARCH       CPUS    MEMORY    DISK      DIR
+default                Running    127.0.0.1:49323    vz        aarch64    4       4GiB      100GiB    ~/.lima/default
+wonderland-rootless    Running    127.0.0.1:49311    vz        aarch64    4       6GiB      80GiB     ~/.lima/wonderland-rootless
+
+== nerdctl containers ==
+CONTAINER ID    IMAGE                                   COMMAND                   CREATED         STATUS    PORTS                     NAMES
+45123067a924    docker.io/vaultwarden/server:latest     "/start.sh"               20 hours ago    Up        127.0.0.1:8087->80/tcp    wl-vaultwarden
+72417ed752cc    docker.io/library/postgres:16-alpine    "docker-entrypoint.s…"    20 hours ago    Up                                  wl-vaultwarden-db
+fece9aab03e4    docker.io/grafana/loki:3.1.1            "/usr/bin/loki -conf…"    2 days ago      Up        0.0.0.0:3100->3100/tcp    wl-loki

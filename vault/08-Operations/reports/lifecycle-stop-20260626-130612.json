@@ -1,0 +1,7 @@
+{
+  "action": "stop",
+  "timestamp": "2026-06-26T13:06:13.349164-07:00",
+  "root": "/Users/wonderland/Wonderland",
+  "result": "PASS",
+  "check_output": "== Stop Verification ==\nPASS wl-dns stopped\nPASS wl-nats stopped\nPASS wl-prometheus stopped\nPASS wl-grafana stopped\nPASS wl-loki stopped\nPASS wonderland-rootless stopped\nRESULT PASS\n"
+}

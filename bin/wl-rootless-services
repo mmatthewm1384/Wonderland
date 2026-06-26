@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+source "$WL_HOME/bin/wl-runtime-env"
+
+services=(
+  wl-vaultwarden
+  wl-vaultwarden-db
+  wl-loki
+)
+
+fail=0
+
+echo "== Wonderland Rootless Services =="
+for svc in "${services[@]}"; do
+  if LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl ps --format '{{.Names}} {{.Status}}' | grep -E "^${svc}[[:space:]].*Up" >/dev/null; then
+    echo "PASS $svc up"
+  else
+    echo "FAIL $svc not up"
+    fail=1
+  fi
+done
+
+exit "$fail"
