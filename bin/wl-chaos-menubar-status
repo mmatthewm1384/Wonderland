@@ -1,0 +1,50 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+export WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+export PATH="$WL_HOME/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+AETHER="$WL_HOME/vault/chaos/chaos-aether.json"
+WATCHDOG="$(wl-chaos status 2>/dev/null | head -1 || true)"
+COUNTDOWN="$(wl-chaos countdown 2>/dev/null || true)"
+
+python3 - "$AETHER" "$WATCHDOG" "$COUNTDOWN" <<'PY'
+import json, sys
+from pathlib import Path
+
+aether_path = Path(sys.argv[1])
+watchdog_raw = sys.argv[2]
+countdown_raw = sys.argv[3]
+
+data = {}
+if aether_path.exists():
+    try:
+        data = json.loads(aether_path.read_text())
+    except Exception:
+        data = {}
+
+mode = data.get("mode", "normal")
+watchdog = "running" if "running" in watchdog_raw else "stopped"
+active = mode == "permanent_high_chaos"
+has_aether = bool(data)
+
+aether = "active" if active else "clear"
+health = "OK" if watchdog == "running" else "DEGRADED"
+
+print(json.dumps({
+    "mode": mode,
+    "aether": aether,
+    "watchdog": watchdog,
+    "countdown": countdown_raw.strip() or "Unavailable",
+    "last_checkin": data.get("last_activity") or data.get("activated_at") or "No active chaos session",
+    "last_activity": data.get("last_reapplied") or "No recent chaos activity",
+    "escalation_window": f"{data.get('threshold_hours', 6.0)}h",
+    "chaos_active": active,
+    "rings": 4 if active else 0,
+    "rotation": 1.0 if active else 0.0,
+    "intensity": 1.0 if active else 0.0,
+    "particles": 256 if active else 0,
+    "living_ratio": 1.0 if active else 0.0,
+    "health": health
+}, indent=2))
+PY
