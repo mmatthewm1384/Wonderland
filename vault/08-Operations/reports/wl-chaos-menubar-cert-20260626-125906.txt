@@ -1,0 +1,38 @@
+wl-chaos-menubar certification
+Fri Jun 26 12:59:06 PDT 2026
+
+== source ==
+Sources/wl-chaos-menubar/Paths.swift:5:    static let statusAdapter = "\(wlHome)/bin/wl-chaos-menubar-status"
+Sources/wl-chaos-menubar/ChaosMenubarApp.swift:18:        item.button?.image = StatusIcon.image(for: state)
+Sources/wl-chaos-menubar/ChaosMenubarApp.swift:134:enum StatusIcon {
+Sources/wl-chaos-menubar/ChaosMenubarApp.swift:144:        func diamond(_ rect: NSRect) -> NSBezierPath {
+Sources/wl-chaos-menubar/ChaosMenubarApp.swift:154:        let outer = diamond(NSRect(x: 4, y: 4, width: 14, height: 14))
+Sources/wl-chaos-menubar/ChaosMenubarApp.swift:155:        let inner = diamond(NSRect(x: 8, y: 8, width: 6, height: 6))
+
+== adapter ==
+{
+  "mode": "normal",
+  "aether": "clear",
+  "watchdog": "running",
+  "countdown": "Threshold: 6.00h\nLast activity: 0.02h ago\nEscalation in: 5.98h\nEscalation eligible: NO",
+  "last_checkin": "No active chaos session",
+  "last_activity": "No recent chaos activity",
+  "escalation_window": "6.0h",
+  "chaos_active": false,
+  "rings": 0,
+  "rotation": 0.0,
+  "intensity": 0.0,
+  "particles": 0,
+  "living_ratio": 0.0,
+  "health": "OK"
+}
+
+== actions ==
+
+== binary ==
+-rwxr-xr-x@ 1 wonderland  staff  124800 Jun 26 12:57 /Users/wonderland/Wonderland/ephemeral/bin/wl-chaos-menubar
+/Users/wonderland/Wonderland/bin/wl-chaos-menubar-status
+
+== process ==
+wonderland       15584   0.0  0.0 435300208   1168 s000  S+   12:59PM   0:00.00 tee /Users/wonderland/Wonderland/vault/08-Operations/reports/wl-chaos-menubar-cert-20260626-125906.txt
+wonderland       15354   0.0  0.4 435616944  65968 s000  SN   12:57PM   0:00.42 /Users/wonderland/Wonderland/ephemeral/bin/wl-chaos-menubar
