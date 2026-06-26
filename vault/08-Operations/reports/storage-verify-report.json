@@ -1,8 +1,8 @@
 {
-  "generated": "2026-06-26T20:06:48Z",
+  "generated": "2026-06-26T20:20:41Z",
   "action": "verify",
   "volume": "T7_Wonderland",
   "volume_path": "/Volumes/T7_Wonderland",
-  "status": "FAIL",
-  "message": "storage authority verification failed"
+  "status": "PASS",
+  "message": "storage authority verified"
 }

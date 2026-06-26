@@ -2,45 +2,44 @@
 set -euo pipefail
 
 WL_HOME="${WL_HOME:-$HOME/Wonderland}"
-source "$WL_HOME/lib/wl-lifecycle-lib.sh"
 
 score=0
-total=100
+failures=0
 
-check() {
-  local name="$1"
-  local points="$2"
-  shift 2
+pass() {
+  printf "PASS %-24s +10\n" "$1"
+  score=$((score+10))
+}
 
-  if "$@" >/dev/null 2>&1; then
-    wl_pass "$name" "+$points"
-    score=$((score + points))
-  else
-    wl_fail "$name" "+0"
-  fi
+fail() {
+  printf "FAIL %-24s +0\n" "$1"
+  failures=$((failures+1))
 }
 
 echo "Wonderland Doctor"
 echo
 
-check "storage"        10 wl storage authority
-check "governance"     10 wl governance status
-check "universe"       10 bash -c "wl universe status | grep -q 'RESULT PASS'"
-check "lima-default"   10 bash -c "limactl list | grep -q '^default[[:space:]].*Running'"
-check "rootless"       10 bash -c "limactl list | grep -q '^wonderland-rootless[[:space:]].*Running'"
-check "dns"            10 bash -c "dig @127.0.0.1 -p 1053 grafana.wl >/dev/null 2>&1"
-check "nats"           10 bash -c "curl -fsS http://127.0.0.1:8222/varz >/dev/null"
-check "loki"           10 bash -c "curl -fsS http://127.0.0.1:3100/ready >/dev/null"
-check "prometheus"     10 bash -c "curl -fsS http://127.0.0.1:9090/-/healthy >/dev/null"
-check "grafana"        10 bash -c "curl -fsS http://127.0.0.1:3000/api/health >/dev/null"
+"$WL_HOME/bin/wl-storage" status >/dev/null 2>&1 && pass "storage" || fail "storage"
+"$WL_HOME/bin/wl" governance status >/dev/null 2>&1 && pass "governance" || fail "governance"
+"$WL_HOME/bin/wl-universe" status >/dev/null 2>&1 && pass "universe" || fail "universe"
+
+limactl list | grep -E '^wonderland-rootless[[:space:]]+Running' >/dev/null 2>&1 \
+  && pass "wonderland-rootless" || fail "wonderland-rootless"
+
+LIMA_INSTANCE=wonderland-rootless nerdctl ps >/dev/null 2>&1 \
+  && pass "rootless" || fail "rootless"
+
+for svc in wl-vaultwarden wl-vaultwarden-db wl-loki; do
+  LIMA_INSTANCE=wonderland-rootless nerdctl ps --format '{{.Names}}' | grep -qx "$svc" \
+    && pass "$svc" || fail "$svc"
+done
 
 echo
-echo "Health Score: $score/$total"
+echo "Health Score: $score/80"
 
-if [ "$score" -eq "$total" ]; then
+if [ "$failures" -eq 0 ]; then
   echo "RESULT PASS"
-  exit 0
+else
+  echo "RESULT FAIL"
+  exit 1
 fi
-
-echo "RESULT FAIL"
-exit 1

@@ -1,0 +1,8 @@
+PASS governance status
+PASS lifecycle status
+PASS observability status
+PASS recovery status
+PASS runtime status
+PASS security status
+PASS services status
+PASS storage status

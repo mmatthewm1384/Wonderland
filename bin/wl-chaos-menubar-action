@@ -6,29 +6,22 @@ export PATH="$WL_HOME/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sb
 
 ACTION="${1:-}"
 LOG="$WL_HOME/vault/chaos/menubar-actions.log"
-
 mkdir -p "$(dirname "$LOG")"
 
-run() {
+{
+  echo "----- $(date -u +%Y-%m-%dT%H:%M:%SZ) action=$ACTION -----"
+  command -v wl-chaos || true
+
   case "$ACTION" in
     checkin) wl-chaos checkin ;;
     reset)   wl-chaos reset ;;
     panic)   wl-chaos escalate ;;
     status)  wl-chaos status ;;
-    logs)    wl-chaos logs ;;
     doctor)  wl-chaos doctor ;;
+    logs)    wl-chaos logs ;;
     *)
       echo "invalid action: $ACTION"
-      echo "valid actions: checkin reset panic status logs doctor"
       exit 64
       ;;
   esac
-}
-
-{
-  echo "----- $(date -u +%Y-%m-%dT%H:%M:%SZ) action=$ACTION -----"
-  echo "PATH=$PATH"
-  echo "WL_HOME=$WL_HOME"
-  command -v wl-chaos || true
-  run
 } >>"$LOG" 2>&1

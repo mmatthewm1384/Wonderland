@@ -1,0 +1,52 @@
+{
+  "id": "core-services",
+  "version": "1.0.0",
+  "authority": "wonderland-phase-4",
+  "runtime": {
+    "primary": "wonderland-rootless",
+    "engine": "nerdctl",
+    "compose": "docker/compose.yml"
+  },
+  "services": [
+    {
+      "name": "wl-dns",
+      "required": true,
+      "role": "dns",
+      "image": "docker.io/coredns/coredns:latest",
+      "ports": ["1053:53/tcp", "1053:53/udp"],
+      "dependencies": []
+    },
+    {
+      "name": "wl-nats",
+      "required": true,
+      "role": "message-bus",
+      "image": "docker.io/library/nats:2-alpine",
+      "ports": ["4222:4222/tcp", "8222:8222/tcp"],
+      "dependencies": []
+    },
+    {
+      "name": "wl-loki",
+      "required": true,
+      "role": "logs",
+      "image": "docker.io/grafana/loki:latest",
+      "ports": ["3100:3100/tcp"],
+      "dependencies": []
+    },
+    {
+      "name": "wl-prometheus",
+      "required": true,
+      "role": "metrics",
+      "image": "docker.io/prom/prometheus:latest",
+      "ports": ["9090:9090/tcp"],
+      "dependencies": ["wl-loki"]
+    },
+    {
+      "name": "wl-grafana",
+      "required": true,
+      "role": "dashboard",
+      "image": "docker.io/grafana/grafana:11.1.4",
+      "ports": ["3000:3000/tcp"],
+      "dependencies": ["wl-prometheus", "wl-loki"]
+    }
+  ]
+}

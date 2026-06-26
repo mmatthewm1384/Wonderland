@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+AUDIT="$WL_ROOT/vault/registry/audit/audit-chain.log"
+mkdir -p "$(dirname "$AUDIT")"
+
+hash_line() {
+  printf '%s' "$1" | shasum -a 256 | awk '{print $1}'
+}
+
+last_hash() {
+  if [ -s "$AUDIT" ]; then
+    tail -1 "$AUDIT" | python3 -c 'import json,sys; print(json.loads(sys.stdin.read())["hash"])'
+  else
+    echo "GENESIS"
+  fi
+}
+
+case "${1:-}" in
+  append)
+    authority="${2:?authority required}"
+    action="${3:?action required}"
+    result="${4:?result required}"
+
+    prev="$(last_hash)"
+    ts="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+    id="$(uuidgen | tr 'A-Z' 'a-z')"
+
+    payload="$(python3 - <<PY
+import json
+print(json.dumps({
+  "id": "$id",
+  "timestamp": "$ts",
+  "authority": "$authority",
+  "action": "$action",
+  "result": "$result",
+  "previous_hash": "$prev"
+}, sort_keys=True, separators=(",", ":")))
+PY
+)"
+
+    hash="$(hash_line "$payload")"
+
+    python3 - <<PY >> "$AUDIT"
+import json
+obj=json.loads('$payload')
+obj["hash"]="$hash"
+print(json.dumps(obj, sort_keys=True))
+PY
+
+    echo "PASS audit appended $hash"
+    ;;
+
+  verify)
+    python3 - "$AUDIT" <<'PY'
+import json, hashlib, sys
+from pathlib import Path
+
+p = Path(sys.argv[1])
+prev = "GENESIS"
+
+if not p.exists():
+    print("FAIL audit missing")
+    raise SystemExit(1)
+
+for n, line in enumerate(p.read_text().splitlines(), 1):
+    obj = json.loads(line)
+    got = obj.pop("hash")
+    if obj["previous_hash"] != prev:
+        print(f"FAIL chain break line {n}")
+        raise SystemExit(1)
+    payload = json.dumps(obj, sort_keys=True, separators=(",", ":"))
+    expected = hashlib.sha256(payload.encode()).hexdigest()
+    if expected != got:
+        print(f"FAIL bad hash line {n}")
+        raise SystemExit(1)
+    prev = got
+
+print("PASS audit chain")
+PY
+    ;;
+
+  tail)
+    tail -20 "$AUDIT" 2>/dev/null || true
+    ;;
+
+  *)
+    echo "Usage: wl-audit append <authority> <action> <result> | verify | tail"
+    exit 2
+    ;;
+esac

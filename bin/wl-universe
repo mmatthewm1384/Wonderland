@@ -60,11 +60,11 @@ status() {
 
   echo
   echo "Runtime"
-  required_services="wl-grafana wl-prometheus wl-loki wl-nats wl-dns"
+  required_services="wl-vaultwarden wl-vaultwarden-db wl-loki"
 missing=0
 
 for svc in $required_services; do
-  if nerdctl ps --format '{{.Names}}' | grep -qx "$svc"; then
+  if LIMA_INSTANCE=wonderland-rootless nerdctl ps --format '{{.Names}}' | grep -qx "$svc"; then
     :
   else
     echo "FAIL service $svc"

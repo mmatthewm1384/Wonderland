@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+PENDING="$WL_ROOT/vault/registry/intents/pending"
+ACCEPTED="$WL_ROOT/vault/registry/intents/accepted"
+COMPLETED="$WL_ROOT/vault/registry/intents/completed"
+FAILED="$WL_ROOT/vault/registry/intents/failed"
+
+mkdir -p "$PENDING" "$ACCEPTED" "$COMPLETED" "$FAILED"
+
+ts() { date -u '+%Y-%m-%dT%H:%M:%SZ'; }
+
+case "${1:-}" in
+  create)
+    authority="${2:?authority required}"
+    action="${3:?action required}"
+    shift 3 || true
+    id="$(date -u '+%Y%m%dT%H%M%SZ')-$authority-$action.intent.json"
+
+    cat > "$PENDING/$id" <<JSON
+{
+  "id": "$id",
+  "created_at": "$(ts)",
+  "issuer": "wl",
+  "authority": "$authority",
+  "action": "$action",
+  "args": [$(printf '"%s",' "$@" | sed 's/,$//')]
+}
+JSON
+
+    echo "$PENDING/$id"
+    ;;
+
+  list)
+    find "$PENDING" "$ACCEPTED" "$COMPLETED" "$FAILED" -type f -name '*.intent.json' -print
+    ;;
+
+  run)
+    file="${2:?intent file required}"
+
+    authority="$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["authority"])' "$file")"
+    action="$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["action"])' "$file")"
+
+    mv "$file" "$ACCEPTED/$(basename "$file")"
+    file="$ACCEPTED/$(basename "$file")"
+
+    if "$WL_ROOT/kernel/wl-kernel" dispatch "$authority" "$action"; then
+      mv "$file" "$COMPLETED/$(basename "$file")"
+      echo "PASS intent completed"
+    else
+      mv "$file" "$FAILED/$(basename "$file")"
+      echo "FAIL intent failed"
+      exit 1
+    fi
+    ;;
+
+  *)
+    echo "Usage: wl-intent create <authority> <action> [args...] | list | run <intent-file>"
+    exit 2
+    ;;
+esac

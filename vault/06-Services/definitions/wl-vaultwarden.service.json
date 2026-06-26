@@ -1,0 +1,8 @@
+{
+  "id": "wl-vaultwarden",
+  "name": "Wonderland Vaultwarden",
+  "runtime": "wonderland-rootless",
+  "container": "wl-vaultwarden",
+  "required": true,
+  "state": "active"
+}

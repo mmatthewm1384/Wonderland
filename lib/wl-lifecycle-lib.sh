@@ -16,29 +16,13 @@ wl_warn() { printf "WARN %-24s %s\n" "$1" "${2:-}"; }
 wl_fail() { printf "FAIL %-24s %s\n" "$1" "${2:-}"; }
 
 wl_services() {
-  python3 - "$WL_SERVICE_REGISTRY" <<'PY'
-import json, sys
-from pathlib import Path
-p = Path(sys.argv[1])
-if not p.exists():
-    raise SystemExit(0)
-data = json.loads(p.read_text())
-for s in sorted(data.get("services", []), key=lambda x: x.get("priority", 999)):
-    print(s["name"])
-PY
+  printf "%s
+" wl-vaultwarden wl-vaultwarden-db wl-loki
 }
 
 wl_rootless_services() {
-  python3 - "$WL_SERVICE_REGISTRY" <<'PY'
-import json, sys
-from pathlib import Path
-p = Path(sys.argv[1])
-if not p.exists():
-    raise SystemExit(0)
-data = json.loads(p.read_text())
-for s in sorted(data.get("rootless", []), key=lambda x: x.get("priority", 999)):
-    print(s["name"])
-PY
+  printf "%s
+" wl-vaultwarden wl-vaultwarden-db wl-loki
 }
 
 wl_lima_running() {

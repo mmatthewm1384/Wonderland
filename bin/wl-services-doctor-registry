@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_AUTHORITY_ROOT:-${WL_HOME:-$HOME/Wonderland}}"
+REGISTRY="$ROOT/vault/05-Registry/services/core-services.json"
+
+[[ -f "$REGISTRY" ]] || {
+  echo "FAIL missing service registry: $REGISTRY"
+  exit 1
+}
+
+jq -e . "$REGISTRY" >/dev/null
+
+echo "Wonderland Registry-Driven Service Doctor"
+echo
+
+fail=0
+
+while IFS=$'\t' read -r name required image; do
+  running_image="$(
+    nerdctl ps --format '{{.Names}}\t{{.Image}}' 2>/dev/null \
+      | awk -F'\t' -v n="$name" '$1==n {print $2}'
+  )"
+
+  if [[ -z "$running_image" ]]; then
+    if [[ "$required" == "true" ]]; then
+      echo "FAIL $name missing"
+      fail=1
+    else
+      echo "WARN $name missing optional"
+    fi
+    continue
+  fi
+
+  if [[ "$running_image" == "$image" ]]; then
+    echo "PASS $name"
+  else
+    echo "WARN $name image drift expected=$image actual=$running_image"
+  fi
+done < <(
+  jq -r '.services[] | [.name, .required, .image] | @tsv' "$REGISTRY"
+)
+
+echo
+if [[ "$fail" -eq 0 ]]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+fi
+
+exit "$fail"

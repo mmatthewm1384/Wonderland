@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+cd "$WL_HOME"
+
+report="vault/08-Operations/reports/rootless-audit-$(date +%Y%m%d-%H%M%S).txt"
+
+{
+  echo "Wonderland Rootless Runtime Audit"
+  echo "Generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  echo
+
+  echo "== Hardcoded default Lima references =="
+  grep -RIn --exclude-dir=.git --exclude="$report" \
+    -E 'LIMA_INSTANCE=default|limactl (start|stop|shell|delete) default|lima://default|/default/' \
+    bin scripts config services apps 2>/dev/null || true
+
+  echo
+  echo "== Compose files =="
+  find . -name 'compose.yaml' -o -name 'docker-compose.yml' | sort
+
+  echo
+  echo "== Runtime status =="
+  limactl list || true
+
+  echo
+  echo "== nerdctl containers =="
+  LIMA_INSTANCE=wonderland-rootless nerdctl ps -a || true
+} | tee "$report"
+
+echo
+echo "REPORT $report"

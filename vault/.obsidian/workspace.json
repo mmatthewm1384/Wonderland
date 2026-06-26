@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "20-books/if-you-have-forgotten/manuscript/22-core-values-matrix.md",
-                "mode": "preview",
+                "file": "certifications/secrets-certified-20260624.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "22-core-values-matrix"
+              "title": "secrets-certified-20260624"
             }
           }
         ]
@@ -183,19 +183,37 @@
       "bases:Create new base": false
     }
   },
-  "active": "3c0f6f96aa94d091",
+  "active": "474e21fd0f4d721c",
   "lastOpenFiles": [
-    "20-books/if-you-have-forgotten/build/theme/wonderland-archive.css.bak.20260620-222721",
-    "20-books/if-you-have-forgotten/build/theme/wonderland-archive.css.bak.20260620-222720",
-    "20-books/if-you-have-forgotten/scripts/build/wl-archive-recovery-notes-only-fix.sh",
-    "20-books/if-you-have-forgotten/build/theme/wonderland-archive.css.bak.20260620-222405",
-    "20-books/if-you-have-forgotten/build/theme/wonderland-archive.css.bak.20260620-222404",
-    "20-books/if-you-have-forgotten/scripts/build/wl-archive-chapter-divider-only-fix.sh",
-    "20-books/if-you-have-forgotten/build/theme/wonderland-archive.css.bak.20260620-222046",
-    "20-books/if-you-have-forgotten/scripts/build/wl-archive-restore-and-minimal-fix.sh",
-    "20-books/if-you-have-forgotten/build/theme/wonderland-archive.css.bak.20260620-221808",
-    "20-books/if-you-have-forgotten/build/theme/wonderland-archive.css.bak.20260620-221807",
-    "20-books/if-you-have-forgotten/scripts/build/wl-archive-final-layout-tune.sh",
+    "08-Operations/reports/wl-chaos-menubar-phase3-launchagent-20260626-132050.txt",
+    "08-Operations/reports/rootless-certification-20260626-132042.txt",
+    "08-Operations/reports/lifecycle-start-20260626-132030.json",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/certification.txt",
+    "08-Operations/reports/wl-chaos-menubar-v1.0-20260626-131942.txt",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/backups/v2-20260624-141954/Sources.before/wl-chaos-menubar/main.swift.bak.20260623-122301",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/backups/v2-20260624-141954/Sources.before/wl-chaos-menubar/main.swift",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/backups/v2-20260624-142745/Sources.before/wl-chaos-menubar",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/backups/v2-20260624-141954/Sources.before/wl-chaos-menubar",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/backups/Sources.corrupt.20260626-113750/wl-chaos-menubar/main.swift",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/backups/Sources.corrupt.20260626-113750/wl-chaos-menubar/Shell.swift",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/Resources/Icons/icon-idle.svg",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/Resources/Icons/icon-idle.png",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/Resources/Icons/icon-error.svg",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/Resources/Icons/icon-error.png",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/Resources/Icons/icon-active.svg",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/Resources/Icons/icon-active.png",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/Resources/Icons/icon-idle.svg",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/Resources/Icons/icon-idle.png",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/Resources/Icons/icon-error.svg",
+    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/Resources/Icons/icon-error.png",
+    "certifications/root-separation-certified-20260624.md",
+    "90-Operator/intents/index.md",
+    "90-Operator/runbooks.md",
+    "90-Operator/dashboard/home.md",
+    "90-Operator/projects/THE-MATRIX/index.md",
+    "90-Operator/dashboard/command-launcher.md",
+    "90-Operator/dashboard/00-dashboard/command-launcher.md",
+    "20-books/if-you-have-forgotten/manuscript/22-core-values-matrix.md",
     "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/25-identity-recovery-verification.md",
     "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/24-album-era-timeline.md",
     "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/23-known-truths-appendix.md",
@@ -212,14 +230,6 @@
     "20-books/if-you-have-forgotten/manuscript.backup.20260620-153649/00-cover.md",
     "20-books/if-you-have-forgotten/build/manuscript.pre-normalize.md",
     "20-books/if-you-have-forgotten/build/manuscript.md",
-    "20-books/if-you-have-forgotten/manuscript/10-chapter-01-the-girl-before-the-myth.md",
-    "20-books/if-you-have-forgotten/manuscript/00-cover.md",
-    "20-books/if-you-have-forgotten/manuscript/20-recovery-notes-appendix.md",
-    "20-books/if-you-have-forgotten/manuscript/11-chapter-02-building-taylor-swift.md",
-    "20-books/if-you-have-forgotten/manuscript/02-dedication.md",
-    "20-books/if-you-have-forgotten/manuscript/01-certification.md",
-    "20-books/if-you-have-forgotten/manuscript/21-identity-graphs.md",
-    "20-books/if-you-have-forgotten/manuscript/13-chapter-04-the-people-the-music-and-the-meaning.md",
-    "20-books/if-you-have-forgotten/manuscript/14-chapter-05-the-woman-beyond-the-name.md"
+    "20-books/if-you-have-forgotten/manuscript/10-chapter-01-the-girl-before-the-myth.md"
   ]
 }
