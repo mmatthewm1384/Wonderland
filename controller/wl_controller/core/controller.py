@@ -14,7 +14,13 @@ from wl_controller.events.timeline import TimelineWriter
 from wl_controller.health.engine import HealthEngine
 from wl_controller.runtime.containers import ContainerRuntime
 from wl_controller.policy.engine import PolicyEngine
-from wl_controller.plugins.manager import PluginManager
+try:
+    from wl_controller.plugins.manager import PluginManager
+except Exception as e:
+    PluginManager = None
+    _PLUGIN_IMPORT_ERROR = str(e)
+
+from wl_controller.plugins.null import NullPluginManager
 from wl_controller.core.service_resolver import ServiceResolver
 
 
@@ -33,8 +39,11 @@ class WonderlandController:
         self.recovery_engine = RecoveryEngine(self.runtime)
         self.service_resolver = ServiceResolver(root)
         self.policy_engine = PolicyEngine(root)
-        self.plugins = PluginManager(root, self.config.controller_version)
-        self.plugins.discover()
+        if PluginManager is not None:
+            self.plugins = PluginManager(root, self.config.controller_version)
+            self.plugins.discover()
+        else:
+            self.plugins = NullPluginManager(_PLUGIN_IMPORT_ERROR)
         self.state_path = root / "vault/08-Operations/state/latest.json"
         self.state = PlatformState()
 
