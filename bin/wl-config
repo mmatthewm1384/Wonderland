@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${HOME}/Wonderland"
+export PYTHONPATH="$ROOT/controller:${PYTHONPATH:-}"
+
+python3 - <<'PY'
+import json
+from pathlib import Path
+
+from wl_controller.config.settings import ControllerConfig
+
+root = Path.home() / "Wonderland"
+config = ControllerConfig.load(root)
+print(json.dumps(config.to_dict(), indent=2, sort_keys=True))
+PY

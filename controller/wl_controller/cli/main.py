@@ -33,6 +33,10 @@ def cmd_state(_: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_config(_: argparse.Namespace) -> int:
+    return run([str(ROOT / "bin/wl-config")])
+
+
 def cmd_policy(_: argparse.Namespace) -> int:
     return run([str(ROOT / "bin/wl-policy")])
 
@@ -74,6 +78,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = sub.add_parser("state")
     p.set_defaults(func=cmd_state)
+
+    p = sub.add_parser("config")
+    p.set_defaults(func=cmd_config)
 
     p = sub.add_parser("policy")
     p.set_defaults(func=cmd_policy)
