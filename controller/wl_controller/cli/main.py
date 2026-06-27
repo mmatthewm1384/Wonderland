@@ -7,6 +7,12 @@ import sys
 import urllib.request
 from pathlib import Path
 
+from wl_controller.commands import backup as backup_cmd
+from wl_controller.commands import config as config_cmd
+from wl_controller.commands import policy as policy_cmd
+from wl_controller.commands import release as release_cmd
+from wl_controller.commands import schema as schema_cmd
+
 
 ROOT = Path.home() / "Wonderland"
 API = "http://127.0.0.1:9105"
@@ -34,23 +40,23 @@ def cmd_state(_: argparse.Namespace) -> int:
 
 
 def cmd_config(_: argparse.Namespace) -> int:
-    return run([str(ROOT / "bin/wl-config")])
+    return config_cmd.run(ROOT)
 
 
 def cmd_policy(_: argparse.Namespace) -> int:
-    return run([str(ROOT / "bin/wl-policy")])
+    return policy_cmd.run(ROOT)
 
 
 def cmd_schema(_: argparse.Namespace) -> int:
-    return run([str(ROOT / "bin/wl-schema")])
+    return schema_cmd.run(ROOT)
 
 
 def cmd_release(args: argparse.Namespace) -> int:
-    return run([str(ROOT / "bin/wl-release"), args.action])
+    return release_cmd.run(ROOT, args.action)
 
 
 def cmd_backup(args: argparse.Namespace) -> int:
-    return run([str(ROOT / "bin/wl-backup"), args.action])
+    return backup_cmd.run(ROOT, args.action)
 
 
 def cmd_test(_: argparse.Namespace) -> int:
