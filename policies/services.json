@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "services": {
+    "wl-dns": {
+      "critical": true,
+      "restart": "always",
+      "depends": [],
+      "certify": true
+    },
+    "wl-nats": {
+      "critical": true,
+      "restart": "always",
+      "depends": [],
+      "certify": true
+    },
+    "wl-prometheus": {
+      "critical": true,
+      "restart": "always",
+      "depends": ["wl-nats"],
+      "certify": true
+    },
+    "wl-grafana": {
+      "critical": true,
+      "restart": "always",
+      "depends": ["wl-prometheus"],
+      "certify": true
+    },
+    "wl-loki": {
+      "critical": true,
+      "restart": "always",
+      "depends": [],
+      "certify": true
+    },
+    "wl-vaultwarden-db": {
+      "critical": true,
+      "restart": "always",
+      "depends": [],
+      "certify": true
+    },
+    "wl-vaultwarden": {
+      "critical": true,
+      "restart": "always",
+      "depends": ["wl-vaultwarden-db"],
+      "certify": true
+    }
+  }
+}

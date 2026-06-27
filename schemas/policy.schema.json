@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wonderland Service Policy",
+  "type": "object",
+  "required": ["schema", "services"],
+  "properties": {
+    "schema": { "type": "integer" },
+    "services": { "type": "object" }
+  },
+  "additionalProperties": true
+}
