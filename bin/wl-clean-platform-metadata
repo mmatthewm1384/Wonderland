@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+
+"$WL_HOME/bin/wl-clean-macos-metadata"
+"$WL_HOME/bin/wl-clean-guest-metadata"
+
+echo "RESULT PASS platform metadata clean"
