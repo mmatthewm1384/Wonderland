@@ -1,0 +1,26 @@
+{
+  "updated_at": "2026-06-27T11:32:25.978982+00:00",
+  "timeline": "/Users/wonderland/Wonderland/vault/09-Timeline/timeline.jsonl",
+  "events_source": "/Users/wonderland/Wonderland/runtime/events/events.jsonl",
+  "latest_sequence": 246,
+  "added": 76,
+  "event_counts_added": {
+    "platform.event_engine.enabled": 1,
+    "reconcile.started": 10,
+    "reconcile.finished": 10,
+    "deployment.started": 1,
+    "deployment.finished": 1,
+    "recovery.started": 11,
+    "recovery.finished": 11,
+    "service.recovered": 1,
+    "controller.started": 3,
+    "controller.cycle.started": 3,
+    "controller.cycle.finished": 3,
+    "controller.stopped": 2,
+    "controller.core.started": 5,
+    "controller.core.cycle.started": 5,
+    "controller.core.cycle.finished": 4,
+    "controller.core.stopped": 4,
+    "timeline.enabled": 1
+  }
+}

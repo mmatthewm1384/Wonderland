@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+fail=0
+
+pass() { printf "PASS %-24s %s\n" "$1" "${2:-}"; }
+fail_item() { printf "FAIL %-24s %s\n" "$1" "${2:-}"; fail=1; }
+warn() { printf "WARN %-24s %s\n" "$1" "${2:-}"; }
+
+echo "Wonderland Platform Status"
+echo
+
+echo "Runtime"
+if limactl list | grep -E '^wonderland-rootless[[:space:]]+Running' >/dev/null 2>&1; then
+  pass "wonderland-rootless"
+else
+  fail_item "wonderland-rootless"
+fi
+
+echo
+echo "Registry"
+if [ -f "$WL_HOME/vault/05-Registry/services.json" ] && jq -e '.valid == true' "$WL_HOME/vault/05-Registry/services.json" >/dev/null; then
+  count="$(jq '.services | length' "$WL_HOME/vault/05-Registry/services.json")"
+  pass "services registry" "$count services"
+else
+  fail_item "services registry"
+fi
+
+if [ -f "$WL_HOME/vault/05-Registry/desired-state.json" ]; then
+  pass "desired state"
+else
+  fail_item "desired state"
+fi
+
+echo
+echo "Services"
+if "$WL_HOME/bin/wl-services" status; then
+  pass "services"
+else
+  fail_item "services"
+fi
+
+echo
+echo "Health"
+if "$WL_HOME/bin/wl-services-health" >/tmp/wl-status-health.out 2>/tmp/wl-status-health.err; then
+  pass "health"
+else
+  fail_item "health"
+  cat /tmp/wl-status-health.out
+fi
+
+echo
+echo "Controller"
+if [ -f "$WL_HOME/vault/08-Operations/reports/controller/latest.txt" ]; then
+  if grep -q 'RESULT PASS' "$WL_HOME/vault/08-Operations/reports/controller/latest.txt"; then
+    pass "controller latest"
+  else
+    fail_item "controller latest"
+  fi
+else
+  warn "controller latest" "missing"
+fi
+
+echo
+echo "Recovery"
+if [ -f "$WL_HOME/vault/08-Operations/reports/recovery/latest.json" ]; then
+  result="$(jq -r '.result // "unknown"' "$WL_HOME/vault/08-Operations/reports/recovery/latest.json" 2>/dev/null || echo unknown)"
+  if [ "$result" = "PASS" ]; then
+    pass "recovery latest"
+  else
+    fail_item "recovery latest" "$result"
+  fi
+else
+  warn "recovery latest" "missing"
+fi
+
+echo
+echo "Deployments"
+if [ -f "$WL_HOME/vault/08-Operations/deployments/latest.json" ]; then
+  result="$(jq -r '.result // "unknown"' "$WL_HOME/vault/08-Operations/deployments/latest.json" 2>/dev/null || echo unknown)"
+  if [ "$result" = "PASS" ]; then
+    pass "deployment latest"
+  else
+    fail_item "deployment latest" "$result"
+  fi
+else
+  warn "deployment latest" "missing"
+fi
+
+echo
+echo "Events"
+if [ -s "$WL_HOME/runtime/events/events.jsonl" ]; then
+  count="$(wc -l < "$WL_HOME/runtime/events/events.jsonl" | tr -d ' ')"
+  pass "events" "$count entries"
+else
+  warn "events" "empty"
+fi
+
+echo
+echo "Universe"
+if "$WL_HOME/bin/wl-universe" status >/tmp/wl-status-universe.out 2>/tmp/wl-status-universe.err; then
+  pass "universe"
+else
+  fail_item "universe"
+  cat /tmp/wl-status-universe.out
+fi
+
+echo
+echo "Doctor"
+if "$WL_HOME/bin/wl-doctor-lifecycle" >/tmp/wl-status-doctor.out 2>/tmp/wl-status-doctor.err; then
+  pass "doctor"
+else
+  fail_item "doctor"
+  cat /tmp/wl-status-doctor.out
+fi
+
+echo
+echo "Certification"
+if "$WL_HOME/bin/wl-certify-platform-services" >/tmp/wl-status-cert.out 2>/tmp/wl-status-cert.err; then
+  pass "platform certification"
+else
+  fail_item "platform certification"
+  cat /tmp/wl-status-cert.out
+fi
+
+echo
+if [ "$fail" -eq 0 ]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+  exit 1
+fi

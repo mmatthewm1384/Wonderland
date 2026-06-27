@@ -147,8 +147,9 @@ case "${1:-status}" in
   certify) "$WL_HOME/bin/wl-certify-platform-services" ;;
   manifest) "$WL_HOME/bin/wl-services-manifest" ;;
   health) "$WL_HOME/bin/wl-services-health" ;;
+  recover) "$WL_HOME/bin/wl-services-recover" ;;
   *)
-    echo "Usage: wl services discover|refresh|graph|status|doctor|up|down|restart|host-status|clean|deploy|certify|manifest|health"
+    echo "Usage: wl services discover|refresh|graph|status|doctor|up|down|restart|host-status|clean|deploy|certify|manifest|health|recover"
     exit 2
     ;;
 esac
