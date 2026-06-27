@@ -17,6 +17,7 @@ def main() -> int:
         "controller",
         "schemas",
         "release",
+        "sdk",
         "bin/wl-controller-v2",
         "bin/wl-controller-core-v2",
         "bin/wl-api-v2",

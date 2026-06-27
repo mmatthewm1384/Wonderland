@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${HOME}/Wonderland"
+cd "$ROOT"
+
+export PYTHONPATH="$ROOT/controller:$ROOT/sdk:${PYTHONPATH:-}"
+
+python3 -m unittest discover \
+  -s "$ROOT/tests" \
+  -t "$ROOT" \
+  -p 'test_*.py' \
+  -v
