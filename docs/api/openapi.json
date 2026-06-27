@@ -1,125 +1,145 @@
 {
-  "openapi": "3.1.0",
   "info": {
+    "description": "REST API for the Wonderland local control plane.",
     "title": "Wonderland Platform API",
-    "version": "1.0.0",
-    "description": "REST API for the Wonderland local control plane."
+    "version": "1.0.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/config": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Effective configuration"
+          }
+        },
+        "summary": "Return effective controller configuration"
+      }
+    },
+    "/drift": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Drift state"
+          }
+        },
+        "summary": "Return drifted services"
+      }
+    },
+    "/events": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Recent events"
+          }
+        },
+        "summary": "Return recent event stream"
+      }
+    },
+    "/metrics": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Prometheus exposition format"
+          }
+        },
+        "summary": "Return Prometheus metrics"
+      }
+    },
+    "/plugins": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Plugin status"
+          }
+        },
+        "summary": "Return loaded plugin status"
+      }
+    },
+    "/ready": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Readiness state"
+          }
+        },
+        "summary": "Return platform readiness summary"
+      }
+    },
+    "/schema": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Schema validation result"
+          }
+        },
+        "summary": "Return schema validation state"
+      }
+    },
+    "/services": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Service registry"
+          }
+        },
+        "summary": "Return service registry"
+      }
+    },
+    "/state": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "PlatformState"
+          }
+        },
+        "summary": "Return full PlatformState"
+      }
+    },
+    "/status": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Status response"
+          }
+        },
+        "summary": "Return platform status"
+      }
+    },
+    "/stream": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "SSE stream"
+          }
+        },
+        "summary": "Stream platform state changes as Server-Sent Events"
+      }
+    },
+    "/timeline": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Timeline summary"
+          }
+        },
+        "summary": "Return timeline summary"
+      }
+    },
+    "/version": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Version manifest"
+          }
+        },
+        "summary": "Return platform version metadata"
+      }
+    }
   },
   "servers": [
     {
       "url": "http://127.0.0.1:9105/api/v1"
     }
-  ],
-  "paths": {
-    "/version": {
-      "get": {
-        "summary": "Return platform version metadata",
-        "responses": {
-          "200": {
-            "description": "Version manifest"
-          }
-        }
-      }
-    },
-    "/ready": {
-      "get": {
-        "summary": "Return platform readiness summary",
-        "responses": {
-          "200": {
-            "description": "Readiness state"
-          }
-        }
-      }
-    },
-    "/status": {
-      "get": {
-        "summary": "Return platform status",
-        "responses": {
-          "200": {
-            "description": "Status response"
-          }
-        }
-      }
-    },
-    "/state": {
-      "get": {
-        "summary": "Return full PlatformState",
-        "responses": {
-          "200": {
-            "description": "PlatformState"
-          }
-        }
-      }
-    },
-    "/services": {
-      "get": {
-        "summary": "Return service registry",
-        "responses": {
-          "200": {
-            "description": "Service registry"
-          }
-        }
-      }
-    },
-    "/events": {
-      "get": {
-        "summary": "Return recent event stream",
-        "responses": {
-          "200": {
-            "description": "Recent events"
-          }
-        }
-      }
-    },
-    "/timeline": {
-      "get": {
-        "summary": "Return timeline summary",
-        "responses": {
-          "200": {
-            "description": "Timeline summary"
-          }
-        }
-      }
-    },
-    "/drift": {
-      "get": {
-        "summary": "Return drifted services",
-        "responses": {
-          "200": {
-            "description": "Drift state"
-          }
-        }
-      }
-    },
-    "/schema": {
-      "get": {
-        "summary": "Return schema validation state",
-        "responses": {
-          "200": {
-            "description": "Schema validation result"
-          }
-        }
-      }
-    },
-    "/config": {
-      "get": {
-        "summary": "Return effective controller configuration",
-        "responses": {
-          "200": {
-            "description": "Effective configuration"
-          }
-        }
-      }
-    },
-    "/metrics": {
-      "get": {
-        "summary": "Return Prometheus metrics",
-        "responses": {
-          "200": {
-            "description": "Prometheus exposition format"
-          }
-        }
-      }
-    }
-  }
+  ]
 }

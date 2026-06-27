@@ -96,10 +96,48 @@ class APIServer:
                     "/api/v1/schema": "/schema",
                     "/api/v1/config": "/config",
                     "/api/v1/openapi.json": "/openapi.json",
+                    "/api/v1/stream": "/stream",
+                    "/api/v1/plugins": "/plugins",
                 }
                 route = aliases.get(route, route)
 
-                if route == "/openapi.json":
+                if route == "/stream":
+                    self.send_response(200)
+                    self.send_header("Content-Type", "text/event-stream")
+                    self.send_header("Cache-Control", "no-cache")
+                    self.send_header("Connection", "keep-alive")
+                    self.end_headers()
+
+                    last_generated = None
+
+                    try:
+                        while True:
+                            state = api._get_state()
+                            generated = state.get("generated_at")
+
+                            if generated != last_generated:
+                                payload = {
+                                    "type": "state",
+                                    "generated_at": generated,
+                                    "status": state.get("certification", {}).get("status"),
+                                    "ready": (
+                                        state.get("certification", {}).get("status") == "PASS"
+                                        and bool(state.get("runtime", {}).get("running"))
+                                        and state.get("registry", {}).get("resolved_services", {}).get("drifted", 0) == 0
+                                    ),
+                                    "services": state.get("registry", {}).get("resolved_services", {}),
+                                    "controller": state.get("controller", {}),
+                                }
+                                body = "event: state\n" + "data: " + json.dumps(payload, sort_keys=True) + "\n\n"
+                                self.wfile.write(body.encode())
+                                self.wfile.flush()
+                                last_generated = generated
+
+                            time.sleep(1)
+                    except Exception:
+                        return
+
+                elif route == "/openapi.json":
                     spec = api.root / "docs/api/openapi.json"
                     if spec.exists():
                         self._json(json.loads(spec.read_text(encoding="utf-8")))
@@ -144,6 +182,8 @@ class APIServer:
                         "schema": state.get("schema"),
                         "controller": state.get("controller", {}),
                     })
+                elif route == "/plugins":
+                    self._json(state.get("metrics", {}).get("plugins", {}))
                 elif route == "/config":
                     self._json(api.config.to_dict())
                 elif route == "/schema":

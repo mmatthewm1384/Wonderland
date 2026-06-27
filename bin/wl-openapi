@@ -36,7 +36,9 @@ else:
             "/drift",
             "/schema",
             "/config",
-            "/metrics"
+            "/metrics",
+            "/stream",
+            "/plugins"
         ]
 
         paths = data.get("paths", {})

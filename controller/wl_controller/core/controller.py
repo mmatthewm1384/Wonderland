@@ -14,6 +14,7 @@ from wl_controller.events.timeline import TimelineWriter
 from wl_controller.health.engine import HealthEngine
 from wl_controller.runtime.containers import ContainerRuntime
 from wl_controller.policy.engine import PolicyEngine
+from wl_controller.plugins.manager import PluginManager
 from wl_controller.core.service_resolver import ServiceResolver
 
 
@@ -32,13 +33,17 @@ class WonderlandController:
         self.recovery_engine = RecoveryEngine(self.runtime)
         self.service_resolver = ServiceResolver(root)
         self.policy_engine = PolicyEngine(root)
+        self.plugins = PluginManager(root, self.config.controller_version)
+        self.plugins.discover()
         self.state_path = root / "vault/08-Operations/state/latest.json"
         self.state = PlatformState()
 
     def cycle(self) -> PlatformState:
         started = time.time()
+        self.plugins.before_cycle()
         self.log.info("controller cycle started", extra={"component": "controller", "event": "cycle.started"})
-        self.events.publish("controller.v3.cycle.started", {})
+        start_event = self.events.publish("controller.v3.cycle.started", {})
+        self.plugins.on_event({"ts": start_event.ts, "type": start_event.type, "payload": start_event.payload})
 
         services = self.registry.services()
         desired = self.registry.desired_state()
@@ -86,11 +91,13 @@ class WonderlandController:
             },
             metrics={
                 "policy": policy_state,
+                "plugins": self.plugins.status(),
             },
         )
 
         self.state.save(self.state_path)
 
+        self.plugins.after_cycle(self.state.to_dict())
         self.log.info(
             "controller cycle finished",
             extra={
@@ -100,10 +107,11 @@ class WonderlandController:
                 "status": self.state.certification["status"],
             },
         )
-        self.events.publish("controller.v3.cycle.finished", {
+        finish_event = self.events.publish("controller.v3.cycle.finished", {
             "duration_seconds": self.state.controller["cycle_duration_seconds"],
             "certification": self.state.certification["status"],
         })
+        self.plugins.on_event({"ts": finish_event.ts, "type": finish_event.type, "payload": finish_event.payload})
 
         self.state.events = self.events.read_recent(100)
         self.state.save(self.state_path)
