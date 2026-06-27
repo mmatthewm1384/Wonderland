@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+# Rootless services authority intercept
+if [ "${1:-}" = "services" ]; then
+  shift
+  exec "${WL_HOME:-$HOME/Wonderland}/bin/wl-services" "$@"
+fi
+
 set -euo pipefail
 
 # wl-veil route

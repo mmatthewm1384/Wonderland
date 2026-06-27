@@ -1,195 +1,75 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="${WONDERLAND_ROOT:-$HOME/Wonderland}"
-REGISTRY="$ROOT/.wl-registry"
-LOG_DIR="$ROOT/logs/services"
-LOG_FILE="$LOG_DIR/wl-services.log"
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+LIMA_INSTANCE="${LIMA_INSTANCE:-wonderland-rootless}"
 
-mkdir -p "$LOG_DIR"
-
-require_python() {
-  command -v python3 >/dev/null 2>&1 || {
-    echo "[FAIL] python3 not found"
-    exit 1
-  }
-}
-
-require_registry() {
-  [ -f "$REGISTRY" ] || {
-    echo "[FAIL] Registry missing: $REGISTRY"
-    echo "Run: wl-governance sync && wl-registry inventory"
-    exit 1
-  }
-}
-
-list_services() {
-  require_registry
-  require_python
-
-  python3 - "$REGISTRY" <<'PY'
-import json, sys
-
-with open(sys.argv[1], "r", encoding="utf-8") as f:
-    data = json.load(f)
-
-runtime = data.get("runtime_inventory", {})
-items = []
-
-for section, label in [("services", "service"), ("zones", "zone")]:
-    for item in runtime.get(section, []):
-        items.append({
-            "name": item.get("name", ""),
-            "type": label,
-            "relative_path": item.get("relative_path", "")
-        })
-
-if not items:
-    print("[EMPTY] No services or zones discovered.")
-    sys.exit(0)
-
-for item in items:
-    print(f"{item['name']}\t{item['type']}\t{item['relative_path']}")
-PY
-}
+services=(
+  wl-vaultwarden-db
+  wl-vaultwarden
+  wl-loki
+  wl-prometheus
+  wl-grafana
+  wl-nats
+  wl-dns
+)
 
 status() {
-  require_registry
-  require_python
+  "$WL_HOME/bin/wl-rootless-services"
+}
 
-  python3 - "$REGISTRY" <<'PY'
-import json, sys
-
-with open(sys.argv[1], "r", encoding="utf-8") as f:
-    data = json.load(f)
-
-runtime = data.get("runtime_inventory", {})
-services = runtime.get("services", [])
-zones = runtime.get("zones", [])
-
-print("Wonderland Services")
-print(f"Inventory Generated: {runtime.get('generated_at', 'not generated')}")
-print(f"Services:            {len(services)}")
-print(f"Zones:               {len(zones)}")
-PY
+host_status() {
+  echo "== runtime services: $LIMA_INSTANCE =="
+  LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl ps --format '{{.Names}} {{.Image}} {{.Status}} {{.Ports}}' | sort
 }
 
 doctor() {
-  failures=0
-
-  echo "=== 🧩 Wonderland Services Doctor ==="
-
-  [ -d "$ROOT/services" ] && echo "[OK] services directory exists" || {
-    echo "[FAIL] services directory missing"
-    failures=$((failures + 1))
-  }
-
-  [ -d "$ROOT/zones" ] && echo "[OK] zones directory exists" || echo "[WARN] zones directory missing"
-
-  [ -f "$REGISTRY" ] && echo "[OK] registry exists" || {
-    echo "[FAIL] registry missing"
-    failures=$((failures + 1))
-  }
-
-  command -v python3 >/dev/null 2>&1 && echo "[OK] python3 available" || {
-    echo "[FAIL] python3 missing"
-    failures=$((failures + 1))
-  }
-
-  if [ -f "$REGISTRY" ] && python3 -m json.tool "$REGISTRY" >/dev/null 2>&1; then
-    echo "[OK] registry JSON valid"
-  else
-    echo "[FAIL] registry JSON invalid"
-    failures=$((failures + 1))
-  fi
-
-  [ -d "$LOG_DIR" ] && echo "[OK] service logs directory exists" || {
-    echo "[FAIL] service logs directory missing"
-    failures=$((failures + 1))
-  }
-
-  if [ "$failures" -eq 0 ]; then
-    echo "=== SERVICES HEALTHY ==="
-    exit 0
-  else
-    echo "=== SERVICES UNHEALTHY: $failures failure(s) ==="
-    exit 1
-  fi
+  "$WL_HOME/bin/wl-clean-platform-metadata"
+  echo
+  "$WL_HOME/bin/wl-rootless" status
+  echo
+  "$WL_HOME/bin/wl-rootless-services"
+  echo
+  "$WL_HOME/bin/wl-universe" status
+  echo
+  "$WL_HOME/bin/wl-doctor-lifecycle"
 }
 
-repair() {
-  mkdir -p "$ROOT/services" "$ROOT/zones" "$ROOT/logs/services"
+up() {
+  limactl start "$LIMA_INSTANCE" >/dev/null 2>&1 || true
 
-  if [ -x "$ROOT/bin/wl-governance" ]; then
-    "$ROOT/bin/wl-governance" sync
-  fi
+  for svc in "${services[@]}"; do
+    LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl start "$svc" >/dev/null 2>&1 || true
+  done
 
-  if [ -x "$ROOT/bin/wl-registry" ]; then
-    "$ROOT/bin/wl-registry" inventory || true
-  fi
-
-  chmod +x "$ROOT/bin/wl-services" 2>/dev/null || true
-
-  echo "[OK] Services repair complete"
+  status
 }
 
-inspect_service() {
-  local name="${1:-}"
+down() {
+  for svc in wl-dns wl-nats wl-grafana wl-prometheus wl-loki wl-vaultwarden wl-vaultwarden-db; do
+    LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl stop "$svc" >/dev/null 2>&1 || true
+    echo "STOP $svc"
+  done
 
-  [ -n "$name" ] || {
-    echo "Usage: wl-services inspect <service>"
-    exit 1
-  }
-
-  require_registry
-  require_python
-
-  python3 - "$REGISTRY" "$name" <<'PY'
-import json, sys
-
-registry, name = sys.argv[1], sys.argv[2]
-
-with open(registry, "r", encoding="utf-8") as f:
-    data = json.load(f)
-
-runtime = data.get("runtime_inventory", {})
-matches = []
-
-for section in ["services", "zones"]:
-    for item in runtime.get(section, []):
-        if item.get("name") == name:
-            result = dict(item)
-            result["section"] = section
-            matches.append(result)
-
-if not matches:
-    print(f"[FAIL] Service not found: {name}")
-    sys.exit(1)
-
-print(json.dumps(matches, indent=2))
-PY
+  echo "RESULT PASS"
 }
 
-case "${1:-help}" in
-  list) list_services ;;
+restart() {
+  down
+  up
+}
+
+case "${1:-status}" in
   status) status ;;
   doctor) doctor ;;
-  repair) repair ;;
-  inspect) shift; inspect_service "$@" ;;
-  help|-h|--help)
-    cat <<USAGE
-Usage: wl-services <command>
-
-Commands:
-  list                  List discovered services and zones
-  status                Show service inventory summary
-  doctor                Validate services subsystem
-  repair                Create missing service paths and refresh inventory
-  inspect <service>     Show discovered metadata for service or zone
-USAGE
-    ;;
+  up|start) up ;;
+  down|stop) down ;;
+  restart) restart ;;
+  host-status) host_status ;;
+  clean) "$WL_HOME/bin/wl-clean-platform-metadata" ;;
+  certify) "$WL_HOME/bin/wl-certify-platform-services" ;;
   *)
-    echo "[FAIL] Unknown command: $1"
-    exit 1
+    echo "Usage: wl services status|doctor|up|down|restart|host-status|clean|certify"
+    exit 2
     ;;
 esac
