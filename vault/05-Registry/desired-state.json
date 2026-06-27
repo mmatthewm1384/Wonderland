@@ -1,0 +1,11 @@
+{
+  "runtime": "wonderland-rootless",
+  "services": {
+    "wl-dns": true,
+    "wl-nats": true,
+    "wl-loki": true,
+    "wl-prometheus": true,
+    "wl-grafana": true,
+    "wl-vaultwarden": true
+  }
+}

@@ -1,0 +1,123 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+REGISTRY="$WL_HOME/vault/05-Registry/services.json"
+DESIRED="$WL_HOME/vault/05-Registry/desired-state.json"
+REPORT_DIR="$WL_HOME/vault/08-Operations/reports/reconcile"
+LIMA_INSTANCE="${LIMA_INSTANCE:-wonderland-rootless}"
+
+mkdir -p "$REPORT_DIR"
+
+stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+report="$REPORT_DIR/reconcile-$stamp.json"
+latest="$REPORT_DIR/latest.json"
+
+fail=0
+
+"$WL_HOME/bin/wl-event" reconcile.started >/dev/null 2>&1 || true
+
+echo "== Wonderland Reconcile =="
+
+echo
+echo "== Refresh registry =="
+"$WL_HOME/bin/wl-services-refresh" || fail=1
+
+echo
+echo "== Validate desired state =="
+[ -f "$DESIRED" ] || {
+  echo "FAIL missing desired state: $DESIRED"
+  fail=1
+}
+
+jq -e '.runtime == "wonderland-rootless"' "$DESIRED" >/dev/null || {
+  echo "FAIL desired runtime mismatch"
+  fail=1
+}
+
+[ "$fail" -eq 0 ] || exit 1
+
+echo "PASS desired state"
+
+echo
+echo "== Ensure runtime =="
+limactl start "$LIMA_INSTANCE" >/dev/null 2>&1 || true
+"$WL_HOME/bin/wl-rootless" status || fail=1
+
+echo
+echo "== Apply desired services =="
+while read -r svc enabled; do
+  [ -n "$svc" ] || continue
+
+  if [ "$enabled" = "true" ]; then
+    echo "ENSURE $svc"
+
+    dir="$(jq -r --arg svc "$svc" '.services[] | select(.name == $svc) | .directory' "$REGISTRY")"
+
+    if [ -z "$dir" ] || [ "$dir" = "null" ]; then
+      echo "FAIL desired service not in registry: $svc"
+      fail=1
+      continue
+    fi
+
+    limactl shell "$LIMA_INSTANCE" -- bash -lc "
+      set -euo pipefail
+      cd '$dir'
+      nerdctl compose -f compose.yaml up -d
+    " || fail=1
+  else
+    echo "DISABLE $svc"
+
+    containers="$(jq -r --arg svc "$svc" '.services[] | select(.name == $svc) | .containers[]?' "$REGISTRY")"
+
+    while read -r container; do
+      [ -n "$container" ] || continue
+      LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl stop "$container" >/dev/null 2>&1 || true
+      echo "STOP $container"
+    done <<< "$containers"
+  fi
+done < <(jq -r '.services | to_entries[] | "\(.key) \(.value)"' "$DESIRED")
+
+echo
+echo "== Health =="
+"$WL_HOME/bin/wl-services-health" || fail=1
+
+echo
+echo "== Certification =="
+"$WL_HOME/bin/wl-certify-platform-services" || fail=1
+
+result="PASS"
+[ "$fail" -eq 0 ] || result="FAIL"
+
+python3 - "$REGISTRY" "$DESIRED" "$report" "$result" <<'PY'
+import json
+import sys
+from pathlib import Path
+from datetime import datetime, timezone
+
+registry = json.loads(Path(sys.argv[1]).read_text())
+desired = json.loads(Path(sys.argv[2]).read_text())
+report = Path(sys.argv[3])
+result = sys.argv[4]
+
+doc = {
+    "generated_at": datetime.now(timezone.utc).isoformat(),
+    "result": result,
+    "runtime": "wonderland-rootless",
+    "desired": desired,
+    "registry_valid": registry.get("valid"),
+    "start_order": registry.get("start_order"),
+    "services": registry.get("services"),
+}
+
+report.write_text(json.dumps(doc, indent=2) + "\n")
+print(f"REPORT {report}")
+PY
+
+cp "$report" "$latest"
+
+"$WL_HOME/bin/wl-event" reconcile.finished result="$result" report="$report" >/dev/null 2>&1 || true
+
+echo "RESULT $result"
+
+[ "$result" = "PASS" ]

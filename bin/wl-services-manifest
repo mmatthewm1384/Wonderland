@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+SERVICES_ROOT="${SERVICES_ROOT:-$HOME/Workshop/services}"
+
+mkdir -p "$WL_HOME/vault/08-Operations/reports/services"
+
+out="$WL_HOME/vault/08-Operations/reports/services/services-manifest-$(date +%Y%m%d-%H%M%S).json"
+latest="$WL_HOME/vault/08-Operations/reports/services/latest-services-manifest.json"
+
+python3 - "$SERVICES_ROOT" "$out" <<'PY'
+import json
+import hashlib
+import subprocess
+import sys
+from pathlib import Path
+from datetime import datetime, timezone
+
+root = Path(sys.argv[1])
+out = Path(sys.argv[2])
+
+ps = subprocess.run(
+    [
+        "bash",
+        "-lc",
+        "LIMA_INSTANCE=wonderland-rootless nerdctl ps -a --format '{{.Names}}\t{{.Image}}\t{{.Status}}\t{{.ID}}'",
+    ],
+    text=True,
+    capture_output=True,
+)
+
+containers = {}
+
+for line in ps.stdout.splitlines():
+    parts = line.split("\t")
+    if len(parts) == 4:
+        name, image, status, cid = parts
+        containers[name] = {
+            "name": name,
+            "image": image,
+            "status": status,
+            "id": cid,
+            "up": "Up" in status,
+        }
+
+services = []
+
+for d in sorted(root.iterdir()):
+    if not d.is_dir():
+        continue
+
+    compose = d / "compose.yaml"
+    if not compose.exists():
+        continue
+
+    meta_path = d / "service.json"
+    meta = {}
+
+    if meta_path.exists():
+        try:
+            meta = json.loads(meta_path.read_text())
+        except Exception as e:
+            meta = {"error": str(e)}
+
+    declared = meta.get("containers") or [meta.get("name") or d.name]
+    resolved = [
+        containers.get(c, {"name": c, "missing": True, "up": False})
+        for c in declared
+    ]
+
+    services.append({
+        "name": d.name,
+        "compose": str(compose),
+        "compose_sha256": hashlib.sha256(compose.read_bytes()).hexdigest(),
+        "metadata": meta,
+        "containers": resolved,
+        "healthy": all(c.get("up") for c in resolved),
+    })
+
+manifest = {
+    "generated_at": datetime.now(timezone.utc).isoformat(),
+    "runtime": "wonderland-rootless",
+    "services_root": str(root),
+    "healthy": all(s["healthy"] for s in services),
+    "services": services,
+}
+
+out.write_text(json.dumps(manifest, indent=2) + "\n")
+print(out)
+PY
+
+cp "$out" "$latest"
+echo "REPORT $out"

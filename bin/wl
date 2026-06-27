@@ -1,4 +1,16 @@
 #!/usr/bin/env bash
+# Rootless events intercept
+if [ "${1:-}" = "events" ]; then
+  shift
+  exec "${WL_HOME:-$HOME/Wonderland}/bin/wl-events" "$@"
+fi
+
+# Rootless reconcile intercept
+if [ "${1:-}" = "reconcile" ]; then
+  shift
+  exec "${WL_HOME:-$HOME/Wonderland}/bin/wl-reconcile" "$@"
+fi
+
 # Rootless services authority intercept
 if [ "${1:-}" = "services" ]; then
   shift

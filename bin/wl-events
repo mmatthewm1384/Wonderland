@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+EVENT_LOG="$WL_HOME/runtime/events/events.jsonl"
+
+case "${1:-tail}" in
+  tail)
+    tail -n "${2:-40}" "$EVENT_LOG"
+    ;;
+  list)
+    cat "$EVENT_LOG"
+    ;;
+  jq)
+    shift
+    jq "$@" "$EVENT_LOG"
+    ;;
+  *)
+    echo "usage: wl-events tail [n] | list | jq <filter>"
+    exit 2
+    ;;
+esac

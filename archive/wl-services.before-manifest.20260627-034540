@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+LIMA_INSTANCE="${LIMA_INSTANCE:-wonderland-rootless}"
+
+services=(
+  wl-vaultwarden-db
+  wl-vaultwarden
+  wl-loki
+  wl-prometheus
+  wl-grafana
+  wl-nats
+  wl-dns
+)
+
+status() {
+  "$WL_HOME/bin/wl-rootless-services"
+}
+
+host_status() {
+  echo "== runtime services: $LIMA_INSTANCE =="
+  LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl ps --format '{{.Names}} {{.Image}} {{.Status}} {{.Ports}}' | sort
+}
+
+doctor() {
+  "$WL_HOME/bin/wl-clean-platform-metadata"
+  echo
+  "$WL_HOME/bin/wl-rootless" status
+  echo
+  "$WL_HOME/bin/wl-rootless-services"
+  echo
+  "$WL_HOME/bin/wl-universe" status
+  echo
+  "$WL_HOME/bin/wl-doctor-lifecycle"
+}
+
+up() {
+  limactl start "$LIMA_INSTANCE" >/dev/null 2>&1 || true
+
+  for svc in "${services[@]}"; do
+    LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl start "$svc" >/dev/null 2>&1 || true
+  done
+
+  status
+}
+
+down() {
+  for svc in wl-dns wl-nats wl-grafana wl-prometheus wl-loki wl-vaultwarden wl-vaultwarden-db; do
+    LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl stop "$svc" >/dev/null 2>&1 || true
+    echo "STOP $svc"
+  done
+
+  echo "RESULT PASS"
+}
+
+restart() {
+  down
+  up
+}
+
+case "${1:-status}" in
+  status) status ;;
+  doctor) doctor ;;
+  up|start) up ;;
+  down|stop) down ;;
+  restart) restart ;;
+  host-status) host_status ;;
+  clean) "$WL_HOME/bin/wl-clean-platform-metadata" ;;
+  certify) "$WL_HOME/bin/wl-certify-platform-services" ;;
+  *)
+    echo "Usage: wl services status|doctor|up|down|restart|host-status|clean|certify"
+    exit 2
+    ;;
+esac

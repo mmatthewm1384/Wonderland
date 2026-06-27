@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+LIMA_INSTANCE="${LIMA_INSTANCE:-wonderland-rootless}"
+REGISTRY="$WL_HOME/vault/05-Registry/services.json"
+DEPLOY_DIR="$WL_HOME/vault/08-Operations/deployments"
+
+mkdir -p "$DEPLOY_DIR"
+
+deployment_id="$(date -u +%Y%m%dT%H%M%SZ)"
+record="$DEPLOY_DIR/$deployment_id.json"
+latest="$DEPLOY_DIR/latest.json"
+start_epoch="$(date +%s)"
+
+registry_sha() {
+  shasum -a 256 "$REGISTRY" | awk '{print $1}'
+}
+
+git_commit() {
+  git -C "$WL_HOME" rev-parse HEAD 2>/dev/null || echo "unknown"
+}
+
+emit_record() {
+  local result="$1"
+  local duration="$2"
+
+  python3 - "$REGISTRY" "$record" "$deployment_id" "$result" "$duration" "$(registry_sha)" "$(git_commit)" <<'PY'
+import json
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+registry_path = Path(sys.argv[1])
+record_path = Path(sys.argv[2])
+deployment_id = sys.argv[3]
+result = sys.argv[4]
+duration = float(sys.argv[5])
+registry_sha = sys.argv[6]
+git_commit = sys.argv[7]
+
+registry = json.loads(registry_path.read_text())
+
+record = {
+    "deployment_id": deployment_id,
+    "generated_at": datetime.now(timezone.utc).isoformat(),
+    "runtime": registry.get("runtime", "wonderland-rootless"),
+    "result": result,
+    "duration_seconds": duration,
+    "registry": str(registry_path),
+    "registry_sha256": registry_sha,
+    "git_commit": git_commit,
+    "start_order": registry.get("start_order", []),
+    "stop_order": registry.get("stop_order", []),
+    "services": registry.get("services", []),
+}
+
+record_path.write_text(json.dumps(record, indent=2) + "\n")
+print(f"DEPLOYMENT_RECORD {record_path}")
+PY
+
+  cp "$record" "$latest"
+}
+
+fail() {
+  local rc="${1:-1}"
+  local end_epoch
+  end_epoch="$(date +%s)"
+  emit_record "FAIL" "$((end_epoch - start_epoch))" || true
+  "$WL_HOME/bin/wl-event" deployment.failed deployment_id="$deployment_id" >/dev/null 2>&1 || true
+  echo "RESULT FAIL"
+  exit "$rc"
+}
+
+"$WL_HOME/bin/wl-event" deployment.started deployment_id="$deployment_id" >/dev/null 2>&1 || true
+
+echo "== Deployment $deployment_id =="
+
+echo
+echo "== Refresh registry =="
+"$WL_HOME/bin/wl-services-refresh" || fail 1
+
+echo
+echo "== Validate registry =="
+jq -e '.valid == true' "$REGISTRY" >/dev/null || fail 1
+
+echo
+echo "== Clean metadata =="
+"$WL_HOME/bin/wl-clean-platform-metadata" || fail 1
+
+echo
+echo "== Ensure runtime =="
+limactl start "$LIMA_INSTANCE" >/dev/null 2>&1 || true
+"$WL_HOME/bin/wl-rootless" status || fail 1
+
+echo
+echo "== Deploy in dependency order =="
+while read -r svc; do
+  [ -n "$svc" ] || continue
+
+  dir="$(jq -r --arg svc "$svc" '.services[] | select(.name == $svc) | .directory' "$REGISTRY")"
+
+  if [ -z "$dir" ] || [ "$dir" = "null" ]; then
+    echo "FAIL missing service directory: $svc"
+    fail 1
+  fi
+
+  if [ ! -f "$dir/compose.yaml" ]; then
+    echo "FAIL missing compose: $dir/compose.yaml"
+    fail 1
+  fi
+
+  echo "DEPLOY $svc"
+
+  limactl shell "$LIMA_INSTANCE" -- bash -lc "
+    set -euo pipefail
+    cd '$dir'
+    nerdctl compose -f compose.yaml up -d
+  " || fail 1
+
+done < <(jq -r '.start_order[]' "$REGISTRY")
+
+echo
+echo "== Health =="
+"$WL_HOME/bin/wl-services-health" || fail 1
+
+echo
+echo "== Certification =="
+"$WL_HOME/bin/wl-certify-platform-services" || fail 1
+
+end_epoch="$(date +%s)"
+emit_record "PASS" "$((end_epoch - start_epoch))"
+
+"$WL_HOME/bin/wl-event" deployment.finished deployment_id="$deployment_id" result="PASS" record="$record" >/dev/null 2>&1 || true
+
+echo "RESULT PASS"

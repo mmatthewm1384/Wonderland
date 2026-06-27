@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SERVICES_ROOT="${SERVICES_ROOT:-$HOME/Workshop/services}"
+
+python3 - "$SERVICES_ROOT" <<'PY'
+import json
+import socket
+import subprocess
+import sys
+import urllib.request
+from pathlib import Path
+
+root = Path(sys.argv[1])
+failures = 0
+
+def container_up(name: str) -> bool:
+    cmd = [
+        "bash",
+        "-lc",
+        f"LIMA_INSTANCE=wonderland-rootless nerdctl ps --format '{{{{.Names}}}}' | grep -qx {name!r}"
+    ]
+    return subprocess.run(cmd).returncode == 0
+
+def http_ok(url: str) -> bool:
+    try:
+        req = urllib.request.Request(url, method="GET")
+        with urllib.request.urlopen(req, timeout=5) as r:
+            return 200 <= r.status < 500
+    except Exception:
+        return False
+
+def tcp_ok(host: str, port: int) -> bool:
+    try:
+        with socket.create_connection((host, int(port)), timeout=5):
+            return True
+    except Exception:
+        return False
+
+print("== Wonderland Service Health ==")
+
+for d in sorted(root.iterdir()):
+    if not d.is_dir():
+        continue
+
+    compose = d / "compose.yaml"
+    meta_path = d / "service.json"
+
+    if not compose.exists() or not meta_path.exists():
+        continue
+
+    data = json.loads(meta_path.read_text())
+    name = data.get("name", d.name)
+
+    service_fail = False
+
+    for container in data.get("containers") or [name]:
+        if container_up(container):
+            print(f"PASS container {container}")
+        else:
+            print(f"FAIL container {container}")
+            service_fail = True
+
+    health = data.get("health")
+    if health:
+        typ = health.get("type")
+
+        if typ == "http":
+            url = health.get("url")
+            if url and http_ok(url):
+                print(f"PASS health {name} http")
+            else:
+                print(f"FAIL health {name} http")
+                service_fail = True
+
+        elif typ == "tcp":
+            host = health.get("host", "127.0.0.1")
+            port = health.get("port")
+            if port and tcp_ok(host, port):
+                print(f"PASS health {name} tcp")
+            else:
+                print(f"FAIL health {name} tcp")
+                service_fail = True
+
+        else:
+            print(f"WARN health {name} unsupported")
+    else:
+        print(f"WARN health {name} missing")
+
+    if service_fail:
+        failures += 1
+
+if failures:
+    print("RESULT FAIL")
+    raise SystemExit(1)
+
+print("RESULT PASS")
+PY

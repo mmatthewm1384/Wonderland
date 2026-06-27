@@ -13,6 +13,12 @@
       "type": "service",
       "status": "active",
       "compose": null
+    },
+    {
+      "id": "wl-document-cleaner",
+      "type": "service",
+      "status": "active",
+      "compose": null
     }
   ],
   "edges": []
