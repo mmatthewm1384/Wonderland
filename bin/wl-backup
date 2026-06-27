@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${HOME}/Wonderland"
+cd "$ROOT"
+
+case "${1:-}" in
+  create)
+    exec "$ROOT/backup/create.py"
+    ;;
+  verify)
+    exec "$ROOT/backup/verify.py"
+    ;;
+  preview|restore-preview)
+    exec "$ROOT/backup/restore_preview.py"
+    ;;
+  *)
+    cat <<'USAGE'
+Usage:
+  wl-backup create
+  wl-backup verify
+  wl-backup preview
+USAGE
+    exit 64
+    ;;
+esac
