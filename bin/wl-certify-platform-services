@@ -19,6 +19,9 @@ fail=0
   bin/wl-clean-platform-metadata || fail=1
   echo
 
+  bin/wl-services-refresh || fail=1
+  echo
+
   bin/wl-rootless status || fail=1
   echo
 

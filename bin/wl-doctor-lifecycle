@@ -29,13 +29,14 @@ limactl list | grep -E '^wonderland-rootless[[:space:]]+Running' >/dev/null 2>&1
 LIMA_INSTANCE=wonderland-rootless nerdctl ps >/dev/null 2>&1 \
   && pass "rootless" || fail "rootless"
 
-for svc in wl-vaultwarden wl-vaultwarden-db wl-loki; do
-  LIMA_INSTANCE=wonderland-rootless nerdctl ps --format '{{.Names}}' | grep -qx "$svc" \
-    && pass "$svc" || fail "$svc"
-done
+if "$WL_HOME/bin/wl-services" status >/dev/null 2>&1; then
+  pass "services"
+else
+  fail "services"
+fi
 
 echo
-echo "Health Score: $score/80"
+echo "Health Score: $score/60"
 
 if [ "$failures" -eq 0 ]; then
   echo "RESULT PASS"

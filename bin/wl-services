@@ -2,20 +2,73 @@
 set -euo pipefail
 
 WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+SERVICES_ROOT="${SERVICES_ROOT:-$HOME/Workshop/services}"
+GUEST_SERVICES_ROOT="${GUEST_SERVICES_ROOT:-/Users/wonderland/Workshop/services}"
 LIMA_INSTANCE="${LIMA_INSTANCE:-wonderland-rootless}"
 
-services=(
-  wl-vaultwarden-db
-  wl-vaultwarden
-  wl-loki
-  wl-prometheus
-  wl-grafana
-  wl-nats
-  wl-dns
-)
+discover() {
+  find "$SERVICES_ROOT" \
+    -mindepth 1 \
+    -maxdepth 1 \
+    -type d \
+    -exec test -f "{}/compose.yaml" \; \
+    -print | sort | while read -r dir; do
+      basename "$dir"
+    done
+}
+
+containers_for_service() {
+  local svc="$1"
+  local meta="$SERVICES_ROOT/$svc/service.json"
+
+  if [ -f "$meta" ]; then
+    python3 - "$meta" "$svc" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+meta = Path(sys.argv[1])
+fallback = sys.argv[2]
+
+try:
+    data = json.loads(meta.read_text())
+    containers = data.get("containers")
+    if containers:
+        print("\n".join(containers))
+    else:
+        print(data.get("name") or fallback)
+except Exception:
+    print(fallback)
+PY
+  else
+    printf "%s\n" "$svc"
+  fi
+}
+
+clean() {
+  "$WL_HOME/bin/wl-clean-platform-metadata"
+}
 
 status() {
-  "$WL_HOME/bin/wl-rootless-services"
+  echo "== Wonderland Services =="
+  local fail=0
+
+  while read -r svc; do
+    [ -n "$svc" ] || continue
+
+    while read -r container; do
+      [ -n "$container" ] || continue
+
+      if LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl ps --format '{{.Names}}' | grep -qx "$container"; then
+        echo "PASS $container up"
+      else
+        echo "FAIL $container not up"
+        fail=1
+      fi
+    done < <(containers_for_service "$svc")
+  done < <(discover)
+
+  exit "$fail"
 }
 
 host_status() {
@@ -23,32 +76,36 @@ host_status() {
   LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl ps --format '{{.Names}} {{.Image}} {{.Status}} {{.Ports}}' | sort
 }
 
-doctor() {
-  "$WL_HOME/bin/wl-clean-platform-metadata"
-  echo
-  "$WL_HOME/bin/wl-rootless" status
-  echo
-  "$WL_HOME/bin/wl-rootless-services"
-  echo
-  "$WL_HOME/bin/wl-universe" status
-  echo
-  "$WL_HOME/bin/wl-doctor-lifecycle"
+deploy() {
+  "$WL_HOME/bin/wl-services-deploy"
 }
 
 up() {
   limactl start "$LIMA_INSTANCE" >/dev/null 2>&1 || true
 
-  for svc in "${services[@]}"; do
-    LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl start "$svc" >/dev/null 2>&1 || true
-  done
+  while read -r svc; do
+    [ -n "$svc" ] || continue
+
+    while read -r container; do
+      [ -n "$container" ] || continue
+      LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl start "$container" >/dev/null 2>&1 || true
+    done < <(containers_for_service "$svc")
+  done < <(discover)
 
   status
 }
 
 down() {
-  for svc in wl-dns wl-nats wl-grafana wl-prometheus wl-loki wl-vaultwarden wl-vaultwarden-db; do
-    LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl stop "$svc" >/dev/null 2>&1 || true
-    echo "STOP $svc"
+  mapfile -t containers < <(
+    while read -r svc; do
+      [ -n "$svc" ] || continue
+      containers_for_service "$svc"
+    done < <(discover) | awk 'NF' | sort -ru
+  )
+
+  for container in "${containers[@]}"; do
+    LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl stop "$container" >/dev/null 2>&1 || true
+    echo "STOP $container"
   done
 
   echo "RESULT PASS"
@@ -59,17 +116,39 @@ restart() {
   up
 }
 
+doctor() {
+  clean
+  echo
+
+  "$WL_HOME/bin/wl-rootless" status
+  echo
+
+  status
+  echo
+
+  "$WL_HOME/bin/wl-universe" status
+  echo
+
+  "$WL_HOME/bin/wl-doctor-lifecycle"
+}
+
 case "${1:-status}" in
+  discover) discover ;;
+  refresh) "$WL_HOME/bin/wl-services-refresh" ;;
+  graph) "$WL_HOME/bin/wl-services-graph" "${2:-order}" ;;
   status) status ;;
   doctor) doctor ;;
   up|start) up ;;
   down|stop) down ;;
   restart) restart ;;
   host-status) host_status ;;
-  clean) "$WL_HOME/bin/wl-clean-platform-metadata" ;;
+  clean) clean ;;
+  deploy) deploy ;;
   certify) "$WL_HOME/bin/wl-certify-platform-services" ;;
+  manifest) "$WL_HOME/bin/wl-services-manifest" ;;
+  health) "$WL_HOME/bin/wl-services-health" ;;
   *)
-    echo "Usage: wl services status|doctor|up|down|restart|host-status|clean|certify"
+    echo "Usage: wl services discover|refresh|graph|status|doctor|up|down|restart|host-status|clean|deploy|certify|manifest|health"
     exit 2
     ;;
 esac

@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+
+score=0
+failures=0
+
+pass() {
+  printf "PASS %-24s +10\n" "$1"
+  score=$((score+10))
+}
+
+fail() {
+  printf "FAIL %-24s +0\n" "$1"
+  failures=$((failures+1))
+}
+
+echo "Wonderland Doctor"
+echo
+
+"$WL_HOME/bin/wl-storage" status >/dev/null 2>&1 && pass "storage" || fail "storage"
+"$WL_HOME/bin/wl" governance status >/dev/null 2>&1 && pass "governance" || fail "governance"
+"$WL_HOME/bin/wl-universe" status >/dev/null 2>&1 && pass "universe" || fail "universe"
+
+limactl list | grep -E '^wonderland-rootless[[:space:]]+Running' >/dev/null 2>&1 \
+  && pass "wonderland-rootless" || fail "wonderland-rootless"
+
+LIMA_INSTANCE=wonderland-rootless nerdctl ps >/dev/null 2>&1 \
+  && pass "rootless" || fail "rootless"
+
+for svc in wl-vaultwarden wl-vaultwarden-db wl-loki; do
+  LIMA_INSTANCE=wonderland-rootless nerdctl ps --format '{{.Names}}' | grep -qx "$svc" \
+    && pass "$svc" || fail "$svc"
+done
+
+echo
+echo "Health Score: $score/80"
+
+if [ "$failures" -eq 0 ]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+  exit 1
+fi

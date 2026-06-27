@@ -1,0 +1,261 @@
+{
+  "deployment_id": "20260627T110035Z",
+  "generated_at": "2026-06-27T11:00:39.667045+00:00",
+  "runtime": "wonderland-rootless",
+  "result": "PASS",
+  "duration_seconds": 4.0,
+  "registry": "/Users/wonderland/Wonderland/vault/05-Registry/services.json",
+  "registry_sha256": "3c21fb3491c869adfa4086d825115315e75fa69968f46fa430ebcce983a999df",
+  "git_commit": "f39340b9cc53cf920514fc7a5c85ebf7bd0d1ff0",
+  "start_order": [
+    "wl-dns",
+    "wl-loki",
+    "wl-nats",
+    "wl-vaultwarden",
+    "wl-prometheus",
+    "wl-grafana"
+  ],
+  "stop_order": [
+    "wl-grafana",
+    "wl-prometheus",
+    "wl-vaultwarden",
+    "wl-nats",
+    "wl-loki",
+    "wl-dns"
+  ],
+  "services": [
+    {
+      "name": "wl-dns",
+      "directory": "/Users/wonderland/Workshop/services/wl-dns",
+      "runtime": "wonderland-rootless",
+      "compose": "/Users/wonderland/Workshop/services/wl-dns/compose.yaml",
+      "compose_file": "compose.yaml",
+      "compose_sha256": "07f7d78bddc1fddbbdb21d56e6426e6dfa9cb55f532f7f763da2647d72b6464e",
+      "service_json": "/Users/wonderland/Workshop/services/wl-dns/service.json",
+      "service_json_sha256": "559e69eaf4ad649b7790c7e4d7e721e231a72c2ec2802b71b353b6ba602b7883",
+      "containers": [
+        "wl-dns"
+      ],
+      "depends_on": [],
+      "critical": true,
+      "autostart": true,
+      "health": {
+        "type": "tcp",
+        "host": "127.0.0.1",
+        "port": 1053
+      },
+      "metadata": {
+        "name": "wl-dns",
+        "runtime": "wonderland-rootless",
+        "compose": "compose.yaml",
+        "containers": [
+          "wl-dns"
+        ],
+        "depends_on": [],
+        "critical": true,
+        "autostart": true,
+        "tier": "platform",
+        "health": {
+          "type": "tcp",
+          "host": "127.0.0.1",
+          "port": 1053
+        }
+      }
+    },
+    {
+      "name": "wl-grafana",
+      "directory": "/Users/wonderland/Workshop/services/wl-grafana",
+      "runtime": "wonderland-rootless",
+      "compose": "/Users/wonderland/Workshop/services/wl-grafana/compose.yaml",
+      "compose_file": "compose.yaml",
+      "compose_sha256": "3c2c07fdf96dcf84500c1445eeab3320246e3d28ad2bf6fe83705a70cf0fc4b7",
+      "service_json": "/Users/wonderland/Workshop/services/wl-grafana/service.json",
+      "service_json_sha256": "79d752dea24120fb192dadb547710dca4026c4b50a4ded7642f5415769a1e610",
+      "containers": [
+        "wl-grafana"
+      ],
+      "depends_on": [
+        "wl-loki",
+        "wl-prometheus"
+      ],
+      "critical": true,
+      "autostart": true,
+      "health": {
+        "type": "http",
+        "url": "http://127.0.0.1:3000/api/health"
+      },
+      "metadata": {
+        "name": "wl-grafana",
+        "runtime": "wonderland-rootless",
+        "compose": "compose.yaml",
+        "containers": [
+          "wl-grafana"
+        ],
+        "depends_on": [
+          "wl-loki",
+          "wl-prometheus"
+        ],
+        "critical": true,
+        "autostart": true,
+        "tier": "platform",
+        "health": {
+          "type": "http",
+          "url": "http://127.0.0.1:3000/api/health"
+        }
+      }
+    },
+    {
+      "name": "wl-loki",
+      "directory": "/Users/wonderland/Workshop/services/wl-loki",
+      "runtime": "wonderland-rootless",
+      "compose": "/Users/wonderland/Workshop/services/wl-loki/compose.yaml",
+      "compose_file": "compose.yaml",
+      "compose_sha256": "58a8456e767598ac557ca7a313eca480cb68068e127068dc23d6060955756590",
+      "service_json": "/Users/wonderland/Workshop/services/wl-loki/service.json",
+      "service_json_sha256": "96262750b725db84b084062b2df12b552a2871ebc472fc45af2e5e7b457c0473",
+      "containers": [
+        "wl-loki"
+      ],
+      "depends_on": [],
+      "critical": true,
+      "autostart": true,
+      "health": {
+        "type": "http",
+        "url": "http://127.0.0.1:3100/ready"
+      },
+      "metadata": {
+        "name": "wl-loki",
+        "runtime": "wonderland-rootless",
+        "compose": "compose.yaml",
+        "containers": [
+          "wl-loki"
+        ],
+        "depends_on": [],
+        "critical": true,
+        "autostart": true,
+        "tier": "platform",
+        "adopted": true,
+        "health": {
+          "type": "http",
+          "url": "http://127.0.0.1:3100/ready"
+        }
+      }
+    },
+    {
+      "name": "wl-nats",
+      "directory": "/Users/wonderland/Workshop/services/wl-nats",
+      "runtime": "wonderland-rootless",
+      "compose": "/Users/wonderland/Workshop/services/wl-nats/compose.yaml",
+      "compose_file": "compose.yaml",
+      "compose_sha256": "32715020321546804a579cfcccd28ac49a15d911e98e28f46dfaf4e548c96f18",
+      "service_json": "/Users/wonderland/Workshop/services/wl-nats/service.json",
+      "service_json_sha256": "5483384226930dec01d042ac047104c3611d1eb7119269d5a20a0b7f36b35e82",
+      "containers": [
+        "wl-nats"
+      ],
+      "depends_on": [],
+      "critical": true,
+      "autostart": true,
+      "health": {
+        "type": "tcp",
+        "host": "127.0.0.1",
+        "port": 4222
+      },
+      "metadata": {
+        "name": "wl-nats",
+        "runtime": "wonderland-rootless",
+        "compose": "compose.yaml",
+        "containers": [
+          "wl-nats"
+        ],
+        "depends_on": [],
+        "critical": true,
+        "autostart": true,
+        "tier": "platform",
+        "health": {
+          "type": "tcp",
+          "host": "127.0.0.1",
+          "port": 4222
+        }
+      }
+    },
+    {
+      "name": "wl-prometheus",
+      "directory": "/Users/wonderland/Workshop/services/wl-prometheus",
+      "runtime": "wonderland-rootless",
+      "compose": "/Users/wonderland/Workshop/services/wl-prometheus/compose.yaml",
+      "compose_file": "compose.yaml",
+      "compose_sha256": "52a262fc04351c63418aa2abf44e5add4e6c3d97ac91e4a9d19185e791e2ff0c",
+      "service_json": "/Users/wonderland/Workshop/services/wl-prometheus/service.json",
+      "service_json_sha256": "acea835c8c0d4757c2c454e00df9427bb44aed8e8ecea76461d26b8ede503370",
+      "containers": [
+        "wl-prometheus"
+      ],
+      "depends_on": [
+        "wl-loki"
+      ],
+      "critical": true,
+      "autostart": true,
+      "health": {
+        "type": "http",
+        "url": "http://127.0.0.1:9090/-/healthy"
+      },
+      "metadata": {
+        "name": "wl-prometheus",
+        "runtime": "wonderland-rootless",
+        "compose": "compose.yaml",
+        "containers": [
+          "wl-prometheus"
+        ],
+        "depends_on": [
+          "wl-loki"
+        ],
+        "critical": true,
+        "autostart": true,
+        "tier": "platform",
+        "health": {
+          "type": "http",
+          "url": "http://127.0.0.1:9090/-/healthy"
+        }
+      }
+    },
+    {
+      "name": "wl-vaultwarden",
+      "directory": "/Users/wonderland/Workshop/services/wl-vaultwarden",
+      "runtime": "wonderland-rootless",
+      "compose": "/Users/wonderland/Workshop/services/wl-vaultwarden/compose.yaml",
+      "compose_file": "compose.yaml",
+      "compose_sha256": "9307af680f94c0dd618b132591a3ee0d31a62046f7fd476727dcaca243b8e299",
+      "service_json": "/Users/wonderland/Workshop/services/wl-vaultwarden/service.json",
+      "service_json_sha256": "9725ac76a274a11a6c1f17b35c8cf16ffc056a3559df2f5854b9ba3cb84cf9f5",
+      "containers": [
+        "wl-vaultwarden",
+        "wl-vaultwarden-db"
+      ],
+      "depends_on": [],
+      "critical": true,
+      "autostart": true,
+      "health": {
+        "type": "http",
+        "url": "http://127.0.0.1:8087/"
+      },
+      "metadata": {
+        "name": "wl-vaultwarden",
+        "runtime": "wonderland-rootless",
+        "compose": "compose.yaml",
+        "containers": [
+          "wl-vaultwarden",
+          "wl-vaultwarden-db"
+        ],
+        "depends_on": [],
+        "critical": true,
+        "autostart": true,
+        "tier": "platform",
+        "health": {
+          "type": "http",
+          "url": "http://127.0.0.1:8087/"
+        }
+      }
+    }
+  ]
+}

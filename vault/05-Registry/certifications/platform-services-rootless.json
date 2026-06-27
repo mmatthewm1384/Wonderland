@@ -3,7 +3,7 @@
   "name": "Wonderland Rootless Platform Services",
   "state": "certified",
   "runtime": "wonderland-rootless",
-  "latest_report": "vault/08-Operations/reports/platform-services-certification-20260627-034342.txt",
+  "latest_report": "vault/08-Operations/reports/platform-services-certification-20260627-040408.txt",
   "services": [
     "wl-vaultwarden",
     "wl-vaultwarden-db",
@@ -13,5 +13,5 @@
     "wl-nats",
     "wl-dns"
   ],
-  "generated_at": "2026-06-27T10:43:45Z"
+  "generated_at": "2026-06-27T11:04:11Z"
 }

@@ -1,78 +1,148 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/Users/wonderland/Wonderland"
-OUT_DIR="$ROOT/vault/06-Services/definitions"
-REGISTRY="$ROOT/vault/06-Services/service-registry.json"
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+SERVICES_ROOT="${SERVICES_ROOT:-$HOME/Workshop/services}"
+REGISTRY="$WL_HOME/vault/05-Registry/services.json"
+REPORT_DIR="$WL_HOME/vault/08-Operations/reports/services"
 
-mkdir -p "$OUT_DIR"
+mkdir -p "$(dirname "$REGISTRY")" "$REPORT_DIR"
 
-python3 - "$ROOT" "$OUT_DIR" "$REGISTRY" <<'PY'
+python3 - "$SERVICES_ROOT" "$REGISTRY" <<'PY'
 import json
-import pathlib
-import re
+import hashlib
 import sys
+from pathlib import Path
+from datetime import datetime, timezone
+from collections import defaultdict, deque
 
-root = pathlib.Path(sys.argv[1])
-out_dir = pathlib.Path(sys.argv[2])
-registry_path = pathlib.Path(sys.argv[3])
+services_root = Path(sys.argv[1])
+registry_path = Path(sys.argv[2])
 
-def read_compose_light(path):
-    text = path.read_text(errors="replace")
-    ports = sorted(set(re.findall(r'["\']?(\d{2,5}):(\d{2,5})["\']?', text)))
-    volumes = sorted(set(re.findall(r'([A-Za-z0-9_.-]+):/[A-Za-z0-9_./-]+', text)))
-    depends = sorted(set(re.findall(r'depends_on:\s*\n((?:\s+-\s+[A-Za-z0-9_.-]+\n)+)', text)))
-    dependencies = []
-    for block in depends:
-        dependencies.extend(re.findall(r'-\s+([A-Za-z0-9_.-]+)', block))
-    return {
-        "ports": [{"host": h, "container": c} for h, c in ports],
-        "volumes": volumes,
-        "dependencies": sorted(set(dependencies))
-    }
+def sha256(path: Path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
-services = []
+services = {}
+errors = []
 
-for compose in sorted(root.rglob("compose.yml")):
-    if "vault" in compose.parts:
+for d in sorted(services_root.iterdir()):
+    if not d.is_dir():
         continue
 
-    name = compose.parent.name
-    service_id = name if name.startswith("wl-") else f"wl-{name}"
-    safe = re.sub(r"[^a-zA-Z0-9_-]+", "-", service_id)
-    definition_path = out_dir / f"{safe}.service.json"
+    compose = d / "compose.yaml"
+    meta_path = d / "service.json"
 
-    parsed = read_compose_light(compose)
+    if not compose.exists():
+        continue
 
-    payload = {
-        "id": f"{service_id}-service-v4",
-        "name": service_id,
-        "status": "active",
-        "version": 4,
-        "compose": str(compose.relative_to(root)),
-        "verify": f"wl services verify {service_id}",
-        "recover": f"wl services recover {service_id}",
-        "rollback": f"wl services rollback {service_id}",
-        "dependencies": parsed["dependencies"],
-        "ports": parsed["ports"],
-        "volumes": parsed["volumes"]
+    meta = {
+        "name": d.name,
+        "runtime": "wonderland-rootless",
+        "compose": "compose.yaml",
+        "containers": [d.name],
+        "depends_on": [],
+        "critical": True,
+        "autostart": True,
     }
 
-    definition_path.write_text(json.dumps(payload, indent=2) + "\n")
+    if meta_path.exists():
+        try:
+            loaded = json.loads(meta_path.read_text())
+            meta.update(loaded)
+        except Exception as e:
+            errors.append({
+                "service": d.name,
+                "error": f"invalid service.json: {e}"
+            })
 
-    services.append({
-        "id": payload["id"],
-        "name": service_id,
-        "path": str(definition_path.relative_to(root / "vault" / "06-Services")),
-        "compose": payload["compose"],
-        "status": "active"
+    name = meta.get("name") or d.name
+
+    depends_on = meta.get("depends_on") or []
+    containers = meta.get("containers") or [name]
+
+    if not isinstance(depends_on, list):
+        errors.append({"service": name, "error": "depends_on must be a list"})
+        depends_on = []
+
+    if not isinstance(containers, list):
+        errors.append({"service": name, "error": "containers must be a list"})
+        containers = [name]
+
+    services[name] = {
+        "name": name,
+        "directory": str(d),
+        "runtime": meta.get("runtime", "wonderland-rootless"),
+        "compose": str(compose),
+        "compose_file": meta.get("compose", "compose.yaml"),
+        "compose_sha256": sha256(compose),
+        "service_json": str(meta_path) if meta_path.exists() else None,
+        "service_json_sha256": sha256(meta_path) if meta_path.exists() else None,
+        "containers": containers,
+        "depends_on": depends_on,
+        "critical": bool(meta.get("critical", True)),
+        "autostart": bool(meta.get("autostart", True)),
+        "health": meta.get("health"),
+        "metadata": meta,
+    }
+
+for name, svc in services.items():
+    for dep in svc["depends_on"]:
+        if dep not in services:
+            errors.append({
+                "service": name,
+                "error": f"missing dependency: {dep}"
+            })
+
+incoming = {name: 0 for name in services}
+outgoing = defaultdict(list)
+
+for name, svc in services.items():
+    for dep in svc["depends_on"]:
+        if dep in services:
+            outgoing[dep].append(name)
+            incoming[name] += 1
+
+q = deque(sorted([name for name, count in incoming.items() if count == 0]))
+start_order = []
+
+while q:
+    node = q.popleft()
+    start_order.append(node)
+    for child in sorted(outgoing[node]):
+        incoming[child] -= 1
+        if incoming[child] == 0:
+            q.append(child)
+
+cycle_nodes = sorted([name for name, count in incoming.items() if count > 0])
+if cycle_nodes:
+    errors.append({
+        "service": ",".join(cycle_nodes),
+        "error": "dependency cycle detected"
     })
 
-registry_path.write_text(json.dumps({
-    "id": "service-registry-v4",
-    "version": 4,
-    "services": services
-}, indent=2) + "\n")
+registry = {
+    "generated_at": datetime.now(timezone.utc).isoformat(),
+    "runtime": "wonderland-rootless",
+    "services_root": str(services_root),
+    "valid": not errors,
+    "errors": errors,
+    "start_order": start_order,
+    "stop_order": list(reversed(start_order)),
+    "services": [services[name] for name in sorted(services)],
+}
 
-print(f"services refreshed: {len(services)}")
+registry_path.write_text(json.dumps(registry, indent=2) + "\n")
+
+print(f"REGISTRY {registry_path}")
+print(f"VALID {str(registry['valid']).upper()}")
+print("START_ORDER " + " ".join(start_order))
+
+if errors:
+    for e in errors:
+        print(f"ERROR {e['service']}: {e['error']}")
+    raise SystemExit(1)
 PY
+
+cp "$REGISTRY" "$REPORT_DIR/latest-services-registry.json"
+
+echo "RESULT PASS"

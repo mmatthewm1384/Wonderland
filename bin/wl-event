@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+EVENT_DIR="$WL_HOME/runtime/events"
+EVENT_LOG="$EVENT_DIR/events.jsonl"
+
+mkdir -p "$EVENT_DIR"
+
+event="${1:-}"
+shift || true
+
+[ -n "$event" ] || {
+  echo "usage: wl-event <event.name> [key=value ...]"
+  exit 2
+}
+
+python3 - "$EVENT_LOG" "$event" "$@" <<'PY'
+import json
+import os
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+log = Path(sys.argv[1])
+event = sys.argv[2]
+pairs = sys.argv[3:]
+
+data = {
+    "time": datetime.now(timezone.utc).isoformat(),
+    "event": event,
+    "runtime": os.environ.get("LIMA_INSTANCE", "wonderland-rootless"),
+}
+
+for pair in pairs:
+    if "=" in pair:
+        k, v = pair.split("=", 1)
+        data[k] = v
+
+with log.open("a") as f:
+    f.write(json.dumps(data, separators=(",", ":")) + "\n")
+
+print(json.dumps(data, indent=2))
+PY
