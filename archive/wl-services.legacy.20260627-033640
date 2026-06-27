@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+SERVICES_ROOT="${SERVICES_ROOT:-$HOME/Workshop/services}"
+LIMA_INSTANCE="${LIMA_INSTANCE:-wonderland-rootless}"
+
+services=(
+  wl-vaultwarden
+  wl-loki
+  wl-prometheus
+  wl-grafana
+  wl-nats
+  wl-dns
+)
+
+guest_services_root='$HOME/Workshop/services'
+
+clean() {
+  "$WL_HOME/bin/wl-clean-platform-metadata"
+}
+
+sync_guest() {
+  clean
+
+  for svc in "${services[@]}"; do
+    [ -d "$SERVICES_ROOT/$svc" ] || continue
+
+    echo "SYNC $svc"
+
+    tar --disable-copyfile --no-xattrs -C "$SERVICES_ROOT" -cf - "$svc" | \
+      limactl shell "$LIMA_INSTANCE" -- bash -lc '
+        set -euo pipefail
+        mkdir -p "$HOME/Workshop/services"
+        tar -C "$HOME/Workshop/services" -xf -
+        find "$HOME/Workshop/services" \( -name "._*" -o -name ".DS_Store" \) -type f -delete
+      '
+  done
+}
+
+deploy() {
+  sync_guest
+
+  limactl shell "$LIMA_INSTANCE" -- bash -lc '
+    set -euo pipefail
+
+    services=(
+      wl-vaultwarden
+      wl-loki
+      wl-prometheus
+      wl-grafana
+      wl-nats
+      wl-dns
+    )
+
+    for svc in "${services[@]}"; do
+      dir="$HOME/Workshop/services/$svc"
+
+      if [ ! -f "$dir/compose.yaml" ]; then
+        echo "SKIP $svc no compose.yaml"
+        continue
+      fi
+
+      echo "DEPLOY $svc"
+      cd "$dir"
+      nerdctl compose -f compose.yaml up -d
+    done
+
+    nerdctl ps -a
+  '
+}
+
+start() {
+  limactl start "$LIMA_INSTANCE" >/dev/null 2>&1 || true
+
+  for svc in "${services[@]}" wl-vaultwarden-db; do
+    LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl start "$svc" >/dev/null 2>&1 || true
+  done
+
+  "$WL_HOME/bin/wl-rootless-services"
+}
+
+stop() {
+  for svc in wl-dns wl-nats wl-grafana wl-prometheus wl-loki wl-vaultwarden wl-vaultwarden-db; do
+    LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl stop "$svc" >/dev/null 2>&1 || true
+    echo "STOP $svc"
+  done
+}
+
+status() {
+  "$WL_HOME/bin/wl-rootless-services"
+}
+
+certify() {
+  "$WL_HOME/bin/wl-certify-platform-services"
+}
+
+doctor() {
+  clean
+  status
+  "$WL_HOME/bin/wl-universe" status
+  "$WL_HOME/bin/wl-doctor-lifecycle"
+}
+
+case "${1:-status}" in
+  clean) clean ;;
+  sync) sync_guest ;;
+  deploy) deploy ;;
+  start) start ;;
+  stop) stop ;;
+  status) status ;;
+  doctor) doctor ;;
+  certify) certify ;;
+  *)
+    echo "Usage: wl-services {clean|sync|deploy|start|stop|status|doctor|certify}"
+    exit 2
+    ;;
+esac
