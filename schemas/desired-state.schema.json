@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wonderland Desired State",
+  "type": "object",
+  "properties": {
+    "services": {
+      "oneOf": [
+        { "type": "object" },
+        { "type": "array" }
+      ]
+    },
+    "desired": {
+      "oneOf": [
+        { "type": "object" },
+        { "type": "array" }
+      ]
+    },
+    "containers": {
+      "oneOf": [
+        { "type": "object" },
+        { "type": "array" }
+      ]
+    }
+  },
+  "additionalProperties": true
+}
