@@ -25,6 +25,8 @@ class OpenAPIContractTests(unittest.TestCase):
             "/schema",
             "/config",
             "/metrics",
+            "/stream",
+            "/plugins",
         ]
 
         for path in required:

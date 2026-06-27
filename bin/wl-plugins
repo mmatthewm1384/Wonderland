@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${HOME}/Wonderland"
+export PYTHONPATH="$ROOT/controller:${PYTHONPATH:-}"
+
+python3 - <<'PY'
+import json
+from pathlib import Path
+
+from wl_controller.config.settings import ControllerConfig
+from wl_controller.plugins.manager import PluginManager
+
+root = Path.home() / "Wonderland"
+config = ControllerConfig.load(root)
+
+manager = PluginManager(root, config.controller_version)
+manager.discover()
+
+print(json.dumps(manager.status(), indent=2, sort_keys=True))
+raise SystemExit(0 if not manager.status().get("errors") else 1)
+PY
