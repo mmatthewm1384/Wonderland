@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${HOME}/Wonderland"
+export PYTHONPATH="$ROOT/controller:${PYTHONPATH:-}"
+
+exec python3 -m wl_controller.cli.main "$@"
