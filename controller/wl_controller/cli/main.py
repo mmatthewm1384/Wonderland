@@ -51,6 +51,10 @@ def cmd_schema(_: argparse.Namespace) -> int:
     return schema_cmd.run(ROOT)
 
 
+def cmd_openapi(_: argparse.Namespace) -> int:
+    return run([str(ROOT / "bin/wl-openapi")])
+
+
 def cmd_release(args: argparse.Namespace) -> int:
     return release_cmd.run(ROOT, args.action)
 
@@ -93,6 +97,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = sub.add_parser("schema")
     p.set_defaults(func=cmd_schema)
+
+    p = sub.add_parser("openapi")
+    p.set_defaults(func=cmd_openapi)
 
     p = sub.add_parser("test")
     p.set_defaults(func=cmd_test)

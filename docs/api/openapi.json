@@ -1,0 +1,125 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Wonderland Platform API",
+    "version": "1.0.0",
+    "description": "REST API for the Wonderland local control plane."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:9105/api/v1"
+    }
+  ],
+  "paths": {
+    "/version": {
+      "get": {
+        "summary": "Return platform version metadata",
+        "responses": {
+          "200": {
+            "description": "Version manifest"
+          }
+        }
+      }
+    },
+    "/ready": {
+      "get": {
+        "summary": "Return platform readiness summary",
+        "responses": {
+          "200": {
+            "description": "Readiness state"
+          }
+        }
+      }
+    },
+    "/status": {
+      "get": {
+        "summary": "Return platform status",
+        "responses": {
+          "200": {
+            "description": "Status response"
+          }
+        }
+      }
+    },
+    "/state": {
+      "get": {
+        "summary": "Return full PlatformState",
+        "responses": {
+          "200": {
+            "description": "PlatformState"
+          }
+        }
+      }
+    },
+    "/services": {
+      "get": {
+        "summary": "Return service registry",
+        "responses": {
+          "200": {
+            "description": "Service registry"
+          }
+        }
+      }
+    },
+    "/events": {
+      "get": {
+        "summary": "Return recent event stream",
+        "responses": {
+          "200": {
+            "description": "Recent events"
+          }
+        }
+      }
+    },
+    "/timeline": {
+      "get": {
+        "summary": "Return timeline summary",
+        "responses": {
+          "200": {
+            "description": "Timeline summary"
+          }
+        }
+      }
+    },
+    "/drift": {
+      "get": {
+        "summary": "Return drifted services",
+        "responses": {
+          "200": {
+            "description": "Drift state"
+          }
+        }
+      }
+    },
+    "/schema": {
+      "get": {
+        "summary": "Return schema validation state",
+        "responses": {
+          "200": {
+            "description": "Schema validation result"
+          }
+        }
+      }
+    },
+    "/config": {
+      "get": {
+        "summary": "Return effective controller configuration",
+        "responses": {
+          "200": {
+            "description": "Effective configuration"
+          }
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "summary": "Return Prometheus metrics",
+        "responses": {
+          "200": {
+            "description": "Prometheus exposition format"
+          }
+        }
+      }
+    }
+  }
+}

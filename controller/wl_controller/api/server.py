@@ -95,10 +95,17 @@ class APIServer:
                     "/api/v1/metrics": "/metrics",
                     "/api/v1/schema": "/schema",
                     "/api/v1/config": "/config",
+                    "/api/v1/openapi.json": "/openapi.json",
                 }
                 route = aliases.get(route, route)
 
-                if route == "/api/v1/version" or route == "/version":
+                if route == "/openapi.json":
+                    spec = api.root / "docs/api/openapi.json"
+                    if spec.exists():
+                        self._json(json.loads(spec.read_text(encoding="utf-8")))
+                    else:
+                        self._json({"error": "openapi spec missing"}, 404)
+                elif route == "/api/v1/version" or route == "/version":
                     self._json(release_manifest(
                         api.root,
                         str(state.get("controller", {}).get("version", "unknown")),
