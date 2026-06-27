@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${HOME}/Wonderland"
+cd "$ROOT"
+
+case "${1:-}" in
+  certify)
+    exec "$ROOT/release/certify.py"
+    ;;
+  manifest)
+    exec "$ROOT/release/manifest.py"
+    ;;
+  package)
+    exec "$ROOT/release/package.py"
+    ;;
+  verify)
+    exec "$ROOT/release/verify.py"
+    ;;
+  build)
+    "$ROOT/release/certify.py"
+    "$ROOT/release/manifest.py"
+    "$ROOT/release/package.py"
+    exec "$ROOT/release/verify.py"
+    ;;
+  *)
+    cat <<'USAGE'
+Usage:
+  wl-release certify
+  wl-release manifest
+  wl-release package
+  wl-release verify
+  wl-release build
+USAGE
+    exit 64
+    ;;
+esac

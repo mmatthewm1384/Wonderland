@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wonderland PlatformState",
+  "type": "object",
+  "required": ["schema", "generated_at", "runtime", "registry", "health", "controller", "certification"],
+  "properties": {
+    "schema": { "type": "integer" },
+    "generated_at": { "type": "number" },
+    "runtime": { "type": "object" },
+    "registry": { "type": "object" },
+    "desired_state": { "type": "object" },
+    "containers": { "type": "array" },
+    "health": { "type": "object" },
+    "deployment": { "type": "object" },
+    "recovery": { "type": "object" },
+    "controller": { "type": "object" },
+    "timeline": { "type": "object" },
+    "metrics": { "type": "object" },
+    "certification": { "type": "object" },
+    "events": { "type": "array" },
+    "kernel": { "type": "object" }
+  },
+  "additionalProperties": true
+}

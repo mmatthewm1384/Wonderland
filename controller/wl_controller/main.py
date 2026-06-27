@@ -1,118 +1,53 @@
-#!/usr/bin/env python3
 from __future__ import annotations
 
+import argparse
 import json
-import os
-import subprocess
-import sys
-import time
-from dataclasses import dataclass
-from datetime import datetime, timezone
 from pathlib import Path
 
-
-WL_HOME = Path(os.environ.get("WL_HOME", str(Path.home() / "Wonderland")))
-INTERVAL = int(os.environ.get("WL_CONTROLLER_INTERVAL", "30"))
-
-
-@dataclass
-class Step:
-    name: str
-    command: list[str]
-
-
-def now() -> str:
-    return datetime.now(timezone.utc).isoformat()
-
-
-def run(step: Step) -> dict:
-    started = time.time()
-    proc = subprocess.run(
-        step.command,
-        cwd=WL_HOME,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-    )
-
-    return {
-        "name": step.name,
-        "command": step.command,
-        "returncode": proc.returncode,
-        "duration_seconds": round(time.time() - started, 3),
-        "ok": proc.returncode == 0,
-        "output": proc.stdout,
-    }
-
-
-def emit(event: str, **fields: str) -> None:
-    cmd = [str(WL_HOME / "bin/wl-event"), event]
-    cmd.extend(f"{k}={v}" for k, v in fields.items())
-    subprocess.run(cmd, cwd=WL_HOME, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
-
-def cycle() -> int:
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    report_dir = WL_HOME / "vault/08-Operations/reports/controller"
-    report_dir.mkdir(parents=True, exist_ok=True)
-
-    report = report_dir / f"controller-core-{stamp}.json"
-    latest = report_dir / "latest-core.json"
-
-    emit("controller.core.cycle.started", stamp=stamp)
-
-    steps = [
-        Step("refresh", [str(WL_HOME / "bin/wl-services-refresh")]),
-        Step("reconcile", [str(WL_HOME / "bin/wl-reconcile")]),
-        Step("recover", [str(WL_HOME / "bin/wl-services-recover")]),
-        Step("health", [str(WL_HOME / "bin/wl-services-health")]),
-        Step("certify", [str(WL_HOME / "bin/wl-certify-platform-services")]),
-        Step("timeline", [str(WL_HOME / "bin/wl-timeline"), "sync"]),
-        Step("state", [str(WL_HOME / "bin/wl-state")]),
-        Step("status", [str(WL_HOME / "bin/wl-platform-status")]),
-    ]
-
-    started = time.time()
-    results = [run(step) for step in steps]
-    ok = all(r["ok"] for r in results)
-
-    doc = {
-        "generated_at": now(),
-        "controller": "wl-controller-core",
-        "result": "PASS" if ok else "FAIL",
-        "duration_seconds": round(time.time() - started, 3),
-        "steps": results,
-    }
-
-    report.write_text(json.dumps(doc, indent=2) + "\n")
-    latest.write_text(json.dumps(doc, indent=2) + "\n")
-
-    emit(
-        "controller.core.cycle.finished" if ok else "controller.core.cycle.failed",
-        result=doc["result"],
-        report=str(report),
-        duration=str(doc["duration_seconds"]),
-    )
-
-    print(f"RESULT {doc['result']} controller core")
-    print(f"REPORT {report}")
-
-    return 0 if ok else 1
+from wl_controller.api.server import APIServer
+from wl_controller.logging.jsonlog import configure_logging
+from wl_controller.core.controller import WonderlandController
 
 
 def main() -> int:
-    once = "--once" in sys.argv
+    configure_logging()
+    parser = argparse.ArgumentParser(prog="wl-controller-v2")
+    parser.add_argument("command", choices=["cycle", "core", "api", "state", "status"])
+    parser.add_argument("--root", default=str(Path.home() / "Wonderland"))
+    parser.add_argument("--interval", type=int, default=30)
+    args = parser.parse_args()
 
-    emit("controller.core.started", interval=str(INTERVAL))
+    root = Path(args.root)
+    controller = WonderlandController(root)
 
-    while True:
-        rc = cycle()
+    if args.command == "cycle":
+        print(json.dumps(controller.cycle().to_dict(), indent=2, sort_keys=True))
+        return 0
 
-        if once:
-            emit("controller.core.stopped")
-            return rc
+    if args.command == "core":
+        controller.run_forever(args.interval)
+        return 0
 
-        time.sleep(INTERVAL)
+    if args.command == "api":
+        APIServer(root).serve()
+        return 0
+
+    if args.command == "state":
+        print(json.dumps(controller.cycle().to_dict(), indent=2, sort_keys=True))
+        return 0
+
+    if args.command == "status":
+        state = controller.cycle().to_dict()
+        print("Wonderland Platform Status")
+        print("")
+        print(f"Runtime:       {'PASS' if state['runtime']['running'] else 'FAIL'}")
+        print(f"Registry:      {'PASS' if state['registry']['valid'] else 'FAIL'}")
+        print(f"Health:        {'PASS' if state['health']['healthy'] else 'WARN'}")
+        print(f"Certification: {state['certification']['status']}")
+        print(f"Containers:    {state['health']['containers_running']}/{state['health']['containers_total']}")
+        return 0
+
+    return 1
 
 
 if __name__ == "__main__":

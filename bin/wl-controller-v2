@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${HOME}/Wonderland"
+
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${PATH:-}"
+export PYTHONPATH="${ROOT}/controller:${PYTHONPATH:-}"
+export LIMA_INSTANCE="wonderland-rootless"
+
+cd "$ROOT"
+exec python3 -m wl_controller.main "$@"

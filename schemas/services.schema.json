@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wonderland Services Registry",
+  "type": "object",
+  "properties": {
+    "services": {
+      "oneOf": [
+        { "type": "object" },
+        { "type": "array" }
+      ]
+    },
+    "items": {
+      "oneOf": [
+        { "type": "object" },
+        { "type": "array" }
+      ]
+    }
+  },
+  "additionalProperties": true
+}

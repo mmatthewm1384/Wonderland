@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${HOME}/Wonderland"
+cd "$ROOT"
+
+STAMP="$(date +%Y%m%d-%H%M%S)"
+REPORT="$ROOT/vault/08-Operations/reports/platform-freeze-$STAMP.txt"
+CERT="$ROOT/vault/05-Registry/certifications/wonderland-platform-1.0.json"
+
+{
+  echo "Wonderland Platform Freeze"
+  echo "Generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  echo
+
+  echo "== API =="
+  curl -fsS http://127.0.0.1:9105/api/v1/ready | jq
+  echo
+
+  echo "== Dashboard =="
+  curl -fsS http://127.0.0.1:9110/proxy/ready | jq
+  echo
+
+  echo "== Controller =="
+  curl -fsS http://127.0.0.1:9105/api/v1/state | jq '.schema, .controller, .certification'
+  echo
+
+  echo "== Drift =="
+  curl -fsS http://127.0.0.1:9105/api/v1/drift | jq
+  echo
+
+  echo "== Release =="
+  wl-release build
+} | tee "$REPORT"
+
+READY="$(curl -fsS http://127.0.0.1:9105/api/v1/ready | jq -r '.ready')"
+DRIFT="$(curl -fsS http://127.0.0.1:9105/api/v1/drift | jq -r '.drifted')"
+
+if [[ "$READY" == "true" && "$DRIFT" == "0" ]]; then
+  STATUS="PASS"
+else
+  STATUS="FAIL"
+fi
+
+cat > "$CERT" <<JSON
+{
+  "id": "wonderland-platform-1.0",
+  "name": "Wonderland Platform 1.0",
+  "status": "$STATUS",
+  "generated_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "report": "$REPORT",
+  "api": "http://127.0.0.1:9105/api/v1",
+  "dashboard": "http://127.0.0.1:9110",
+  "runtime": "wonderland-rootless",
+  "controller": "3.0.0",
+  "schema": 1,
+  "drifted": $DRIFT,
+  "ready": $READY
+}
+JSON
+
+echo
+echo "CERT $CERT"
+echo "RESULT $STATUS"
+
+[[ "$STATUS" == "PASS" ]]
