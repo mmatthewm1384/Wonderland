@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${HOME}/Wonderland"
+SPEC="$ROOT/docs/api/openapi.json"
+
+python3 - <<'PY'
+import json
+from pathlib import Path
+
+root = Path.home() / "Wonderland"
+spec = root / "docs/api/openapi.json"
+
+errors = []
+
+if not spec.exists():
+    errors.append(f"missing {spec}")
+else:
+    try:
+        data = json.loads(spec.read_text())
+    except Exception as e:
+        errors.append(str(e))
+    else:
+        for key in ("openapi", "info", "paths"):
+            if key not in data:
+                errors.append(f"missing key: {key}")
+
+        required_paths = [
+            "/version",
+            "/ready",
+            "/status",
+            "/state",
+            "/services",
+            "/events",
+            "/timeline",
+            "/drift",
+            "/schema",
+            "/config",
+            "/metrics"
+        ]
+
+        paths = data.get("paths", {})
+        for p in required_paths:
+            if p not in paths:
+                errors.append(f"missing path: {p}")
+
+if errors:
+    print("RESULT FAIL")
+    for e in errors:
+        print(f"FAIL {e}")
+    raise SystemExit(1)
+
+print("RESULT PASS")
+print(f"PASS {spec}")
+PY
