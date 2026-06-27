@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${HOME}/Wonderland"
+
+case "${1:-list}" in
+  list)
+    find "$ROOT/docs" -maxdepth 2 -type f | sort
+    ;;
+  open)
+    open "$ROOT/docs/README.md"
+    ;;
+  api)
+    open "$ROOT/docs/API.md"
+    ;;
+  architecture)
+    open "$ROOT/docs/Architecture.md"
+    ;;
+  operations)
+    open "$ROOT/docs/Operations.md"
+    ;;
+  *)
+    echo "Usage: wl-docs [list|open|api|architecture|operations]"
+    exit 64
+    ;;
+esac
