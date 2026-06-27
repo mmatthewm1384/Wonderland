@@ -65,6 +65,10 @@ class SchemaValidator:
     def validate_platform(self) -> dict:
         checks = [
             self.validate_file(
+                self.root / "config/wonderland.json",
+                "config.schema.json",
+            ),
+            self.validate_file(
                 self.root / "vault/05-Registry/services.json",
                 "services.schema.json",
             ),

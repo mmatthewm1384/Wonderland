@@ -7,9 +7,11 @@ from wl_controller.kernel.scheduler import Scheduler
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
+from wl_controller.config.settings import ControllerConfig
 from wl_controller.config.version import release_manifest
 from wl_controller.core.controller import WonderlandController
 from wl_controller.metrics.exporter import MetricsExporter
+from wl_controller.validation.schema import SchemaValidator
 
 
 class APIServer:
@@ -26,6 +28,8 @@ class APIServer:
         self.interval = interval
         self.controller = WonderlandController(root)
         self.metrics = MetricsExporter()
+        self.schema_validator = SchemaValidator(root)
+        self.config = ControllerConfig.load(root)
         self._lock = threading.Lock()
         self._state = self.controller.cycle().to_dict()
         self.scheduler = Scheduler()
@@ -89,6 +93,8 @@ class APIServer:
                     "/api/v1/ready": "/ready",
                     "/api/v1/drift": "/drift",
                     "/api/v1/metrics": "/metrics",
+                    "/api/v1/schema": "/schema",
+                    "/api/v1/config": "/config",
                 }
                 route = aliases.get(route, route)
 
@@ -131,6 +137,10 @@ class APIServer:
                         "schema": state.get("schema"),
                         "controller": state.get("controller", {}),
                     })
+                elif route == "/config":
+                    self._json(api.config.to_dict())
+                elif route == "/schema":
+                    self._json(api.schema_validator.validate_platform())
                 elif route == "/drift":
                     resolved = state.get("registry", {}).get("resolved_services", {})
                     services = resolved.get("services", [])

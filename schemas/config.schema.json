@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wonderland Config",
+  "type": "object",
+  "required": ["schema", "runtime", "api", "dashboard", "scheduler", "controller"],
+  "properties": {
+    "schema": { "type": "integer" },
+    "runtime": { "type": "object" },
+    "api": { "type": "object" },
+    "dashboard": { "type": "object" },
+    "scheduler": { "type": "object" },
+    "controller": { "type": "object" }
+  },
+  "additionalProperties": true
+}
