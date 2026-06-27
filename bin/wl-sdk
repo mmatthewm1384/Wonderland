@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${HOME}/Wonderland"
+export PYTHONPATH="$ROOT/sdk:${PYTHONPATH:-}"
+
+python3 - <<'PY'
+import json
+
+from wonderland import WonderlandClient
+
+client = WonderlandClient()
+
+result = {
+    "version": client.version(),
+    "ready": client.ready(),
+    "services": {
+        "count": len(client.resolved_services())
+    },
+    "drift": client.drift()
+}
+
+print(json.dumps(result, indent=2, sort_keys=True))
+
+raise SystemExit(0 if result["ready"].get("ready") else 1)
+PY
