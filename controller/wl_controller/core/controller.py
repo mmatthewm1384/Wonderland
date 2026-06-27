@@ -13,6 +13,7 @@ from wl_controller.events.bus import EventBus
 from wl_controller.events.timeline import TimelineWriter
 from wl_controller.health.engine import HealthEngine
 from wl_controller.runtime.containers import ContainerRuntime
+from wl_controller.policy.engine import PolicyEngine
 from wl_controller.core.service_resolver import ServiceResolver
 
 
@@ -29,7 +30,8 @@ class WonderlandController:
         self.health = HealthEngine()
         self.deploy_engine = DeployEngine()
         self.recovery_engine = RecoveryEngine(self.runtime)
-        self.service_resolver = ServiceResolver()
+        self.service_resolver = ServiceResolver(root)
+        self.policy_engine = PolicyEngine(root)
         self.state_path = root / "vault/08-Operations/state/latest.json"
         self.state = PlatformState()
 
@@ -47,7 +49,9 @@ class WonderlandController:
 
         health = self.health.check(containers)
         deploy = self.deploy_engine.deploy(desired)
-        resolved_services = self.service_resolver.resolve(services, desired, containers, health).to_dict()
+        resolved_registry = self.service_resolver.resolve(services, desired, containers, health)
+        resolved_services = resolved_registry.to_dict()
+        policy_state = self.policy_engine.validate_dependencies(set(resolved_registry.by_name().keys()))
 
         self.state = PlatformState(
             schema=self.config.state_schema,
@@ -78,7 +82,10 @@ class WonderlandController:
             timeline=self.timeline.status(),
             events=self.events.read_recent(100),
             certification={
-                "status": "PASS" if self.registry.valid() and self.runtime.lima_running() else "FAIL"
+                "status": "PASS" if self.registry.valid() and self.runtime.lima_running() and policy_state.get("valid") else "FAIL"
+            },
+            metrics={
+                "policy": policy_state,
             },
         )
 

@@ -1,10 +1,15 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from wl_controller.models.registry import ServiceRegistry
+from wl_controller.policy.engine import PolicyEngine
 from wl_controller.models.service import Service
 
 
 class ServiceResolver:
+    def __init__(self, root: Path | None = None):
+        self.policy = PolicyEngine(root or Path.home() / "Wonderland")
     def resolve(
         self,
         services_json: dict,
@@ -29,8 +34,9 @@ class ServiceResolver:
             service_health = health_by_name.get(name, {})
 
             desired = self._desired(name, desired_json)
-            critical = self._critical(name, services_json)
-            dependencies = self._dependencies(name, services_json)
+            policy = self.policy.service_policy(name)
+            critical = bool(policy.get("critical", self._critical(name, services_json)))
+            dependencies = list(policy.get("depends", self._dependencies(name, services_json)))
 
             running = bool(container.get("running"))
             healthy = bool(service_health.get("healthy", running))

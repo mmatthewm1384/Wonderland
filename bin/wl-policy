@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${HOME}/Wonderland"
+export PYTHONPATH="$ROOT/controller:${PYTHONPATH:-}"
+
+python3 - <<'PY'
+import json
+from pathlib import Path
+
+from wl_controller.policy.engine import PolicyEngine
+
+root = Path.home() / "Wonderland"
+engine = PolicyEngine(root)
+policy = engine.load()
+
+print(json.dumps(policy, indent=2, sort_keys=True))
+raise SystemExit(0 if policy.get("valid") else 1)
+PY
