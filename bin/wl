@@ -1,4 +1,46 @@
 #!/usr/bin/env bash
+# Rootless API agent intercept
+if [ "${1:-}" = "api-agent" ]; then
+  shift
+  exec "${WL_HOME:-$HOME/Wonderland}/bin/wl-api-agent" "$@"
+fi
+
+# Rootless API intercept
+if [ "${1:-}" = "api" ]; then
+  shift
+  exec "${WL_HOME:-$HOME/Wonderland}/bin/wl-api" "$@"
+fi
+
+# Rootless state intercept
+if [ "${1:-}" = "state" ]; then
+  shift
+  exec "${WL_HOME:-$HOME/Wonderland}/bin/wl-state" "$@"
+fi
+
+# Rootless timeline intercept
+if [ "${1:-}" = "timeline" ]; then
+  shift
+  exec "${WL_HOME:-$HOME/Wonderland}/bin/wl-timeline" "$@"
+fi
+
+# Rootless controller core intercept
+if [ "${1:-}" = "controller-core" ]; then
+  shift
+  exec "${WL_HOME:-$HOME/Wonderland}/bin/wl-controller-core" "$@"
+fi
+
+# Rootless platform status intercept
+if [ "${1:-}" = "status" ]; then
+  shift
+  exec "${WL_HOME:-$HOME/Wonderland}/bin/wl-platform-status" "$@"
+fi
+
+# Rootless controller intercept
+if [ "${1:-}" = "controller" ]; then
+  shift
+  exec "${WL_HOME:-$HOME/Wonderland}/bin/wl-controller" "$@"
+fi
+
 # Rootless events intercept
 if [ "${1:-}" = "events" ]; then
   shift

@@ -1,0 +1,64 @@
+Wonderland Platform Services Certification
+Generated: 2026-06-27T11:13:57Z
+
+== Cleaning macOS metadata ==
+ROOT /Users/wonderland/Workshop/services
+ROOT /Users/wonderland/Wonderland/docker
+RESULT PASS
+== Cleaning guest metadata ==
+ROOT /home/wonderland.guest/Workshop/services
+RESULT PASS
+RESULT PASS platform metadata clean
+
+REGISTRY /Users/wonderland/Wonderland/vault/05-Registry/services.json
+VALID TRUE
+START_ORDER wl-dns wl-loki wl-nats wl-vaultwarden wl-prometheus wl-grafana
+RESULT PASS
+
+wonderland-rootless    Running    127.0.0.1:49212    vz        aarch64    4       6GiB      80GiB     ~/.lima/wonderland-rootless
+PASS wonderland-rootless running
+
+== Wonderland Rootless Services ==
+PASS wl-vaultwarden up
+PASS wl-vaultwarden-db up
+PASS wl-loki up
+PASS wl-prometheus up
+PASS wl-grafana up
+PASS wl-nats up
+PASS wl-dns up
+
+Wonderland Universe Status
+
+Root:  /Users/wonderland/Wonderland
+Mode:  light
+
+Authority
+PASS mode                   
+PASS storage                
+PASS storage authority      
+
+Governance
+PASS governance             
+PASS recovery               
+PASS snapshot               
+
+Runtime
+PASS services
+
+Capability
+WARN media                  unavailable in current mode
+WARN torrent                unavailable in current mode
+
+RESULT PASS
+
+Wonderland Doctor
+
+PASS storage                  +10
+PASS governance               +10
+PASS universe                 +10
+PASS wonderland-rootless      +10
+PASS rootless                 +10
+PASS services                 +10
+
+Health Score: 60/60
+RESULT PASS

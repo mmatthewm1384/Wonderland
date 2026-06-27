@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+REGISTRY="$WL_HOME/vault/05-Registry/services.json"
+DESIRED="$WL_HOME/vault/05-Registry/desired-state.json"
+REPORT_DIR="$WL_HOME/vault/08-Operations/reports/recovery"
+LIMA_INSTANCE="${LIMA_INSTANCE:-wonderland-rootless}"
+
+mkdir -p "$REPORT_DIR"
+
+stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+report="$REPORT_DIR/recovery-$stamp.json"
+latest="$REPORT_DIR/latest.json"
+
+fail=0
+recovered=0
+
+"$WL_HOME/bin/wl-event" recovery.started stamp="$stamp" >/dev/null 2>&1 || true
+
+echo "== Wonderland Recovery =="
+
+echo
+echo "== Refresh registry =="
+"$WL_HOME/bin/wl-services-refresh" || fail=1
+
+echo
+echo "== Ensure runtime =="
+limactl start "$LIMA_INSTANCE" >/dev/null 2>&1 || true
+"$WL_HOME/bin/wl-rootless" status || fail=1
+
+echo
+echo "== Check desired critical services =="
+
+while read -r svc; do
+  [ -n "$svc" ] || continue
+
+  enabled="$(jq -r --arg svc "$svc" '.services[$svc] // false' "$DESIRED")"
+  [ "$enabled" = "true" ] || continue
+
+  critical="$(jq -r --arg svc "$svc" '.services[] | select(.name == $svc) | .critical' "$REGISTRY")"
+  [ "$critical" = "true" ] || continue
+
+  dir="$(jq -r --arg svc "$svc" '.services[] | select(.name == $svc) | .directory' "$REGISTRY")"
+
+  missing=0
+  while read -r container; do
+    [ -n "$container" ] || continue
+
+    if LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl ps --format '{{.Names}}' | grep -qx "$container"; then
+      echo "PASS $container up"
+    else
+      echo "RECOVER $container via $svc"
+      missing=1
+    fi
+  done < <(jq -r --arg svc "$svc" '.services[] | select(.name == $svc) | .containers[]?' "$REGISTRY")
+
+  if [ "$missing" -eq 1 ]; then
+    limactl shell "$LIMA_INSTANCE" -- bash -lc "
+      set -euo pipefail
+      cd '$dir'
+      nerdctl compose -f compose.yaml up -d
+    " || fail=1
+
+    recovered=$((recovered+1))
+    "$WL_HOME/bin/wl-event" service.recovered service="$svc" >/dev/null 2>&1 || true
+  fi
+
+done < <(jq -r '.start_order[]' "$REGISTRY")
+
+echo
+echo "== Health =="
+"$WL_HOME/bin/wl-services-health" || fail=1
+
+echo
+echo "== Certification =="
+"$WL_HOME/bin/wl-certify-platform-services" || fail=1
+
+result="PASS"
+[ "$fail" -eq 0 ] || result="FAIL"
+
+python3 - "$REGISTRY" "$report" "$result" "$recovered" <<'PY'
+import json
+import sys
+from pathlib import Path
+from datetime import datetime, timezone
+
+registry = json.loads(Path(sys.argv[1]).read_text())
+report = Path(sys.argv[2])
+result = sys.argv[3]
+recovered = int(sys.argv[4])
+
+doc = {
+    "generated_at": datetime.now(timezone.utc).isoformat(),
+    "result": result,
+    "runtime": "wonderland-rootless",
+    "recovered_count": recovered,
+    "start_order": registry.get("start_order"),
+    "services": registry.get("services"),
+}
+
+report.write_text(json.dumps(doc, indent=2) + "\n")
+print(f"REPORT {report}")
+PY
+
+cp "$report" "$latest"
+
+"$WL_HOME/bin/wl-event" recovery.finished result="$result" recovered="$recovered" report="$report" >/dev/null 2>&1 || true
+
+echo "RESULT $result"
+[ "$result" = "PASS" ]

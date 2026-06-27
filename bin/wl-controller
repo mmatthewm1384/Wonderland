@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+INTERVAL="${WL_CONTROLLER_INTERVAL:-30}"
+ONCE=false
+
+if [ "${1:-}" = "--once" ]; then
+  ONCE=true
+fi
+
+log_dir="$WL_HOME/runtime/controller"
+report_dir="$WL_HOME/vault/08-Operations/reports/controller"
+
+mkdir -p "$log_dir" "$report_dir"
+
+emit() {
+  "$WL_HOME/bin/wl-event" "$@" >/dev/null 2>&1 || true
+}
+
+run_cycle() {
+  local stamp
+  local report
+  local result="PASS"
+  local started
+
+  stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+  report="$report_dir/controller-$stamp.txt"
+  started="$(date +%s)"
+
+  emit controller.cycle.started stamp="$stamp"
+
+  {
+    echo "Wonderland Controller Cycle"
+    echo "Generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    echo
+
+    echo "== Registry Refresh =="
+    "$WL_HOME/bin/wl-services-refresh"
+    echo
+
+    echo "== Reconcile =="
+    "$WL_HOME/bin/wl-reconcile"
+    echo
+
+    echo "== Recovery =="
+    "$WL_HOME/bin/wl-services-recover"
+    echo
+
+    echo "== Health =="
+    "$WL_HOME/bin/wl-services-health"
+    echo
+
+    echo "== Certification =="
+    "$WL_HOME/bin/wl-certify-platform-services"
+    echo
+
+    echo "RESULT PASS"
+  } >"$report" 2>&1 || result="FAIL"
+
+  ln -sf "$report" "$report_dir/latest.txt"
+
+  if [ "$result" = "PASS" ]; then
+    emit controller.cycle.finished result=PASS report="$report" duration="$(( $(date +%s) - started ))"
+    echo "RESULT PASS controller cycle $stamp"
+  else
+    emit controller.cycle.failed result=FAIL report="$report" duration="$(( $(date +%s) - started ))"
+    echo "RESULT FAIL controller cycle $stamp"
+    tail -80 "$report"
+    return 1
+  fi
+}
+
+emit controller.started interval="$INTERVAL"
+
+while true; do
+  run_cycle || true
+
+  if [ "$ONCE" = true ]; then
+    break
+  fi
+
+  sleep "$INTERVAL"
+done
+
+emit controller.stopped

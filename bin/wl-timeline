@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+EVENT_LOG="$WL_HOME/runtime/events/events.jsonl"
+TIMELINE_DIR="$WL_HOME/vault/09-Timeline"
+TIMELINE="$TIMELINE_DIR/timeline.jsonl"
+INDEX="$TIMELINE_DIR/index.json"
+
+mkdir -p "$TIMELINE_DIR"
+
+sync_timeline() {
+  python3 - "$EVENT_LOG" "$TIMELINE" "$INDEX" <<'PY'
+import json
+import sys
+from pathlib import Path
+from datetime import datetime, timezone
+
+events = Path(sys.argv[1])
+timeline = Path(sys.argv[2])
+index = Path(sys.argv[3])
+
+timeline.parent.mkdir(parents=True, exist_ok=True)
+
+existing_keys = set()
+sequence = 0
+
+if timeline.exists():
+    with timeline.open() as f:
+        for line in f:
+            if not line.strip():
+                continue
+            try:
+                obj = json.loads(line)
+                sequence = max(sequence, int(obj.get("sequence", 0)))
+                key = obj.get("_source_key")
+                if key:
+                    existing_keys.add(key)
+            except Exception:
+                continue
+
+added = 0
+counts = {}
+
+if events.exists():
+    with events.open() as f:
+        for lineno, line in enumerate(f, start=1):
+            raw = line.strip()
+            if not raw:
+                continue
+
+            key = f"events.jsonl:{lineno}:{hash(raw)}"
+            if key in existing_keys:
+                continue
+
+            try:
+                event = json.loads(raw)
+            except Exception:
+                continue
+
+            sequence += 1
+            event_type = event.get("event", "unknown")
+
+            entry = {
+                "sequence": sequence,
+                "timeline_time": datetime.now(timezone.utc).isoformat(),
+                "type": event_type,
+                "timestamp": event.get("time"),
+                "runtime": event.get("runtime"),
+                "result": event.get("result"),
+                "event": event,
+                "_source_key": key
+            }
+
+            with timeline.open("a") as out:
+                out.write(json.dumps(entry, separators=(",", ":")) + "\n")
+
+            existing_keys.add(key)
+            added += 1
+            counts[event_type] = counts.get(event_type, 0) + 1
+
+summary = {
+    "updated_at": datetime.now(timezone.utc).isoformat(),
+    "timeline": str(timeline),
+    "events_source": str(events),
+    "latest_sequence": sequence,
+    "added": added,
+    "event_counts_added": counts
+}
+
+index.write_text(json.dumps(summary, indent=2) + "\n")
+
+print(f"TIMELINE {timeline}")
+print(f"INDEX {index}")
+print(f"ADDED {added}")
+print("RESULT PASS")
+PY
+}
+
+case "${1:-sync}" in
+  sync)
+    sync_timeline
+    ;;
+  tail)
+    tail -n "${2:-40}" "$TIMELINE"
+    ;;
+  list)
+    cat "$TIMELINE"
+    ;;
+  index)
+    cat "$INDEX"
+    ;;
+  jq)
+    shift
+    jq "$@" "$TIMELINE"
+    ;;
+  *)
+    echo "Usage: wl timeline sync|tail [n]|list|index|jq <filter>"
+    exit 2
+    ;;
+esac
