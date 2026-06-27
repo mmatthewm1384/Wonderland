@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+LIMA_INSTANCE="${LIMA_INSTANCE:-wonderland-rootless}"
+
+limactl shell "$LIMA_INSTANCE" -- bash -lc '
+set -euo pipefail
+
+roots=(
+  "$HOME/Workshop/services"
+  "$HOME/Wonderland/docker"
+)
+
+echo "== Cleaning guest metadata =="
+
+for root in "${roots[@]}"; do
+  [ -e "$root" ] || continue
+
+  echo "ROOT $root"
+
+  find "$root" \
+    \( -name "._*" -o -name ".DS_Store" \) \
+    -type f \
+    -print \
+    -delete
+done
+
+echo "RESULT PASS"
+'

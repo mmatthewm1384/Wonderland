@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+roots=(
+  "$HOME/Workshop/services"
+  "$HOME/Wonderland/docker"
+)
+
+echo "== Cleaning macOS metadata =="
+
+for root in "${roots[@]}"; do
+  [ -e "$root" ] || continue
+
+  echo "ROOT $root"
+
+  find "$root" \
+    \( -name '._*' -o -name '.DS_Store' \) \
+    -type f \
+    -print \
+    -exec rm -f {} \;
+done
+
+echo "RESULT PASS"

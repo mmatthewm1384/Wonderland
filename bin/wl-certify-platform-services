@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+cd "$WL_HOME"
+
+mkdir -p vault/05-Registry/certifications vault/08-Operations/reports
+
+report="vault/08-Operations/reports/platform-services-certification-$(date +%Y%m%d-%H%M%S).txt"
+cert="vault/05-Registry/certifications/platform-services-rootless.json"
+
+fail=0
+
+{
+  echo "Wonderland Platform Services Certification"
+  echo "Generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  echo
+
+  bin/wl-clean-platform-metadata || fail=1
+  echo
+
+  bin/wl-rootless status || fail=1
+  echo
+
+  bin/wl-rootless-services || fail=1
+  echo
+
+  bin/wl-universe status || fail=1
+  echo
+
+  bin/wl-doctor-lifecycle || fail=1
+} | tee "$report"
+
+state="certified"
+[ "$fail" -eq 0 ] || state="failed"
+
+cat > "$cert" <<JSON
+{
+  "id": "platform-services-rootless",
+  "name": "Wonderland Rootless Platform Services",
+  "state": "$state",
+  "runtime": "wonderland-rootless",
+  "latest_report": "$report",
+  "services": [
+    "wl-vaultwarden",
+    "wl-vaultwarden-db",
+    "wl-loki",
+    "wl-prometheus",
+    "wl-grafana",
+    "wl-nats",
+    "wl-dns"
+  ],
+  "generated_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+}
+JSON
+
+if [ "$fail" -eq 0 ]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+  exit 1
+fi

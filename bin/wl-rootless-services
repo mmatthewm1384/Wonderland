@@ -8,13 +8,18 @@ services=(
   wl-vaultwarden
   wl-vaultwarden-db
   wl-loki
+  wl-prometheus
+  wl-grafana
+  wl-nats
+  wl-dns
 )
 
 fail=0
 
 echo "== Wonderland Rootless Services =="
+
 for svc in "${services[@]}"; do
-  if LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl ps --format '{{.Names}} {{.Status}}' | grep -E "^${svc}[[:space:]].*Up" >/dev/null; then
+  if LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl ps --format '{{.Names}}' | grep -qx "$svc"; then
     echo "PASS $svc up"
   else
     echo "FAIL $svc not up"
