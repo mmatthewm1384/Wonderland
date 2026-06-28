@@ -1,0 +1,13 @@
+{
+  "id": "wl-chaos-latest",
+  "state": "certified",
+  "updated_at": "2026-06-28T03:05:41Z",
+  "latest": {
+    "authority": "wl-chaos-menubar-authority.json",
+    "controller_api": "wl-chaos-menubar-controller-api.json"
+  },
+  "execution_path": "menubar -> controller-api -> chaos-runtime",
+  "fallback": "disabled",
+  "verifier": "wl-chaos-verify",
+  "result": "PASS"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "wl-chaos-menubar-controller-api",
+  "state": "certified",
+  "certified_at": "2026-06-28T03:05:08Z",
+  "architecture": {
+    "execution_path": "menubar -> controller-api -> chaos-runtime",
+    "fallback": "disabled",
+    "endpoint": "POST /chaos/model",
+    "controller": "com.wonderland.controller-v2-api"
+  },
+  "checks": [
+    "controller-api execution",
+    "no default cli fallback",
+    "fingerprint gate",
+    "lease gate",
+    "human authentication",
+    "typed confirmation",
+    "controller audit",
+    "menubar audit",
+    "state persistence"
+  ],
+  "verifier": "wl-chaos-menubar-verify",
+  "result": "PASS"
+}

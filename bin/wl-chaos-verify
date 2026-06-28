@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-exec "$HOME/Wonderland/security/operator-gate/wl-chaos-authorized-action" verify
+set -euo pipefail
+exec /Users/wonderland/Wonderland/bin/wl-chaos-menubar-verify "$@"
