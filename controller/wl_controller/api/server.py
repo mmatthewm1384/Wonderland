@@ -202,7 +202,103 @@ class APIServer:
                     self._json({"error": "not found"}, 404)
 
             def do_POST(self):
-                if self.path in {
+                import json
+                route = self._route() if hasattr(self, "_route") else self.path.split("?", 1)[0]
+
+                if route == "/chaos/model":
+                    try:
+                        length = int(self.headers.get("Content-Length", "0"))
+                        raw = self.rfile.read(length).decode("utf-8") if length else "{}"
+                        payload = json.loads(raw or "{}")
+
+                        models = {
+                            "calm": {"command": "status", "risk_level": 0},
+                            "nudge": {"command": "checkin", "risk_level": 1},
+                            "drift": {"command": "panic", "risk_level": 2},
+                            "storm": {"command": "panic", "risk_level": 3},
+                            "blackout": {"command": "panic", "risk_level": 4},
+                            "cataclysm": {"command": "panic", "risk_level": 5},
+                            "recovery": {"command": "reset", "risk_level": 0},
+                        }
+
+                        model = str(payload.get("model", "")).strip()
+                        requested_command = str(payload.get("command", "")).strip()
+
+                        if model not in models:
+                            self._json({
+                                "ok": False,
+                                "status": "denied",
+                                "message": f"unknown chaos model: {model}",
+                            }, 400)
+                            return
+
+                        spec = models[model]
+                        command = spec["command"]
+
+                        if requested_command and requested_command != command:
+                            self._json({
+                                "ok": False,
+                                "status": "denied",
+                                "message": f"command mismatch: expected {command}, got {requested_command}",
+                            }, 400)
+                            return
+
+                        import subprocess
+                        from datetime import datetime, timezone
+
+                        audit = api.root / "vault/chaos/controller-chaos-audit.jsonl"
+                        audit.parent.mkdir(parents=True, exist_ok=True)
+
+                        event = {
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
+                            "event": "controller_chaos_model",
+                            "model": model,
+                            "command": command,
+                            "risk_level": spec["risk_level"],
+                        }
+
+                        with audit.open("a", encoding="utf-8") as f:
+                            f.write(json.dumps(event, sort_keys=True) + "\n")
+
+                        result = subprocess.run(
+                            [str(api.root / "bin/wl-chaos"), command],
+                            text=True,
+                            capture_output=True,
+                            timeout=15,
+                        )
+
+                        if result.returncode != 0:
+                            self._json({
+                                "ok": False,
+                                "status": "failed",
+                                "model": model,
+                                "command": command,
+                                "message": result.stderr.strip() or result.stdout.strip() or "chaos command failed",
+                            }, 500)
+                            return
+
+                        state = api.controller.cycle().to_dict()
+                        api._set_state(state)
+
+                        self._json({
+                            "ok": True,
+                            "status": "executed",
+                            "model": model,
+                            "command": command,
+                            "risk_level": spec["risk_level"],
+                            "message": result.stdout.strip(),
+                        })
+                        return
+
+                    except Exception as exc:
+                        self._json({
+                            "ok": False,
+                            "status": "error",
+                            "message": str(exc),
+                        }, 500)
+                        return
+
+                if route in {
                     "/refresh",
                     "/state/snapshot",
                     "/reconcile",

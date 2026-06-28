@@ -1,0 +1,26 @@
+{
+  "id": "wl-chaos-menubar-authority",
+  "state": "certified",
+  "certified_at": "2026-06-28T02:40:02Z",
+  "components": [
+    "fingerprint",
+    "lease",
+    "local-authentication",
+    "typed-confirmation",
+    "audit-log",
+    "state-file",
+    "chaos-models",
+    "launchagent"
+  ],
+  "models": [
+    "calm",
+    "nudge",
+    "drift",
+    "storm",
+    "blackout",
+    "cataclysm",
+    "recovery"
+  ],
+  "verifier": "wl-chaos-verify",
+  "result": "PASS"
+}
