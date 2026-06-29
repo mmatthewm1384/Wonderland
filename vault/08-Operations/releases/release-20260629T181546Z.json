@@ -1,0 +1,17 @@
+{
+  "kind": "release",
+  "platform": "wonderland",
+  "version": "2.1",
+  "status": "built",
+  "git_commit": "4708f1ea",
+  "runtime_context": "runtime/context.json",
+  "runtime_state": "runtime/state.json",
+  "runtime_health": "runtime/health.json",
+  "runtime_capabilities": "runtime/capabilities.json",
+  "command_registry": "config/commands/registry.json",
+  "command_registry_sha256": "7b864e966ca6ccc007e72e0867778b11d221f1cc0f678f2ec91e6374c8a2fdf8",
+  "command_summary": "vault/02-Documentation/generated/wonderland-command-summary.md",
+  "command_summary_sha256": "7fc2458b4f4210abf22f895be1448c899b78ebf9e074c61a65bcd188a20f09f9",
+  "release_history": "vault/08-Operations/releases/history.jsonl",
+  "built_at": "2026-06-29T18:15:46Z"
+}
