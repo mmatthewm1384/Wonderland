@@ -1,21 +1,2634 @@
 {
   "version": "2.1",
+  "generated_at": "2026-06-29T14:43:16Z",
   "commands": {
-    "boot": {
-      "command": "wl boot",
-      "phase": "boot",
-      "category": "lifecycle",
-      "requires": ["environment", "storage"],
-      "provides": ["runtime_context", "runtime_state", "runtime_health", "runtime_capabilities", "boot_report"],
-      "json_schema": "schemas/boot-report.schema.json"
+    "wl-agitate": {
+      "command": "wl-agitate",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-agitate",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
     },
-    "verify": {
-      "command": "wl verify",
-      "phase": "verify",
+    "wl-ai": {
+      "command": "wl-ai",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-ai",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-ai-dropin-rollback": {
+      "command": "wl-ai-dropin-rollback",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-ai-dropin-rollback",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-ai-local": {
+      "command": "wl-ai-local",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-ai-local",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-ai-verify": {
+      "command": "wl-ai-verify",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-ai-verify",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-anon": {
+      "command": "wl-anon",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-anon",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-anon-route": {
+      "command": "wl-anon-route",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-anon-route",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-api": {
+      "command": "wl-api",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-api",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-api-agent": {
+      "command": "wl-api-agent",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-api-agent",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-api-v2": {
+      "command": "wl-api-v2",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-api-v2",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-audit": {
+      "command": "wl-audit",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-audit",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-audit-report": {
+      "command": "wl-audit-report",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-audit-report",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-authorities": {
+      "command": "wl-authorities",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-authorities",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-authority": {
+      "command": "wl-authority",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-authority",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-backup": {
+      "command": "wl-backup",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-backup",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-backup-registry": {
+      "command": "wl-backup-registry",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-backup-registry",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-baseline": {
+      "command": "wl-baseline",
+      "phase": "release",
+      "category": "release",
+      "path": "bin/wl-baseline",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-body-time": {
+      "command": "wl-body-time",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-body-time",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-boot": {
+      "command": "wl-boot",
+      "phase": "lifecycle",
+      "category": "lifecycle",
+      "path": "bin/wl-boot",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-capability": {
+      "command": "wl-capability",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-capability",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-certify": {
+      "command": "wl-certify",
+      "phase": "release",
+      "category": "release",
+      "path": "bin/wl-certify",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-certify-platform-services": {
+      "command": "wl-certify-platform-services",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-certify-platform-services",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-certify-rootless": {
+      "command": "wl-certify-rootless",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-certify-rootless",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chaos": {
+      "command": "wl-chaos",
+      "phase": "chaos",
+      "category": "chaos",
+      "path": "bin/wl-chaos",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chaos-fingerprint": {
+      "command": "wl-chaos-fingerprint",
+      "phase": "chaos",
+      "category": "chaos",
+      "path": "bin/wl-chaos-fingerprint",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chaos-fingerprint-verify": {
+      "command": "wl-chaos-fingerprint-verify",
+      "phase": "chaos",
+      "category": "chaos",
+      "path": "bin/wl-chaos-fingerprint-verify",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chaos-lease": {
+      "command": "wl-chaos-lease",
+      "phase": "chaos",
+      "category": "chaos",
+      "path": "bin/wl-chaos-lease",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chaos-lease-verify": {
+      "command": "wl-chaos-lease-verify",
+      "phase": "chaos",
+      "category": "chaos",
+      "path": "bin/wl-chaos-lease-verify",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chaos-menubar-action": {
+      "command": "wl-chaos-menubar-action",
+      "phase": "chaos",
+      "category": "chaos",
+      "path": "bin/wl-chaos-menubar-action",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chaos-menubar-status": {
+      "command": "wl-chaos-menubar-status",
+      "phase": "chaos",
+      "category": "chaos",
+      "path": "bin/wl-chaos-menubar-status",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chaos-menubar-verify": {
+      "command": "wl-chaos-menubar-verify",
+      "phase": "chaos",
+      "category": "chaos",
+      "path": "bin/wl-chaos-menubar-verify",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chaos-panic": {
+      "command": "wl-chaos-panic",
+      "phase": "chaos",
+      "category": "chaos",
+      "path": "bin/wl-chaos-panic",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chaos-policy": {
+      "command": "wl-chaos-policy",
+      "phase": "chaos",
+      "category": "chaos",
+      "path": "bin/wl-chaos-policy",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chaos-schedule": {
+      "command": "wl-chaos-schedule",
+      "phase": "chaos",
+      "category": "chaos",
+      "path": "bin/wl-chaos-schedule",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chaos-schedule-eval": {
+      "command": "wl-chaos-schedule-eval",
+      "phase": "chaos",
+      "category": "chaos",
+      "path": "bin/wl-chaos-schedule-eval",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chaos-schedule-run": {
+      "command": "wl-chaos-schedule-run",
+      "phase": "chaos",
+      "category": "chaos",
+      "path": "bin/wl-chaos-schedule-run",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chaos-verify": {
+      "command": "wl-chaos-verify",
+      "phase": "chaos",
+      "category": "chaos",
+      "path": "bin/wl-chaos-verify",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chaos-visual-cleanup-verify": {
+      "command": "wl-chaos-visual-cleanup-verify",
+      "phase": "chaos",
+      "category": "chaos",
+      "path": "bin/wl-chaos-visual-cleanup-verify",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chatgpt-keyless": {
+      "command": "wl-chatgpt-keyless",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-chatgpt-keyless",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-checkpoint": {
+      "command": "wl-checkpoint",
+      "phase": "release",
+      "category": "release",
+      "path": "bin/wl-checkpoint",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chrono": {
+      "command": "wl-chrono",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-chrono",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chrono-v2": {
+      "command": "wl-chrono-v2",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-chrono-v2",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chronosphere": {
+      "command": "wl-chronosphere",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-chronosphere",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chronosphere-app": {
+      "command": "wl-chronosphere-app",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-chronosphere-app",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chronosphere-install": {
+      "command": "wl-chronosphere-install",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-chronosphere-install",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chronosphere-v2": {
+      "command": "wl-chronosphere-v2",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-chronosphere-v2",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-chronosphere-v2-install": {
+      "command": "wl-chronosphere-v2-install",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-chronosphere-v2-install",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-clean-guest-metadata": {
+      "command": "wl-clean-guest-metadata",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-clean-guest-metadata",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-clean-macos-metadata": {
+      "command": "wl-clean-macos-metadata",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-clean-macos-metadata",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-clean-platform-metadata": {
+      "command": "wl-clean-platform-metadata",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-clean-platform-metadata",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-color-authority-asset": {
+      "command": "wl-color-authority-asset",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-color-authority-asset",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-command": {
+      "command": "wl-command",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-command",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-command-inventory": {
+      "command": "wl-command-inventory",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-command-inventory",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-command-registry": {
+      "command": "wl-command-registry",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-command-registry",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-config": {
+      "command": "wl-config",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-config",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-context": {
+      "command": "wl-context",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-context",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-control-center": {
+      "command": "wl-control-center",
+      "phase": "apps",
+      "category": "apps",
+      "path": "bin/wl-control-center",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-control-center-package": {
+      "command": "wl-control-center-package",
+      "phase": "apps",
+      "category": "apps",
+      "path": "bin/wl-control-center-package",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-controller": {
+      "command": "wl-controller",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-controller",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-controller-core": {
+      "command": "wl-controller-core",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-controller-core",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-controller-core-v2": {
+      "command": "wl-controller-core-v2",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-controller-core-v2",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-controller-v2": {
+      "command": "wl-controller-v2",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-controller-v2",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-dashboard": {
+      "command": "wl-dashboard",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-dashboard",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-disposable": {
+      "command": "wl-disposable",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-disposable",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-dns": {
+      "command": "wl-dns",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-dns",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-docs": {
+      "command": "wl-docs",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-docs",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-doctor": {
+      "command": "wl-doctor",
+      "phase": "validation",
       "category": "validation",
-      "requires": ["boot", "runtime_artifacts"],
-      "provides": ["verification_result"],
-      "json_schema": "schemas/verify-report.schema.json"
+      "path": "bin/wl-doctor",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-doctor-lifecycle": {
+      "command": "wl-doctor-lifecycle",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-doctor-lifecycle",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-document-cleaner": {
+      "command": "wl-document-cleaner",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-document-cleaner",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-drift-check": {
+      "command": "wl-drift-check",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-drift-check",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-env-clean": {
+      "command": "wl-env-clean",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-env-clean",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-event": {
+      "command": "wl-event",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-event",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-events": {
+      "command": "wl-events",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-events",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-firefox": {
+      "command": "wl-firefox",
+      "phase": "apps",
+      "category": "apps",
+      "path": "bin/wl-firefox",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-firefox-verify": {
+      "command": "wl-firefox-verify",
+      "phase": "apps",
+      "category": "apps",
+      "path": "bin/wl-firefox-verify",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-ga-plus-install": {
+      "command": "wl-ga-plus-install",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-ga-plus-install",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-governance": {
+      "command": "wl-governance",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-governance",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-governance-consolidate": {
+      "command": "wl-governance-consolidate",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-governance-consolidate",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-governance-runtime-chaos": {
+      "command": "wl-governance-runtime-chaos",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-governance-runtime-chaos",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-grafana-dashboard": {
+      "command": "wl-grafana-dashboard",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-grafana-dashboard",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-grok-keyless": {
+      "command": "wl-grok-keyless",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-grok-keyless",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-handoff": {
+      "command": "wl-handoff",
+      "phase": "release",
+      "category": "release",
+      "path": "bin/wl-handoff",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-health": {
+      "command": "wl-health",
+      "phase": "runtime",
+      "category": "runtime",
+      "path": "bin/wl-health",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-health-report": {
+      "command": "wl-health-report",
+      "phase": "runtime",
+      "category": "runtime",
+      "path": "bin/wl-health-report",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-idea": {
+      "command": "wl-idea",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-idea",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-implement": {
+      "command": "wl-implement",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-implement",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-inspect": {
+      "command": "wl-inspect",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-inspect",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-install-matrix-atom-destroyer": {
+      "command": "wl-install-matrix-atom-destroyer",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-install-matrix-atom-destroyer",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-install-matrix-atom-destroyer-v2": {
+      "command": "wl-install-matrix-atom-destroyer-v2",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-install-matrix-atom-destroyer-v2",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-install-matrix-atom-destroyer-v3": {
+      "command": "wl-install-matrix-atom-destroyer-v3",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-install-matrix-atom-destroyer-v3",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-install-matrix-atom-destroyer-v4": {
+      "command": "wl-install-matrix-atom-destroyer-v4",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-install-matrix-atom-destroyer-v4",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-install-matrix-atom-destroyer-v5": {
+      "command": "wl-install-matrix-atom-destroyer-v5",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-install-matrix-atom-destroyer-v5",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-intel": {
+      "command": "wl-intel",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-intel",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-intent": {
+      "command": "wl-intent",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-intent",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-intent-plan": {
+      "command": "wl-intent-plan",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-intent-plan",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-intent-status": {
+      "command": "wl-intent-status",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-intent-status",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-knowledge-dropin": {
+      "command": "wl-knowledge-dropin",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-knowledge-dropin",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-language": {
+      "command": "wl-language",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-language",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-legacy": {
+      "command": "wl-legacy",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-legacy",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-legacy-promote": {
+      "command": "wl-legacy-promote",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-legacy-promote",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-lifecycle": {
+      "command": "wl-lifecycle",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-lifecycle",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-lifecycle-audit": {
+      "command": "wl-lifecycle-audit",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-lifecycle-audit",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-lifecycle-capture": {
+      "command": "wl-lifecycle-capture",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-lifecycle-capture",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-lifecycle-certify": {
+      "command": "wl-lifecycle-certify",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-lifecycle-certify",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-lifecycle-registry": {
+      "command": "wl-lifecycle-registry",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-lifecycle-registry",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-lifecycle-report": {
+      "command": "wl-lifecycle-report",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-lifecycle-report",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-lifecycle-services": {
+      "command": "wl-lifecycle-services",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-lifecycle-services",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-lifecycle-snapshot": {
+      "command": "wl-lifecycle-snapshot",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-lifecycle-snapshot",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-link-runtime": {
+      "command": "wl-link-runtime",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-link-runtime",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-lint": {
+      "command": "wl-lint",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-lint",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-mahaney": {
+      "command": "wl-mahaney",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-mahaney",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-mahaney-gate": {
+      "command": "wl-mahaney-gate",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-mahaney-gate",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix": {
+      "command": "wl-matrix",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-add-agitate-waves": {
+      "command": "wl-matrix-add-agitate-waves",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-add-agitate-waves",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-add-iphone-access": {
+      "command": "wl-matrix-add-iphone-access",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-add-iphone-access",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-add-spin-city-iphone": {
+      "command": "wl-matrix-add-spin-city-iphone",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-add-spin-city-iphone",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-agitate": {
+      "command": "wl-matrix-agitate",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-agitate",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-agitate-iphone": {
+      "command": "wl-matrix-agitate-iphone",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-agitate-iphone",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-apps": {
+      "command": "wl-matrix-apps",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-apps",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-apps-certify": {
+      "command": "wl-matrix-apps-certify",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-apps-certify",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-apps-permanent-launchers": {
+      "command": "wl-matrix-apps-permanent-launchers",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-apps-permanent-launchers",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-atom-slam": {
+      "command": "wl-matrix-atom-slam",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-atom-slam",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-auto-tick": {
+      "command": "wl-matrix-auto-tick",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-auto-tick",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-doctor": {
+      "command": "wl-matrix-doctor",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-doctor",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-emit": {
+      "command": "wl-matrix-emit",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-emit",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-fix-agitate-waves-app": {
+      "command": "wl-matrix-fix-agitate-waves-app",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-fix-agitate-waves-app",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-fluderation": {
+      "command": "wl-matrix-fluderation",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-fluderation",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-ghosts": {
+      "command": "wl-matrix-ghosts",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-ghosts",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-influence": {
+      "command": "wl-matrix-influence",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-influence",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-iphone-doctor": {
+      "command": "wl-matrix-iphone-doctor",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-iphone-doctor",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-iphone-server": {
+      "command": "wl-matrix-iphone-server",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-iphone-server",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-native": {
+      "command": "wl-matrix-native",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-native",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-native-actions-fix": {
+      "command": "wl-matrix-native-actions-fix",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-native-actions-fix",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-presence": {
+      "command": "wl-matrix-presence",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-presence",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-rollback": {
+      "command": "wl-matrix-rollback",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-rollback",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-slam-watch": {
+      "command": "wl-matrix-slam-watch",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-slam-watch",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-spin-city-iphone": {
+      "command": "wl-matrix-spin-city-iphone",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-spin-city-iphone",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-suite": {
+      "command": "wl-matrix-suite",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-suite",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-tick": {
+      "command": "wl-matrix-tick",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-tick",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-matrix-watchers": {
+      "command": "wl-matrix-watchers",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-matrix-watchers",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-mind-body": {
+      "command": "wl-mind-body",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-mind-body",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-mind-body-app": {
+      "command": "wl-mind-body-app",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-mind-body-app",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-mind-body-install": {
+      "command": "wl-mind-body-install",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-mind-body-install",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-mode": {
+      "command": "wl-mode",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-mode",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-music": {
+      "command": "wl-music",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-music",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-nats": {
+      "command": "wl-nats",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-nats",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-nav": {
+      "command": "wl-nav",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-nav",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-notifier": {
+      "command": "wl-notifier",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-notifier",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-oath": {
+      "command": "wl-oath",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-oath",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-observability": {
+      "command": "wl-observability",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-observability",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-obsidian": {
+      "command": "wl-obsidian",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-obsidian",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-openapi": {
+      "command": "wl-openapi",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-openapi",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-operations-index-reports": {
+      "command": "wl-operations-index-reports",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-operations-index-reports",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-operations-inventory": {
+      "command": "wl-operations-inventory",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-operations-inventory",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-ops-capture": {
+      "command": "wl-ops-capture",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-ops-capture",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-parse-anon-blueprint": {
+      "command": "wl-parse-anon-blueprint",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-parse-anon-blueprint",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-path-fix": {
+      "command": "wl-path-fix",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-path-fix",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-plan-execute": {
+      "command": "wl-plan-execute",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-plan-execute",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-plan-status": {
+      "command": "wl-plan-status",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-plan-status",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-platform": {
+      "command": "wl-platform",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-platform",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-platform-freeze": {
+      "command": "wl-platform-freeze",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-platform-freeze",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-platform-status": {
+      "command": "wl-platform-status",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-platform-status",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-plugins": {
+      "command": "wl-plugins",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-plugins",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-policy": {
+      "command": "wl-policy",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-policy",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-portainer": {
+      "command": "wl-portainer",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-portainer",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-profile": {
+      "command": "wl-profile",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-profile",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-promote": {
+      "command": "wl-promote",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-promote",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-proxy": {
+      "command": "wl-proxy",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-proxy",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-reconcile": {
+      "command": "wl-reconcile",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-reconcile",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-recover": {
+      "command": "wl-recover",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-recover",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-recovery": {
+      "command": "wl-recovery",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-recovery",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-recovery-drill": {
+      "command": "wl-recovery-drill",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-recovery-drill",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-registry": {
+      "command": "wl-registry",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-registry",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-registry-audit": {
+      "command": "wl-registry-audit",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-registry-audit",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-registry-integrity": {
+      "command": "wl-registry-integrity",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-registry-integrity",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-registry-refresh": {
+      "command": "wl-registry-refresh",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-registry-refresh",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-registry-refresh-commands": {
+      "command": "wl-registry-refresh-commands",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-registry-refresh-commands",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-registry-refresh-documents": {
+      "command": "wl-registry-refresh-documents",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-registry-refresh-documents",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-registry-refresh-intents": {
+      "command": "wl-registry-refresh-intents",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-registry-refresh-intents",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-registry-refresh-plans": {
+      "command": "wl-registry-refresh-plans",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-registry-refresh-plans",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-registry-refresh-services": {
+      "command": "wl-registry-refresh-services",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-registry-refresh-services",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-release": {
+      "command": "wl-release",
+      "phase": "release",
+      "category": "release",
+      "path": "bin/wl-release",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-release-validate": {
+      "command": "wl-release-validate",
+      "phase": "release",
+      "category": "release",
+      "path": "bin/wl-release-validate",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-require-capability": {
+      "command": "wl-require-capability",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-require-capability",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-require-mode": {
+      "command": "wl-require-mode",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-require-mode",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-roam": {
+      "command": "wl-roam",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-roam",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-roam-audit": {
+      "command": "wl-roam-audit",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-roam-audit",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-roam-doctor": {
+      "command": "wl-roam-doctor",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-roam-doctor",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-roam-status": {
+      "command": "wl-roam-status",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-roam-status",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-roam-sync": {
+      "command": "wl-roam-sync",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-roam-sync",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-root-certify": {
+      "command": "wl-root-certify",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-root-certify",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-root-status": {
+      "command": "wl-root-status",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-root-status",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-rootless": {
+      "command": "wl-rootless",
+      "phase": "infrastructure",
+      "category": "infrastructure",
+      "path": "bin/wl-rootless",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-rootless-audit": {
+      "command": "wl-rootless-audit",
+      "phase": "infrastructure",
+      "category": "infrastructure",
+      "path": "bin/wl-rootless-audit",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-rootless-quarantine-obsolete": {
+      "command": "wl-rootless-quarantine-obsolete",
+      "phase": "infrastructure",
+      "category": "infrastructure",
+      "path": "bin/wl-rootless-quarantine-obsolete",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-rootless-services": {
+      "command": "wl-rootless-services",
+      "phase": "infrastructure",
+      "category": "infrastructure",
+      "path": "bin/wl-rootless-services",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-roots": {
+      "command": "wl-roots",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-roots",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-runtime": {
+      "command": "wl-runtime",
+      "phase": "runtime",
+      "category": "runtime",
+      "path": "bin/wl-runtime",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-runtime-chaos-doctor": {
+      "command": "wl-runtime-chaos-doctor",
+      "phase": "runtime",
+      "category": "runtime",
+      "path": "bin/wl-runtime-chaos-doctor",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-runtime-drift": {
+      "command": "wl-runtime-drift",
+      "phase": "runtime",
+      "category": "runtime",
+      "path": "bin/wl-runtime-drift",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-runtime-env": {
+      "command": "wl-runtime-env",
+      "phase": "runtime",
+      "category": "runtime",
+      "path": "bin/wl-runtime-env",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-runtime-inventory": {
+      "command": "wl-runtime-inventory",
+      "phase": "runtime",
+      "category": "runtime",
+      "path": "bin/wl-runtime-inventory",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-runtime-promote-intent": {
+      "command": "wl-runtime-promote-intent",
+      "phase": "runtime",
+      "category": "runtime",
+      "path": "bin/wl-runtime-promote-intent",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-schema": {
+      "command": "wl-schema",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-schema",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-sdk": {
+      "command": "wl-sdk",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-sdk",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-secrets": {
+      "command": "wl-secrets",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-secrets",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-service-certify": {
+      "command": "wl-service-certify",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-service-certify",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-service-endpoints": {
+      "command": "wl-service-endpoints",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-service-endpoints",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-service-health": {
+      "command": "wl-service-health",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-service-health",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-service-health-refresh": {
+      "command": "wl-service-health-refresh",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-service-health-refresh",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-services": {
+      "command": "wl-services",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-services",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-services-deploy": {
+      "command": "wl-services-deploy",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-services-deploy",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-services-discover-runtime": {
+      "command": "wl-services-discover-runtime",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-services-discover-runtime",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-services-doctor-registry": {
+      "command": "wl-services-doctor-registry",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-services-doctor-registry",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-services-graph": {
+      "command": "wl-services-graph",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-services-graph",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-services-health": {
+      "command": "wl-services-health",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-services-health",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-services-manifest": {
+      "command": "wl-services-manifest",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-services-manifest",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-services-recover": {
+      "command": "wl-services-recover",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-services-recover",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-services-recovery-order": {
+      "command": "wl-services-recovery-order",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-services-recovery-order",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-services-refresh": {
+      "command": "wl-services-refresh",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-services-refresh",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-services-status": {
+      "command": "wl-services-status",
+      "phase": "services",
+      "category": "services",
+      "path": "bin/wl-services-status",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-shell-repair": {
+      "command": "wl-shell-repair",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-shell-repair",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-snapshot": {
+      "command": "wl-snapshot",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-snapshot",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-spin-city": {
+      "command": "wl-spin-city",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-spin-city",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-spin-city-server": {
+      "command": "wl-spin-city-server",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-spin-city-server",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-spin-the-city-intent": {
+      "command": "wl-spin-the-city-intent",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-spin-the-city-intent",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-start": {
+      "command": "wl-start",
+      "phase": "lifecycle",
+      "category": "lifecycle",
+      "path": "bin/wl-start",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-state": {
+      "command": "wl-state",
+      "phase": "runtime",
+      "category": "runtime",
+      "path": "bin/wl-state",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-state-capture": {
+      "command": "wl-state-capture",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-state-capture",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-status": {
+      "command": "wl-status",
+      "phase": "runtime",
+      "category": "runtime",
+      "path": "bin/wl-status",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-status-v2": {
+      "command": "wl-status-v2",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-status-v2",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-stop": {
+      "command": "wl-stop",
+      "phase": "lifecycle",
+      "category": "lifecycle",
+      "path": "bin/wl-stop",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-storage": {
+      "command": "wl-storage",
+      "phase": "storage",
+      "category": "storage",
+      "path": "bin/wl-storage",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-storage-authority": {
+      "command": "wl-storage-authority",
+      "phase": "storage",
+      "category": "storage",
+      "path": "bin/wl-storage-authority",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-tauri-ios-env": {
+      "command": "wl-tauri-ios-env",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-tauri-ios-env",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-tauri-matrix-bootstrap": {
+      "command": "wl-tauri-matrix-bootstrap",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-tauri-matrix-bootstrap",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-tauri-matrix-certify": {
+      "command": "wl-tauri-matrix-certify",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-tauri-matrix-certify",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-tauri-matrix-doctor": {
+      "command": "wl-tauri-matrix-doctor",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-tauri-matrix-doctor",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-tauri-matrix-hotkeys": {
+      "command": "wl-tauri-matrix-hotkeys",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-tauri-matrix-hotkeys",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-tauri-matrix-icons": {
+      "command": "wl-tauri-matrix-icons",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-tauri-matrix-icons",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-test": {
+      "command": "wl-test",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-test",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-the-matrix": {
+      "command": "wl-the-matrix",
+      "phase": "matrix",
+      "category": "matrix",
+      "path": "bin/wl-the-matrix",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-time-machine": {
+      "command": "wl-time-machine",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-time-machine",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-timeline": {
+      "command": "wl-timeline",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-timeline",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-torrent": {
+      "command": "wl-torrent",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-torrent",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-torrent-creds": {
+      "command": "wl-torrent-creds",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-torrent-creds",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-torrent-export": {
+      "command": "wl-torrent-export",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-torrent-export",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-tree": {
+      "command": "wl-tree",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-tree",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-unified": {
+      "command": "wl-unified",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-unified",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-universe": {
+      "command": "wl-universe",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-universe",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-universe-dashboard": {
+      "command": "wl-universe-dashboard",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-universe-dashboard",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-universe-graph": {
+      "command": "wl-universe-graph",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-universe-graph",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-vault": {
+      "command": "wl-vault",
+      "phase": "vault",
+      "category": "vault",
+      "path": "bin/wl-vault",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-vault-audit": {
+      "command": "wl-vault-audit",
+      "phase": "vault",
+      "category": "vault",
+      "path": "bin/wl-vault-audit",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-vault-capture-state": {
+      "command": "wl-vault-capture-state",
+      "phase": "vault",
+      "category": "vault",
+      "path": "bin/wl-vault-capture-state",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-vault-guard": {
+      "command": "wl-vault-guard",
+      "phase": "vault",
+      "category": "vault",
+      "path": "bin/wl-vault-guard",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-vault-health": {
+      "command": "wl-vault-health",
+      "phase": "vault",
+      "category": "vault",
+      "path": "bin/wl-vault-health",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-vault-lock": {
+      "command": "wl-vault-lock",
+      "phase": "vault",
+      "category": "vault",
+      "path": "bin/wl-vault-lock",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-vault-prune-snapshots": {
+      "command": "wl-vault-prune-snapshots",
+      "phase": "vault",
+      "category": "vault",
+      "path": "bin/wl-vault-prune-snapshots",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-vault-restore": {
+      "command": "wl-vault-restore",
+      "phase": "vault",
+      "category": "vault",
+      "path": "bin/wl-vault-restore",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-vault-snapshot": {
+      "command": "wl-vault-snapshot",
+      "phase": "vault",
+      "category": "vault",
+      "path": "bin/wl-vault-snapshot",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-vault-state": {
+      "command": "wl-vault-state",
+      "phase": "vault",
+      "category": "vault",
+      "path": "bin/wl-vault-state",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-vault-verify-snapshot": {
+      "command": "wl-vault-verify-snapshot",
+      "phase": "vault",
+      "category": "vault",
+      "path": "bin/wl-vault-verify-snapshot",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-vault-write": {
+      "command": "wl-vault-write",
+      "phase": "vault",
+      "category": "vault",
+      "path": "bin/wl-vault-write",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify": {
+      "command": "wl-verify",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-archive": {
+      "command": "wl-verify-archive",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-archive",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-completion": {
+      "command": "wl-verify-completion",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-completion",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-core": {
+      "command": "wl-verify-core",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-core",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-executions": {
+      "command": "wl-verify-executions",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-executions",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-governance": {
+      "command": "wl-verify-governance",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-governance",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-intelligence": {
+      "command": "wl-verify-intelligence",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-intelligence",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-intents": {
+      "command": "wl-verify-intents",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-intents",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-locks": {
+      "command": "wl-verify-locks",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-locks",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-operations": {
+      "command": "wl-verify-operations",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-operations",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-plans": {
+      "command": "wl-verify-plans",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-plans",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-policies": {
+      "command": "wl-verify-policies",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-policies",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-recovery-drill": {
+      "command": "wl-verify-recovery-drill",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-recovery-drill",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-registry": {
+      "command": "wl-verify-registry",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-registry",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-runtime": {
+      "command": "wl-verify-runtime",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-runtime",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-schemas": {
+      "command": "wl-verify-schemas",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-schemas",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-service-docs": {
+      "command": "wl-verify-service-docs",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-service-docs",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-service-registry": {
+      "command": "wl-verify-service-registry",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-service-registry",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-services": {
+      "command": "wl-verify-services",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-services",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-templates": {
+      "command": "wl-verify-templates",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-templates",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-verify-vault": {
+      "command": "wl-verify-vault",
+      "phase": "validation",
+      "category": "validation",
+      "path": "bin/wl-verify-vault",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-visual-chaos": {
+      "command": "wl-visual-chaos",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-visual-chaos",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-vm": {
+      "command": "wl-vm",
+      "phase": "infrastructure",
+      "category": "infrastructure",
+      "path": "bin/wl-vm",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-wallpaper": {
+      "command": "wl-wallpaper",
+      "phase": "apps",
+      "category": "apps",
+      "path": "bin/wl-wallpaper",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-wallpaper-doctor": {
+      "command": "wl-wallpaper-doctor",
+      "phase": "apps",
+      "category": "apps",
+      "path": "bin/wl-wallpaper-doctor",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-wallpaper-source": {
+      "command": "wl-wallpaper-source",
+      "phase": "apps",
+      "category": "apps",
+      "path": "bin/wl-wallpaper-source",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-wel-verify": {
+      "command": "wl-wel-verify",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-wel-verify",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-wil": {
+      "command": "wl-wil",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-wil",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
     }
   }
 }
