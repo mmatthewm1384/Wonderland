@@ -1,108 +1,24 @@
 1: {
-2:   "at": "2026-06-29T16:42:11Z",
+2:   "at": "2026-06-29T16:50:43Z",
 3:   "action": "build",
-4:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/release-20260629T164210Z.json",
-5:   "git_commit": "4d6b1f4d"
+4:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/release-20260629T165042Z.json",
+5:   "git_commit": "2e9b070e"
 6: }
 7: {
-8:   "at": "2026-06-29T16:42:11Z",
-9:   "action": "promote",
-10:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/stable.json",
-11:   "git_commit": "4d6b1f4d"
+8:   "at": "2026-06-29T16:50:43Z",
+9:   "action": "build",
+10:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/release-20260629T165042Z.json",
+11:   "git_commit": "2e9b070e"
 12: }
 13: {
-14:   "at": "2026-06-29T16:43:35Z",
-15:   "action": "build",
-16:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/release-20260629T164335Z.json",
-17:   "git_commit": "d3e6f1f0"
+14:   "at": "2026-06-29T16:50:43Z",
+15:   "action": "promote",
+16:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/stable.json",
+17:   "git_commit": "2e9b070e"
 18: }
 19: {
-20:   "at": "2026-06-29T16:43:37Z",
+20:   "at": "2026-06-29T16:50:43Z",
 21:   "action": "promote",
 22:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/stable.json",
-23:   "git_commit": "d3e6f1f0"
+23:   "git_commit": "2e9b070e"
 24: }
-25: {
-26:   "at": "2026-06-29T16:44:11Z",
-27:   "action": "build",
-28:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/release-20260629T164410Z.json",
-29:   "git_commit": "d3e6f1f0"
-30: }
-31: {
-32:   "at": "2026-06-29T16:44:11Z",
-33:   "action": "build",
-34:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/release-20260629T164410Z.json",
-35:   "git_commit": "d3e6f1f0"
-36: }
-37: {
-38:   "at": "2026-06-29T16:44:11Z",
-39:   "action": "promote",
-40:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/stable.json",
-41:   "git_commit": "d3e6f1f0"
-42: }
-43: {
-44:   "at": "2026-06-29T16:44:11Z",
-45:   "action": "promote",
-46:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/stable.json",
-47:   "git_commit": "d3e6f1f0"
-48: }
-49: {
-50:   "at": "2026-06-29T16:44:56Z",
-51:   "action": "build",
-52:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/release-20260629T164456Z.json",
-53:   "git_commit": "fabf097a"
-54: }
-55: {
-56:   "at": "2026-06-29T16:44:56Z",
-57:   "action": "build",
-58:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/release-20260629T164456Z.json",
-59:   "git_commit": "fabf097a"
-60: }
-61: {
-62:   "at": "2026-06-29T16:44:57Z",
-63:   "action": "promote",
-64:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/stable.json",
-65:   "git_commit": "fabf097a"
-66: }
-67: {
-68:   "at": "2026-06-29T16:44:57Z",
-69:   "action": "promote",
-70:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/stable.json",
-71:   "git_commit": "fabf097a"
-72: }
-73: {
-74:   "at": "2026-06-29T16:45:31Z",
-75:   "action": "build",
-76:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/release-20260629T164530Z.json",
-77:   "git_commit": "e3020c60"
-78: }
-79: {
-80:   "at": "2026-06-29T16:45:31Z",
-81:   "action": "build",
-82:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/release-20260629T164530Z.json",
-83:   "git_commit": "e3020c60"
-84: }
-85: {
-86:   "at": "2026-06-29T16:45:31Z",
-87:   "action": "promote",
-88:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/stable.json",
-89:   "git_commit": "e3020c60"
-90: }
-91: {
-92:   "at": "2026-06-29T16:45:31Z",
-93:   "action": "promote",
-94:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/stable.json",
-95:   "git_commit": "e3020c60"
-96: }
-97: {
-98:   "at": "2026-06-29T16:46:19Z",
-99:   "action": "promote",
-100:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/stable.json",
-101:   "git_commit": "25544ffc"
-102: }
-103: {
-104:   "at": "2026-06-29T16:46:19Z",
-105:   "action": "promote",
-106:   "manifest": "/Users/wonderland/Wonderland/vault/08-Operations/releases/stable.json",
-107:   "git_commit": "25544ffc"
-108: }
