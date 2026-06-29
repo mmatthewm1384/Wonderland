@@ -1,0 +1,21 @@
+{
+  "version": "2.1",
+  "commands": {
+    "boot": {
+      "command": "wl boot",
+      "phase": "boot",
+      "category": "lifecycle",
+      "requires": ["environment", "storage"],
+      "provides": ["runtime_context", "runtime_state", "runtime_health", "runtime_capabilities", "boot_report"],
+      "json_schema": "schemas/boot-report.schema.json"
+    },
+    "verify": {
+      "command": "wl verify",
+      "phase": "verify",
+      "category": "validation",
+      "requires": ["boot", "runtime_artifacts"],
+      "provides": ["verification_result"],
+      "json_schema": "schemas/verify-report.schema.json"
+    }
+  }
+}
