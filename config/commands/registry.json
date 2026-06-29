@@ -1,6 +1,6 @@
 {
   "version": "2.1",
-  "generated_at": "2026-06-29T21:46:47Z",
+  "generated_at": "2026-06-29T21:50:41Z",
   "commands": {
     "wl-agitate": {
       "command": "wl-agitate",
@@ -642,8 +642,14 @@
       "phase": "validation",
       "category": "validation",
       "path": "bin/wl-doctor",
-      "requires": [],
-      "provides": [],
+      "requires": [
+        "runtime_artifacts",
+        "command_registry",
+        "release_artifacts"
+      ],
+      "provides": [
+        "doctor_result"
+      ],
       "json_schema": null
     },
     "wl-doctor-lifecycle": {

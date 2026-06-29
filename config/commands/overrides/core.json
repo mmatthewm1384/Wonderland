@@ -1,52 +1,119 @@
 {
   "wl-boot": {
-    "requires": ["environment", "storage"],
-    "provides": ["runtime_context", "runtime_state", "runtime_health", "runtime_capabilities", "boot_report"],
+    "requires": [
+      "environment",
+      "storage"
+    ],
+    "provides": [
+      "runtime_context",
+      "runtime_state",
+      "runtime_health",
+      "runtime_capabilities",
+      "boot_report"
+    ],
     "json_schema": "schemas/boot-report.schema.json"
   },
   "wl-start": {
-    "requires": ["environment", "storage", "runtime"],
-    "provides": ["runtime_online", "start_report"],
+    "requires": [
+      "environment",
+      "storage",
+      "runtime"
+    ],
+    "provides": [
+      "runtime_online",
+      "start_report"
+    ],
     "json_schema": "schemas/start-report.schema.json"
   },
   "wl-verify": {
-    "requires": ["boot", "runtime_artifacts", "command_registry"],
-    "provides": ["verification_result"],
+    "requires": [
+      "boot",
+      "runtime_artifacts",
+      "command_registry"
+    ],
+    "provides": [
+      "verification_result"
+    ],
     "json_schema": "schemas/verify-report.schema.json"
   },
   "wl-baseline": {
-    "requires": ["runtime_artifacts", "git_repository"],
-    "provides": ["baseline_artifact"],
+    "requires": [
+      "runtime_artifacts",
+      "git_repository"
+    ],
+    "provides": [
+      "baseline_artifact"
+    ],
     "json_schema": "schemas/baseline.schema.json"
   },
   "wl-handoff": {
-    "requires": ["runtime_artifacts", "git_repository"],
-    "provides": ["handoff_document"],
+    "requires": [
+      "runtime_artifacts",
+      "git_repository"
+    ],
+    "provides": [
+      "handoff_document"
+    ],
     "json_schema": null
   },
   "wl-certify": {
-    "requires": ["runtime_artifacts", "release_validation"],
-    "provides": ["certification_artifact"],
+    "requires": [
+      "runtime_artifacts",
+      "release_validation"
+    ],
+    "provides": [
+      "certification_artifact"
+    ],
     "json_schema": "schemas/certification.schema.json"
   },
   "wl-checkpoint": {
-    "requires": ["runtime_artifacts"],
-    "provides": ["checkpoint_artifact"],
+    "requires": [
+      "runtime_artifacts"
+    ],
+    "provides": [
+      "checkpoint_artifact"
+    ],
     "json_schema": "schemas/checkpoint.schema.json"
   },
   "wl-release": {
-    "requires": ["runtime_artifacts", "release_validation"],
-    "provides": ["release_manifest", "stable_release"],
+    "requires": [
+      "runtime_artifacts",
+      "release_validation"
+    ],
+    "provides": [
+      "release_manifest",
+      "stable_release"
+    ],
     "json_schema": "schemas/release.schema.json"
   },
   "wl-command-registry": {
-    "requires": ["bin_commands"],
-    "provides": ["command_registry", "command_summary"],
+    "requires": [
+      "bin_commands"
+    ],
+    "provides": [
+      "command_registry",
+      "command_summary"
+    ],
     "json_schema": "schemas/command-registry.schema.json"
   },
   "wl-command-inventory": {
-    "requires": ["bin_commands"],
-    "provides": ["command_inventory"],
+    "requires": [
+      "bin_commands"
+    ],
+    "provides": [
+      "command_inventory"
+    ],
+    "json_schema": null
+  },
+  "wl-doctor": {
+    "requires": [
+      "runtime_artifacts",
+      "command_registry",
+      "release_artifacts"
+    ],
+    "provides": [
+      "doctor_result"
+    ],
     "json_schema": null
   }
 }
