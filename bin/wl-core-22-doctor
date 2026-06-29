@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/core/bootstrap.sh"
+
+report="$WL_ROOT/reports/platform-core-2.2/doctor.md"
+mkdir -p "$(dirname "$report")"
+
+{
+  echo "# Platform Core 2.2 Doctor"
+  echo
+  echo "Generated: $(wl_timestamp)"
+  echo
+
+  echo "## Syntax"
+  for f in "$WL_ROOT"/lib/core/*.sh "$WL_ROOT"/bin/wl-*; do
+    bash -n "$f"
+  done
+  echo "PASS syntax"
+
+  echo
+  echo "## Duplicate core functions"
+  dupes="$(
+    grep -hE '^[a-zA-Z0-9_]+\(\) \{' "$WL_ROOT"/lib/core/*.sh \
+      | sed 's/().*//' \
+      | sort \
+      | uniq -d
+  )"
+
+  if [ -n "$dupes" ]; then
+    echo "$dupes" | sed 's/^/FAIL duplicate_function: /'
+    echo "RESULT FAIL"
+    exit 1
+  fi
+
+  echo "PASS no duplicate core functions"
+
+  echo
+  echo "## Backup commands in bin"
+  count="$(
+    find "$WL_ROOT/bin" -maxdepth 1 -type f \( -name '*.bak*' -o -name '*bak.*' \) | wc -l | tr -d ' '
+  )"
+
+  if [ "$count" != "0" ]; then
+    echo "FAIL backup commands in bin: $count"
+    echo "RESULT FAIL"
+    exit 1
+  fi
+
+  echo "PASS no backup commands in bin"
+  echo "RESULT PASS"
+} | tee "$report"
