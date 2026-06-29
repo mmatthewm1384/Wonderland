@@ -98,6 +98,9 @@ wl_command_registry_main() {
     summary)
       wl_command_registry_summary
       ;;
+    docs)
+      wl_command_registry_docs
+      ;;
     show)
       shift || true
       wl_command_registry_show "${1:-}"
@@ -233,4 +236,11 @@ wl_command_registry_summary() {
   wl_pass "command summary generated"
   wl_report "$out"
   wl_result PASS
+}
+
+wl_command_registry_docs() {
+  wl_command_registry_refresh >/dev/null
+  wl_command_registry_drift >/dev/null
+  wl_validate_json_schema "$WL_ROOT/schemas/command-registry.schema.json" "$(wl_command_registry_file)"
+  wl_command_registry_summary
 }
