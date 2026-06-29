@@ -11,9 +11,23 @@ mkdir -p "$(dirname "$report")"
   echo
 
   echo "## Syntax"
-  for f in "$WL_ROOT"/lib/core/*.sh "$WL_ROOT"/bin/wl-*; do
+  for f in "$WL_ROOT"/lib/core/*.sh; do
     bash -n "$f"
   done
+
+  for f in "$WL_ROOT"/bin/wl-*; do
+    first_line="$(head -1 "$f" 2>/dev/null || true)"
+
+    case "$first_line" in
+      *python*)
+        python3 -m py_compile "$f"
+        ;;
+      *)
+        bash -n "$f"
+        ;;
+    esac
+  done
+
   echo "PASS syntax"
 
   echo
