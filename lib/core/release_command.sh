@@ -130,8 +130,7 @@ wl_release_main() {
       wl_release_rollback
       ;;
     validate|verify)
-      wl_release_validate
-      wl_result PASS
+      wl_release_validate_all
       ;;
     status)
       wl_release_status
@@ -410,3 +409,27 @@ PYEOF
   wl_pass "release history valid"
 }
 
+
+wl_release_validate_all() {
+  local dir latest stable
+  dir="$(wl_release_dir)"
+  latest="$dir/latest.json"
+  stable="$dir/stable.json"
+
+  wl_release_validate_history
+
+  if [ -f "$latest" ]; then
+    wl_release_validate_manifest "$latest"
+  else
+    wl_warn "latest release missing"
+  fi
+
+  if [ -f "$stable" ]; then
+    wl_release_validate_manifest "$stable"
+  else
+    wl_warn "stable release missing"
+  fi
+
+  wl_pass "release artifacts validated"
+  wl_result PASS
+}
