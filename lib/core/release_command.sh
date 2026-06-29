@@ -45,6 +45,8 @@ wl_release_build() {
 
   ln -sf "$out" "$latest"
 
+  wl_release_history_append "build" "$out"
+
   wl_pass "release built"
   wl_report "$out"
   wl_result PASS
@@ -73,6 +75,8 @@ wl_release_promote() {
   mv "$tmp" "$stable"
 
   wl_release_validate_manifest "$stable"
+
+  wl_release_history_append "promote" "$stable"
 
   wl_pass "release promoted"
   wl_report "$stable"
@@ -124,6 +128,9 @@ wl_release_main() {
       ;;
     status)
       wl_release_status
+      ;;
+    history)
+      wl_release_history
       ;;
     *)
       wl_die "$WL_ERR_CONFIG" "unknown release action: $action"
@@ -230,6 +237,8 @@ wl_release_rollback() {
 
   wl_release_validate_manifest "$stable"
 
+  wl_release_history_append "rollback" "$stable"
+
   wl_pass "release rolled back"
   wl_report "$stable"
   wl_result PASS
@@ -253,5 +262,44 @@ wl_release_rollback() {
 
   wl_pass "release rolled back"
   wl_report "$stable"
+  wl_result PASS
+}
+
+wl_release_history_file() {
+  local dir
+  dir="$(wl_release_dir)"
+  printf '%s\n' "$dir/history.jsonl"
+}
+
+wl_release_history_append() {
+  local action="$1"
+  local manifest="${2:-}"
+  local file
+  file="$(wl_release_history_file)"
+
+  jq -n \
+    --arg at "$(wl_timestamp)" \
+    --arg action "$action" \
+    --arg manifest "$manifest" \
+    --arg git_commit "$(git rev-parse --short HEAD 2>/dev/null || printf unknown)" \
+    '{
+      at: $at,
+      action: $action,
+      manifest: $manifest,
+      git_commit: $git_commit
+    }' >> "$file"
+}
+
+wl_release_history() {
+  local file
+  file="$(wl_release_history_file)"
+
+  [ -f "$file" ] || {
+    wl_warn "no release history"
+    wl_result PASS
+    return 0
+  }
+
+  tail -20 "$file"
   wl_result PASS
 }
