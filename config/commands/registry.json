@@ -1,6 +1,6 @@
 {
   "version": "2.1",
-  "generated_at": "2026-06-29T19:44:02Z",
+  "generated_at": "2026-06-29T19:53:40Z",
   "commands": {
     "wl-agitate": {
       "command": "wl-agitate",
@@ -594,8 +594,8 @@
     },
     "wl-core-22-doctor": {
       "command": "wl-core-22-doctor",
-      "phase": "utility",
-      "category": "utility",
+      "phase": "validation",
+      "category": "validation",
       "path": "bin/wl-core-22-doctor",
       "requires": [],
       "provides": [],
