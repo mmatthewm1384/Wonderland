@@ -95,6 +95,9 @@ wl_command_registry_main() {
     drift)
       wl_command_registry_drift
       ;;
+    summary)
+      wl_command_registry_summary
+      ;;
     show)
       shift || true
       wl_command_registry_show "${1:-}"
@@ -182,5 +185,52 @@ wl_command_registry_drift() {
   fi
 
   wl_pass "command registry matches bin"
+  wl_result PASS
+}
+
+wl_command_registry_summary() {
+  local registry out
+  registry="$(wl_command_registry_file)"
+  out="$WL_ROOT/vault/02-Documentation/generated/wonderland-command-summary.md"
+
+  wl_validate_json "$registry"
+  mkdir -p "$(dirname "$out")"
+
+  {
+    printf '# Wonderland Command Summary\n\n'
+    printf 'Generated: %s\n\n' "$(wl_timestamp)"
+    printf '## Totals\n\n'
+
+    jq -r '
+      .commands
+      | length
+      | "- Total commands: \(.)"
+    ' "$registry"
+
+    printf '\n## Categories\n\n'
+
+    jq -r '
+      .commands
+      | to_entries
+      | group_by(.value.category)
+      | map({category: .[0].value.category, count: length})
+      | sort_by(.category)
+      | .[]
+      | "- \(.category): \(.count)"
+    ' "$registry"
+
+    printf '\n## Commands\n\n'
+
+    jq -r '
+      .commands
+      | to_entries
+      | sort_by(.key)
+      | .[]
+      | "### \(.key)\n\n- Path: `\(.value.path)`\n- Category: `\(.value.category)`\n- Phase: `\(.value.phase)`\n"
+    ' "$registry"
+  } > "$out"
+
+  wl_pass "command summary generated"
+  wl_report "$out"
   wl_result PASS
 }
