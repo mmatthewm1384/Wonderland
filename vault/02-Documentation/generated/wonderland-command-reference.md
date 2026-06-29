@@ -1,6 +1,6 @@
 # Wonderland Command Reference
 
-Generated: 2026-06-29 07:13:53
+Generated: 2026-06-29 07:22:52
 
 Runtime:
 
