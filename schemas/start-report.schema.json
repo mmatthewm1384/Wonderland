@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wonderland-start-report.schema.json",
+  "title": "Wonderland start-report",
+  "type": "object",
+  "required": ["kind", "platform", "status"],
+  "properties": {
+    "kind": { "type": "string" },
+    "platform": { "type": "string" },
+    "version": { "type": "string" },
+    "status": { "type": "string" },
+    "git_commit": { "type": "string" },
+    "created_at": { "type": "string" },
+    "generated_at": { "type": "string" },
+    "certified_at": { "type": "string" },
+    "built_at": { "type": "string" }
+  },
+  "additionalProperties": true
+}

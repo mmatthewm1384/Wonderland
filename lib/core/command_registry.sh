@@ -115,6 +115,9 @@ wl_command_registry_main() {
     audit)
       wl_command_registry_audit
       ;;
+    schema-paths)
+      wl_command_registry_validate_schema_paths
+      ;;
     show)
       shift || true
       wl_command_registry_show "${1:-}"
@@ -278,5 +281,29 @@ wl_command_registry_audit() {
   ' "$registry" >&2
 
   wl_pass "command metadata audit complete"
+  wl_result PASS
+}
+
+wl_command_registry_validate_schema_paths() {
+  local registry
+  registry="$(wl_command_registry_file)"
+  wl_validate_json "$registry"
+
+  local missing
+  missing="$(
+    jq -r '.commands | to_entries[] | select(.value.json_schema != null) | .value.json_schema' "$registry" |
+      sort -u |
+      while IFS= read -r schema; do
+        [ -f "$WL_ROOT/$schema" ] || printf '%s\n' "$schema"
+      done
+  )"
+
+  if [ -n "$missing" ]; then
+    printf '%s\n' "$missing" | sed 's/^/FAIL missing schema path: /' >&2
+    wl_result FAIL
+    return "$WL_ERR_VALIDATION"
+  fi
+
+  wl_pass "registry schema paths valid"
   wl_result PASS
 }
