@@ -33,6 +33,8 @@ wl_release_build() {
     runtime_state "runtime/state.json" \
     runtime_health "runtime/health.json" \
     runtime_capabilities "runtime/capabilities.json" \
+    command_registry "config/commands/registry.json" \
+    command_summary "vault/02-Documentation/generated/wonderland-command-summary.md" \
     built_at "$(wl_timestamp)"
 
   ln -sf "$out" "$latest"

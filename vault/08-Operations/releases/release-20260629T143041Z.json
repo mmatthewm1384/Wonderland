@@ -1,0 +1,12 @@
+{
+  "kind": "release",
+  "platform": "wonderland",
+  "version": "2.1",
+  "status": "built",
+  "git_commit": "c9a8edf4",
+  "runtime_context": "runtime/context.json",
+  "runtime_state": "runtime/state.json",
+  "runtime_health": "runtime/health.json",
+  "runtime_capabilities": "runtime/capabilities.json",
+  "built_at": "2026-06-29T14:30:41Z"
+}
