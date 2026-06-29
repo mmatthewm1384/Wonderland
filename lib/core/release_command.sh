@@ -51,14 +51,20 @@ wl_release_build() {
 }
 
 wl_release_promote() {
-  local dir latest stable
+  local dir latest stable tmp
   dir="$(wl_release_dir)"
   latest="$dir/latest.json"
   stable="$dir/stable.json"
+  tmp="$dir/stable.json.tmp"
 
   [ -f "$latest" ] || wl_die "$WL_ERR_RELEASE" "missing latest release manifest"
 
-  cp "$latest" "$stable"
+  wl_release_validate_manifest "$latest"
+
+  cp "$latest" "$tmp"
+  mv "$tmp" "$stable"
+
+  wl_release_validate_manifest "$stable"
 
   wl_pass "release promoted"
   wl_report "$stable"
