@@ -1,6 +1,6 @@
 {
   "version": "2.1",
-  "generated_at": "2026-06-29T14:59:50Z",
+  "generated_at": "2026-06-29T16:23:49Z",
   "commands": {
     "wl-agitate": {
       "command": "wl-agitate",
@@ -151,9 +151,14 @@
       "phase": "release",
       "category": "release",
       "path": "bin/wl-baseline",
-      "requires": [],
-      "provides": [],
-      "json_schema": null
+      "requires": [
+        "runtime_artifacts",
+        "git_repository"
+      ],
+      "provides": [
+        "baseline_artifact"
+      ],
+      "json_schema": "schemas/baseline.schema.json"
     },
     "wl-body-time": {
       "command": "wl-body-time",
@@ -169,9 +174,18 @@
       "phase": "lifecycle",
       "category": "lifecycle",
       "path": "bin/wl-boot",
-      "requires": [],
-      "provides": [],
-      "json_schema": null
+      "requires": [
+        "environment",
+        "storage"
+      ],
+      "provides": [
+        "runtime_context",
+        "runtime_state",
+        "runtime_health",
+        "runtime_capabilities",
+        "boot_report"
+      ],
+      "json_schema": "schemas/boot-report.schema.json"
     },
     "wl-capability": {
       "command": "wl-capability",
@@ -187,9 +201,14 @@
       "phase": "release",
       "category": "release",
       "path": "bin/wl-certify",
-      "requires": [],
-      "provides": [],
-      "json_schema": null
+      "requires": [
+        "runtime_artifacts",
+        "release_validation"
+      ],
+      "provides": [
+        "certification_artifact"
+      ],
+      "json_schema": "schemas/certification.schema.json"
     },
     "wl-certify-platform-services": {
       "command": "wl-certify-platform-services",
@@ -358,9 +377,13 @@
       "phase": "release",
       "category": "release",
       "path": "bin/wl-checkpoint",
-      "requires": [],
-      "provides": [],
-      "json_schema": null
+      "requires": [
+        "runtime_artifacts"
+      ],
+      "provides": [
+        "checkpoint_artifact"
+      ],
+      "json_schema": "schemas/checkpoint.schema.json"
     },
     "wl-chrono": {
       "command": "wl-chrono",
@@ -475,8 +498,12 @@
       "phase": "utility",
       "category": "utility",
       "path": "bin/wl-command-inventory",
-      "requires": [],
-      "provides": [],
+      "requires": [
+        "bin_commands"
+      ],
+      "provides": [
+        "command_inventory"
+      ],
       "json_schema": null
     },
     "wl-command-registry": {
@@ -484,9 +511,14 @@
       "phase": "utility",
       "category": "utility",
       "path": "bin/wl-command-registry",
-      "requires": [],
-      "provides": [],
-      "json_schema": null
+      "requires": [
+        "bin_commands"
+      ],
+      "provides": [
+        "command_registry",
+        "command_summary"
+      ],
+      "json_schema": "schemas/command-registry.schema.json"
     },
     "wl-config": {
       "command": "wl-config",
@@ -736,8 +768,13 @@
       "phase": "release",
       "category": "release",
       "path": "bin/wl-handoff",
-      "requires": [],
-      "provides": [],
+      "requires": [
+        "runtime_artifacts",
+        "git_repository"
+      ],
+      "provides": [
+        "handoff_document"
+      ],
       "json_schema": null
     },
     "wl-health": {
@@ -1636,9 +1673,15 @@
       "phase": "release",
       "category": "release",
       "path": "bin/wl-release",
-      "requires": [],
-      "provides": [],
-      "json_schema": null
+      "requires": [
+        "runtime_artifacts",
+        "release_validation"
+      ],
+      "provides": [
+        "release_manifest",
+        "stable_release"
+      ],
+      "json_schema": "schemas/release.schema.json"
     },
     "wl-release-validate": {
       "command": "wl-release-validate",
@@ -2041,9 +2084,16 @@
       "phase": "lifecycle",
       "category": "lifecycle",
       "path": "bin/wl-start",
-      "requires": [],
-      "provides": [],
-      "json_schema": null
+      "requires": [
+        "environment",
+        "storage",
+        "runtime"
+      ],
+      "provides": [
+        "runtime_online",
+        "start_report"
+      ],
+      "json_schema": "schemas/start-report.schema.json"
     },
     "wl-state": {
       "command": "wl-state",
@@ -2383,9 +2433,15 @@
       "phase": "validation",
       "category": "validation",
       "path": "bin/wl-verify",
-      "requires": [],
-      "provides": [],
-      "json_schema": null
+      "requires": [
+        "boot",
+        "runtime_artifacts",
+        "command_registry"
+      ],
+      "provides": [
+        "verification_result"
+      ],
+      "json_schema": "schemas/verify-report.schema.json"
     },
     "wl-verify-archive": {
       "command": "wl-verify-archive",
