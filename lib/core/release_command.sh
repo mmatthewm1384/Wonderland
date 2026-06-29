@@ -65,6 +65,10 @@ wl_release_promote() {
     cp "$stable" "$stable.prev"
   fi
 
+  if [ -f "$stable" ]; then
+    cp "$stable" "$stable.prev"
+  fi
+
   cp "$latest" "$tmp"
   mv "$tmp" "$stable"
 
@@ -107,6 +111,9 @@ wl_release_main() {
       ;;
     promote)
       wl_release_promote
+      ;;
+    rollback)
+      wl_release_rollback
       ;;
     rollback)
       wl_release_rollback
@@ -160,6 +167,11 @@ wl_release_validate_manifest() {
 wl_release_validate_manifest() {
   local manifest="${1:-$(wl_release_dir)/latest.json}"
 
+  if [ ! -f "$manifest" ]; then
+    wl_warn "release manifest not present yet: $manifest"
+    return 0
+  fi
+
   wl_validate_json "$manifest"
 
   jq -e '
@@ -200,6 +212,27 @@ wl_release_validate_manifest_digests() {
     || wl_die "$WL_ERR_RELEASE" "release manifest command_summary digest mismatch"
 
   wl_pass "release manifest digests valid"
+}
+
+wl_release_rollback() {
+  local dir stable previous tmp
+  dir="$(wl_release_dir)"
+  stable="$dir/stable.json"
+  previous="$dir/stable.json.prev"
+  tmp="$dir/stable.json.rollback.tmp"
+
+  [ -f "$previous" ] || wl_die "$WL_ERR_RELEASE" "missing previous stable release"
+
+  wl_release_validate_manifest "$previous"
+
+  cp "$previous" "$tmp"
+  mv "$tmp" "$stable"
+
+  wl_release_validate_manifest "$stable"
+
+  wl_pass "release rolled back"
+  wl_report "$stable"
+  wl_result PASS
 }
 
 wl_release_rollback() {
