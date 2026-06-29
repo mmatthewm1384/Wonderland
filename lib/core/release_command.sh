@@ -23,6 +23,10 @@ wl_release_build() {
   wl_validate_runtime
   wl_release_validate
 
+  local registry_sha summary_sha
+  registry_sha="$(shasum -a 256 "$WL_ROOT/config/commands/registry.json" | awk '{print $1}')"
+  summary_sha="$(shasum -a 256 "$WL_ROOT/vault/02-Documentation/generated/wonderland-command-summary.md" | awk '{print $1}')"
+
   wl_json_write_object "$out" \
     kind "release" \
     platform "wonderland" \
@@ -34,7 +38,9 @@ wl_release_build() {
     runtime_health "runtime/health.json" \
     runtime_capabilities "runtime/capabilities.json" \
     command_registry "config/commands/registry.json" \
+    command_registry_sha256 "$registry_sha" \
     command_summary "vault/02-Documentation/generated/wonderland-command-summary.md" \
+    command_summary_sha256 "$summary_sha" \
     built_at "$(wl_timestamp)"
 
   ln -sf "$out" "$latest"
@@ -119,7 +125,9 @@ wl_release_validate_manifest() {
     .kind == "release"
     and .platform == "wonderland"
     and (.command_registry | type == "string")
+    and (.command_registry_sha256 | type == "string")
     and (.command_summary | type == "string")
+    and (.command_summary_sha256 | type == "string")
   ' "$manifest" >/dev/null \
     || wl_die "$WL_ERR_RELEASE" "release manifest missing required command registry fields"
 
@@ -128,6 +136,10 @@ wl_release_validate_manifest() {
 
   [ -f "$WL_ROOT/$(jq -r '.command_summary' "$manifest")" ] \
     || wl_die "$WL_ERR_RELEASE" "release manifest command_summary path missing"
+
+  if declare -F wl_release_validate_manifest_digests >/dev/null 2>&1; then
+    wl_release_validate_manifest_digests "$manifest"
+  fi
 
   wl_pass "release manifest valid"
 }
@@ -152,4 +164,27 @@ wl_release_validate_manifest() {
     || wl_die "$WL_ERR_RELEASE" "release manifest command_summary path missing"
 
   wl_pass "release manifest valid"
+}
+
+wl_release_validate_manifest_digests() {
+  local manifest="${1:-$(wl_release_dir)/latest.json}"
+
+  [ -f "$manifest" ] || return 0
+
+  local registry summary registry_expected summary_expected registry_actual summary_actual
+  registry="$(jq -r '.command_registry' "$manifest")"
+  summary="$(jq -r '.command_summary' "$manifest")"
+  registry_expected="$(jq -r '.command_registry_sha256' "$manifest")"
+  summary_expected="$(jq -r '.command_summary_sha256' "$manifest")"
+
+  registry_actual="$(shasum -a 256 "$WL_ROOT/$registry" | awk '{print $1}')"
+  summary_actual="$(shasum -a 256 "$WL_ROOT/$summary" | awk '{print $1}')"
+
+  [ "$registry_expected" = "$registry_actual" ] \
+    || wl_die "$WL_ERR_RELEASE" "release manifest command_registry digest mismatch"
+
+  [ "$summary_expected" = "$summary_actual" ] \
+    || wl_die "$WL_ERR_RELEASE" "release manifest command_summary digest mismatch"
+
+  wl_pass "release manifest digests valid"
 }
