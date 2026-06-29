@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -euo pipefail
+exec "$HOME/Wonderland/apps/macos/wl-notifier/wl-notifier.py"
