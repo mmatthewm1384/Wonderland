@@ -1,35 +1,4 @@
 #!/usr/bin/env bash
-set -uo pipefail
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/core/bootstrap.sh"
 
-WL_HOME="${WL_HOME:-$HOME/Wonderland}"
-. "$WL_HOME/lib/wl-bootstrap.sh"
-
-CERT_DIR="$WL_HOME/vault/05-Registry/certifications"
-STAMP="$(date +%Y%m%d-%H%M%S)"
-CERT="$CERT_DIR/wonderland-runtime-${WL_VERSION:-0.0.0}-${STAMP}.json"
-
-mkdir -p "$CERT_DIR"
-
-verify_rc=0
-"$WL_HOME/bin/wl-verify" >/tmp/wl-certify-verify.out 2>&1 || verify_rc=$?
-
-result="PASS"
-[[ "$verify_rc" -eq 0 ]] || result="FAIL"
-
-cat > "$CERT" <<JSON
-{
-  "schema": "wonderland.certification.v1",
-  "id": "wonderland-runtime-${WL_VERSION:-0.0.0}-${STAMP}",
-  "name": "Wonderland Runtime Certification",
-  "timestamp": "$STAMP",
-  "result": "$result",
-  "context": $(wl_context_dump),
-  "state": $(wl_state_dump),
-  "capabilities": $(wl_capabilities_dump),
-  "health": $(wl_health_dump)
-}
-JSON
-
-echo "CERT $CERT"
-echo "RESULT $result"
-exit "$verify_rc"
+wl_certify_main "$@"
