@@ -19,6 +19,10 @@ wl_release_validate() {
     wl_release_validate_manifest "$(wl_release_dir)/latest.json"
   fi
 
+  if declare -F wl_release_validate_history >/dev/null 2>&1; then
+    wl_release_validate_history
+  fi
+
   if declare -F wl_release_validate_manifest >/dev/null 2>&1; then
     wl_release_validate_manifest "$(wl_release_dir)/latest.json"
   fi
