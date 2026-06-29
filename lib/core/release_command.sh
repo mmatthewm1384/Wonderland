@@ -40,6 +40,7 @@ wl_release_build() {
     command_registry "config/commands/registry.json" \
     command_registry_sha256 "$registry_sha" \
     command_summary "vault/02-Documentation/generated/wonderland-command-summary.md" \
+    release_history "vault/08-Operations/releases/history.jsonl" \
     command_summary_sha256 "$summary_sha" \
     built_at "$(wl_timestamp)"
 
@@ -162,6 +163,7 @@ wl_release_validate_manifest() {
     and (.command_registry_sha256 | type == "string")
     and (.command_summary | type == "string")
     and (.command_summary_sha256 | type == "string")
+    and (.release_history | type == "string")
   ' "$manifest" >/dev/null \
     || wl_die "$WL_ERR_RELEASE" "release manifest missing required command registry fields"
 
@@ -170,6 +172,9 @@ wl_release_validate_manifest() {
 
   [ -f "$WL_ROOT/$(jq -r '.command_summary' "$manifest")" ] \
     || wl_die "$WL_ERR_RELEASE" "release manifest command_summary path missing"
+
+  [ -f "$WL_ROOT/$(jq -r '.release_history' "$manifest")" ] \
+    || wl_die "$WL_ERR_RELEASE" "release manifest release_history path missing"
 
   if declare -F wl_release_validate_manifest_digests >/dev/null 2>&1; then
     wl_release_validate_manifest_digests "$manifest"
