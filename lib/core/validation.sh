@@ -38,6 +38,9 @@ wl_verify_core() {
   wl_runtime_refresh
   wl_validate_runtime
   wl_validate_registry
+  if declare -F wl_command_registry_drift >/dev/null 2>&1; then
+    wl_command_registry_drift
+  fi
   wl_release_validate
   wl_write_report "verify.json" status "PASS" root "$WL_ROOT"
   wl_result PASS
