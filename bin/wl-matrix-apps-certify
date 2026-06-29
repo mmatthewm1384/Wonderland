@@ -26,9 +26,9 @@ check_app() {
   fi
 }
 
-check_app "Spin City Wave"
-check_app "Agitate Waves"
-check_app "Matrix Atom Destroyer"
+check_app "DISABLED-Spin City Wave"
+check_app "DISABLED-Agitate Waves"
+check_app "DISABLED-Matrix Atom Destroyer"
 
 cat > "$REG" <<JSON
 {
@@ -38,18 +38,18 @@ cat > "$REG" <<JSON
   "apps": [
     {
       "id": "wl-spin-city",
-      "name": "Spin City Wave",
-      "path": "apps/macos/Spin City Wave.app"
+      "name": "DISABLED-Spin City Wave",
+      "path": "apps/macos/DISABLED-Spin City Wave.app"
     },
     {
       "id": "wl-agitate",
-      "name": "Agitate Waves",
-      "path": "apps/macos/Agitate Waves.app"
+      "name": "DISABLED-Agitate Waves",
+      "path": "apps/macos/DISABLED-Agitate Waves.app"
     },
     {
       "id": "wl-matrix",
-      "name": "Matrix Atom Destroyer",
-      "path": "apps/macos/Matrix Atom Destroyer.app"
+      "name": "DISABLED-Matrix Atom Destroyer",
+      "path": "apps/macos/DISABLED-Matrix Atom Destroyer.app"
     }
   ],
   "updated": "$STAMP"

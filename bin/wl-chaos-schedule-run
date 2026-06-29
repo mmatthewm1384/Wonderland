@@ -1,0 +1,205 @@
+#!/usr/bin/env python3
+import json
+import subprocess
+import urllib.request
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT = Path.home() / "Wonderland"
+AUDIT = ROOT / "vault/chaos/scheduler-audit.jsonl"
+STATE = ROOT / "vault/chaos/scheduler-state.json"
+
+TTL = {
+    "calm": 60,
+    "nudge": 60,
+    "drift": 30,
+    "storm": 30,
+    "blackout": 15,
+    "cataclysm": 10,
+    "recovery": 60,
+}
+
+COMMAND = {
+    "calm": "status",
+    "nudge": "checkin",
+    "drift": "panic",
+    "storm": "panic",
+    "blackout": "panic",
+    "cataclysm": "panic",
+    "recovery": "reset",
+}
+
+RISK = {
+    "calm": 0,
+    "nudge": 1,
+    "drift": 2,
+    "storm": 3,
+    "blackout": 4,
+    "cataclysm": 5,
+    "recovery": 0,
+}
+
+def audit(event):
+    AUDIT.parent.mkdir(parents=True, exist_ok=True)
+    event["timestamp"] = datetime.now(timezone.utc).isoformat()
+    with AUDIT.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(event, sort_keys=True) + "\n")
+
+def run_cmd(args):
+    return subprocess.run(
+        args,
+        text=True,
+        capture_output=True,
+        timeout=30,
+    )
+
+def controller_execute(mode):
+    payload = {
+        "model": mode,
+        "command": COMMAND[mode],
+        "risk_level": RISK[mode],
+    }
+
+    data = json.dumps(payload).encode("utf-8")
+
+    req = urllib.request.Request(
+        "http://127.0.0.1:9105/chaos/model",
+        data=data,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+
+    with urllib.request.urlopen(req, timeout=10) as response:
+        body = response.read().decode("utf-8")
+        return response.status, json.loads(body)
+
+def main():
+    eval_result = run_cmd([str(ROOT / "bin/wl-chaos-schedule-eval")])
+
+    if eval_result.returncode != 0:
+        audit({
+            "event": "schedule_run",
+            "ok": False,
+            "stage": "eval",
+            "stdout": eval_result.stdout.strip(),
+            "stderr": eval_result.stderr.strip(),
+        })
+        print(eval_result.stdout.strip())
+        return 1
+
+    evaluated = json.loads(eval_result.stdout)
+    mode = evaluated["target_mode"]
+
+    if evaluated.get("manual_approval_required"):
+        audit({
+            "event": "schedule_run",
+            "ok": False,
+            "stage": "manual_approval_required",
+            "mode": mode,
+            "risk": evaluated.get("target_risk"),
+            "message": "manual approval required; scheduler did not execute",
+        })
+        print(json.dumps({
+            "ok": False,
+            "status": "manual_approval_required",
+            "mode": mode,
+            "message": "cataclysm requires manual approval"
+        }, indent=2))
+        return 2
+
+    previous = {}
+    if STATE.exists():
+        try:
+            previous = json.loads(STATE.read_text())
+        except Exception:
+            previous = {}
+
+    previous_mode = previous.get("last_mode")
+
+    if previous_mode == mode:
+        audit({
+            "event": "schedule_run",
+            "ok": True,
+            "stage": "noop",
+            "mode": mode,
+            "risk": RISK[mode],
+            "message": "target mode unchanged; no execution needed",
+        })
+        print(json.dumps({
+            "ok": True,
+            "status": "noop",
+            "mode": mode,
+            "risk": RISK[mode],
+            "message": "target mode unchanged; no execution needed"
+        }, indent=2))
+        return 0
+
+    lease = run_cmd([
+        str(ROOT / "bin/wl-chaos-lease"),
+        "--mode", mode,
+        "--ttl-minutes", str(TTL[mode]),
+    ])
+
+    if lease.returncode != 0:
+        audit({
+            "event": "schedule_run",
+            "ok": False,
+            "stage": "lease",
+            "mode": mode,
+            "stdout": lease.stdout.strip(),
+            "stderr": lease.stderr.strip(),
+        })
+        print(lease.stderr.strip() or lease.stdout.strip())
+        return 1
+
+    try:
+        status, body = controller_execute(mode)
+        ok = bool(body.get("ok")) and 200 <= status <= 299
+
+        audit({
+            "event": "schedule_run",
+            "ok": ok,
+            "stage": "controller",
+            "mode": mode,
+            "risk": RISK[mode],
+            "http_status": status,
+            "controller_status": body.get("status"),
+        })
+
+        if ok:
+            STATE.parent.mkdir(parents=True, exist_ok=True)
+            tmp = STATE.with_suffix(".json.tmp")
+            tmp.write_text(json.dumps({
+                "schema": "wonderland.chaos.scheduler.state.v1",
+                "last_mode": mode,
+                "last_risk": RISK[mode],
+                "last_executed_at": datetime.now(timezone.utc).isoformat()
+            }, indent=2, sort_keys=True) + "\n")
+            tmp.replace(STATE)
+
+        print(json.dumps({
+            "ok": ok,
+            "mode": mode,
+            "risk": RISK[mode],
+            "controller": body,
+        }, indent=2, sort_keys=True))
+
+        return 0 if ok else 1
+
+    except Exception as exc:
+        audit({
+            "event": "schedule_run",
+            "ok": False,
+            "stage": "controller_exception",
+            "mode": mode,
+            "error": str(exc),
+        })
+        print(json.dumps({
+            "ok": False,
+            "mode": mode,
+            "error": str(exc),
+        }, indent=2))
+        return 1
+
+if __name__ == "__main__":
+    raise SystemExit(main())

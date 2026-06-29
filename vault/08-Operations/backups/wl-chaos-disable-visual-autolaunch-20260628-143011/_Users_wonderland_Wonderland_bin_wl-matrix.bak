@@ -1,0 +1,1024 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_ROOT:-$HOME/Wonderland}"
+APP="$ROOT/apps/matrix/matrix-fluderation"
+
+case "${1:-}" in
+
+
+
+  atom-slam-import)
+    EVENTS="$ROOT/vault/08-Operations/matrix/events"
+    SRC="${2:-}"
+
+    if [ -z "$SRC" ]; then
+      echo "Usage: wl matrix atom-slam-import /path/to/evt-matrix-atom-slam.json"
+      exit 2
+    fi
+
+    test -f "$SRC"
+    mkdir -p "$EVENTS/incoming"
+
+    base="$(basename "$SRC")"
+    case "$base" in
+      evt-matrix-atom-slam-*.json) ;;
+      *)
+        stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+        base="evt-matrix-atom-slam-$stamp.json"
+        ;;
+    esac
+
+    cp "$SRC" "$EVENTS/incoming/$base"
+    python3 -m json.tool "$EVENTS/incoming/$base" >/dev/null
+
+    echo "PASS atom slam event imported"
+    echo "$EVENTS/incoming/$base"
+    ;;
+
+  atom-slam-list)
+    EVENTS="$ROOT/vault/08-Operations/matrix/events"
+    mkdir -p "$EVENTS/incoming"
+    find "$EVENTS/incoming" -maxdepth 1 -type f -name 'evt-matrix-atom-slam-*.json' | sort
+    ;;
+
+  atom-slam-report)
+    EVENTS="$ROOT/vault/08-Operations/matrix/events"
+    mkdir -p "$EVENTS/reports"
+
+    stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+    OUT="$EVENTS/reports/atom-slam-report-$stamp.json"
+
+    python3 - "$EVENTS/incoming" "$OUT" <<'PYR'
+import json, sys
+from pathlib import Path
+
+incoming = Path(sys.argv[1])
+out = Path(sys.argv[2])
+
+events = []
+for p in sorted(incoming.glob("evt-matrix-atom-slam-*.json")):
+    try:
+        events.append(json.loads(p.read_text()))
+    except Exception:
+        pass
+
+strengths = [
+    e.get("strength", 0)
+    for e in events
+    if isinstance(e.get("strength", 0), (int, float))
+]
+
+types = {}
+targets = {}
+
+for e in events:
+    types[e.get("type", "unknown")] = types.get(e.get("type", "unknown"), 0) + 1
+    target = e.get("payload", {}).get("target", "unknown")
+    targets[target] = targets.get(target, 0) + 1
+
+report = {
+    "id": out.stem,
+    "event_count": len(events),
+    "max_strength": max(strengths or [0]),
+    "avg_strength": round(sum(strengths) / len(strengths), 2) if strengths else 0,
+    "types": types,
+    "targets": targets
+}
+
+out.write_text(json.dumps(report, indent=2) + "\n")
+print("PASS atom slam report")
+print(out)
+PYR
+    ;;
+
+  atom-slam-doctor)
+    APP="$ROOT/apps/matrix/matrix-atom-slam"
+    EVENTS="$ROOT/vault/08-Operations/matrix/events"
+    fail=0
+
+    check_file() {
+      if [ -f "$1" ]; then echo "PASS file $1"; else echo "FAIL file $1"; fail=1; fi
+    }
+
+    check_dir() {
+      if [ -d "$1" ]; then echo "PASS dir  $1"; else echo "FAIL dir  $1"; fail=1; fi
+    }
+
+    check_file "$APP/index.html"
+    check_file "$APP/local-server.py"
+    check_file "$APP/atom-slam.intent.json"
+    check_file "$APP/DATA_PATH.md"
+
+    check_dir "$EVENTS/incoming"
+    check_dir "$EVENTS/processed"
+    check_dir "$EVENTS/archive"
+    check_dir "$EVENTS/reports"
+    check_dir "$EVENTS/schema"
+
+    grep -q '"matrix-atom-slam"' "$ROOT/apps/matrix/matrix-app-profile.json" && echo "PASS profile registration" || { echo "FAIL profile registration"; fail=1; }
+    grep -q 'atom-slam-import)' "$ROOT/bin/wl-matrix" && echo "PASS import command" || { echo "FAIL import command"; fail=1; }
+    grep -q 'atom-slam-report)' "$ROOT/bin/wl-matrix" && echo "PASS report command" || { echo "FAIL report command"; fail=1; }
+
+    count="$(find "$EVENTS/incoming" -maxdepth 1 -type f -name 'evt-matrix-atom-slam-*.json' | wc -l | tr -d ' ')"
+    reports="$(find "$EVENTS/reports" -maxdepth 1 -type f -name 'atom-slam-report-*.json' | wc -l | tr -d ' ')"
+
+    echo "atom_slam_events=$count"
+    echo "atom_slam_reports=$reports"
+
+    if [ "$fail" -eq 0 ]; then
+      echo "RESULT PASS"
+    else
+      echo "RESULT FAIL"
+      exit 1
+    fi
+    ;;
+
+  atom-slam-visual)
+    APP="$ROOT/apps/matrix/matrix-atom-slam"
+    cd "$APP"
+    exec python3 local-server.py
+    ;;
+
+  atom-slam-verify)
+    APP="$ROOT/apps/matrix/matrix-atom-slam"
+    EVENTS="$ROOT/vault/08-Operations/matrix/events"
+    test -f "$APP/index.html"
+    test -f "$APP/local-server.py"
+    test -f "$APP/atom-slam.intent.json"
+    test -f "$APP/DATA_PATH.md"
+    test -d "$EVENTS/incoming"
+    test -d "$EVENTS/processed"
+    test -d "$EVENTS/archive"
+    test -d "$EVENTS/schema"
+    grep -q '"matrix-atom-slam"' "$ROOT/apps/matrix/matrix-app-profile.json"
+    echo "PASS matrix-atom-slam verify"
+    ;;
+
+  atom-slam)
+    shift || true
+    exec "$ROOT/bin/wl-matrix-atom-slam" "$@"
+    ;;
+
+
+
+
+
+  archive-events)
+    EVENTS="$ROOT/vault/08-Operations/matrix/events"
+    stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+    DEST="$EVENTS/archive/$stamp"
+
+    mkdir -p "$DEST"
+
+    count="$(find "$EVENTS/processed" -maxdepth 1 -type f -name 'evt-*.json' | wc -l | tr -d ' ')"
+
+    if [ "$count" = "0" ]; then
+      echo "PASS no processed events to archive"
+      exit 0
+    fi
+
+    find "$EVENTS/processed" -maxdepth 1 -type f -name 'evt-*.json' -exec mv {} "$DEST/" \;
+
+    echo "PASS archived processed matrix events"
+    echo "archive=$DEST"
+    echo "count=$count"
+    ;;
+
+  certify)
+    MATRIX="$ROOT/apps/matrix"
+    DATA="$ROOT/vault/08-Operations/matrix"
+    stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+    OUT="$DATA/reports/matrix-certification-$stamp.json"
+
+    mkdir -p "$DATA/reports"
+
+    "$ROOT/bin/wl-matrix" fluderation-doctor >/dev/null
+    "$ROOT/bin/wl-matrix" atom-slam-doctor >/dev/null
+    "$ROOT/bin/wl-matrix" pipeline-doctor >/dev/null
+
+    python3 - "$MATRIX/matrix-registry.json" "$OUT" <<'PYR'
+import json, sys
+from pathlib import Path
+from datetime import datetime, timezone
+
+registry = Path(sys.argv[1])
+out = Path(sys.argv[2])
+
+data = json.loads(registry.read_text())
+
+report = {
+    "id": out.stem,
+    "timestamp": datetime.now(timezone.utc).isoformat(),
+    "registry": str(registry),
+    "status": "PASS",
+    "apps": data.get("apps", []),
+    "pipeline": data.get("pipeline", [])
+}
+
+out.write_text(json.dumps(report, indent=2) + "\n")
+print("PASS matrix certification")
+print(out)
+PYR
+    ;;
+
+
+
+
+
+  run-list)
+    RUNS="$ROOT/vault/08-Operations/matrix/reports/runs"
+    mkdir -p "$RUNS"
+    find "$RUNS" -maxdepth 1 -type f -name 'matrix-run-cycle-*.json' | sort
+    ;;
+
+  run-show)
+    RUNS="$ROOT/vault/08-Operations/matrix/reports/runs"
+    SRC="${2:-}"
+
+    if [ -z "$SRC" ]; then
+      SRC="$(find "$RUNS" -maxdepth 1 -type f -name 'matrix-run-cycle-*.json' | sort | tail -1)"
+    fi
+
+    if [ -z "$SRC" ] || [ ! -f "$SRC" ]; then
+      echo "FAIL no Matrix run-cycle artifact found"
+      exit 1
+    fi
+
+    python3 - "$SRC" <<'PYR'
+import json, sys
+from pathlib import Path
+
+p = Path(sys.argv[1])
+r = json.loads(p.read_text())
+
+print("Matrix Run Cycle")
+print("================")
+print(f"file:          {p}")
+print(f"id:            {r.get('id')}")
+print(f"timestamp:     {r.get('timestamp')}")
+print(f"status:        {r.get('status')}")
+print(f"recording:     {r.get('recording')}")
+print(f"report:        {r.get('report')}")
+print(f"certification: {r.get('certification')}")
+print("cycle:         " + " -> ".join(r.get("cycle", [])))
+PYR
+    ;;
+
+  run-cycle)
+    DATA="$ROOT/vault/08-Operations/matrix"
+    EVENTS="$DATA/events"
+    FLD="${WL_MATRIX_FLUDERATION_DATA:-$DATA/fluderation}"
+    RUNS="$DATA/reports/runs"
+    stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+    OUT="$RUNS/matrix-run-cycle-$stamp.json"
+
+    mkdir -p "$RUNS"
+
+    echo "Matrix Run Cycle"
+    echo "================"
+
+    "$ROOT/bin/wl-matrix" atom-slam 93 impulse
+    "$ROOT/bin/wl-matrix" agitate-event 72
+    "$ROOT/bin/wl-matrix" spin-city-event 81
+    "$ROOT/bin/wl-matrix" core-event 50
+
+    "$ROOT/bin/wl-matrix" fluderation-consume-events >/tmp/matrix-fluderation-consume.log
+
+    latest_recording="$(find "$FLD/recordings" -maxdepth 1 -type f -name 'fluderation-recording-from-events-*.json' | sort | tail -1)"
+    latest_report="$(find "$FLD/reports" -maxdepth 1 -type f -name 'fluderation-event-consume-report-*.json' | sort | tail -1)"
+
+    "$ROOT/bin/wl-matrix" pipeline-doctor >/tmp/matrix-pipeline-doctor.log
+    "$ROOT/bin/wl-matrix" certify >/tmp/matrix-certify.log
+
+    latest_cert="$(find "$DATA/reports" -maxdepth 1 -type f -name 'matrix-certification-*.json' | sort | tail -1)"
+
+    python3 - "$OUT" "$latest_recording" "$latest_report" "$latest_cert" <<'PYR'
+import json, sys
+from pathlib import Path
+from datetime import datetime, timezone
+
+out = Path(sys.argv[1])
+recording = sys.argv[2]
+report = sys.argv[3]
+cert = sys.argv[4]
+
+payload = {
+    "id": out.stem,
+    "timestamp": datetime.now(timezone.utc).isoformat(),
+    "status": "PASS",
+    "cycle": [
+        "matrix-atom-slam",
+        "matrix-agitate",
+        "matrix-spin-city",
+        "matrix-core",
+        "matrix-event-bus",
+        "matrix-fluderation"
+    ],
+    "recording": recording,
+    "report": report,
+    "certification": cert
+}
+
+out.write_text(json.dumps(payload, indent=2) + "\n")
+print("PASS matrix run-cycle")
+print(out)
+PYR
+    ;;
+
+  summary)
+    DATA="$ROOT/vault/08-Operations/matrix"
+    EVENTS="$DATA/events"
+    latest_cert="$(find "$DATA/reports" -maxdepth 1 -type f -name 'matrix-certification-*.json' 2>/dev/null | sort | tail -1)"
+
+    echo "Matrix Summary"
+    echo "=============="
+    echo "incoming_events=$(find "$EVENTS/incoming" -maxdepth 1 -type f -name 'evt-*.json' 2>/dev/null | wc -l | tr -d ' ')"
+    echo "processed_events=$(find "$EVENTS/processed" -maxdepth 1 -type f -name 'evt-*.json' 2>/dev/null | wc -l | tr -d ' ')"
+    echo "archive_batches=$(find "$EVENTS/archive" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d ' ')"
+    echo
+
+    if [ -n "$latest_cert" ] && [ -f "$latest_cert" ]; then
+      echo "Latest Certification"
+      echo "--------------------"
+      python3 - "$latest_cert" <<'PYR'
+import json, sys
+from pathlib import Path
+
+p = Path(sys.argv[1])
+r = json.loads(p.read_text())
+
+print(f"file={p}")
+print(f"status={r.get('status')}")
+print(f"timestamp={r.get('timestamp')}")
+print("pipeline=" + " -> ".join(r.get("pipeline", [])))
+print("apps=" + ", ".join(a.get("id", "unknown") for a in r.get("apps", [])))
+PYR
+    else
+      echo "Latest Certification"
+      echo "--------------------"
+      echo "none"
+    fi
+    ;;
+
+
+  agitate-doctor)
+    APP="$ROOT/apps/tauri/wl-agitate"
+    test -f "$APP/package.json"
+    test -f "$APP/src/index.html"
+    test -f "$APP/src-tauri/Cargo.toml"
+    test -f "$APP/src-tauri/tauri.conf.json"
+    jq -e '.name=="wl-agitate"' "$APP/package.json" >/dev/null
+    jq -e '.productName=="Agitate Waves"' "$APP/src-tauri/tauri.conf.json" >/dev/null
+    echo "PASS matrix-agitate doctor"
+    ;;
+
+  spin-city-doctor)
+    APP="$ROOT/apps/tauri/wl-spin-city"
+    test -f "$APP/package.json"
+    test -f "$APP/src/index.html"
+    test -f "$APP/src-tauri/Cargo.toml"
+    test -f "$APP/src-tauri/tauri.conf.json"
+    jq -e '.name=="wl-spin-city"' "$APP/package.json" >/dev/null
+    jq -e '.productName=="Spin City Wave"' "$APP/src-tauri/tauri.conf.json" >/dev/null
+    echo "PASS matrix-spin-city doctor"
+    ;;
+
+  core-doctor)
+    APP="$ROOT/apps/tauri/wl-matrix"
+    test -f "$APP/package.json"
+    test -f "$APP/src/index.html"
+    test -f "$APP/src-tauri/Cargo.toml"
+    test -f "$APP/src-tauri/tauri.conf.json"
+    jq -e '.name=="wl-matrix"' "$APP/package.json" >/dev/null
+    jq -e '.productName=="Matrix Atom Destroyer"' "$APP/src-tauri/tauri.conf.json" >/dev/null
+    echo "PASS matrix-core doctor"
+    ;;
+
+
+
+  agitate-event)
+    strength="${2:-72}"
+    exec "$ROOT/bin/wl-matrix-emit" matrix-agitate wave "$strength"
+    ;;
+
+  spin-city-event)
+    strength="${2:-81}"
+    exec "$ROOT/bin/wl-matrix-emit" matrix-spin-city rotation "$strength"
+    ;;
+
+  core-event)
+    strength="${2:-50}"
+    exec "$ROOT/bin/wl-matrix-emit" matrix-core shell-open "$strength"
+    ;;
+
+
+  run-cycle)
+    echo "Matrix Run Cycle"
+    echo "================"
+
+    echo
+    echo "Emit:"
+    "$ROOT/bin/wl-matrix" atom-slam 93 impulse
+    "$ROOT/bin/wl-matrix" agitate-event 72
+    "$ROOT/bin/wl-matrix" spin-city-event 81
+    "$ROOT/bin/wl-matrix" core-event 50
+
+    echo
+    echo "Consume:"
+    "$ROOT/bin/wl-matrix" fluderation-consume-events
+
+    echo
+    echo "Report:"
+    "$ROOT/bin/wl-matrix" fluderation-report
+    "$ROOT/bin/wl-matrix" fluderation-summary
+
+    echo
+    echo "Certify:"
+    "$ROOT/bin/wl-matrix" pipeline-doctor
+    "$ROOT/bin/wl-matrix" certify
+
+    echo
+    echo "RESULT PASS"
+    ;;
+
+  tauri-events-test)
+    "$ROOT/bin/wl-matrix" agitate-event 72
+    "$ROOT/bin/wl-matrix" spin-city-event 81
+    "$ROOT/bin/wl-matrix" core-event 50
+    "$ROOT/bin/wl-matrix" events-list | tail -5
+    echo "PASS matrix tauri events test"
+    ;;
+
+  agitate)
+    "$ROOT/bin/wl-matrix-emit" matrix-agitate wave 64
+    cd "$ROOT/apps/tauri/wl-agitate"
+    npm run dev
+    ;;
+
+  spin-city)
+    "$ROOT/bin/wl-matrix-emit" matrix-spin-city rotation 64
+    cd "$ROOT/apps/tauri/wl-spin-city"
+    npm run dev
+    ;;
+
+  core)
+    "$ROOT/bin/wl-matrix-emit" matrix-core shell-open 50
+    cd "$ROOT/apps/tauri/wl-matrix"
+    npm run dev
+    ;;
+
+  tauri-doctor)
+    "$ROOT/bin/wl-matrix" agitate-doctor
+    "$ROOT/bin/wl-matrix" spin-city-doctor
+    "$ROOT/bin/wl-matrix" core-doctor
+    echo "RESULT PASS"
+    ;;
+
+
+  doctor-all)
+    fail=0
+
+    run_check() {
+      name="$1"
+      shift
+      echo
+      echo "== $name =="
+      if "$@"; then
+        echo "PASS $name"
+      else
+        echo "FAIL $name"
+        fail=1
+      fi
+    }
+
+    run_check "fluderation" "$ROOT/bin/wl-matrix" fluderation-doctor
+    run_check "atom-slam" "$ROOT/bin/wl-matrix" atom-slam-doctor
+    run_check "tauri-apps" "$ROOT/bin/wl-matrix" tauri-doctor
+    run_check "pipeline" "$ROOT/bin/wl-matrix" pipeline-doctor
+
+    echo
+    if [ "$fail" -eq 0 ]; then
+      echo "RESULT PASS"
+    else
+      echo "RESULT FAIL"
+      exit 1
+    fi
+    ;;
+
+  status)
+    EVENTS="$ROOT/vault/08-Operations/matrix/events"
+    FLD="${WL_MATRIX_FLUDERATION_DATA:-$ROOT/vault/08-Operations/matrix/fluderation}"
+    PROFILE="$ROOT/apps/matrix/matrix-app-profile.json"
+
+    echo "Matrix Status"
+    echo "============="
+    echo "root=$ROOT"
+    echo
+
+    echo "Apps"
+    echo "----"
+    jq -r '.matrix_apps[] | "\(.id)\t\(.status // "unknown")\t\(.role // "none")"' "$PROFILE" 2>/dev/null || echo "FAIL profile"
+
+    echo
+    echo "Events"
+    echo "------"
+    echo "incoming=$(find "$EVENTS/incoming" -maxdepth 1 -type f -name 'evt-*.json' 2>/dev/null | wc -l | tr -d ' ')"
+    echo "processed=$(find "$EVENTS/processed" -maxdepth 1 -type f -name 'evt-*.json' 2>/dev/null | wc -l | tr -d ' ')"
+    echo "archive=$(find "$EVENTS/archive" -maxdepth 1 -type f -name 'evt-*.json' 2>/dev/null | wc -l | tr -d ' ')"
+
+    echo
+    echo "Fluderation"
+    echo "------------"
+    echo "recordings=$(find "$FLD/recordings" -maxdepth 1 -type f -name '*.json' 2>/dev/null | wc -l | tr -d ' ')"
+    echo "reports=$(find "$FLD/reports" -maxdepth 1 -type f -name '*.json' 2>/dev/null | wc -l | tr -d ' ')"
+    echo "scenarios=$(find "$FLD/scenarios" -maxdepth 1 -type f -name '*.json' 2>/dev/null | wc -l | tr -d ' ')"
+
+    echo
+    echo "Doctors"
+    echo "-------"
+    "$ROOT/bin/wl-matrix" fluderation-doctor >/dev/null && echo "PASS fluderation" || echo "FAIL fluderation"
+    "$ROOT/bin/wl-matrix" atom-slam-doctor >/dev/null && echo "PASS atom-slam" || echo "FAIL atom-slam"
+    "$ROOT/bin/wl-matrix" pipeline-doctor >/dev/null && echo "PASS pipeline" || echo "FAIL pipeline"
+    ;;
+
+  pipeline-doctor)
+    EVENTS="$ROOT/vault/08-Operations/matrix/events"
+    FLD="${WL_MATRIX_FLUDERATION_DATA:-$ROOT/vault/08-Operations/matrix/fluderation}"
+
+    fail=0
+
+    check_dir() {
+      if [ -d "$1" ]; then echo "PASS dir  $1"; else echo "FAIL dir  $1"; fail=1; fi
+    }
+
+    check_cmd() {
+      if grep -q "$1)" "$ROOT/bin/wl-matrix"; then echo "PASS cmd  wl matrix $1"; else echo "FAIL cmd  wl matrix $1"; fail=1; fi
+    }
+
+    check_dir "$EVENTS/incoming"
+    check_dir "$EVENTS/processed"
+    check_dir "$EVENTS/archive"
+    check_dir "$EVENTS/reports"
+    check_dir "$FLD/recordings"
+    check_dir "$FLD/reports"
+
+    check_cmd "atom-slam"
+    check_cmd "events-list"
+    check_cmd "fluderation-consume-events"
+    check_cmd "fluderation-report"
+    check_cmd "fluderation-summary"
+
+    before="$(find "$EVENTS/incoming" -maxdepth 1 -type f -name 'evt-matrix-atom-slam-*.json' | wc -l | tr -d ' ')"
+
+    "$ROOT/bin/wl-matrix" atom-slam 91 impulse >/dev/null
+    "$ROOT/bin/wl-matrix" atom-slam 77 shock >/dev/null
+
+    mid="$(find "$EVENTS/incoming" -maxdepth 1 -type f -name 'evt-matrix-atom-slam-*.json' | wc -l | tr -d ' ')"
+
+    if [ "$mid" -le "$before" ]; then
+      echo "FAIL event emission"
+      fail=1
+    else
+      echo "PASS event emission"
+    fi
+
+    "$ROOT/bin/wl-matrix" fluderation-consume-events >/dev/null
+
+    after="$(find "$EVENTS/incoming" -maxdepth 1 -type f -name 'evt-matrix-atom-slam-*.json' | wc -l | tr -d ' ')"
+    processed="$(find "$EVENTS/processed" -maxdepth 1 -type f -name 'evt-matrix-atom-slam-*.json' | wc -l | tr -d ' ')"
+    recordings="$(find "$FLD/recordings" -maxdepth 1 -type f -name 'fluderation-recording-from-events-*.json' | wc -l | tr -d ' ')"
+    reports="$(find "$FLD/reports" -maxdepth 1 -type f -name 'fluderation-event-consume-report-*.json' | wc -l | tr -d ' ')"
+
+    echo "incoming_after=$after"
+    echo "processed=$processed"
+    echo "event_recordings=$recordings"
+    echo "event_reports=$reports"
+
+    if [ "$processed" -gt 0 ] && [ "$recordings" -gt 0 ] && [ "$reports" -gt 0 ]; then
+      echo "PASS pipeline consume"
+    else
+      echo "FAIL pipeline consume"
+      fail=1
+    fi
+
+    if [ "$fail" -eq 0 ]; then
+      echo "RESULT PASS"
+    else
+      echo "RESULT FAIL"
+      exit 1
+    fi
+    ;;
+
+  events-list)
+    EVENTS="$ROOT/vault/08-Operations/matrix/events/incoming"
+    mkdir -p "$EVENTS"
+    find "$EVENTS" -maxdepth 1 -type f -name 'evt-*.json' | sort
+    ;;
+
+  fluderation)
+    cd "$APP"
+    exec python3 local-server.py
+    ;;
+
+  fluderation-open)
+    open "http://127.0.0.1:${WL_MATRIX_FLUDERATION_PORT:-8789}"
+    ;;
+
+  fluderation-verify)
+    test -d "$APP"
+    test -f "$APP/index.html"
+    test -f "$APP/local-server.py"
+    test -f "$APP/fluderation.intent.json"
+    python3 -m json.tool "$ROOT/apps/matrix/matrix-app-profile.json" >/dev/null
+    grep -q '"matrix-fluderation"' "$ROOT/apps/matrix/matrix-app-profile.json"
+    DATA="/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation"
+    test -d "/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation/recordings"
+    test -d "/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation/exports"
+    test -d "/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation/reports"
+    test -d "/Users/wonderland/Wonderland/vault/08-Operations/matrix/fluderation/scenarios"
+    test -f "/Users/wonderland/Workshop/apps/matrix/matrix-fluderation/DATA_PATH.md"
+    grep -q '"data_path"' "/Users/wonderland/Workshop/apps/matrix/matrix-fluderation/fluderation.intent.json"
+    echo "PASS matrix-fluderation standard data paths"
+    echo "PASS matrix-fluderation routed verify"
+    ;;
+
+
+  fluderation-import)
+    DATA="${WL_MATRIX_FLUDERATION_DATA:-$ROOT/vault/08-Operations/matrix/fluderation}"
+    SRC="${2:-}"
+
+    if [ -z "$SRC" ]; then
+      echo "Usage: wl matrix fluderation-import /path/to/fluderation-recording.json"
+      exit 2
+    fi
+
+    test -f "$SRC"
+    mkdir -p "$DATA/recordings"
+
+    base="$(basename "$SRC")"
+
+    case "$base" in
+      fluderation-recording-*.json) ;;
+      *)
+        stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+        base="fluderation-recording-$stamp.json"
+        ;;
+    esac
+
+    cp "$SRC" "$DATA/recordings/$base"
+    python3 -m json.tool "$DATA/recordings/$base" >/dev/null
+
+    echo "PASS fluderation recording imported"
+    echo "$DATA/recordings/$base"
+    ;;
+
+  fluderation-list)
+    DATA="${WL_MATRIX_FLUDERATION_DATA:-$ROOT/vault/08-Operations/matrix/fluderation}"
+    mkdir -p "$DATA/recordings"
+    find "$DATA/recordings" -maxdepth 1 -type f -name 'fluderation-recording-*.json' | sort
+    ;;
+
+
+
+  fluderation-consume-events)
+    EVENTS="$ROOT/vault/08-Operations/matrix/events"
+    FLD="${WL_MATRIX_FLUDERATION_DATA:-$ROOT/vault/08-Operations/matrix/fluderation}"
+
+    mkdir -p "$EVENTS/incoming" "$EVENTS/processed" "$FLD/recordings" "$FLD/reports"
+
+    stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+    recording="$FLD/recordings/fluderation-recording-from-events-$stamp.json"
+    report="$FLD/reports/fluderation-event-consume-report-$stamp.json"
+
+    python3 - "$EVENTS/incoming" "$EVENTS/processed" "$recording" "$report" <<'PYR'
+import json, shutil, sys
+from pathlib import Path
+from datetime import datetime, timezone
+
+incoming = Path(sys.argv[1])
+processed = Path(sys.argv[2])
+recording = Path(sys.argv[3])
+report = Path(sys.argv[4])
+
+events = []
+for p in sorted(incoming.glob("evt-matrix-atom-slam-*.json")):
+    try:
+        event = json.loads(p.read_text())
+        events.append((p, event))
+    except Exception:
+        continue
+
+frames = []
+for index, (_, event) in enumerate(events, start=1):
+    strength = float(event.get("strength", 0))
+    typ = event.get("type", "impulse")
+    multiplier = {
+        "impulse": 1.00,
+        "pulse": 0.75,
+        "shock": 1.25,
+        "collapse": 1.65
+    }.get(typ, 1.0)
+
+    total = round(strength * multiplier * (1 + index * 0.08), 2)
+    frames.append({
+        "wave": index,
+        "source_event": event.get("id"),
+        "source": event.get("source"),
+        "event_type": typ,
+        "strength": strength,
+        "multiplier": multiplier,
+        "total": total,
+        "depthPercent": min(100, round(total)),
+        "energyPercent": min(100, round(total * 1.12)),
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    })
+
+payload = {
+    "id": recording.stem,
+    "app": "matrix-fluderation",
+    "mode": "matrix-event-consume",
+    "source": "matrix-event-bus",
+    "event_count": len(events),
+    "frames": frames
+}
+
+recording.write_text(json.dumps(payload, indent=2) + "\n")
+
+summary = {
+    "id": report.stem,
+    "source_recording": str(recording),
+    "consumed_events": len(events),
+    "max_total": max([f["total"] for f in frames] or [0]),
+    "max_depth_percent": max([f["depthPercent"] for f in frames] or [0]),
+    "max_energy_percent": max([f["energyPercent"] for f in frames] or [0])
+}
+
+report.write_text(json.dumps(summary, indent=2) + "\n")
+
+for p, _ in events:
+    shutil.move(str(p), processed / p.name)
+
+print("PASS fluderation consumed matrix events")
+print(recording)
+print(report)
+PYR
+    ;;
+
+
+
+  fluderation-consume-events)
+    EVENTS="$ROOT/vault/08-Operations/matrix/events"
+    FLD="${WL_MATRIX_FLUDERATION_DATA:-$ROOT/vault/08-Operations/matrix/fluderation}"
+
+    mkdir -p "$EVENTS/incoming" "$EVENTS/processed" "$FLD/recordings" "$FLD/reports"
+
+    stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+    recording="$FLD/recordings/fluderation-recording-from-events-$stamp.json"
+    report="$FLD/reports/fluderation-event-consume-report-$stamp.json"
+
+    python3 - "$EVENTS/incoming" "$EVENTS/processed" "$recording" "$report" <<'PYR'
+import json, shutil, sys
+from pathlib import Path
+from datetime import datetime, timezone
+
+incoming = Path(sys.argv[1])
+processed = Path(sys.argv[2])
+recording = Path(sys.argv[3])
+report = Path(sys.argv[4])
+
+events = []
+for p in sorted(incoming.glob("evt-*.json")):
+    try:
+        event = json.loads(p.read_text())
+        events.append((p, event))
+    except Exception:
+        continue
+
+source_factor = {
+    "matrix-atom-slam": 1.30,
+    "matrix-agitate": 1.05,
+    "matrix-spin-city": 1.15,
+    "matrix-core": 0.55
+}
+
+type_factor = {
+    "impulse": 1.00,
+    "pulse": 0.75,
+    "shock": 1.25,
+    "collapse": 1.65,
+    "wave": 0.95,
+    "rotation": 1.10,
+    "shell-open": 0.35
+}
+
+frames = []
+for index, (_, event) in enumerate(events, start=1):
+    strength = float(event.get("strength", 0))
+    source = event.get("source", "unknown")
+    typ = event.get("type", "unknown")
+
+    multiplier = source_factor.get(source, 1.0) * type_factor.get(typ, 1.0)
+    total = round(strength * multiplier * (1 + index * 0.08), 2)
+
+    frames.append({
+        "wave": index,
+        "source_event": event.get("id"),
+        "source": source,
+        "event_type": typ,
+        "strength": strength,
+        "multiplier": round(multiplier, 3),
+        "total": total,
+        "depthPercent": min(100, round(total)),
+        "energyPercent": min(100, round(total * 1.12)),
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    })
+
+payload = {
+    "id": recording.stem,
+    "app": "matrix-fluderation",
+    "mode": "matrix-event-consume",
+    "source": "matrix-event-bus",
+    "event_count": len(events),
+    "frames": frames
+}
+
+recording.write_text(json.dumps(payload, indent=2) + "\n")
+
+by_source = {}
+by_type = {}
+
+for f in frames:
+    by_source[f["source"]] = by_source.get(f["source"], 0) + 1
+    by_type[f["event_type"]] = by_type.get(f["event_type"], 0) + 1
+
+summary = {
+    "id": report.stem,
+    "source_recording": str(recording),
+    "consumed_events": len(events),
+    "by_source": by_source,
+    "by_type": by_type,
+    "max_total": max([f["total"] for f in frames] or [0]),
+    "max_depth_percent": max([f["depthPercent"] for f in frames] or [0]),
+    "max_energy_percent": max([f["energyPercent"] for f in frames] or [0])
+}
+
+report.write_text(json.dumps(summary, indent=2) + "\n")
+
+for p, _ in events:
+    shutil.move(str(p), processed / p.name)
+
+print("PASS fluderation consumed matrix events")
+print(recording)
+print(report)
+PYR
+    ;;
+
+  fluderation-report)
+    DATA="${WL_MATRIX_FLUDERATION_DATA:-$ROOT/vault/08-Operations/matrix/fluderation}"
+    SRC="${2:-}"
+
+    if [ -z "$SRC" ]; then
+      SRC="$(find "$DATA/recordings" -maxdepth 1 -type f -name 'fluderation-recording-*.json' | sort | tail -1)"
+    fi
+
+    if [ -z "$SRC" ] || [ ! -f "$SRC" ]; then
+      echo "FAIL no fluderation recording found"
+      exit 1
+    fi
+
+    mkdir -p "$DATA/reports"
+
+    stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+    OUT="$DATA/reports/fluderation-report-$stamp.json"
+
+    python3 - "$SRC" "$OUT" <<'PYR'
+import json, sys
+from pathlib import Path
+
+src = Path(sys.argv[1])
+out = Path(sys.argv[2])
+
+data = json.loads(src.read_text())
+frames = data.get("frames", [])
+
+def nums(key):
+    return [f.get(key, 0) for f in frames if isinstance(f.get(key, 0), (int, float))]
+
+report = {
+    "id": out.stem,
+    "source_recording": str(src),
+    "frame_count": len(frames),
+    "max_total": max(nums("total") or [0]),
+    "max_depth_percent": max(nums("depthPercent") or [0]),
+    "max_energy_percent": max(nums("energyPercent") or [0]),
+    "wave_count": max(nums("wave") or [0]),
+    "wave_shapes": sorted(set(f.get("waveShape", "unknown") for f in frames)),
+}
+
+out.write_text(json.dumps(report, indent=2) + "\n")
+print("PASS fluderation report")
+print(out)
+PYR
+    ;;
+
+
+
+  fluderation-summary)
+    DATA="${WL_MATRIX_FLUDERATION_DATA:-$ROOT/vault/08-Operations/matrix/fluderation}"
+    SRC="${2:-}"
+
+    if [ -z "$SRC" ]; then
+      SRC="$(find "$DATA/reports" -maxdepth 1 -type f -name 'fluderation-report-*.json' | sort | tail -1)"
+    fi
+
+    if [ -z "$SRC" ] || [ ! -f "$SRC" ]; then
+      echo "FAIL no fluderation report found"
+      exit 1
+    fi
+
+    python3 - "$SRC" <<'PYR'
+import json, sys
+from pathlib import Path
+
+p = Path(sys.argv[1])
+r = json.loads(p.read_text())
+
+print("Matrix Fluderation Report")
+print("=========================")
+print(f"report:        {p}")
+print(f"recording:     {r.get('source_recording')}")
+print(f"frames:        {r.get('frame_count')}")
+print(f"waves:         {r.get('wave_count')}")
+print(f"max_total:     {r.get('max_total')}")
+print(f"max_depth:     {r.get('max_depth_percent')}%")
+print(f"max_energy:    {r.get('max_energy_percent')}%")
+print(f"wave_shapes:   {', '.join(r.get('wave_shapes', []))}")
+PYR
+    ;;
+
+
+  fluderation-doctor)
+    APP="$ROOT/apps/matrix/matrix-fluderation"
+    DATA="${WL_MATRIX_FLUDERATION_DATA:-$ROOT/vault/08-Operations/matrix/fluderation}"
+    PROFILE="$ROOT/apps/matrix/matrix-app-profile.json"
+
+    fail=0
+
+    check_file() {
+      if [ -f "$1" ]; then echo "PASS file $1"; else echo "FAIL file $1"; fail=1; fi
+    }
+
+    check_dir() {
+      if [ -d "$1" ]; then echo "PASS dir  $1"; else echo "FAIL dir  $1"; fail=1; fi
+    }
+
+    check_file "$APP/index.html"
+    check_file "$APP/local-server.py"
+    check_file "$APP/fluderation.intent.json"
+    check_file "$APP/DATA_PATH.md"
+
+    check_dir "$DATA"
+    check_dir "$DATA/recordings"
+    check_dir "$DATA/exports"
+    check_dir "$DATA/reports"
+    check_dir "$DATA/scenarios"
+
+    python3 -m json.tool "$PROFILE" >/dev/null && echo "PASS profile json" || { echo "FAIL profile json"; fail=1; }
+    grep -q '"matrix-fluderation"' "$PROFILE" && echo "PASS profile registration" || { echo "FAIL profile registration"; fail=1; }
+
+    grep -q 'fluderation-import)' "$ROOT/bin/wl-matrix" && echo "PASS import command" || { echo "FAIL import command"; fail=1; }
+    grep -q 'fluderation-report)' "$ROOT/bin/wl-matrix" && echo "PASS report command" || { echo "FAIL report command"; fail=1; }
+    grep -q 'fluderation-summary)' "$ROOT/bin/wl-matrix" && echo "PASS summary command" || { echo "FAIL summary command"; fail=1; }
+
+    recordings="$(find "$DATA/recordings" -maxdepth 1 -type f -name 'fluderation-recording-*.json' | wc -l | tr -d ' ')"
+    reports="$(find "$DATA/reports" -maxdepth 1 -type f -name 'fluderation-report-*.json' | wc -l | tr -d ' ')"
+    scenarios="$(find "$DATA/scenarios" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')"
+
+    echo "recordings=$recordings"
+    echo "reports=$reports"
+    echo "scenarios=$scenarios"
+
+    if [ "$fail" -eq 0 ]; then
+      echo "RESULT PASS"
+    else
+      echo "RESULT FAIL"
+      exit 1
+    fi
+    ;;
+
+  fluderation-tauri)
+    cd "$APP"
+    npm install
+    npm run tauri dev
+    ;;
+
+  *)
+    echo "Usage:"
+    echo "  wl matrix fluderation"
+    echo "  wl matrix fluderation-open"
+    echo "  wl matrix fluderation-verify"
+    echo "  wl matrix fluderation-tauri"
+    exit 2
+    ;;
+esac

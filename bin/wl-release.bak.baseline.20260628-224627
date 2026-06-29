@@ -1,0 +1,120 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
+
+RELEASE_ROOT="$WL_HOME/releases"
+BUILD_DIR="$RELEASE_ROOT/builds"
+STABLE_DIR="$RELEASE_ROOT/stable"
+PREVIOUS_DIR="$RELEASE_ROOT/previous"
+ROLLBACK_DIR="$RELEASE_ROOT/rollback"
+
+mkdir -p "$BUILD_DIR" "$STABLE_DIR" "$PREVIOUS_DIR" "$ROLLBACK_DIR"
+
+cmd="${1:-status}"
+
+latest_cert() {
+  ls -t "$WL_HOME"/vault/05-Registry/certifications/wonderland-runtime-*.json 2>/dev/null | head -1
+}
+
+case "$cmd" in
+  build)
+    wl_section "Release Build"
+
+    verify_rc=0
+    "$WL_HOME/bin/wl-verify" || verify_rc=$?
+
+    if (( verify_rc != 0 )); then
+      wl_health_fail "verify" "release build blocked"
+      wl_health_exit
+    fi
+
+    cert_rc=0
+    "$WL_HOME/bin/wl-certify" || cert_rc=$?
+
+    "$WL_HOME/bin/wl-docs" >/dev/null 2>&1 || true
+    docs="$WL_HOME/vault/02-Documentation/generated/wonderland-command-reference.md"
+
+    cert="$(latest_cert)"
+    stamp="$(date +%Y%m%d-%H%M%S)"
+    manifest="$BUILD_DIR/release-${WL_VERSION:-0.0.0}-${stamp}.json"
+
+    cat > "$manifest" <<JSON
+{
+  "schema": "wonderland.release.v1",
+  "version": "${WL_VERSION:-0.0.0}",
+  "build": "${WL_BUILD:-unknown}",
+  "channel": "${WL_CHANNEL:-local}",
+  "timestamp": "$stamp",
+  "result": "$([[ "$cert_rc" -eq 0 ]] && echo PASS || echo FAIL)",
+  "certification": "$cert",
+  "documentation": "$docs",
+  "context": $(wl_context_dump)
+}
+JSON
+
+    echo "RELEASE $manifest"
+    [[ "$cert_rc" -eq 0 ]] && echo "RESULT PASS" || echo "RESULT FAIL"
+    exit "$cert_rc"
+    ;;
+
+  promote)
+    latest="$(ls -t "$BUILD_DIR"/release-*.json 2>/dev/null | head -1)"
+
+    if [[ -z "$latest" ]]; then
+      echo "FAIL no release build found"
+      echo "RESULT FAIL"
+      exit 1
+    fi
+
+    if [[ -f "$STABLE_DIR/current.json" ]]; then
+      cp "$STABLE_DIR/current.json" "$PREVIOUS_DIR/previous-$(date +%Y%m%d-%H%M%S).json"
+    fi
+
+    cp "$latest" "$STABLE_DIR/current.json"
+
+    echo "PROMOTED $latest"
+    echo "STABLE $STABLE_DIR/current.json"
+    echo "RESULT PASS"
+    ;;
+
+  status)
+    echo "Wonderland Release Status"
+    echo
+
+    if [[ -f "$STABLE_DIR/current.json" ]]; then
+      echo "Stable:"
+      python3 -m json.tool "$STABLE_DIR/current.json"
+    else
+      echo "WARN no stable release promoted"
+      echo "RESULT PASS"
+    fi
+    ;;
+
+  rollback)
+    previous="$(ls -t "$PREVIOUS_DIR"/previous-*.json 2>/dev/null | head -1)"
+
+    if [[ -z "$previous" ]]; then
+      echo "FAIL no previous release available"
+      echo "RESULT FAIL"
+      exit 1
+    fi
+
+    if [[ -f "$STABLE_DIR/current.json" ]]; then
+      cp "$STABLE_DIR/current.json" "$ROLLBACK_DIR/rollback-from-$(date +%Y%m%d-%H%M%S).json"
+    fi
+
+    cp "$previous" "$STABLE_DIR/current.json"
+
+    echo "ROLLED_BACK $previous"
+    echo "STABLE $STABLE_DIR/current.json"
+    echo "RESULT PASS"
+    ;;
+
+  *)
+    echo "Usage: wl release {build|promote|status|rollback}"
+    echo "RESULT FAIL"
+    exit 1
+    ;;
+esac

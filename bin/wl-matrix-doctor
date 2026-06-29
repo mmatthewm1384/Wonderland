@@ -15,7 +15,7 @@ check_file() { [[ -f "$1" ]] && echo "PASS $2" || { echo "FAIL $2"; fail=1; }; }
 check_exec() { [[ -x "$1" ]] && echo "PASS $2" || { echo "FAIL $2"; fail=1; }; }
 check_grep() { grep -q "$1" "$2" && echo "PASS $3" || { echo "FAIL $3"; fail=1; }; }
 
-echo "Matrix Atom Destroyer Doctor"
+echo "DISABLED-Matrix Atom Destroyer Doctor"
 
 check_file "$HTML" "html"
 check_file "$MANIFEST" "manifest"

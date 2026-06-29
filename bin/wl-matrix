@@ -369,7 +369,7 @@ PYR
     test -f "$APP/src-tauri/Cargo.toml"
     test -f "$APP/src-tauri/tauri.conf.json"
     jq -e '.name=="wl-agitate"' "$APP/package.json" >/dev/null
-    jq -e '.productName=="Agitate Waves"' "$APP/src-tauri/tauri.conf.json" >/dev/null
+    jq -e '.productName=="DISABLED-Agitate Waves"' "$APP/src-tauri/tauri.conf.json" >/dev/null
     echo "PASS matrix-agitate doctor"
     ;;
 
@@ -380,7 +380,7 @@ PYR
     test -f "$APP/src-tauri/Cargo.toml"
     test -f "$APP/src-tauri/tauri.conf.json"
     jq -e '.name=="wl-spin-city"' "$APP/package.json" >/dev/null
-    jq -e '.productName=="Spin City Wave"' "$APP/src-tauri/tauri.conf.json" >/dev/null
+    jq -e '.productName=="DISABLED-Spin City Wave"' "$APP/src-tauri/tauri.conf.json" >/dev/null
     echo "PASS matrix-spin-city doctor"
     ;;
 
@@ -391,7 +391,7 @@ PYR
     test -f "$APP/src-tauri/Cargo.toml"
     test -f "$APP/src-tauri/tauri.conf.json"
     jq -e '.name=="wl-matrix"' "$APP/package.json" >/dev/null
-    jq -e '.productName=="Matrix Atom Destroyer"' "$APP/src-tauri/tauri.conf.json" >/dev/null
+    jq -e '.productName=="DISABLED-Matrix Atom Destroyer"' "$APP/src-tauri/tauri.conf.json" >/dev/null
     echo "PASS matrix-core doctor"
     ;;
 

@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_HOME:-$HOME/Wonderland}"
+SPEC="$ROOT/vault/02-Governance/design/WEL-001-wonderland-escalation-language.md"
+REG="$ROOT/vault/05-Registry/design/wel/phases.json"
+PKG="$ROOT/source/packages/WonderlandUI"
+
+fail=0
+
+check() {
+  local name="$1"
+  shift
+
+  if "$@" >/dev/null 2>&1; then
+    echo "PASS $name"
+  else
+    echo "FAIL $name"
+    fail=1
+  fi
+}
+
+echo "== WEL verify =="
+
+check "authority spec exists" test -f "$SPEC"
+check "phase registry exists" test -f "$REG"
+check "registry json valid" jq -e '.schema == "wonderland.design.wel.phases.v1"' "$REG"
+check "six phases defined" jq -e '.phases | length == 6' "$REG"
+check "phase ids valid" jq -e '[.phases[].id] == ["foundation","awareness","attention","transition","pressure","authority"]' "$REG"
+check "health colors defined" jq -e '.health.healthy and .health.warning and .health.offline' "$REG"
+check "swift package exists" test -f "$PKG/Package.swift"
+check "swift package builds" bash -lc "cd '$PKG' && swift build"
+
+echo
+if [[ "$fail" -eq 0 ]]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+  exit 1
+fi

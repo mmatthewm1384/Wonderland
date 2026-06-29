@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
+
+echo "Wonderland Status"
+echo
+echo "Root:    $WL_HOME"
+echo "Mode:    ${WL_MODE:-light}"
+echo "Profile: ${WL_PROFILE:-internal-light}"
+echo "Version: ${WL_VERSION:-0.0.0}"
+echo "Build:   ${WL_BUILD:-unknown}"
+
+wl_section "Runtime"
+wl_runtime_running && wl_pass "$WL_RUNTIME_INSTANCE" "running" || wl_fail "$WL_RUNTIME_INSTANCE" "not running"
+
+wl_section "Storage"
+wl_storage_t7_attached && wl_pass "t7" "$WL_T7_PATH" || wl_warn "t7" "detached"
+
+wl_section "Services"
+for svc in $WL_REQUIRED_SERVICES; do
+  wl_service_running "$svc" && wl_pass "$svc" "required up" || wl_fail "$svc" "required not up"
+done
+
+for svc in $WL_OPTIONAL_SERVICES; do
+  wl_service_running "$svc" && wl_pass "$svc" "optional up" || wl_warn "$svc" "optional not up"
+done
+
+wl_section "Capabilities"
+wl_capability_available media && wl_pass "media" "available" || wl_warn "media" "unavailable"
+wl_capability_available torrent && wl_pass "torrent" "available" || wl_warn "torrent" "unavailable"
+
+wl_exit

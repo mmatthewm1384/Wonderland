@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -u
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+WL_LIB="$WL_ROOT/lib/wl-lib.sh"
+
+if [[ ! -f "$WL_LIB" ]]; then
+  echo "FAIL wl-lib missing: $WL_LIB"
+  echo
+  echo "RESULT FAIL"
+  exit 1
+fi
+
+. "$WL_LIB"
+
+echo "Wonderland Doctor"
+
+wl_section "Core"
+wl_required_path "root" "$WL_ROOT"
+wl_required_path "bin" "$WL_ROOT/bin"
+wl_required_path "lib" "$WL_ROOT/lib"
+wl_required_path "vault" "$WL_ROOT/vault"
+
+wl_section "Authority"
+wl_required_path "governance" "$WL_ROOT/vault/00-Governance"
+wl_optional_path "storage authority" "$WL_ROOT/vault/05-Registry/storage-authority.json"
+
+wl_section "Storage"
+wl_t7_status
+wl_optional_path "t7 mirror" "$WL_T7_PATH/Wonderland"
+wl_optional_path "media" "$WL_T7_PATH/media"
+
+wl_section "Runtime"
+if command -v limactl >/dev/null 2>&1; then
+  wl_pass "limactl" "$(command -v limactl)"
+else
+  wl_fail "limactl" "missing"
+fi
+
+if command -v nerdctl >/dev/null 2>&1; then
+  wl_pass "nerdctl" "$(command -v nerdctl)"
+else
+  wl_fail "nerdctl" "missing"
+fi
+
+if limactl list 2>/dev/null | grep -q '^wonderland-rootless[[:space:]]\+Running'; then
+  wl_pass "wonderland-rootless" "running"
+else
+  wl_warn "wonderland-rootless" "not running"
+fi
+
+wl_exit

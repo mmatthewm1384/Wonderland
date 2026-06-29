@@ -1,0 +1,24 @@
+{
+  "id": "wl-chaos-scheduler",
+  "state": "certified",
+  "certified_at": "2026-06-28T03:40:03Z",
+  "architecture": {
+    "schedule_file": "vault/chaos/escalation-schedule.json",
+    "runner": "bin/wl-chaos-schedule-run",
+    "evaluator": "bin/wl-chaos-schedule-eval",
+    "launchagent": "com.wonderland.chaos-scheduler",
+    "execution_path": "scheduler -> lease renewal -> controller-api -> chaos-runtime",
+    "cataclysm": "manual approval required"
+  },
+  "strategy": "exponential",
+  "initial_hold_hours": 6,
+  "levels": [
+    "nudge",
+    "drift",
+    "storm",
+    "blackout",
+    "cataclysm"
+  ],
+  "verifier": "wl-chaos-verify",
+  "result": "PASS"
+}

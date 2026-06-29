@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+import json
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT = Path.home() / "Wonderland"
+POLICY = ROOT / "security/operator-gate/policy.json"
+LEASE = ROOT / "vault/05-Registry/chaos/lease.json"
+
+def load(path):
+    with path.open() as f:
+        return json.load(f)
+
+def parse_expires(value):
+    if value is None:
+        return None
+
+    if isinstance(value, (int, float)):
+        return datetime.fromtimestamp(value, timezone.utc)
+
+    if isinstance(value, str):
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+
+    return None
+
+def status():
+    policy = load(POLICY)
+    lease = load(LEASE) if LEASE.exists() else {}
+
+    now = datetime.now(timezone.utc)
+    expires = parse_expires(lease.get("expires_at"))
+    remaining = 0
+
+    if expires:
+        remaining = max(0, int((expires - now).total_seconds()))
+
+    policy_lease_hours = int(policy.get("lease_hours", 12))
+    lease_minutes = lease.get("ttl_minutes") or lease.get("lease_minutes")
+    if lease_minutes:
+        lease_hours = round(int(lease_minutes) / 60, 2)
+    elif expires:
+        # Lease schema does not store original TTL; estimate from remaining time.
+        lease_hours = round(remaining / 3600, 2)
+    else:
+        lease_hours = None
+
+    result = {
+        "policy": str(POLICY),
+        "lease": str(LEASE),
+        "policy_lease_hours": policy_lease_hours,
+        "lease_hours": lease_hours,
+        "expires_at": lease.get("expires_at"),
+        "remaining_seconds": remaining,
+        "remaining_hours": round(remaining / 3600, 2),
+        "controller_required": policy.get("controller_required"),
+        "cli_fallback_allowed": policy.get("cli_fallback_allowed"),
+        "status": "PASS" if remaining > 0 else "EXPIRED"
+    }
+
+    print(json.dumps(result, indent=2))
+    return 0 if result["status"] == "PASS" else 1
+
+def main():
+    cmd = sys.argv[1] if len(sys.argv) > 1 else "status"
+
+    if cmd in ("status", "verify"):
+        raise SystemExit(status())
+
+    if cmd == "path":
+        print(POLICY)
+        return
+
+    print("usage: wl-chaos-policy [status|verify|path]", file=sys.stderr)
+    raise SystemExit(2)
+
+if __name__ == "__main__":
+    main()

@@ -1,155 +1,106 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 
 WL_HOME="${WL_HOME:-$HOME/Wonderland}"
-SERVICES_ROOT="${SERVICES_ROOT:-$HOME/Workshop/services}"
-GUEST_SERVICES_ROOT="${GUEST_SERVICES_ROOT:-/Users/wonderland/Workshop/services}"
-LIMA_INSTANCE="${LIMA_INSTANCE:-wonderland-rootless}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
 
-discover() {
-  find "$SERVICES_ROOT" \
-    -mindepth 1 \
-    -maxdepth 1 \
-    -type d \
-    -exec test -f "{}/compose.yaml" \; \
-    -print | sort | while read -r dir; do
-      basename "$dir"
-    done
+cmd="${1:-status}"
+
+case "$cmd" in
+  status)
+    if [[ "${2:-}" == "--json" || "${1:-}" == "--json" ]]; then
+      required_json=""
+      optional_json=""
+
+      for svc in $WL_REQUIRED_SERVICES; do
+        state="down"
+        wl_service_running "$svc" && state="up"
+        required_json="${required_json}{\"name\":\"$svc\",\"state\":\"$state\"},"
+      done
+
+      for svc in $WL_OPTIONAL_SERVICES; do
+        state="down"
+        wl_service_running "$svc" && state="up"
+        optional_json="${optional_json}{\"name\":\"$svc\",\"state\":\"$state\"},"
+      done
+
+      required_json="${required_json%,}"
+      optional_json="${optional_json%,}"
+
+      cat <<JSON
+{
+  "result": "PASS",
+  "runtime_instance": "$WL_RUNTIME_INSTANCE",
+  "required": [$required_json],
+  "optional": [$optional_json]
 }
+JSON
+      exit 0
+    fi
 
-containers_for_service() {
-  local svc="$1"
-  local meta="$SERVICES_ROOT/$svc/service.json"
+    wl_section "Wonderland Services"
 
-  if [ -f "$meta" ]; then
-    python3 - "$meta" "$svc" <<'PY'
-import json
-import sys
-from pathlib import Path
-
-meta = Path(sys.argv[1])
-fallback = sys.argv[2]
-
-try:
-    data = json.loads(meta.read_text())
-    containers = data.get("containers")
-    if containers:
-        print("\n".join(containers))
-    else:
-        print(data.get("name") or fallback)
-except Exception:
-    print(fallback)
-PY
-  else
-    printf "%s\n" "$svc"
-  fi
-}
-
-clean() {
-  "$WL_HOME/bin/wl-clean-platform-metadata"
-}
-
-status() {
-  echo "== Wonderland Services =="
-  local fail=0
-
-  while read -r svc; do
-    [ -n "$svc" ] || continue
-
-    while read -r container; do
-      [ -n "$container" ] || continue
-
-      if LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl ps --format '{{.Names}}' | grep -qx "$container"; then
-        echo "PASS $container up"
+    for svc in $WL_REQUIRED_SERVICES; do
+      if wl_service_running "$svc"; then
+        wl_health_pass "$svc" "required up"
       else
-        echo "FAIL $container not up"
-        fail=1
+        wl_health_fail "$svc" "required not up"
       fi
-    done < <(containers_for_service "$svc")
-  done < <(discover)
+    done
 
-  exit "$fail"
-}
+    for svc in $WL_OPTIONAL_SERVICES; do
+      if wl_service_running "$svc"; then
+        wl_health_pass "$svc" "optional up"
+      else
+        wl_health_warn "$svc" "optional not up"
+      fi
+    done
 
-host_status() {
-  echo "== runtime services: $LIMA_INSTANCE =="
-  LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl ps --format '{{.Names}} {{.Image}} {{.Status}} {{.Ports}}' | sort
-}
+    wl_health_exit
+    ;;
 
-deploy() {
-  "$WL_HOME/bin/wl-services-deploy"
-}
+  start)
+    wl_section "Starting Wonderland Services"
+    wl_services_start_all
+    wl_health_exit
+    ;;
 
-up() {
-  limactl start "$LIMA_INSTANCE" >/dev/null 2>&1 || true
+  stop)
+    wl_section "Stopping Wonderland Services"
 
-  while read -r svc; do
-    [ -n "$svc" ] || continue
+    for svc in $WL_OPTIONAL_SERVICES $WL_REQUIRED_SERVICES; do
+      LIMA_INSTANCE="$WL_RUNTIME_INSTANCE" nerdctl stop "$svc" >/dev/null 2>&1 || true
+      if wl_service_running "$svc"; then
+        wl_health_warn "$svc" "still running"
+      else
+        wl_health_pass "$svc" "stopped"
+      fi
+    done
 
-    while read -r container; do
-      [ -n "$container" ] || continue
-      LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl start "$container" >/dev/null 2>&1 || true
-    done < <(containers_for_service "$svc")
-  done < <(discover)
+    wl_health_exit
+    ;;
 
-  status
-}
+  restart)
+    "$0" stop || true
+    "$0" start
+    ;;
 
-down() {
-  mapfile -t containers < <(
-    while read -r svc; do
-      [ -n "$svc" ] || continue
-      containers_for_service "$svc"
-    done < <(discover) | awk 'NF' | sort -ru
-  )
+  list)
+    echo "Required:"
+    for svc in $WL_REQUIRED_SERVICES; do
+      echo "  $svc"
+    done
 
-  for container in "${containers[@]}"; do
-    LIMA_INSTANCE="$LIMA_INSTANCE" nerdctl stop "$container" >/dev/null 2>&1 || true
-    echo "STOP $container"
-  done
+    echo
+    echo "Optional:"
+    for svc in $WL_OPTIONAL_SERVICES; do
+      echo "  $svc"
+    done
+    ;;
 
-  echo "RESULT PASS"
-}
-
-restart() {
-  down
-  up
-}
-
-doctor() {
-  clean
-  echo
-
-  "$WL_HOME/bin/wl-rootless" status
-  echo
-
-  status
-  echo
-
-  "$WL_HOME/bin/wl-universe" status
-  echo
-
-  "$WL_HOME/bin/wl-doctor-lifecycle"
-}
-
-case "${1:-status}" in
-  discover) discover ;;
-  refresh) "$WL_HOME/bin/wl-services-refresh" ;;
-  graph) "$WL_HOME/bin/wl-services-graph" "${2:-order}" ;;
-  status) status ;;
-  doctor) doctor ;;
-  up|start) up ;;
-  down|stop) down ;;
-  restart) restart ;;
-  host-status) host_status ;;
-  clean) clean ;;
-  deploy) deploy ;;
-  certify) "$WL_HOME/bin/wl-certify-platform-services" ;;
-  manifest) "$WL_HOME/bin/wl-services-manifest" ;;
-  health) "$WL_HOME/bin/wl-services-health" ;;
-  recover) "$WL_HOME/bin/wl-services-recover" ;;
   *)
-    echo "Usage: wl services discover|refresh|graph|status|doctor|up|down|restart|host-status|clean|deploy|certify|manifest|health|recover"
-    exit 2
+    echo "Usage: wl services {status|start|stop|restart|list}"
+    echo "RESULT FAIL"
+    exit 1
     ;;
 esac

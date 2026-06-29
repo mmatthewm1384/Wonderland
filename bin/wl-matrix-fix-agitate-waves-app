@@ -18,7 +18,7 @@ cat > "$IPHONE_DIR/agitate-waves-iphone.html" <<'HTML'
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Agitate Waves</title>
+<title>DISABLED-Agitate Waves</title>
 <style>
 :root {
   --bg: #05070A;
@@ -264,12 +264,12 @@ portal = Path.home() / "Wonderland/assets/visualizations/matrix-atom-destroyer/i
 text = portal.read_text()
 
 old = '''  <a class="card" href="../apps/agitate-waves/exports/agitate-lines.txt">
-    <strong>Agitate Waves Data</strong>
+    <strong>DISABLED-Agitate Waves Data</strong>
     <span>Generated flat-frequency wave output from the Matrix sub-app engine.</span>
   </a>'''
 
 new = '''  <a class="card" href="../apps/agitate-waves/iphone/agitate-waves-iphone.html">
-    <strong>Agitate Waves</strong>
+    <strong>DISABLED-Agitate Waves</strong>
     <span>Real iPhone wave app: tap pulse, double-tap reverse, long-press randomize, swipe amplitude.</span>
   </a>'''
 
@@ -290,7 +290,7 @@ SH2
 
 chmod +x "$BIN_DIR/wl-matrix-agitate-iphone"
 
-echo "PASS Agitate Waves iPhone app created"
+echo "PASS DISABLED-Agitate Waves iPhone app created"
 echo "Run local: wl-matrix-agitate-iphone"
 echo "Serve:     wl-matrix-iphone-server 8888"
 echo "iPhone:    http://<mac-ip>:8888/iphone/"

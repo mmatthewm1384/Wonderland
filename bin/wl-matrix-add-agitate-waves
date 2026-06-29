@@ -16,7 +16,7 @@ cat > "$INTENT_DIR/matrix-agitate-waves.intent.json" <<'JSON'
   "owner": "Wonderland",
   "parent": "matrix-atom-destroyer",
   "target": "assets/visualizations/matrix-atom-destroyer/apps/agitate-waves",
-  "intent": "Add Agitate Waves as a governed sub-app inside Matrix Atom Destroyer.",
+  "intent": "Add DISABLED-Agitate Waves as a governed sub-app inside DISABLED-Matrix Atom Destroyer.",
   "features": [
     "flat frequency wave generation",
     "Python wave renderer",
@@ -34,7 +34,7 @@ cat > "$APP_DIR/agitate-flat-frequency-waves.intent.json" <<'JSON'
   "mode": "BUILD",
   "owner": "Wonderland",
   "parent": "matrix-atom-destroyer",
-  "description": "Generate flat-frequency agitated wave line patterns for Matrix Atom Destroyer."
+  "description": "Generate flat-frequency agitated wave line patterns for DISABLED-Matrix Atom Destroyer."
 }
 JSON
 
@@ -94,5 +94,5 @@ SH3
 
 chmod +x bin/wl-matrix-agitate
 
-echo "PASS Agitate Waves added to Matrix"
+echo "PASS DISABLED-Agitate Waves added to Matrix"
 echo "Run: wl-matrix-agitate"

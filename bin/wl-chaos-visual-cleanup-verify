@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_HOME:-$HOME/Wonderland}"
+WORK="$HOME/Workshop"
+POLICY="$ROOT/vault/02-Governance/policies/wl-chaos-visualization-separation.md"
+REG="$ROOT/vault/05-Registry/visualizations/visualization-apps.json"
+
+fail=0
+
+check() {
+  local name="$1"
+  shift
+  if "$@" >/dev/null 2>&1; then
+    echo "PASS $name"
+  else
+    echo "FAIL $name"
+    fail=1
+  fi
+}
+
+echo "== Chaos visual cleanup verify =="
+
+check "policy exists" test -f "$POLICY"
+check "registry exists" test -f "$REG"
+check "registry json valid" jq -e '.schema == "wonderland.visualizations.registry.v1" and (.apps | length == 3)' "$REG"
+check "chaos autolaunch disallowed" jq -e '[.apps[].chaos_autolaunch_allowed] | all(. == false)' "$REG"
+
+check "no direct visual app open from chaos paths" bash -lc "! grep -RInE '^[[:space:]]*open .*Agitate Waves|^[[:space:]]*open .*Spin City|^[[:space:]]*open .*Matrix Atom Destroyer|^[[:space:]]*open .*wl-agitate|^[[:space:]]*open .*wl-spin|^[[:space:]]*open .*wl-matrix|^[[:space:]]*open -a Console|^[[:space:]]*NSWorkspace\\.shared\\.open.*Console|^[[:space:]]*NSWorkspace\\.shared\\.open.*Agitate|^[[:space:]]*NSWorkspace\\.shared\\.open.*Spin|^[[:space:]]*NSWorkspace\\.shared\\.open.*Matrix' '$ROOT/bin' '$ROOT/scripts' '$ROOT/tools' '$ROOT/ephemeral' '$ROOT/apps/macos/wl-chaos-menubar' '$WORK/apps/macos/wl-chaos-menubar' 2>/dev/null"
+
+check "menubar verify pass" wl-chaos-menubar-verify
+
+echo
+if [[ "$fail" -eq 0 ]]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+  exit 1
+fi

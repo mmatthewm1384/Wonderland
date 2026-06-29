@@ -20,17 +20,17 @@ txt = Path(__import__("sys").argv[3])
 apps = {
     "wl-spin-city": {
         "tauri": root / "apps/tauri/wl-spin-city",
-        "macos_app": root / "apps/macos/Spin City Wave.app",
+        "macos_app": root / "apps/macos/DISABLED-Spin City Wave.app",
         "js_markers": ["wlNativeReadChaosContract", "WL_PHASE_D1_SPIN_CITY_LIVE_APPLY"],
     },
     "wl-agitate": {
         "tauri": root / "apps/tauri/wl-agitate",
-        "macos_app": root / "apps/macos/Agitate Waves.app",
+        "macos_app": root / "apps/macos/DISABLED-Agitate Waves.app",
         "js_markers": ["wlNativeReadChaosContract", "WL_PHASE_D1_AGITATE_LIVE_APPLY"],
     },
     "wl-matrix": {
         "tauri": root / "apps/tauri/wl-matrix",
-        "macos_app": root / "apps/macos/Matrix Atom Destroyer.app",
+        "macos_app": root / "apps/macos/DISABLED-Matrix Atom Destroyer.app",
         "js_markers": ["wlNativeReadChaosContract", "WL_PHASE_D1_MATRIX_LIVE_APPLY"],
     },
 }

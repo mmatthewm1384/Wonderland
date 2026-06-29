@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
+
+DOC_DIR="$WL_HOME/vault/02-Documentation/generated"
+DOC="$DOC_DIR/wonderland-command-reference.md"
+MANIFEST="$WL_HOME/config/commands.env"
+
+mkdir -p "$DOC_DIR"
+
+cat > "$DOC" <<MD
+# Wonderland Command Reference
+
+Generated: $(date +"%Y-%m-%d %H:%M:%S")
+
+Runtime:
+
+- Version: ${WL_VERSION:-0.0.0}
+- Build: ${WL_BUILD:-unknown}
+- Profile: ${WL_PROFILE:-internal-light}
+- Mode: ${WL_MODE:-light}
+
+## Commands
+
+| Path | Language | Lint |
+|---|---|---|
+MD
+
+while IFS='|' read -r rel lang enabled; do
+  [[ -z "${rel:-}" ]] && continue
+  [[ "$rel" == \#* ]] && continue
+
+  case "$rel" in
+    bin/*)
+      printf '| `%s` | `%s` | `%s` |\n' "$rel" "$lang" "$enabled" >> "$DOC"
+      ;;
+  esac
+done < "$MANIFEST"
+
+cat >> "$DOC" <<MD
+
+## Core Libraries
+
+| Path | Language | Lint |
+|---|---|---|
+MD
+
+while IFS='|' read -r rel lang enabled; do
+  [[ -z "${rel:-}" ]] && continue
+  [[ "$rel" == \#* ]] && continue
+
+  case "$rel" in
+    lib/*)
+      printf '| `%s` | `%s` | `%s` |\n' "$rel" "$lang" "$enabled" >> "$DOC"
+      ;;
+  esac
+done < "$MANIFEST"
+
+echo "DOC $DOC"
+echo "RESULT PASS"

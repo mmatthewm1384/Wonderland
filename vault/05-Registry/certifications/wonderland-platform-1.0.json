@@ -1,0 +1,14 @@
+{
+  "id": "wonderland-platform-1.0",
+  "name": "Wonderland Platform 1.0",
+  "status": "PASS",
+  "generated_at": "2026-06-27T11:55:23Z",
+  "report": "/Users/wonderland/Wonderland/vault/08-Operations/reports/platform-freeze-20260627-045523.txt",
+  "api": "http://127.0.0.1:9105/api/v1",
+  "dashboard": "http://127.0.0.1:9110",
+  "runtime": "wonderland-rootless",
+  "controller": "3.0.0",
+  "schema": 1,
+  "drifted": 0,
+  "ready": true
+}

@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT = Path.home() / "Wonderland"
+SCHEDULE = ROOT / "vault/chaos/escalation-schedule.json"
+
+def parse_time(value: str) -> datetime:
+    return datetime.fromisoformat(value.replace("Z", "+00:00"))
+
+def main():
+    if not SCHEDULE.exists():
+        print(json.dumps({
+            "ok": False,
+            "status": "missing",
+            "message": "no chaos escalation schedule"
+        }, indent=2))
+        return 1
+
+    doc = json.loads(SCHEDULE.read_text())
+
+    if not doc.get("enabled"):
+        print(json.dumps({
+            "ok": False,
+            "status": "disabled",
+            "message": "chaos escalation schedule disabled"
+        }, indent=2))
+        return 1
+
+    started = parse_time(doc["started_at"])
+    now = datetime.now(timezone.utc)
+
+    elapsed_hours = (now - started).total_seconds() / 3600.0
+    active_window = max(0.0, elapsed_hours - float(doc.get("initial_hold_hours", 6.0)))
+
+    levels = sorted(doc.get("levels", []), key=lambda x: float(x.get("after_hours", 0)))
+    selected = None
+
+    for level in levels:
+        if active_window >= float(level.get("after_hours", 0)):
+            selected = level
+
+    if selected is None:
+        selected = levels[0] if levels else {
+            "mode": "nudge",
+            "risk": 1,
+            "after_hours": 0
+        }
+
+    manual_required = (
+        selected.get("mode") == "cataclysm"
+        and bool(doc.get("cataclysm_requires_manual_approval", True))
+    )
+
+    result = {
+        "ok": True,
+        "status": "evaluated",
+        "strategy": doc.get("strategy"),
+        "started_at": doc.get("started_at"),
+        "elapsed_hours": round(elapsed_hours, 4),
+        "initial_hold_hours": doc.get("initial_hold_hours"),
+        "active_window_hours": round(active_window, 4),
+        "target_mode": selected.get("mode"),
+        "target_risk": selected.get("risk"),
+        "manual_approval_required": manual_required,
+        "schedule": SCHEDULE.as_posix()
+    }
+
+    print(json.dumps(result, indent=2, sort_keys=True))
+    return 0
+
+if __name__ == "__main__":
+    raise SystemExit(main())

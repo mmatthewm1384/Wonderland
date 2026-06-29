@@ -1,0 +1,97 @@
+{"controller_status": "executed", "event": "schedule_run", "http_status": 200, "mode": "nudge", "ok": true, "risk": 1, "stage": "controller", "timestamp": "2026-06-28T03:36:32.430338+00:00"}
+{"controller_status": "executed", "event": "schedule_run", "http_status": 200, "mode": "nudge", "ok": true, "risk": 1, "stage": "controller", "timestamp": "2026-06-28T03:37:24.322780+00:00"}
+{"controller_status": "executed", "event": "schedule_run", "http_status": 200, "mode": "nudge", "ok": true, "risk": 1, "stage": "controller", "timestamp": "2026-06-28T03:38:36.672325+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T03:38:36.762423+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T03:42:24.477303+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T03:45:41.177649+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T03:47:24.575105+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T04:31:26.972854+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T04:32:27.096414+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T08:54:07.053300+00:00"}
+{"error": "HTTP Error 500: Internal Server Error", "event": "schedule_run", "mode": "blackout", "ok": false, "stage": "controller_exception", "timestamp": "2026-06-28T15:15:07.340092+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T15:16:32.943794+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T15:20:07.456140+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T15:25:07.558307+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T15:30:07.678067+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T15:35:07.795847+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T15:40:07.916967+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T17:43:06.569572+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T17:48:06.728872+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T17:52:11.487235+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T17:57:11.600705+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T18:02:11.705204+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T18:03:55.717158+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T18:08:07.754624+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T18:13:07.927450+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T18:18:08.042450+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T18:23:08.142965+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T18:28:08.249361+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T18:33:08.372237+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T18:38:08.471906+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T18:43:08.571170+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T18:48:08.709963+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T18:53:08.835904+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T18:58:08.938205+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T19:03:09.009852+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T19:04:05.786360+00:00"}
+{"event": "schedule_run", "ok": false, "stage": "eval", "stderr": "", "stdout": "{\n  \"ok\": false,\n  \"status\": \"disabled\",\n  \"message\": \"chaos escalation schedule disabled\"\n}", "timestamp": "2026-06-28T19:08:09.109663+00:00"}
+{"event": "schedule_run", "ok": false, "stage": "eval", "stderr": "", "stdout": "{\n  \"ok\": false,\n  \"status\": \"disabled\",\n  \"message\": \"chaos escalation schedule disabled\"\n}", "timestamp": "2026-06-28T19:15:02.309278+00:00"}
+{"event": "schedule_run", "ok": false, "stage": "eval", "stderr": "", "stdout": "{\n  \"ok\": false,\n  \"status\": \"disabled\",\n  \"message\": \"chaos escalation schedule disabled\"\n}", "timestamp": "2026-06-28T19:20:02.406643+00:00"}
+{"event": "schedule_run", "ok": false, "stage": "eval", "stderr": "", "stdout": "{\n  \"ok\": false,\n  \"status\": \"disabled\",\n  \"message\": \"chaos escalation schedule disabled\"\n}", "timestamp": "2026-06-28T19:25:02.507098+00:00"}
+{"event": "schedule_run", "ok": false, "stage": "eval", "stderr": "", "stdout": "{\n  \"ok\": false,\n  \"status\": \"disabled\",\n  \"message\": \"chaos escalation schedule disabled\"\n}", "timestamp": "2026-06-28T19:30:02.611099+00:00"}
+{"event": "schedule_run", "ok": false, "stage": "eval", "stderr": "", "stdout": "{\n  \"ok\": false,\n  \"status\": \"disabled\",\n  \"message\": \"chaos escalation schedule disabled\"\n}", "timestamp": "2026-06-28T20:40:03.007224+00:00"}
+{"event": "schedule_run", "ok": false, "stage": "eval", "stderr": "", "stdout": "{\n  \"ok\": false,\n  \"status\": \"disabled\",\n  \"message\": \"chaos escalation schedule disabled\"\n}", "timestamp": "2026-06-28T20:45:03.107072+00:00"}
+{"event": "schedule_run", "ok": false, "stage": "eval", "stderr": "", "stdout": "{\n  \"ok\": false,\n  \"status\": \"disabled\",\n  \"message\": \"chaos escalation schedule disabled\"\n}", "timestamp": "2026-06-28T20:50:03.208648+00:00"}
+{"event": "schedule_run", "ok": false, "stage": "eval", "stderr": "", "stdout": "{\n  \"ok\": false,\n  \"status\": \"disabled\",\n  \"message\": \"chaos escalation schedule disabled\"\n}", "timestamp": "2026-06-28T20:55:03.313311+00:00"}
+{"event": "schedule_run", "ok": false, "stage": "eval", "stderr": "", "stdout": "{\n  \"ok\": false,\n  \"status\": \"disabled\",\n  \"message\": \"chaos escalation schedule disabled\"\n}", "timestamp": "2026-06-28T21:00:03.417069+00:00"}
+{"event": "schedule_run", "ok": false, "stage": "eval", "stderr": "", "stdout": "{\n  \"ok\": false,\n  \"status\": \"disabled\",\n  \"message\": \"chaos escalation schedule disabled\"\n}", "timestamp": "2026-06-28T21:05:03.517610+00:00"}
+{"event": "schedule_run", "ok": false, "stage": "eval", "stderr": "", "stdout": "{\n  \"ok\": false,\n  \"status\": \"disabled\",\n  \"message\": \"chaos escalation schedule disabled\"\n}", "timestamp": "2026-06-28T21:10:03.664345+00:00"}
+{"event": "schedule_run", "ok": false, "stage": "eval", "stderr": "", "stdout": "{\n  \"ok\": false,\n  \"status\": \"disabled\",\n  \"message\": \"chaos escalation schedule disabled\"\n}", "timestamp": "2026-06-28T21:15:03.766041+00:00"}
+{"event": "schedule_run", "ok": false, "stage": "eval", "stderr": "", "stdout": "{\n  \"ok\": false,\n  \"status\": \"disabled\",\n  \"message\": \"chaos escalation schedule disabled\"\n}", "timestamp": "2026-06-28T21:20:03.890467+00:00"}
+{"event": "schedule_run", "ok": false, "stage": "eval", "stderr": "", "stdout": "{\n  \"ok\": false,\n  \"status\": \"disabled\",\n  \"message\": \"chaos escalation schedule disabled\"\n}", "timestamp": "2026-06-28T21:25:04.010250+00:00"}
+{"event": "schedule_run", "ok": false, "stage": "eval", "stderr": "", "stdout": "{\n  \"ok\": false,\n  \"status\": \"disabled\",\n  \"message\": \"chaos escalation schedule disabled\"\n}", "timestamp": "2026-06-28T21:30:04.113620+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T21:32:23.189000+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T21:35:04.220039+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T21:40:04.350181+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T21:45:04.516594+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T21:50:04.645863+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T21:55:04.775722+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T22:00:04.854156+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T22:05:04.976043+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T22:10:05.098888+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T22:15:05.316492+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T22:20:05.438830+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T23:02:36.801615+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-28T23:59:45.137366+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T00:04:45.274453+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T00:09:45.402550+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T00:14:45.576440+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T00:19:45.679318+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T00:24:45.798863+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T00:30:25.707062+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T00:47:57.832071+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T00:52:57.952163+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T00:57:58.044055+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T01:02:58.173714+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T01:57:41.506168+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T02:02:41.634764+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T02:07:41.734454+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T02:12:41.850553+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T02:17:41.993440+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T02:22:42.136570+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T02:27:42.262469+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T02:32:42.410597+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T02:37:42.542270+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T02:42:42.639968+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T02:47:42.773707+00:00"}
+{"event": "schedule_run", "message": "target mode unchanged; no execution needed", "mode": "nudge", "ok": true, "risk": 1, "stage": "noop", "timestamp": "2026-06-29T03:25:32.457648+00:00"}
+{"error": "HTTP Error 500: Internal Server Error", "event": "schedule_run", "mode": "storm", "ok": false, "stage": "controller_exception", "timestamp": "2026-06-29T05:47:41.462336+00:00"}
+{"error": "HTTP Error 500: Internal Server Error", "event": "schedule_run", "mode": "storm", "ok": false, "stage": "controller_exception", "timestamp": "2026-06-29T05:52:41.641600+00:00"}
+{"error": "HTTP Error 500: Internal Server Error", "event": "schedule_run", "mode": "storm", "ok": false, "stage": "controller_exception", "timestamp": "2026-06-29T05:57:41.827079+00:00"}
+{"error": "HTTP Error 500: Internal Server Error", "event": "schedule_run", "mode": "storm", "ok": false, "stage": "controller_exception", "timestamp": "2026-06-29T06:02:42.021150+00:00"}
+{"error": "HTTP Error 500: Internal Server Error", "event": "schedule_run", "mode": "storm", "ok": false, "stage": "controller_exception", "timestamp": "2026-06-29T06:07:42.201750+00:00"}
+{"event": "schedule_run", "message": "manual approval required; scheduler did not execute", "mode": "cataclysm", "ok": false, "risk": 5, "stage": "manual_approval_required", "timestamp": "2026-06-29T13:53:13.909598+00:00"}
+{"event": "schedule_run", "message": "manual approval required; scheduler did not execute", "mode": "cataclysm", "ok": false, "risk": 5, "stage": "manual_approval_required", "timestamp": "2026-06-29T13:58:13.472147+00:00"}
+{"event": "schedule_run", "message": "manual approval required; scheduler did not execute", "mode": "cataclysm", "ok": false, "risk": 5, "stage": "manual_approval_required", "timestamp": "2026-06-29T14:03:13.596718+00:00"}
+{"event": "schedule_run", "message": "manual approval required; scheduler did not execute", "mode": "cataclysm", "ok": false, "risk": 5, "stage": "manual_approval_required", "timestamp": "2026-06-29T14:08:13.738933+00:00"}
+{"event": "schedule_run", "message": "manual approval required; scheduler did not execute", "mode": "cataclysm", "ok": false, "risk": 5, "stage": "manual_approval_required", "timestamp": "2026-06-29T14:13:13.931293+00:00"}

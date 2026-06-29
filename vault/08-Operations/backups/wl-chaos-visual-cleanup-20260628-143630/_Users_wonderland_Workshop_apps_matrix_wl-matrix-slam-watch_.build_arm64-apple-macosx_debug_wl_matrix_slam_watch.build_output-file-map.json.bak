@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/wonderland/Wonderland/apps/matrix/wl-matrix-slam-watch/.build/arm64-apple-macosx/debug/wl_matrix_slam_watch.build/primary.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/apps/matrix/wl-matrix-slam-watch/Sources/wl-matrix-slam-watch/main.swift": {
+    "dependencies": "/Users/wonderland/Wonderland/apps/matrix/wl-matrix-slam-watch/.build/arm64-apple-macosx/debug/wl_matrix_slam_watch.build/main.d",
+    "object": "/Users/wonderland/Wonderland/apps/matrix/wl-matrix-slam-watch/.build/arm64-apple-macosx/debug/wl_matrix_slam_watch.build/main.swift.o",
+    "swiftmodule": "/Users/wonderland/Wonderland/apps/matrix/wl-matrix-slam-watch/.build/arm64-apple-macosx/debug/wl_matrix_slam_watch.build/main~partial.swiftmodule",
+    "swift-dependencies": "/Users/wonderland/Wonderland/apps/matrix/wl-matrix-slam-watch/.build/arm64-apple-macosx/debug/wl_matrix_slam_watch.build/main.swiftdeps",
+    "diagnostics": "/Users/wonderland/Wonderland/apps/matrix/wl-matrix-slam-watch/.build/arm64-apple-macosx/debug/wl_matrix_slam_watch.build/main.dia"
+  }
+}

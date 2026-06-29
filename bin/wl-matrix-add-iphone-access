@@ -21,8 +21,8 @@ cat > "$INTENT_DIR/matrix-iphone-access.intent.json" <<'JSON'
   "intent": "Create iPhone access portal for all Matrix visualization features and sub-apps.",
   "features": [
     "iPhone launch portal",
-    "Matrix Atom Destroyer access",
-    "Spin City Wave iPhone access",
+    "DISABLED-Matrix Atom Destroyer access",
+    "DISABLED-Spin City Wave iPhone access",
     "safe-area mobile layout",
     "local network browser runtime",
     "Add to Home Screen support"
@@ -103,17 +103,17 @@ h1 {
   <div class="tag">IPHONE ACCESS PORTAL</div>
 
   <a class="card" href="../matrix-atom-destroyer.html">
-    <strong>Matrix Atom Destroyer</strong>
+    <strong>DISABLED-Matrix Atom Destroyer</strong>
     <span>Main v5 Matrix HUD: slam, mic, agitate waves, gravity lens, fracture rings, outdoor mode.</span>
   </a>
 
   <a class="card" href="../apps/spin-city-wave/iphone/spin-city-wave-iphone.html">
-    <strong>Spin City Wave</strong>
+    <strong>DISABLED-Spin City Wave</strong>
     <span>Real iPhone fullscreen wave pattern: tap pulse, double-tap reverse, long-press randomize.</span>
   </a>
 
   <a class="card" href="../apps/agitate-waves/exports/agitate-lines.txt">
-    <strong>Agitate Waves Data</strong>
+    <strong>DISABLED-Agitate Waves Data</strong>
     <span>Generated flat-frequency wave output from the Matrix sub-app engine.</span>
   </a>
 
@@ -146,7 +146,7 @@ echo "URL: http://${IP}:${PORT}/iphone/"
 echo
 echo "Direct:"
 echo "Matrix:    http://${IP}:${PORT}/matrix-atom-destroyer.html"
-echo "Spin City: http://${IP}:${PORT}/apps/spin-city-wave/iphone/spin-city-wave-iphone.html"
+echo "DISABLED-Spin City: http://${IP}:${PORT}/apps/spin-city-wave/iphone/spin-city-wave-iphone.html"
 echo
 
 python3 -m http.server "$PORT" --bind 0.0.0.0

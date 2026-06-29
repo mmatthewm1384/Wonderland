@@ -1,0 +1,164 @@
+import AppKit
+
+@MainActor
+final class WonderlandMenuRenderer {
+    private weak var target: NSObject?
+
+    init(target: NSObject?) {
+        self.target = target
+    }
+
+    func render(_ state: ChaosMenuState) -> NSMenu {
+        let menu = NSMenu()
+
+        menu.addItem(WonderlandMenuFactory.header(
+            status: state.operational ? "OPERATIONAL" : "STANDBY",
+            detail: "Gate: Ready"
+        ))
+
+        menu.addItem(WonderlandMenuFactory.section("Authority"))
+        menu.addItem(WonderlandMenuFactory.row(
+            icon: "◆",
+            label: "Fingerprint",
+            value: state.fingerprint,
+            ok: state.fingerprint != "unknown"
+        ))
+        menu.addItem(WonderlandMenuFactory.row(
+            icon: "◆",
+            label: "Lease",
+            value: state.leaseText,
+            ok: !state.leaseText.lowercased().contains("expired")
+        ))
+        menu.addItem(WonderlandMenuFactory.row(
+            icon: "◆",
+            label: "Touch ID",
+            value: state.touchIDReady ? "Ready" : "Unavailable",
+            ok: state.touchIDReady
+        ))
+        menu.addItem(WonderlandMenuFactory.row(
+            icon: "◆",
+            label: "Controller",
+            value: state.controllerOnline ? "Online" : "Offline",
+            ok: state.controllerOnline
+        ))
+
+        menu.addItem(.separator())
+
+        menu.addItem(WonderlandMenuFactory.section("Scheduler"))
+        menu.addItem(WonderlandMenuFactory.row(
+            icon: "◌",
+            label: "Enabled",
+            value: state.schedulerEnabled ? "Yes" : "No",
+            ok: state.schedulerEnabled
+        ))
+        menu.addItem(WonderlandMenuFactory.row(
+            icon: "⌁",
+            label: "Strategy",
+            value: state.schedulerStrategy,
+            ok: true
+        ))
+        menu.addItem(WonderlandMenuFactory.row(
+            icon: "◎",
+            label: "Current",
+            value: state.currentModel,
+            ok: true
+        ))
+        menu.addItem(WonderlandMenuFactory.row(
+            icon: "◷",
+            label: "Next",
+            value: state.nextModelText,
+            ok: true
+        ))
+
+        menu.addItem(.separator())
+
+        menu.addItem(standardSubmenu("Chaos Models", items: [
+            "Calm", "Nudge", "Drift", "Storm", "Blackout", "Cataclysm", "Recovery"
+        ]))
+
+        menu.addItem(standardSubmenu("Escalation Schedule", items: [
+            "Run Schedule Now",
+            "Pause Schedule",
+            "Resume Schedule",
+            "Start Scheduler",
+            "Stop Scheduler"
+        ]))
+
+        menu.addItem(standardSubmenu("Renew Lease", items: [
+            "Renew Current Lease (12h)",
+            "Force Renew…",
+            "Lease Details…",
+            "Lease Policy…"
+        ]))
+
+        menu.addItem(actionItem("Repair Chaos", selector: #selector(ChaosMenubarApp.repairChaos)))
+        menu.addItem(actionItem("Check In", selector: #selector(ChaosMenubarApp.checkIn)))
+
+        menu.addItem(.separator())
+
+        menu.addItem(actionItem("Open Dashboard…", selector: #selector(ChaosMenubarApp.openDashboard)))
+        menu.addItem(actionItem("Open Logs", selector: #selector(ChaosMenubarApp.openLogs)))
+        menu.addItem(actionItem("Open Chaos Folder", selector: #selector(ChaosMenubarApp.openChaosFolder)))
+
+        menu.addItem(standardSubmenu("Advanced", items: [
+            "Verify System",
+            "Verify Fingerprint",
+            "Verify Lease",
+            "Restart Controller",
+            "Restart Scheduler"
+        ]))
+
+        menu.addItem(.separator())
+
+        menu.addItem(WonderlandMenuFactory.action(
+            icon: "⏻",
+            label: "Quit"
+        ) {
+            NSApp.terminate(nil)
+        })
+
+        return menu
+    }
+
+    private func actionItem(_ title: String, selector: Selector) -> NSMenuItem {
+        let item = NSMenuItem(title: title, action: selector, keyEquivalent: "")
+        item.target = target
+        return item
+    }
+
+    private func standardSubmenu(_ title: String, items: [String]) -> NSMenuItem {
+        let item = NSMenuItem(title: title, action: nil, keyEquivalent: "")
+        let submenu = NSMenu(title: title)
+
+        for label in items {
+            let child = NSMenuItem(title: label, action: nil, keyEquivalent: "")
+            child.target = target
+
+            switch label {
+            case "Renew Current Lease (12h)":
+                child.action = #selector(ChaosMenubarApp.renewCurrentLease)
+            case "Force Renew…":
+                child.action = #selector(ChaosMenubarApp.renewCurrentLease)
+            case "Lease Details…":
+                child.action = #selector(ChaosMenubarApp.openLeaseFile)
+            case "Lease Policy…":
+                child.action = #selector(ChaosMenubarApp.openPolicyFile)
+            case "Verify System":
+                child.action = #selector(ChaosMenubarApp.verifyProviders)
+            case "Verify Lease":
+                child.action = #selector(ChaosMenubarApp.verifyLease)
+            case "Restart Scheduler":
+                child.action = #selector(ChaosMenubarApp.restartScheduler)
+            case "Restart Controller":
+                child.action = #selector(ChaosMenubarApp.restartController)
+            default:
+                break
+            }
+
+            submenu.addItem(child)
+        }
+
+        item.submenu = submenu
+        return item
+    }
+}

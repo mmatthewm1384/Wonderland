@@ -1,43 +1,49 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 
 WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
 
-pass(){ printf "PASS %-20s %s\n" "$1" "${2:-}"; }
-warn(){ printf "WARN %-20s %s\n" "$1" "${2:-}"; }
-fail(){ printf "FAIL %-20s %s\n" "$1" "${2:-}"; }
+format="${1:-}"
+
+if [[ "$format" == "--json" || "$format" == "json" ]]; then
+  exec "$WL_HOME/bin/wl-api" status
+fi
+
+wl_context_refresh
+wl_state_refresh
 
 echo "Wonderland Status"
-echo "================="
 echo
+echo "Root:    $(wl_context_get root)"
+echo "Mode:    $(wl_context_get mode)"
+echo "Profile: $(wl_context_get profile)"
+echo "Version: $(wl_context_get version)"
+echo "Build:   $(wl_context_get build)"
 
-echo "Universe"
-if "$WL_HOME/bin/wl-universe" status >/tmp/wl-universe-status.$$ 2>&1; then
-  if grep -q "RESULT PASS" /tmp/wl-universe-status.$$; then pass "universe"; else fail "universe"; fi
-else
-  fail "universe"
-fi
-rm -f /tmp/wl-universe-status.$$
+runtime_state="$(wl_state_get runtime)"
+t7_state="$(wl_state_get t7)"
+media_state="$(wl_state_get media)"
+torrent_state="$(wl_state_get torrent)"
 
-echo
-echo "Lima"
-limactl list | grep -q '^default[[:space:]].*Running' && pass "default" || fail "default"
-limactl list | grep -q '^wonderland-rootless[[:space:]].*Running' && pass "wonderland-rootless" || warn "wonderland-rootless"
+wl_section "Runtime"
+[[ "$runtime_state" == "running" ]] \
+  && wl_health_pass "$(wl_context_get runtime_instance)" "running" \
+  || wl_health_fail "$(wl_context_get runtime_instance)" "$runtime_state"
 
-echo
-echo "Services"
-for svc in $("$WL_HOME/bin/wl-lifecycle-services" services); do
-  nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$svc" && pass "$svc" || fail "$svc"
-done
+wl_section "Storage"
+[[ "$t7_state" == "attached" ]] \
+  && wl_health_pass "t7" "$(wl_context_get t7_path)" \
+  || wl_health_warn "t7" "detached"
 
-echo
-echo "Storage"
-wl storage authority >/dev/null 2>&1 && pass "authority" "external optional in light mode" || fail "authority"
+wl_section "Capabilities"
+[[ "$media_state" == "available" ]] \
+  && wl_health_pass "media" "available" \
+  || wl_health_warn "media" "unavailable"
 
-echo
-echo "Governance"
-wl governance status >/dev/null 2>&1 && pass "governance" || fail "governance"
+[[ "$torrent_state" == "available" ]] \
+  && wl_health_pass "torrent" "available" \
+  || wl_health_warn "torrent" "unavailable"
 
-echo
-echo "Doctor"
-wl doctor || true
+wl_health_write
+wl_health_exit

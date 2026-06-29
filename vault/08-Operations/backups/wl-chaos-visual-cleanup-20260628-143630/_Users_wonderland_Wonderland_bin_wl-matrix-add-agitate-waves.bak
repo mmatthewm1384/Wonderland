@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+MATRIX_DIR="$WL_ROOT/assets/visualizations/matrix-atom-destroyer"
+APP_DIR="$MATRIX_DIR/apps/agitate-waves"
+INTENT_DIR="$WL_ROOT/intents"
+
+mkdir -p "$APP_DIR/scripts" "$APP_DIR/exports" "$APP_DIR/runtime" "$INTENT_DIR"
+
+cat > "$INTENT_DIR/matrix-agitate-waves.intent.json" <<'JSON'
+{
+  "id": "matrix-agitate-waves",
+  "version": "1.0.0",
+  "mode": "BUILD",
+  "owner": "Wonderland",
+  "parent": "matrix-atom-destroyer",
+  "target": "assets/visualizations/matrix-atom-destroyer/apps/agitate-waves",
+  "intent": "Add DISABLED-Agitate Waves as a governed sub-app inside DISABLED-Matrix Atom Destroyer.",
+  "features": [
+    "flat frequency wave generation",
+    "Python wave renderer",
+    "shell launcher",
+    "Matrix app integration",
+    "recoverable local asset"
+  ]
+}
+JSON
+
+cat > "$APP_DIR/agitate-flat-frequency-waves.intent.json" <<'JSON'
+{
+  "id": "agitate-flat-frequency-waves",
+  "version": "1.0.0",
+  "mode": "BUILD",
+  "owner": "Wonderland",
+  "parent": "matrix-atom-destroyer",
+  "description": "Generate flat-frequency agitated wave line patterns for DISABLED-Matrix Atom Destroyer."
+}
+JSON
+
+cat > "$APP_DIR/scripts/agitate_lines.py" <<'PY'
+#!/usr/bin/env python3
+from pathlib import Path
+import math
+import time
+
+root = Path(__file__).resolve().parents[1]
+out = root / "exports" / "agitate-lines.txt"
+out.parent.mkdir(parents=True, exist_ok=True)
+
+width = 96
+height = 28
+frames = 12
+
+chars = " .:-=+*#%@"
+
+with out.open("w") as f:
+    for frame in range(frames):
+        f.write(f"FRAME {frame}\n")
+        t = frame / frames * math.tau
+        for y in range(height):
+            row = []
+            for x in range(width):
+                v = (
+                    math.sin(x * 0.16 + t)
+                    + math.sin(y * 0.41 - t)
+                    + math.sin((x + y) * 0.08 + t * 2)
+                ) / 3
+                idx = int((v + 1) / 2 * (len(chars) - 1))
+                row.append(chars[idx])
+            f.write("".join(row) + "\n")
+        f.write("\n")
+        time.sleep(0.01)
+
+print(f"PASS wrote {out}")
+PY
+
+cat > "$APP_DIR/scripts/wl-agitate-waves.sh" <<'SH2'
+#!/usr/bin/env bash
+set -euo pipefail
+
+DIR="$(cd "$(dirname "$0")/.." && pwd)"
+python3 "$DIR/scripts/agitate_lines.py"
+cat "$DIR/exports/agitate-lines.txt"
+SH2
+
+chmod +x "$APP_DIR/scripts/agitate_lines.py" "$APP_DIR/scripts/wl-agitate-waves.sh"
+
+cat > bin/wl-matrix-agitate <<SH3
+#!/usr/bin/env bash
+set -euo pipefail
+"$APP_DIR/scripts/wl-agitate-waves.sh"
+SH3
+
+chmod +x bin/wl-matrix-agitate
+
+echo "PASS DISABLED-Agitate Waves added to Matrix"
+echo "Run: wl-matrix-agitate"

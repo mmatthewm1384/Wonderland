@@ -1,13 +1,20 @@
 {
-  "id": "wl-chaos-latest",
-  "state": "certified",
-  "updated_at": "2026-06-28T03:05:41Z",
-  "latest": {
-    "authority": "wl-chaos-menubar-authority.json",
-    "controller_api": "wl-chaos-menubar-controller-api.json"
-  },
   "execution_path": "menubar -> controller-api -> chaos-runtime",
   "fallback": "disabled",
-  "verifier": "wl-chaos-verify",
-  "result": "PASS"
+  "id": "wl-chaos-latest",
+  "latest": {
+    "authority": "wl-chaos-menubar-authority.json",
+    "controller_api": "wl-chaos-menubar-controller-api.json",
+    "scheduler": "wl-chaos-scheduler.json"
+  },
+  "result": "PASS",
+  "scheduler": {
+    "cataclysm": "manual approval required",
+    "enabled": true,
+    "initial_hold_hours": 6,
+    "strategy": "exponential"
+  },
+  "state": "certified",
+  "updated_at": "2026-06-28T03:40:13.715859+00:00",
+  "verifier": "wl-chaos-verify"
 }

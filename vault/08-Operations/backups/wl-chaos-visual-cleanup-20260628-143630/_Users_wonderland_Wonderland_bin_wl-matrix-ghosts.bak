@@ -1,0 +1,156 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$HOME/Wonderland"
+STATE="$ROOT/.wl/state/the-matrix"
+GHOSTS="$STATE/ghosts.json"
+PRESENCE="$STATE/presence.json"
+
+init_if_missing() {
+  mkdir -p "$STATE"
+  if [[ ! -f "$GHOSTS" ]]; then
+    cat > "$GHOSTS" <<'JSON'
+{
+  "suite": "THE∅MATRIX",
+  "version": 1,
+  "updated_at": "initial",
+  "population": {
+    "count": 12,
+    "visibility": 0.28,
+    "drift": 0.42,
+    "curiosity": 0.31
+  },
+  "ghosts": []
+}
+JSON
+    for i in $(seq 1 12); do
+      tmp="$(mktemp)"
+      id="$(printf 'ghost-%02d' "$i")"
+      jq --arg id "$id" --argjson i "$i" '
+        .ghosts += [{
+          "id": $id,
+          "age": $i,
+          "visibility": (0.14 + (($i % 7) * 0.035)),
+          "drift": (0.30 + (($i % 9) * 0.045)),
+          "curiosity": (0.22 + (($i % 8) * 0.04)),
+          "phase": ($i * 0.21)
+        }]
+        | .population.count = (.ghosts | length)
+      ' "$GHOSTS" > "$tmp"
+      mv "$tmp" "$GHOSTS"
+    done
+  fi
+}
+
+sync_presence() {
+  [[ -f "$PRESENCE" ]] || return 0
+
+  tmp="$(mktemp)"
+  jq --slurpfile ghosts "$GHOSTS" --arg ts "$(date -u +%Y%m%dT%H%M%SZ)" '
+    .ghost_population = $ghosts[0].population
+    | .ghosts = $ghosts[0].ghosts
+    | .entities.ghost_fragments = ($ghosts[0].ghosts | length)
+    | .updated_at = $ts
+  ' "$PRESENCE" > "$tmp"
+
+  mv "$tmp" "$PRESENCE"
+
+  "$ROOT/bin/wl-matrix-influence" >/dev/null 2>&1 || true
+}
+
+case "${1:-show}" in
+  show|status)
+    init_if_missing
+    jq . "$GHOSTS"
+    ;;
+
+  summary)
+    init_if_missing
+    echo "THE∅MATRIX Ghost Population"
+    echo "count=$(jq -r .population.count "$GHOSTS")"
+    echo "visibility=$(jq -r .population.visibility "$GHOSTS")"
+    echo "drift=$(jq -r .population.drift "$GHOSTS")"
+    echo "curiosity=$(jq -r .population.curiosity "$GHOSTS")"
+    ;;
+
+  tick)
+    init_if_missing
+    tmp="$(mktemp)"
+    jq --arg ts "$(date -u +%Y%m%dT%H%M%SZ)" '
+      .ghosts |= map(
+        .age += 1
+        | .phase = ((.phase + .drift * 0.07) % 6.28318)
+        | .visibility = ([0.05, ([0.72, (.visibility * 0.992 + .curiosity * 0.002)] | min)] | max)
+        | .curiosity = ([0.05, ([0.95, (.curiosity * 0.997 + .visibility * 0.001)] | min)] | max)
+      )
+      | .population.count = (.ghosts | length)
+      | .population.visibility = (([.ghosts[].visibility] | add) / (.ghosts | length))
+      | .population.drift = (([.ghosts[].drift] | add) / (.ghosts | length))
+      | .population.curiosity = (([.ghosts[].curiosity] | add) / (.ghosts | length))
+      | .updated_at = $ts
+    ' "$GHOSTS" > "$tmp"
+    mv "$tmp" "$GHOSTS"
+    sync_presence
+    echo "PASS ghost population tick"
+    ;;
+
+  appear)
+    strength="${2:-0.25}"
+    init_if_missing
+    tmp="$(mktemp)"
+    jq --argjson strength "$strength" --arg ts "$(date -u +%Y%m%dT%H%M%SZ)" '
+      .ghosts |= map(
+        .visibility = ([1, (.visibility + ($strength * (.curiosity + 0.2)))] | min)
+        | .curiosity = ([1, (.curiosity + ($strength * 0.15))] | min)
+      )
+      | .population.count = (.ghosts | length)
+      | .population.visibility = (([.ghosts[].visibility] | add) / (.ghosts | length))
+      | .population.drift = (([.ghosts[].drift] | add) / (.ghosts | length))
+      | .population.curiosity = (([.ghosts[].curiosity] | add) / (.ghosts | length))
+      | .updated_at = $ts
+    ' "$GHOSTS" > "$tmp"
+    mv "$tmp" "$GHOSTS"
+    sync_presence
+    echo "PASS ghost appearance strength=$strength"
+    ;;
+
+  spawn)
+    count="${2:-1}"
+    init_if_missing
+    for _ in $(seq 1 "$count"); do
+      next="$(jq '.ghosts | length + 1' "$GHOSTS")"
+      id="$(printf 'ghost-%02d' "$next")"
+      tmp="$(mktemp)"
+      jq --arg id "$id" --argjson n "$next" --arg ts "$(date -u +%Y%m%dT%H%M%SZ)" '
+        .ghosts += [{
+          "id": $id,
+          "age": 0,
+          "visibility": 0.16,
+          "drift": (0.30 + (($n % 9) * 0.045)),
+          "curiosity": (0.22 + (($n % 8) * 0.04)),
+          "phase": ($n * 0.21)
+        }]
+        | .population.count = (.ghosts | length)
+        | .population.visibility = (([.ghosts[].visibility] | add) / (.ghosts | length))
+        | .population.drift = (([.ghosts[].drift] | add) / (.ghosts | length))
+        | .population.curiosity = (([.ghosts[].curiosity] | add) / (.ghosts | length))
+        | .updated_at = $ts
+      ' "$GHOSTS" > "$tmp"
+      mv "$tmp" "$GHOSTS"
+    done
+    sync_presence
+    echo "PASS spawned ghosts count=$count"
+    ;;
+
+  reset)
+    rm -f "$GHOSTS"
+    init_if_missing
+    sync_presence
+    echo "PASS ghost population reset"
+    ;;
+
+  *)
+    echo "usage: wl-matrix-ghosts {show|status|summary|tick|appear [strength]|spawn [count]|reset}"
+    exit 2
+    ;;
+esac

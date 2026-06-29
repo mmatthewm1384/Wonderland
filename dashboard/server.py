@@ -158,7 +158,16 @@ async function load() {
 }
 
 load();
-setInterval(load, 5000);
+
+try {
+  const stream = new EventSource('/proxy/stream');
+  stream.addEventListener('state', () => load());
+  stream.onerror = () => {
+    setTimeout(load, 5000);
+  };
+} catch (e) {
+  setInterval(load, 5000);
+}
 </script>
 </body>
 </html>
@@ -186,7 +195,25 @@ class Handler(BaseHTTPRequestHandler):
             "/proxy/ready": "ready",
             "/proxy/drift": "drift",
             "/proxy/version": "version",
+            "/proxy/stream": "stream",
         }
+
+        if self.path == "/proxy/stream":
+            try:
+                upstream = urllib.request.urlopen(f"{API}/api/v1/stream", timeout=60)
+                self.send_response(200)
+                self.send_header("Content-Type", "text/event-stream")
+                self.send_header("Cache-Control", "no-cache")
+                self.end_headers()
+
+                while True:
+                    chunk = upstream.readline()
+                    if not chunk:
+                        break
+                    self.wfile.write(chunk)
+                    self.wfile.flush()
+            except Exception:
+                return
 
         if self.path in routes:
             try:

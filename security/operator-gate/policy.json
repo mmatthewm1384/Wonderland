@@ -1,9 +1,22 @@
 {
-  "lease_hours": 8,
-  "required_providers": {
-    "checkin": ["macos-auth", "recovery-key"],
-    "reset": ["macos-auth", "recovery-key"],
-    "panic": ["macos-auth"]
-  },
-  "actions": ["checkin", "reset", "panic", "verify"]
+  "schema": 1,
+  "name": "Wonderland Chaos Operator Gate Policy",
+  "lease_hours": 12,
+  "scheduler_hold_hours": 6,
+  "fingerprint_required": true,
+  "touch_id_required": true,
+  "typed_confirmation_required_for": [
+    "cataclysm"
+  ],
+  "controller_required": true,
+  "cli_fallback_allowed": false,
+  "risk_levels": {
+    "calm": 0,
+    "nudge": 1,
+    "drift": 2,
+    "storm": 3,
+    "blackout": 4,
+    "cataclysm": 5,
+    "recovery": 0
+  }
 }

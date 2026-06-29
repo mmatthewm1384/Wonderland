@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_ROOT:-$HOME/Wonderland}"
+
+echo "Wonderland Runtime Chaos Doctor"
+echo
+
+"$ROOT/scripts/install/wl-phase-d2-runtime-certify.sh"
+
+echo
+echo "=== Contract ==="
+cat "$ROOT/vault/chaos/visual-chaos-contract.json" 2>/dev/null || {
+  echo "FAIL missing visual-chaos-contract.json"
+  exit 1
+}
+
+echo
+echo "=== Running visual apps ==="
+pgrep -fl "wl-spin-city|wl-agitate|wl-matrix" || true
+
+echo
+echo "=== Menubar ==="
+pgrep -fl wl-chaos-menubar || true
+
+echo
+echo "=== Watchdog ==="
+"$ROOT/ephemeral/bin/wl-chaos-watchdog" status || true

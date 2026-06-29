@@ -1,0 +1,401 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+APP_ID="matrix-atom-destroyer"
+APP_DIR="$WL_ROOT/assets/visualizations/$APP_ID"
+INTENT_DIR="$WL_ROOT/intents"
+BIN_DIR="$WL_ROOT/bin"
+
+HTML="$APP_DIR/matrix-atom-destroyer.html"
+MANIFEST="$APP_DIR/manifest.json"
+INTENT="$INTENT_DIR/matrix-atom-destroyer-v2.intent.json"
+LAUNCHER="$BIN_DIR/wl-matrix"
+DOCTOR="$BIN_DIR/wl-matrix-doctor"
+
+mkdir -p "$APP_DIR"/{screenshots,exports,versions}
+mkdir -p "$INTENT_DIR" "$BIN_DIR"
+
+cp "$HTML" "$APP_DIR/versions/matrix-atom-destroyer-v1.backup.$(date +%Y%m%d-%H%M%S).html" 2>/dev/null || true
+
+cat > "$INTENT" <<'JSON'
+{
+  "id": "matrix-atom-destroyer-v2",
+  "version": "2.0.0",
+  "mode": "BUILD",
+  "owner": "Wonderland",
+  "target": "assets/visualizations/matrix-atom-destroyer",
+  "command": "wl-matrix",
+  "doctor": "wl-matrix-doctor",
+  "intent": "Upgrade DISABLED-Matrix Atom Destroyer into a governed Wonderland v2 visualization asset with outdoor mode, left-eye push-off, keyboard controls, screenshot export, manifest tracking, and verification.",
+  "principles": [
+    "persistent",
+    "recoverable",
+    "auditable",
+    "secure",
+    "automated",
+    "versioned",
+    "modular"
+  ],
+  "features": [
+    "Wonderland palette",
+    "outdoor mode",
+    "left-eye projection",
+    "slam destroy",
+    "shockwave",
+    "fullscreen",
+    "screenshot export",
+    "local browser runtime",
+    "no external dependencies"
+  ],
+  "verification": [
+    "html exists",
+    "manifest exists",
+    "launcher executable",
+    "doctor executable",
+    "outdoorMode present",
+    "eyeOffset present",
+    "Wonderland COLORS present"
+  ],
+  "rollback": {
+    "method": "Restore latest HTML backup from versions/",
+    "path": "assets/visualizations/matrix-atom-destroyer/versions"
+  }
+}
+JSON
+
+cat > "$HTML" <<'HTML'
+<!DOCTYPE html>
+<html>
+<head>
+<title>DISABLED-Matrix Atom Destroyer v2</title>
+<style>
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #05070A;
+  color: #00FF66;
+  font-family: monospace;
+}
+canvas { display: block; }
+#label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #00FF66;
+  text-shadow: 0 0 14px #00FF66;
+  user-select: none;
+  font-size: 14px;
+}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="label">DISABLED-Matrix Atom Destroyer v2 · Outdoor Mode · Click/SPACE slam · R reset · O outdoor · S screenshot · Double-click fullscreen</div>
+
+<script>
+const COLORS = {
+  bg: "#05070A",
+  cyan: "#00E5FF",
+  purple: "#7000FF",
+  green: "#00FF66"
+};
+
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
+
+let w, h;
+let angle = 0;
+let phase = 0;
+let slam = 0;
+let shockwave = 0;
+let eyeOffset = -180;
+let outdoorMode = true;
+let audioCtx = null;
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+}
+
+function boom() {
+  try {
+    audioCtx = audioCtx || new AudioContext();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    osc.type = "sine";
+    osc.frequency.value = 42;
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    gain.gain.setValueAtTime(0.45, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.45);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.45);
+  } catch (_) {}
+}
+
+function triggerSlam() {
+  phase = 2;
+  slam = 1;
+  shockwave = 1;
+  eyeOffset = -180;
+  boom();
+}
+
+function reset() {
+  phase = 0;
+  slam = 0;
+  shockwave = 0;
+  eyeOffset = -180;
+}
+
+function saveScreenshot() {
+  const a = document.createElement("a");
+  a.download = "matrix-atom-destroyer-v2.png";
+  a.href = canvas.toDataURL("image/png");
+  a.click();
+}
+
+function matrixRain() {
+  ctx.fillStyle = COLORS.green;
+  ctx.font = outdoorMode ? "22px monospace" : "14px monospace";
+  ctx.shadowColor = COLORS.green;
+  ctx.shadowBlur = outdoorMode ? 12 : 0;
+
+  const count = outdoorMode ? 45 : 90;
+
+  for (let i = 0; i < count; i++) {
+    const char = Math.random() > 0.5 ? "1" : "0";
+    ctx.fillText(char, Math.random() * w, Math.random() * h);
+  }
+
+  ctx.shadowBlur = 0;
+}
+
+function atom() {
+  ctx.save();
+
+  if (phase === 2) {
+    eyeOffset *= 0.96;
+  }
+
+  ctx.translate((w / 2) + eyeOffset, h / 2);
+
+  const scale = 1 + slam * 2.5;
+  ctx.scale(scale, scale);
+  ctx.rotate(angle);
+
+  ctx.strokeStyle = phase === 2 ? "#FF0033" : COLORS.green;
+  ctx.shadowColor = ctx.strokeStyle;
+  ctx.shadowBlur = outdoorMode ? 38 : 18;
+  ctx.lineWidth = outdoorMode ? 7 : 3;
+
+  for (let i = 0; i < 3; i++) {
+    ctx.beginPath();
+    ctx.ellipse(
+      0,
+      0,
+      outdoorMode ? 125 : 90,
+      outdoorMode ? 46 : 32,
+      i * Math.PI / 1.5 + angle,
+      0,
+      Math.PI * 2
+    );
+    ctx.stroke();
+  }
+
+  ctx.fillStyle = phase === 2 ? "#FF0033" : COLORS.cyan;
+
+  for (let i = 0; i < 40; i++) {
+    const spread = phase === 2 ? 160 + slam * 500 : 70;
+    const x = Math.cos(angle * 2 + i) * spread * Math.random();
+    const y = Math.sin(angle * 3 + i) * spread * Math.random();
+    ctx.fillRect(x, y, outdoorMode ? 8 : 4, outdoorMode ? 8 : 4);
+  }
+
+  ctx.restore();
+}
+
+function drawShockwave() {
+  if (shockwave <= 0) return;
+
+  ctx.save();
+  ctx.translate((w / 2) + eyeOffset, h / 2);
+  ctx.strokeStyle = `rgba(255,0,51,${shockwave})`;
+  ctx.lineWidth = outdoorMode ? 14 : 6;
+  ctx.shadowColor = "#FF0033";
+  ctx.shadowBlur = outdoorMode ? 70 : 30;
+  ctx.beginPath();
+  ctx.arc(0, 0, (1 - shockwave) * Math.max(w, h), 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.restore();
+
+  shockwave -= 0.018;
+}
+
+function draw() {
+  ctx.fillStyle = outdoorMode ? "rgba(5,7,10,0.26)" : "rgba(5,7,10,0.12)";
+  ctx.fillRect(0, 0, w, h);
+
+  matrixRain();
+  atom();
+  drawShockwave();
+
+  angle += phase === 2 ? 0.12 : 0.045;
+
+  if (slam > 0) slam -= 0.025;
+  if (slam < 0) slam = 0;
+
+  if (phase === 2 && shockwave <= 0 && slam === 0) {
+    phase = 0;
+  }
+
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener("resize", resize);
+window.addEventListener("click", triggerSlam);
+
+window.addEventListener("dblclick", () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+});
+
+window.addEventListener("keydown", e => {
+  switch (e.key.toLowerCase()) {
+    case " ":
+      e.preventDefault();
+      triggerSlam();
+      break;
+    case "r":
+      reset();
+      break;
+    case "s":
+      saveScreenshot();
+      break;
+    case "o":
+      outdoorMode = !outdoorMode;
+      break;
+  }
+});
+
+resize();
+draw();
+</script>
+</body>
+</html>
+HTML
+
+cat > "$MANIFEST" <<JSON
+{
+  "id": "matrix-atom-destroyer",
+  "name": "DISABLED-Matrix Atom Destroyer",
+  "version": "2.0.0",
+  "status": "certified-experimental",
+  "owner": "Wonderland",
+  "runtime": "browser",
+  "dependencies": [],
+  "created": "$(date +%F)",
+  "updated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "command": "wl-matrix",
+  "doctor": "wl-matrix-doctor",
+  "intent": "intents/matrix-atom-destroyer-v2.intent.json",
+  "entrypoint": "matrix-atom-destroyer.html",
+  "description": "Matrix-style atom visualization with slam destroy, outdoor mode, left-eye projection, shockwave, fullscreen, and screenshot export."
+}
+JSON
+
+cat > "$LAUNCHER" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+APP="$WL_ROOT/assets/visualizations/matrix-atom-destroyer/matrix-atom-destroyer.html"
+
+if [[ ! -f "$APP" ]]; then
+  echo "FAIL missing: $APP"
+  exit 1
+fi
+
+open "$APP"
+SH
+
+cat > "$DOCTOR" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+APP_DIR="$WL_ROOT/assets/visualizations/matrix-atom-destroyer"
+HTML="$APP_DIR/matrix-atom-destroyer.html"
+MANIFEST="$APP_DIR/manifest.json"
+INTENT="$WL_ROOT/intents/matrix-atom-destroyer-v2.intent.json"
+LAUNCHER="$WL_ROOT/bin/wl-matrix"
+
+fail=0
+
+check_file() {
+  if [[ -f "$1" ]]; then
+    echo "PASS $2"
+  else
+    echo "FAIL $2"
+    fail=1
+  fi
+}
+
+check_exec() {
+  if [[ -x "$1" ]]; then
+    echo "PASS $2"
+  else
+    echo "FAIL $2"
+    fail=1
+  fi
+}
+
+check_grep() {
+  if grep -q "$1" "$2"; then
+    echo "PASS $3"
+  else
+    echo "FAIL $3"
+    fail=1
+  fi
+}
+
+echo "DISABLED-Matrix Atom Destroyer Doctor"
+
+check_file "$HTML" "html"
+check_file "$MANIFEST" "manifest"
+check_file "$INTENT" "intent"
+check_exec "$LAUNCHER" "launcher"
+
+check_grep 'const COLORS' "$HTML" "palette"
+check_grep 'outdoorMode' "$HTML" "outdoor-mode"
+check_grep 'eyeOffset' "$HTML" "left-eye-projection"
+check_grep 'saveScreenshot' "$HTML" "screenshot-export"
+check_grep 'requestFullscreen' "$HTML" "fullscreen"
+check_grep '"version": "2.0.0"' "$MANIFEST" "manifest-version"
+
+if [[ "$fail" -eq 0 ]]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+  exit 1
+fi
+SH
+
+chmod +x "$LAUNCHER" "$DOCTOR"
+
+"$DOCTOR"
+
+echo
+echo "Installed DISABLED-Matrix Atom Destroyer v2"
+echo "Run:    wl-matrix"
+echo "Verify: wl-matrix-doctor"

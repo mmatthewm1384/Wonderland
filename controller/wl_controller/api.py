@@ -110,6 +110,17 @@ class Handler(BaseHTTPRequestHandler):
 
 
     def do_POST(self):
+        if self.path == "/chaos/model":
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                raw = self.rfile.read(length).decode("utf-8") if length else "{}"
+                payload = json.loads(raw or "{}")
+                body, status = handle_chaos_model(payload)
+                self.send_json(body, status)
+            except Exception as exc:
+                self.send_json({"ok": False, "status": "error", "message": str(exc)}, 500)
+            return
+
         path = urlparse(self.path).path
 
         actions = {
@@ -189,6 +200,81 @@ class Handler(BaseHTTPRequestHandler):
             ]
         }, 404)
 
+
+
+CHAOS_MODELS = {
+    "calm": {"command": "status", "risk_level": 0},
+    "nudge": {"command": "checkin", "risk_level": 1},
+    "drift": {"command": "panic", "risk_level": 2},
+    "storm": {"command": "panic", "risk_level": 3},
+    "blackout": {"command": "panic", "risk_level": 4},
+    "cataclysm": {"command": "panic", "risk_level": 5},
+    "recovery": {"command": "reset", "risk_level": 0},
+}
+
+def handle_chaos_model(payload):
+    import json
+    import subprocess
+    from datetime import datetime, timezone
+    from pathlib import Path
+
+    root = Path.home() / "Wonderland"
+    audit = root / "vault/chaos/controller-chaos-audit.jsonl"
+
+    model = str(payload.get("model", "")).strip()
+    requested_command = str(payload.get("command", "")).strip()
+
+    if model not in CHAOS_MODELS:
+        return {
+            "ok": False,
+            "status": "denied",
+            "message": f"unknown chaos model: {model}",
+        }, 400
+
+    spec = CHAOS_MODELS[model]
+    command = spec["command"]
+
+    if requested_command and requested_command != command:
+        return {
+            "ok": False,
+            "status": "denied",
+            "message": f"command mismatch: expected {command}, got {requested_command}",
+        }, 400
+
+    event = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "event": "controller_chaos_model",
+        "model": model,
+        "command": command,
+        "risk_level": spec["risk_level"],
+    }
+
+    audit.parent.mkdir(parents=True, exist_ok=True)
+    with audit.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(event, sort_keys=True) + "\n")
+
+    result = subprocess.run(
+        [str(root / "bin/wl-chaos"), command],
+        text=True,
+        capture_output=True,
+        timeout=15,
+    )
+
+    if result.returncode != 0:
+        return {
+            "ok": False,
+            "status": "failed",
+            "message": result.stderr.strip() or result.stdout.strip() or "chaos command failed",
+        }, 500
+
+    return {
+        "ok": True,
+        "status": "executed",
+        "model": model,
+        "command": command,
+        "risk_level": spec["risk_level"],
+        "message": result.stdout.strip(),
+    }, 200
 
 def main() -> int:
     server = ThreadingHTTPServer((HOST, PORT), Handler)

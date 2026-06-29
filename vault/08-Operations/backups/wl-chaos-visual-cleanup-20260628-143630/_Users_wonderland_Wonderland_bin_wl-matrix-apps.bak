@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+APP_DIR="$WL_ROOT/apps/macos"
+
+case "${1:-status}" in
+  status)
+    echo "Wonderland Matrix Apps"
+    for app in "DISABLED-Spin City Wave" "DISABLED-Agitate Waves" "DISABLED-Matrix Atom Destroyer"; do
+      if [[ -d "$APP_DIR/$app.app" ]]; then
+        echo "PASS $app"
+      else
+        echo "FAIL $app"
+      fi
+    done
+    ;;
+
+  spin-city)
+    # DISABLED: Chaos must not auto-launch visual apps or Console
+    # open "$APP_DIR/DISABLED-Spin City Wave.app"
+    ;;
+
+  agitate)
+    # DISABLED: Chaos must not auto-launch visual apps or Console
+    # open "$APP_DIR/DISABLED-Agitate Waves.app"
+    ;;
+
+  matrix)
+    # DISABLED: Chaos must not auto-launch visual apps or Console
+    # open "$APP_DIR/DISABLED-Matrix Atom Destroyer.app"
+    ;;
+
+  all)
+    # DISABLED: Chaos must not auto-launch visual apps or Console
+    # open "$APP_DIR/DISABLED-Spin City Wave.app"
+    # DISABLED: Chaos must not auto-launch visual apps or Console
+    # open "$APP_DIR/DISABLED-Agitate Waves.app"
+    # DISABLED: Chaos must not auto-launch visual apps or Console
+    # open "$APP_DIR/DISABLED-Matrix Atom Destroyer.app"
+    ;;
+
+  *)
+    echo "Usage: wl-matrix-apps status|spin-city|agitate|matrix|all"
+    exit 1
+    ;;
+esac

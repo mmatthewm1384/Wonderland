@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$HOME/Wonderland"
+APP="$HOME/Applications/Wonderland Control Center.app"
+BUILDER="$ROOT/apps/macos/wl-control-center/scripts/build-app.zsh"
+
+if [[ ! -d "$APP" ]]; then
+  "$BUILDER"
+fi
+
+open "$APP"

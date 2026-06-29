@@ -134,7 +134,7 @@ This chat is a tool-augmented reasoning agent (Grok, built by xAI) operating und
 - Git: Not a repo (by snapshot).
 
 ### 3.6 Wonderland Integration Layer (Deep Context)
-- **Ecosystem:** FSEvent macOS apps (4th in series: slam_to_ground), generative visuals (matrix atoms, Spin City waves, agitation), ephemeral catalog launcher, custom companions (Python + nerdctl/wl), ground-app-scaffolder skill.
+- **Ecosystem:** FSEvent macOS apps (4th in series: slam_to_ground), generative visuals (matrix atoms, DISABLED-Spin City waves, agitation), ephemeral catalog launcher, custom companions (Python + nerdctl/wl), ground-app-scaffolder skill.
 - **Infrastructure:** Apple Silicon (M4 MacBook Air), rootless nerdctl/containerd (no Docker Desktop), ~/Wonderland/vault (authoritative, wins conflicts), ~/Wonderland/Wonderland-v4 (impl workspace).
 - **Patterns:** Intent JSON specs, bitemporal state, graceful shutdown/60s timeouts, logging, repair/doctor idempotent, chaos-escalation, aether memory (temp comms), self-destruct/burn, attention decay.
 - **Recent Extensions:** Ephemeral/secret-agent catalog (compendium + agent + wl shim), Zero-Trust investigation (NIST 800-207 mapping + generator + PEP/intent extensions).

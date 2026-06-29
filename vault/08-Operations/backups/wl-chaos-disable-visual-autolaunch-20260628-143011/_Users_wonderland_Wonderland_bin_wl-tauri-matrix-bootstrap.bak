@@ -1,0 +1,182 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+SRC="$WL_ROOT/assets/visualizations/matrix-atom-destroyer"
+APP_ROOT="$WL_ROOT/apps/tauri"
+BIN="$WL_ROOT/bin"
+
+mkdir -p "$APP_ROOT" "$BIN"
+
+make_app() {
+  local id="$1"
+  local title="$2"
+  local source_html="$3"
+
+  local dir="$APP_ROOT/$id"
+
+  mkdir -p "$dir/src" "$dir/src-tauri/src"
+
+  cp "$source_html" "$dir/src/index.html"
+
+  cat > "$dir/package.json" <<JSON
+{
+  "name": "$id",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "ios:init": "tauri ios init",
+    "ios:dev": "tauri ios dev",
+    "ios:build": "tauri ios build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}
+JSON
+
+  cat > "$dir/src-tauri/Cargo.toml" <<TOML
+[package]
+name = "$id"
+version = "1.0.0"
+edition = "2021"
+
+[lib]
+name = "${id//-/_}_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+TOML
+
+  cat > "$dir/src-tauri/build.rs" <<'RS'
+fn main() {
+  tauri_build::build()
+}
+RS
+
+  cat > "$dir/src-tauri/src/lib.rs" <<'RS'
+#[cfg_attr(mobile, tauri::mobile_entry_point)]
+pub fn run() {
+  tauri::Builder::default()
+    .run(tauri::generate_context!())
+    .expect("error while running tauri application");
+}
+RS
+
+  cat > "$dir/src-tauri/src/main.rs" <<'RS'
+fn main() {
+  app_lib::run();
+}
+RS
+
+  sed -i '' "s/app_lib/${id//-/_}_lib/g" "$dir/src-tauri/src/main.rs"
+
+  cat > "$dir/src-tauri/tauri.conf.json" <<JSON
+{
+  "\$schema": "https://schema.tauri.app/config/2",
+  "productName": "$title",
+  "version": "1.0.0",
+  "identifier": "com.wonderland.$id",
+  "build": {
+    "frontendDist": "../src",
+    "devUrl": "../src/index.html"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "$title",
+        "width": 430,
+        "height": 932,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": []
+  }
+}
+JSON
+
+  cat > "$BIN/$id" <<RUN
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$dir"
+npm run tauri dev
+RUN
+
+  chmod +x "$BIN/$id"
+
+  echo "PASS created $id"
+}
+
+make_app "wl-spin-city" \
+  "Spin City Wave" \
+  "$SRC/apps/spin-city-wave/iphone/spin-city-wave-iphone.html"
+
+make_app "wl-agitate" \
+  "Agitate Waves" \
+  "$SRC/apps/agitate-waves/iphone/agitate-waves-iphone.html"
+
+make_app "wl-matrix" \
+  "Matrix Atom Destroyer" \
+  "$SRC/matrix-atom-destroyer.html"
+
+cat > "$BIN/wl-tauri-matrix-doctor" <<'SH2'
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+APP_ROOT="$WL_ROOT/apps/tauri"
+
+fail=0
+
+check_dir() {
+  [[ -d "$1" ]] && echo "PASS $2" || { echo "FAIL $2"; fail=1; }
+}
+
+check_file() {
+  [[ -f "$1" ]] && echo "PASS $2" || { echo "FAIL $2"; fail=1; }
+}
+
+for app in wl-spin-city wl-agitate wl-matrix; do
+  check_dir "$APP_ROOT/$app" "$app-dir"
+  check_file "$APP_ROOT/$app/package.json" "$app-package"
+  check_file "$APP_ROOT/$app/src/index.html" "$app-html"
+  check_file "$APP_ROOT/$app/src-tauri/tauri.conf.json" "$app-tauri-conf"
+  check_file "$APP_ROOT/$app/src-tauri/Cargo.toml" "$app-cargo"
+done
+
+command -v npm >/dev/null && echo "PASS npm" || { echo "FAIL npm"; fail=1; }
+command -v cargo >/dev/null && echo "PASS cargo" || { echo "FAIL cargo"; fail=1; }
+
+if [[ "$fail" -eq 0 ]]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+  exit 1
+fi
+SH2
+
+chmod +x "$BIN/wl-tauri-matrix-doctor"
+
+echo
+echo "NEXT:"
+echo "  wl-tauri-matrix-doctor"
+echo "  cd ~/Workshop/apps/tauri/wl-spin-city && npm install && npm run tauri dev"
+echo "  cd ~/Workshop/apps/tauri/wl-agitate && npm install && npm run tauri dev"
+echo "  cd ~/Workshop/apps/tauri/wl-matrix && npm install && npm run tauri dev"

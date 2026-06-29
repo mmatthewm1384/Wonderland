@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
-open "/Users/wonderland/Wonderland/assets/visualizations/matrix-atom-destroyer/apps/spin-city-wave/iphone/spin-city-wave-iphone.html"
+# DISABLED: Chaos must not auto-launch visual apps or Console
+# open "/Users/wonderland/Wonderland/assets/visualizations/matrix-atom-destroyer/apps/spin-city-wave/iphone/spin-city-wave-iphone.html"

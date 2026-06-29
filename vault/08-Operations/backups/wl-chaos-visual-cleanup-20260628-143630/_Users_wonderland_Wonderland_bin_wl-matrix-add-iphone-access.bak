@@ -1,0 +1,187 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+MATRIX_DIR="$WL_ROOT/assets/visualizations/matrix-atom-destroyer"
+MOBILE_DIR="$MATRIX_DIR/iphone"
+APP_DIR="$MATRIX_DIR/apps"
+INTENT_DIR="$WL_ROOT/intents"
+BIN_DIR="$WL_ROOT/bin"
+
+mkdir -p "$MOBILE_DIR" "$INTENT_DIR" "$BIN_DIR"
+
+cat > "$INTENT_DIR/matrix-iphone-access.intent.json" <<'JSON'
+{
+  "id": "matrix-iphone-access",
+  "version": "1.0.0",
+  "mode": "BUILD",
+  "owner": "Wonderland",
+  "parent": "matrix-atom-destroyer",
+  "target": "assets/visualizations/matrix-atom-destroyer/iphone",
+  "intent": "Create iPhone access portal for all Matrix visualization features and sub-apps.",
+  "features": [
+    "iPhone launch portal",
+    "DISABLED-Matrix Atom Destroyer access",
+    "DISABLED-Spin City Wave iPhone access",
+    "safe-area mobile layout",
+    "local network browser runtime",
+    "Add to Home Screen support"
+  ]
+}
+JSON
+
+cat > "$MOBILE_DIR/index.html" <<'HTML'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Wonderland Matrix</title>
+<style>
+:root {
+  --bg: #05070A;
+  --cyan: #00E5FF;
+  --purple: #7000FF;
+  --green: #00FF66;
+}
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: radial-gradient(circle at top, rgba(0,229,255,.18), transparent 42%), var(--bg);
+  color: var(--green);
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+main {
+  padding: calc(env(safe-area-inset-top) + 28px) 20px calc(env(safe-area-inset-bottom) + 28px);
+}
+h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+  letter-spacing: -1px;
+  text-shadow: 0 0 18px var(--green);
+}
+.tag {
+  color: var(--cyan);
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin-bottom: 28px;
+}
+.card {
+  display: block;
+  text-decoration: none;
+  color: var(--green);
+  border: 1px solid rgba(0,229,255,.35);
+  border-radius: 18px;
+  padding: 18px;
+  margin: 14px 0;
+  background: rgba(5,7,10,.72);
+  box-shadow: 0 0 28px rgba(0,229,255,.12);
+}
+.card strong {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+.card span {
+  display: block;
+  color: rgba(255,255,255,.72);
+  font-size: 13px;
+  line-height: 1.35;
+}
+.footer {
+  margin-top: 28px;
+  color: rgba(255,255,255,.55);
+  font-size: 12px;
+}
+</style>
+</head>
+<body>
+<main>
+  <h1>Wonderland Matrix</h1>
+  <div class="tag">IPHONE ACCESS PORTAL</div>
+
+  <a class="card" href="../matrix-atom-destroyer.html">
+    <strong>DISABLED-Matrix Atom Destroyer</strong>
+    <span>Main v5 Matrix HUD: slam, mic, agitate waves, gravity lens, fracture rings, outdoor mode.</span>
+  </a>
+
+  <a class="card" href="../apps/spin-city-wave/iphone/spin-city-wave-iphone.html">
+    <strong>DISABLED-Spin City Wave</strong>
+    <span>Real iPhone fullscreen wave pattern: tap pulse, double-tap reverse, long-press randomize.</span>
+  </a>
+
+  <a class="card" href="../apps/agitate-waves/exports/agitate-lines.txt">
+    <strong>DISABLED-Agitate Waves Data</strong>
+    <span>Generated flat-frequency wave output from the Matrix sub-app engine.</span>
+  </a>
+
+  <div class="footer">
+    Open in Safari → Share → Add to Home Screen.
+  </div>
+</main>
+</body>
+</html>
+HTML
+
+cat > "$BIN_DIR/wl-matrix-iphone-server" <<'SH2'
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+ROOT="$WL_ROOT/assets/visualizations/matrix-atom-destroyer"
+PORT="${1:-8888}"
+
+cd "$ROOT"
+
+IP="$(ipconfig getifaddr en0 2>/dev/null || true)"
+if [[ -z "$IP" ]]; then
+  IP="$(ifconfig | awk '/inet / && $2 != "127.0.0.1" {print $2; exit}')"
+fi
+
+echo
+echo "Wonderland Matrix iPhone Access"
+echo "URL: http://${IP}:${PORT}/iphone/"
+echo
+echo "Direct:"
+echo "Matrix:    http://${IP}:${PORT}/matrix-atom-destroyer.html"
+echo "DISABLED-Spin City: http://${IP}:${PORT}/apps/spin-city-wave/iphone/spin-city-wave-iphone.html"
+echo
+
+python3 -m http.server "$PORT" --bind 0.0.0.0
+SH2
+
+cat > "$BIN_DIR/wl-matrix-iphone-doctor" <<'SH2'
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+ROOT="$WL_ROOT/assets/visualizations/matrix-atom-destroyer"
+
+fail=0
+check_file() { [[ -f "$1" ]] && echo "PASS $2" || { echo "FAIL $2"; fail=1; }; }
+check_exec() { [[ -x "$1" ]] && echo "PASS $2" || { echo "FAIL $2"; fail=1; }; }
+
+echo "Matrix iPhone Access Doctor"
+
+check_file "$ROOT/iphone/index.html" "iphone-portal"
+check_file "$ROOT/matrix-atom-destroyer.html" "matrix-main"
+check_file "$ROOT/apps/spin-city-wave/iphone/spin-city-wave-iphone.html" "spin-city-iphone"
+check_exec "$WL_ROOT/bin/wl-matrix-iphone-server" "iphone-server"
+
+if [[ "$fail" -eq 0 ]]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+  exit 1
+fi
+SH2
+
+chmod +x "$BIN_DIR/wl-matrix-iphone-server" "$BIN_DIR/wl-matrix-iphone-doctor"
+
+wl-matrix-iphone-doctor
+
+echo
+echo "Run:"
+echo "  wl-matrix-iphone-server 8888"

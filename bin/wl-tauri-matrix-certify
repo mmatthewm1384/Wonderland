@@ -23,9 +23,9 @@ copy_app() {
   echo "PASS $name.app"
 }
 
-copy_app "wl-spin-city" "Spin City Wave"
-copy_app "wl-agitate" "Agitate Waves"
-copy_app "wl-matrix" "Matrix Atom Destroyer"
+copy_app "wl-spin-city" "DISABLED-Spin City Wave"
+copy_app "wl-agitate" "DISABLED-Agitate Waves"
+copy_app "wl-matrix" "DISABLED-Matrix Atom Destroyer"
 
 echo
 echo "Certified apps:"
@@ -33,6 +33,6 @@ find "$OUT" -maxdepth 1 -name "*.app" -print
 
 echo
 echo "Open:"
-echo "open '$OUT/Spin City Wave.app'"
-echo "open '$OUT/Agitate Waves.app'"
-echo "open '$OUT/Matrix Atom Destroyer.app'"
+echo "open '$OUT/DISABLED-Spin City Wave.app'"
+echo "open '$OUT/DISABLED-Agitate Waves.app'"
+echo "open '$OUT/DISABLED-Matrix Atom Destroyer.app'"

@@ -1,0 +1,28 @@
+{
+  "schema": "wonderland.lifecycle.report.v2",
+  "type": "start",
+  "timestamp": "20260628-191608",
+  "context": {
+  "schema": "wonderland.runtime.context.v1",
+  "version": "0.0.0",
+  "build": "unknown",
+  "channel": "local",
+  "root": "/Users/wonderland/Wonderland",
+  "mode": "light",
+  "profile": "internal-light",
+  "runtime_instance": "wonderland-rootless",
+  "report_dir": "/Users/wonderland/Wonderland/vault/08-Operations/reports",
+  "runtime_dir": "/Users/wonderland/Wonderland/runtime",
+  "config_dir": "/Users/wonderland/Wonderland/config",
+  "lib_dir": "/Users/wonderland/Wonderland/lib",
+  "bin_dir": "/Users/wonderland/Wonderland/bin",
+  "t7_path": "/Volumes/T7_Wonderland"
+},
+  "health": {
+    "pass": 4,
+    "warn": 1,
+    "fail": 0,
+    "corrupt": 0,
+    "result": "PASS"
+  }
+}

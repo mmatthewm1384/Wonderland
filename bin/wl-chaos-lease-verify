@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="${WONDERLAND_ROOT:-$HOME/Wonderland}"
+exec "$ROOT/tools/chaos/verify-lease.py" "$@"

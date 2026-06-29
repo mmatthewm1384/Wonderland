@@ -82,19 +82,22 @@ case "${1:-status}" in
     write_contract >/dev/null
     export WL_CHAOS_CONTRACT="$CONTRACT"
     export WL_CHAOS_ACTIVE="$(python3 -c "import json;print(str(json.load(open('$CONTRACT'))['chaos_active']).lower())")"
-    open -a "$ROOT/apps/macos/Spin City Wave.app" || true
+    # DISABLED: Chaos must not auto-launch visual apps or Console
+    # open -a "$ROOT/apps/macos/DISABLED-Spin City Wave.app" || true
     ;;
   launch-agitate)
     write_contract >/dev/null
     export WL_CHAOS_CONTRACT="$CONTRACT"
     export WL_CHAOS_ACTIVE="$(python3 -c "import json;print(str(json.load(open('$CONTRACT'))['chaos_active']).lower())")"
-    open -a "$ROOT/apps/macos/Agitate Waves.app" || true
+    # DISABLED: Chaos must not auto-launch visual apps or Console
+    # open -a "$ROOT/apps/macos/DISABLED-Agitate Waves.app" || true
     ;;
   launch-matrix)
     write_contract >/dev/null
     export WL_CHAOS_CONTRACT="$CONTRACT"
     export WL_CHAOS_ACTIVE="$(python3 -c "import json;print(str(json.load(open('$CONTRACT'))['chaos_active']).lower())")"
-    open -a "$ROOT/apps/macos/Matrix Atom Destroyer.app" || true
+    # DISABLED: Chaos must not auto-launch visual apps or Console
+    # open -a "$ROOT/apps/macos/DISABLED-Matrix Atom Destroyer.app" || true
     ;;
   launch-all)
     "$0" launch-spin-city

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+exec "$HOME/Wonderland/apps/macos/wl-control-center/scripts/build-dmg.zsh"

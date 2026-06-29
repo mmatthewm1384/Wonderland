@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
+
+echo "Wonderland Doctor"
+
+wl_section "Core"
+wl_required_path "root" "$WL_HOME"
+wl_required_path "bin" "$WL_HOME/bin"
+wl_required_path "lib" "$WL_HOME/lib"
+wl_required_path "config" "$WL_HOME/config"
+wl_required_path "vault" "$WL_HOME/vault"
+
+wl_section "Storage"
+wl_storage_status
+
+wl_section "Runtime"
+if command -v limactl >/dev/null 2>&1; then
+  wl_pass "limactl" "$(command -v limactl)"
+else
+  wl_fail "limactl" "missing"
+fi
+
+if command -v nerdctl >/dev/null 2>&1; then
+  wl_pass "nerdctl" "$(command -v nerdctl)"
+else
+  wl_fail "nerdctl" "missing"
+fi
+
+if wl_runtime_running; then
+  wl_pass "$WL_RUNTIME_INSTANCE" "running"
+elif wl_runtime_exists; then
+  wl_warn "$WL_RUNTIME_INSTANCE" "exists but stopped"
+else
+  wl_fail "$WL_RUNTIME_INSTANCE" "missing"
+fi
+
+wl_section "Services"
+for svc in $WL_REQUIRED_SERVICES; do
+  if wl_service_running "$svc"; then
+    wl_pass "$svc" "required up"
+  else
+    wl_fail "$svc" "required not up"
+  fi
+done
+
+for svc in $WL_OPTIONAL_SERVICES; do
+  if wl_service_running "$svc"; then
+    wl_pass "$svc" "optional up"
+  else
+    wl_warn "$svc" "optional not up"
+  fi
+done
+
+wl_exit

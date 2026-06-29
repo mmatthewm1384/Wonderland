@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
+
+cmd="${1:-status}"
+
+case "$cmd" in
+  status|doctor)
+    wl_storage_status
+    wl_exit
+    ;;
+
+  path)
+    echo "$WL_T7_PATH"
+    ;;
+
+  *)
+    echo "Usage: wl storage {status|doctor|path}"
+    echo "RESULT FAIL"
+    exit 1
+    ;;
+esac

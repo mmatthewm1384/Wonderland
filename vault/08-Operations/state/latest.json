@@ -1,711 +1,1183 @@
 {
-  "generated_at": "2026-06-27T11:32:26.159367+00:00",
-  "runtime": {
-    "runtime": "wonderland-rootless",
-    "running": true,
-    "limactl_returncode": 0
+  "certification": {
+    "status": "PASS"
   },
-  "registry": {
-    "path": "/Users/wonderland/Wonderland/vault/05-Registry/services.json",
-    "valid": true,
-    "service_count": 6,
-    "start_order": [
-      "wl-dns",
-      "wl-loki",
-      "wl-nats",
-      "wl-vaultwarden",
-      "wl-prometheus",
-      "wl-grafana"
-    ]
-  },
-  "desired": {
-    "path": "/Users/wonderland/Wonderland/vault/05-Registry/desired-state.json",
-    "present": true,
-    "service_count": 6
-  },
-  "containers": {
-    "total": 7,
-    "up": 7,
-    "items": [
-      {
-        "name": "wl-dns",
-        "image": "docker.io/coredns/coredns:1.11.3",
-        "status": "Up",
-        "ports": "127.0.0.1:1053->1053/tcp, 127.0.0.1:1053->1053/udp",
-        "up": true
-      },
-      {
-        "name": "wl-grafana",
-        "image": "docker.io/grafana/grafana:11.2.0",
-        "status": "Up",
-        "ports": "127.0.0.1:3000->3000/tcp",
-        "up": true
-      },
-      {
-        "name": "wl-nats",
-        "image": "docker.io/library/nats:2.10-alpine",
-        "status": "Up",
-        "ports": "127.0.0.1:4222->4222, 8222->8222/tcp",
-        "up": true
-      },
-      {
-        "name": "wl-prometheus",
-        "image": "docker.io/prom/prometheus:v2.54.1",
-        "status": "Up",
-        "ports": "127.0.0.1:9090->9090/tcp",
-        "up": true
-      },
-      {
-        "name": "wl-vaultwarden",
-        "image": "docker.io/vaultwarden/server:latest",
-        "status": "Up",
-        "ports": "127.0.0.1:8087->80/tcp",
-        "up": true
-      },
-      {
-        "name": "wl-vaultwarden-db",
-        "image": "docker.io/library/postgres:16-alpine",
-        "status": "Up",
-        "ports": "",
-        "up": true
-      },
-      {
-        "name": "wl-loki",
-        "image": "docker.io/grafana/loki:3.1.1",
-        "status": "Up",
-        "ports": "0.0.0.0:3100->3100/tcp",
-        "up": true
-      }
-    ]
+  "containers": [
+    {
+      "image": "docker.io/coredns/coredns:1.11.3",
+      "name": "wl-dns",
+      "running": true,
+      "status": "Up"
+    },
+    {
+      "image": "docker.io/grafana/grafana:11.2.0",
+      "name": "wl-grafana",
+      "running": true,
+      "status": "Up"
+    },
+    {
+      "image": "docker.io/library/nats:2.10-alpine",
+      "name": "wl-nats",
+      "running": true,
+      "status": "Up"
+    },
+    {
+      "image": "docker.io/prom/prometheus:v2.54.1",
+      "name": "wl-prometheus",
+      "running": true,
+      "status": "Up"
+    },
+    {
+      "image": "docker.io/vaultwarden/server:latest",
+      "name": "wl-vaultwarden",
+      "running": true,
+      "status": "Up"
+    },
+    {
+      "image": "docker.io/library/postgres:16-alpine",
+      "name": "wl-vaultwarden-db",
+      "running": true,
+      "status": "Up"
+    },
+    {
+      "image": "docker.io/grafana/loki:3.1.1",
+      "name": "wl-loki",
+      "running": true,
+      "status": "Up"
+    }
+  ],
+  "controller": {
+    "api_version": "v1",
+    "authority": true,
+    "cycle_duration_seconds": 0.2727,
+    "service_container": {
+      "root": "/Users/wonderland/Wonderland",
+      "services": [
+        "config",
+        "deploy",
+        "event_bus",
+        "health",
+        "plugins",
+        "policy",
+        "registry",
+        "runtime",
+        "service_resolver",
+        "timeline"
+      ]
+    },
+    "version": "3.0.0"
   },
   "deployment": {
-    "deployment_id": "20260627T110407Z",
-    "generated_at": "2026-06-27T11:04:11.669947+00:00",
+    "desired_state_present": true,
+    "detail": "Controller v2 deploy engine installed; compose migration remains compatibility-backed.",
+    "status": "noop"
+  },
+  "desired_state": {
     "runtime": "wonderland-rootless",
-    "result": "PASS",
-    "duration_seconds": 4.0,
-    "registry": "/Users/wonderland/Wonderland/vault/05-Registry/services.json",
-    "registry_sha256": "574dfa4ecbfbeb86808159f99ea8f8d81a3f62b6b10f5941e0240ddf1761682c",
-    "git_commit": "f39340b9cc53cf920514fc7a5c85ebf7bd0d1ff0",
-    "start_order": [
-      "wl-dns",
-      "wl-loki",
-      "wl-nats",
-      "wl-vaultwarden",
-      "wl-prometheus",
-      "wl-grafana"
-    ],
-    "stop_order": [
-      "wl-grafana",
-      "wl-prometheus",
-      "wl-vaultwarden",
-      "wl-nats",
-      "wl-loki",
-      "wl-dns"
-    ],
-    "services": [
-      {
-        "name": "wl-dns",
-        "directory": "/Users/wonderland/Workshop/services/wl-dns",
-        "runtime": "wonderland-rootless",
-        "compose": "/Users/wonderland/Workshop/services/wl-dns/compose.yaml",
-        "compose_file": "compose.yaml",
-        "compose_sha256": "07f7d78bddc1fddbbdb21d56e6426e6dfa9cb55f532f7f763da2647d72b6464e",
-        "service_json": "/Users/wonderland/Workshop/services/wl-dns/service.json",
-        "service_json_sha256": "559e69eaf4ad649b7790c7e4d7e721e231a72c2ec2802b71b353b6ba602b7883",
-        "containers": [
-          "wl-dns"
-        ],
-        "depends_on": [],
-        "critical": true,
-        "autostart": true,
-        "health": {
-          "type": "tcp",
-          "host": "127.0.0.1",
-          "port": 1053
-        },
-        "metadata": {
-          "name": "wl-dns",
-          "runtime": "wonderland-rootless",
-          "compose": "compose.yaml",
-          "containers": [
-            "wl-dns"
-          ],
-          "depends_on": [],
-          "critical": true,
-          "autostart": true,
-          "tier": "platform",
-          "health": {
-            "type": "tcp",
-            "host": "127.0.0.1",
-            "port": 1053
-          }
-        }
-      },
-      {
-        "name": "wl-grafana",
-        "directory": "/Users/wonderland/Workshop/services/wl-grafana",
-        "runtime": "wonderland-rootless",
-        "compose": "/Users/wonderland/Workshop/services/wl-grafana/compose.yaml",
-        "compose_file": "compose.yaml",
-        "compose_sha256": "3c2c07fdf96dcf84500c1445eeab3320246e3d28ad2bf6fe83705a70cf0fc4b7",
-        "service_json": "/Users/wonderland/Workshop/services/wl-grafana/service.json",
-        "service_json_sha256": "79d752dea24120fb192dadb547710dca4026c4b50a4ded7642f5415769a1e610",
-        "containers": [
-          "wl-grafana"
-        ],
-        "depends_on": [
-          "wl-loki",
-          "wl-prometheus"
-        ],
-        "critical": true,
-        "autostart": true,
-        "health": {
-          "type": "http",
-          "url": "http://127.0.0.1:3000/api/health"
-        },
-        "metadata": {
-          "name": "wl-grafana",
-          "runtime": "wonderland-rootless",
-          "compose": "compose.yaml",
-          "containers": [
-            "wl-grafana"
-          ],
-          "depends_on": [
-            "wl-loki",
-            "wl-prometheus"
-          ],
-          "critical": true,
-          "autostart": true,
-          "tier": "platform",
-          "health": {
-            "type": "http",
-            "url": "http://127.0.0.1:3000/api/health"
-          }
-        }
-      },
-      {
-        "name": "wl-loki",
-        "directory": "/Users/wonderland/Workshop/services/wl-loki",
-        "runtime": "wonderland-rootless",
-        "compose": "/Users/wonderland/Workshop/services/wl-loki/compose.yaml",
-        "compose_file": "compose.yaml",
-        "compose_sha256": "58a8456e767598ac557ca7a313eca480cb68068e127068dc23d6060955756590",
-        "service_json": "/Users/wonderland/Workshop/services/wl-loki/service.json",
-        "service_json_sha256": "96262750b725db84b084062b2df12b552a2871ebc472fc45af2e5e7b457c0473",
-        "containers": [
-          "wl-loki"
-        ],
-        "depends_on": [],
-        "critical": true,
-        "autostart": true,
-        "health": {
-          "type": "http",
-          "url": "http://127.0.0.1:3100/ready"
-        },
-        "metadata": {
-          "name": "wl-loki",
-          "runtime": "wonderland-rootless",
-          "compose": "compose.yaml",
-          "containers": [
-            "wl-loki"
-          ],
-          "depends_on": [],
-          "critical": true,
-          "autostart": true,
-          "tier": "platform",
-          "adopted": true,
-          "health": {
-            "type": "http",
-            "url": "http://127.0.0.1:3100/ready"
-          }
-        }
-      },
-      {
-        "name": "wl-nats",
-        "directory": "/Users/wonderland/Workshop/services/wl-nats",
-        "runtime": "wonderland-rootless",
-        "compose": "/Users/wonderland/Workshop/services/wl-nats/compose.yaml",
-        "compose_file": "compose.yaml",
-        "compose_sha256": "32715020321546804a579cfcccd28ac49a15d911e98e28f46dfaf4e548c96f18",
-        "service_json": "/Users/wonderland/Workshop/services/wl-nats/service.json",
-        "service_json_sha256": "5483384226930dec01d042ac047104c3611d1eb7119269d5a20a0b7f36b35e82",
-        "containers": [
-          "wl-nats"
-        ],
-        "depends_on": [],
-        "critical": true,
-        "autostart": true,
-        "health": {
-          "type": "tcp",
-          "host": "127.0.0.1",
-          "port": 4222
-        },
-        "metadata": {
-          "name": "wl-nats",
-          "runtime": "wonderland-rootless",
-          "compose": "compose.yaml",
-          "containers": [
-            "wl-nats"
-          ],
-          "depends_on": [],
-          "critical": true,
-          "autostart": true,
-          "tier": "platform",
-          "health": {
-            "type": "tcp",
-            "host": "127.0.0.1",
-            "port": 4222
-          }
-        }
-      },
-      {
-        "name": "wl-prometheus",
-        "directory": "/Users/wonderland/Workshop/services/wl-prometheus",
-        "runtime": "wonderland-rootless",
-        "compose": "/Users/wonderland/Workshop/services/wl-prometheus/compose.yaml",
-        "compose_file": "compose.yaml",
-        "compose_sha256": "52a262fc04351c63418aa2abf44e5add4e6c3d97ac91e4a9d19185e791e2ff0c",
-        "service_json": "/Users/wonderland/Workshop/services/wl-prometheus/service.json",
-        "service_json_sha256": "acea835c8c0d4757c2c454e00df9427bb44aed8e8ecea76461d26b8ede503370",
-        "containers": [
-          "wl-prometheus"
-        ],
-        "depends_on": [
-          "wl-loki"
-        ],
-        "critical": true,
-        "autostart": true,
-        "health": {
-          "type": "http",
-          "url": "http://127.0.0.1:9090/-/healthy"
-        },
-        "metadata": {
-          "name": "wl-prometheus",
-          "runtime": "wonderland-rootless",
-          "compose": "compose.yaml",
-          "containers": [
-            "wl-prometheus"
-          ],
-          "depends_on": [
-            "wl-loki"
-          ],
-          "critical": true,
-          "autostart": true,
-          "tier": "platform",
-          "health": {
-            "type": "http",
-            "url": "http://127.0.0.1:9090/-/healthy"
-          }
-        }
-      },
-      {
-        "name": "wl-vaultwarden",
-        "directory": "/Users/wonderland/Workshop/services/wl-vaultwarden",
-        "runtime": "wonderland-rootless",
-        "compose": "/Users/wonderland/Workshop/services/wl-vaultwarden/compose.yaml",
-        "compose_file": "compose.yaml",
-        "compose_sha256": "9307af680f94c0dd618b132591a3ee0d31a62046f7fd476727dcaca243b8e299",
-        "service_json": "/Users/wonderland/Workshop/services/wl-vaultwarden/service.json",
-        "service_json_sha256": "9725ac76a274a11a6c1f17b35c8cf16ffc056a3559df2f5854b9ba3cb84cf9f5",
-        "containers": [
-          "wl-vaultwarden",
-          "wl-vaultwarden-db"
-        ],
-        "depends_on": [],
-        "critical": true,
-        "autostart": true,
-        "health": {
-          "type": "http",
-          "url": "http://127.0.0.1:8087/"
-        },
-        "metadata": {
-          "name": "wl-vaultwarden",
-          "runtime": "wonderland-rootless",
-          "compose": "compose.yaml",
-          "containers": [
-            "wl-vaultwarden",
-            "wl-vaultwarden-db"
-          ],
-          "depends_on": [],
-          "critical": true,
-          "autostart": true,
-          "tier": "platform",
-          "health": {
-            "type": "http",
-            "url": "http://127.0.0.1:8087/"
-          }
-        }
-      }
-    ]
-  },
-  "recovery": {
-    "generated_at": "2026-06-27T11:32:22.639489+00:00",
-    "result": "PASS",
-    "runtime": "wonderland-rootless",
-    "recovered_count": 0,
-    "start_order": [
-      "wl-dns",
-      "wl-loki",
-      "wl-nats",
-      "wl-vaultwarden",
-      "wl-prometheus",
-      "wl-grafana"
-    ],
-    "services": [
-      {
-        "name": "wl-dns",
-        "directory": "/Users/wonderland/Workshop/services/wl-dns",
-        "runtime": "wonderland-rootless",
-        "compose": "/Users/wonderland/Workshop/services/wl-dns/compose.yaml",
-        "compose_file": "compose.yaml",
-        "compose_sha256": "07f7d78bddc1fddbbdb21d56e6426e6dfa9cb55f532f7f763da2647d72b6464e",
-        "service_json": "/Users/wonderland/Workshop/services/wl-dns/service.json",
-        "service_json_sha256": "559e69eaf4ad649b7790c7e4d7e721e231a72c2ec2802b71b353b6ba602b7883",
-        "containers": [
-          "wl-dns"
-        ],
-        "depends_on": [],
-        "critical": true,
-        "autostart": true,
-        "health": {
-          "type": "tcp",
-          "host": "127.0.0.1",
-          "port": 1053
-        },
-        "metadata": {
-          "name": "wl-dns",
-          "runtime": "wonderland-rootless",
-          "compose": "compose.yaml",
-          "containers": [
-            "wl-dns"
-          ],
-          "depends_on": [],
-          "critical": true,
-          "autostart": true,
-          "tier": "platform",
-          "health": {
-            "type": "tcp",
-            "host": "127.0.0.1",
-            "port": 1053
-          }
-        }
-      },
-      {
-        "name": "wl-grafana",
-        "directory": "/Users/wonderland/Workshop/services/wl-grafana",
-        "runtime": "wonderland-rootless",
-        "compose": "/Users/wonderland/Workshop/services/wl-grafana/compose.yaml",
-        "compose_file": "compose.yaml",
-        "compose_sha256": "3c2c07fdf96dcf84500c1445eeab3320246e3d28ad2bf6fe83705a70cf0fc4b7",
-        "service_json": "/Users/wonderland/Workshop/services/wl-grafana/service.json",
-        "service_json_sha256": "79d752dea24120fb192dadb547710dca4026c4b50a4ded7642f5415769a1e610",
-        "containers": [
-          "wl-grafana"
-        ],
-        "depends_on": [
-          "wl-loki",
-          "wl-prometheus"
-        ],
-        "critical": true,
-        "autostart": true,
-        "health": {
-          "type": "http",
-          "url": "http://127.0.0.1:3000/api/health"
-        },
-        "metadata": {
-          "name": "wl-grafana",
-          "runtime": "wonderland-rootless",
-          "compose": "compose.yaml",
-          "containers": [
-            "wl-grafana"
-          ],
-          "depends_on": [
-            "wl-loki",
-            "wl-prometheus"
-          ],
-          "critical": true,
-          "autostart": true,
-          "tier": "platform",
-          "health": {
-            "type": "http",
-            "url": "http://127.0.0.1:3000/api/health"
-          }
-        }
-      },
-      {
-        "name": "wl-loki",
-        "directory": "/Users/wonderland/Workshop/services/wl-loki",
-        "runtime": "wonderland-rootless",
-        "compose": "/Users/wonderland/Workshop/services/wl-loki/compose.yaml",
-        "compose_file": "compose.yaml",
-        "compose_sha256": "58a8456e767598ac557ca7a313eca480cb68068e127068dc23d6060955756590",
-        "service_json": "/Users/wonderland/Workshop/services/wl-loki/service.json",
-        "service_json_sha256": "96262750b725db84b084062b2df12b552a2871ebc472fc45af2e5e7b457c0473",
-        "containers": [
-          "wl-loki"
-        ],
-        "depends_on": [],
-        "critical": true,
-        "autostart": true,
-        "health": {
-          "type": "http",
-          "url": "http://127.0.0.1:3100/ready"
-        },
-        "metadata": {
-          "name": "wl-loki",
-          "runtime": "wonderland-rootless",
-          "compose": "compose.yaml",
-          "containers": [
-            "wl-loki"
-          ],
-          "depends_on": [],
-          "critical": true,
-          "autostart": true,
-          "tier": "platform",
-          "adopted": true,
-          "health": {
-            "type": "http",
-            "url": "http://127.0.0.1:3100/ready"
-          }
-        }
-      },
-      {
-        "name": "wl-nats",
-        "directory": "/Users/wonderland/Workshop/services/wl-nats",
-        "runtime": "wonderland-rootless",
-        "compose": "/Users/wonderland/Workshop/services/wl-nats/compose.yaml",
-        "compose_file": "compose.yaml",
-        "compose_sha256": "32715020321546804a579cfcccd28ac49a15d911e98e28f46dfaf4e548c96f18",
-        "service_json": "/Users/wonderland/Workshop/services/wl-nats/service.json",
-        "service_json_sha256": "5483384226930dec01d042ac047104c3611d1eb7119269d5a20a0b7f36b35e82",
-        "containers": [
-          "wl-nats"
-        ],
-        "depends_on": [],
-        "critical": true,
-        "autostart": true,
-        "health": {
-          "type": "tcp",
-          "host": "127.0.0.1",
-          "port": 4222
-        },
-        "metadata": {
-          "name": "wl-nats",
-          "runtime": "wonderland-rootless",
-          "compose": "compose.yaml",
-          "containers": [
-            "wl-nats"
-          ],
-          "depends_on": [],
-          "critical": true,
-          "autostart": true,
-          "tier": "platform",
-          "health": {
-            "type": "tcp",
-            "host": "127.0.0.1",
-            "port": 4222
-          }
-        }
-      },
-      {
-        "name": "wl-prometheus",
-        "directory": "/Users/wonderland/Workshop/services/wl-prometheus",
-        "runtime": "wonderland-rootless",
-        "compose": "/Users/wonderland/Workshop/services/wl-prometheus/compose.yaml",
-        "compose_file": "compose.yaml",
-        "compose_sha256": "52a262fc04351c63418aa2abf44e5add4e6c3d97ac91e4a9d19185e791e2ff0c",
-        "service_json": "/Users/wonderland/Workshop/services/wl-prometheus/service.json",
-        "service_json_sha256": "acea835c8c0d4757c2c454e00df9427bb44aed8e8ecea76461d26b8ede503370",
-        "containers": [
-          "wl-prometheus"
-        ],
-        "depends_on": [
-          "wl-loki"
-        ],
-        "critical": true,
-        "autostart": true,
-        "health": {
-          "type": "http",
-          "url": "http://127.0.0.1:9090/-/healthy"
-        },
-        "metadata": {
-          "name": "wl-prometheus",
-          "runtime": "wonderland-rootless",
-          "compose": "compose.yaml",
-          "containers": [
-            "wl-prometheus"
-          ],
-          "depends_on": [
-            "wl-loki"
-          ],
-          "critical": true,
-          "autostart": true,
-          "tier": "platform",
-          "health": {
-            "type": "http",
-            "url": "http://127.0.0.1:9090/-/healthy"
-          }
-        }
-      },
-      {
-        "name": "wl-vaultwarden",
-        "directory": "/Users/wonderland/Workshop/services/wl-vaultwarden",
-        "runtime": "wonderland-rootless",
-        "compose": "/Users/wonderland/Workshop/services/wl-vaultwarden/compose.yaml",
-        "compose_file": "compose.yaml",
-        "compose_sha256": "9307af680f94c0dd618b132591a3ee0d31a62046f7fd476727dcaca243b8e299",
-        "service_json": "/Users/wonderland/Workshop/services/wl-vaultwarden/service.json",
-        "service_json_sha256": "9725ac76a274a11a6c1f17b35c8cf16ffc056a3559df2f5854b9ba3cb84cf9f5",
-        "containers": [
-          "wl-vaultwarden",
-          "wl-vaultwarden-db"
-        ],
-        "depends_on": [],
-        "critical": true,
-        "autostart": true,
-        "health": {
-          "type": "http",
-          "url": "http://127.0.0.1:8087/"
-        },
-        "metadata": {
-          "name": "wl-vaultwarden",
-          "runtime": "wonderland-rootless",
-          "compose": "compose.yaml",
-          "containers": [
-            "wl-vaultwarden",
-            "wl-vaultwarden-db"
-          ],
-          "depends_on": [],
-          "critical": true,
-          "autostart": true,
-          "tier": "platform",
-          "health": {
-            "type": "http",
-            "url": "http://127.0.0.1:8087/"
-          }
-        }
-      }
-    ]
-  },
-  "controller": {
-    "generated_at": "2026-06-27T11:20:29.300024+00:00",
-    "controller": "wl-controller-core",
-    "result": "PASS",
-    "duration_seconds": 17.072,
-    "steps": [
-      {
-        "name": "refresh",
-        "command": [
-          "/Users/wonderland/Wonderland/bin/wl-services-refresh"
-        ],
-        "returncode": 0,
-        "duration_seconds": 0.035,
-        "ok": true,
-        "output": "REGISTRY /Users/wonderland/Wonderland/vault/05-Registry/services.json\nVALID TRUE\nSTART_ORDER wl-dns wl-loki wl-nats wl-vaultwarden wl-prometheus wl-grafana\nRESULT PASS\n"
-      },
-      {
-        "name": "reconcile",
-        "command": [
-          "/Users/wonderland/Wonderland/bin/wl-reconcile"
-        ],
-        "returncode": 0,
-        "duration_seconds": 3.593,
-        "ok": true,
-        "output": "== Wonderland Reconcile ==\n\n== Refresh registry ==\nREGISTRY /Users/wonderland/Wonderland/vault/05-Registry/services.json\nVALID TRUE\nSTART_ORDER wl-dns wl-loki wl-nats wl-vaultwarden wl-prometheus wl-grafana\nRESULT PASS\n\n== Validate desired state ==\nPASS desired state\n\n== Ensure runtime ==\nwonderland-rootless    Running    127.0.0.1:49212    vz        aarch64    4       6GiB      80GiB     ~/.lima/wonderland-rootless\nPASS wonderland-rootless running\n\n== Apply desired services ==\nENSURE wl-dns\ntime=\"2026-06-27T04:20:12-07:00\" level=info msg=\"Ensuring image docker.io/coredns/coredns:1.11.3\"\ntime=\"2026-06-27T04:20:12-07:00\" level=info msg=\"Running [/usr/local/bin/nerdctl start 366b71a3a1e4d449c75dd656207b38d6d34808763b89a5b7aa48b416750c2ca1]\"\ntime=\"2026-06-27T04:20:12-07:00\" level=warning msg=\"container 366b71a3a1e4d449c75dd656207b38d6d34808763b89a5b7aa48b416750c2ca1 is already running\"\n\n== Health ==\n== Wonderland Service Health ==\nPASS container wl-dns\nPASS health wl-dns tcp\nPASS container wl-grafana\nPASS health wl-grafana http\nPASS container wl-loki\nPASS health wl-loki http\nPASS container wl-nats\nPASS health wl-nats tcp\nPASS container wl-prometheus\nPASS health wl-prometheus http\nPASS container wl-vaultwarden\nPASS container wl-vaultwarden-db\nPASS health wl-vaultwarden http\nRESULT PASS\n\n== Certification ==\nWonderland Platform Services Certification\nGenerated: 2026-06-27T11:20:13Z\n\n== Cleaning macOS metadata ==\nROOT /Users/wonderland/Workshop/services\nROOT /Users/wonderland/Wonderland/docker\nRESULT PASS\n== Cleaning guest metadata ==\nROOT /home/wonderland.guest/Workshop/services\nRESULT PASS\nRESULT PASS platform metadata clean\n\nREGISTRY /Users/wonderland/Wonderland/vault/05-Registry/services.json\nVALID TRUE\nSTART_ORDER wl-dns wl-loki wl-nats wl-vaultwarden wl-prometheus wl-grafana\nRESULT PASS\n\nwonderland-rootless    Running    127.0.0.1:49212    vz        aarch64    4       6GiB      80GiB     ~/.lima/wonderland-rootless\nPASS wonderland-rootless running\n\n== Wonderland Rootless Services ==\nPASS wl-vaultwarden up\nPASS wl-vaultwarden-db up\nPASS wl-loki up\nPASS wl-prometheus up\nPASS wl-grafana up\nPASS wl-nats up\nPASS wl-dns up\n\nWonderland Universe Status\n\nRoot:  /Users/wonderland/Wonderland\nMode:  light\n\nAuthority\nPASS mode                   \nPASS storage                \nPASS storage authority      \n\nGovernance\nPASS governance             \nPASS recovery               \nPASS snapshot               \n\nRuntime\nPASS services\n\nCapability\nWARN media                  unavailable in current mode\nWARN torrent                unavailable in current mode\n\nRESULT PASS\n\nWonderland Doctor\n\nPASS storage                  +10\nPASS governance               +10\nPASS universe                 +10\nPASS wonderland-rootless      +10\nPASS rootless                 +10\nPASS services                 +10\n\nHealth Score: 60/60\nRESULT PASS\nRESULT PASS\nREPORT /Users/wonderland/Wonderland/vault/08-Operations/reports/reconcile/reconcile-20260627T112012Z.json\nRESULT PASS\n"
-      },
-      {
-        "name": "recover",
-        "command": [
-          "/Users/wonderland/Wonderland/bin/wl-services-recover"
-        ],
-        "returncode": 0,
-        "duration_seconds": 3.92,
-        "ok": true,
-        "output": "== Wonderland Recovery ==\n\n== Refresh registry ==\nREGISTRY /Users/wonderland/Wonderland/vault/05-Registry/services.json\nVALID TRUE\nSTART_ORDER wl-dns wl-loki wl-nats wl-vaultwarden wl-prometheus wl-grafana\nRESULT PASS\n\n== Ensure runtime ==\nwonderland-rootless    Running    127.0.0.1:49212    vz        aarch64    4       6GiB      80GiB     ~/.lima/wonderland-rootless\nPASS wonderland-rootless running\n\n== Check desired critical services ==\nPASS wl-dns up\nPASS wl-loki up\nPASS wl-nats up\nPASS wl-vaultwarden up\nPASS wl-prometheus up\nPASS wl-grafana up\n\n== Health ==\n== Wonderland Service Health ==\nPASS container wl-dns\nPASS health wl-dns tcp\nPASS container wl-grafana\nPASS health wl-grafana http\nPASS container wl-loki\nPASS health wl-loki http\nPASS container wl-nats\nPASS health wl-nats tcp\nPASS container wl-prometheus\nPASS health wl-prometheus http\nPASS container wl-vaultwarden\nPASS container wl-vaultwarden-db\nPASS health wl-vaultwarden http\nRESULT PASS\n\n== Certification ==\nWonderland Platform Services Certification\nGenerated: 2026-06-27T11:20:17Z\n\n== Cleaning macOS metadata ==\nROOT /Users/wonderland/Workshop/services\nROOT /Users/wonderland/Wonderland/docker\nRESULT PASS\n== Cleaning guest metadata ==\nROOT /home/wonderland.guest/Workshop/services\nRESULT PASS\nRESULT PASS platform metadata clean\n\nREGISTRY /Users/wonderland/Wonderland/vault/05-Registry/services.json\nVALID TRUE\nSTART_ORDER wl-dns wl-loki wl-nats wl-vaultwarden wl-prometheus wl-grafana\nRESULT PASS\n\nwonderland-rootless    Running    127.0.0.1:49212    vz        aarch64    4       6GiB      80GiB     ~/.lima/wonderland-rootless\nPASS wonderland-rootless running\n\n== Wonderland Rootless Services ==\nPASS wl-vaultwarden up\nPASS wl-vaultwarden-db up\nPASS wl-loki up\nPASS wl-prometheus up\nPASS wl-grafana up\nPASS wl-nats up\nPASS wl-dns up\n\nWonderland Universe Status\n\nRoot:  /Users/wonderland/Wonderland\nMode:  light\n\nAuthority\nPASS mode                   \nPASS storage                \nPASS storage authority      \n\nGovernance\nPASS governance             \nPASS recovery               \nPASS snapshot               \n\nRuntime\nPASS services\n\nCapability\nWARN media                  unavailable in current mode\nWARN torrent                unavailable in current mode\n\nRESULT PASS\n\nWonderland Doctor\n\nPASS storage                  +10\nPASS governance               +10\nPASS universe                 +10\nPASS wonderland-rootless      +10\nPASS rootless                 +10\nPASS services                 +10\n\nHealth Score: 60/60\nRESULT PASS\nRESULT PASS\nREPORT /Users/wonderland/Wonderland/vault/08-Operations/reports/recovery/recovery-20260627T112015Z.json\nRESULT PASS\n"
-      },
-      {
-        "name": "health",
-        "command": [
-          "/Users/wonderland/Wonderland/bin/wl-services-health"
-        ],
-        "returncode": 0,
-        "duration_seconds": 0.54,
-        "ok": true,
-        "output": "== Wonderland Service Health ==\nPASS container wl-dns\nPASS health wl-dns tcp\nPASS container wl-grafana\nPASS health wl-grafana http\nPASS container wl-loki\nPASS health wl-loki http\nPASS container wl-nats\nPASS health wl-nats tcp\nPASS container wl-prometheus\nPASS health wl-prometheus http\nPASS container wl-vaultwarden\nPASS container wl-vaultwarden-db\nPASS health wl-vaultwarden http\nRESULT PASS\n"
-      },
-      {
-        "name": "certify",
-        "command": [
-          "/Users/wonderland/Wonderland/bin/wl-certify-platform-services"
-        ],
-        "returncode": 0,
-        "duration_seconds": 2.759,
-        "ok": true,
-        "output": "Wonderland Platform Services Certification\nGenerated: 2026-06-27T11:20:20Z\n\n== Cleaning macOS metadata ==\nROOT /Users/wonderland/Workshop/services\nROOT /Users/wonderland/Wonderland/docker\nRESULT PASS\n== Cleaning guest metadata ==\nROOT /home/wonderland.guest/Workshop/services\nRESULT PASS\nRESULT PASS platform metadata clean\n\nREGISTRY /Users/wonderland/Wonderland/vault/05-Registry/services.json\nVALID TRUE\nSTART_ORDER wl-dns wl-loki wl-nats wl-vaultwarden wl-prometheus wl-grafana\nRESULT PASS\n\nwonderland-rootless    Running    127.0.0.1:49212    vz        aarch64    4       6GiB      80GiB     ~/.lima/wonderland-rootless\nPASS wonderland-rootless running\n\n== Wonderland Rootless Services ==\nPASS wl-vaultwarden up\nPASS wl-vaultwarden-db up\nPASS wl-loki up\nPASS wl-prometheus up\nPASS wl-grafana up\nPASS wl-nats up\nPASS wl-dns up\n\nWonderland Universe Status\n\nRoot:  /Users/wonderland/Wonderland\nMode:  light\n\nAuthority\nPASS mode                   \nPASS storage                \nPASS storage authority      \n\nGovernance\nPASS governance             \nPASS recovery               \nPASS snapshot               \n\nRuntime\nPASS services\n\nCapability\nWARN media                  unavailable in current mode\nWARN torrent                unavailable in current mode\n\nRESULT PASS\n\nWonderland Doctor\n\nPASS storage                  +10\nPASS governance               +10\nPASS universe                 +10\nPASS wonderland-rootless      +10\nPASS rootless                 +10\nPASS services                 +10\n\nHealth Score: 60/60\nRESULT PASS\nRESULT PASS\n"
-      },
-      {
-        "name": "timeline",
-        "command": [
-          "/Users/wonderland/Wonderland/bin/wl-timeline",
-          "sync"
-        ],
-        "returncode": 0,
-        "duration_seconds": 0.029,
-        "ok": true,
-        "output": "TIMELINE /Users/wonderland/Wonderland/vault/09-Timeline/timeline.jsonl\nINDEX /Users/wonderland/Wonderland/vault/09-Timeline/index.json\nADDED 64\nRESULT PASS\n"
-      },
-      {
-        "name": "state",
-        "command": [
-          "/Users/wonderland/Wonderland/bin/wl-state"
-        ],
-        "returncode": 0,
-        "duration_seconds": 0.157,
-        "ok": true,
-        "output": "STATE /Users/wonderland/Wonderland/vault/08-Operations/state/platform-state-20260627T112023Z.json\nRUNTIME wonderland-rootless running=True\nREGISTRY valid=True services=6\nCONTAINERS up=7 total=7\nEVENTS count=64\nRESULT PASS\n"
-      },
-      {
-        "name": "status",
-        "command": [
-          "/Users/wonderland/Wonderland/bin/wl-platform-status"
-        ],
-        "returncode": 0,
-        "duration_seconds": 6.039,
-        "ok": true,
-        "output": "Wonderland Platform Status\n\nRuntime\nPASS wonderland-rootless      \n\nRegistry\nPASS services registry        6 services\nPASS desired state            \n\nServices\n== Wonderland Services ==\nPASS wl-dns up\nPASS wl-grafana up\nPASS wl-loki up\nPASS wl-nats up\nPASS wl-prometheus up\nPASS wl-vaultwarden up\nPASS services                 \n\nHealth\nPASS health                   \n\nController\nPASS controller latest        \n\nRecovery\nPASS recovery latest          \n\nDeployments\nPASS deployment latest        \n\nEvents\nPASS events                   64 entries\n\nUniverse\nPASS universe                 \n\nDoctor\nPASS doctor                   \n\nCertification\nPASS platform certification   \n\nRESULT PASS\n"
-      }
-    ]
-  },
-  "events": {
-    "path": "/Users/wonderland/Wonderland/runtime/events/events.jsonl",
-    "count": 76
-  },
-  "timeline": {
-    "updated_at": "2026-06-27T11:32:25.978982+00:00",
-    "timeline": "/Users/wonderland/Wonderland/vault/09-Timeline/timeline.jsonl",
-    "events_source": "/Users/wonderland/Wonderland/runtime/events/events.jsonl",
-    "latest_sequence": 246,
-    "added": 76,
-    "event_counts_added": {
-      "platform.event_engine.enabled": 1,
-      "reconcile.started": 10,
-      "reconcile.finished": 10,
-      "deployment.started": 1,
-      "deployment.finished": 1,
-      "recovery.started": 11,
-      "recovery.finished": 11,
-      "service.recovered": 1,
-      "controller.started": 3,
-      "controller.cycle.started": 3,
-      "controller.cycle.finished": 3,
-      "controller.stopped": 2,
-      "controller.core.started": 5,
-      "controller.core.cycle.started": 5,
-      "controller.core.cycle.finished": 4,
-      "controller.core.stopped": 4,
-      "timeline.enabled": 1
+    "services": {
+      "wl-dns": true,
+      "wl-grafana": true,
+      "wl-loki": true,
+      "wl-nats": true,
+      "wl-prometheus": true,
+      "wl-vaultwarden": true
     }
   },
-  "healthy": true
+  "events": [
+    {
+      "payload": {},
+      "ts": 1782713497.298669,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {},
+      "ts": 1782713507.432298,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2019
+      },
+      "ts": 1782713507.64978,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782713507.650893,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {},
+      "ts": 1782713517.788209,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.0996
+      },
+      "ts": 1782713517.903439,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782713517.9045482,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {},
+      "ts": 1782713528.039078,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.1014
+      },
+      "ts": 1782713528.156022,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782713528.157092,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {},
+      "ts": 1782713538.296393,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.1188
+      },
+      "ts": 1782713538.430686,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782713538.43178,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {},
+      "ts": 1782713548.5669591,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.1017
+      },
+      "ts": 1782713548.6840372,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782713548.6851368,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {},
+      "ts": 1782741191.652565,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.4636
+      },
+      "ts": 1782741192.160363,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741192.1615171,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.1076
+      },
+      "ts": 1782741192.2862122,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741222.283919,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.1547
+      },
+      "ts": 1782741222.454441,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741253.019095,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.1464
+      },
+      "ts": 1782741253.181099,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741283.485421,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.1491
+      },
+      "ts": 1782741283.649297,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741314.2042801,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.1437
+      },
+      "ts": 1782741314.3634272,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741344.887516,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.1504
+      },
+      "ts": 1782741345.053581,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741375.240319,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.1763
+      },
+      "ts": 1782741375.4314182,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741405.443706,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.1438
+      },
+      "ts": 1782741405.602232,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741436.182776,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.1477
+      },
+      "ts": 1782741436.345537,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741467.099157,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.152
+      },
+      "ts": 1782741467.26603,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741497.7141628,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.1455
+      },
+      "ts": 1782741497.874924,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741528.366088,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.1629
+      },
+      "ts": 1782741528.549325,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741558.574419,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.1448
+      },
+      "ts": 1782741558.734057,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741589.5623538,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "FAIL",
+        "duration_seconds": 0.1366
+      },
+      "ts": 1782741589.715551,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741620.123394,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.204
+      },
+      "ts": 1782741620.34516,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741650.54602,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2584
+      },
+      "ts": 1782741650.8219059,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741681.086038,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2457
+      },
+      "ts": 1782741681.346591,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741711.535598,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2778
+      },
+      "ts": 1782741711.828779,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741742.225021,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.221
+      },
+      "ts": 1782741742.4631948,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741772.615556,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.1902
+      },
+      "ts": 1782741772.82329,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741803.11334,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2301
+      },
+      "ts": 1782741803.360338,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741833.443102,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.1922
+      },
+      "ts": 1782741833.653669,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741863.8300421,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2948
+      },
+      "ts": 1782741864.141418,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741894.5948632,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2798
+      },
+      "ts": 1782741894.8903081,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741925.429215,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2151
+      },
+      "ts": 1782741925.6620789,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741955.8078709,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2593
+      },
+      "ts": 1782741956.082943,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782741986.376086,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2297
+      },
+      "ts": 1782741986.621442,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782742016.9282,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.3007
+      },
+      "ts": 1782742017.246162,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782742047.596832,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.3166
+      },
+      "ts": 1782742047.929832,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782742078.206291,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.1904
+      },
+      "ts": 1782742078.4133172,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782742108.8768,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2716
+      },
+      "ts": 1782742109.1640189,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782742139.553063,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2382
+      },
+      "ts": 1782742139.806358,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782742170.099989,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2222
+      },
+      "ts": 1782742170.3401642,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782742200.7903402,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.1999
+      },
+      "ts": 1782742201.0085151,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782742231.400151,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2448
+      },
+      "ts": 1782742231.664577,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782742261.967245,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2488
+      },
+      "ts": 1782742262.2307498,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782742292.4944088,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.286
+      },
+      "ts": 1782742292.7971141,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782742323.157745,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.1944
+      },
+      "ts": 1782742323.369405,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782742353.722186,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2704
+      },
+      "ts": 1782742354.008553,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782742384.4100301,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.27
+      },
+      "ts": 1782742384.696053,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782742415.0041149,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2727
+      },
+      "ts": 1782742415.294225,
+      "type": "controller.v3.cycle.finished"
+    }
+  ],
+  "generated_at": 1782742415.292164,
+  "health": {
+    "containers_running": 7,
+    "containers_total": 7,
+    "healthy": true,
+    "services": {
+      "wl-dns": {
+        "detail": "Up",
+        "healthy": true
+      },
+      "wl-grafana": {
+        "detail": "http 200",
+        "healthy": true
+      },
+      "wl-loki": {
+        "detail": "http 200",
+        "healthy": true
+      },
+      "wl-nats": {
+        "detail": "tcp ok",
+        "healthy": true
+      },
+      "wl-prometheus": {
+        "detail": "http 200",
+        "healthy": true
+      },
+      "wl-vaultwarden": {
+        "detail": "Up",
+        "healthy": true
+      },
+      "wl-vaultwarden-db": {
+        "detail": "Up",
+        "healthy": true
+      }
+    }
+  },
+  "metrics": {
+    "plugins": {
+      "count": 1,
+      "enabled": true,
+      "errors": [],
+      "plugins": [
+        "example-audit"
+      ]
+    },
+    "policy": {
+      "errors": [],
+      "valid": true
+    }
+  },
+  "recovery": {
+    "attempted": [],
+    "failed": [],
+    "recovered": []
+  },
+  "registry": {
+    "desired_state_path": "/Users/wonderland/Wonderland/vault/05-Registry/desired-state.json",
+    "resolved_services": {
+      "drifted": 0,
+      "ready": 7,
+      "services": [
+        {
+          "critical": true,
+          "dependencies": [],
+          "desired": true,
+          "drift": [],
+          "health": {
+            "detail": "Up",
+            "healthy": true
+          },
+          "healthy": true,
+          "image": "docker.io/coredns/coredns:1.11.3",
+          "name": "wl-dns",
+          "ready": true,
+          "running": true,
+          "status": "Up"
+        },
+        {
+          "critical": true,
+          "dependencies": [
+            "wl-prometheus"
+          ],
+          "desired": true,
+          "drift": [],
+          "health": {
+            "detail": "http 200",
+            "healthy": true
+          },
+          "healthy": true,
+          "image": "docker.io/grafana/grafana:11.2.0",
+          "name": "wl-grafana",
+          "ready": true,
+          "running": true,
+          "status": "Up"
+        },
+        {
+          "critical": true,
+          "dependencies": [],
+          "desired": true,
+          "drift": [],
+          "health": {
+            "detail": "http 200",
+            "healthy": true
+          },
+          "healthy": true,
+          "image": "docker.io/grafana/loki:3.1.1",
+          "name": "wl-loki",
+          "ready": true,
+          "running": true,
+          "status": "Up"
+        },
+        {
+          "critical": true,
+          "dependencies": [],
+          "desired": true,
+          "drift": [],
+          "health": {
+            "detail": "tcp ok",
+            "healthy": true
+          },
+          "healthy": true,
+          "image": "docker.io/library/nats:2.10-alpine",
+          "name": "wl-nats",
+          "ready": true,
+          "running": true,
+          "status": "Up"
+        },
+        {
+          "critical": true,
+          "dependencies": [
+            "wl-nats"
+          ],
+          "desired": true,
+          "drift": [],
+          "health": {
+            "detail": "http 200",
+            "healthy": true
+          },
+          "healthy": true,
+          "image": "docker.io/prom/prometheus:v2.54.1",
+          "name": "wl-prometheus",
+          "ready": true,
+          "running": true,
+          "status": "Up"
+        },
+        {
+          "critical": true,
+          "dependencies": [
+            "wl-vaultwarden-db"
+          ],
+          "desired": true,
+          "drift": [],
+          "health": {
+            "detail": "Up",
+            "healthy": true
+          },
+          "healthy": true,
+          "image": "docker.io/vaultwarden/server:latest",
+          "name": "wl-vaultwarden",
+          "ready": true,
+          "running": true,
+          "status": "Up"
+        },
+        {
+          "critical": true,
+          "dependencies": [],
+          "desired": true,
+          "drift": [],
+          "health": {
+            "detail": "Up",
+            "healthy": true
+          },
+          "healthy": true,
+          "image": "docker.io/library/postgres:16-alpine",
+          "name": "wl-vaultwarden-db",
+          "ready": true,
+          "running": true,
+          "status": "Up"
+        }
+      ],
+      "total": 7
+    },
+    "services": {
+      "errors": [],
+      "generated_at": "2026-06-27T11:42:24.261041+00:00",
+      "runtime": "wonderland-rootless",
+      "services": [
+        {
+          "autostart": true,
+          "compose": "/Users/wonderland/Workshop/services/wl-dns/compose.yaml",
+          "compose_file": "compose.yaml",
+          "compose_sha256": "07f7d78bddc1fddbbdb21d56e6426e6dfa9cb55f532f7f763da2647d72b6464e",
+          "containers": [
+            "wl-dns"
+          ],
+          "critical": true,
+          "depends_on": [],
+          "directory": "/Users/wonderland/Workshop/services/wl-dns",
+          "health": {
+            "host": "127.0.0.1",
+            "port": 1053,
+            "type": "tcp"
+          },
+          "metadata": {
+            "autostart": true,
+            "compose": "compose.yaml",
+            "containers": [
+              "wl-dns"
+            ],
+            "critical": true,
+            "depends_on": [],
+            "health": {
+              "host": "127.0.0.1",
+              "port": 1053,
+              "type": "tcp"
+            },
+            "name": "wl-dns",
+            "runtime": "wonderland-rootless",
+            "tier": "platform"
+          },
+          "name": "wl-dns",
+          "runtime": "wonderland-rootless",
+          "service_json": "/Users/wonderland/Workshop/services/wl-dns/service.json",
+          "service_json_sha256": "559e69eaf4ad649b7790c7e4d7e721e231a72c2ec2802b71b353b6ba602b7883"
+        },
+        {
+          "autostart": true,
+          "compose": "/Users/wonderland/Workshop/services/wl-grafana/compose.yaml",
+          "compose_file": "compose.yaml",
+          "compose_sha256": "3c2c07fdf96dcf84500c1445eeab3320246e3d28ad2bf6fe83705a70cf0fc4b7",
+          "containers": [
+            "wl-grafana"
+          ],
+          "critical": true,
+          "depends_on": [
+            "wl-loki",
+            "wl-prometheus"
+          ],
+          "directory": "/Users/wonderland/Workshop/services/wl-grafana",
+          "health": {
+            "type": "http",
+            "url": "http://127.0.0.1:3000/api/health"
+          },
+          "metadata": {
+            "autostart": true,
+            "compose": "compose.yaml",
+            "containers": [
+              "wl-grafana"
+            ],
+            "critical": true,
+            "depends_on": [
+              "wl-loki",
+              "wl-prometheus"
+            ],
+            "health": {
+              "type": "http",
+              "url": "http://127.0.0.1:3000/api/health"
+            },
+            "name": "wl-grafana",
+            "runtime": "wonderland-rootless",
+            "tier": "platform"
+          },
+          "name": "wl-grafana",
+          "runtime": "wonderland-rootless",
+          "service_json": "/Users/wonderland/Workshop/services/wl-grafana/service.json",
+          "service_json_sha256": "79d752dea24120fb192dadb547710dca4026c4b50a4ded7642f5415769a1e610"
+        },
+        {
+          "autostart": true,
+          "compose": "/Users/wonderland/Workshop/services/wl-loki/compose.yaml",
+          "compose_file": "compose.yaml",
+          "compose_sha256": "58a8456e767598ac557ca7a313eca480cb68068e127068dc23d6060955756590",
+          "containers": [
+            "wl-loki"
+          ],
+          "critical": true,
+          "depends_on": [],
+          "directory": "/Users/wonderland/Workshop/services/wl-loki",
+          "health": {
+            "type": "http",
+            "url": "http://127.0.0.1:3100/ready"
+          },
+          "metadata": {
+            "adopted": true,
+            "autostart": true,
+            "compose": "compose.yaml",
+            "containers": [
+              "wl-loki"
+            ],
+            "critical": true,
+            "depends_on": [],
+            "health": {
+              "type": "http",
+              "url": "http://127.0.0.1:3100/ready"
+            },
+            "name": "wl-loki",
+            "runtime": "wonderland-rootless",
+            "tier": "platform"
+          },
+          "name": "wl-loki",
+          "runtime": "wonderland-rootless",
+          "service_json": "/Users/wonderland/Workshop/services/wl-loki/service.json",
+          "service_json_sha256": "96262750b725db84b084062b2df12b552a2871ebc472fc45af2e5e7b457c0473"
+        },
+        {
+          "autostart": true,
+          "compose": "/Users/wonderland/Workshop/services/wl-nats/compose.yaml",
+          "compose_file": "compose.yaml",
+          "compose_sha256": "32715020321546804a579cfcccd28ac49a15d911e98e28f46dfaf4e548c96f18",
+          "containers": [
+            "wl-nats"
+          ],
+          "critical": true,
+          "depends_on": [],
+          "directory": "/Users/wonderland/Workshop/services/wl-nats",
+          "health": {
+            "host": "127.0.0.1",
+            "port": 4222,
+            "type": "tcp"
+          },
+          "metadata": {
+            "autostart": true,
+            "compose": "compose.yaml",
+            "containers": [
+              "wl-nats"
+            ],
+            "critical": true,
+            "depends_on": [],
+            "health": {
+              "host": "127.0.0.1",
+              "port": 4222,
+              "type": "tcp"
+            },
+            "name": "wl-nats",
+            "runtime": "wonderland-rootless",
+            "tier": "platform"
+          },
+          "name": "wl-nats",
+          "runtime": "wonderland-rootless",
+          "service_json": "/Users/wonderland/Workshop/services/wl-nats/service.json",
+          "service_json_sha256": "5483384226930dec01d042ac047104c3611d1eb7119269d5a20a0b7f36b35e82"
+        },
+        {
+          "autostart": true,
+          "compose": "/Users/wonderland/Workshop/services/wl-prometheus/compose.yaml",
+          "compose_file": "compose.yaml",
+          "compose_sha256": "52a262fc04351c63418aa2abf44e5add4e6c3d97ac91e4a9d19185e791e2ff0c",
+          "containers": [
+            "wl-prometheus"
+          ],
+          "critical": true,
+          "depends_on": [
+            "wl-loki"
+          ],
+          "directory": "/Users/wonderland/Workshop/services/wl-prometheus",
+          "health": {
+            "type": "http",
+            "url": "http://127.0.0.1:9090/-/healthy"
+          },
+          "metadata": {
+            "autostart": true,
+            "compose": "compose.yaml",
+            "containers": [
+              "wl-prometheus"
+            ],
+            "critical": true,
+            "depends_on": [
+              "wl-loki"
+            ],
+            "health": {
+              "type": "http",
+              "url": "http://127.0.0.1:9090/-/healthy"
+            },
+            "name": "wl-prometheus",
+            "runtime": "wonderland-rootless",
+            "tier": "platform"
+          },
+          "name": "wl-prometheus",
+          "runtime": "wonderland-rootless",
+          "service_json": "/Users/wonderland/Workshop/services/wl-prometheus/service.json",
+          "service_json_sha256": "acea835c8c0d4757c2c454e00df9427bb44aed8e8ecea76461d26b8ede503370"
+        },
+        {
+          "autostart": true,
+          "compose": "/Users/wonderland/Workshop/services/wl-vaultwarden/compose.yaml",
+          "compose_file": "compose.yaml",
+          "compose_sha256": "9307af680f94c0dd618b132591a3ee0d31a62046f7fd476727dcaca243b8e299",
+          "containers": [
+            "wl-vaultwarden",
+            "wl-vaultwarden-db"
+          ],
+          "critical": true,
+          "depends_on": [],
+          "directory": "/Users/wonderland/Workshop/services/wl-vaultwarden",
+          "health": {
+            "type": "http",
+            "url": "http://127.0.0.1:8087/"
+          },
+          "metadata": {
+            "autostart": true,
+            "compose": "compose.yaml",
+            "containers": [
+              "wl-vaultwarden",
+              "wl-vaultwarden-db"
+            ],
+            "critical": true,
+            "depends_on": [],
+            "health": {
+              "type": "http",
+              "url": "http://127.0.0.1:8087/"
+            },
+            "name": "wl-vaultwarden",
+            "runtime": "wonderland-rootless",
+            "tier": "platform"
+          },
+          "name": "wl-vaultwarden",
+          "runtime": "wonderland-rootless",
+          "service_json": "/Users/wonderland/Workshop/services/wl-vaultwarden/service.json",
+          "service_json_sha256": "9725ac76a274a11a6c1f17b35c8cf16ffc056a3559df2f5854b9ba3cb84cf9f5"
+        }
+      ],
+      "services_root": "/Users/wonderland/Workshop/services",
+      "start_order": [
+        "wl-dns",
+        "wl-loki",
+        "wl-nats",
+        "wl-vaultwarden",
+        "wl-prometheus",
+        "wl-grafana"
+      ],
+      "stop_order": [
+        "wl-grafana",
+        "wl-prometheus",
+        "wl-vaultwarden",
+        "wl-nats",
+        "wl-loki",
+        "wl-dns"
+      ],
+      "valid": true
+    },
+    "services_path": "/Users/wonderland/Wonderland/vault/05-Registry/services.json",
+    "valid": true
+  },
+  "runtime": {
+    "container_runtime": "nerdctl",
+    "legacy_default_supported": false,
+    "name": "wonderland-rootless",
+    "running": true
+  },
+  "schema": 1,
+  "timeline": {
+    "entries": 5073,
+    "latest": "index.json"
+  }
 }

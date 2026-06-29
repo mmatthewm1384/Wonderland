@@ -1,186 +1,66 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 
-WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
-REPORT_DIR="$WL_ROOT/vault/08-Operations/reports"
-REPORT_FILE="$REPORT_DIR/universe-status-report.json"
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
 
-mkdir -p "$REPORT_DIR"
+cmd="${1:-status}"
 
-pass() { printf "PASS %-22s %s\n" "$1" "${2:-}"; }
-fail() { printf "FAIL %-22s %s\n" "$1" "${2:-}"; }
-warn() { printf "WARN %-22s %s\n" "$1" "${2:-}"; }
+case "$cmd" in
+  status)
+    if [[ "${2:-}" == "--json" || "${1:-}" == "--json" ]]; then
+      wl_context_refresh
+      wl_state_refresh
 
-check_cmd() {
-  local label="$1"
-  shift
+      runtime_state="$(wl_state_get runtime)"
+      result="PASS"
+      rc=0
 
-  if "$@" >/tmp/wl-universe-check.out 2>/tmp/wl-universe-check.err; then
-    pass "$label"
-    return 0
-  else
-    fail "$label"
-    return 1
-  fi
-}
+      if [[ "$runtime_state" != "running" ]]; then
+        result="FAIL"
+        rc=1
+      fi
 
-mode_value() {
-  python3 - <<PY
-import json
-from pathlib import Path
-p = Path("$WL_ROOT/vault/07-Operations/platform/runtime-mode.json")
-try:
-    print(json.loads(p.read_text()).get("mode", "unknown"))
-except Exception:
-    print("unknown")
-PY
-}
-
-status() {
-  local failures=0
-  local mode
-  mode="$(mode_value)"
-
-  echo "Wonderland Universe Status"
-  echo
-  echo "Root:  $WL_ROOT"
-  echo "Mode:  $mode"
-  echo
-
-  echo "Authority"
-  check_cmd "mode" "$WL_ROOT/bin/wl-mode" status || failures=$((failures+1))
-  check_cmd "storage" "$WL_ROOT/bin/wl-storage" status || failures=$((failures+1))
-  check_cmd "storage authority" "$WL_ROOT/bin/wl-storage" authority || failures=$((failures+1))
-
-  echo
-  echo "Governance"
-  check_cmd "governance" "$WL_ROOT/bin/wl" governance status || failures=$((failures+1))
-  check_cmd "recovery" "$WL_ROOT/bin/wl" recovery verify || failures=$((failures+1))
-  check_cmd "snapshot" "$WL_ROOT/bin/wl" snapshot doctor || failures=$((failures+1))
-
-  echo
-  echo "Runtime"
-  required_services="wl-vaultwarden wl-vaultwarden-db wl-loki"
-missing=0
-
-for svc in $required_services; do
-  if LIMA_INSTANCE=wonderland-rootless nerdctl ps --format '{{.Names}}' | grep -qx "$svc"; then
-    :
-  else
-    echo "FAIL service $svc"
-    missing=$((missing+1))
-  fi
-done
-
-if [ "$missing" -eq 0 ]; then
-  echo "PASS services"
-else
-  echo "FAIL services"
-  failures=$((failures+1))
-fi
-
-  echo
-  echo "Capability"
-  if "$WL_ROOT/bin/wl-require-capability" media >/dev/null 2>&1; then
-    pass "media"
-  else
-    warn "media" "unavailable in current mode"
-  fi
-
-  if "$WL_ROOT/bin/wl-require-capability" torrent >/dev/null 2>&1; then
-    pass "torrent"
-  else
-    warn "torrent" "unavailable in current mode"
-  fi
-
-  local result="PASS"
-  if [ "$failures" -ne 0 ]; then
-    result="FAIL"
-  fi
-
-  cat > "$REPORT_FILE" <<JSON
+      cat <<JSON
 {
-  "generated": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
-  "root": "$WL_ROOT",
-  "mode": "$mode",
-  "failures": $failures,
-  "result": "$result"
+  "schema": "wonderland.universe.status.v1",
+  "result": "$result",
+  "context": $(wl_context_dump),
+  "state": $(wl_state_dump),
+  "capabilities": $(wl_capabilities_dump)
 }
 JSON
-
-  echo
-  echo "RESULT $result"
-}
-
-doctor() {
-  echo "Wonderland Universe Doctor"
-  echo
-
-  status
-  status_rc=$?
-
-  echo
-  echo "Recommendations"
-
-  recs=0
-
-  if grep -R "WIREGUARD_PRIVATE_KEY=" "$WL_ROOT/services/torrent" >/dev/null 2>&1; then
-    echo "WARN rotate Surfshark WireGuard credentials"
-    recs=$((recs+1))
-  fi
-
-  if [ -d "/Volumes/T7_Wonderland/media/music/taylor-swift" ]; then
-    if [ ! -f "/Volumes/T7_Wonderland/media/music/manifests/taylor-swift-20260611.sha256" ]; then
-      echo "WARN create Taylor Swift music manifest"
-      recs=$((recs+1))
+      exit "$rc"
     fi
-  fi
 
-  if [ ! -f "$REPORT_DIR/universe-certification-status.json" ]; then
-    echo "WARN universe certification status missing"
-    recs=$((recs+1))
-  fi
+    echo "Wonderland Universe Status"
+    echo
+    echo "Root:  $WL_HOME"
+    echo "Mode:  ${WL_MODE:-light}"
 
-  if [ "$recs" -eq 0 ]; then
-    echo "PASS no recommendations"
-  fi
+    wl_section "Authority"
+    [[ -n "${WL_MODE:-}" ]] && wl_pass "mode" "${WL_MODE:-light}" || wl_fail "mode" "missing"
+    wl_required_path "storage" "$WL_HOME"
+    wl_storage_t7_attached && wl_pass "storage authority" "external attached" || wl_warn "storage authority" "T7 detached; internal authority active"
 
-  echo
-  if [ "$status_rc" -eq 0 ]; then
-    echo "RESULT PASS"
-  else
-    echo "RESULT FAIL"
-    exit "$status_rc"
-  fi
-}
+    wl_section "Governance"
+    wl_optional_path "governance" "$WL_HOME/vault/00-Governance"
+    wl_optional_path "recovery" "$WL_HOME/vault/08-Operations/recovery"
+    wl_optional_path "snapshot" "$WL_HOME/vault/08-Operations/snapshots"
 
-case "${1:-status}" in
-  dashboard)
-    shift || true
-    exec "$WL_ROOT/bin/wl-universe-dashboard" "$@"
+    wl_section "Runtime"
+    wl_runtime_running && wl_pass "services" "runtime available" || wl_fail "services" "runtime unavailable"
+
+    wl_section "Capability"
+    wl_capability_available media && wl_pass "media" "available" || wl_warn "media" "unavailable in current mode"
+    wl_capability_available torrent && wl_pass "torrent" "available" || wl_warn "torrent" "unavailable in current mode"
+
+    wl_exit
     ;;
 
-
-  graph)
-    shift || true
-    exec "$WL_ROOT/bin/wl-universe-graph" "$@"
-    ;;
-
-
-  status) status ;;
-  doctor) doctor ;;
-  report)
-    if [ -f "$REPORT_FILE" ]; then
-      cat "$REPORT_FILE"
-    else
-      echo "No universe status report found."
-      exit 1
-    fi
-    ;;
   *)
-    echo "Usage:"
-    echo "  wl universe status"
-    echo "  wl universe report"
-    exit 2
+    echo "Usage: wl universe status"
+    echo "RESULT FAIL"
+    exit 1
     ;;
 esac

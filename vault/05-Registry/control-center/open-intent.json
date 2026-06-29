@@ -1,0 +1,12 @@
+{
+  "created_at" : "2026-06-28T21:17:38Z",
+  "logs" : [
+    "\/Users\/wonderland\/Wonderland\/vault\/chaos\/menubar.launchd.out.log",
+    "\/Users\/wonderland\/Wonderland\/vault\/chaos\/menubar.launchd.err.log",
+    "\/Users\/wonderland\/Wonderland\/vault\/chaos\/scheduler-audit.jsonl",
+    "\/Users\/wonderland\/Wonderland\/vault\/chaos\/audit.jsonl"
+  ],
+  "schema" : "wonderland.control-center.open-intent.v1",
+  "source" : "wl-chaos-menubar",
+  "target" : "chaos.logs"
+}

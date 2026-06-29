@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/wonderland/Wonderland/source/packages/WonderlandUI/.build/arm64-apple-macosx/debug/WonderlandUI.build/primary.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/source/packages/WonderlandUI/Sources/WonderlandUI/WonderlandEscalation.swift": {
+    "dependencies": "/Users/wonderland/Wonderland/source/packages/WonderlandUI/.build/arm64-apple-macosx/debug/WonderlandUI.build/WonderlandEscalation.d",
+    "object": "/Users/wonderland/Wonderland/source/packages/WonderlandUI/.build/arm64-apple-macosx/debug/WonderlandUI.build/WonderlandEscalation.swift.o",
+    "swiftmodule": "/Users/wonderland/Wonderland/source/packages/WonderlandUI/.build/arm64-apple-macosx/debug/WonderlandUI.build/WonderlandEscalation~partial.swiftmodule",
+    "swift-dependencies": "/Users/wonderland/Wonderland/source/packages/WonderlandUI/.build/arm64-apple-macosx/debug/WonderlandUI.build/WonderlandEscalation.swiftdeps",
+    "diagnostics": "/Users/wonderland/Wonderland/source/packages/WonderlandUI/.build/arm64-apple-macosx/debug/WonderlandUI.build/WonderlandEscalation.dia"
+  }
+}

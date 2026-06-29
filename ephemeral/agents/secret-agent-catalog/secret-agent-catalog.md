@@ -36,7 +36,7 @@ Use this as the authoritative reference when designing new agents, extending the
 - Ideal for "evidence erasure" visuals or temporary highlighting that must not leave forensic traces.
 - **Secret Trait:** Particles can carry one-time payloads (color/intent) that are "read" on impact then destroyed.
 
-### 1.4 Attention Decay Watchers, Rings & Hooks (Spin City Extension)
+### 1.4 Attention Decay Watchers, Rings & Hooks (DISABLED-Spin City Extension)
 - Rings, trajectories, watchers, and hooks carry an `attention_score` that decays linearly or exponentially based on time or "satisfied" conditions.
 - When score drops below threshold: Auto-fade visual, remove hook from event system, release resources.
 - Visualizes cognitive "forgetting" or mission completion. Perfect for temporary surveillance overlays.
@@ -55,7 +55,7 @@ Use this as the authoritative reference when designing new agents, extending the
 - Resolution: Orderly, deterministic collapse back to clean, stable visual state.
 - **OpSec Value:** Masks real slam, extraction, or data operation behind plausible visual chaos.
 
-### 1.7 Covert / Phantom Rotation Observers (Spin City)
+### 1.7 Covert / Phantom Rotation Observers (DISABLED-Spin City)
 - Outer ring: Counter-clockwise patrol / perimeter sweep.
 - Inner ring or core: Clockwise focused surveillance of inner content or data.
 - Easing functions ensure motion is smooth and non-jarring (does not draw attention).

@@ -11,9 +11,9 @@ import json, struct, zlib, math
 root = Path.home() / "Wonderland/apps/tauri"
 
 apps = {
-    "wl-spin-city": ("Spin City Wave", "rings"),
-    "wl-agitate": ("Agitate Waves", "waves"),
-    "wl-matrix": ("Matrix Atom Destroyer", "atom"),
+    "wl-spin-city": ("DISABLED-Spin City Wave", "rings"),
+    "wl-agitate": ("DISABLED-Agitate Waves", "waves"),
+    "wl-matrix": ("DISABLED-Matrix Atom Destroyer", "atom"),
 }
 
 def write_png(path, size, mode):

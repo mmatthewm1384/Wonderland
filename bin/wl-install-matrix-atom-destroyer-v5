@@ -29,7 +29,7 @@ cat > "$INTENT" <<'JSON'
   "command": "wl-matrix",
   "doctor": "wl-matrix-doctor",
   "rollback": "wl-matrix-rollback",
-  "intent": "Upgrade Matrix Atom Destroyer to v5 with audio-reactive mic mode, waveform bars, automatic slam threshold, HUD telemetry, outdoor visibility, gravity lensing, fracture rings, pulse field, screenshot export, and governed rollback.",
+  "intent": "Upgrade DISABLED-Matrix Atom Destroyer to v5 with audio-reactive mic mode, waveform bars, automatic slam threshold, HUD telemetry, outdoor visibility, gravity lensing, fracture rings, pulse field, screenshot export, and governed rollback.",
   "principles": [
     "persistent",
     "recoverable",
@@ -68,7 +68,7 @@ cat > "$HTML" <<'HTML'
 <!DOCTYPE html>
 <html>
 <head>
-<title>Matrix Atom Destroyer v5 Audio Reactive</title>
+<title>DISABLED-Matrix Atom Destroyer v5 Audio Reactive</title>
 <style>
 html, body {
   margin: 0;
@@ -93,7 +93,7 @@ canvas { display: block; }
 </head>
 <body>
 <canvas id="c"></canvas>
-<div id="label">Matrix Atom Destroyer v5 · SPACE slam · M mic · H HUD · O outdoor · G gravity · F fracture · P pulse · R reset · S screenshot</div>
+<div id="label">DISABLED-Matrix Atom Destroyer v5 · SPACE slam · M mic · H HUD · O outdoor · G gravity · F fracture · P pulse · R reset · S screenshot</div>
 
 <script>
 const COLORS = {
@@ -526,7 +526,7 @@ HTML
 cat > "$MANIFEST" <<JSON
 {
   "id": "matrix-atom-destroyer",
-  "name": "Matrix Atom Destroyer",
+  "name": "DISABLED-Matrix Atom Destroyer",
   "version": "5.0.0",
   "status": "certified-experimental",
   "owner": "Wonderland",
@@ -539,7 +539,7 @@ cat > "$MANIFEST" <<JSON
   "rollback": "wl-matrix-rollback",
   "intent": "intents/matrix-atom-destroyer-v5.intent.json",
   "entrypoint": "matrix-atom-destroyer.html",
-  "description": "Matrix Atom Destroyer v5 audio-reactive HUD mode with microphone input, waveform bars, automatic slam threshold, outdoor mode, gravity lensing, fracture rings, pulse field, left-eye projection, shockwave, fullscreen, and screenshot export."
+  "description": "DISABLED-Matrix Atom Destroyer v5 audio-reactive HUD mode with microphone input, waveform bars, automatic slam threshold, outdoor mode, gravity lensing, fracture rings, pulse field, left-eye projection, shockwave, fullscreen, and screenshot export."
 }
 JSON
 
@@ -576,7 +576,7 @@ check_file() { [[ -f "$1" ]] && echo "PASS $2" || { echo "FAIL $2"; fail=1; }; }
 check_exec() { [[ -x "$1" ]] && echo "PASS $2" || { echo "FAIL $2"; fail=1; }; }
 check_grep() { grep -q "$1" "$2" && echo "PASS $3" || { echo "FAIL $3"; fail=1; }; }
 
-echo "Matrix Atom Destroyer Doctor"
+echo "DISABLED-Matrix Atom Destroyer Doctor"
 
 check_file "$HTML" "html"
 check_file "$MANIFEST" "manifest"
@@ -635,7 +635,7 @@ chmod +x "$LAUNCHER" "$DOCTOR" "$ROLLBACK"
 "$DOCTOR"
 
 echo
-echo "Installed Matrix Atom Destroyer v5 Audio Reactive"
+echo "Installed DISABLED-Matrix Atom Destroyer v5 Audio Reactive"
 echo "Run:      wl-matrix"
 echo "Verify:   wl-matrix-doctor"
 echo "Rollback: wl-matrix-rollback"

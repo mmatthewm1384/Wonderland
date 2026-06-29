@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
+
+cmd="${1:-status}"
+
+case "$cmd" in
+  status)
+    runtime_state="down"
+    t7_state="detached"
+    media_state="unavailable"
+    torrent_state="unavailable"
+    result="PASS"
+    rc=0
+
+    wl_runtime_running && runtime_state="running" || { result="FAIL"; rc=1; }
+    wl_storage_t7_attached && t7_state="attached"
+    wl_capability_available media && media_state="available"
+    wl_capability_available torrent && torrent_state="available"
+
+    cat <<JSON
+{
+  "schema": "wonderland.api.status.v1",
+  "result": "$result",
+  "context": $(wl_context_dump),
+  "runtime": {
+    "instance": "$(wl_context_get runtime_instance)",
+    "state": "$runtime_state"
+  },
+  "storage": {
+    "internal_root": "$(wl_context_get root)",
+    "t7_path": "$(wl_context_get t7_path)",
+    "t7_state": "$t7_state"
+  },
+  "capabilities": {
+    "media": "$media_state",
+    "torrent": "$torrent_state"
+  },
+  "health": {
+    "warnings": 0,
+    "failures": $rc
+  }
+}
+JSON
+    exit "$rc"
+    ;;
+
+  *)
+    echo "Usage: wl api status"
+    echo "RESULT FAIL"
+    exit 1
+    ;;
+esac

@@ -1,0 +1,47 @@
+{
+  "schema": "wonderland.certification.v1",
+  "id": "wonderland-runtime-2.0.0-20260628-230550",
+  "name": "Wonderland Runtime Certification",
+  "timestamp": "20260628-230550",
+  "result": "PASS",
+  "context": {
+  "schema": "wonderland.runtime.context.v1",
+  "version": "0.0.0",
+  "build": "unknown",
+  "channel": "local",
+  "root": "/Users/wonderland/Wonderland",
+  "mode": "light",
+  "profile": "internal-light",
+  "runtime_instance": "wonderland-rootless",
+  "report_dir": "/Users/wonderland/Wonderland/vault/08-Operations/reports",
+  "runtime_dir": "/Users/wonderland/Wonderland/runtime",
+  "config_dir": "/Users/wonderland/Wonderland/config",
+  "lib_dir": "/Users/wonderland/Wonderland/lib",
+  "bin_dir": "/Users/wonderland/Wonderland/bin",
+  "t7_path": "/Volumes/T7_Wonderland"
+},
+  "state": {
+  "schema": "wonderland.runtime.state.v1",
+  "runtime": "running",
+  "t7": "detached",
+  "media": "unavailable",
+  "torrent": "unavailable"
+},
+  "capabilities": {
+  "schema": "wonderland.runtime.capabilities.v1",
+  "internal_storage": true,
+  "external_storage": false,
+  "media": false,
+  "torrent": false,
+  "runtime": true
+},
+  "health": {
+  "schema": "wonderland.runtime.health.v1",
+  "pass": 10,
+  "warn": 0,
+  "fail": 0,
+  "corrupt": 0,
+  "result": "PASS",
+  "exit_code": 0
+}
+}

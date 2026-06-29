@@ -1,26 +1,118 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 
-ROOT="${HOME}/Wonderland"
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
 
-case "${1:-list}" in
-  list)
-    find "$ROOT/docs" -maxdepth 2 -type f | sort
+DOC_DIR="$WL_HOME/vault/02-Documentation/generated"
+DOC="$DOC_DIR/wonderland-command-reference.md"
+MANIFEST="$WL_HOME/config/commands.env"
+cmd="${1:-generate}"
+
+generate_docs() {
+  mkdir -p "$DOC_DIR"
+
+  cat > "$DOC" <<MD
+# Wonderland Command Reference
+
+Generated: $(date +"%Y-%m-%d %H:%M:%S")
+
+Runtime:
+
+- Version: ${WL_VERSION:-0.0.0}
+- Build: ${WL_BUILD:-unknown}
+- Profile: ${WL_PROFILE:-internal-light}
+- Mode: ${WL_MODE:-light}
+
+## Commands
+
+| Path | Language | Lint |
+|---|---|---|
+MD
+
+  while IFS='|' read -r rel lang enabled; do
+    [[ -z "${rel:-}" ]] && continue
+    [[ "$rel" == \#* ]] && continue
+
+    case "$rel" in
+      bin/*)
+        printf '| `%s` | `%s` | `%s` |\n' "$rel" "$lang" "$enabled" >> "$DOC"
+        ;;
+    esac
+  done < "$MANIFEST"
+
+  cat >> "$DOC" <<MD
+
+## Core Libraries
+
+| Path | Language | Lint |
+|---|---|---|
+MD
+
+  while IFS='|' read -r rel lang enabled; do
+    [[ -z "${rel:-}" ]] && continue
+    [[ "$rel" == \#* ]] && continue
+
+    case "$rel" in
+      lib/*)
+        printf '| `%s` | `%s` | `%s` |\n' "$rel" "$lang" "$enabled" >> "$DOC"
+        ;;
+    esac
+  done < "$MANIFEST"
+
+  cat >> "$DOC" <<'MD'
+
+## Machine-Readable Interfaces
+
+| Command | Schema / Output |
+|---|---|
+| `wl api status` | `wonderland.api.status.v2` |
+| `wl status --json` | Delegates to `wl api status` |
+| `wl doctor --json` | `wonderland.doctor.v1` |
+| `wl universe status --json` | `wonderland.universe.status.v1` |
+| `wl runtime status --json` | Runtime status object |
+| `wl services status --json` | Service status object |
+| `wl storage status --json` | Storage status object |
+| `wl profile status --json` | Profile status object |
+| `wl capability status --json` | Capability status object |
+
+## Runtime Objects
+
+| Object | Path |
+|---|---|
+| Context | `runtime/context.json` |
+| State | `runtime/state.json` |
+| Capabilities | `runtime/capabilities.json` |
+| Health | `runtime/health.json` |
+MD
+}
+
+case "$cmd" in
+  generate|build)
+    generate_docs
+    echo "DOC $DOC"
+    echo "RESULT PASS"
     ;;
+
+  path)
+    echo "$DOC"
+    ;;
+
+  show)
+    [[ -f "$DOC" ]] || generate_docs
+    cat "$DOC"
+    ;;
+
   open)
-    open "$ROOT/docs/README.md"
+    [[ -f "$DOC" ]] || generate_docs
+    open "$DOC"
+    echo "DOC $DOC"
+    echo "RESULT PASS"
     ;;
-  api)
-    open "$ROOT/docs/API.md"
-    ;;
-  architecture)
-    open "$ROOT/docs/Architecture.md"
-    ;;
-  operations)
-    open "$ROOT/docs/Operations.md"
-    ;;
+
   *)
-    echo "Usage: wl-docs [list|open|api|architecture|operations]"
-    exit 64
+    echo "Usage: wl docs {generate|build|path|show|open}"
+    echo "RESULT FAIL"
+    exit 1
     ;;
 esac

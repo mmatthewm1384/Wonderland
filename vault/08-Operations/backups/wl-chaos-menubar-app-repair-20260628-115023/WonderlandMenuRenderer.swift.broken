@@ -1,0 +1,106 @@
+import AppKit
+
+@MainActor
+final class WonderlandMenuRenderer {
+    private weak var target: NSObject?
+
+    init(target: NSObject?) {
+        self.target = target
+    }
+
+    func render(_ state: ChaosMenuState) -> NSMenu {
+        let menu = NSMenu()
+
+        menu.addItem(WonderlandMenuFactory.header(
+            status: state.operational ? "OPERATIONAL" : "STANDBY",
+            detail: "Authority Verified"
+        ))
+
+        menu.addItem(WonderlandMenuFactory.section("Authority"))
+        menu.addItem(WonderlandMenuFactory.row(icon: "◆", label: "Fingerprint", value: state.fingerprint, ok: state.fingerprint != "unknown"))
+        menu.addItem(WonderlandMenuFactory.row(icon: "◆", label: "Lease", value: "\(state.leaseText) remaining", ok: !state.leaseText.lowercased().contains("expired")))
+        menu.addItem(WonderlandMenuFactory.row(icon: "◆", label: "Touch ID", value: state.touchIDReady ? "Ready" : "Unavailable", ok: state.touchIDReady))
+        menu.addItem(WonderlandMenuFactory.row(icon: "◆", label: "Controller", value: state.controllerOnline ? "Online" : "Offline", ok: state.controllerOnline))
+
+        menu.addItem(.separator())
+
+        menu.addItem(WonderlandMenuFactory.section("Scheduler"))
+        menu.addItem(WonderlandMenuFactory.row(icon: "◌", label: "Enabled", value: state.schedulerEnabled ? "Yes" : "No", ok: state.schedulerEnabled))
+        menu.addItem(WonderlandMenuFactory.row(icon: "⌁", label: "Strategy", value: state.schedulerStrategy, ok: true))
+        menu.addItem(WonderlandMenuFactory.row(icon: "◎", label: "Current", value: state.currentModel.capitalized, ok: true))
+        menu.addItem(WonderlandMenuFactory.row(icon: "◷", label: "Next", value: state.nextModelText.capitalized, ok: true))
+
+        menu.addItem(.separator())
+
+        menu.addItem(submenu("Chaos Models", [
+            ("Calm", "model.calm"),
+            ("Nudge", "model.nudge"),
+            ("Drift", "model.drift"),
+            ("Storm", "model.storm"),
+            ("Blackout", "model.blackout"),
+            ("Cataclysm", "model.cataclysm"),
+            ("Recovery", "model.recovery")
+        ]))
+
+        menu.addItem(submenu("Escalation Schedule", [
+            ("Run Schedule Now", "runScheduleNow"),
+            ("Pause Schedule", "pauseScheduler"),
+            ("Resume Schedule", "resumeScheduler"),
+            ("Start Scheduler", "startScheduler"),
+            ("Stop Scheduler", "stopScheduler")
+        ]))
+
+        menu.addItem(submenu("Renew Lease", [
+            ("Renew Current Lease (12h)", "renewLease12h"),
+            ("Force Renew…", "renewLease12h"),
+            ("Lease Details…", "openLeaseFile"),
+            ("Lease Policy…", "openPolicyFile")
+        ]))
+
+        menu.addItem(action("Repair Chaos", "repairChaos"))
+        menu.addItem(action("Check In", "checkIn"))
+
+        menu.addItem(.separator())
+
+        menu.addItem(action("Open Dashboard…", "openDashboard"))
+        menu.addItem(action("Open Logs", "openLogs"))
+        menu.addItem(action("Open Chaos Folder", "openChaosFolder"))
+
+        menu.addItem(submenu("Advanced", [
+            ("Verify System", "verifySystem"),
+            ("Verify Fingerprint", "verifyFingerprint"),
+            ("Verify Lease", "verifyLease"),
+            ("Restart Scheduler", "startScheduler")
+        ]))
+
+        menu.addItem(.separator())
+
+        menu.addItem(WonderlandMenuFactory.action(icon: "⏻", label: "Quit") {
+            NSApp.terminate(nil)
+        })
+
+        return menu
+    }
+
+    private func action(_ title: String, _ actionID: String) -> NSMenuItem {
+        let item = NSMenuItem(title: title, action: #selector(ChaosMenubarApp.performMenuAction(_:)), keyEquivalent: "")
+        item.target = target
+        item.representedObject = actionID
+        return item
+    }
+
+    private func submenu(_ title: String, _ children: [(String, String)]) -> NSMenuItem {
+        let item = NSMenuItem(title: title, action: nil, keyEquivalent: "")
+        let menu = NSMenu(title: title)
+
+        for (label, actionID) in children {
+            let child = NSMenuItem(title: label, action: #selector(ChaosMenubarApp.performMenuAction(_:)), keyEquivalent: "")
+            child.target = target
+            child.representedObject = actionID
+            menu.addItem(child)
+        }
+
+        item.submenu = menu
+        return item
+    }
+}

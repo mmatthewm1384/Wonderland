@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
+
+wl_section "Wonderland Regression Tests"
+
+test_rc=0
+
+run_test() {
+  local name="$1"
+  shift
+
+  if "$@" >/tmp/wl-test.out 2>&1; then
+    wl_pass "$name"
+  else
+    wl_fail "$name" "failed"
+    cat /tmp/wl-test.out
+    test_rc=1
+  fi
+}
+
+run_test "bootstrap" bash -n "$WL_HOME/lib/wl-bootstrap.sh"
+run_test "lint" "$WL_HOME/bin/wl-lint"
+run_test "dispatcher" bash -n "$WL_HOME/lib/wl-dispatch.sh"
+run_test "wl" bash -n "$WL_HOME/bin/wl"
+run_test "doctor" "$WL_HOME/bin/wl-doctor"
+run_test "runtime" "$WL_HOME/bin/wl-runtime" status
+run_test "services" "$WL_HOME/bin/wl-services" status
+run_test "storage" "$WL_HOME/bin/wl-storage" status
+run_test "profile" "$WL_HOME/bin/wl-profile" status
+run_test "capability" "$WL_HOME/bin/wl-capability" status
+run_test "report" "$WL_HOME/bin/wl-lifecycle-report" start
+run_test "universe" "$WL_HOME/bin/wl-universe" status
+run_test "status" "$WL_HOME/bin/wl-status"
+run_test "api-status" "$WL_HOME/bin/wl-api" status
+run_test "start" "$WL_HOME/bin/wl-start"
+
+if (( test_rc == 0 )); then
+  echo
+  echo "RESULT PASS"
+  exit 0
+else
+  echo
+  echo "RESULT FAIL"
+  exit 1
+fi

@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+APP="/Users/wonderland/Workshop/apps/macos/wl-chaos-menubar"
+ROOT="/Users/wonderland/Wonderland"
+BIN="$ROOT/ephemeral/bin/wl-chaos-menubar"
+FP="$ROOT/vault/chaos/menubar-fingerprint.json"
+LEASE="$ROOT/vault/05-Registry/chaos/lease.json"
+AUDIT="$ROOT/vault/chaos/menubar-audit.jsonl"
+STATE="$ROOT/vault/chaos/menubar-state.json"
+DEBUG="$ROOT/vault/chaos/menubar-debug.log"
+
+fail=0
+
+check() {
+  local name="$1"
+  local cmd="$2"
+
+  if eval "$cmd" >/dev/null 2>&1; then
+    echo "PASS $name"
+  else
+    echo "FAIL $name"
+    fail=1
+  fi
+}
+
+echo "== wl-chaos-menubar verify =="
+
+check "app source exists" "test -d '$APP'"
+check "active binary exists" "test -x '$BIN'"
+check "process running active binary" "ps -axo command | grep -F '$BIN' | grep -v grep"
+check "fingerprint file exists" "test -f '$FP'"
+check "lease file exists" "test -f '$LEASE'"
+check "audit file exists" "test -f '$AUDIT'"
+check "state file exists" "test -f '$STATE'"
+
+check "fingerprint json valid" "jq -e '.fingerprint_id and .fingerprint_short and .scope == \"chaos.menubar\" and .status == \"active\"' '$FP'"
+check "lease json valid" "jq -e '.schema == \"wonderland.chaos.lease.v1\" and .lease_id and .fingerprint_id and .mode and .expires_at' '$LEASE'"
+check "state json valid" "jq -e '.schema == \"wonderland.chaos.menubar.state.v1\" and .mode and .effect and .updated_at' '$STATE'"
+
+check "binary has authority strings" "strings '$BIN' | grep -E 'Authority|Fingerprint|Lease|Touch ID Ready'"
+check "binary has chaos models" "strings '$BIN' | grep -E 'Calm|Nudge|Drift|Storm|Blackout|Cataclysm|Recovery'"
+check "binary has gate strings" "strings '$BIN' | grep -E 'lease mode mismatch|operator authentication failed|typed confirmation failed'"
+check "binary has controller execution" "strings '$BIN' | grep -F 'controller-api'"
+check "binary has no cli fallback execution" "! strings '$BIN' | grep -F 'cli-fallback'"
+check "state uses controller-api" "jq -e '.effect | contains(\"controller-api\")' '$STATE'"
+check "recent audit used controller-api" "tail -50 '$AUDIT' | jq -R 'fromjson? | select(.event == \"execution_source\" and .source == \"controller-api\" and .success == true)' | grep -q controller-api"
+
+SCHEDULE="$ROOT/vault/chaos/escalation-schedule.json"
+SCHED_STATE="$ROOT/vault/chaos/scheduler-state.json"
+SCHED_AUDIT="$ROOT/vault/chaos/scheduler-audit.jsonl"
+
+check "schedule file exists" "test -f '$SCHEDULE'"
+check "schedule json valid" "jq -e '.schema == \"wonderland.chaos.escalation.v1\" and (.enabled | type == \"boolean\") and .strategy and .levels' '$SCHEDULE'"
+check "scheduler state exists" "test -f '$SCHED_STATE'"
+check "scheduler state json valid" "jq -e '.schema == \"wonderland.chaos.scheduler.state.v1\" and .last_mode and .last_risk != null' '$SCHED_STATE'"
+check "scheduler audit exists" "test -f '$SCHED_AUDIT'"
+check "recent scheduler audit valid" "tail -50 '$SCHED_AUDIT' | jq -R 'fromjson? | select(.event == \"schedule_run\")' | grep -q schedule_run"
+check "scheduler launchagent loaded" "launchctl list | grep -F 'com.wonderland.chaos-scheduler'"
+
+check "no SwiftPM source backups" "! find '$APP/Sources' -type f \\( -name '*.bak*' -o -name '*~' -o -name '*.orig' \\) | grep ."
+check "debug logging quiet or absent" "test ! -s '$DEBUG'"
+
+if command -v wl-chaos-fingerprint-verify >/dev/null 2>&1; then
+  check "fingerprint verifier pass" "wl-chaos-fingerprint-verify"
+else
+  echo "WARN fingerprint verifier command missing"
+fi
+
+echo
+if [ "$fail" -eq 0 ]; then
+  echo "RESULT PASS"
+else
+  echo "RESULT FAIL"
+  exit 1
+fi

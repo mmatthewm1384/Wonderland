@@ -1,0 +1,15 @@
+import AppKit
+
+private final class DelegateBox {
+    @MainActor static var delegate: ChaosMenubarApp?
+}
+
+let app = NSApplication.shared
+
+Task { @MainActor in
+    DelegateBox.delegate = ChaosMenubarApp()
+    app.delegate = DelegateBox.delegate
+    app.setActivationPolicy(.accessory)
+}
+
+app.run()

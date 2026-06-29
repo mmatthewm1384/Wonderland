@@ -1,0 +1,12 @@
+{
+  "type": "start",
+  "timestamp": "20260628-175133",
+  "root": "/Users/wonderland/Wonderland",
+  "mode": "light",
+  "t7_path": "/Volumes/T7_Wonderland",
+  "pass": 6,
+  "warn": 3,
+  "fail": 0,
+  "corrupt": 0,
+  "result": "PASS"
+}

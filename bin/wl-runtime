@@ -1,42 +1,92 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 
-RUNTIME="${WL_RUNTIME:-nerdctl}"
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
 
-if ! command -v "$RUNTIME" >/dev/null 2>&1; then
-  echo "FAIL runtime not found: $RUNTIME"
-  exit 1
-fi
+cmd="${1:-status}"
+format="${2:-}"
 
-case "${1:-help}" in
-  ps)
-    exec "$RUNTIME" ps
+runtime_state() {
+  if wl_runtime_running; then
+    echo "running"
+  elif wl_runtime_exists; then
+    echo "stopped"
+  else
+    echo "missing"
+  fi
+}
+
+case "$cmd" in
+  status)
+    state="$(runtime_state)"
+    limactl_state="missing"
+    command -v limactl >/dev/null 2>&1 && limactl_state="available"
+
+    result="PASS"
+    rc=0
+
+    if [[ "$limactl_state" != "available" || "$state" == "missing" ]]; then
+      result="FAIL"
+      rc=1
+    elif [[ "$state" == "stopped" ]]; then
+      result="PASS"
+      rc=0
+    fi
+
+    if [[ "$format" == "--json" || "$format" == "json" ]]; then
+      cat <<JSON
+{
+  "result": "$result",
+  "runtime_instance": "$WL_RUNTIME_INSTANCE",
+  "limactl": "$limactl_state",
+  "state": "$state"
+}
+JSON
+      exit "$rc"
+    fi
+
+    wl_section "Wonderland Runtime"
+
+    [[ "$limactl_state" == "available" ]] && wl_health_pass "limactl" "$(command -v limactl)" || wl_health_fail "limactl" "missing"
+
+    case "$state" in
+      running)
+        wl_health_pass "$WL_RUNTIME_INSTANCE" "running"
+        ;;
+      stopped)
+        wl_health_warn "$WL_RUNTIME_INSTANCE" "exists but stopped"
+        ;;
+      *)
+        wl_health_fail "$WL_RUNTIME_INSTANCE" "missing"
+        ;;
+    esac
+
+    wl_health_exit
     ;;
-  images)
-    exec "$RUNTIME" images
+
+  start)
+    wl_section "Starting Wonderland Runtime"
+    wl_runtime_start
+    wl_runtime_running && wl_health_pass "$WL_RUNTIME_INSTANCE" "running" || wl_health_fail "$WL_RUNTIME_INSTANCE" "not running"
+    wl_health_exit
     ;;
-  logs)
-    shift
-    exec "$RUNTIME" logs "$@"
+
+  stop)
+    wl_section "Stopping Wonderland Runtime"
+    wl_runtime_stop
+    wl_runtime_running && wl_health_warn "$WL_RUNTIME_INSTANCE" "still running" || wl_health_pass "$WL_RUNTIME_INSTANCE" "stopped"
+    wl_health_exit
     ;;
-  inspect)
-    shift
-    exec "$RUNTIME" inspect "$@"
+
+  restart)
+    "$0" stop || true
+    "$0" start
     ;;
-  compose)
-    shift
-    exec "$RUNTIME" compose "$@"
-    ;;
+
   *)
-    cat <<USAGE
-wl-runtime
-
-Commands:
-  ps
-  images
-  logs <container>
-  inspect <container>
-  compose ...
-USAGE
+    echo "Usage: wl runtime {status [--json]|start|stop|restart}"
+    echo "RESULT FAIL"
+    exit 1
     ;;
 esac

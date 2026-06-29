@@ -1,58 +1,88 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 
-ROOT="/Users/wonderland/Wonderland"
-FAIL=0
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
 
-mode() {
-  python3 - <<'PY2'
-import json
-from pathlib import Path
-p = Path("/Users/wonderland/Wonderland/vault/07-Operations/platform/runtime-mode.json")
-print(json.loads(p.read_text()).get("mode", "full"))
-PY2
-}
-
-MODE="$(mode)"
+format="${1:-}"
 
 
-check() {
-  local name="$1"
-  shift
+if [[ "$format" == "--json" || "$format" == "json" ]]; then
+  wl_context_refresh
+  wl_state_refresh
 
-  printf "%-24s" "$name"
+  runtime_state="$(wl_state_get runtime)"
+  result="PASS"
+  rc=0
 
-  if "$@" >/tmp/wl-doctor-check.log 2>&1; then
-    echo "PASS"
-  else
-    echo "FAIL"
-    cat /tmp/wl-doctor-check.log | sed 's/^/  /'
-    FAIL=1
+  if [[ "$runtime_state" != "running" ]]; then
+    result="FAIL"
+    rc=1
   fi
+
+  cat <<JSON
+{
+  "schema": "wonderland.doctor.v1",
+  "result": "$result",
+  "context": $(wl_context_dump),
+  "state": $(wl_state_dump),
+  "capabilities": $(wl_capabilities_dump)
 }
-
-echo
-echo "Wonderland Doctor"
-echo "root: $ROOT"
-echo
-
-if [[ "$MODE" == "light" ]]; then check "vault" "$ROOT/bin/wl" governance report; else check "vault" "$ROOT/bin/wl" verify; fi
-check "registry integrity" "$ROOT/bin/wl" registry integrity
-if [[ "$MODE" == "light" ]]; then echo "runtime drift           SKIP light mode"; else check "runtime drift" "$ROOT/bin/wl" runtime drift; fi
-if [[ "$MODE" == "light" ]]; then echo "anon route              SKIP light mode"; else check "anon route" "$ROOT/bin/wl" anon doctor; fi
-check "operations" "$ROOT/bin/wl" operations verify
-check "intelligence" "$ROOT/bin/wl" intelligence verify
-check "governance" "$ROOT/bin/wl" governance report
-check "storage authority" "$ROOT/bin/wl" storage doctor
-if [[ "$MODE" == "light" ]]; then echo "authority backup        SKIP light mode"; else check "authority backup" "$ROOT/bin/wl" authority doctor; fi
-if [[ "$MODE" == "light" ]]; then echo "authority restore       SKIP light mode"; else check "authority restore" "$ROOT/bin/wl" authority restore-drill; fi
-if [[ "$MODE" == "light" ]]; then echo "recovery drill          SKIP light mode"; else check "recovery drill" "$ROOT/bin/wl-verify-recovery-drill"; fi
-
-echo
-
-if [[ "$FAIL" -eq 0 ]]; then
-  echo "RESULT PASS"
-else
-  echo "RESULT FAIL"
-  exit 1
+JSON
+  exit "$rc"
 fi
+
+echo "Wonderland Doctor"
+
+wl_section "Core"
+wl_required_path "root" "$WL_HOME"
+wl_required_path "bin" "$WL_HOME/bin"
+wl_required_path "lib" "$WL_HOME/lib"
+wl_required_path "config" "$WL_HOME/config"
+wl_required_path "vault" "$WL_HOME/vault"
+
+wl_section "Profile"
+wl_profile_status
+
+wl_section "Storage"
+wl_storage_status
+
+wl_section "Runtime"
+if command -v limactl >/dev/null 2>&1; then
+  wl_pass "limactl" "$(command -v limactl)"
+else
+  wl_fail "limactl" "missing"
+fi
+
+if command -v nerdctl >/dev/null 2>&1; then
+  wl_pass "nerdctl" "$(command -v nerdctl)"
+else
+  wl_fail "nerdctl" "missing"
+fi
+
+if wl_runtime_running; then
+  wl_pass "$WL_RUNTIME_INSTANCE" "running"
+elif wl_runtime_exists; then
+  wl_warn "$WL_RUNTIME_INSTANCE" "exists but stopped"
+else
+  wl_fail "$WL_RUNTIME_INSTANCE" "missing"
+fi
+
+wl_section "Services"
+for svc in $WL_REQUIRED_SERVICES; do
+  if wl_service_running "$svc"; then
+    wl_pass "$svc" "required up"
+  else
+    wl_fail "$svc" "required not up"
+  fi
+done
+
+for svc in $WL_OPTIONAL_SERVICES; do
+  if wl_service_running "$svc"; then
+    wl_pass "$svc" "optional up"
+  else
+    wl_warn "$svc" "optional not up"
+  fi
+done
+
+wl_exit

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
+
+format="${1:-}"
+
+if [[ "$format" == "--json" || "$format" == "json" ]]; then
+  exec "$WL_HOME/bin/wl-api" status
+fi
+
+echo "Wonderland Status"
+echo
+echo "Root:    $(wl_context_get root)"
+echo "Mode:    $(wl_context_get mode)"
+echo "Profile: $(wl_context_get profile)"
+echo "Version: $(wl_context_get version)"
+echo "Build:   $(wl_context_get build)"
+
+wl_section "Runtime"
+wl_runtime_running && wl_health_pass "$(wl_context_get runtime_instance)" "running" || wl_health_fail "$(wl_context_get runtime_instance)" "not running"
+
+wl_section "Storage"
+wl_storage_t7_attached && wl_health_pass "t7" "$(wl_context_get t7_path)" || wl_health_warn "t7" "detached"
+
+wl_section "Capabilities"
+wl_capability_available media && wl_health_pass "media" "available" || wl_health_warn "media" "unavailable"
+wl_capability_available torrent && wl_health_pass "torrent" "available" || wl_health_warn "torrent" "unavailable"
+
+wl_health_exit

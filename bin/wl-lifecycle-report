@@ -1,69 +1,52 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 
 WL_HOME="${WL_HOME:-$HOME/Wonderland}"
-REPORT_DIR="$WL_HOME/vault/08-Operations/reports"
+. "$WL_HOME/lib/wl-bootstrap.sh"
+
+REPORT_TYPE="${1:-status}"
+REPORT_DIR="$(wl_context_get report_dir)"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+REPORT="$REPORT_DIR/lifecycle-${REPORT_TYPE}-${STAMP}.json"
+
 mkdir -p "$REPORT_DIR"
 
-ACTION="${1:-status}"
-STAMP="$(date +%Y%m%d-%H%M%S)"
-OUT="$REPORT_DIR/lifecycle-${ACTION}-${STAMP}.json"
+wl_section "Lifecycle Report"
 
-CHECK="$(mktemp)"
-trap 'rm -f "$CHECK"' EXIT
+wl_required_path "root" "$WL_HOME"
+wl_required_path "bin" "$WL_HOME/bin"
+wl_required_path "vault" "$WL_HOME/vault"
+
+wl_storage_t7_attached && wl_pass "t7" "$WL_T7_PATH" || wl_warn "t7" "detached"
+wl_runtime_running && wl_pass "$WL_RUNTIME_INSTANCE" "running" || wl_fail "$WL_RUNTIME_INSTANCE" "not running"
 
 result="PASS"
+rc=0
 
-case "$ACTION" in
-  stop|sleep)
-    fail=0
-    {
-      echo "== Stop Verification =="
-      for svc in wl-dns wl-nats wl-prometheus wl-grafana wl-loki; do
-        if nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$svc"; then
-          echo "FAIL $svc still-running"
-          fail=1
-        else
-          echo "PASS $svc stopped"
-        fi
-      done
+if (( wl_corruptions > 0 )); then
+  result="CORRUPT"
+  rc=2
+elif (( wl_failures > 0 )); then
+  result="FAIL"
+  rc=1
+fi
 
-      if limactl list 2>/dev/null | awk '{print $1, $2}' | grep -qx "wonderland-rootless Running"; then
-        echo "FAIL wonderland-rootless still-running"
-        fail=1
-      else
-        echo "PASS wonderland-rootless stopped"
-      fi
-
-      [[ "$fail" -eq 0 ]] && echo "RESULT PASS" || echo "RESULT FAIL"
-    } > "$CHECK"
-
-    [[ "$fail" -eq 0 ]] && result="PASS" || result="FAIL"
-    ;;
-  *)
-    if wl doctor > "$CHECK" 2>&1 && grep -q "RESULT PASS" "$CHECK"; then
-      result="PASS"
-    else
-      result="FAIL"
-    fi
-    ;;
-esac
-
-python3 - "$OUT" "$ACTION" "$WL_HOME" "$result" "$CHECK" <<'PY'
-import json, sys, datetime
-out, action, root, result, check = sys.argv[1:]
-payload = {
-    "action": action,
-    "timestamp": datetime.datetime.now().astimezone().isoformat(),
-    "root": root,
-    "result": result,
-    "check_output": open(check).read(),
+cat > "$REPORT" <<JSON
+{
+  "schema": "wonderland.lifecycle.report.v2",
+  "type": "$REPORT_TYPE",
+  "timestamp": "$STAMP",
+  "context": $(wl_context_dump),
+  "health": {
+    "pass": $wl_passes,
+    "warn": $wl_warnings,
+    "fail": $wl_failures,
+    "corrupt": $wl_corruptions,
+    "result": "$result"
+  }
 }
-with open(out, "w") as f:
-    json.dump(payload, f, indent=2)
-    f.write("\n")
-PY
+JSON
 
-echo "REPORT $OUT"
+echo "REPORT $REPORT"
 echo "RESULT $result"
-[[ "$result" == "PASS" ]] && exit 0 || exit 1
+exit "$rc"

@@ -1,0 +1,125 @@
+import AppKit
+
+final class WonderlandHeaderView: NSView {
+    private let title: String
+    private let subtitle: String
+    private let detail: String
+
+    init(title: String, subtitle: String, detail: String) {
+        self.title = title
+        self.subtitle = subtitle
+        self.detail = detail
+        super.init(frame: NSRect(x: 0, y: 0, width: 420, height: 132))
+        wantsLayer = true
+    }
+
+    required init?(coder: NSCoder) { nil }
+
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+
+        let iconRect = NSRect(x: 22, y: 28, width: 82, height: 82)
+        WonderlandPalette.purple.withAlphaComponent(0.45).setStroke()
+        let ring = NSBezierPath(ovalIn: iconRect)
+        ring.lineWidth = 2
+        ring.stroke()
+
+        WonderlandPalette.cyan.set()
+        let w = NSBezierPath()
+        w.move(to: NSPoint(x: iconRect.minX + 18, y: iconRect.midY + 18))
+        w.line(to: NSPoint(x: iconRect.minX + 34, y: iconRect.midY - 22))
+        w.line(to: NSPoint(x: iconRect.midX, y: iconRect.midY + 22))
+        w.line(to: NSPoint(x: iconRect.maxX - 34, y: iconRect.midY - 22))
+        w.line(to: NSPoint(x: iconRect.maxX - 18, y: iconRect.midY + 18))
+        w.lineWidth = 5
+        w.stroke()
+
+        drawText(title, x: 128, y: 82, size: 19, weight: .bold, color: WonderlandPalette.cyan, kern: 2)
+        drawText(subtitle, x: 128, y: 56, size: 15, weight: .medium, color: WonderlandPalette.text)
+        drawText(detail, x: 128, y: 28, size: 15, weight: .medium, color: WonderlandPalette.cyan)
+
+        let sep = NSBezierPath()
+        sep.move(to: NSPoint(x: 20, y: 8))
+        sep.line(to: NSPoint(x: bounds.width - 20, y: 8))
+        WonderlandPalette.purple.withAlphaComponent(0.75).setStroke()
+        sep.lineWidth = 1
+        sep.stroke()
+    }
+
+    private func drawText(_ s: String, x: CGFloat, y: CGFloat, size: CGFloat, weight: NSFont.Weight, color: NSColor, kern: CGFloat = 0) {
+        let attrs: [NSAttributedString.Key: Any] = [
+            .font: NSFont.systemFont(ofSize: size, weight: weight),
+            .foregroundColor: color,
+            .kern: kern
+        ]
+        s.draw(at: NSPoint(x: x, y: y), withAttributes: attrs)
+    }
+}
+
+final class WonderlandRowView: NSView {
+    private let icon: String
+    private let label: String
+    private let value: String
+    private let statusColor: NSColor?
+    private let action: (() -> Void)?
+
+    init(icon: String, label: String, value: String = "", statusColor: NSColor? = nil, action: (() -> Void)? = nil) {
+        self.icon = icon
+        self.label = label
+        self.value = value
+        self.statusColor = statusColor
+        self.action = action
+        super.init(frame: NSRect(x: 0, y: 0, width: 420, height: 36))
+        wantsLayer = true
+    }
+
+    required init?(coder: NSCoder) { nil }
+
+    override func mouseDown(with event: NSEvent) {
+        action?()
+    }
+
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+
+        drawText(icon, x: 22, y: 8, size: 17, weight: .regular, color: WonderlandPalette.cyan)
+        drawText(label, x: 58, y: 8, size: 15, weight: .medium, color: WonderlandPalette.text)
+
+        if !value.isEmpty {
+            drawText(value, x: 178, y: 8, size: 15, weight: .medium, color: WonderlandPalette.cyan)
+        }
+
+        if let statusColor {
+            statusColor.setFill()
+            NSBezierPath(ovalIn: NSRect(x: bounds.width - 42, y: 12, width: 12, height: 12)).fill()
+        }
+    }
+
+    private func drawText(_ s: String, x: CGFloat, y: CGFloat, size: CGFloat, weight: NSFont.Weight, color: NSColor) {
+        let attrs: [NSAttributedString.Key: Any] = [
+            .font: NSFont.systemFont(ofSize: size, weight: weight),
+            .foregroundColor: color
+        ]
+        s.draw(at: NSPoint(x: x, y: y), withAttributes: attrs)
+    }
+}
+
+final class WonderlandSectionView: NSView {
+    private let title: String
+
+    init(_ title: String) {
+        self.title = title
+        super.init(frame: NSRect(x: 0, y: 0, width: 420, height: 34))
+    }
+
+    required init?(coder: NSCoder) { nil }
+
+    override func draw(_ dirtyRect: NSRect) {
+        let attrs: [NSAttributedString.Key: Any] = [
+            .font: NSFont.systemFont(ofSize: 15, weight: .bold),
+            .foregroundColor: WonderlandPalette.cyan,
+            .kern: 2.0
+        ]
+        title.uppercased().draw(at: NSPoint(x: 20, y: 8), withAttributes: attrs)
+    }
+}
