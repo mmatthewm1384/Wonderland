@@ -101,6 +101,9 @@ wl_command_registry_main() {
     docs)
       wl_command_registry_docs
       ;;
+    audit)
+      wl_command_registry_audit
+      ;;
     show)
       shift || true
       wl_command_registry_show "${1:-}"
@@ -243,4 +246,26 @@ wl_command_registry_docs() {
   wl_command_registry_drift >/dev/null
   wl_validate_json_schema "$WL_ROOT/schemas/command-registry.schema.json" "$(wl_command_registry_file)"
   wl_command_registry_summary
+}
+
+wl_command_registry_audit() {
+  local registry
+  registry="$(wl_command_registry_file)"
+  wl_validate_json "$registry"
+
+  jq -r '
+    .commands
+    | to_entries
+    | sort_by(.key)
+    | .[]
+    | select(
+        (.value.category == "utility")
+        or (.value.requires | length == 0)
+        or (.value.provides | length == 0)
+      )
+    | "WARN weak_metadata command=\(.key) category=\(.value.category) requires=\(.value.requires|length) provides=\(.value.provides|length)"
+  ' "$registry" >&2
+
+  wl_pass "command metadata audit complete"
+  wl_result PASS
 }
