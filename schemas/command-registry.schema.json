@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wonderland-command-registry.schema.json",
+  "title": "Wonderland Command Registry",
+  "type": "object",
+  "required": ["version", "generated_at", "commands"],
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "commands": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "command",
+          "phase",
+          "category",
+          "path",
+          "requires",
+          "provides",
+          "json_schema"
+        ],
+        "properties": {
+          "command": { "type": "string" },
+          "phase": { "type": "string" },
+          "category": { "type": "string" },
+          "path": { "type": "string" },
+          "requires": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "provides": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "json_schema": {
+            "type": ["string", "null"]
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
