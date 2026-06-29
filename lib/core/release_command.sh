@@ -65,8 +65,19 @@ wl_release_status() {
   latest="$dir/latest.json"
   stable="$dir/stable.json"
 
-  [ -f "$latest" ] && wl_report "latest=$latest" || wl_warn "no latest release"
-  [ -f "$stable" ] && wl_report "stable=$stable" || wl_warn "no stable release"
+  if [ -f "$latest" ]; then
+    wl_report "latest=$latest"
+    wl_release_validate_manifest "$latest"
+  else
+    wl_warn "no latest release"
+  fi
+
+  if [ -f "$stable" ]; then
+    wl_report "stable=$stable"
+    wl_release_validate_manifest "$stable"
+  else
+    wl_warn "no stable release"
+  fi
 
   wl_result PASS
 }
