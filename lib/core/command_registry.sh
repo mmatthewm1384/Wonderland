@@ -86,6 +86,7 @@ wl_command_registry_main() {
       ;;
     validate)
       wl_validate_json "$(wl_command_registry_file)"
+      wl_validate_json_schema "$WL_ROOT/schemas/command-registry.schema.json" "$(wl_command_registry_file)"
       wl_result PASS
       ;;
     status)
