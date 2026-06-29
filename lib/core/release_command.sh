@@ -491,3 +491,73 @@ PY
   wl_release_validate_history
   wl_result PASS
 }
+
+# Platform Core 2.1 final override: strict JSONL release history writer.
+wl_release_history_append() {
+  local action="$1"
+  local manifest="${2:-}"
+  local file
+  file="$(wl_release_history_file)"
+  mkdir -p "$(dirname "$file")"
+
+  python3 - "$file" "$action" "$manifest" "$(wl_timestamp)" "$(git rev-parse --short HEAD 2>/dev/null || printf unknown)" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+file, action, manifest, at, git_commit = sys.argv[1:6]
+path = Path(file)
+path.parent.mkdir(parents=True, exist_ok=True)
+
+entry = {
+    "at": at,
+    "action": action,
+    "manifest": manifest,
+    "git_commit": git_commit,
+}
+
+with path.open("a", encoding="utf-8") as f:
+    f.write(json.dumps(entry, separators=(",", ":")) + "\n")
+PY
+}
+
+wl_release_repair_history() {
+  local file bad
+  file="$(wl_release_history_file)"
+  bad="${file}.bad"
+
+  mkdir -p "$(dirname "$file")"
+  touch "$file"
+
+  python3 - "$file" "$bad" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+bad = Path(sys.argv[2])
+
+good = []
+bad_lines = []
+
+for idx, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+    if not line.strip():
+        continue
+    try:
+        json.loads(line)
+        good.append(line)
+    except json.JSONDecodeError:
+        bad_lines.append(f"{idx}: {line}")
+
+path.write_text("\n".join(good) + ("\n" if good else ""), encoding="utf-8")
+
+if bad_lines:
+    bad.write_text("\n".join(bad_lines) + "\n", encoding="utf-8")
+    print(f"WARN quarantined {len(bad_lines)} bad release history line(s) to {bad}")
+else:
+    print("PASS release history already valid")
+PY
+
+  wl_release_validate_history
+  wl_result PASS
+}
