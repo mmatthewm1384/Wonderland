@@ -9,9 +9,9 @@
   "runtime_health": "runtime/health.json",
   "runtime_capabilities": "runtime/capabilities.json",
   "command_registry": "config/commands/registry.json",
-  "command_registry_sha256": "dd5c6262cacb239071b7932592b0c8fc068dba79c660e82add22fdf39482bded",
+  "command_registry_sha256": "990f4d3a88764c334b2ea20a06c844e148bbc4fab7066d08329e27fe8adf1911",
   "command_summary": "vault/02-Documentation/generated/wonderland-command-summary.md",
   "release_history": "vault/08-Operations/releases/history.jsonl",
-  "command_summary_sha256": "f867d36a2f380f7285097a90281d5f4e30aac85acfebe03fb3fb8cbff59d7c28",
-  "built_at": "2026-06-29T16:54:54Z"
+  "command_summary_sha256": "9d9dade9d7de98aa8a59b1998d640b9e94df20f507bccbca1e3e690c054501ee",
+  "built_at": "2026-06-29T16:56:47Z"
 }
