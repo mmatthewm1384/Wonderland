@@ -24,8 +24,8 @@ wl_release_build() {
   wl_release_validate
 
   local registry_sha summary_sha
-  registry_sha="$(shasum -a 256 "$WL_ROOT/config/commands/registry.json" | awk '{print $1}')"
-  summary_sha="$(shasum -a 256 "$WL_ROOT/vault/02-Documentation/generated/wonderland-command-summary.md" | awk '{print $1}')"
+  registry_sha="$(wl_sha256_file "$WL_ROOT/config/commands/registry.json")"
+  summary_sha="$(wl_sha256_file "$WL_ROOT/vault/02-Documentation/generated/wonderland-command-summary.md")"
 
   wl_json_write_object "$out" \
     kind "release" \
@@ -177,8 +177,8 @@ wl_release_validate_manifest_digests() {
   registry_expected="$(jq -r '.command_registry_sha256' "$manifest")"
   summary_expected="$(jq -r '.command_summary_sha256' "$manifest")"
 
-  registry_actual="$(shasum -a 256 "$WL_ROOT/$registry" | awk '{print $1}')"
-  summary_actual="$(shasum -a 256 "$WL_ROOT/$summary" | awk '{print $1}')"
+  registry_actual="$(wl_sha256_file "$WL_ROOT/$registry")"
+  summary_actual="$(wl_sha256_file "$WL_ROOT/$summary")"
 
   [ "$registry_expected" = "$registry_actual" ] \
     || wl_die "$WL_ERR_RELEASE" "release manifest command_registry digest mismatch"
