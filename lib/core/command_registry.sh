@@ -112,6 +112,9 @@ wl_command_registry_main() {
     docs)
       wl_command_registry_docs
       ;;
+    doctor)
+      wl_command_registry_doctor
+      ;;
     audit)
       wl_command_registry_audit
       ;;
@@ -325,5 +328,17 @@ wl_command_registry_validate_schema_files() {
     done
 
   wl_pass "registry schema files valid"
+  wl_result PASS
+}
+
+wl_command_registry_doctor() {
+  wl_command_registry_refresh
+  wl_command_registry_drift
+  wl_validate_json_schema "$WL_ROOT/schemas/command-registry.schema.json" "$(wl_command_registry_file)"
+  wl_command_registry_validate_schema_paths
+  wl_command_registry_validate_schema_files
+  wl_command_registry_summary
+  wl_command_registry_audit
+  wl_pass "command registry doctor complete"
   wl_result PASS
 }
