@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/core/bootstrap.sh"
+
+wl_command_registry_main "$@"
