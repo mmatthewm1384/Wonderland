@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-set -euo pipefail
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/core/bootstrap.sh"
 
 exec "$HOME/Wonderland/apps/macos/wl-control-center/scripts/build-dmg.zsh"

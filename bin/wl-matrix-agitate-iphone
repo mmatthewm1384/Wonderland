@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-set -euo pipefail
-# DISABLED: Chaos must not auto-launch visual apps or Console
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/core/bootstrap.sh"
+
 # open "/Users/wonderland/Wonderland/assets/visualizations/matrix-atom-destroyer/apps/agitate-waves/iphone/agitate-waves-iphone.html"
