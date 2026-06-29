@@ -295,17 +295,27 @@ wl_release_history_append() {
   local file
   file="$(wl_release_history_file)"
 
-  jq -n \
-    --arg at "$(wl_timestamp)" \
-    --arg action "$action" \
-    --arg manifest "$manifest" \
-    --arg git_commit "$(git rev-parse --short HEAD 2>/dev/null || printf unknown)" \
-    '{
-      at: $at,
-      action: $action,
-      manifest: $manifest,
-      git_commit: $git_commit
-    }' >> "$file"
+  mkdir -p "$(dirname "$file")"
+
+  python3 - "$file" "$action" "$manifest" "$(wl_timestamp)" "$(git rev-parse --short HEAD 2>/dev/null || printf unknown)" <<'PYEOF'
+import json
+import sys
+from pathlib import Path
+
+file, action, manifest, at, git_commit = sys.argv[1:6]
+path = Path(file)
+path.parent.mkdir(parents=True, exist_ok=True)
+
+entry = {
+    "at": at,
+    "action": action,
+    "manifest": manifest,
+    "git_commit": git_commit,
+}
+
+with path.open("a", encoding="utf-8") as f:
+    f.write(json.dumps(entry, separators=(",", ":")) + "\n")
+PYEOF
 }
 
 wl_release_history() {
