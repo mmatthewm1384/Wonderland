@@ -374,3 +374,25 @@ wl_release_main() {
       ;;
   esac
 }
+
+wl_release_validate_manifest_light() {
+  local manifest="${1:-$(wl_release_dir)/latest.json}"
+
+  if [ ! -f "$manifest" ]; then
+    wl_warn "release manifest not present yet: $manifest"
+    return 0
+  fi
+
+  wl_validate_json "$manifest"
+
+  jq -e '
+    .kind == "release"
+    and .platform == "wonderland"
+    and (.command_registry | type == "string")
+    and (.command_summary | type == "string")
+    and (.release_history | type == "string")
+  ' "$manifest" >/dev/null \
+    || wl_die "$WL_ERR_RELEASE" "release manifest missing required fields"
+
+  wl_pass "release manifest structurally valid"
+}
