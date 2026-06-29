@@ -1,6 +1,6 @@
 {
   "version": "2.1",
-  "generated_at": "2026-06-29T18:09:11Z",
+  "generated_at": "2026-06-29T18:23:38Z",
   "commands": {
     "wl-agitate": {
       "command": "wl-agitate",
@@ -588,6 +588,15 @@
       "phase": "utility",
       "category": "utility",
       "path": "bin/wl-controller-v2",
+      "requires": [],
+      "provides": [],
+      "json_schema": null
+    },
+    "wl-core-22-doctor": {
+      "command": "wl-core-22-doctor",
+      "phase": "utility",
+      "category": "utility",
+      "path": "bin/wl-core-22-doctor",
       "requires": [],
       "provides": [],
       "json_schema": null

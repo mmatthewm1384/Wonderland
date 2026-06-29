@@ -1,10 +1,10 @@
 # Wonderland Command Summary
 
-Generated: 2026-06-29T18:09:12Z
+Generated: 2026-06-29T18:23:38Z
 
 ## Totals
 
-- Total commands: 292
+- Total commands: 293
 
 ## Categories
 
@@ -17,7 +17,7 @@ Generated: 2026-06-29T18:09:12Z
 - runtime: 10
 - services: 17
 - storage: 2
-- utility: 159
+- utility: 160
 - validation: 25
 - vault: 12
 
@@ -392,6 +392,12 @@ Generated: 2026-06-29T18:09:12Z
 ### wl-controller-v2
 
 - Path: `bin/wl-controller-v2`
+- Category: `utility`
+- Phase: `utility`
+
+### wl-core-22-doctor
+
+- Path: `bin/wl-core-22-doctor`
 - Category: `utility`
 - Phase: `utility`
 
