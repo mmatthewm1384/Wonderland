@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/core/bootstrap.sh"
+
 exec "/Users/wonderland/Wonderland/services/wl-oathd/oath_engine.py" "$@"
