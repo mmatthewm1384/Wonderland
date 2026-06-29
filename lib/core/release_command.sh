@@ -110,10 +110,6 @@ wl_release_status() {
     wl_warn "no stable release"
   fi
 
-  if declare -F wl_release_validate_history >/dev/null 2>&1; then
-    wl_release_validate_history
-  fi
-
   wl_result PASS
 }
 
@@ -372,7 +368,10 @@ wl_release_validate_history() {
     return 0
   }
 
-  python3 - "$file" <<'PY'
+  local validator
+  validator="$(mktemp)"
+
+  cat > "$validator" <<'PYEOF'
 import json
 import sys
 from pathlib import Path
@@ -383,15 +382,31 @@ for idx, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
     if not line.strip():
         continue
 
-    obj = json.loads(line)
+    try:
+        obj = json.loads(line)
+    except json.JSONDecodeError as exc:
+        print(f"{path}:{idx}: invalid JSON: {exc.msg}")
+        raise SystemExit(1)
 
     for key in ("at", "action", "manifest", "git_commit"):
         if key not in obj:
-            raise SystemExit(f"{path}:{idx}: missing key: {key}")
+            print(f"{path}:{idx}: missing key: {key}")
+            raise SystemExit(1)
 
     if obj["action"] not in {"build", "promote", "rollback"}:
-        raise SystemExit(f"{path}:{idx}: invalid action: {obj['action']}")
-PY
+        print(f"{path}:{idx}: invalid action: {obj['action']}")
+        raise SystemExit(1)
+PYEOF
 
+  local err
+  err="$(python3 "$validator" "$file" 2>&1)" || {
+    rm -f "$validator"
+    wl_fail "release history invalid: $err"
+    wl_result FAIL
+    return "$WL_ERR_RELEASE"
+  }
+
+  rm -f "$validator"
   wl_pass "release history valid"
 }
+
