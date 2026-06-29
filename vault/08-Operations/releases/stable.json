@@ -3,14 +3,14 @@
   "platform": "wonderland",
   "version": "2.1",
   "status": "built",
-  "git_commit": "4d6b1f4d",
+  "git_commit": "d3e6f1f0",
   "runtime_context": "runtime/context.json",
   "runtime_state": "runtime/state.json",
   "runtime_health": "runtime/health.json",
   "runtime_capabilities": "runtime/capabilities.json",
   "command_registry": "config/commands/registry.json",
-  "command_registry_sha256": "cd44cde137370ad49aaa084e924e81708fc99ec0e811306a6a9715055780e243",
+  "command_registry_sha256": "adabb56d994e93aabb2dc17d3e82a8740502c58553317faed2054466161967c1",
   "command_summary": "vault/02-Documentation/generated/wonderland-command-summary.md",
-  "command_summary_sha256": "339e66c551eaf9517759c328f8792a62d825434f31bebd32430a4394fa168e36",
-  "built_at": "2026-06-29T16:42:11Z"
+  "command_summary_sha256": "311f4256ce813f73ec64165a1a5c0febfa68a9e04ceef0eaf0a3c2c08c3fb63f",
+  "built_at": "2026-06-29T16:44:11Z"
 }
