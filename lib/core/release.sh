@@ -15,5 +15,9 @@ wl_release_validate() {
     wl_command_registry_validate_schema_files
   fi
 
+  if declare -F wl_release_validate_manifest >/dev/null 2>&1; then
+    wl_release_validate_manifest "$(wl_release_dir)/latest.json"
+  fi
+
   wl_pass "release validation passed"
 }
