@@ -93,3 +93,25 @@ wl_release_main() {
       ;;
   esac
 }
+
+wl_release_validate_manifest() {
+  local manifest="${1:-$(wl_release_dir)/latest.json}"
+
+  wl_validate_json "$manifest"
+
+  jq -e '
+    .kind == "release"
+    and .platform == "wonderland"
+    and (.command_registry | type == "string")
+    and (.command_summary | type == "string")
+  ' "$manifest" >/dev/null \
+    || wl_die "$WL_ERR_RELEASE" "release manifest missing required command registry fields"
+
+  [ -f "$WL_ROOT/$(jq -r '.command_registry' "$manifest")" ] \
+    || wl_die "$WL_ERR_RELEASE" "release manifest command_registry path missing"
+
+  [ -f "$WL_ROOT/$(jq -r '.command_summary' "$manifest")" ] \
+    || wl_die "$WL_ERR_RELEASE" "release manifest command_summary path missing"
+
+  wl_pass "release manifest valid"
+}

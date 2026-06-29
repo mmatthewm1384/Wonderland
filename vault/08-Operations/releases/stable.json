@@ -3,12 +3,12 @@
   "platform": "wonderland",
   "version": "2.1",
   "status": "built",
-  "git_commit": "93ef6a47",
+  "git_commit": "910cc3fe",
   "runtime_context": "runtime/context.json",
   "runtime_state": "runtime/state.json",
   "runtime_health": "runtime/health.json",
   "runtime_capabilities": "runtime/capabilities.json",
   "command_registry": "config/commands/registry.json",
   "command_summary": "vault/02-Documentation/generated/wonderland-command-summary.md",
-  "built_at": "2026-06-29T16:28:09Z"
+  "built_at": "2026-06-29T16:28:41Z"
 }
