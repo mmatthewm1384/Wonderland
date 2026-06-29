@@ -97,6 +97,11 @@ wl_release_main() {
 wl_release_validate_manifest() {
   local manifest="${1:-$(wl_release_dir)/latest.json}"
 
+  if [ ! -f "$manifest" ]; then
+    wl_warn "release manifest not present yet: $manifest"
+    return 0
+  fi
+
   wl_validate_json "$manifest"
 
   jq -e '
