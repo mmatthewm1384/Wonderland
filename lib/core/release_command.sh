@@ -110,6 +110,10 @@ wl_release_status() {
     wl_warn "no stable release"
   fi
 
+  if declare -F wl_release_validate_history >/dev/null 2>&1; then
+    wl_release_validate_history
+  fi
+
   wl_result PASS
 }
 
@@ -357,4 +361,37 @@ wl_release_history() {
 
   tail -20 "$file"
   wl_result PASS
+}
+
+wl_release_validate_history() {
+  local file
+  file="$(wl_release_history_file)"
+
+  [ -f "$file" ] || {
+    wl_warn "release history not present yet: $file"
+    return 0
+  }
+
+  python3 - "$file" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+
+for idx, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+    if not line.strip():
+        continue
+
+    obj = json.loads(line)
+
+    for key in ("at", "action", "manifest", "git_commit"):
+        if key not in obj:
+            raise SystemExit(f"{path}:{idx}: missing key: {key}")
+
+    if obj["action"] not in {"build", "promote", "rollback"}:
+        raise SystemExit(f"{path}:{idx}: invalid action: {obj['action']}")
+PY
+
+  wl_pass "release history valid"
 }
