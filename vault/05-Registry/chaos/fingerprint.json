@@ -1,0 +1,15 @@
+{
+  "fingerprint_id": "389c0c2a0336cedbdb8299e277d70a534639144665dfc250224f3489e1eb0a62",
+  "fingerprint_short": "389c0c2a0336",
+  "generated_at": "2026-06-28T02:02:05.021266+00:00",
+  "inputs": {
+    "authority_scope": "chaos.menubar",
+    "hostname": "Matthews-MacBook-Air.local",
+    "machine_uuid": "04E3D40A-16FA-5455-9E33-BD50DE532861",
+    "operator": "wonderland",
+    "platform": "macOS-26.5.1-arm64-arm-64bit-Mach-O",
+    "schema": "wonderland.fingerprint.v1",
+    "wonderland_root": "/Users/wonderland/Wonderland"
+  },
+  "schema": "wonderland.chaos.fingerprint.v1"
+}

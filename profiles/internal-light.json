@@ -1,0 +1,31 @@
+{
+  "id": "internal-light",
+  "description": "Internal SSD authority runtime. External storage, media, and torrent capabilities are optional.",
+  "required": {
+    "storage": [
+      "internal_root",
+      "internal_vault"
+    ],
+    "runtime": [
+      "wonderland-rootless"
+    ],
+    "services": [
+      "wl-loki"
+    ]
+  },
+  "optional": {
+    "storage": [
+      "t7",
+      "t7_mirror",
+      "media"
+    ],
+    "services": [
+      "wl-vaultwarden",
+      "wl-vaultwarden-db"
+    ],
+    "capabilities": [
+      "media",
+      "torrent"
+    ]
+  }
+}

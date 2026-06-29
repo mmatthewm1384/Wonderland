@@ -16,7 +16,7 @@ THE∅MATRIX v0.1 converts the Matrix modules from isolated visual experiments i
 ## Systems
 
 - Atom Slam
-- Agitate Waves
+- DISABLED-Agitate Waves
 - Spin The City
 - Fluderation
 - Ariel Shield

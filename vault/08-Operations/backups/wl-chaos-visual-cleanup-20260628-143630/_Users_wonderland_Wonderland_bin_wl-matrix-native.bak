@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+# DISABLED: Chaos must not auto-launch visual apps or Console
+# open "$HOME/Workshop/apps/macos/DISABLED-Matrix Atom Destroyer.app"

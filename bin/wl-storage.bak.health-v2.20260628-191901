@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
+
+cmd="${1:-status}"
+format="${2:-}"
+
+case "$cmd" in
+  status|doctor)
+    t7_state="detached"
+    mirror_state="unavailable"
+    media_state="unavailable"
+
+    if wl_storage_t7_attached; then
+      t7_state="attached"
+      [[ -d "$WL_T7_PATH/Wonderland" ]] && mirror_state="available"
+      [[ -d "$WL_T7_PATH/media" ]] && media_state="available"
+    fi
+
+    if [[ "$format" == "--json" || "$format" == "json" ]]; then
+      cat <<JSON
+{
+  "result": "PASS",
+  "root": "$WL_HOME",
+  "t7_path": "$WL_T7_PATH",
+  "t7_state": "$t7_state",
+  "mirror_state": "$mirror_state",
+  "media_state": "$media_state"
+}
+JSON
+      exit 0
+    fi
+
+    wl_storage_status
+    wl_exit
+    ;;
+
+  path)
+    echo "$WL_T7_PATH"
+    ;;
+
+  *)
+    echo "Usage: wl storage {status [--json]|doctor|path}"
+    echo "RESULT FAIL"
+    exit 1
+    ;;
+esac

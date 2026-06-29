@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+APP="$HOME/Workshop/apps/tauri/wl-spin-city"
+
+case "${1:-open}" in
+  open|dev)
+    cd "$APP"
+    npm run tauri dev
+    ;;
+
+  prod)
+    cd "$APP"
+    WL_SPIN_CITY_MODE=production npm run tauri dev
+    ;;
+
+  build)
+    cd "$APP"
+    npm run tauri build
+    ;;
+
+  doctor)
+    cd "$APP"
+
+    test -f package.json || { echo "FAIL package.json"; exit 1; }
+    test -f src/index.html || { echo "FAIL src/index.html"; exit 1; }
+    test -f src/main.js || { echo "FAIL src/main.js"; exit 1; }
+    test -f src-tauri/tauri.conf.json || { echo "FAIL tauri.conf.json"; exit 1; }
+
+    node --check src/main.js
+
+    grep -q '"frontendDist": "../src"' src-tauri/tauri.conf.json \
+      && echo "PASS frontendDist" \
+      || { echo "FAIL frontendDist"; exit 1; }
+
+    echo "PASS wl-spin-city doctor"
+    ;;
+
+  files)
+    cd "$APP"
+    find . -maxdepth 3 -type f | sort
+    ;;
+
+  *)
+    echo "usage: wl-spin-city {open|dev|prod|build|doctor|files}"
+    exit 2
+    ;;
+esac

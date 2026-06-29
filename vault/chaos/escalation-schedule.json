@@ -1,0 +1,37 @@
+{
+  "cataclysm_requires_manual_approval": true,
+  "enabled": true,
+  "initial_hold_hours": 6.0,
+  "levels": [
+    {
+      "after_hours": 0,
+      "mode": "nudge",
+      "risk": 1
+    },
+    {
+      "after_hours": 1,
+      "mode": "drift",
+      "risk": 2
+    },
+    {
+      "after_hours": 2,
+      "mode": "storm",
+      "risk": 3
+    },
+    {
+      "after_hours": 4,
+      "mode": "blackout",
+      "risk": 4
+    },
+    {
+      "after_hours": 8,
+      "mode": "cataclysm",
+      "risk": 5
+    }
+  ],
+  "resumed_at": "2026-06-28T21:34:36.087926+00:00",
+  "schema": "wonderland.chaos.escalation.v1",
+  "started_at": "2026-06-28T21:32:18.615280+00:00",
+  "stopped_at": "2026-06-28T21:34:32.375735+00:00",
+  "strategy": "exponential"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "matrix-tauri-migration",
+  "status": "planned",
+  "purpose": "Register existing Tauri apps under the Matrix app profile before physically migrating them into apps/matrix.",
+  "current_apps": [
+    "apps/tauri/wl-agitate",
+    "apps/tauri/wl-spin-city",
+    "apps/tauri/wl-matrix",
+    "apps/matrix/matrix-fluderation"
+  ],
+  "target_apps": [
+    "apps/matrix/matrix-agitate",
+    "apps/matrix/matrix-spin-city",
+    "apps/matrix/matrix-core",
+    "apps/matrix/matrix-fluderation"
+  ]
+}

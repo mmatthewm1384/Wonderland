@@ -1,0 +1,22 @@
+import AppKit
+
+@MainActor
+private final class WonderlandChaosBootstrap {
+    private let app: NSApplication
+    private let delegate: ChaosMenubarApp
+
+    init() {
+        self.app = NSApplication.shared
+        self.delegate = ChaosMenubarApp()
+        self.app.delegate = self.delegate
+        self.app.setActivationPolicy(.accessory)
+    }
+
+    func run() {
+        app.run()
+    }
+}
+
+MainActor.assumeIsolated {
+    WonderlandChaosBootstrap().run()
+}

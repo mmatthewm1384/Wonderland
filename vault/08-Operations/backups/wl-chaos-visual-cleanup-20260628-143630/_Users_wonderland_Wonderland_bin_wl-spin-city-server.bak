@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+cd "$HOME/Wonderland/assets/visualizations/matrix-atom-destroyer/apps/spin-city-wave/iphone"
+
+PORT="${1:-9000}"
+
+echo
+echo "DISABLED-Spin City Wave"
+echo "URL: http://$(ipconfig getifaddr en0):${PORT}/spin-city-wave-iphone.html"
+echo
+
+python3 -m http.server "$PORT"

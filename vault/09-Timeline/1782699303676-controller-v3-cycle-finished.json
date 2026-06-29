@@ -1,0 +1,8 @@
+{
+  "payload": {
+    "certification": "PASS",
+    "duration_seconds": 0.2129
+  },
+  "ts": 1782699303.6769001,
+  "type": "controller.v3.cycle.finished"
+}

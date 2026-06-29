@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
+
+wl_section "Wonderland Verify"
+
+verify_rc=0
+
+run_stage() {
+  local name="$1"
+  shift
+
+  if "$@" >/tmp/wl-verify.out 2>&1; then
+    wl_health_pass "$name"
+  else
+    wl_health_fail "$name" "failed"
+    cat /tmp/wl-verify.out
+    verify_rc=1
+  fi
+}
+
+run_stage "context refresh" "$WL_HOME/bin/wl-context" refresh
+run_stage "state refresh" "$WL_HOME/bin/wl-state" refresh
+run_stage "start lifecycle" "$WL_HOME/bin/wl-start"
+run_stage "status refresh" "$WL_HOME/bin/wl-status"
+run_stage "lint" "$WL_HOME/bin/wl-lint"
+run_stage "tests" "$WL_HOME/bin/wl-test"
+run_stage "api status" "$WL_HOME/bin/wl-api" status
+run_stage "docs" "$WL_HOME/bin/wl-docs"
+run_stage "release validate latest" "$WL_HOME/bin/wl-release-validate" latest
+run_stage "release validate stable" "$WL_HOME/bin/wl-release-validate" stable
+run_stage "checkpoint current" bash -c "python3 -m json.tool $WL_HOME/vault/05-Registry/platform/current.json >/dev/null"
+
+if (( verify_rc == 0 )); then
+  wl_health_write
+  echo
+  echo "RESULT PASS"
+  exit 0
+else
+  wl_health_write
+  echo
+  echo "RESULT FAIL"
+  exit 1
+fi

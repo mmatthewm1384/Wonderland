@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+RUNTIME="${WL_RUNTIME:-nerdctl}"
+
+if ! command -v "$RUNTIME" >/dev/null 2>&1; then
+  echo "FAIL runtime not found: $RUNTIME"
+  exit 1
+fi
+
+case "${1:-help}" in
+  ps)
+    exec "$RUNTIME" ps
+    ;;
+  images)
+    exec "$RUNTIME" images
+    ;;
+  logs)
+    shift
+    exec "$RUNTIME" logs "$@"
+    ;;
+  inspect)
+    shift
+    exec "$RUNTIME" inspect "$@"
+    ;;
+  compose)
+    shift
+    exec "$RUNTIME" compose "$@"
+    ;;
+  *)
+    cat <<USAGE
+wl-runtime
+
+Commands:
+  ps
+  images
+  logs <container>
+  inspect <container>
+  compose ...
+USAGE
+    ;;
+esac

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+WL_DISPATCH="$WL_HOME/lib/wl-dispatch.sh"
+
+if [[ ! -f "$WL_DISPATCH" ]]; then
+  echo "FAIL dispatcher missing: $WL_DISPATCH"
+  echo "RESULT FAIL"
+  exit 1
+fi
+
+source "$WL_DISPATCH"
+wl_dispatch "$@"

@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/wonderland/Wonderland/apps/matrix/wl-matrix-fluderation-pusher/.build/arm64-apple-macosx/debug/wl_matrix_fluderation_pusher.build/primary.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/apps/matrix/wl-matrix-fluderation-pusher/Sources/wl-matrix-fluderation-pusher/main.swift": {
+    "dependencies": "/Users/wonderland/Wonderland/apps/matrix/wl-matrix-fluderation-pusher/.build/arm64-apple-macosx/debug/wl_matrix_fluderation_pusher.build/main.d",
+    "object": "/Users/wonderland/Wonderland/apps/matrix/wl-matrix-fluderation-pusher/.build/arm64-apple-macosx/debug/wl_matrix_fluderation_pusher.build/main.swift.o",
+    "swiftmodule": "/Users/wonderland/Wonderland/apps/matrix/wl-matrix-fluderation-pusher/.build/arm64-apple-macosx/debug/wl_matrix_fluderation_pusher.build/main~partial.swiftmodule",
+    "swift-dependencies": "/Users/wonderland/Wonderland/apps/matrix/wl-matrix-fluderation-pusher/.build/arm64-apple-macosx/debug/wl_matrix_fluderation_pusher.build/main.swiftdeps",
+    "diagnostics": "/Users/wonderland/Wonderland/apps/matrix/wl-matrix-fluderation-pusher/.build/arm64-apple-macosx/debug/wl_matrix_fluderation_pusher.build/main.dia"
+  }
+}

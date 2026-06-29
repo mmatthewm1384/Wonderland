@@ -14,7 +14,7 @@ cat > "$APP_DIR/matrix-atom-destroyer.html" <<'HTML'
 <!DOCTYPE html>
 <html>
 <head>
-<title>Matrix Atom Destroyer</title>
+<title>DISABLED-Matrix Atom Destroyer</title>
 <style>
 html, body {
   margin: 0;
@@ -216,7 +216,7 @@ draw();
 HTML
 
 cat > "$APP_DIR/README.md" <<'MD'
-# Matrix Atom Destroyer
+# DISABLED-Matrix Atom Destroyer
 
 Interactive Matrix-style atom visualization.
 
@@ -243,7 +243,7 @@ MD
 cat > "$APP_DIR/manifest.json" <<JSON
 {
   "id": "matrix-atom-destroyer",
-  "name": "Matrix Atom Destroyer",
+  "name": "DISABLED-Matrix Atom Destroyer",
   "version": "1.0.0",
   "status": "experimental",
   "owner": "Wonderland",
@@ -273,7 +273,7 @@ SH
 
 chmod +x "$CMD"
 
-echo "Matrix Atom Destroyer installed."
+echo "DISABLED-Matrix Atom Destroyer installed."
 echo "Path: $APP_DIR"
 echo "Command: wl-matrix"
 

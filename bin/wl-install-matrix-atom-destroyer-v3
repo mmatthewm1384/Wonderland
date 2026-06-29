@@ -31,7 +31,7 @@ cat > "$INTENT" <<'JSON'
   "command": "wl-matrix",
   "doctor": "wl-matrix-doctor",
   "rollback": "wl-matrix-rollback",
-  "intent": "Upgrade Matrix Atom Destroyer to v3 with Wonderland Core visual behavior: gravity lens distortion, orbit color cycling, temporal fracture rings, outdoor visibility, left-eye projection, screenshot export, and governed rollback.",
+  "intent": "Upgrade DISABLED-Matrix Atom Destroyer to v3 with Wonderland Core visual behavior: gravity lens distortion, orbit color cycling, temporal fracture rings, outdoor visibility, left-eye projection, screenshot export, and governed rollback.",
   "principles": [
     "persistent",
     "recoverable",
@@ -76,7 +76,7 @@ cat > "$HTML" <<'HTML'
 <!DOCTYPE html>
 <html>
 <head>
-<title>Matrix Atom Destroyer v3</title>
+<title>DISABLED-Matrix Atom Destroyer v3</title>
 <style>
 html, body {
   margin: 0;
@@ -101,7 +101,7 @@ canvas { display: block; }
 </head>
 <body>
 <canvas id="c"></canvas>
-<div id="label">Matrix Atom Destroyer v3 · Click/SPACE slam · O outdoor · G gravity · F fracture · R reset · S screenshot · Double-click fullscreen</div>
+<div id="label">DISABLED-Matrix Atom Destroyer v3 · Click/SPACE slam · O outdoor · G gravity · F fracture · R reset · S screenshot · Double-click fullscreen</div>
 
 <script>
 const COLORS = {
@@ -363,7 +363,7 @@ HTML
 cat > "$MANIFEST" <<JSON
 {
   "id": "matrix-atom-destroyer",
-  "name": "Matrix Atom Destroyer",
+  "name": "DISABLED-Matrix Atom Destroyer",
   "version": "3.0.0",
   "status": "certified-experimental",
   "owner": "Wonderland",
@@ -421,7 +421,7 @@ check_grep() {
   grep -q "$1" "$2" && echo "PASS $3" || { echo "FAIL $3"; fail=1; }
 }
 
-echo "Matrix Atom Destroyer Doctor"
+echo "DISABLED-Matrix Atom Destroyer Doctor"
 
 check_file "$HTML" "html"
 check_file "$MANIFEST" "manifest"
@@ -473,7 +473,7 @@ chmod +x "$LAUNCHER" "$DOCTOR" "$ROLLBACK"
 "$DOCTOR"
 
 echo
-echo "Installed Matrix Atom Destroyer v3"
+echo "Installed DISABLED-Matrix Atom Destroyer v3"
 echo "Run:      wl-matrix"
 echo "Verify:   wl-matrix-doctor"
 echo "Rollback: wl-matrix-rollback"

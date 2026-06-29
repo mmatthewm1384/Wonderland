@@ -1,47 +1,35 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 
-REG="vault/07-Operations/certifications/service-certifications.json"
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
 
-service="${2:-}"
+CERT_DIR="$WL_HOME/vault/05-Registry/certifications"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+CERT="$CERT_DIR/wonderland-runtime-${WL_VERSION:-0.0.0}-${STAMP}.json"
 
-case "${1:-}" in
+mkdir -p "$CERT_DIR"
 
-  certify)
+verify_rc=0
+"$WL_HOME/bin/wl-verify" >/tmp/wl-certify-verify.out 2>&1 || verify_rc=$?
 
-    [[ -n "$service" ]] || {
-      echo "Usage: wl certify certify <service>"
-      exit 1
-    }
+result="PASS"
+[[ "$verify_rc" -eq 0 ]] || result="FAIL"
 
-    python3 - <<PY
-import json
-from pathlib import Path
-from datetime import datetime
+cat > "$CERT" <<JSON
+{
+  "schema": "wonderland.certification.v1",
+  "id": "wonderland-runtime-${WL_VERSION:-0.0.0}-${STAMP}",
+  "name": "Wonderland Runtime Certification",
+  "timestamp": "$STAMP",
+  "result": "$result",
+  "context": $(wl_context_dump),
+  "state": $(wl_state_dump),
+  "capabilities": $(wl_capabilities_dump),
+  "health": $(wl_health_dump)
+}
+JSON
 
-p = Path("$REG")
-data = json.loads(p.read_text())
-
-data["services"].append({
-    "service": "$service",
-    "certified": datetime.now().isoformat(),
-    "status": "certified"
-})
-
-p.write_text(json.dumps(data, indent=2) + "\n")
-PY
-
-    echo "CERTIFIED $service"
-    ;;
-
-  list)
-    cat "$REG"
-    ;;
-
-  *)
-    echo "Usage:"
-    echo "  wl certify certify <service>"
-    echo "  wl certify list"
-    exit 1
-    ;;
-esac
+echo "CERT $CERT"
+echo "RESULT $result"
+exit "$verify_rc"

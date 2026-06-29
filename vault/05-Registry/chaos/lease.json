@@ -1,0 +1,12 @@
+{
+  "expires_at": "2026-06-29T06:37:42.171612+00:00",
+  "fingerprint_id": "389c0c2a0336cedbdb8299e277d70a534639144665dfc250224f3489e1eb0a62",
+  "fingerprint_short": "389c0c2a0336",
+  "issued_at": "2026-06-29T06:07:42.171612+00:00",
+  "lease_id": "3697b872-891a-4326-94a1-1702ee193536",
+  "mode": "storm",
+  "operator": "wonderland",
+  "schema": "wonderland.chaos.lease.v1",
+  "scope": "chaos.menubar",
+  "status": "active"
+}

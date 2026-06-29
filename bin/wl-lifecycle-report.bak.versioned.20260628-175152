@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+set -u
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+WL_ROOT="${WL_ROOT:-$WL_HOME}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
+WL_LIB="$WL_HOME/lib/wl-lib.sh"
+REPORT_TYPE="${1:-status}"
+REPORT_DIR="$WL_HOME/vault/08-Operations/reports"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+REPORT="$REPORT_DIR/lifecycle-${REPORT_TYPE}-${STAMP}.json"
+
+mkdir -p "$REPORT_DIR"
+
+if [[ -f "$WL_LIB" ]]; then
+  . "$WL_LIB"
+else
+  echo "FAIL wl-lib missing: $WL_LIB"
+  echo "RESULT FAIL"
+  exit 1
+fi
+
+wl_section "Lifecycle Report"
+
+wl_required_path "root" "$WL_HOME"
+wl_required_path "bin" "$WL_HOME/bin"
+wl_required_path "vault" "$WL_HOME/vault"
+wl_optional_path "t7" "$WL_T7_PATH"
+wl_optional_path "t7 mirror" "$WL_T7_PATH/Wonderland"
+wl_optional_path "media" "$WL_T7_PATH/media"
+
+if command -v limactl >/dev/null 2>&1; then
+  wl_pass "limactl" "$(command -v limactl)"
+else
+  wl_fail "limactl" "missing"
+fi
+
+if command -v nerdctl >/dev/null 2>&1; then
+  wl_pass "nerdctl" "$(command -v nerdctl)"
+else
+  wl_fail "nerdctl" "missing"
+fi
+
+if limactl list 2>/dev/null | grep -q '^wonderland-rootless[[:space:]]\+Running'; then
+  wl_pass "wonderland-rootless" "running"
+else
+  wl_warn "wonderland-rootless" "not running"
+fi
+
+result="PASS"
+rc=0
+if (( wl_corruptions > 0 )); then
+  result="CORRUPT"
+  rc=2
+elif (( wl_failures > 0 )); then
+  result="FAIL"
+  rc=1
+fi
+
+cat > "$REPORT" <<JSON
+{
+  "type": "$REPORT_TYPE",
+  "timestamp": "$STAMP",
+  "root": "$WL_HOME",
+  "mode": "${WL_MODE:-light}",
+  "t7_path": "$WL_T7_PATH",
+  "pass": $wl_passes,
+  "warn": $wl_warnings,
+  "fail": $wl_failures,
+  "corrupt": $wl_corruptions,
+  "result": "$result"
+}
+JSON
+
+echo "REPORT $REPORT"
+echo "RESULT $result"
+exit "$rc"

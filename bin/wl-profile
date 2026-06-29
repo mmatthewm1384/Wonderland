@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
+
+cmd="${1:-status}"
+format="${2:-}"
+
+case "$cmd" in
+  status)
+    profile_path="$(wl_profile_path)"
+    state="missing"
+    result="FAIL"
+    rc=1
+
+    if [[ -f "$profile_path" ]]; then
+      state="available"
+      result="PASS"
+      rc=0
+    fi
+
+    if [[ "$format" == "--json" || "$format" == "json" ]]; then
+      cat <<JSON
+{
+  "result": "$result",
+  "profile": "$WL_PROFILE",
+  "profile_path": "$profile_path",
+  "state": "$state"
+}
+JSON
+      exit "$rc"
+    fi
+
+    wl_profile_status
+    wl_health_exit
+    ;;
+
+  path)
+    wl_profile_path
+    ;;
+
+  show)
+    cat "$(wl_profile_path)"
+    ;;
+
+  *)
+    echo "Usage: wl profile {status [--json]|path|show}"
+    echo "RESULT FAIL"
+    exit 1
+    ;;
+esac

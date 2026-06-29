@@ -1,0 +1,220 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
+
+RELEASE_ROOT="$WL_HOME/releases"
+BUILD_DIR="$RELEASE_ROOT/builds"
+STABLE_DIR="$RELEASE_ROOT/stable"
+PREVIOUS_DIR="$RELEASE_ROOT/previous"
+ROLLBACK_DIR="$RELEASE_ROOT/rollback"
+
+mkdir -p "$BUILD_DIR" "$STABLE_DIR" "$PREVIOUS_DIR" "$ROLLBACK_DIR"
+
+cmd="${1:-status}"
+
+latest_cert() {
+  ls -t "$WL_HOME"/vault/05-Registry/certifications/wonderland-runtime-*.json 2>/dev/null | head -1
+}
+
+case "$cmd" in
+  build)
+    wl_section "Release Build"
+
+    verify_rc=0
+    "$WL_HOME/bin/wl-verify" || verify_rc=$?
+
+    if (( verify_rc != 0 )); then
+      wl_health_fail "verify" "release build blocked"
+      wl_health_exit
+    fi
+
+    cert_rc=0
+    "$WL_HOME/bin/wl-certify" || cert_rc=$?
+
+    "$WL_HOME/bin/wl-docs" >/dev/null 2>&1 || true
+    docs="$WL_HOME/vault/02-Documentation/generated/wonderland-command-reference.md"
+
+    cert="$(latest_cert)"
+    baseline="$("$WL_HOME/bin/wl-baseline" latest 2>/dev/null || true)"
+    stamp="$(date +%Y%m%d-%H%M%S)"
+    manifest="$BUILD_DIR/release-${WL_VERSION:-0.0.0}-${stamp}.json"
+    tmp_manifest="$manifest.tmp"
+
+    python3 - "$tmp_manifest" "$cert" "$docs" "$baseline" "$handoff" <<'PYJSON'
+import json
+import os
+import subprocess
+import sys
+
+tmp, cert, docs, baseline, handoff = sys.argv[1:6]
+
+def read_json(cmd):
+    out = subprocess.check_output(cmd, text=True)
+    return json.loads(out)
+
+manifest = {
+    "schema": "wonderland.release.v1",
+    "version": os.environ.get("WL_VERSION", "0.0.0"),
+    "build": os.environ.get("WL_BUILD", "unknown"),
+    "channel": os.environ.get("WL_CHANNEL", "local"),
+    "timestamp": os.environ.get("stamp", ""),
+    "result": "PASS" if os.environ.get("cert_rc", "1") == "0" else "FAIL",
+    "certification": cert,
+    "documentation": docs,
+    "baseline": baseline,
+    "handoff": handoff,
+    "checkpoint": os.environ.get("checkpoint", ""),
+    "context": read_json([os.path.expanduser("~/Wonderland/bin/wl-context"), "show"]),
+}
+
+with open(tmp, "w") as f:
+    json.dump(manifest, f, indent=2)
+    f.write("\n")
+PYJSON
+
+    if ! python3 -m json.tool "$tmp_manifest" >/dev/null 2>&1; then
+      echo "FAIL invalid release manifest: $tmp_manifest"
+      rm -f "$tmp_manifest"
+      echo "RESULT FAIL"
+      exit 1
+    fi
+
+    mv "$tmp_manifest" "$manifest"
+
+    echo "RELEASE $manifest"
+    [[ "$cert_rc" -eq 0 ]] && echo "RESULT PASS" || echo "RESULT FAIL"
+    exit "$cert_rc"
+    ;;
+
+  promote)
+    latest="$(ls -t "$BUILD_DIR"/release-*.json 2>/dev/null | head -1)"
+
+    if [[ -z "$latest" ]]; then
+      echo "FAIL no release build found"
+      echo "RESULT FAIL"
+      exit 1
+    fi
+
+    if [[ -f "$STABLE_DIR/current.json" ]]; then
+      cp "$STABLE_DIR/current.json" "$PREVIOUS_DIR/previous-$(date +%Y%m%d-%H%M%S).json"
+    fi
+
+    if ! python3 -m json.tool "$latest" >/dev/null 2>&1; then
+      echo "FAIL invalid release build: $latest"
+      echo "RESULT FAIL"
+      exit 1
+    fi
+
+    tmp="$STABLE_DIR/current.json.tmp"
+    cp "$latest" "$tmp"
+    python3 -m json.tool "$tmp" >/dev/null
+    mv "$tmp" "$STABLE_DIR/current.json"
+
+    echo "PROMOTED $latest"
+    echo "STABLE $STABLE_DIR/current.json"
+    echo "RESULT PASS"
+    ;;
+
+  status)
+    if [[ "${2:-}" == "--json" || "${1:-}" == "--json" ]]; then
+      mkdir -p "$WL_HOME/releases/invalid"
+
+      invalid_count="$(find "$WL_HOME/releases/invalid" -type f -name 'release-*.json' 2>/dev/null | wc -l | tr -d ' ')"
+      latest_valid="$(find "$BUILD_DIR" -type f -name 'release-*.json' -print0 2>/dev/null | xargs -0 -I{} sh -c 'python3 -m json.tool "$1" >/dev/null 2>&1 && echo "$1"' sh {} | sort -r | head -1)"
+
+      stable_state="missing"
+      if [[ -f "$STABLE_DIR/current.json" ]]; then
+        if python3 -m json.tool "$STABLE_DIR/current.json" >/dev/null 2>&1; then
+          stable_state="valid"
+        else
+          stable_state="invalid"
+        fi
+      fi
+
+      cat <<JSON
+{
+  "schema": "wonderland.release.status.v1",
+  "latest_valid_build": "${latest_valid:-}",
+  "stable": "$STABLE_DIR/current.json",
+  "stable_state": "$stable_state",
+  "invalid_archived": $invalid_count,
+  "checkpoint": "$WL_HOME/vault/05-Registry/platform/current.json"
+}
+JSON
+      [[ "$stable_state" == "invalid" ]] && exit 1 || exit 0
+    fi
+
+    echo "Wonderland Release Status"
+    echo
+
+    invalid_count="$(find "$WL_HOME/releases/invalid" -type f -name 'release-*.json' 2>/dev/null | wc -l | tr -d ' ')"
+    latest_valid="$(find "$BUILD_DIR" -type f -name 'release-*.json' -print0 2>/dev/null | xargs -0 -I{} sh -c 'python3 -m json.tool "$1" >/dev/null 2>&1 && echo "$1"' sh {} | sort -r | head -1)"
+
+    echo "Latest valid build: ${latest_valid:-none}"
+    echo "Invalid archived:   $invalid_count"
+    echo "Checkpoint:         $WL_HOME/vault/05-Registry/platform/current.json"
+    echo
+
+    if [[ -f "$STABLE_DIR/current.json" ]]; then
+      if python3 -m json.tool "$STABLE_DIR/current.json" >/dev/null 2>&1; then
+        echo "Stable:"
+        python3 -m json.tool "$STABLE_DIR/current.json"
+      else
+        echo "FAIL stable release invalid: $STABLE_DIR/current.json"
+        echo "RESULT FAIL"
+        exit 1
+      fi
+    else
+      echo "WARN no stable release promoted"
+      echo "RESULT PASS"
+    fi
+    ;;
+
+  clean-invalid)
+    mkdir -p "$WL_HOME/releases/invalid"
+
+    count="$(find "$WL_HOME/releases/invalid" -type f -name 'release-*.json' 2>/dev/null | wc -l | tr -d ' ')"
+
+    if [[ "$count" == "0" ]]; then
+      echo "PASS no invalid releases to clean"
+      echo "RESULT PASS"
+      exit 0
+    fi
+
+    archive="$WL_HOME/releases/rollback/invalid-releases-$(date +%Y%m%d-%H%M%S)"
+    mkdir -p "$archive"
+
+    find "$WL_HOME/releases/invalid" -type f -name 'release-*.json' -exec mv {} "$archive/" \;
+
+    echo "ARCHIVED $count invalid release(s) to $archive"
+    echo "RESULT PASS"
+    ;;
+
+  rollback)
+    previous="$(ls -t "$PREVIOUS_DIR"/previous-*.json 2>/dev/null | head -1)"
+
+    if [[ -z "$previous" ]]; then
+      echo "FAIL no previous release available"
+      echo "RESULT FAIL"
+      exit 1
+    fi
+
+    if [[ -f "$STABLE_DIR/current.json" ]]; then
+      cp "$STABLE_DIR/current.json" "$ROLLBACK_DIR/rollback-from-$(date +%Y%m%d-%H%M%S).json"
+    fi
+
+    cp "$previous" "$STABLE_DIR/current.json"
+
+    echo "ROLLED_BACK $previous"
+    echo "STABLE $STABLE_DIR/current.json"
+    echo "RESULT PASS"
+    ;;
+
+  *)
+    echo "Usage: wl release {build|promote|status|rollback|clean-invalid}"
+    echo "RESULT FAIL"
+    exit 1
+    ;;
+esac

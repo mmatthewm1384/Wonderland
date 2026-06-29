@@ -17,7 +17,7 @@ cat > "$INTENT_DIR/matrix-spin-city-wave-iphone.intent.json" <<'JSON'
   "owner": "Wonderland",
   "parent": "matrix-atom-destroyer",
   "target": "assets/visualizations/matrix-atom-destroyer/apps/spin-city-wave",
-  "intent": "Add Spin City Wave as a governed Matrix sub-app with a real iPhone fullscreen version.",
+  "intent": "Add DISABLED-Spin City Wave as a governed Matrix sub-app with a real iPhone fullscreen version.",
   "device_targets": [
     "iPhone 16 Pro",
     "mobile Safari",
@@ -34,7 +34,7 @@ cat > "$APP_DIR/iphone/spin-city-wave-iphone.html" <<'HTML'
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Spin City Wave iPhone</title>
+<title>DISABLED-Spin City Wave iPhone</title>
 <style>
 html, body {
   margin: 0;
@@ -285,7 +285,7 @@ HTML
 cat > "$APP_DIR/manifest.json" <<'JSON'
 {
   "id": "spin-city-wave",
-  "name": "Spin City Wave",
+  "name": "DISABLED-Spin City Wave",
   "version": "1.0.0",
   "status": "matrix-subapp",
   "parent": "matrix-atom-destroyer",
@@ -311,5 +311,5 @@ SH2
 
 chmod +x "$BIN_DIR/wl-matrix-spin-city-iphone"
 
-echo "PASS Spin City Wave iPhone added"
+echo "PASS DISABLED-Spin City Wave iPhone added"
 echo "Run: wl-matrix-spin-city-iphone"

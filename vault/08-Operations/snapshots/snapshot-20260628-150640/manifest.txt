@@ -1,0 +1,69 @@
+timestamp=20260628-150640
+wl_home=/Users/wonderland/Wonderland
+storage=attached
+
+containers:
+
+git:
+ M bin/wl-agitate
+ M bin/wl-install-matrix-atom-destroyer
+ M bin/wl-install-matrix-atom-destroyer-v2
+ M bin/wl-install-matrix-atom-destroyer-v3
+ M bin/wl-install-matrix-atom-destroyer-v4
+ M bin/wl-install-matrix-atom-destroyer-v5
+ M bin/wl-matrix
+ M bin/wl-matrix-add-agitate-waves
+ M bin/wl-matrix-add-iphone-access
+ M bin/wl-matrix-add-spin-city-iphone
+ M bin/wl-matrix-agitate-iphone
+ M bin/wl-matrix-apps
+ M bin/wl-matrix-apps-certify
+ M bin/wl-matrix-apps-permanent-launchers
+ M bin/wl-matrix-doctor
+ M bin/wl-matrix-fix-agitate-waves-app
+ M bin/wl-matrix-iphone-server
+ M bin/wl-matrix-native
+ M bin/wl-matrix-spin-city-iphone
+ M bin/wl-matrix-suite
+ M bin/wl-spin-city-server
+ M bin/wl-tauri-matrix-bootstrap
+ M bin/wl-tauri-matrix-certify
+ M bin/wl-tauri-matrix-hotkeys
+ M bin/wl-tauri-matrix-icons
+ M controller/wl_controller/api.py
+ M controller/wl_controller/api/__pycache__/server.cpython-314.pyc
+ M controller/wl_controller/cli/__pycache__/main.cpython-314.pyc
+ M controller/wl_controller/config/__pycache__/settings.cpython-314.pyc
+ M controller/wl_controller/config/settings.py
+ M controller/wl_controller/core/__pycache__/controller.cpython-314.pyc
+ M controller/wl_controller/plugins/__pycache__/__init__.cpython-314.pyc
+ M controller/wl_controller/plugins/__pycache__/base.cpython-314.pyc
+ M controller/wl_controller/plugins/base.py
+ M controller/wl_controller/validation/__pycache__/schema.cpython-314.pyc
+ M dashboard/server.py
+ M ephemeral/agents/secret-agent-catalog/secret-agent-catalog.md
+ M ephemeral/agents/secret-agent-catalog/secret_agent_catalog.py
+ M ephemeral/bin/wl-chaos-menubar
+ M ephemeral/bin/wl-visual-chaos
+ M ephemeral/theomatrix/app/docs/theomatrix-v0.1.md
+ M ephemeral/theomatrix/install-theomatrix-v0.1.sh
+ M ephemeral/tools/chat-architecture-mapper/chat-architecture-map.md
+ M plugins/example_audit.py
+ M release/package.py
+ M scripts/install/wl-chaos-visual-bridge-install.sh
+ M scripts/install/wl-phase-d2-runtime-certify.sh
+ M scripts/install/wl-visual-chaos-auto-drop-in.sh
+ M scripts/theomatrix/create-spin-the-city-intent.sh
+ M security/operator-gate/policy.json
+ M vault/05-Registry/certifications/platform-services-rootless.json
+ M vault/05-Registry/certifications/wl-chaos-latest.json
+ M vault/05-Registry/services.json
+ M vault/07-Operations/platform/runtime-mode.json
+ M vault/07-Operations/platform/storage-state.json
+ M vault/08-Operations/reports/services/latest-services-registry.json
+ M vault/08-Operations/reports/storage-attach-report.json
+ M vault/08-Operations/reports/storage-verify-report.json
+ M vault/08-Operations/reports/universe-status-report.json
+ M vault/08-Operations/state/latest.json
+ M vault/chaos/visual-chaos-contract.json
+ M vault/ephemeral-runs.log

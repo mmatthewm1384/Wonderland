@@ -1,0 +1,18 @@
+{
+  "schema": "wonderland.design.wel.phases.v1",
+  "version": "1.0",
+  "principle": "Progression is not danger. Authority is protection.",
+  "phases": [
+    {"phase":0,"id":"foundation","name":"Foundation","hex":"#00E5FF","rgb":[0,229,255],"motion":"static","geometry":"core"},
+    {"phase":1,"id":"awareness","name":"Awareness","hex":"#2BA7FF","rgb":[43,167,255],"motion":"slow_breathe","geometry":"facet"},
+    {"phase":2,"id":"attention","name":"Attention","hex":"#4A6BFF","rgb":[74,107,255],"motion":"gentle_rotation","geometry":"cut"},
+    {"phase":3,"id":"transition","name":"Transition","hex":"#7000FF","rgb":[112,0,255],"motion":"continuous_rotation","geometry":"star"},
+    {"phase":4,"id":"pressure","name":"Pressure","hex":"#C000FF","rgb":[192,0,255],"motion":"rotation_pulse","geometry":"resonance"},
+    {"phase":5,"id":"authority","name":"Authority","hex":"#EAF7FF","rgb":[234,247,255],"motion":"locked","geometry":"seal"}
+  ],
+  "health": {
+    "healthy": "#22D07D",
+    "warning": "#FFB020",
+    "offline": "#FF4D4F"
+  }
+}

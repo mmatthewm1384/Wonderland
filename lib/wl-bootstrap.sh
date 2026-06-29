@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# Wonderland shell runtime bootstrap
+
+: "${WL_HOME:=$HOME/Wonderland}"
+
+WL_CONFIG_FILE="$WL_HOME/config/wonderland.env"
+WL_VERSION_FILE="$WL_HOME/config/version.env"
+
+if [[ -f "$WL_CONFIG_FILE" ]]; then
+  # shellcheck disable=SC1090
+  source "$WL_CONFIG_FILE"
+fi
+
+if [[ -f "$WL_VERSION_FILE" ]]; then
+  # shellcheck disable=SC1090
+  source "$WL_VERSION_FILE"
+else
+  WL_VERSION="0.0.0"
+  WL_BUILD="unknown"
+  WL_CHANNEL="local"
+fi
+
+
+# Guard against profile pollution from runtime/service variables.
+case "${WL_PROFILE:-}" in
+  ""|wonderland-rootless)
+    WL_PROFILE="internal-light"
+    ;;
+esac
+
+if [[ -f "$WL_HOME/lib/core/load.sh" ]]; then
+  source "$WL_HOME/lib/core/load.sh"
+fi
+
+for lib in \
+  "$WL_HOME/lib/wl-context.sh" \
+  "$WL_HOME/lib/wl-lib.sh" \
+  "$WL_HOME/lib/wl-runtime.sh" \
+  "$WL_HOME/lib/wl-storage.sh" \
+  "$WL_HOME/lib/wl-services.sh" \
+  "$WL_HOME/lib/wl-profile.sh" \
+  "$WL_HOME/lib/wl-capability.sh" \
+  "$WL_HOME/lib/wl-json.sh" \
+  "$WL_HOME/lib/wl-dispatch.sh"
+do
+  if [[ -f "$lib" ]]; then
+    # shellcheck disable=SC1090
+    source "$lib"
+  fi
+done
+
+wl_context_init
+
+wl_bootstrap_info() {
+  echo "WL_HOME=$WL_HOME"
+  echo "WL_MODE=${WL_MODE:-light}"
+  echo "WL_PROFILE=${WL_PROFILE:-internal-light}"
+  echo "WL_VERSION=${WL_VERSION:-0.0.0}"
+  echo "WL_BUILD=${WL_BUILD:-unknown}"
+}

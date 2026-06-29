@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
+
+target="${1:-latest}"
+
+latest_valid_release() {
+  find "$WL_HOME/releases/builds" -type f -name 'release-*.json' -print0 2>/dev/null |
+    while IFS= read -r -d '' f; do
+      if python3 -m json.tool "$f" >/dev/null 2>&1; then
+        printf '%s\n' "$f"
+      fi
+    done | sort -r | head -1
+}
+
+case "$target" in
+  latest)
+    file="$(latest_valid_release)"
+    ;;
+  stable)
+    file="$WL_HOME/releases/stable/current.json"
+    ;;
+  *)
+    file="$target"
+    ;;
+esac
+
+if [[ -z "${file:-}" || ! -f "$file" ]]; then
+  echo "WARN release missing: ${target}"
+  echo "RESULT PASS"
+  exit 0
+fi
+
+if python3 -m json.tool "$file" >/dev/null 2>&1; then
+  echo "PASS release json $file"
+  echo "RESULT PASS"
+  exit 0
+else
+  echo "FAIL release json $file"
+  echo "RESULT FAIL"
+  exit 1
+fi

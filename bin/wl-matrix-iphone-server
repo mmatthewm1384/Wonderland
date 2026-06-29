@@ -18,7 +18,7 @@ echo "URL: http://${IP}:${PORT}/iphone/"
 echo
 echo "Direct:"
 echo "Matrix:    http://${IP}:${PORT}/matrix-atom-destroyer.html"
-echo "Spin City: http://${IP}:${PORT}/apps/spin-city-wave/iphone/spin-city-wave-iphone.html"
+echo "DISABLED-Spin City: http://${IP}:${PORT}/apps/spin-city-wave/iphone/spin-city-wave-iphone.html"
 echo
 
 python3 -m http.server "$PORT" --bind 0.0.0.0

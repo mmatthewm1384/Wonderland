@@ -5,7 +5,7 @@ cd "$HOME/Wonderland/assets/visualizations/matrix-atom-destroyer/apps/spin-city-
 PORT="${1:-9000}"
 
 echo
-echo "Spin City Wave"
+echo "DISABLED-Spin City Wave"
 echo "URL: http://$(ipconfig getifaddr en0):${PORT}/spin-city-wave-iphone.html"
 echo
 

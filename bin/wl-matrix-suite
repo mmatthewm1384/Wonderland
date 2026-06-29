@@ -428,30 +428,38 @@ JSON
     case "$target" in
       focus)
         "$ROOT/bin/wl-matrix-presence" set-realm focus
-        open "$(find "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+        # DISABLED: Chaos must not auto-launch visual apps or Console
+        # open "$(find "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         ;;
 
       ambient)
         "$ROOT/bin/wl-matrix-presence" set-realm ambient
-        open "$(find "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+        # DISABLED: Chaos must not auto-launch visual apps or Console
+        # open "$(find "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         ;;
 
       energy)
         "$ROOT/bin/wl-matrix-presence" set-realm energy
-        open "$(find "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+        # DISABLED: Chaos must not auto-launch visual apps or Console
+        # open "$(find "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         ;;
 
       emergence)
         "$ROOT/bin/wl-matrix-presence" set-realm emergence
-        open "$(find "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+        # DISABLED: Chaos must not auto-launch visual apps or Console
+        # open "$(find "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         ;;
 
       all)
         "$ROOT/bin/wl-matrix-presence" set-realm all
-        open "$(find "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
-        open "$(find "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
-        open "$(find "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
-        open "$(find "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+        # DISABLED: Chaos must not auto-launch visual apps or Console
+        # open "$(find "$ROOT/apps/tauri/wl-spin-city/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+        # DISABLED: Chaos must not auto-launch visual apps or Console
+        # open "$(find "$ROOT/apps/tauri/wl-agitate/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+        # DISABLED: Chaos must not auto-launch visual apps or Console
+        # open "$(find "$ROOT/apps/tauri/wl-matrix/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
+        # DISABLED: Chaos must not auto-launch visual apps or Console
+        # open "$(find "$ROOT/apps/matrix/matrix-fluderation/src-tauri/target/release/bundle/macos" -maxdepth 1 -name "*.app" | head -1)"
         ;;
 
       *)
@@ -483,9 +491,9 @@ JSON
 
         app_name="$(basename "$app" .app)"
         case "$app_name" in
-          "Spin City Wave") "$ROOT/bin/wl-matrix-presence" set-realm focus >/dev/null 2>&1 || true ;;
-          "Agitate Waves") "$ROOT/bin/wl-matrix-presence" set-realm ambient >/dev/null 2>&1 || true ;;
-          "Matrix Atom Destroyer") "$ROOT/bin/wl-matrix-presence" set-realm energy >/dev/null 2>&1 || true ;;
+          "DISABLED-Spin City Wave") "$ROOT/bin/wl-matrix-presence" set-realm focus >/dev/null 2>&1 || true ;;
+          "DISABLED-Agitate Waves") "$ROOT/bin/wl-matrix-presence" set-realm ambient >/dev/null 2>&1 || true ;;
+          "DISABLED-Matrix Atom Destroyer") "$ROOT/bin/wl-matrix-presence" set-realm energy >/dev/null 2>&1 || true ;;
           "Matrix Fluderation") "$ROOT/bin/wl-matrix-presence" set-realm emergence >/dev/null 2>&1 || true ;;
         esac
 
@@ -503,10 +511,10 @@ JSON
     pkill -f "wl-matrix-suite screensaver" >/dev/null 2>&1 || true
 
     for name in \
-      "Spin City Wave" \
-      "Agitate Waves" \
+      "DISABLED-Spin City Wave" \
+      "DISABLED-Agitate Waves" \
       "Matrix Fluderation" \
-      "Matrix Atom Destroyer"
+      "DISABLED-Matrix Atom Destroyer"
     do
       osascript -e "tell application \"$name\" to quit" >/dev/null 2>&1 || true
     done

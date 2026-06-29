@@ -316,7 +316,7 @@ Disable particles, secondary effects, and deformation until the core eye-path be
 
 Rollback
 
-Rollback by restoring prior Spin City visual behavior and removing this intent from the active design registry.
+Rollback by restoring prior DISABLED-Spin City visual behavior and removing this intent from the active design registry.
 
 Created files:
 

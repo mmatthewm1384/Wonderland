@@ -125,15 +125,15 @@ RUN
 }
 
 make_app "wl-spin-city" \
-  "Spin City Wave" \
+  "DISABLED-Spin City Wave" \
   "$SRC/apps/spin-city-wave/iphone/spin-city-wave-iphone.html"
 
 make_app "wl-agitate" \
-  "Agitate Waves" \
+  "DISABLED-Agitate Waves" \
   "$SRC/apps/agitate-waves/iphone/agitate-waves-iphone.html"
 
 make_app "wl-matrix" \
-  "Matrix Atom Destroyer" \
+  "DISABLED-Matrix Atom Destroyer" \
   "$SRC/matrix-atom-destroyer.html"
 
 cat > "$BIN/wl-tauri-matrix-doctor" <<'SH2'

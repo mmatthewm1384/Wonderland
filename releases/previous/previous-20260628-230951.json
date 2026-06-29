@@ -1,0 +1,27 @@
+{
+  "schema": "wonderland.release.v1",
+  "version": "2.0.0",
+  "build": "20260628",
+  "channel": "local",
+  "timestamp": "20260628-225502",
+  "result": "PASS",
+  "certification": "/Users/wonderland/Wonderland/vault/05-Registry/certifications/wonderland-runtime-2.0.0-20260628-225457.json",
+  "documentation": "/Users/wonderland/Wonderland/vault/02-Documentation/generated/wonderland-command-reference.md",
+  "baseline": "/Users/wonderland/Wonderland/vault/08-Operations/baselines/wonderland-platform-baseline-20260628-225218.json",
+  "context": {
+  "schema": "wonderland.runtime.context.v1",
+  "version": "0.0.0",
+  "build": "unknown",
+  "channel": "local",
+  "root": "/Users/wonderland/Wonderland",
+  "mode": "light",
+  "profile": "internal-light",
+  "runtime_instance": "wonderland-rootless",
+  "report_dir": "/Users/wonderland/Wonderland/vault/08-Operations/reports",
+  "runtime_dir": "/Users/wonderland/Wonderland/runtime",
+  "config_dir": "/Users/wonderland/Wonderland/config",
+  "lib_dir": "/Users/wonderland/Wonderland/lib",
+  "bin_dir": "/Users/wonderland/Wonderland/bin",
+  "t7_path": "/Volumes/T7_Wonderland"
+}
+}

@@ -1,0 +1,54 @@
+#!/usr/bin/env python3
+import json
+import sys
+import time
+from pathlib import Path
+
+ROOT = Path.home() / "Wonderland"
+POLICY = ROOT / "security/operator-gate/policy.json"
+LEASE = ROOT / "vault/05-Registry/chaos/lease.json"
+
+def load(path):
+    with path.open() as f:
+        return json.load(f)
+
+def status():
+    policy = load(POLICY)
+    lease = load(LEASE) if LEASE.exists() else {}
+
+    now = int(time.time())
+    remaining = max(0, int(lease.get("expires_at", 0)) - now)
+
+    result = {
+        "policy": str(POLICY),
+        "lease": str(LEASE),
+        "policy_lease_hours": policy.get("lease_hours"),
+        "lease_hours": lease.get("lease_hours"),
+        "remaining_seconds": remaining,
+        "remaining_hours": round(remaining / 3600, 2),
+        "controller_required": policy.get("controller_required"),
+        "cli_fallback_allowed": policy.get("cli_fallback_allowed"),
+        "status": "PASS" if policy.get("lease_hours") == lease.get("lease_hours") else "DRIFT"
+    }
+
+    print(json.dumps(result, indent=2))
+    return 0 if result["status"] == "PASS" else 1
+
+def verify():
+    return status()
+
+def main():
+    cmd = sys.argv[1] if len(sys.argv) > 1 else "status"
+
+    if cmd in ("status", "verify"):
+        raise SystemExit(status())
+
+    if cmd == "path":
+        print(POLICY)
+        return
+
+    print("usage: wl-chaos-policy [status|verify|path]", file=sys.stderr)
+    raise SystemExit(2)
+
+if __name__ == "__main__":
+    main()

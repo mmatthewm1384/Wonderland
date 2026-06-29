@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -euo pipefail
+open "$HOME/Workshop/apps/macos/Matrix Atom Destroyer.app"

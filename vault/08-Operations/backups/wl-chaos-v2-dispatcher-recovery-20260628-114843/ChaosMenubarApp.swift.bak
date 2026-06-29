@@ -1,0 +1,629 @@
+import AppKit
+import Foundation
+@MainActor
+
+final class ChaosMenubarApp: NSObject, NSApplicationDelegate {
+    private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    private var statusText = "Ready"
+    private let uiV2FlagPath = NSString(string: "~/Wonderland/vault/05-Registry/chaos/ui-v2.enabled").expandingTildeInPath
+
+    private var isUIV2Enabled: Bool {
+        FileManager.default.fileExists(atPath: uiV2FlagPath)
+    }
+
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        ChaosDebug.log("APP_LAUNCH applicationDidFinishLaunching")
+        refreshMenu()
+        Timer.scheduledTimer(withTimeInterval: 15, repeats: true) { [weak self] _ in
+            Task { @MainActor in
+                self?.refreshMenu()
+            }
+        }
+    }
+
+    private func refreshMenu() {
+        ChaosDebug.log("REFRESH_MENU")
+        let state = ChaosStatus.load()
+
+        if let button = statusItem.button {
+            button.image = ChaosIcon.image(for: state)
+            button.image?.isTemplate = false
+            button.title = " WL"
+        }
+
+        statusItem.menu = buildMenu(state)
+    }
+
+    private func buildMenu(_ state: ChaosStatus) -> NSMenu {
+        ChaosDebug.log("BUILD_MENU_V2_ONLY chaos_active=\(state.chaos_active) status=\(statusText)")
+        let menu = NSMenu()
+        if isUIV2Enabled {
+            let menuState = ChaosMenuState.from(status: state, statusText: statusText)
+            return WonderlandMenuRenderer(target: self).render(menuState)
+        }
+
+        return menu
+    }
+
+    private func disabled(_ title: String) -> NSMenuItem {
+        let item = NSMenuItem(title: title, action: nil, keyEquivalent: "")
+        item.isEnabled = false
+        return item
+    }
+
+    private func action(_ title: String, _ selector: Selector) -> NSMenuItem {
+        let item = NSMenuItem(title: title, action: selector, keyEquivalent: "")
+        item.target = self
+        return item
+    }
+
+    private func addRenewLeaseItem(to menu: NSMenu, title: String, mode: String, ttl: Int) {
+        let item = NSMenuItem(title: title, action: #selector(renewLeaseFromMenu(_:)), keyEquivalent: "")
+        item.target = self
+        item.representedObject = ["mode": mode, "ttl": ttl]
+        menu.addItem(item)
+    }
+
+    @objc private func renewLeaseFromMenu(_ sender: NSMenuItem) {
+        guard
+            let payload = sender.representedObject as? [String: Any],
+            let mode = payload["mode"] as? String,
+            let ttl = payload["ttl"] as? Int
+        else {
+            statusText = "Denied: invalid lease renewal"
+            refreshMenu()
+            return
+        }
+
+        Task {
+            let approved = await ChaosHumanAuth.requireOperatorApproval(
+                reason: "Renew Wonderland chaos lease: \(mode)"
+            )
+
+            guard approved else {
+                await MainActor.run {
+                    self.statusText = "Denied: lease renewal auth failed"
+                    self.refreshMenu()
+                }
+                return
+            }
+
+            let ok = ChaosLeaseRenewal.renew(mode: mode, ttlMinutes: ttl)
+
+            await MainActor.run {
+                self.statusText = ok ? "Lease renewed: \(mode)" : "Lease renewal failed"
+                self.refreshMenu()
+            }
+        }
+    }
+
+    @objc private func runScheduleNow() {
+        Task {
+            let ok = ChaosSchedulerControl.runNow()
+
+            await MainActor.run {
+                self.statusText = ok ? "Schedule run complete" : "Schedule run failed"
+                self.refreshMenu()
+            }
+        }
+    }
+
+    @objc private func startExponentialSchedule() {
+        Task {
+            let approved = await ChaosHumanAuth.requireOperatorApproval(
+                reason: "Start Wonderland chaos escalation schedule: exponential"
+            )
+
+            guard approved else {
+                await MainActor.run {
+                    self.statusText = "Denied: schedule auth failed"
+                    self.refreshMenu()
+                }
+                return
+            }
+
+            let ok = ChaosSchedulerControl.startExponential()
+
+            await MainActor.run {
+                self.statusText = ok ? "Schedule started: exponential" : "Schedule start failed"
+                self.refreshMenu()
+            }
+        }
+    }
+
+    @objc private func startHourlySchedule() {
+        Task {
+            let approved = await ChaosHumanAuth.requireOperatorApproval(
+                reason: "Start Wonderland chaos escalation schedule: hourly"
+            )
+
+            guard approved else {
+                await MainActor.run {
+                    self.statusText = "Denied: schedule auth failed"
+                    self.refreshMenu()
+                }
+                return
+            }
+
+            let ok = ChaosSchedulerControl.startHourly()
+
+            await MainActor.run {
+                self.statusText = ok ? "Schedule started: hourly" : "Schedule start failed"
+                self.refreshMenu()
+            }
+        }
+    }
+
+    @objc private func pauseSchedule() {
+        Task {
+            let ok = ChaosSchedulerControl.pause()
+            await MainActor.run {
+                self.statusText = ok ? "Schedule paused" : "Schedule pause failed"
+                self.refreshMenu()
+            }
+        }
+    }
+
+    @objc private func resumeSchedule() {
+        Task {
+            let ok = ChaosSchedulerControl.resume()
+            await MainActor.run {
+                self.statusText = ok ? "Schedule resumed" : "Schedule resume failed"
+                self.refreshMenu()
+            }
+        }
+    }
+
+    @objc private func repairChaos() {
+        Task {
+            let approved = await ChaosHumanAuth.requireOperatorApproval(
+                reason: "Repair Wonderland Chaos authority and scheduler"
+            )
+
+            guard approved else {
+                await MainActor.run {
+                    self.statusText = "Denied: repair auth failed"
+                    self.refreshMenu()
+                }
+                return
+            }
+
+            let ok = ChaosSchedulerControl.repair()
+
+            await MainActor.run {
+                self.statusText = ok ? "Chaos repair PASS" : "Chaos repair failed"
+                self.refreshMenu()
+            }
+        }
+    }
+
+    @objc private func stopSchedule() {
+        Task {
+            let approved = await ChaosHumanAuth.requireOperatorApproval(
+                reason: "Stop Wonderland chaos escalation schedule"
+            )
+
+            guard approved else {
+                await MainActor.run {
+                    self.statusText = "Denied: schedule stop auth failed"
+                    self.refreshMenu()
+                }
+                return
+            }
+
+            let ok = ChaosSchedulerControl.stop()
+
+            await MainActor.run {
+                self.statusText = ok ? "Schedule stopped" : "Schedule stop failed"
+                self.refreshMenu()
+            }
+        }
+    }
+
+    @objc private func runChaosModelFromMenu(_ sender: NSMenuItem) {
+        ChaosDebug.log("MENU_MODEL_SELECTED representedObject=\(String(describing: sender.representedObject))")
+        guard
+            let modelID = sender.representedObject as? String,
+            let model = ChaosModels.find(modelID)
+        else {
+            statusText = "Denied: unknown chaos model"
+            refreshMenu()
+            return
+        }
+
+        ChaosExecutionGate.run(
+            model: model,
+            setStatus: { [weak self] status in
+                self?.statusText = status
+                self?.refreshMenu()
+            },
+            execute: { [weak self] model in
+                self?.executeChaosModel(model)
+                self?.refreshMenu()
+            }
+        )
+    }
+
+    private func executeChaosModel(_ model: ChaosModel) {
+        ChaosDebug.log("EXECUTE_MODEL id=\(model.id) command=\(model.command)")
+
+        Task {
+            let controllerOK = await ChaosControllerClient.execute(model: model)
+
+            await MainActor.run {
+                if controllerOK {
+                    ChaosAudit.recordExecutionSource(model: model, source: "controller-api", success: true)
+                    writeChaosState(
+                        mode: model.id,
+                        effect: "controller-api, command:\(model.command), risk:\(model.riskLevel), reversible:\(model.reversible)"
+                    )
+                    statusText = "Active via controller: \(model.id)"
+                } else {
+                    ChaosAudit.recordExecutionSource(model: model, source: "controller-api", success: false)
+                    statusText = "Denied: controller execution failed"
+                }
+
+                refreshMenu()
+            }
+        }
+    }
+
+    private func writeChaosState(mode: String, effect: String) {
+        ChaosDebug.log("WRITE_STATE mode=\(mode) effect=\(effect)")
+        let root = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Wonderland")
+        let stateURL = root.appendingPathComponent("vault/chaos/menubar-state.json")
+
+        let payload: [String: Any] = [
+            "schema": "wonderland.chaos.menubar.state.v1",
+            "mode": mode,
+            "effect": effect,
+            "updated_at": ISO8601DateFormatter().string(from: Date())
+        ]
+
+        do {
+            try FileManager.default.createDirectory(
+                at: stateURL.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
+
+            let data = try JSONSerialization.data(
+                withJSONObject: payload,
+                options: [.prettyPrinted, .sortedKeys]
+            )
+
+            try data.write(to: stateURL, options: .atomic)
+            statusText = "Active: \(mode)"
+        } catch {
+            statusText = "Failed: \(error.localizedDescription)"
+        }
+    }
+
+    @objc func checkIn() {
+        ChaosDebug.log("LEGACY_CHECKIN_SELECTED")
+        _ = ChaosCommand.run(["checkin"])
+        statusText = "Check-in recorded"
+        refreshMenu()
+    }
+
+    @objc private func resetChaos() {
+        ChaosDebug.log("LEGACY_RESET_SELECTED")
+        guard let model = ChaosModels.find("recovery") else {
+            statusText = "Denied: recovery model missing"
+            refreshMenu()
+            return
+        }
+
+        ChaosExecutionGate.run(
+            model: model,
+            setStatus: { [weak self] (status: String) in
+                self?.statusText = status
+                self?.refreshMenu()
+            },
+            execute: { [weak self] (model: ChaosModel) in
+                self?.executeChaosModel(model)
+                self?.refreshMenu()
+            }
+        )
+    }
+
+    @objc private func panic() {
+        ChaosDebug.log("LEGACY_PANIC_SELECTED")
+        let state = ChaosStatus.load()
+        let modelID = state.chaos_active ? "storm" : "nudge"
+
+        guard let model = ChaosModels.find(modelID) else {
+            statusText = "Denied: \(modelID) model missing"
+            refreshMenu()
+            return
+        }
+
+        ChaosExecutionGate.run(
+            model: model,
+            setStatus: { [weak self] (status: String) in
+                self?.statusText = status
+                self?.refreshMenu()
+            },
+            execute: { [weak self] (model: ChaosModel) in
+                self?.executeChaosModel(model)
+                self?.refreshMenu()
+            }
+        )
+    }
+
+    @objc func verifyProviders() {
+        _ = ChaosCommand.run(["doctor"])
+        statusText = "Backend verified"
+        refreshMenu()
+    }
+
+    @objc func verifyLease() {
+        _ = ChaosCommand.run(["status"])
+        statusText = "Lease checked"
+        refreshMenu()
+    }
+
+    @objc private func openChaosFolder() {
+        let url = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Wonderland/vault/chaos")
+        NSWorkspace.shared.open(url)
+    }
+
+    @objc private func openAuditLog() {
+        let url = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Wonderland/vault/chaos/menubar-audit.jsonl")
+        NSWorkspace.shared.open(url)
+    }
+
+    @objc private func openPolicy() {
+        let url = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Wonderland/vault/chaos")
+        NSWorkspace.shared.open(url)
+    }
+
+    @objc private func openGateFolder() {
+        let url = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Wonderland/vault/05-Registry/chaos")
+        NSWorkspace.shared.open(url)
+    }
+
+    @objc private func reloadMenubar() {
+        statusText = "Reloaded"
+        refreshMenu()
+    }
+
+    @objc private func quit() {
+        NSApp.terminate(nil)
+    }
+}
+
+enum ChaosIcon {
+    static func image(for state: ChaosStatus) -> NSImage {
+        let size = NSSize(width: 22, height: 22)
+        let image = NSImage(size: size)
+        image.lockFocus()
+
+        NSColor.clear.setFill()
+        NSRect(origin: .zero, size: size).fill()
+
+        let mode = readMode()
+        let color = colorForMode(mode: mode, active: state.chaos_active)
+
+        let center = NSPoint(x: 11, y: 11)
+        let diamond = NSBezierPath()
+        diamond.move(to: NSPoint(x: center.x, y: 2.5))
+        diamond.line(to: NSPoint(x: 19.5, y: center.y))
+        diamond.line(to: NSPoint(x: center.x, y: 19.5))
+        diamond.line(to: NSPoint(x: 2.5, y: center.y))
+        diamond.close()
+
+        color.withAlphaComponent(0.18).setFill()
+        diamond.fill()
+
+        color.setStroke()
+        diamond.lineWidth = 1.5
+        diamond.stroke()
+
+        // Inner matrix rails
+        for x in stride(from: 7.0, through: 15.0, by: 2.0) {
+            let rail = NSBezierPath()
+            rail.move(to: NSPoint(x: x, y: 6.0))
+            rail.line(to: NSPoint(x: x, y: 16.0))
+            rail.lineWidth = 0.65
+            color.withAlphaComponent(0.75).setStroke()
+            rail.stroke()
+        }
+
+        // Matrix ticks
+        let ticks: [(Double, Double, Double)] = [
+            (7, 8, 10), (7, 12, 14),
+            (9, 6.8, 8.2), (9, 10.2, 12.1), (9, 14, 15.6),
+            (11, 7.4, 9.4), (11, 11.1, 13.2), (11, 15, 16.2),
+            (13, 6.8, 8.6), (13, 10.7, 11.9), (13, 13.8, 15.4),
+            (15, 8.1, 9.9), (15, 12.2, 14.3)
+        ]
+
+        for (x, y1, y2) in ticks {
+            let tick = NSBezierPath()
+            tick.move(to: NSPoint(x: x, y: y1))
+            tick.line(to: NSPoint(x: x, y: y2))
+            tick.lineWidth = 1.1
+            color.setStroke()
+            tick.stroke()
+        }
+
+        // Center node
+        color.withAlphaComponent(state.chaos_active ? 0.95 : 0.65).setFill()
+        NSBezierPath(ovalIn: NSRect(x: 9.6, y: 9.6, width: 2.8, height: 2.8)).fill()
+
+        image.unlockFocus()
+        image.isTemplate = false
+        return image
+    }
+
+    private static func readMode() -> String {
+        let url = URL(fileURLWithPath: NSHomeDirectory())
+            .appendingPathComponent("Wonderland/vault/chaos/menubar-state.json")
+
+        guard
+            let data = try? Data(contentsOf: url),
+            let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+            let mode = json["mode"] as? String
+        else {
+            return "calm"
+        }
+
+        return mode
+    }
+
+    private static func colorForMode(mode: String, active: Bool) -> NSColor {
+        switch mode {
+        case "recovery":
+            return NSColor(calibratedRed: 0.0, green: 1.0, blue: 0.40, alpha: 1.0)
+        case "blackout":
+            return NSColor(calibratedRed: 1.0, green: 0.20, blue: 0.35, alpha: 1.0)
+        case "cataclysm":
+            return NSColor(calibratedRed: 1.0, green: 0.0, blue: 0.25, alpha: 1.0)
+        case "storm":
+            return NSColor(calibratedRed: 0.44, green: 0.0, blue: 1.0, alpha: 1.0)
+        case "drift":
+            return NSColor(calibratedRed: 0.30, green: 0.55, blue: 1.0, alpha: 1.0)
+        case "nudge":
+            return NSColor(calibratedRed: 0.0, green: 0.90, blue: 1.0, alpha: 1.0)
+        default:
+            return active
+                ? NSColor(calibratedRed: 0.44, green: 0.0, blue: 1.0, alpha: 1.0)
+                : NSColor(calibratedRed: 0.0, green: 0.90, blue: 1.0, alpha: 1.0)
+        }
+    }
+}
+
+
+
+// MARK: - Wonderland Chaos Drop-In Helpers
+
+enum ChaosControllerHealth {
+    static let baseURL = URL(string: "http://127.0.0.1:9105")!
+
+    static func isReady() async -> Bool {
+        for path in ["/api/v1/ready", "/ready", "/status"] {
+            guard let url = URL(string: path, relativeTo: baseURL) else { continue }
+
+            do {
+                var request = URLRequest(url: url)
+                request.timeoutInterval = 1.5
+                request.httpMethod = "GET"
+
+                let (_, response) = try await URLSession.shared.data(for: request)
+
+                if let http = response as? HTTPURLResponse,
+                   (200...299).contains(http.statusCode) {
+                    return true
+                }
+            } catch {
+                continue
+            }
+        }
+
+        return false
+    }
+}
+
+enum ChaosTimeFormatter {
+    static func compactRemaining(until expiresAt: Date?) -> String {
+        guard let expiresAt else { return "unknown" }
+
+        let seconds = max(0, Int(expiresAt.timeIntervalSinceNow))
+
+        if seconds <= 0 { return "expired" }
+
+        let hours = seconds / 3600
+        let minutes = (seconds % 3600) / 60
+        let secs = seconds % 60
+
+        if hours > 0 { return "\(hours)h \(minutes)m remaining" }
+        if minutes > 0 { return "\(minutes)m remaining" }
+        return "\(secs)s remaining"
+    }
+
+    static func compactDuration(_ seconds: Int) -> String {
+        let seconds = max(0, seconds)
+        let hours = seconds / 3600
+        let minutes = (seconds % 3600) / 60
+
+        if hours > 0 { return "\(hours)h \(minutes)m" }
+        return "\(minutes)m"
+    }
+
+    @objc func openDashboard() {
+        statusText = "Dashboard not implemented yet"
+        refreshMenu()
+    }
+
+    @objc func openLogs() {
+        let url = URL(fileURLWithPath: "\(NSHomeDirectory())/Wonderland/vault/chaos")
+        NSWorkspace.shared.open(url)
+    }
+
+    @objc func openChaosFolder() {
+        let url = URL(fileURLWithPath: "\(NSHomeDirectory())/Wonderland/vault/05-Registry/chaos")
+        NSWorkspace.shared.open(url)
+    }
+
+    @objc func openLeaseFile() {
+        let url = URL(fileURLWithPath: "\(NSHomeDirectory())/Wonderland/vault/05-Registry/chaos/lease.json")
+        NSWorkspace.shared.open(url)
+    }
+
+    @objc func openPolicyFile() {
+        let url = URL(fileURLWithPath: "\(NSHomeDirectory())/Wonderland/security/operator-gate/policy.json")
+        NSWorkspace.shared.open(url)
+    }
+
+    @objc func renewCurrentLease() {
+        statusText = "Renewing lease…"
+        refreshMenu()
+
+        DispatchQueue.global(qos: .utility).async {
+            _ = ChaosCommand.run(["lease", "--mode", "calm", "--scope", "chaos", "--ttl-minutes", "720"])
+
+            DispatchQueue.main.async {
+                self.statusText = "Lease renewed"
+                self.refreshMenu()
+            }
+        }
+    }
+
+    @objc func repairChaos() {
+        statusText = "Repairing Chaos…"
+        refreshMenu()
+
+        DispatchQueue.global(qos: .utility).async {
+            _ = ChaosCommand.run(["doctor"])
+            _ = ChaosCommand.run(["status"])
+
+            DispatchQueue.main.async {
+                self.statusText = "Repair complete"
+                self.refreshMenu()
+            }
+        }
+    }
+
+    @objc func restartScheduler() {
+        statusText = "Restarting scheduler…"
+        refreshMenu()
+
+        DispatchQueue.global(qos: .utility).async {
+            _ = ChaosCommand.run(["schedule", "start"])
+
+            DispatchQueue.main.async {
+                self.statusText = "Scheduler restarted"
+                self.refreshMenu()
+            }
+        }
+    }
+
+    @objc func restartController() {
+        statusText = "Controller restart not wired"
+        refreshMenu()
+    }
+
+
+}
+

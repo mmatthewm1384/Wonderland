@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+. "$WL_HOME/lib/wl-bootstrap.sh"
+
+cmd="${1:-status}"
+
+case "$cmd" in
+  status)
+    wl_capability_status
+    wl_exit
+    ;;
+
+  has)
+    cap="${2:-}"
+    if [[ -z "$cap" ]]; then
+      echo "Usage: wl capability has <capability>"
+      echo "RESULT FAIL"
+      exit 1
+    fi
+
+    if wl_capability_available "$cap"; then
+      echo "PASS $cap"
+      exit 0
+    else
+      echo "WARN $cap unavailable"
+      exit 0
+    fi
+    ;;
+
+  *)
+    echo "Usage: wl capability {status|has <capability>}"
+    echo "RESULT FAIL"
+    exit 1
+    ;;
+esac

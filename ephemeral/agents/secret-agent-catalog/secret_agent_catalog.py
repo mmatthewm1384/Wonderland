@@ -62,7 +62,7 @@ COMPENDIUM: Dict[str, List[Dict[str, Any]]] = {
         },
         {
             "id": "attention-decay-hooks",
-            "name": "Attention Decay Watchers, Rings & Hooks (Spin City)",
+            "name": "Attention Decay Watchers, Rings & Hooks (DISABLED-Spin City)",
             "description": "Rings/trajectories/watchers carry decaying attention_score; below threshold they auto-fade and release resources.",
             "ephemeral_traits": ["self-pruning hooks", "no manual deregistration needed"],
             "secret_traits": ["visualizes cognitive forgetting or mission completion"],
@@ -86,7 +86,7 @@ COMPENDIUM: Dict[str, List[Dict[str, Any]]] = {
         },
         {
             "id": "covert-rotation",
-            "name": "Covert / Phantom Rotation Observers (Spin City)",
+            "name": "Covert / Phantom Rotation Observers (DISABLED-Spin City)",
             "description": "Outer counter-clockwise patrol + inner clockwise surveillance with easing. Subtle reporting via intensity.",
             "ephemeral_traits": ["mission-window instantiation then full dismantle"],
             "secret_traits": ["non-jarring smooth motion avoids drawing attention"],
