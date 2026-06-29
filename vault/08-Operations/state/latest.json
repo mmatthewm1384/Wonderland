@@ -49,7 +49,7 @@
   "controller": {
     "api_version": "v1",
     "authority": true,
-    "cycle_duration_seconds": 0.3353,
+    "cycle_duration_seconds": 0.3568,
     "service_container": {
       "root": "/Users/wonderland/Wonderland",
       "services": [
@@ -84,357 +84,6 @@
     }
   },
   "events": [
-    {
-      "payload": {},
-      "ts": 1782754074.081259,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.2871
-      },
-      "ts": 1782754074.388005,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754104.588984,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.2519
-      },
-      "ts": 1782754104.887668,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754135.137344,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.2814
-      },
-      "ts": 1782754135.437207,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754165.6253068,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.2041
-      },
-      "ts": 1782754165.8482308,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754196.141711,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.3168
-      },
-      "ts": 1782754196.4776452,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754226.716157,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.2566
-      },
-      "ts": 1782754226.993888,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754257.478837,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.3215
-      },
-      "ts": 1782754257.8214242,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754288.027085,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.2722
-      },
-      "ts": 1782754288.317369,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754318.591192,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.3318
-      },
-      "ts": 1782754318.9413729,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754349.308871,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.3186
-      },
-      "ts": 1782754349.645909,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754380.0245728,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.2513
-      },
-      "ts": 1782754380.294587,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754410.552616,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.308
-      },
-      "ts": 1782754410.8788989,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754441.407497,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.2884
-      },
-      "ts": 1782754441.713548,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754472.0972018,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.3201
-      },
-      "ts": 1782754472.434591,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754502.890054,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.3465
-      },
-      "ts": 1782754503.255371,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754533.6092858,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.3165
-      },
-      "ts": 1782754533.94302,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754564.343499,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.2813
-      },
-      "ts": 1782754564.64337,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754595.208422,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.3165
-      },
-      "ts": 1782754595.546035,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754625.935788,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.3081
-      },
-      "ts": 1782754626.2616699,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754656.591072,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.3532
-      },
-      "ts": 1782754656.964027,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754687.526339,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.2577
-      },
-      "ts": 1782754687.8049002,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754718.196845,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.2906
-      },
-      "ts": 1782754718.513246,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754749.108355,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.3254
-      },
-      "ts": 1782754749.452679,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754779.8225942,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.29
-      },
-      "ts": 1782754780.131867,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754810.329899,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.3205
-      },
-      "ts": 1782754810.667115,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754841.074,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.2905
-      },
-      "ts": 1782754841.3823931,
-      "type": "controller.v3.cycle.finished"
-    },
-    {
-      "payload": {},
-      "ts": 1782754872.027023,
-      "type": "controller.v3.cycle.started"
-    },
-    {
-      "payload": {
-        "certification": "PASS",
-        "duration_seconds": 0.3107
-      },
-      "ts": 1782754872.356194,
-      "type": "controller.v3.cycle.finished"
-    },
     {
       "payload": {},
       "ts": 1782754902.890038,
@@ -733,9 +382,360 @@
       },
       "ts": 1782755671.076721,
       "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782755701.185537,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.3304
+      },
+      "ts": 1782755701.5851588,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782755731.896396,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2481
+      },
+      "ts": 1782755732.168567,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782755762.680148,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2575
+      },
+      "ts": 1782755762.9578502,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782755793.107113,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2929
+      },
+      "ts": 1782755793.431788,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782755823.336015,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.4945
+      },
+      "ts": 1782755823.849922,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782755853.912054,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.3197
+      },
+      "ts": 1782755854.256479,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782755884.706263,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2616
+      },
+      "ts": 1782755884.9874182,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782755915.329747,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.3223
+      },
+      "ts": 1782755915.686025,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782755946.0139258,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.3713
+      },
+      "ts": 1782755946.468029,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782755976.654334,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.3504
+      },
+      "ts": 1782755977.0569549,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756007.1566532,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2858
+      },
+      "ts": 1782756007.557194,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756037.766185,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2256
+      },
+      "ts": 1782756038.013864,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756068.276856,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2896
+      },
+      "ts": 1782756068.607158,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756099.070996,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2771
+      },
+      "ts": 1782756099.369167,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756129.893209,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2875
+      },
+      "ts": 1782756130.198967,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756160.568844,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.3202
+      },
+      "ts": 1782756160.909627,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756191.239681,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.3131
+      },
+      "ts": 1782756191.571914,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756221.874471,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2369
+      },
+      "ts": 1782756222.133767,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756252.506923,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2744
+      },
+      "ts": 1782756252.799656,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756283.2712488,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.3095
+      },
+      "ts": 1782756283.6009321,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756313.710426,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2503
+      },
+      "ts": 1782756313.981965,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756344.084772,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.2979
+      },
+      "ts": 1782756344.4022532,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756374.15464,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.3419
+      },
+      "ts": 1782756374.546632,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756404.7855911,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.4069
+      },
+      "ts": 1782756405.222998,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756435.387913,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.3066
+      },
+      "ts": 1782756435.7160661,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756466.074633,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.3689
+      },
+      "ts": 1782756466.509672,
+      "type": "controller.v3.cycle.finished"
+    },
+    {
+      "payload": {},
+      "ts": 1782756496.707341,
+      "type": "controller.v3.cycle.started"
+    },
+    {
+      "payload": {
+        "certification": "PASS",
+        "duration_seconds": 0.3568
+      },
+      "ts": 1782756497.12891,
+      "type": "controller.v3.cycle.finished"
     }
   ],
-  "generated_at": 1782755671.074177,
+  "generated_at": 1782756497.12704,
   "health": {
     "containers_running": 7,
     "containers_total": 7,
@@ -1186,7 +1186,7 @@
   },
   "schema": 1,
   "timeline": {
-    "entries": 5855,
+    "entries": 5909,
     "latest": "index.json"
   }
 }
