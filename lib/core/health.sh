@@ -75,23 +75,6 @@ wl_t7_status() {
   fi
 }
 
-wl_result() {
-  if (( wl_corruptions > 0 )); then
-    echo
-    echo "RESULT CORRUPT"
-    return "$WL_EXIT_CORRUPT"
-  fi
-
-  if (( wl_failures > 0 )); then
-    echo
-    echo "RESULT FAIL"
-    return "$WL_EXIT_FAIL"
-  fi
-
-  echo
-  echo "RESULT PASS"
-  return "$WL_EXIT_PASS"
-}
 
 wl_exit() {
   wl_result
