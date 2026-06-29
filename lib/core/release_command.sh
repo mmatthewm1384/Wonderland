@@ -138,6 +138,9 @@ wl_release_main() {
     history)
       wl_release_history
       ;;
+    repair-history)
+      wl_release_repair_history
+      ;;
     history)
       wl_release_history
       ;;
@@ -431,5 +434,50 @@ wl_release_validate_all() {
   fi
 
   wl_pass "release artifacts validated"
+  wl_result PASS
+}
+
+wl_release_repair_history() {
+  local file bad
+  file="$(wl_release_history_file)"
+  bad="${file}.bad"
+
+  [ -f "$file" ] || {
+    touch "$file"
+    wl_pass "release history created"
+    wl_result PASS
+    return 0
+  }
+
+  python3 - "$file" "$bad" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+bad = Path(sys.argv[2])
+
+good = []
+bad_lines = []
+
+for idx, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+    if not line.strip():
+        continue
+    try:
+        json.loads(line)
+        good.append(line)
+    except json.JSONDecodeError:
+        bad_lines.append(f"{idx}: {line}")
+
+path.write_text("\n".join(good) + ("\n" if good else ""), encoding="utf-8")
+
+if bad_lines:
+    bad.write_text("\n".join(bad_lines) + "\n", encoding="utf-8")
+    print(f"WARN quarantined {len(bad_lines)} bad release history line(s) to {bad}")
+else:
+    print("PASS release history already valid")
+PY
+
+  wl_release_validate_history
   wl_result PASS
 }
