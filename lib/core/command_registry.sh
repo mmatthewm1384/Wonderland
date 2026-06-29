@@ -118,6 +118,9 @@ wl_command_registry_main() {
     schema-paths)
       wl_command_registry_validate_schema_paths
       ;;
+    schema-files)
+      wl_command_registry_validate_schema_files
+      ;;
     show)
       shift || true
       wl_command_registry_show "${1:-}"
@@ -259,6 +262,8 @@ wl_command_registry_docs() {
   wl_command_registry_refresh >/dev/null
   wl_command_registry_drift >/dev/null
   wl_validate_json_schema "$WL_ROOT/schemas/command-registry.schema.json" "$(wl_command_registry_file)"
+  wl_command_registry_validate_schema_paths >/dev/null
+  wl_command_registry_validate_schema_files >/dev/null
   wl_command_registry_summary
 }
 
@@ -305,5 +310,20 @@ wl_command_registry_validate_schema_paths() {
   fi
 
   wl_pass "registry schema paths valid"
+  wl_result PASS
+}
+
+wl_command_registry_validate_schema_files() {
+  local registry
+  registry="$(wl_command_registry_file)"
+  wl_validate_json "$registry"
+
+  jq -r '.commands | to_entries[] | select(.value.json_schema != null) | .value.json_schema' "$registry" |
+    sort -u |
+    while IFS= read -r schema; do
+      wl_validate_json "$WL_ROOT/$schema"
+    done
+
+  wl_pass "registry schema files valid"
   wl_result PASS
 }
