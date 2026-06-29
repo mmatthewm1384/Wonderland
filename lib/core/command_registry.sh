@@ -88,6 +88,13 @@ wl_command_registry_main() {
       wl_validate_json "$(wl_command_registry_file)"
       wl_result PASS
       ;;
+    status)
+      wl_command_registry_status
+      ;;
+    show)
+      shift || true
+      wl_command_registry_show "${1:-}"
+      ;;
     path)
       wl_report "$(wl_command_registry_file)"
       wl_result PASS
@@ -96,4 +103,43 @@ wl_command_registry_main() {
       wl_die "$WL_ERR_CONFIG" "unknown command registry action: $action"
       ;;
   esac
+}
+
+wl_command_registry_status() {
+  local registry
+  registry="$(wl_command_registry_file)"
+  wl_validate_json "$registry"
+
+  jq -r '
+    .commands
+    | to_entries
+    | group_by(.value.category)
+    | map({category: .[0].value.category, count: length})
+    | sort_by(.category)
+    | .[]
+    | "REPORT category=\(.category) count=\(.count)"
+  ' "$registry"
+
+  jq -r '
+    .commands
+    | length
+    | "REPORT total_commands=\(.)"
+  ' "$registry"
+
+  wl_result PASS
+}
+
+wl_command_registry_show() {
+  local name="${1:-}"
+  local registry
+  registry="$(wl_command_registry_file)"
+
+  [ -n "$name" ] || wl_die "$WL_ERR_CONFIG" "missing command name"
+  wl_validate_json "$registry"
+
+  jq -e --arg name "$name" '.commands[$name]' "$registry" >/dev/null \
+    || wl_die "$WL_ERR_VALIDATION" "unknown command: $name"
+
+  jq --arg name "$name" '.commands[$name]' "$registry"
+  wl_result PASS
 }
