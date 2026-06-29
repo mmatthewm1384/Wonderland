@@ -91,6 +91,9 @@ wl_command_registry_main() {
     status)
       wl_command_registry_status
       ;;
+    drift)
+      wl_command_registry_drift
+      ;;
     show)
       shift || true
       wl_command_registry_show "${1:-}"
@@ -141,5 +144,42 @@ wl_command_registry_show() {
     || wl_die "$WL_ERR_VALIDATION" "unknown command: $name"
 
   jq --arg name "$name" '.commands[$name]' "$registry"
+  wl_result PASS
+}
+
+wl_command_registry_drift() {
+  local registry
+  registry="$(wl_command_registry_file)"
+  wl_validate_json "$registry"
+
+  local actual registered
+  actual="$(
+    find "$WL_ROOT/bin" -maxdepth 1 -type f -name 'wl-*' ! -name '*.bak*' -exec basename {} \; |
+      sort
+  )"
+
+  registered="$(
+    jq -r '.commands | keys[]' "$registry" |
+      sort
+  )"
+
+  if [ "$actual" != "$registered" ]; then
+    wl_fail "command registry drift detected"
+
+    comm -23 \
+      <(printf '%s\n' "$actual") \
+      <(printf '%s\n' "$registered") |
+      sed 's/^/WARN missing_from_registry: /' >&2
+
+    comm -13 \
+      <(printf '%s\n' "$actual") \
+      <(printf '%s\n' "$registered") |
+      sed 's/^/WARN missing_from_bin: /' >&2
+
+    wl_result FAIL
+    return "$WL_ERR_VALIDATION"
+  fi
+
+  wl_pass "command registry matches bin"
   wl_result PASS
 }
