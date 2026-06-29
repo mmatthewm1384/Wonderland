@@ -21,6 +21,8 @@ wl_release_build() {
   commit="$(git rev-parse --short HEAD 2>/dev/null || printf unknown)"
 
   wl_validate_runtime
+  mkdir -p "$(wl_release_dir)"
+  touch "$(wl_release_history_file)"
   wl_release_validate
 
   local registry_sha summary_sha
