@@ -1,6 +1,6 @@
 # Wonderland Command Summary
 
-Generated: 2026-06-29T19:44:02Z
+Generated: 2026-06-29T19:53:40Z
 
 ## Totals
 
@@ -17,8 +17,8 @@ Generated: 2026-06-29T19:44:02Z
 - runtime: 10
 - services: 17
 - storage: 2
-- utility: 160
-- validation: 25
+- utility: 159
+- validation: 26
 - vault: 12
 
 ## Commands
@@ -398,8 +398,8 @@ Generated: 2026-06-29T19:44:02Z
 ### wl-core-22-doctor
 
 - Path: `bin/wl-core-22-doctor`
-- Category: `utility`
-- Phase: `utility`
+- Category: `validation`
+- Phase: `validation`
 
 ### wl-dashboard
 
