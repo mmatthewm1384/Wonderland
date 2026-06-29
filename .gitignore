@@ -72,3 +72,20 @@ apps/**/backups/
 vault/chaos/*.log
 vault/chaos/*.pid
 vault/08-Operations/recovery/git-rescue/*.tar.gz
+
+# Wonderland generated runtime artifacts
+/runtime/
+/reports/
+/state/
+/logs/
+
+# Wonderland operational generated artifacts
+/vault/08-Operations/baselines/
+/vault/08-Operations/handoffs/
+/vault/08-Operations/checkpoints/
+/vault/08-Operations/certifications/
+/vault/08-Operations/reports/
+/vault/08-Operations/logs/
+
+# Local backups from refactors
+*.bak.*

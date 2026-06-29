@@ -1,34 +1,7 @@
 #!/usr/bin/env bash
-set -uo pipefail
+set -euo pipefail
 
-WL_HOME="${WL_HOME:-$HOME/Wonderland}"
-. "$WL_HOME/lib/wl-bootstrap.sh"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$ROOT/lib/core/core.sh"
 
-echo "== Wonderland Boot =="
-
-wl_section "Phase 1: Environment"
-wl_required_path "root" "$WL_HOME"
-wl_required_path "bin" "$WL_HOME/bin"
-wl_required_path "lib" "$WL_HOME/lib"
-wl_required_path "config" "$WL_HOME/config"
-wl_required_path "vault" "$WL_HOME/vault"
-
-wl_section "Phase 2: Storage"
-wl_storage_status
-
-wl_section "Phase 3: Runtime"
-"$WL_HOME/bin/wl-runtime" start || wl_fail "runtime" "start failed"
-
-wl_section "Phase 4: Services"
-"$WL_HOME/bin/wl-services" start || wl_fail "services" "start failed"
-
-wl_section "Phase 5: Runtime Objects"
-"$WL_HOME/bin/wl-context" refresh || wl_fail "context" "refresh failed"
-"$WL_HOME/bin/wl-state" refresh || wl_fail "state" "refresh failed"
-"$WL_HOME/bin/wl-status" >/dev/null || wl_warn "status" "refresh returned warning/fail"
-
-wl_section "Phase 6: Boot Report"
-"$WL_HOME/bin/wl-lifecycle-report" boot || wl_warn "boot report" "non-terminal report failure"
-
-wl_health_write
-wl_health_exit
+wl_boot "$@"
