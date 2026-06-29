@@ -58,14 +58,25 @@ wl_command_registry_refresh() {
       jq -s 'add // {}'
   )"
 
+  local overrides_json
+  overrides_json="$(
+    if [ -d "$WL_ROOT/config/commands/overrides" ]; then
+      find "$WL_ROOT/config/commands/overrides" -type f -name '*.json' -print0 |
+        xargs -0 jq -s 'add // {}' 2>/dev/null
+    else
+      printf '{}'
+    fi
+  )"
+
   jq -n \
     --arg version "2.1" \
     --arg generated_at "$(wl_timestamp)" \
     --argjson commands "$commands_json" \
+    --argjson overrides "$overrides_json" \
     '{
       version: $version,
       generated_at: $generated_at,
-      commands: $commands
+      commands: ($commands * $overrides)
     }' > "$tmp"
 
   jq empty "$tmp" >/dev/null || wl_die "$WL_ERR_INTERNAL" "generated invalid command registry"
