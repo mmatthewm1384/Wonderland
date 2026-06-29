@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-set -euo pipefail
-WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/core/bootstrap.sh"
+
 exec "$WL_HOME/bin/wl-ai" verify
