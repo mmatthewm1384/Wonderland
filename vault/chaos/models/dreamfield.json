@@ -1,0 +1,24 @@
+{
+  "schema": "wonderland.chaos.model.profile.v1",
+  "id": "dreamfield",
+  "title": "Dreamfield",
+  "authority": {
+    "lease_required": true,
+    "touch_id_required": true,
+    "risk": 3
+  },
+  "environment": {
+    "intensity": 0.5,
+    "motion": "slow-wave",
+    "matrix": true,
+    "message": "Dreamfield environment selected",
+    "controllers": [
+      "matrix",
+      "menubar"
+    ]
+  },
+  "ui": {
+    "icon": "\u25c6",
+    "lock": true
+  }
+}

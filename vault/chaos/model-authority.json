@@ -1,22 +1,7 @@
 {
   "schema": "wonderland.chaos.model.authority.v1",
   "models": {
-    "calm": {
-      "lease_required": true,
-      "fingerprint_required": false,
-      "risk": 1
-    },
-    "nudge": {
-      "lease_required": true,
-      "fingerprint_required": false,
-      "risk": 2
-    },
-    "drift": {
-      "lease_required": true,
-      "fingerprint_required": true,
-      "risk": 3
-    },
-    "storm": {
+    "aether": {
       "lease_required": true,
       "fingerprint_required": true,
       "risk": 4
@@ -26,10 +11,35 @@
       "fingerprint_required": true,
       "risk": 5
     },
+    "calm": {
+      "lease_required": true,
+      "fingerprint_required": false,
+      "risk": 1
+    },
     "cataclysm": {
       "lease_required": true,
       "fingerprint_required": true,
       "risk": 6
+    },
+    "dreamfield": {
+      "lease_required": true,
+      "fingerprint_required": true,
+      "risk": 3
+    },
+    "drift": {
+      "lease_required": true,
+      "fingerprint_required": true,
+      "risk": 3
+    },
+    "neon-ritual": {
+      "lease_required": true,
+      "fingerprint_required": true,
+      "risk": 4
+    },
+    "nudge": {
+      "lease_required": true,
+      "fingerprint_required": false,
+      "risk": 2
     },
     "purge-night": {
       "lease_required": true,
@@ -41,32 +51,22 @@
       "fingerprint_required": false,
       "risk": 1
     },
-    "aether": {
-      "lease_required": true,
-      "fingerprint_required": true,
-      "risk": 4
-    },
-    "vortex": {
-      "lease_required": true,
-      "fingerprint_required": true,
-      "risk": 5
-    },
     "singularity": {
       "lease_required": true,
       "fingerprint_required": true,
       "risk": 6
     },
-    "neon-ritual": {
+    "storm": {
       "lease_required": true,
       "fingerprint_required": true,
       "risk": 4
     },
-    "dreamfield": {
+    "voidwalk": {
       "lease_required": true,
       "fingerprint_required": true,
-      "risk": 3
+      "risk": 5
     },
-    "voidwalk": {
+    "vortex": {
       "lease_required": true,
       "fingerprint_required": true,
       "risk": 5

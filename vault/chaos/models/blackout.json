@@ -1,0 +1,24 @@
+{
+  "schema": "wonderland.chaos.model.profile.v1",
+  "id": "blackout",
+  "title": "Blackout",
+  "authority": {
+    "lease_required": true,
+    "touch_id_required": true,
+    "risk": 5
+  },
+  "environment": {
+    "intensity": 0.95,
+    "motion": "high",
+    "matrix": true,
+    "message": "Blackout environment selected",
+    "controllers": [
+      "matrix",
+      "menubar"
+    ]
+  },
+  "ui": {
+    "icon": "\u25c6",
+    "lock": true
+  }
+}
