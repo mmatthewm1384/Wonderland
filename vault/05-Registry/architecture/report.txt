@@ -1,0 +1,65 @@
+Wonderland Architecture Report
+Generated: 2026-06-30T02:14:29Z
+
+Module counts
+-------------
+  44 core
+  15 doctor
+   1 wl-storage.sh
+   1 wl-services.sh
+   1 wl-runtime.sh
+   1 wl-roots.sh
+   1 wl-profile.sh
+   1 wl-lifecycle-lib.sh
+   1 wl-lib.sh
+   1 wl-json.sh
+   1 wl-dispatch.sh
+   1 wl-context.sh
+   1 wl-capability.sh
+   1 wl-bootstrap.sh
+   1 status
+   1 rollback
+   1 report
+   1 refactor
+   1 migrate
+   1 lint
+   1 inventory
+   1 help
+   1 gitops
+   1 gate
+   1 fix
+   1 checkpoint
+   1 certify
+   1 architecture
+
+Largest modules
+---------------
+     321 lib/architecture/cli.sh
+     153 lib/gate/cli.sh
+     153 lib/core/release_command.sh
+     152 lib/status/cli.sh
+     134 lib/wl-dispatch.sh
+     130 lib/core/command_registry_docs.sh
+     129 lib/fix/cli.sh
+     121 lib/wl-lib.sh
+     119 lib/doctor/cli.sh
+     118 lib/checkpoint/cli.sh
+     117 lib/core/release_history.sh
+     115 lib/core/validation.sh
+     109 lib/core/release_manifest.sh
+     104 lib/core/health.sh
+     104 lib/certify/cli.sh
+     102 lib/lint/cli.sh
+     100 lib/migrate/cli.sh
+      98 lib/help/cli.sh
+      96 lib/gitops/cli.sh
+      93 lib/core/dispatch/engineering.sh
+
+Command inventory
+-----------------
+bin commands: 302
+bootstrap wrappers: 16
+feature-like commands: 202
+
+Applications
+------------

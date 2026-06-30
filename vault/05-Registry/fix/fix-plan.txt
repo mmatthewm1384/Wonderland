@@ -1,0 +1,18 @@
+Wonderland Deterministic Fix Plan
+Generated: 2026-06-30T02:08:37Z
+
+Safe derived-artifact repairs
+-----------------------------
+SAFE registry: regenerate command registry and docs
+SAFE architecture: regenerate architecture report and graph
+SAFE inventory: regenerate platform inventory
+SAFE migrate: regenerate advisory migration plans
+SAFE refactor: regenerate advisory refactor plan
+
+Unsafe repairs intentionally excluded
+-------------------------------------
+UNSAFE source rewrites
+UNSAFE command deletion
+UNSAFE feature-command wrapper conversion
+UNSAFE release promotion
+UNSAFE governance mutation
