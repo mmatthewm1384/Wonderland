@@ -12,7 +12,7 @@ fi
 mkdir -p "$ACADEMY"/00-governance/{manifesto,charter,handbook,engineering-standards,assessment-guide,roadmap}
 mkdir -p "$ACADEMY"/01-curriculum/templates
 mkdir -p "$ACADEMY"/01-curriculum/year-1/{module-01-foundations,module-02-linux,module-03-networking,module-04-programming,module-05-databases,module-06-devops,module-07-security,module-08-ai,module-09-distributed-systems,module-10-desktop-mobile,module-11-platform-architecture,module-12-capstone}
-mkdir -p "$ACADEMY"/02-lessons/{day-001-030,day-031-060,day-061-090,day-091-120,day-121-150,day-181-210,day-211-240,day-241-270,day-271-300,day-301-330,day-331-365}
+mkdir -p "$ACADEMY"/02-lessons/{day-001-030,day-031-060,day-061-090,day-091-120,day-121-150,day-151-180,day-181-210,day-211-240,day-241-270,day-271-300,day-301-330,day-331-365}
 mkdir -p "$ACADEMY"/03-labs/{foundations,linux,networking,programming,databases,devops,security,ai,distributed-systems,desktop-mobile,architecture,capstone}
 mkdir -p "$ACADEMY"/04-projects/{wonderland,challenge-projects,capstone}
 mkdir -p "$ACADEMY"/05-reference/{glossary,encyclopedia,cheat-sheets,command-reference,design-patterns,algorithms,protocols,standards,bibliography}
