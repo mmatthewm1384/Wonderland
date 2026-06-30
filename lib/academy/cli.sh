@@ -387,6 +387,81 @@ PY
   echo "Journal: $journal"
 }
 
+cmd_certify() {
+  require_state
+
+  local fail=0
+  local lessons labs quizzes
+
+  lessons="$(find "$ACADEMY/02-lessons" -type f -name 'day-*.md' | wc -l | tr -d ' ')"
+  labs="$(find "$ACADEMY/03-labs" -type f -name 'lab-*.md' | wc -l | tr -d ' ')"
+  quizzes="$(find "$ACADEMY/07-quizzes" -type f -name 'quiz-*.md' | wc -l | tr -d ' ')"
+
+  echo "Wonderland Academy Certification"
+  echo
+
+  if [[ "$lessons" -ge 365 ]]; then
+    echo "PASS lessons: $lessons"
+  else
+    echo "FAIL lessons: $lessons / 365" >&2
+    fail=1
+  fi
+
+  if [[ "$labs" -ge 365 ]]; then
+    echo "PASS labs: $labs"
+  else
+    echo "FAIL labs: $labs / 365" >&2
+    fail=1
+  fi
+
+  if [[ "$quizzes" -ge 365 ]]; then
+    echo "PASS quizzes: $quizzes"
+  else
+    echo "FAIL quizzes: $quizzes / 365" >&2
+    fail=1
+  fi
+
+  if wl academy today >/tmp/wl-academy-certify-today.out 2>/tmp/wl-academy-certify-today.err; then
+    echo "PASS command: today"
+  else
+    echo "FAIL command: today" >&2
+    cat /tmp/wl-academy-certify-today.err >&2 || true
+    fail=1
+  fi
+
+  if wl academy start >/tmp/wl-academy-certify-start.out 2>/tmp/wl-academy-certify-start.err; then
+    echo "PASS command: start"
+  else
+    echo "FAIL command: start" >&2
+    cat /tmp/wl-academy-certify-start.err >&2 || true
+    fail=1
+  fi
+
+  if wl academy lab >/tmp/wl-academy-certify-lab.out 2>/tmp/wl-academy-certify-lab.err; then
+    echo "PASS command: lab"
+  else
+    echo "FAIL command: lab" >&2
+    cat /tmp/wl-academy-certify-lab.err >&2 || true
+    fail=1
+  fi
+
+  if wl academy quiz >/tmp/wl-academy-certify-quiz.out 2>/tmp/wl-academy-certify-quiz.err; then
+    echo "PASS command: quiz"
+  else
+    echo "FAIL command: quiz" >&2
+    cat /tmp/wl-academy-certify-quiz.err >&2 || true
+    fail=1
+  fi
+
+  if [[ "$fail" -eq 0 ]]; then
+    echo "RESULT PASS"
+  else
+    echo "RESULT FAIL" >&2
+    exit 1
+  fi
+}
+
+
 cmd_review() {
   require_state
   cmd_status
@@ -409,6 +484,7 @@ Usage:
   wl academy complete           Mark current lesson complete
   wl academy progress           Show progress
   wl academy review             Show review summary
+  wl academy certify            Certify Academy phase 1
   wl academy generate year-1    Generate year-one lesson/lab/quiz scaffolds
 HELP
 }
@@ -426,5 +502,6 @@ case "${1:-help}" in
   complete) cmd_complete ;;
   progress) cmd_progress ;;
   review) cmd_review ;;
+  certify) cmd_certify ;;
   help|*) cmd_help ;;
 esac
