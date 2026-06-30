@@ -4,18 +4,15 @@ set -euo pipefail
 WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
 MIRROR_VOLUME="${MIRROR_VOLUME:-/Volumes/T7_Wonderland}"
 MIRROR_DEST="${MIRROR_DEST:-$MIRROR_VOLUME/Wonderland}"
+
 STATE_DIR="$WL_ROOT/vault/08-Operations/replication"
 HISTORY_DIR="$STATE_DIR/history"
 LOG_DIR="$STATE_DIR/logs"
 MANIFEST_DIR="$STATE_DIR/manifests"
 LATEST="$MANIFEST_DIR/latest.json"
+LATEST_DIFF="$MANIFEST_DIR/latest.diff"
 
-mirror_requirements() {
-  [[ -d "$WL_ROOT" ]] || { echo "FAIL source missing: $WL_ROOT"; return 1; }
-  [[ -d "$MIRROR_VOLUME" ]] || { echo "FAIL T7 not mounted: $MIRROR_VOLUME"; return 1; }
-  command -v rsync >/dev/null || { echo "FAIL rsync missing"; return 1; }
-  mkdir -p "$MIRROR_DEST" "$HISTORY_DIR" "$LOG_DIR" "$MANIFEST_DIR"
-}
+mkdir -p "$HISTORY_DIR" "$LOG_DIR" "$MANIFEST_DIR"
 
 mirror_excludes() {
   cat <<'EOF_EXCLUDES'
@@ -32,6 +29,56 @@ tmp/
 EOF_EXCLUDES
 }
 
+mirror_requirements() {
+  [[ -d "$WL_ROOT" ]] || { echo "FAIL source missing: $WL_ROOT"; return 1; }
+  [[ -d "$MIRROR_VOLUME" ]] || { echo "FAIL T7 not mounted: $MIRROR_VOLUME"; return 1; }
+  command -v rsync >/dev/null || { echo "FAIL rsync missing"; return 1; }
+  mkdir -p "$MIRROR_DEST" "$HISTORY_DIR" "$LOG_DIR" "$MANIFEST_DIR"
+}
+
+mirror_attach() {
+  if [[ -x "$WL_ROOT/lib/storage/cli.sh" ]]; then
+    "$WL_ROOT/lib/storage/cli.sh" attach || true
+  fi
+
+  if [[ -d "$MIRROR_VOLUME" ]]; then
+    echo "T7 Mounted ........ PASS"
+    return 0
+  fi
+
+  echo "FAIL T7 not mounted: $MIRROR_VOLUME"
+  echo "Attach the T7 drive, then rerun the command."
+  return 1
+}
+
+mirror_eject() {
+  if [[ -x "$WL_ROOT/lib/storage/cli.sh" ]]; then
+    "$WL_ROOT/lib/storage/cli.sh" eject || true
+  fi
+
+  if [[ -d "$MIRROR_VOLUME" ]]; then
+    diskutil eject "$MIRROR_VOLUME"
+  else
+    echo "T7 already unmounted"
+  fi
+}
+
+mirror_inventory() {
+  local root="$1"
+
+  find "$root" \
+    \( -path "$root/.git" \
+    -o -path "*/node_modules" \
+    -o -path "*/target" \
+    -o -path "*/DerivedData" \
+    -o -path "*/.swiftpm" \
+    -o -path "*/build" \
+    -o -path "*/dist" \
+    -o -path "*/.cache" \
+    -o -path "*/tmp" \) -prune \
+    -o -type f -print | sort
+}
+
 mirror_status() {
   echo "Wonderland Mirror Status"
   echo
@@ -45,6 +92,7 @@ mirror_status() {
 
   if [[ -f "$LATEST" ]]; then
     echo "Latest Manifest ... PASS"
+    echo
     cat "$LATEST"
   else
     echo "Latest Manifest ... WARN none"
@@ -52,20 +100,30 @@ mirror_status() {
 }
 
 mirror_diff() {
+  mirror_attach
   mirror_requirements
 
+  local id log tmp_excludes
+  id="$(date +%Y%m%d-%H%M%S)"
+  log="$LOG_DIR/diff-$id.log"
   tmp_excludes="$(mktemp)"
   mirror_excludes > "$tmp_excludes"
 
   rsync -ani --delete \
     --exclude-from="$tmp_excludes" \
-    "$WL_ROOT/" "$MIRROR_DEST/" | tee "$LOG_DIR/diff-$(date +%Y%m%d-%H%M%S).log"
+    "$WL_ROOT/" "$MIRROR_DEST/" | tee "$log"
 
   rm -f "$tmp_excludes"
+  echo
+  echo "Diff log: $log"
 }
 
 mirror_update() {
+  mirror_attach
   mirror_requirements
+
+  local id log manifest tmp_excludes start_epoch end_epoch duration commit
+  local source_files dest_files result
 
   id="$(date +%Y%m%d-%H%M%S)"
   log="$LOG_DIR/update-$id.log"
@@ -89,20 +147,16 @@ mirror_update() {
   end_epoch="$(date +%s)"
   duration="$((end_epoch - start_epoch))"
 
-  source_files="$(find "$WL_ROOT" -type f \
-    ! -path "$WL_ROOT/.git/*" \
-    ! -path "*/node_modules/*" \
-    ! -path "*/target/*" \
-    ! -path "*/DerivedData/*" | wc -l | tr -d ' ')"
+  rm -f "$tmp_excludes"
 
-  dest_files="$(find "$MIRROR_DEST" -type f \
-    ! -path "$MIRROR_DEST/.git/*" \
-    ! -path "*/node_modules/*" \
-    ! -path "*/target/*" \
-    ! -path "*/DerivedData/*" | wc -l | tr -d ' ')"
+  if mirror_verify >/tmp/wl-mirror-verify.out 2>&1; then
+    result="PASS"
+  else
+    result="WARN"
+  fi
 
-  result="PASS"
-  [[ "$source_files" == "$dest_files" ]] || result="WARN"
+  source_files="$(mirror_inventory "$WL_ROOT" | wc -l | tr -d ' ')"
+  dest_files="$(mirror_inventory "$MIRROR_DEST" | wc -l | tr -d ' ')"
 
   cat > "$manifest" <<EOF_JSON
 {
@@ -115,12 +169,15 @@ mirror_update() {
   "destination_files": $dest_files,
   "duration_seconds": $duration,
   "log": "$log",
+  "diff": "$LATEST_DIFF",
   "result": "$result"
 }
 EOF_JSON
 
   cp "$manifest" "$LATEST"
-  rm -f "$tmp_excludes"
+
+  cat /tmp/wl-mirror-verify.out
+  rm -f /tmp/wl-mirror-verify.out
 
   echo
   echo "Mirror update result: $result"
@@ -130,55 +187,54 @@ EOF_JSON
 mirror_verify() {
   mirror_requirements
 
-  if [[ ! -f "$LATEST" ]]; then
-    echo "FAIL no latest mirror manifest"
-    return 1
-  fi
+  local src_list dst_list
+  src_list="$(mktemp)"
+  dst_list="$(mktemp)"
 
-  source_files="$(find "$WL_ROOT" -type f \
-    ! -path "$WL_ROOT/.git/*" \
-    ! -path "*/node_modules/*" \
-    ! -path "*/target/*" \
-    ! -path "*/DerivedData/*" | wc -l | tr -d ' ')"
+  mirror_inventory "$WL_ROOT" \
+    | sed "s#^$WL_ROOT/##" > "$src_list"
 
-  dest_files="$(find "$MIRROR_DEST" -type f \
-    ! -path "$MIRROR_DEST/.git/*" \
-    ! -path "*/node_modules/*" \
-    ! -path "*/target/*" \
-    ! -path "*/DerivedData/*" | wc -l | tr -d ' ')"
+  mirror_inventory "$MIRROR_DEST" \
+    | sed "s#^$MIRROR_DEST/##" > "$dst_list"
 
   echo "Mirror Verify"
-  echo "Source files:      $source_files"
-  echo "Destination files: $dest_files"
+  echo "Source files:      $(wc -l < "$src_list" | tr -d ' ')"
+  echo "Destination files: $(wc -l < "$dst_list" | tr -d ' ')"
 
-  if [[ "$source_files" == "$dest_files" ]]; then
+  if diff -u "$src_list" "$dst_list" > "$LATEST_DIFF"; then
+    rm -f "$src_list" "$dst_list"
     echo "RESULT PASS"
   else
-    echo "RESULT WARN file counts differ"
+    rm -f "$src_list" "$dst_list"
+    echo "RESULT WARN inventory differs"
+    echo "Diff: $LATEST_DIFF"
     return 2
   fi
 }
 
 mirror_restore() {
   mirror_requirements
+
   echo "Restore is intentionally guarded."
-  echo "Preview restore with:"
   echo
+  echo "Preview restore with:"
   echo "rsync -ani --delete \"$MIRROR_DEST/\" \"$WL_ROOT/\""
   echo
-  echo "Run manual restore only after reviewing the diff."
+  echo "Manual restore only after reviewing the diff."
 }
 
 mirror_main() {
-  cmd="${1:-status}"
+  local cmd="${1:-status}"
   case "$cmd" in
+    attach) mirror_attach ;;
+    eject) mirror_eject ;;
     status) mirror_status ;;
     diff) mirror_diff ;;
     update) mirror_update ;;
     verify) mirror_verify ;;
     restore) mirror_restore ;;
     *)
-      echo "Usage: wl mirror {status|diff|update|verify|restore}"
+      echo "Usage: wl mirror {attach|eject|status|diff|update|verify|restore}"
       return 64
       ;;
   esac

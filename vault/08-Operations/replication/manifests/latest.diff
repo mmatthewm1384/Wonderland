@@ -1,0 +1,216 @@
+--- /var/folders/sy/ph7_034x7qb1xbwjkfbrk37w0000gn/T/tmp.SViTEbRIDj	2026-06-30 10:12:51
++++ /var/folders/sy/ph7_034x7qb1xbwjkfbrk37w0000gn/T/tmp.7uoloytcO1	2026-06-30 10:12:52
+@@ -13,7 +13,6 @@
+ .backup/wl-clean-obsidian-route/wl.20260621-204505.bak
+ .backup/wl-obsidian-precase/wl.20260621-204009.bak
+ .backup/wl-obsidian-route/wl.20260621-203409.bak
+-.DS_Store
+ .gitignore
+ .quarantine/wl-time-machine-20260612-060102/wl-time-machine
+ .venv/.gitignore
+@@ -5352,7 +5351,6 @@
+ config/iterm2/backups/com.googlecode.iterm2.20260620-084408.plist
+ config/iterm2/backups/com.googlecode.iterm2.20260620-092507.plist
+ config/iterm2/com.googlecode.iterm2.plist
+-config/iterm2/DynamicProfiles/.DS_Store
+ config/iterm2/README.md
+ config/runtime/wonderland-rootless.lima.yaml
+ config/services.env
+@@ -5480,8 +5478,6 @@
+ core/doctor.sh
+ dashboard/__pycache__/server.cpython-314.pyc
+ dashboard/server.py
+-data/.DS_Store
+-data/snapshots/.DS_Store
+ data/snapshots/20260606-083637/runtime.md
+ data/snapshots/snapshot-20260606-170247/.wl-registry
+ data/snapshots/snapshot-20260606-170247/doctor.txt
+@@ -8812,8 +8808,6 @@
+ governance/verify-runtime-chaos.py
+ install-theomatrix-v3.sh
+ install.sh
+-intelligence/.DS_Store
+-intelligence/obsidian/.DS_Store
+ intelligence/obsidian/.obsidian/app.json
+ intelligence/obsidian/.obsidian/appearance.json
+ intelligence/obsidian/.obsidian/core-plugins.json
+@@ -9920,6 +9914,133 @@
+ lib/wl-services.sh
+ lib/wl-storage.sh
+ lima.REJECTED.yaml
++persistence/backups/authority/authority-20260610-141842/.DS_Store
++persistence/backups/authority/authority-20260610-141842/backups/.DS_Store
++persistence/backups/authority/authority-20260610-141842/data/.DS_Store
++persistence/backups/authority/authority-20260610-141842/data/snapshots/.DS_Store
++persistence/backups/authority/authority-20260610-141842/docker/.DS_Store
++persistence/backups/authority/authority-20260610-141842/docker/wl-grafana/.DS_Store
++persistence/backups/authority/authority-20260610-141842/intelligence/.DS_Store
++persistence/backups/authority/authority-20260610-141842/intelligence/obsidian/.DS_Store
++persistence/backups/authority/authority-20260610-141842/Wonderland-v4/.DS_Store
++persistence/backups/authority/authority-20260610-141842/Wonderland-v4/backups/.DS_Store
++persistence/backups/authority/authority-20260610-141920/.DS_Store
++persistence/backups/authority/authority-20260610-141920/backups/.DS_Store
++persistence/backups/authority/authority-20260610-141920/data/.DS_Store
++persistence/backups/authority/authority-20260610-141920/data/snapshots/.DS_Store
++persistence/backups/authority/authority-20260610-141920/docker/.DS_Store
++persistence/backups/authority/authority-20260610-141920/docker/wl-grafana/.DS_Store
++persistence/backups/authority/authority-20260610-141920/intelligence/.DS_Store
++persistence/backups/authority/authority-20260610-141920/intelligence/obsidian/.DS_Store
++persistence/backups/authority/authority-20260610-141920/Wonderland-v4/.DS_Store
++persistence/backups/authority/authority-20260610-141920/Wonderland-v4/backups/.DS_Store
++persistence/backups/authority/authority-20260610-142036/.DS_Store
++persistence/backups/authority/authority-20260610-142036/backups/.DS_Store
++persistence/backups/authority/authority-20260610-142036/data/.DS_Store
++persistence/backups/authority/authority-20260610-142036/data/snapshots/.DS_Store
++persistence/backups/authority/authority-20260610-142036/docker/.DS_Store
++persistence/backups/authority/authority-20260610-142036/docker/wl-grafana/.DS_Store
++persistence/backups/authority/authority-20260610-142036/intelligence/.DS_Store
++persistence/backups/authority/authority-20260610-142036/intelligence/obsidian/.DS_Store
++persistence/backups/authority/authority-20260610-142036/Wonderland-v4/.DS_Store
++persistence/backups/authority/authority-20260610-142036/Wonderland-v4/backups/.DS_Store
++persistence/backups/authority/authority-20260610-142356/.DS_Store
++persistence/backups/authority/authority-20260610-142356/backups/.DS_Store
++persistence/backups/authority/authority-20260610-142356/data/.DS_Store
++persistence/backups/authority/authority-20260610-142356/data/snapshots/.DS_Store
++persistence/backups/authority/authority-20260610-142356/docker/.DS_Store
++persistence/backups/authority/authority-20260610-142356/docker/wl-grafana/.DS_Store
++persistence/backups/authority/authority-20260610-142356/intelligence/.DS_Store
++persistence/backups/authority/authority-20260610-142356/intelligence/obsidian/.DS_Store
++persistence/backups/authority/authority-20260610-142356/Wonderland-v4/.DS_Store
++persistence/backups/authority/authority-20260610-142356/Wonderland-v4/backups/.DS_Store
++persistence/backups/authority/authority-20260610-145252/.DS_Store
++persistence/backups/authority/authority-20260610-145252/backups/.DS_Store
++persistence/backups/authority/authority-20260610-145252/data/.DS_Store
++persistence/backups/authority/authority-20260610-145252/data/snapshots/.DS_Store
++persistence/backups/authority/authority-20260610-145252/docker/.DS_Store
++persistence/backups/authority/authority-20260610-145252/docker/wl-grafana/.DS_Store
++persistence/backups/authority/authority-20260610-145252/intelligence/.DS_Store
++persistence/backups/authority/authority-20260610-145252/intelligence/obsidian/.DS_Store
++persistence/backups/authority/authority-20260610-145252/Wonderland-v4/.DS_Store
++persistence/backups/authority/authority-20260610-145252/Wonderland-v4/backups/.DS_Store
++persistence/backups/authority/authority-20260610-145828/.DS_Store
++persistence/backups/authority/authority-20260610-145828/backups/.DS_Store
++persistence/backups/authority/authority-20260610-145828/data/.DS_Store
++persistence/backups/authority/authority-20260610-145828/data/snapshots/.DS_Store
++persistence/backups/authority/authority-20260610-145828/docker/.DS_Store
++persistence/backups/authority/authority-20260610-145828/docker/wl-grafana/.DS_Store
++persistence/backups/authority/authority-20260610-145828/intelligence/.DS_Store
++persistence/backups/authority/authority-20260610-145828/intelligence/obsidian/.DS_Store
++persistence/backups/authority/authority-20260610-145828/Wonderland-v4/.DS_Store
++persistence/backups/authority/authority-20260610-145828/Wonderland-v4/backups/.DS_Store
++persistence/backups/authority/authority-20260610-152227/.DS_Store
++persistence/backups/authority/authority-20260610-152227/backups/.DS_Store
++persistence/backups/authority/authority-20260610-152227/data/.DS_Store
++persistence/backups/authority/authority-20260610-152227/data/snapshots/.DS_Store
++persistence/backups/authority/authority-20260610-152227/docker/.DS_Store
++persistence/backups/authority/authority-20260610-152227/docker/wl-grafana/.DS_Store
++persistence/backups/authority/authority-20260610-152227/intelligence/.DS_Store
++persistence/backups/authority/authority-20260610-152227/intelligence/obsidian/.DS_Store
++persistence/backups/authority/authority-20260610-152227/Wonderland-v4/.DS_Store
++persistence/backups/authority/authority-20260610-152227/Wonderland-v4/backups/.DS_Store
++persistence/backups/authority/authority-20260611-070451/.DS_Store
++persistence/backups/authority/authority-20260611-070451/backups/.DS_Store
++persistence/backups/authority/authority-20260611-070451/data/.DS_Store
++persistence/backups/authority/authority-20260611-070451/data/snapshots/.DS_Store
++persistence/backups/authority/authority-20260611-070451/docker/.DS_Store
++persistence/backups/authority/authority-20260611-070451/docker/wl-grafana/.DS_Store
++persistence/backups/authority/authority-20260611-070451/intelligence/.DS_Store
++persistence/backups/authority/authority-20260611-070451/intelligence/obsidian/.DS_Store
++persistence/backups/authority/authority-20260611-070451/Wonderland-v4/.DS_Store
++persistence/backups/authority/authority-20260611-070451/Wonderland-v4/backups/.DS_Store
++persistence/backups/authority/authority-20260611-070931/.DS_Store
++persistence/backups/authority/authority-20260611-070931/backups/.DS_Store
++persistence/backups/authority/authority-20260611-070931/data/.DS_Store
++persistence/backups/authority/authority-20260611-070931/data/snapshots/.DS_Store
++persistence/backups/authority/authority-20260611-070931/docker/.DS_Store
++persistence/backups/authority/authority-20260611-070931/docker/wl-grafana/.DS_Store
++persistence/backups/authority/authority-20260611-070931/intelligence/.DS_Store
++persistence/backups/authority/authority-20260611-070931/intelligence/obsidian/.DS_Store
++persistence/backups/authority/authority-20260611-070931/Wonderland-v4/.DS_Store
++persistence/backups/authority/authority-20260611-070931/Wonderland-v4/backups/.DS_Store
++persistence/backups/authority/authority-20260612-150221/.DS_Store
++persistence/backups/authority/authority-20260612-150221/backups/.DS_Store
++persistence/backups/authority/authority-20260612-150221/data/.DS_Store
++persistence/backups/authority/authority-20260612-150221/data/snapshots/.DS_Store
++persistence/backups/authority/authority-20260612-150221/docker/.DS_Store
++persistence/backups/authority/authority-20260612-150221/docker/wl-grafana/.DS_Store
++persistence/backups/authority/authority-20260612-150221/intelligence/.DS_Store
++persistence/backups/authority/authority-20260612-150221/intelligence/obsidian/.DS_Store
++persistence/backups/authority/authority-20260612-150221/Wonderland-v4/.DS_Store
++persistence/backups/authority/authority-20260612-150221/Wonderland-v4/backups/.DS_Store
++persistence/snapshots/platform/platform-20260610-145650/.DS_Store
++persistence/snapshots/platform/platform-20260610-145650/backups/.DS_Store
++persistence/snapshots/platform/platform-20260610-145650/data/.DS_Store
++persistence/snapshots/platform/platform-20260610-145650/data/snapshots/.DS_Store
++persistence/snapshots/platform/platform-20260610-145650/docker/.DS_Store
++persistence/snapshots/platform/platform-20260610-145650/docker/wl-grafana/.DS_Store
++persistence/snapshots/platform/platform-20260610-145650/intelligence/.DS_Store
++persistence/snapshots/platform/platform-20260610-145650/intelligence/obsidian/.DS_Store
++persistence/snapshots/platform/platform-20260610-145650/Wonderland-v4/.DS_Store
++persistence/snapshots/platform/platform-20260610-145650/Wonderland-v4/backups/.DS_Store
++persistence/snapshots/platform/platform-20260610-145733/.DS_Store
++persistence/snapshots/platform/platform-20260610-145733/backups/.DS_Store
++persistence/snapshots/platform/platform-20260610-145733/data/.DS_Store
++persistence/snapshots/platform/platform-20260610-145733/data/snapshots/.DS_Store
++persistence/snapshots/platform/platform-20260610-145733/docker/.DS_Store
++persistence/snapshots/platform/platform-20260610-145733/docker/wl-grafana/.DS_Store
++persistence/snapshots/platform/platform-20260610-145733/intelligence/.DS_Store
++persistence/snapshots/platform/platform-20260610-145733/intelligence/obsidian/.DS_Store
++persistence/snapshots/platform/platform-20260610-145733/Wonderland-v4/.DS_Store
++persistence/snapshots/platform/platform-20260610-145733/Wonderland-v4/backups/.DS_Store
++persistence/snapshots/platform/platform-20260621-064833/.DS_Store
++persistence/snapshots/platform/platform-20260621-064833/Wonderland-v4/.DS_Store
++persistence/snapshots/platform/platform-20260621-064833/Wonderland-v4/backups/.DS_Store
++persistence/snapshots/platform/platform-20260621-064833/Wonderland-v4/ephemeral/.DS_Store
++persistence/snapshots/platform/platform-20260621-064833/Wonderland-v4/ephemeral/bin/.DS_Store
++persistence/snapshots/platform/platform-20260621-065054/.DS_Store
++persistence/snapshots/platform/platform-20260621-065159/.DS_Store
+ plugins/__pycache__/example_audit.cpython-314.pyc
+ plugins/example_audit.py
+ policies/services.json
+@@ -10170,7 +10291,6 @@
+ secrets/proxy/tor.env
+ secrets/proxy/tor.env.example
+ secrets/wl-registry.json
+-security/.DS_Store
+ security/operator-gate/audit.log
+ security/operator-gate/operator-signing.key
+ security/operator-gate/policy.json
+@@ -12410,7 +12530,6 @@
+ tools/wil/src/__pycache__/wil.cpython-314.pyc
+ tools/wil/src/wil.py
+ tools/wil/src/wil.py.bak.20260612003524
+-vault/.DS_Store
+ vault/.obsidian/app.json
+ vault/.obsidian/appearance.json
+ vault/.obsidian/core-plugins.json
+@@ -12549,7 +12668,6 @@
+ vault/04-Schemas/json/runbook.schema.json
+ vault/04-Schemas/json/service.schema.json
+ vault/04-Schemas/schema-registry.json
+-vault/05-Registry/.DS_Store
+ vault/05-Registry/architecture/baselines/architecture-20260629-221021.tsv
+ vault/05-Registry/architecture/baselines/architecture-20260629-221022.tsv
+ vault/05-Registry/architecture/baselines/architecture-20260629-221036.tsv
+@@ -15060,13 +15178,11 @@
+ vault/08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/Sources/wl-chaos-menubar/Shell.swift
+ vault/08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/wl-chaos-menubar
+ vault/08-Operations/replication/history/20260630-100854.json
+-vault/08-Operations/replication/history/20260630-101245.json
+ vault/08-Operations/replication/intent.json
+ vault/08-Operations/replication/logs/diff-20260630-100848.log
+ vault/08-Operations/replication/logs/diff-20260630-101244.log
+ vault/08-Operations/replication/logs/update-20260630-100854.log
+ vault/08-Operations/replication/logs/update-20260630-101245.log
+-vault/08-Operations/replication/manifests/latest.diff
+ vault/08-Operations/replication/manifests/latest.json
+ vault/08-Operations/reports/authority-context-audit-20260622-110059.txt
+ vault/08-Operations/reports/authority-context-audit-20260622-110213.txt
+@@ -24431,7 +24547,6 @@
+ vault/ephemeral-secret-agent-catalog/20260623-061236/DROP_NOTICE.txt
+ vault/ephemeral-secret-agent-catalog/20260623-061236/DROP_NOTICE.txt.bak.rootsep-20260624-041647
+ vault/ephemeral-secret-agent-catalog/20260623-061236/secret-agent-catalog.md
+-vault/governance/.DS_Store
+ vault/governance/certifications/veil-mode1-certified-20260624-042606.md
+ vault/governance/certifications/veil-mode1-certified-20260624-042656.md
+ vault/governance/standards/governance-footer.md
