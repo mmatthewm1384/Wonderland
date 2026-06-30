@@ -1,0 +1,17 @@
+Wonderland Registry Migration Plan
+Generated: 2026-06-30T02:14:33Z
+
+Current registry modules
+------------------------
+lib/core/registry/command_registry_cli.sh
+lib/core/registry/command_registry_docs.sh
+lib/core/registry/command_registry_generate.sh
+lib/core/registry/command_registry_paths.sh
+lib/core/registry/command_registry_validate.sh
+
+Recommended checks
+------------------
+1. Keep registry IO centralized.
+2. Keep generation, validation, docs, paths, and CLI separate.
+3. Do not convert feature commands into generic wrappers.
+4. Regenerate registry after command moves.

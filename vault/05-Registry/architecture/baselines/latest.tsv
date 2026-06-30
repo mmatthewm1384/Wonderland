@@ -1,0 +1,7 @@
+metric	value
+lib_modules	85
+bin_commands	302
+bootstrap_wrappers	16
+oversized_modules_gt_250	1
+doctor_modules	15
+engineering_modules	8

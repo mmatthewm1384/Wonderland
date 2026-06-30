@@ -1,0 +1,30 @@
+Wonderland Module Split Plan
+Generated: 2026-06-30T02:14:33Z
+Threshold: 200 lines
+
+Oversized modules
+-----------------
+lib/architecture/cli.sh lines=321
+  candidate functions:
+    - wl_arch_root
+    - wl_arch_report
+    - wl_arch_graph
+    - wl_arch_snapshot
+    - wl_arch_score
+    - wl_arch_drift
+    - wl_arch_functions
+    - wl_arch_imports
+    - wl_arch_duplicates
+    - wl_arch_cycles
+    - wl_arch_usage
+    - wl_architecture_main
+  recommendation: split only by cohesive responsibility, not line count alone
+
+
+Safe refactor rules
+-------------------
+1. Copy before moving.
+2. Preserve compatibility shims.
+3. Keep public commands stable.
+4. Regenerate registry after changes.
+5. Run wl lint all, wl doctor all, wl verify.

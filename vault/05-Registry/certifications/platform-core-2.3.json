@@ -1,0 +1,20 @@
+{
+  "id": "platform-core-2.3",
+  "name": "Wonderland Platform Core 2.3",
+  "state": "certified",
+  "created_utc": "2026-06-30T02:14:34Z",
+  "gate": {
+    "fix_apply_safe": "PASS",
+    "architecture_snapshot": "PASS",
+    "status": "PASS",
+    "doctor_all": "PASS",
+    "verify": "PASS",
+    "checkpoint_validate": "PASS"
+  },
+  "artifacts": {
+    "status": "vault/05-Registry/status/latest-status.md",
+    "status_json": "vault/05-Registry/status/latest-status.json",
+    "checkpoint": "vault/05-Registry/checkpoints/latest-platform-core.json",
+    "handoff": "vault/05-Registry/exports/platform-core-2.3-certified-handoff.md"
+  }
+}

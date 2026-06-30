@@ -1,0 +1,17 @@
+{
+  "id": "platform-core-2.3-20260629-222317",
+  "type": "platform-core-checkpoint",
+  "version": "2.3",
+  "created_utc": "2026-06-29T22:23:23Z",
+  "status": "certified",
+  "gate": {
+    "doctor": "PASS",
+    "verify": "PASS"
+  },
+  "artifacts": {
+    "status_markdown": "vault/05-Registry/status/latest-status.md",
+    "status_json": "vault/05-Registry/status/latest-status.json",
+    "handoff": "vault/05-Registry/exports/platform-handoff-latest.md",
+    "verify_report": "reports/verify.json"
+  }
+}
