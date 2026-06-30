@@ -1,5 +1,5 @@
 Wonderland Architecture Report
-Generated: 2026-06-30T02:14:29Z
+Generated: 2026-06-30T02:16:42Z
 
 Module counts
 -------------
@@ -41,6 +41,7 @@ Largest modules
      134 lib/wl-dispatch.sh
      130 lib/core/command_registry_docs.sh
      129 lib/fix/cli.sh
+     123 lib/gitops/cli.sh
      121 lib/wl-lib.sh
      119 lib/doctor/cli.sh
      118 lib/checkpoint/cli.sh
@@ -52,7 +53,6 @@ Largest modules
      102 lib/lint/cli.sh
      100 lib/migrate/cli.sh
       98 lib/help/cli.sh
-      96 lib/gitops/cli.sh
       93 lib/core/dispatch/engineering.sh
 
 Command inventory

@@ -2,7 +2,7 @@
   "id": "platform-core-2.3",
   "name": "Wonderland Platform Core 2.3",
   "state": "certified",
-  "created_utc": "2026-06-30T02:14:34Z",
+  "created_utc": "2026-06-30T02:16:46Z",
   "gate": {
     "fix_apply_safe": "PASS",
     "architecture_snapshot": "PASS",

@@ -1,5 +1,5 @@
 Wonderland Wrapper Migration Plan
-Generated: 2026-06-30T02:14:31Z
+Generated: 2026-06-30T02:16:44Z
 
 Tiny wrapper or alias candidates
 -------------------------------

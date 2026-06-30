@@ -53,8 +53,35 @@ wl_git_checkpoint() {
     lib/help \
     lib/certify \
     lib/gitops \
-    vault/05-Registry \
+    vault/05-Registry/architecture/baselines/latest.tsv \
+    vault/05-Registry/architecture/dependencies \
+    vault/05-Registry/architecture/dependency.dot \
+    vault/05-Registry/architecture/report.txt \
+    vault/05-Registry/certifications/platform-core-2.3.json \
+    vault/05-Registry/checkpoints/latest-platform-core.json \
+    vault/05-Registry/command-registry.md \
+    vault/05-Registry/command-registry.tsv \
+    vault/05-Registry/docs/platform-engineering-commands.md \
+    vault/05-Registry/exports/platform-core-2.3-certified-handoff.md \
+    vault/05-Registry/exports/platform-handoff-latest.md \
+    vault/05-Registry/fix/fix-plan.txt \
+    vault/05-Registry/gates/latest-status.txt \
+    vault/05-Registry/inventory/platform-inventory.txt \
+    vault/05-Registry/migrate/registry-migration-plan.txt \
+    vault/05-Registry/migrate/wrapper-migration-plan.txt \
+    vault/05-Registry/refactor/module-split-plan.txt \
+    vault/05-Registry/rollback/latest-rollback-plan.md \
+    vault/05-Registry/status/latest-status.json \
+    vault/05-Registry/status/latest-status.md \
     reports/verify.json
+
+  git restore --staged \
+    'vault/05-Registry/architecture/baselines/architecture-*.tsv' \
+    vault/05-Registry/gates/latest-gate-check.txt \
+    vault/05-Registry/gates/latest-gate-promote.txt \
+    vault/05-Registry/git/latest-git-status.txt \
+    vault/05-Registry/reports/platform-report.txt \
+    2>/dev/null || true
 
   echo
   echo "Staged files:"

@@ -1,6 +1,6 @@
 # Wonderland Platform Core 2.3 Certified Handoff
 
-**Generated:** 2026-06-30T02:14:34Z
+**Generated:** 2026-06-30T02:16:46Z
 
 ## Certification
 
@@ -9,7 +9,7 @@
   "id": "platform-core-2.3",
   "name": "Wonderland Platform Core 2.3",
   "state": "certified",
-  "created_utc": "2026-06-30T02:14:34Z",
+  "created_utc": "2026-06-30T02:16:46Z",
   "gate": {
     "fix_apply_safe": "PASS",
     "architecture_snapshot": "PASS",
@@ -31,7 +31,7 @@
 
 # Wonderland Platform Status
 
-- Generated: 2026-06-30T02:14:34Z
+- Generated: 2026-06-30T02:16:46Z
 - Architecture score: 90
 - Last gate result: PASS
 - Verify result: PASS
@@ -41,7 +41,7 @@
 - Commands: 302
 - Shell modules: 85
 - Doctor modules: 15
-- Registry files: 104
+- Registry files: 105
 
 ## Next Recommended Gate
 
