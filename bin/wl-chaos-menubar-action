@@ -5,11 +5,12 @@ export WL_HOME="${WL_HOME:-$HOME/Wonderland}"
 export PATH="$WL_HOME/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 ACTION="${1:-}"
+ARG="${2:-}"
 LOG="$WL_HOME/vault/chaos/menubar-actions.log"
 mkdir -p "$(dirname "$LOG")"
 
 {
-  echo "----- $(date -u +%Y-%m-%dT%H:%M:%SZ) action=$ACTION -----"
+  echo "----- $(date -u +%Y-%m-%dT%H:%M:%SZ) action=$ACTION arg=$ARG -----"
   command -v wl-chaos || true
 
   case "$ACTION" in
@@ -19,6 +20,19 @@ mkdir -p "$(dirname "$LOG")"
     status)  wl-chaos status ;;
     doctor)  wl-chaos doctor ;;
     logs)    wl-chaos logs ;;
+
+    model)
+      if [[ -z "$ARG" ]]; then
+        echo "FAIL missing chaos model"
+        exit 64
+      fi
+      wl-chaos model "$ARG"
+      ;;
+
+    calm|nudge|drift|storm|blackout|cataclysm|recovery)
+      wl-chaos model "$ACTION"
+      ;;
+
     *)
       echo "invalid action: $ACTION"
       exit 64

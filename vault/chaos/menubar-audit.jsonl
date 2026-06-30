@@ -25,3 +25,8 @@
 {"authorized":false,"fingerprint_short":"389c0c2a0336","human_approved":null,"lease_id":"e8af1396-8c73-4be6-8e5d-5853781c8785","model":"recovery","reason":"lease mode mismatch: expected recovery, got calm","risk_level":0,"timestamp":"2026-06-28T15:16:49Z","title":"Recovery"}
 {"event":"execution_source","model":"calm","risk_level":0,"source":"controller-api","success":true,"timestamp":"2026-06-28T20:52:28Z","title":"Calm"}
 {"event":"execution_source","model":"calm","risk_level":0,"source":"controller-api","success":true,"timestamp":"2026-06-28T21:32:28Z","title":"Calm"}
+{"event":"execution_source","model":"drift","risk_level":2,"source":"controller-api","success":false,"timestamp":"2026-06-30T03:37:32Z","title":"Drift"}
+{"event":"execution_source","model":"storm","risk_level":3,"source":"controller-api","success":false,"timestamp":"2026-06-30T03:37:42Z","title":"Storm"}
+{"event":"execution_source","model":"blackout","risk_level":4,"source":"controller-api","success":false,"timestamp":"2026-06-30T03:56:16Z","title":"Blackout"}
+{"event":"execution_source","model":"blackout","risk_level":4,"source":"controller-api","success":false,"timestamp":"2026-06-30T03:56:29Z","title":"Blackout"}
+{"event":"execution_source","model":"blackout","risk_level":4,"source":"controller-api","success":false,"timestamp":"2026-06-30T04:05:05Z","title":"Blackout"}

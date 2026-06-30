@@ -150,13 +150,13 @@ EOF
     "$ROOT/bin/wl-chaos-environment" "$@"
     ;;
 
-  calm|nudge|drift|storm|blackout|cataclysm|recovery)
+  calm|nudge|drift|storm|blackout|cataclysm|recovery|aether|vortex|singularity|neon-ritual|dreamfield|voidwalk|purge-night)
     "$ROOT/bin/wl-chaos-model" "${1:-}"
     ;;
 
 
   *)
-    echo "Usage: wl-chaos-watchdog up|down|status|doctor|logs|repair|reset|aether-status|checkin|countdown|escalate|model <calm|nudge|drift|storm|blackout|cataclysm|recovery>|calm|nudge|drift|storm|blackout|cataclysm|recovery|install-launchd|uninstall-launchd|launchd-status|launchd-restart"
+    echo "Usage: wl-chaos-watchdog up|down|status|doctor|logs|repair|reset|aether-status|checkin|countdown|escalate|model <calm|nudge|drift|storm|blackout|cataclysm|recovery|aether|vortex|singularity|neon-ritual|dreamfield|voidwalk|purge-night>|calm|nudge|drift|storm|blackout|cataclysm|recovery|aether|vortex|singularity|neon-ritual|dreamfield|voidwalk|purge-night|install-launchd|uninstall-launchd|launchd-status|launchd-restart"
     exit 2
     ;;
 esac
