@@ -12,30 +12,22 @@ vault/06-Services/service-health.json
 
 # Recovery drill extraction
 runtime/recovery-drills/
-
 # Local registries
 .wl-registry
-
 # macOS
-.DS_Store
-
 # Vault secrets
 vault/secrets/*
 !vault/secrets/.gitkeep
-
 # Torrent runtime data
 vault/data/torrents/config/
 vault/data/torrents/downloads/
 vault/data/torrents/downloads-export/
 vault/data/torrents/quarantine/
-
 # qBittorrent runtime artifacts
 *.fastresume
 *.torrent
-
 # Rust build artifacts
 tools/wil-rust/target/
-
 # Wonderland generated app/build artifacts
 apps/**/node_modules/
 apps/**/src-tauri/target/
@@ -44,41 +36,20 @@ apps/macos/wl-chaos-menubar/.build/
 apps/macos/wl-chaos-menubar/build/
 apps/macos/wl-chaos-menubar/backups/
 *.backup.*
-.DS_Store
 .wl/
-
-# Wonderland generated app/build artifacts
-apps/**/node_modules/
-apps/**/src-tauri/target/
-apps/**/*.app/
-apps/macos/wl-chaos-menubar/.build/
-apps/macos/wl-chaos-menubar/build/
-apps/macos/wl-chaos-menubar/backups/
-*.backup.*
-.DS_Store
-.wl/
-
 # Wonderland generated artifacts
-apps/**/node_modules/
-apps/**/src-tauri/target/
-apps/**/*.app/
 apps/**/.build/
 apps/**/build/
 apps/**/backups/
-*.backup.*
 *.dSYM/
-.DS_Store
-.wl/
 vault/chaos/*.log
 vault/chaos/*.pid
 vault/08-Operations/recovery/git-rescue/*.tar.gz
-
 # Wonderland generated runtime artifacts
 /runtime/
 /reports/
 /state/
 /logs/
-
 # Wonderland operational generated artifacts
 /vault/08-Operations/baselines/
 /vault/08-Operations/handoffs/
@@ -86,6 +57,11 @@ vault/08-Operations/recovery/git-rescue/*.tar.gz
 /vault/08-Operations/certifications/
 /vault/08-Operations/reports/
 /vault/08-Operations/logs/
-
 # Local backups from refactors
 *.bak.*
+# Wonderland Platform Core 2.3 generated/transient artifacts
+vault/05-Registry/architecture/baselines/architecture-*.tsv
+vault/05-Registry/gates/latest-gate-check.txt
+vault/05-Registry/gates/latest-gate-promote.txt
+vault/05-Registry/git/latest-git-status.txt
+vault/05-Registry/reports/platform-report.txt
