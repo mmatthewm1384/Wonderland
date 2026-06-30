@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_HOME:-$HOME/Wonderland}"
+SESSION="$ROOT/vault/chaos/session.json"
+FOUNDATION="$ROOT/vault/chaos/foundation-model.json"
+INTENT="$ROOT/vault/chaos/intent-state.json"
+ENV="$ROOT/vault/chaos/environment-state.json"
+LEASE="$ROOT/vault/05-Registry/chaos/lease.json"
+
+mkdir -p "$(dirname "$SESSION")"
+
+title_case() {
+  python3 - "$1" <<'PY'
+import sys
+print(" ".join(p.capitalize() for p in sys.argv[1].split("-")))
+PY
+}
+
+build_session() {
+  model="$(jq -r '.model // "unknown"' "$FOUNDATION" 2>/dev/null || echo unknown)"
+  intent="$(jq -r '.intent // "none"' "$INTENT" 2>/dev/null || echo none)"
+  intent_title="$(jq -r '.title // "None"' "$INTENT" 2>/dev/null || echo None)"
+  env_status="$(jq -r '.status // "unknown"' "$ENV" 2>/dev/null || echo unknown)"
+  lease_id="$(jq -r '.lease_id // "none"' "$LEASE" 2>/dev/null || echo none)"
+  lease_mode="$(jq -r '.mode // "none"' "$LEASE" 2>/dev/null || echo none)"
+  lease_expires="$(jq -r '.expires_at // "unknown"' "$LEASE" 2>/dev/null || echo unknown)"
+  controllers="$(jq -c '.effects.controllers // []' "$ENV" 2>/dev/null || echo '[]')"
+  now="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+  jq -n \
+    --arg schema "wonderland.chaos.session.v1" \
+    --arg updated_at "$now" \
+    --arg model "$model" \
+    --arg model_title "$(title_case "$model")" \
+    --arg intent "$intent" \
+    --arg intent_title "$intent_title" \
+    --arg status "$env_status" \
+    --arg lease_id "$lease_id" \
+    --arg lease_mode "$lease_mode" \
+    --arg lease_expires "$lease_expires" \
+    --argjson controllers "$controllers" \
+    '{
+      schema: $schema,
+      updated_at: $updated_at,
+      model: {
+        id: $model,
+        title: $model_title
+      },
+      intent: {
+        id: $intent,
+        title: $intent_title
+      },
+      status: $status,
+      lease: {
+        id: $lease_id,
+        mode: $lease_mode,
+        expires_at: $lease_expires
+      },
+      controllers: $controllers
+    }' > "$SESSION"
+}
+
+case "${1:-show}" in
+  sync)
+    build_session
+    echo "PASS chaos session synced"
+    ;;
+  show)
+    [[ -f "$SESSION" ]] || build_session
+    cat "$SESSION"
+    ;;
+  model)
+    [[ -f "$SESSION" ]] || build_session
+    jq -r '.model.title // "Unknown"' "$SESSION"
+    ;;
+  intent)
+    [[ -f "$SESSION" ]] || build_session
+    jq -r '.intent.title // "None"' "$SESSION"
+    ;;
+  status)
+    [[ -f "$SESSION" ]] || build_session
+    jq -r '.status // "unknown"' "$SESSION"
+    ;;
+  *)
+    echo "Usage: wl-chaos-session sync|show|model|intent|status"
+    exit 64
+    ;;
+esac

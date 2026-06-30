@@ -1,0 +1,33 @@
+{
+  "intent": "wonderland.replication.t7_hot_mirror",
+  "version": 1,
+  "status": "active",
+  "purpose": "Keep an updated recoverable mirror of the Wonderland platform on T7_Wonderland.",
+  "source": "/Users/wonderland/Wonderland",
+  "destination": "/Volumes/T7_Wonderland/Wonderland",
+  "principles": [
+    "local-first",
+    "incremental",
+    "recoverable",
+    "verifiable",
+    "auditable",
+    "safe-by-default"
+  ],
+  "commands": [
+    "wl mirror status",
+    "wl mirror diff",
+    "wl mirror update",
+    "wl mirror verify",
+    "wl mirror restore"
+  ],
+  "delete_policy": "Preview deletions with diff before destructive sync.",
+  "verification": {
+    "minimum": [
+      "source exists",
+      "destination volume mounted",
+      "rsync available",
+      "post-sync manifest written",
+      "latest metadata updated"
+    ]
+  }
+}

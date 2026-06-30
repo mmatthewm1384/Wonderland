@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+exec "$WL_ROOT/lib/mirror/cli.sh" "$@"

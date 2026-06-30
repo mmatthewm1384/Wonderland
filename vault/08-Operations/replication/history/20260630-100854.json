@@ -1,0 +1,12 @@
+{
+  "id": "20260630-100854",
+  "intent": "wonderland.replication.t7_hot_mirror",
+  "source": "/Users/wonderland/Wonderland",
+  "destination": "/Volumes/T7_Wonderland/Wonderland",
+  "git_commit": "67c90f49",
+  "source_files": 24779,
+  "destination_files": 25765,
+  "duration_seconds": 73,
+  "log": "/Users/wonderland/Wonderland/vault/08-Operations/replication/logs/update-20260630-100854.log",
+  "result": "WARN"
+}

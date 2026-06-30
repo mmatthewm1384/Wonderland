@@ -74,3 +74,4 @@ printf '{"ts":"%s","event":"model_selected","model":"%s","lease_required":%s,"fi
 
 echo "PASS chaos foundation model selected: $MODEL"
 "$ROOT/bin/wl-chaos-environment" apply "$MODEL"
+"$ROOT/bin/wl-chaos-session" sync >/dev/null 2>&1 || true
