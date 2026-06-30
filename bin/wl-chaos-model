@@ -2,24 +2,30 @@
 set -euo pipefail
 
 ROOT="${WL_HOME:-$HOME/Wonderland}"
+MODEL="${1:-}"
+
 STATE="$ROOT/vault/chaos/foundation-model.json"
 AUDIT="$ROOT/vault/chaos/foundation-model-audit.jsonl"
-
-mkdir -p "$(dirname "$STATE")"
-
-MODEL="${1:-}"
+AUTH="$ROOT/vault/chaos/model-authority.json"
 
 case "$MODEL" in
   calm|nudge|drift|storm|blackout|cataclysm|recovery) ;;
-  "")
-    echo "FAIL missing chaos model"
-    exit 64
-    ;;
-  *)
-    echo "FAIL unknown chaos model: $MODEL"
-    exit 64
-    ;;
+  "") echo "FAIL missing chaos model"; exit 64 ;;
+  *) echo "FAIL unknown chaos model: $MODEL"; exit 64 ;;
 esac
+
+mkdir -p "$(dirname "$STATE")"
+
+lease_required="$(jq -r --arg m "$MODEL" '.models[$m].lease_required // true' "$AUTH")"
+fingerprint_required="$(jq -r --arg m "$MODEL" '.models[$m].fingerprint_required // false' "$AUTH")"
+
+if [[ "$lease_required" == "true" ]]; then
+  "$ROOT/bin/wl-chaos-lease-verify" >/dev/null
+fi
+
+if [[ "$fingerprint_required" == "true" ]]; then
+  "$ROOT/bin/wl-chaos-fingerprint-verify" >/dev/null
+fi
 
 NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
@@ -29,11 +35,18 @@ cat > "$STATE" <<JSON
   "model": "$MODEL",
   "updated_at": "$NOW",
   "source": "wl-chaos-model",
-  "status": "selected"
+  "status": "selected",
+  "authority": {
+    "lease_required": $lease_required,
+    "lease_verified": true,
+    "fingerprint_required": $fingerprint_required,
+    "fingerprint_verified": $fingerprint_required
+  }
 }
 JSON
 
-printf '{"ts":"%s","event":"model_selected","model":"%s"}\n' "$NOW" "$MODEL" >> "$AUDIT"
+printf '{"ts":"%s","event":"model_selected","model":"%s","lease_required":%s,"fingerprint_required":%s}\n' \
+  "$NOW" "$MODEL" "$lease_required" "$fingerprint_required" >> "$AUDIT"
 
 echo "PASS chaos foundation model selected: $MODEL"
 "$ROOT/bin/wl-chaos-environment" apply "$MODEL"

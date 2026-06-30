@@ -1,0 +1,12 @@
+{
+  "schema": "wonderland.chaos.model.authority.v1",
+  "models": {
+    "calm":      { "lease_required": true, "fingerprint_required": false },
+    "nudge":     { "lease_required": true, "fingerprint_required": false },
+    "drift":     { "lease_required": true, "fingerprint_required": true },
+    "storm":     { "lease_required": true, "fingerprint_required": true },
+    "blackout":  { "lease_required": true, "fingerprint_required": true },
+    "cataclysm": { "lease_required": true, "fingerprint_required": true },
+    "recovery":  { "lease_required": true, "fingerprint_required": false }
+  }
+}
