@@ -13,7 +13,7 @@ ENV_STATE = ROOT / "vault/chaos/environment-state.json"
 AUDIT = ROOT / "vault/chaos/environment-audit.jsonl"
 VISUAL = ROOT / "ephemeral/bin/wl-visual-chaos"
 
-VALID = {"calm", "nudge", "drift", "storm", "blackout", "cataclysm", "recovery", "aether", "vortex", "singularity", "neon-ritual", "dreamfield", "voidwalk|purge-night"}
+VALID = {"calm", "nudge", "drift", "storm", "blackout", "cataclysm", "recovery", "aether", "vortex", "singularity", "neon-ritual", "dreamfield", "voidwalk", "purge-night"}
 
 def now():
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
@@ -58,13 +58,11 @@ def apply(model):
 
     print(f"PASS chaos environment applied: {model}")
 
-    if effects.get("matrix") is True:
-        if VISUAL.exists():
-            subprocess.run([str(VISUAL), "launch-all"], check=False)
-        else:
-            print(f"WARN missing visual launcher: {VISUAL}")
+    controllers = ROOT / "bin/wl-chaos-controllers"
+    if controllers.exists():
+        subprocess.run([str(controllers), "apply"], check=False)
     else:
-        print("PASS matrix visual layer inactive for this model")
+        print(f"WARN missing controllers orchestrator: {controllers}")
 
 def main(argv):
     action = argv[1] if len(argv) > 1 else "apply"

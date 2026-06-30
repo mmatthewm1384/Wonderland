@@ -1,0 +1,6 @@
+{
+  "schema": "wonderland.chaos.controller.meta.v1",
+  "name": "menubar",
+  "capabilities": ["ui", "status", "audit"],
+  "risk_surface": "control-surface"
+}
