@@ -1,5 +1,5 @@
---- /var/folders/sy/ph7_034x7qb1xbwjkfbrk37w0000gn/T/tmp.SViTEbRIDj	2026-06-30 10:12:51
-+++ /var/folders/sy/ph7_034x7qb1xbwjkfbrk37w0000gn/T/tmp.7uoloytcO1	2026-06-30 10:12:52
+--- /var/folders/sy/ph7_034x7qb1xbwjkfbrk37w0000gn/T/tmp.DQ9S0Kuvuu	2026-06-30 10:15:57
++++ /var/folders/sy/ph7_034x7qb1xbwjkfbrk37w0000gn/T/tmp.c0hd1llccG	2026-06-30 10:15:58
 @@ -13,7 +13,6 @@
  .backup/wl-clean-obsidian-route/wl.20260621-204505.bak
  .backup/wl-obsidian-precase/wl.20260621-204009.bak
@@ -34,141 +34,7 @@
  intelligence/obsidian/.obsidian/app.json
  intelligence/obsidian/.obsidian/appearance.json
  intelligence/obsidian/.obsidian/core-plugins.json
-@@ -9920,6 +9914,133 @@
- lib/wl-services.sh
- lib/wl-storage.sh
- lima.REJECTED.yaml
-+persistence/backups/authority/authority-20260610-141842/.DS_Store
-+persistence/backups/authority/authority-20260610-141842/backups/.DS_Store
-+persistence/backups/authority/authority-20260610-141842/data/.DS_Store
-+persistence/backups/authority/authority-20260610-141842/data/snapshots/.DS_Store
-+persistence/backups/authority/authority-20260610-141842/docker/.DS_Store
-+persistence/backups/authority/authority-20260610-141842/docker/wl-grafana/.DS_Store
-+persistence/backups/authority/authority-20260610-141842/intelligence/.DS_Store
-+persistence/backups/authority/authority-20260610-141842/intelligence/obsidian/.DS_Store
-+persistence/backups/authority/authority-20260610-141842/Wonderland-v4/.DS_Store
-+persistence/backups/authority/authority-20260610-141842/Wonderland-v4/backups/.DS_Store
-+persistence/backups/authority/authority-20260610-141920/.DS_Store
-+persistence/backups/authority/authority-20260610-141920/backups/.DS_Store
-+persistence/backups/authority/authority-20260610-141920/data/.DS_Store
-+persistence/backups/authority/authority-20260610-141920/data/snapshots/.DS_Store
-+persistence/backups/authority/authority-20260610-141920/docker/.DS_Store
-+persistence/backups/authority/authority-20260610-141920/docker/wl-grafana/.DS_Store
-+persistence/backups/authority/authority-20260610-141920/intelligence/.DS_Store
-+persistence/backups/authority/authority-20260610-141920/intelligence/obsidian/.DS_Store
-+persistence/backups/authority/authority-20260610-141920/Wonderland-v4/.DS_Store
-+persistence/backups/authority/authority-20260610-141920/Wonderland-v4/backups/.DS_Store
-+persistence/backups/authority/authority-20260610-142036/.DS_Store
-+persistence/backups/authority/authority-20260610-142036/backups/.DS_Store
-+persistence/backups/authority/authority-20260610-142036/data/.DS_Store
-+persistence/backups/authority/authority-20260610-142036/data/snapshots/.DS_Store
-+persistence/backups/authority/authority-20260610-142036/docker/.DS_Store
-+persistence/backups/authority/authority-20260610-142036/docker/wl-grafana/.DS_Store
-+persistence/backups/authority/authority-20260610-142036/intelligence/.DS_Store
-+persistence/backups/authority/authority-20260610-142036/intelligence/obsidian/.DS_Store
-+persistence/backups/authority/authority-20260610-142036/Wonderland-v4/.DS_Store
-+persistence/backups/authority/authority-20260610-142036/Wonderland-v4/backups/.DS_Store
-+persistence/backups/authority/authority-20260610-142356/.DS_Store
-+persistence/backups/authority/authority-20260610-142356/backups/.DS_Store
-+persistence/backups/authority/authority-20260610-142356/data/.DS_Store
-+persistence/backups/authority/authority-20260610-142356/data/snapshots/.DS_Store
-+persistence/backups/authority/authority-20260610-142356/docker/.DS_Store
-+persistence/backups/authority/authority-20260610-142356/docker/wl-grafana/.DS_Store
-+persistence/backups/authority/authority-20260610-142356/intelligence/.DS_Store
-+persistence/backups/authority/authority-20260610-142356/intelligence/obsidian/.DS_Store
-+persistence/backups/authority/authority-20260610-142356/Wonderland-v4/.DS_Store
-+persistence/backups/authority/authority-20260610-142356/Wonderland-v4/backups/.DS_Store
-+persistence/backups/authority/authority-20260610-145252/.DS_Store
-+persistence/backups/authority/authority-20260610-145252/backups/.DS_Store
-+persistence/backups/authority/authority-20260610-145252/data/.DS_Store
-+persistence/backups/authority/authority-20260610-145252/data/snapshots/.DS_Store
-+persistence/backups/authority/authority-20260610-145252/docker/.DS_Store
-+persistence/backups/authority/authority-20260610-145252/docker/wl-grafana/.DS_Store
-+persistence/backups/authority/authority-20260610-145252/intelligence/.DS_Store
-+persistence/backups/authority/authority-20260610-145252/intelligence/obsidian/.DS_Store
-+persistence/backups/authority/authority-20260610-145252/Wonderland-v4/.DS_Store
-+persistence/backups/authority/authority-20260610-145252/Wonderland-v4/backups/.DS_Store
-+persistence/backups/authority/authority-20260610-145828/.DS_Store
-+persistence/backups/authority/authority-20260610-145828/backups/.DS_Store
-+persistence/backups/authority/authority-20260610-145828/data/.DS_Store
-+persistence/backups/authority/authority-20260610-145828/data/snapshots/.DS_Store
-+persistence/backups/authority/authority-20260610-145828/docker/.DS_Store
-+persistence/backups/authority/authority-20260610-145828/docker/wl-grafana/.DS_Store
-+persistence/backups/authority/authority-20260610-145828/intelligence/.DS_Store
-+persistence/backups/authority/authority-20260610-145828/intelligence/obsidian/.DS_Store
-+persistence/backups/authority/authority-20260610-145828/Wonderland-v4/.DS_Store
-+persistence/backups/authority/authority-20260610-145828/Wonderland-v4/backups/.DS_Store
-+persistence/backups/authority/authority-20260610-152227/.DS_Store
-+persistence/backups/authority/authority-20260610-152227/backups/.DS_Store
-+persistence/backups/authority/authority-20260610-152227/data/.DS_Store
-+persistence/backups/authority/authority-20260610-152227/data/snapshots/.DS_Store
-+persistence/backups/authority/authority-20260610-152227/docker/.DS_Store
-+persistence/backups/authority/authority-20260610-152227/docker/wl-grafana/.DS_Store
-+persistence/backups/authority/authority-20260610-152227/intelligence/.DS_Store
-+persistence/backups/authority/authority-20260610-152227/intelligence/obsidian/.DS_Store
-+persistence/backups/authority/authority-20260610-152227/Wonderland-v4/.DS_Store
-+persistence/backups/authority/authority-20260610-152227/Wonderland-v4/backups/.DS_Store
-+persistence/backups/authority/authority-20260611-070451/.DS_Store
-+persistence/backups/authority/authority-20260611-070451/backups/.DS_Store
-+persistence/backups/authority/authority-20260611-070451/data/.DS_Store
-+persistence/backups/authority/authority-20260611-070451/data/snapshots/.DS_Store
-+persistence/backups/authority/authority-20260611-070451/docker/.DS_Store
-+persistence/backups/authority/authority-20260611-070451/docker/wl-grafana/.DS_Store
-+persistence/backups/authority/authority-20260611-070451/intelligence/.DS_Store
-+persistence/backups/authority/authority-20260611-070451/intelligence/obsidian/.DS_Store
-+persistence/backups/authority/authority-20260611-070451/Wonderland-v4/.DS_Store
-+persistence/backups/authority/authority-20260611-070451/Wonderland-v4/backups/.DS_Store
-+persistence/backups/authority/authority-20260611-070931/.DS_Store
-+persistence/backups/authority/authority-20260611-070931/backups/.DS_Store
-+persistence/backups/authority/authority-20260611-070931/data/.DS_Store
-+persistence/backups/authority/authority-20260611-070931/data/snapshots/.DS_Store
-+persistence/backups/authority/authority-20260611-070931/docker/.DS_Store
-+persistence/backups/authority/authority-20260611-070931/docker/wl-grafana/.DS_Store
-+persistence/backups/authority/authority-20260611-070931/intelligence/.DS_Store
-+persistence/backups/authority/authority-20260611-070931/intelligence/obsidian/.DS_Store
-+persistence/backups/authority/authority-20260611-070931/Wonderland-v4/.DS_Store
-+persistence/backups/authority/authority-20260611-070931/Wonderland-v4/backups/.DS_Store
-+persistence/backups/authority/authority-20260612-150221/.DS_Store
-+persistence/backups/authority/authority-20260612-150221/backups/.DS_Store
-+persistence/backups/authority/authority-20260612-150221/data/.DS_Store
-+persistence/backups/authority/authority-20260612-150221/data/snapshots/.DS_Store
-+persistence/backups/authority/authority-20260612-150221/docker/.DS_Store
-+persistence/backups/authority/authority-20260612-150221/docker/wl-grafana/.DS_Store
-+persistence/backups/authority/authority-20260612-150221/intelligence/.DS_Store
-+persistence/backups/authority/authority-20260612-150221/intelligence/obsidian/.DS_Store
-+persistence/backups/authority/authority-20260612-150221/Wonderland-v4/.DS_Store
-+persistence/backups/authority/authority-20260612-150221/Wonderland-v4/backups/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145650/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145650/backups/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145650/data/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145650/data/snapshots/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145650/docker/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145650/docker/wl-grafana/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145650/intelligence/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145650/intelligence/obsidian/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145650/Wonderland-v4/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145650/Wonderland-v4/backups/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145733/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145733/backups/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145733/data/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145733/data/snapshots/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145733/docker/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145733/docker/wl-grafana/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145733/intelligence/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145733/intelligence/obsidian/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145733/Wonderland-v4/.DS_Store
-+persistence/snapshots/platform/platform-20260610-145733/Wonderland-v4/backups/.DS_Store
-+persistence/snapshots/platform/platform-20260621-064833/.DS_Store
-+persistence/snapshots/platform/platform-20260621-064833/Wonderland-v4/.DS_Store
-+persistence/snapshots/platform/platform-20260621-064833/Wonderland-v4/backups/.DS_Store
-+persistence/snapshots/platform/platform-20260621-064833/Wonderland-v4/ephemeral/.DS_Store
-+persistence/snapshots/platform/platform-20260621-064833/Wonderland-v4/ephemeral/bin/.DS_Store
-+persistence/snapshots/platform/platform-20260621-065054/.DS_Store
-+persistence/snapshots/platform/platform-20260621-065159/.DS_Store
- plugins/__pycache__/example_audit.cpython-314.pyc
- plugins/example_audit.py
- policies/services.json
-@@ -10170,7 +10291,6 @@
+@@ -10170,7 +10164,6 @@
  secrets/proxy/tor.env
  secrets/proxy/tor.env.example
  secrets/wl-registry.json
@@ -176,7 +42,7 @@
  security/operator-gate/audit.log
  security/operator-gate/operator-signing.key
  security/operator-gate/policy.json
-@@ -12410,7 +12530,6 @@
+@@ -12410,7 +12403,6 @@
  tools/wil/src/__pycache__/wil.cpython-314.pyc
  tools/wil/src/wil.py
  tools/wil/src/wil.py.bak.20260612003524
@@ -184,7 +50,7 @@
  vault/.obsidian/app.json
  vault/.obsidian/appearance.json
  vault/.obsidian/core-plugins.json
-@@ -12549,7 +12668,6 @@
+@@ -12549,7 +12541,6 @@
  vault/04-Schemas/json/runbook.schema.json
  vault/04-Schemas/json/service.schema.json
  vault/04-Schemas/schema-registry.json
@@ -192,21 +58,15 @@
  vault/05-Registry/architecture/baselines/architecture-20260629-221021.tsv
  vault/05-Registry/architecture/baselines/architecture-20260629-221022.tsv
  vault/05-Registry/architecture/baselines/architecture-20260629-221036.tsv
-@@ -15060,13 +15178,11 @@
- vault/08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/Sources/wl-chaos-menubar/Shell.swift
- vault/08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/wl-chaos-menubar
+@@ -15062,7 +15053,6 @@
  vault/08-Operations/replication/history/20260630-100854.json
--vault/08-Operations/replication/history/20260630-101245.json
+ vault/08-Operations/replication/history/20260630-101245.json
+ vault/08-Operations/replication/history/20260630-101411.json
+-vault/08-Operations/replication/history/20260630-101551.json
  vault/08-Operations/replication/intent.json
  vault/08-Operations/replication/logs/diff-20260630-100848.log
  vault/08-Operations/replication/logs/diff-20260630-101244.log
- vault/08-Operations/replication/logs/update-20260630-100854.log
- vault/08-Operations/replication/logs/update-20260630-101245.log
--vault/08-Operations/replication/manifests/latest.diff
- vault/08-Operations/replication/manifests/latest.json
- vault/08-Operations/reports/authority-context-audit-20260622-110059.txt
- vault/08-Operations/reports/authority-context-audit-20260622-110213.txt
-@@ -24431,7 +24547,6 @@
+@@ -24449,7 +24439,6 @@
  vault/ephemeral-secret-agent-catalog/20260623-061236/DROP_NOTICE.txt
  vault/ephemeral-secret-agent-catalog/20260623-061236/DROP_NOTICE.txt.bak.rootsep-20260624-041647
  vault/ephemeral-secret-agent-catalog/20260623-061236/secret-agent-catalog.md
