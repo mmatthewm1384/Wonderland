@@ -15,3 +15,8 @@
 {"command": "panic", "event": "controller_chaos_model", "model": "storm", "risk_level": 3, "timestamp": "2026-06-29T05:57:41.802551+00:00"}
 {"command": "panic", "event": "controller_chaos_model", "model": "storm", "risk_level": 3, "timestamp": "2026-06-29T06:02:41.993745+00:00"}
 {"command": "panic", "event": "controller_chaos_model", "model": "storm", "risk_level": 3, "timestamp": "2026-06-29T06:07:42.178418+00:00"}
+{"command": "panic", "event": "controller_chaos_model", "model": "drift", "risk_level": 2, "timestamp": "2026-06-30T03:37:32.671267+00:00"}
+{"command": "panic", "event": "controller_chaos_model", "model": "storm", "risk_level": 3, "timestamp": "2026-06-30T03:37:42.473195+00:00"}
+{"command": "panic", "event": "controller_chaos_model", "model": "blackout", "risk_level": 4, "timestamp": "2026-06-30T03:56:16.919954+00:00"}
+{"command": "panic", "event": "controller_chaos_model", "model": "blackout", "risk_level": 4, "timestamp": "2026-06-30T03:56:29.390197+00:00"}
+{"command": "panic", "event": "controller_chaos_model", "model": "blackout", "risk_level": 4, "timestamp": "2026-06-30T04:05:05.752193+00:00"}

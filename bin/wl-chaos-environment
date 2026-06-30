@@ -13,7 +13,7 @@ ENV_STATE = ROOT / "vault/chaos/environment-state.json"
 AUDIT = ROOT / "vault/chaos/environment-audit.jsonl"
 VISUAL = ROOT / "ephemeral/bin/wl-visual-chaos"
 
-VALID = {"calm", "nudge", "drift", "storm", "blackout", "cataclysm", "recovery", "aether", "vortex", "singularity", "neon-ritual", "dreamfield", "voidwalk"}
+VALID = {"calm", "nudge", "drift", "storm", "blackout", "cataclysm", "recovery", "aether", "vortex", "singularity", "neon-ritual", "dreamfield", "voidwalk|purge-night"}
 
 def now():
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")

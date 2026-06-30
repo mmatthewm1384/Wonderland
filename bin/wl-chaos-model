@@ -9,22 +9,44 @@ AUDIT="$ROOT/vault/chaos/foundation-model-audit.jsonl"
 AUTH="$ROOT/vault/chaos/model-authority.json"
 
 case "$MODEL" in
-  calm|nudge|drift|storm|blackout|cataclysm|recovery|aether|vortex|singularity|neon-ritual|dreamfield|voidwalk) ;;
+  calm|nudge|drift|storm|blackout|cataclysm|recovery|aether|vortex|singularity|neon-ritual|dreamfield|voidwalk|purge-night) ;;
   "") echo "FAIL missing chaos model"; exit 64 ;;
   *) echo "FAIL unknown chaos model: $MODEL"; exit 64 ;;
 esac
 
 mkdir -p "$(dirname "$STATE")"
 
+# Renew model-scoped menubar lease on selection so UI lease state follows active model.
+if [[ -x "$ROOT/bin/wl-chaos-lease" ]]; then
+  "$ROOT/bin/wl-chaos-lease" --scope chaos.menubar --mode "$MODEL" --ttl-minutes 60 >/dev/null
+fi
+
+
 lease_required="$(jq -r --arg m "$MODEL" '.models[$m].lease_required // true' "$AUTH")"
 fingerprint_required="$(jq -r --arg m "$MODEL" '.models[$m].fingerprint_required // false' "$AUTH")"
+fingerprint_id="$(jq -r '.fingerprint_id // "unknown"' "$ROOT/vault/05-Registry/chaos/fingerprint.json" 2>/dev/null || echo unknown)"
+fingerprint_short="$(jq -r '.fingerprint_short // "unknown"' "$ROOT/vault/05-Registry/chaos/fingerprint.json" 2>/dev/null || echo unknown)"
 
 if [[ "$lease_required" == "true" ]]; then
-  "$ROOT/bin/wl-chaos-lease-verify" >/dev/null
+  if ! "$ROOT/bin/wl-chaos-lease-verify"; then
+    echo "FAIL chaos lease verification failed for model: $MODEL"
+    exit 1
+  fi
+
+  lease_mode="$(jq -r '.mode // empty' "$ROOT/vault/05-Registry/chaos/lease.json")"
+  if [[ "$lease_mode" != "$MODEL" && "$lease_mode" != "operator" && "$lease_mode" != "environment-control" ]]; then
+    echo "FAIL chaos lease mode mismatch"
+    echo "expected=$MODEL or operator/environment-control"
+    echo "actual=$lease_mode"
+    exit 1
+  fi
 fi
 
 if [[ "$fingerprint_required" == "true" ]]; then
-  "$ROOT/bin/wl-chaos-fingerprint-verify" >/dev/null
+  if ! "$ROOT/bin/wl-chaos-fingerprint-verify"; then
+    echo "FAIL chaos fingerprint verification failed for model: $MODEL"
+    exit 1
+  fi
 fi
 
 NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -40,7 +62,9 @@ cat > "$STATE" <<JSON
     "lease_required": $lease_required,
     "lease_verified": true,
     "fingerprint_required": $fingerprint_required,
-    "fingerprint_verified": $fingerprint_required
+    "fingerprint_verified": $fingerprint_required,
+    "fingerprint_id": "$fingerprint_id",
+    "fingerprint_short": "$fingerprint_short"
   }
 }
 JSON

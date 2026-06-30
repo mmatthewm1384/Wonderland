@@ -79,6 +79,12 @@
       "motion": "dark-drift",
       "matrix": true,
       "message": "Voidwalk environment selected"
+    },
+    "purge-night": {
+      "intensity": 1.0,
+      "motion": "extreme-pulse",
+      "matrix": true,
+      "message": "Purge Night environment selected"
     }
   }
 }

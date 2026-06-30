@@ -1,7 +1,15 @@
 {
   "schema": "wonderland.chaos.foundation.model.v1",
-  "model": "calm",
-  "updated_at": "2026-06-30T04:04:49Z",
+  "model": "purge-night",
+  "updated_at": "2026-06-30T05:16:10Z",
   "source": "wl-chaos-model",
-  "status": "selected"
+  "status": "selected",
+  "authority": {
+    "lease_required": true,
+    "lease_verified": true,
+    "fingerprint_required": true,
+    "fingerprint_verified": true,
+    "fingerprint_id": "389c0c2a0336cedbdb8299e277d70a534639144665dfc250224f3489e1eb0a62",
+    "fingerprint_short": "389c0c2a0336"
+  }
 }
