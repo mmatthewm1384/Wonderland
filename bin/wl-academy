@@ -7,22 +7,19 @@ case "${1:-help}" in
   init)
     exec "$WL_ROOT/lib/academy/init.sh"
     ;;
-  path)
-    echo "$WL_ROOT/academy"
-    ;;
   doctor)
     exec "$WL_ROOT/lib/academy/doctor.sh"
+    ;;
+  path)
+    echo "$WL_ROOT/academy"
     ;;
   tree)
     find "$WL_ROOT/academy" -maxdepth 2 -type d | sort
     ;;
-  help|*)
-    cat <<'HELP'
-Usage:
-  wl-academy init     Initialize Wonderland Academy
-  wl-academy path     Print Academy path
-  wl-academy doctor   Verify Academy exists
-  wl-academy tree     Print Academy directory tree
-HELP
+  status|start|complete|progress|review|help)
+    exec "$WL_ROOT/lib/academy/cli.sh" "$@"
+    ;;
+  *)
+    exec "$WL_ROOT/lib/academy/cli.sh" help
     ;;
 esac

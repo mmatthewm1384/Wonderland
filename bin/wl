@@ -22,6 +22,11 @@ if [[ -f "$ROOT/lib/core/dispatch/engineering.sh" ]]; then
 fi
 
 case "${1:-}" in
+  academy)
+    shift || true
+    exec "$WL_ROOT/bin/wl-academy" "${@:-help}"
+    ;;
+
   mirror)
     shift
     exec "$WL_ROOT/bin/wl-mirror" "$@"
