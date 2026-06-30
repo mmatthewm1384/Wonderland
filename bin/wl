@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
 
 
 # Platform Core 2.2 dispatch
@@ -21,6 +22,10 @@ if [[ -f "$ROOT/lib/core/dispatch/engineering.sh" ]]; then
 fi
 
 case "${1:-}" in
+  mirror)
+    shift
+    exec "$WL_ROOT/bin/wl-mirror" "$@"
+    ;;
   migrate)
     shift
     . "${WL_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}/lib/migrate/cli.sh"
@@ -36,6 +41,10 @@ case "${1:-}" in
 esac
 
 case "${1:-}" in
+  mirror)
+    shift
+    exec "$WL_ROOT/bin/wl-mirror" "$@"
+    ;;
   architecture)
     shift
     . "${WL_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}/lib/architecture/cli.sh"
@@ -57,6 +66,10 @@ case "${1:-}" in
 esac
 
 case "${1:-}" in
+  mirror)
+    shift
+    exec "$WL_ROOT/bin/wl-mirror" "$@"
+    ;;
   doctor)
     shift
     . "${WL_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}/lib/doctor/cli.sh"
@@ -72,6 +85,10 @@ case "${1:-}" in
 esac
 
 case "${1:-}" in
+  mirror)
+    shift
+    exec "$WL_ROOT/bin/wl-mirror" "$@"
+    ;;
   chaos)
     shift
     exec "${WL_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}/bin/wl-chaos" "$@"
