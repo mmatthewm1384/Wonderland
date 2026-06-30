@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+import json
+import os
+import subprocess
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT = Path(os.environ.get("WL_HOME", str(Path.home() / "Wonderland")))
+REGISTRY = ROOT / "vault/chaos/environment-effects.json"
+MODEL_STATE = ROOT / "vault/chaos/foundation-model.json"
+ENV_STATE = ROOT / "vault/chaos/environment-state.json"
+AUDIT = ROOT / "vault/chaos/environment-audit.jsonl"
+VISUAL = ROOT / "ephemeral/bin/wl-visual-chaos"
+
+VALID = {"calm", "nudge", "drift", "storm", "blackout", "cataclysm", "recovery"}
+
+def now():
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+def load_json(path):
+    if not path.exists():
+        raise SystemExit(f"FAIL missing required file: {path}")
+    return json.loads(path.read_text())
+
+def audit(event, **fields):
+    AUDIT.parent.mkdir(parents=True, exist_ok=True)
+    obj = {"ts": now(), "event": event, **fields}
+    with AUDIT.open("a") as f:
+        f.write(json.dumps(obj, separators=(",", ":")) + "\n")
+
+def current_model():
+    if MODEL_STATE.exists():
+        data = load_json(MODEL_STATE)
+        model = data.get("model")
+        if model in VALID:
+            return model
+    return "calm"
+
+def apply(model):
+    registry = load_json(REGISTRY)
+    effects = registry.get("models", {}).get(model)
+    if not effects:
+        raise SystemExit(f"FAIL no environment effects for model: {model}")
+
+    ENV_STATE.parent.mkdir(parents=True, exist_ok=True)
+
+    state = {
+        "schema": "wonderland.chaos.environment.state.v1",
+        "model": model,
+        "updated_at": now(),
+        "effects": effects,
+        "status": "applied"
+    }
+
+    ENV_STATE.write_text(json.dumps(state, indent=2) + "\n")
+    audit("environment_applied", model=model, effects=effects)
+
+    print(f"PASS chaos environment applied: {model}")
+
+    if effects.get("matrix") is True:
+        if VISUAL.exists():
+            subprocess.run([str(VISUAL), "launch-all"], check=False)
+        else:
+            print(f"WARN missing visual launcher: {VISUAL}")
+    else:
+        print("PASS matrix visual layer inactive for this model")
+
+def main(argv):
+    action = argv[1] if len(argv) > 1 else "apply"
+
+    if action == "apply":
+        model = argv[2] if len(argv) > 2 else current_model()
+        if model not in VALID:
+            raise SystemExit(f"FAIL unknown chaos model: {model}")
+        apply(model)
+        return 0
+
+    if action == "status":
+        if ENV_STATE.exists():
+            print(ENV_STATE.read_text(), end="")
+        else:
+            print('{"active":false}')
+        return 0
+
+    if action == "registry":
+        print(REGISTRY.read_text(), end="")
+        return 0
+
+    raise SystemExit("Usage: wl-chaos-environment apply [model]|status|registry")
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv))

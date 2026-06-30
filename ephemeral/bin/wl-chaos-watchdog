@@ -140,8 +140,23 @@ EOF
   escalate)
     python3 "$WATCH" escalate
     ;;
+  model)
+    MODEL="${2:-}"
+    "$ROOT/bin/wl-chaos-model" "$MODEL"
+    ;;
+
+  environment)
+    shift
+    "$ROOT/bin/wl-chaos-environment" "$@"
+    ;;
+
+  calm|nudge|drift|storm|blackout|cataclysm|recovery)
+    "$ROOT/bin/wl-chaos-model" "${1:-}"
+    ;;
+
+
   *)
-    echo "Usage: wl-chaos-watchdog up|down|status|doctor|logs|repair|reset|aether-status|checkin|countdown|escalate|install-launchd|uninstall-launchd|launchd-status|launchd-restart"
+    echo "Usage: wl-chaos-watchdog up|down|status|doctor|logs|repair|reset|aether-status|checkin|countdown|escalate|model <calm|nudge|drift|storm|blackout|cataclysm|recovery>|calm|nudge|drift|storm|blackout|cataclysm|recovery|install-launchd|uninstall-launchd|launchd-status|launchd-restart"
     exit 2
     ;;
 esac
