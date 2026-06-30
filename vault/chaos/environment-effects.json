@@ -1,0 +1,48 @@
+{
+  "schema": "wonderland.chaos.environment.effects.v1",
+  "version": "1.0",
+  "models": {
+    "calm": {
+      "intensity": 0.1,
+      "motion": "low",
+      "matrix": false,
+      "message": "Calm environment selected"
+    },
+    "nudge": {
+      "intensity": 0.25,
+      "motion": "low",
+      "matrix": false,
+      "message": "Nudge environment selected"
+    },
+    "drift": {
+      "intensity": 0.45,
+      "motion": "medium",
+      "matrix": true,
+      "message": "Drift environment selected"
+    },
+    "storm": {
+      "intensity": 0.8,
+      "motion": "high",
+      "matrix": true,
+      "message": "Storm environment selected"
+    },
+    "blackout": {
+      "intensity": 0.95,
+      "motion": "high",
+      "matrix": true,
+      "message": "Blackout environment selected"
+    },
+    "cataclysm": {
+      "intensity": 1.0,
+      "motion": "maximum",
+      "matrix": true,
+      "message": "Cataclysm environment selected"
+    },
+    "recovery": {
+      "intensity": 0.15,
+      "motion": "low",
+      "matrix": false,
+      "message": "Recovery environment selected"
+    }
+  }
+}

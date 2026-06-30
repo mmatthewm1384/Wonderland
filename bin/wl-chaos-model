@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_HOME:-$HOME/Wonderland}"
+STATE="$ROOT/vault/chaos/foundation-model.json"
+AUDIT="$ROOT/vault/chaos/foundation-model-audit.jsonl"
+
+mkdir -p "$(dirname "$STATE")"
+
+MODEL="${1:-}"
+
+case "$MODEL" in
+  calm|nudge|drift|storm|blackout|cataclysm|recovery) ;;
+  "")
+    echo "FAIL missing chaos model"
+    exit 64
+    ;;
+  *)
+    echo "FAIL unknown chaos model: $MODEL"
+    exit 64
+    ;;
+esac
+
+NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+cat > "$STATE" <<JSON
+{
+  "schema": "wonderland.chaos.foundation.model.v1",
+  "model": "$MODEL",
+  "updated_at": "$NOW",
+  "source": "wl-chaos-model",
+  "status": "selected"
+}
+JSON
+
+printf '{"ts":"%s","event":"model_selected","model":"%s"}\n' "$NOW" "$MODEL" >> "$AUDIT"
+
+echo "PASS chaos foundation model selected: $MODEL"
+"$ROOT/bin/wl-chaos-environment" apply "$MODEL"
