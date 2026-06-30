@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_HOME:-$HOME/Wonderland}"
+REG="$ROOT/vault/chaos/model-registry.json"
+AUTH="$ROOT/vault/chaos/model-authority.json"
+
+jq '{
+  schema: "wonderland.chaos.model.authority.v1",
+  models: (
+    .models
+    | map({
+        key: .id,
+        value: {
+          lease_required: .lease_required,
+          fingerprint_required: .touch_id_required,
+          risk: .risk
+        }
+      })
+    | from_entries
+  )
+}' "$REG" > "$AUTH"
+
+echo "PASS synced model registry"
