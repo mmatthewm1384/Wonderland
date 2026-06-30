@@ -57,6 +57,7 @@ case "$ACTION" in
       "$now" "$INTENT" "$model" >> "$AUDIT"
 
     "$ROOT/bin/wl-chaos-model" "$model"
+"$ROOT/bin/wl-chaos-session" sync >/dev/null 2>&1 || true
     ;;
 
   *)
