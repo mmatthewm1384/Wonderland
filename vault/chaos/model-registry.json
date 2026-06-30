@@ -1,0 +1,19 @@
+{
+  "schema": "wonderland.chaos.model.registry.v1",
+  "models": [
+    { "id": "calm", "title": "Calm", "risk": 1, "lease_required": true, "touch_id_required": false },
+    { "id": "nudge", "title": "Nudge", "risk": 2, "lease_required": true, "touch_id_required": false },
+    { "id": "drift", "title": "Drift", "risk": 3, "lease_required": true, "touch_id_required": true },
+    { "id": "storm", "title": "Storm", "risk": 4, "lease_required": true, "touch_id_required": true },
+    { "id": "blackout", "title": "Blackout", "risk": 5, "lease_required": true, "touch_id_required": true },
+    { "id": "cataclysm", "title": "Cataclysm", "risk": 6, "lease_required": true, "touch_id_required": true },
+    { "id": "purge-night", "title": "Purge Night", "risk": 7, "lease_required": true, "touch_id_required": true },
+    { "id": "recovery", "title": "Recovery", "risk": 1, "lease_required": true, "touch_id_required": false },
+    { "id": "aether", "title": "Aether", "risk": 4, "lease_required": true, "touch_id_required": true },
+    { "id": "vortex", "title": "Vortex", "risk": 5, "lease_required": true, "touch_id_required": true },
+    { "id": "singularity", "title": "Singularity", "risk": 6, "lease_required": true, "touch_id_required": true },
+    { "id": "neon-ritual", "title": "Neon Ritual", "risk": 4, "lease_required": true, "touch_id_required": true },
+    { "id": "dreamfield", "title": "Dreamfield", "risk": 3, "lease_required": true, "touch_id_required": true },
+    { "id": "voidwalk", "title": "Voidwalk", "risk": 5, "lease_required": true, "touch_id_required": true }
+  ]
+}
