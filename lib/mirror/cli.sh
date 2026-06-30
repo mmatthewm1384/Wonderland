@@ -26,6 +26,7 @@ build/
 dist/
 .cache/
 tmp/
+persistence/
 EOF_EXCLUDES
 }
 
@@ -75,7 +76,8 @@ mirror_inventory() {
     -o -path "*/build" \
     -o -path "*/dist" \
     -o -path "*/.cache" \
-    -o -path "*/tmp" \) -prune \
+    -o -path "*/tmp" \
+    -o -path "*/persistence" \) -prune \
     -o -type f -print | sort
 }
 
@@ -212,6 +214,36 @@ mirror_verify() {
   fi
 }
 
+mirror_clean_stale() {
+  mirror_requirements
+
+  local stale_roots=(
+    "$MIRROR_DEST/persistence"
+  )
+
+  echo "Mirror Clean Stale"
+  echo
+
+  for path in "${stale_roots[@]}"; do
+    if [[ -e "$path" ]]; then
+      echo "STALE root found: $path"
+      du -sh "$path" || true
+      echo "Removing: $path"
+      rm -rf "$path"
+    else
+      echo "OK not present: $path"
+    fi
+  done
+
+  echo
+  echo "Running verify after stale cleanup..."
+  mirror_verify || true
+
+  echo
+  echo "If verify still warns, inspect:"
+  echo "$LATEST_DIFF"
+}
+
 mirror_restore() {
   mirror_requirements
 
@@ -232,9 +264,10 @@ mirror_main() {
     diff) mirror_diff ;;
     update) mirror_update ;;
     verify) mirror_verify ;;
+    clean-stale) mirror_clean_stale ;;
     restore) mirror_restore ;;
     *)
-      echo "Usage: wl mirror {attach|eject|status|diff|update|verify|restore}"
+      echo "Usage: wl mirror {attach|eject|status|diff|update|verify|clean-stale|restore}"
       return 64
       ;;
   esac
