@@ -1,81 +1,32 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="${WL_ROOT:-$HOME/Wonderland}"
-CHAOS="$ROOT/vault/chaos"
-CONTRACT="$CHAOS/visual-chaos-contract.json"
-AETHER="$CHAOS/chaos-aether.json"
-
-mkdir -p "$CHAOS"
-
-write_contract() {
-python3 - "$CONTRACT" "$AETHER" <<'PY'
-import json, sys
-from datetime import datetime, timezone
-from pathlib import Path
-
-contract = Path(sys.argv[1])
-aether = Path(sys.argv[2])
-active = aether.exists()
-now = datetime.now(timezone.utc).isoformat()
-
-payload = {
-  "version": "1.0",
-  "updated_at": now,
-  "chaos_active": active,
-  "apps": {
-    "wl-spin-city": {
-      "rings": 5 if active else 3,
-      "rotation_speed": 2.0 if active else 1.0,
-      "easing": "extreme" if active else "normal",
-      "jitter": 2.0 if active else 0.35
-    },
-    "wl-agitate": {
-      "intensity": 2.0 if active else 0.6,
-      "mode": "hybrid-max-jitter" if active else "normal",
-      "trail_decay": "slow" if active else "normal"
-    },
-    "wl-matrix": {
-      "particles": 10000 if active else 1200,
-      "living_ratio": 0.9 if active else 0.35,
-      "waste_decay": "slow" if active else "normal",
-      "slam_force": 2.0 if active else 0.7
-    }
-  }
-}
-
-contract.write_text(json.dumps(payload, indent=2, sort_keys=True))
-print(contract)
-PY
-}
+ROOT="${WL_HOME:-$HOME/Wonderland}"
+AUDIT="$ROOT/vault/chaos/visual-chaos-audit.jsonl"
+APP_DIR="$ROOT/releases/the-matrix"
+mkdir -p "$(dirname "$AUDIT")"
 
 launch_app() {
   local app="$1"
   if [[ -d "$app" ]]; then
     open "$app" || true
+    echo "PASS launched: $app"
   else
     echo "WARN missing app: $app"
   fi
 }
 
-case "${1:-status}" in
-  write-contract)
-    write_contract
-    ;;
-  launch-all)
-    write_contract >/dev/null
-    export WL_CHAOS_CONTRACT="$CONTRACT"
-    export WL_CHAOS_ACTIVE=true
-    launch_app "$ROOT/apps/macos/DISABLED-Spin City Wave.app"
-    launch_app "$ROOT/apps/macos/DISABLED-Agitate Waves.app"
-    launch_app "$ROOT/apps/macos/DISABLED-Matrix Atom Destroyer.app"
-    ;;
-  status)
-    write_contract >/dev/null
-    cat "$CONTRACT"
+case "${1:-launch-all}" in
+  launch-all|up|start)
+    launch_app "$APP_DIR/Spin City Wave.app"
+    launch_app "$APP_DIR/Agitate Waves.app"
+    launch_app "$APP_DIR/Matrix Atom Destroyer.app"
     ;;
   *)
-    echo "Usage: wl-visual-chaos write-contract|launch-all|status"
-    exit 2
+    echo "Usage: wl-visual-chaos launch-all"
+    exit 64
     ;;
 esac
+
+NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+printf '{"ts":"%s","event":"visual_chaos_launch","surface":"the-matrix"}\n' "$NOW" >> "$AUDIT"
