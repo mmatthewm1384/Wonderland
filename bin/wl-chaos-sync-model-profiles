@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_HOME:-$HOME/Wonderland}"
+MODELS="$ROOT/vault/chaos/models"
+REG="$ROOT/vault/chaos/model-registry.json"
+AUTH="$ROOT/vault/chaos/model-authority.json"
+EFFECTS="$ROOT/vault/chaos/environment-effects.json"
+
+jq -s '{
+  schema: "wonderland.chaos.model.registry.v1",
+  models: map({
+    id,
+    title,
+    risk: .authority.risk,
+    lease_required: .authority.lease_required,
+    touch_id_required: .authority.touch_id_required
+  })
+}' "$MODELS"/*.json > "$REG"
+
+jq -s '{
+  schema: "wonderland.chaos.model.authority.v1",
+  models: (
+    map({
+      key: .id,
+      value: {
+        lease_required: .authority.lease_required,
+        fingerprint_required: .authority.touch_id_required,
+        risk: .authority.risk
+      }
+    }) | from_entries
+  )
+}' "$MODELS"/*.json > "$AUTH"
+
+jq -s '{
+  schema: "wonderland.chaos.environment.effects.v1",
+  version: "2.0",
+  models: (
+    map({
+      key: .id,
+      value: .environment
+    }) | from_entries
+  )
+}' "$MODELS"/*.json > "$EFFECTS"
+
+echo "PASS synced chaos model profiles"

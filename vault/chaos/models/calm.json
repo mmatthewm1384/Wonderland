@@ -1,0 +1,23 @@
+{
+  "schema": "wonderland.chaos.model.profile.v1",
+  "id": "calm",
+  "title": "Calm",
+  "authority": {
+    "lease_required": true,
+    "touch_id_required": false,
+    "risk": 1
+  },
+  "environment": {
+    "intensity": 0.1,
+    "motion": "low",
+    "matrix": false,
+    "message": "Calm environment selected",
+    "controllers": [
+      "menubar"
+    ]
+  },
+  "ui": {
+    "icon": "\u25c7",
+    "lock": false
+  }
+}

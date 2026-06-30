@@ -1,0 +1,24 @@
+{
+  "schema": "wonderland.chaos.model.profile.v1",
+  "id": "neon-ritual",
+  "title": "Neon Ritual",
+  "authority": {
+    "lease_required": true,
+    "touch_id_required": true,
+    "risk": 4
+  },
+  "environment": {
+    "intensity": 0.75,
+    "motion": "pulse",
+    "matrix": true,
+    "message": "Neon Ritual environment selected",
+    "controllers": [
+      "matrix",
+      "menubar"
+    ]
+  },
+  "ui": {
+    "icon": "\u25c6",
+    "lock": true
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schema": "wonderland.chaos.model.profile.v1",
+  "id": "nudge",
+  "title": "Nudge",
+  "authority": {
+    "lease_required": true,
+    "touch_id_required": false,
+    "risk": 2
+  },
+  "environment": {
+    "intensity": 0.25,
+    "motion": "low",
+    "matrix": false,
+    "message": "Nudge environment selected",
+    "controllers": [
+      "menubar"
+    ]
+  },
+  "ui": {
+    "icon": "\u25c7",
+    "lock": false
+  }
+}
