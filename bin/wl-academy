@@ -11,12 +11,7 @@ case "${1:-help}" in
     echo "$WL_ROOT/academy"
     ;;
   doctor)
-    if [[ -d "$WL_ROOT/academy" && -f "$WL_ROOT/academy/README.md" ]]; then
-      echo "PASS academy exists: $WL_ROOT/academy"
-    else
-      echo "FAIL academy missing or incomplete: $WL_ROOT/academy" >&2
-      exit 1
-    fi
+    exec "$WL_ROOT/lib/academy/doctor.sh"
     ;;
   tree)
     find "$WL_ROOT/academy" -maxdepth 2 -type d | sort
