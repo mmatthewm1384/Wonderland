@@ -1,0 +1,7 @@
+{"ts":"2026-06-30T04:03:16Z","event":"environment_applied","model":"calm","effects":{"intensity":0.1,"motion":"low","matrix":false,"message":"Calm environment selected"}}
+{"ts":"2026-06-30T04:03:16Z","event":"environment_applied","model":"drift","effects":{"intensity":0.45,"motion":"medium","matrix":true,"message":"Drift environment selected"}}
+{"ts":"2026-06-30T04:03:16Z","event":"environment_applied","model":"storm","effects":{"intensity":0.8,"motion":"high","matrix":true,"message":"Storm environment selected"}}
+{"ts":"2026-06-30T04:04:25Z","event":"environment_applied","model":"calm","effects":{"intensity":0.1,"motion":"low","matrix":false,"message":"Calm environment selected"}}
+{"ts":"2026-06-30T04:04:25Z","event":"environment_applied","model":"drift","effects":{"intensity":0.45,"motion":"medium","matrix":true,"message":"Drift environment selected"}}
+{"ts":"2026-06-30T04:04:26Z","event":"environment_applied","model":"storm","effects":{"intensity":0.8,"motion":"high","matrix":true,"message":"Storm environment selected"}}
+{"ts":"2026-06-30T04:04:49Z","event":"environment_applied","model":"calm","effects":{"intensity":0.1,"motion":"low","matrix":false,"message":"Calm environment selected"}}

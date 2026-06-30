@@ -9,7 +9,7 @@ AUDIT="$ROOT/vault/chaos/foundation-model-audit.jsonl"
 AUTH="$ROOT/vault/chaos/model-authority.json"
 
 case "$MODEL" in
-  calm|nudge|drift|storm|blackout|cataclysm|recovery) ;;
+  calm|nudge|drift|storm|blackout|cataclysm|recovery|aether|vortex|singularity|neon-ritual|dreamfield|voidwalk) ;;
   "") echo "FAIL missing chaos model"; exit 64 ;;
   *) echo "FAIL unknown chaos model: $MODEL"; exit 64 ;;
 esac

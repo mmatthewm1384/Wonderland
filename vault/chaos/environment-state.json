@@ -1,0 +1,12 @@
+{
+  "schema": "wonderland.chaos.environment.state.v1",
+  "model": "calm",
+  "updated_at": "2026-06-30T04:04:49Z",
+  "effects": {
+    "intensity": 0.1,
+    "motion": "low",
+    "matrix": false,
+    "message": "Calm environment selected"
+  },
+  "status": "applied"
+}

@@ -1,0 +1,16 @@
+{"ts":"2026-06-30T03:52:04Z","event":"model_selected","model":"calm"}
+{"ts":"2026-06-30T03:52:04Z","event":"model_selected","model":"nudge"}
+{"ts":"2026-06-30T03:52:04Z","event":"model_selected","model":"storm"}
+{"ts":"2026-06-30T03:53:01Z","event":"model_selected","model":"calm"}
+{"ts":"2026-06-30T03:53:01Z","event":"model_selected","model":"storm"}
+{"ts":"2026-06-30T03:55:42Z","event":"model_selected","model":"calm"}
+{"ts":"2026-06-30T03:55:42Z","event":"model_selected","model":"storm"}
+{"ts":"2026-06-30T03:59:15Z","event":"model_selected","model":"storm"}
+{"ts":"2026-06-30T04:00:33Z","event":"model_selected","model":"storm"}
+{"ts":"2026-06-30T04:03:15Z","event":"model_selected","model":"calm"}
+{"ts":"2026-06-30T04:03:16Z","event":"model_selected","model":"drift"}
+{"ts":"2026-06-30T04:03:16Z","event":"model_selected","model":"storm"}
+{"ts":"2026-06-30T04:04:25Z","event":"model_selected","model":"calm"}
+{"ts":"2026-06-30T04:04:25Z","event":"model_selected","model":"drift"}
+{"ts":"2026-06-30T04:04:26Z","event":"model_selected","model":"storm"}
+{"ts":"2026-06-30T04:04:49Z","event":"model_selected","model":"calm"}

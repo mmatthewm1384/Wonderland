@@ -43,6 +43,42 @@
       "motion": "low",
       "matrix": false,
       "message": "Recovery environment selected"
+    },
+    "aether": {
+      "intensity": 0.7,
+      "motion": "fluid",
+      "matrix": true,
+      "message": "Aether environment selected"
+    },
+    "vortex": {
+      "intensity": 0.9,
+      "motion": "spiral",
+      "matrix": true,
+      "message": "Vortex environment selected"
+    },
+    "singularity": {
+      "intensity": 1.0,
+      "motion": "collapse",
+      "matrix": true,
+      "message": "Singularity environment selected"
+    },
+    "neon-ritual": {
+      "intensity": 0.75,
+      "motion": "pulse",
+      "matrix": true,
+      "message": "Neon Ritual environment selected"
+    },
+    "dreamfield": {
+      "intensity": 0.5,
+      "motion": "slow-wave",
+      "matrix": true,
+      "message": "Dreamfield environment selected"
+    },
+    "voidwalk": {
+      "intensity": 0.85,
+      "motion": "dark-drift",
+      "matrix": true,
+      "message": "Voidwalk environment selected"
     }
   }
 }
