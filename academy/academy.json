@@ -1,0 +1,12 @@
+{
+  "version": "0.1.0",
+  "name": "Wonderland Academy",
+  "current_day": 1,
+  "total_days": 365,
+  "current_module": "Foundations",
+  "lessons_completed": 0,
+  "labs_completed": 0,
+  "quiz_average": null,
+  "current_streak": 0,
+  "next_lesson": "Binary Numbers"
+}
