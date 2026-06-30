@@ -387,6 +387,54 @@ PY
   echo "Journal: $journal"
 }
 
+cmd_inventory() {
+  require_state
+
+  local lessons labs quizzes journals
+  lessons="$(find "$ACADEMY/02-lessons" -type f -name 'day-*.md' | wc -l | tr -d ' ')"
+  labs="$(find "$ACADEMY/03-labs" -type f -name 'lab-*.md' | wc -l | tr -d ' ')"
+  quizzes="$(find "$ACADEMY/07-quizzes" -type f -name 'quiz-*.md' | wc -l | tr -d ' ')"
+  journals="$(find "$ACADEMY/09-progress/journal" -type f -name 'day-*.md' 2>/dev/null | wc -l | tr -d ' ')"
+
+  echo "Wonderland Academy Inventory"
+  echo
+  printf "Lessons .............. %s\n" "$lessons"
+  printf "Labs ................. %s\n" "$labs"
+  printf "Quizzes .............. %s\n" "$quizzes"
+  printf "Journals ............. %s\n" "$journals"
+}
+
+cmd_report() {
+  require_state
+
+  local report_dir report
+  report_dir="$ACADEMY/09-progress/reviews"
+  report="$report_dir/academy-report-$(date +%Y%m%d-%H%M%S).md"
+
+  mkdir -p "$report_dir"
+
+  {
+    echo "# Wonderland Academy Report"
+    echo
+    echo "Generated: $(date)"
+    echo
+    echo "## Status"
+    echo
+    wl academy status
+    echo
+    echo "## Inventory"
+    echo
+    wl academy inventory
+    echo
+    echo "## Certification"
+    echo
+    wl academy certify
+  } > "$report"
+
+  echo "PASS report generated: $report"
+}
+
+
 cmd_certify() {
   require_state
 
@@ -483,6 +531,8 @@ Usage:
   wl academy build              Suggest today's Wonderland build task
   wl academy complete           Mark current lesson complete
   wl academy progress           Show progress
+  wl academy inventory          Show Academy content inventory
+  wl academy report             Generate Academy report
   wl academy review             Show review summary
   wl academy certify            Certify Academy phase 1
   wl academy generate year-1    Generate year-one lesson/lab/quiz scaffolds
@@ -501,6 +551,8 @@ case "${1:-help}" in
   generate) shift || true; cmd_generate "${1:-year-1}" ;;
   complete) cmd_complete ;;
   progress) cmd_progress ;;
+  inventory) cmd_inventory ;;
+  report) cmd_report ;;
   review) cmd_review ;;
   certify) cmd_certify ;;
   help|*) cmd_help ;;
