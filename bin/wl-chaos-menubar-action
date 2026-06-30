@@ -29,6 +29,14 @@ mkdir -p "$(dirname "$LOG")"
       wl-chaos model "$ARG"
       ;;
 
+    intent)
+      if [[ -z "$ARG" ]]; then
+        echo "FAIL missing chaos intent"
+        exit 64
+      fi
+      wl-chaos intent apply "$ARG"
+      ;;
+
     calm|nudge|drift|storm|blackout|cataclysm|recovery)
       wl-chaos model "$ACTION"
       ;;

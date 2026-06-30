@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_HOME:-$HOME/Wonderland}"
+STATE="$ROOT/vault/chaos/environment-state.json"
+AUDIT="$ROOT/vault/chaos/environment-controller-audit.jsonl"
+CONTROLLERS_DIR="$ROOT/lib/chaos/controllers"
+
+mkdir -p "$(dirname "$AUDIT")"
+
+run_controller() {
+  local name="$1"
+  local path="$CONTROLLERS_DIR/$name.sh"
+
+  if [[ ! -x "$path" ]]; then
+    echo "WARN missing controller: $name"
+    return 0
+  fi
+
+  if "$path"; then
+    printf '{"ts":"%s","event":"controller_applied","controller":"%s","ok":true}\n' \
+      "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$name" >> "$AUDIT"
+  else
+    printf '{"ts":"%s","event":"controller_failed","controller":"%s","ok":false}\n' \
+      "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$name" >> "$AUDIT"
+    return 1
+  fi
+}
+
+selected_controllers() {
+  jq -r '.effects.controllers[]? // empty' "$STATE" 2>/dev/null
+}
+
+case "${1:-apply}" in
+  apply)
+    controllers="$(selected_controllers)"
+
+    if [[ -z "$controllers" ]]; then
+      controllers="menubar"
+    fi
+
+    while IFS= read -r controller; do
+      [[ -z "$controller" ]] && continue
+      run_controller "$controller"
+    done <<< "$controllers"
+    ;;
+
+  list)
+    find "$CONTROLLERS_DIR" -maxdepth 1 -type f -name '*.sh' -exec basename {} .sh \; | sort
+    ;;
+
+  metadata)
+    jq -s '.' "$CONTROLLERS_DIR"/*.meta.json
+    ;;
+
+  *)
+    echo "Usage: wl-chaos-controllers apply|list|metadata"
+    exit 64
+    ;;
+esac

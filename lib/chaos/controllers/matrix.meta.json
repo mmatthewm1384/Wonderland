@@ -1,0 +1,6 @@
+{
+  "schema": "wonderland.chaos.controller.meta.v1",
+  "name": "matrix",
+  "capabilities": ["visuals", "motion", "energy"],
+  "risk_surface": "visual-environment"
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "wonderland.chaos.intent.registry.v1",
+  "intents": [
+    {
+      "id": "focus",
+      "title": "Focus",
+      "model": "vortex",
+      "description": "Enter a high-focus controlled environment."
+    },
+    {
+      "id": "create",
+      "title": "Create",
+      "model": "dreamfield",
+      "description": "Enter a creative ideation environment."
+    },
+    {
+      "id": "recover",
+      "title": "Recover",
+      "model": "recovery",
+      "description": "Lower intensity and return to safe baseline."
+    },
+    {
+      "id": "escalate",
+      "title": "Escalate",
+      "model": "storm",
+      "description": "Increase pressure and environmental energy."
+    },
+    {
+      "id": "purge",
+      "title": "Purge",
+      "model": "purge-night",
+      "description": "Maximum controlled escalation."
+    },
+    {
+      "id": "singularity",
+      "title": "Singularity",
+      "model": "singularity",
+      "description": "Enter immersive single-purpose mode."
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_HOME:-$HOME/Wonderland}"
+STATE="$ROOT/vault/chaos/intent-state.json"
+
+jq -r '.title // "None"' "$STATE" 2>/dev/null || echo "None"

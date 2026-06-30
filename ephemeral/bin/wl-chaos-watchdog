@@ -150,6 +150,11 @@ EOF
     "$ROOT/bin/wl-chaos-environment" "$@"
     ;;
 
+  intent)
+    shift
+    "$ROOT/bin/wl-chaos-intent" "$@"
+    ;;
+
   calm|nudge|drift|storm|blackout|cataclysm|recovery|aether|vortex|singularity|neon-ritual|dreamfield|voidwalk|purge-night)
     "$ROOT/bin/wl-chaos-model" "${1:-}"
     ;;

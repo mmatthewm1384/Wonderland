@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_HOME:-$HOME/Wonderland}"
+REG="$ROOT/vault/chaos/intent-registry.json"
+AUDIT="$ROOT/vault/chaos/intent-audit.jsonl"
+STATE="$ROOT/vault/chaos/intent-state.json"
+
+ACTION="${1:-}"
+INTENT="${2:-}"
+
+mkdir -p "$(dirname "$AUDIT")"
+
+case "$ACTION" in
+  list)
+    jq -r '.intents[] | "\(.id)\t\(.title)\t→ \(.model)"' "$REG"
+    ;;
+
+  show)
+    jq --arg id "$INTENT" '.intents[] | select(.id==$id)' "$REG"
+    ;;
+
+  apply)
+    if [[ -z "$INTENT" ]]; then
+      echo "FAIL missing intent"
+      exit 64
+    fi
+
+    model="$(jq -r --arg id "$INTENT" '.intents[] | select(.id==$id) | .model' "$REG")"
+
+    if [[ -z "$model" || "$model" == "null" ]]; then
+      echo "FAIL unknown intent: $INTENT"
+      exit 64
+    fi
+
+    title="$(jq -r --arg id "$INTENT" '.intents[] | select(.id==$id) | .title' "$REG")"
+    description="$(jq -r --arg id "$INTENT" '.intents[] | select(.id==$id) | .description' "$REG")"
+    now="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+    jq -n \
+      --arg ts "$now" \
+      --arg intent "$INTENT" \
+      --arg title "$title" \
+      --arg model "$model" \
+      --arg description "$description" \
+      '{
+        schema: "wonderland.chaos.intent.state.v1",
+        intent: $intent,
+        title: $title,
+        model: $model,
+        description: $description,
+        updated_at: $ts,
+        status: "applied"
+      }' > "$STATE"
+
+    printf '{"ts":"%s","event":"intent_applied","intent":"%s","model":"%s"}\n' \
+      "$now" "$INTENT" "$model" >> "$AUDIT"
+
+    "$ROOT/bin/wl-chaos-model" "$model"
+    ;;
+
+  *)
+    echo "Usage: wl-chaos-intent list|show <intent>|apply <intent>"
+    exit 64
+    ;;
+esac
