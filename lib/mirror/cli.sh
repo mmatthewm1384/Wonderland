@@ -27,6 +27,9 @@ dist/
 .cache/
 tmp/
 persistence/
+vault/08-Operations/replication/history/
+vault/08-Operations/replication/logs/
+vault/08-Operations/replication/manifests/
 EOF_EXCLUDES
 }
 
@@ -77,8 +80,11 @@ mirror_inventory() {
     -o -path "*/dist" \
     -o -path "*/.cache" \
     -o -path "*/tmp" \
-    -o -path "*/persistence" \) -prune \
-    -o -type f -print | sort
+    -o -path "*/persistence" \
+    -o -path "*/vault/08-Operations/replication/history" \
+    -o -path "*/vault/08-Operations/replication/logs" \
+    -o -path "*/vault/08-Operations/replication/manifests" \) -prune \
+    -o -type f ! -name ".DS_Store" -print | sort
 }
 
 mirror_status() {
