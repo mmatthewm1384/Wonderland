@@ -30,6 +30,10 @@ persistence/
 vault/08-Operations/replication/history/
 vault/08-Operations/replication/logs/
 vault/08-Operations/replication/manifests/
+runtime/
+vault/09-Timeline/
+*.log
+*.jsonl
 EOF_EXCLUDES
 }
 
@@ -83,8 +87,10 @@ mirror_inventory() {
     -o -path "*/persistence" \
     -o -path "*/vault/08-Operations/replication/history" \
     -o -path "*/vault/08-Operations/replication/logs" \
-    -o -path "*/vault/08-Operations/replication/manifests" \) -prune \
-    -o -type f ! -name ".DS_Store" -print | sort
+    -o -path "*/vault/08-Operations/replication/manifests" \
+    -o -path "*/runtime" \
+    -o -path "*/vault/09-Timeline" \) -prune \
+    -o -type f ! -name ".DS_Store" ! -name "*.log" ! -name "*.jsonl" -print | sort
 }
 
 mirror_status() {
