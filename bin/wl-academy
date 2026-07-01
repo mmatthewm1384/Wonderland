@@ -14,6 +14,9 @@ case "${1:-help}" in
     shift || true
     exec "$WL_ROOT/lib/academy/release.sh" "${1:-0.3.0}"
     ;;
+  baseline)
+    exec "$WL_ROOT/lib/academy/baseline.sh"
+    ;;
   path)
     echo "$WL_ROOT/academy"
     ;;
