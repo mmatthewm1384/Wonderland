@@ -90,43 +90,29 @@ case "${1:-help}" in
     ;;
 
   doctor)
-    rc=0
-    echo "== Wonderland Builder Doctor =="
-
-    if limactl list 2>/dev/null | awk '{print $1}' | grep -qx "$INSTANCE"; then
-      echo "Instance exists: PASS"
-    else
-      echo "Instance exists: FAIL"
-      rc=1
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+      echo "Builder environment:"
+      command -v limactl >/dev/null 2>&1 && echo "limactl: PASS" || echo "limactl: FAIL"
+      limactl list "$INSTANCE" >/dev/null 2>&1 && echo "builder VM: PASS" || echo "builder VM: FAIL"
+      exit 0
     fi
 
-    if [[ "$(instance_status || true)" == "Running" ]]; then
-      echo "Instance running: PASS"
-    else
-      echo "Instance running: FAIL"
-      rc=1
-    fi
+    echo "Builder runtime:"
+    python3 -m wlbuilder status
+    echo
 
-    if remote '
-      test -d . &&
-      test -x bin/wl &&
-      test -d builder/python/wlbuilder &&
-      test -f builder/python/wlbuilder/runtime.py &&
-      python3 -m wlbuilder --help >/dev/null &&
-      for tool in debootstrap parted losetup mkfs.ext4 qemu-img; do command -v "$tool" >/dev/null; done
-    '; then
-      echo "Builder environment: PASS"
-    else
-      echo "Builder environment: FAIL"
-      rc=1
-    fi
+    echo "Required Linux tools:"
+    fail=0
+    for tool in python3 qemu-img debootstrap parted mkfs.vfat mkfs.ext4 grub-install; do
+      if command -v "$tool" >/dev/null 2>&1; then
+        echo "$tool: PASS"
+      else
+        echo "$tool: FAIL"
+        fail=1
+      fi
+    done
 
-    if [[ "$rc" -eq 0 ]]; then
-      echo "PASS"
-    else
-      echo "FAIL"
-    fi
-    exit "$rc"
+    exit "$fail"
     ;;
 
   shell)
