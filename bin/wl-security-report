@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+run_json_or_error() {
+  local name="$1"
+  shift
+
+  if output="$("$@" 2>&1)"; then
+    python3 - "$name" pass "$output" <<'PY'
+import json, sys
+print(json.dumps({
+  "name": sys.argv[1],
+  "status": sys.argv[2],
+  "output": sys.argv[3][-4000:]
+}))
+PY
+  else
+    rc=$?
+    python3 - "$name" fail "$output" "$rc" <<'PY'
+import json, sys
+print(json.dumps({
+  "name": sys.argv[1],
+  "status": sys.argv[2],
+  "exit_code": int(sys.argv[4]),
+  "output": sys.argv[3][-4000:]
+}))
+PY
+  fi
+}
+
+now="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+
+audit="$(run_json_or_error audit bin/wl audit report)"
+audit_verify="$(run_json_or_error audit_verify bin/wl audit verify)"
+permissions="$(run_json_or_error permissions bin/wl permissions report)"
+permissions_verify="$(run_json_or_error permissions_verify bin/wl permissions verify)"
+secrets="$(run_json_or_error secrets bin/wl secrets report)"
+secrets_verify="$(run_json_or_error secrets_verify bin/wl secrets verify)"
+identity="$(run_json_or_error identity bin/wl identity report)"
+identity_verify="$(run_json_or_error identity_verify bin/wl identity verify)"
+integrity="$(run_json_or_error integrity bin/wl integrity report)"
+integrity_verify="$(run_json_or_error integrity_verify bin/wl integrity verify)"
+firewall="$(run_json_or_error firewall bin/wl firewall report)"
+firewall_verify="$(run_json_or_error firewall_verify bin/wl firewall verify)"
+certificates="$(run_json_or_error certificates bin/wl certificates report)"
+certificates_verify="$(run_json_or_error certificates_verify bin/wl certificates verify)"
+encryption="$(run_json_or_error encryption bin/wl encryption report)"
+encryption_verify="$(run_json_or_error encryption_verify bin/wl encryption verify)"
+
+if [[ -x bin/wl-mirror-report ]]; then
+  mirror="$(run_json_or_error mirror bin/wl-mirror-report)"
+else
+  mirror='{"name":"mirror","status":"warn","output":"bin/wl-mirror-report not found"}'
+fi
+
+python3 - "$now" "$audit" "$audit_verify" "$permissions" "$permissions_verify" "$secrets" "$secrets_verify" "$identity" "$identity_verify" "$integrity" "$integrity_verify" "$firewall" "$firewall_verify" "$certificates" "$certificates_verify" "$encryption" "$encryption_verify" "$mirror" <<'PY'
+import json, sys
+
+checks = [json.loads(x) for x in sys.argv[2:]]
+overall = "pass" if all(c["status"] == "pass" for c in checks) else "warn"
+
+print(json.dumps({
+  "component": "wonderland-security",
+  "generated_at": sys.argv[1],
+  "overall": overall,
+  "checks": checks
+}, indent=2))
+PY

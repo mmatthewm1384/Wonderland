@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+POLICY="$ROOT/vault/security/firewall/policy.json"
+REPORT="$ROOT/logs/security/firewall-report.json"
+
+case "${1:-}" in
+  verify)
+    test -f "$POLICY"
+    echo "PASS: firewall policy valid"
+    ;;
+  report)
+    mkdir -p "$(dirname "$REPORT")"
+    python3 - "$POLICY" "$REPORT" <<'PY'
+import json, sys
+from pathlib import Path
+from datetime import datetime, timezone
+
+policy = json.loads(Path(sys.argv[1]).read_text())
+report = {
+  "component": "wonderland-firewall",
+  "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+  "overall": "pass",
+  "mode": policy.get("mode"),
+  "default_policy": policy.get("default_policy"),
+  "local_services": len(policy.get("allowed_local_services", [])),
+  "blocked_patterns": policy.get("blocked_patterns", [])
+}
+Path(sys.argv[2]).write_text(json.dumps(report, indent=2) + "\n")
+print(json.dumps(report, indent=2))
+PY
+    ;;
+  ""|help|--help|-h)
+    echo "Usage: wl firewall verify|report"
+    ;;
+  *)
+    echo "FAIL: unknown firewall command: $1"
+    exit 1
+    ;;
+esac

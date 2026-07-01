@@ -1,92 +1,198 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
-AUDIT="$WL_ROOT/vault/registry/audit/audit-chain.log"
-mkdir -p "$(dirname "$AUDIT")"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+LOG="$ROOT/logs/security/audit.jsonl"
+POLICY="$ROOT/vault/security/audit-policy.json"
 
-hash_line() {
-  printf '%s' "$1" | shasum -a 256 | awk '{print $1}'
+mkdir -p "$(dirname "$LOG")" "$(dirname "$POLICY")"
+
+usage() {
+  cat <<'EOF'
+Usage:
+  wl audit log <event> [--status pass|fail|warn|info] [--message text]
+  wl audit tail [lines]
+  wl audit verify
+  wl audit report
+EOF
 }
 
-last_hash() {
-  if [ -s "$AUDIT" ]; then
-    tail -1 "$AUDIT" | python3 -c 'import json,sys; print(json.loads(sys.stdin.read())["hash"])'
-  else
-    echo "GENESIS"
+json_escape() {
+  python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().rstrip("\n")))'
+}
+
+cmd_log() {
+  local event="${1:-}"
+  shift || true
+
+  if [[ -z "$event" ]]; then
+    echo "FAIL: event required"
+    exit 1
   fi
+
+  local status="info"
+  local message=""
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --status)
+        status="${2:-}"
+        shift 2
+        ;;
+      --message)
+        message="${2:-}"
+        shift 2
+        ;;
+      *)
+        echo "FAIL: unknown option: $1"
+        exit 1
+        ;;
+    esac
+  done
+
+  case "$status" in
+    pass|fail|warn|info) ;;
+    *)
+      echo "FAIL: invalid status: $status"
+      exit 1
+      ;;
+  esac
+
+  local timestamp actor host cwd
+  timestamp="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+  actor="${USER:-unknown}"
+  host="$(hostname)"
+  cwd="$(pwd)"
+
+  python3 - "$LOG" "$timestamp" "$event" "$status" "$actor" "$host" "$cwd" "$message" <<'PY'
+import json
+import os
+import sys
+
+log, timestamp, event, status, actor, host, cwd, message = sys.argv[1:]
+
+record = {
+    "timestamp": timestamp,
+    "event": event,
+    "status": status,
+    "actor": actor,
+    "host": host,
+    "cwd": cwd,
+}
+
+if message:
+    record["message"] = message
+
+with open(log, "a", encoding="utf-8") as f:
+    f.write(json.dumps(record, sort_keys=True) + "\n")
+
+print("PASS: audit event recorded")
+PY
+}
+
+cmd_tail() {
+  local lines="${1:-25}"
+  tail -n "$lines" "$LOG"
+}
+
+cmd_verify() {
+  python3 - "$LOG" "$POLICY" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+log = Path(sys.argv[1])
+policy = Path(sys.argv[2])
+
+if not policy.exists():
+    raise SystemExit("FAIL: missing audit policy")
+
+if not log.exists():
+    raise SystemExit("FAIL: missing audit log")
+
+required = json.loads(policy.read_text())["required_fields"]
+allowed = set(json.loads(policy.read_text())["allowed_status"])
+
+count = 0
+errors = []
+
+for i, line in enumerate(log.read_text().splitlines(), start=1):
+    if not line.strip():
+        continue
+
+    try:
+        record = json.loads(line)
+    except Exception as e:
+        errors.append(f"line {i}: invalid JSON: {e}")
+        continue
+
+    for field in required:
+        if field not in record:
+            errors.append(f"line {i}: missing field {field}")
+
+    if record.get("status") not in allowed:
+        errors.append(f"line {i}: invalid status {record.get('status')}")
+
+    count += 1
+
+if errors:
+    print("FAIL: audit verification failed")
+    for error in errors:
+        print(error)
+    raise SystemExit(1)
+
+print(f"PASS: audit log valid ({count} records)")
+PY
+}
+
+cmd_report() {
+  python3 - "$LOG" <<'PY'
+import json
+import sys
+from collections import Counter
+from pathlib import Path
+
+log = Path(sys.argv[1])
+records = []
+
+if log.exists():
+    for line in log.read_text().splitlines():
+        if line.strip():
+            records.append(json.loads(line))
+
+status = Counter(r.get("status", "unknown") for r in records)
+events = Counter(r.get("event", "unknown") for r in records)
+
+print(json.dumps({
+    "component": "wonderland-audit",
+    "records": len(records),
+    "status_counts": dict(status),
+    "top_events": dict(events.most_common(10)),
+}, indent=2))
+PY
 }
 
 case "${1:-}" in
-  append)
-    authority="${2:?authority required}"
-    action="${3:?action required}"
-    result="${4:?result required}"
-
-    prev="$(last_hash)"
-    ts="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-    id="$(uuidgen | tr 'A-Z' 'a-z')"
-
-    payload="$(python3 - <<PY
-import json
-print(json.dumps({
-  "id": "$id",
-  "timestamp": "$ts",
-  "authority": "$authority",
-  "action": "$action",
-  "result": "$result",
-  "previous_hash": "$prev"
-}, sort_keys=True, separators=(",", ":")))
-PY
-)"
-
-    hash="$(hash_line "$payload")"
-
-    python3 - <<PY >> "$AUDIT"
-import json
-obj=json.loads('$payload')
-obj["hash"]="$hash"
-print(json.dumps(obj, sort_keys=True))
-PY
-
-    echo "PASS audit appended $hash"
+  log)
+    shift
+    cmd_log "$@"
     ;;
-
-  verify)
-    python3 - "$AUDIT" <<'PY'
-import json, hashlib, sys
-from pathlib import Path
-
-p = Path(sys.argv[1])
-prev = "GENESIS"
-
-if not p.exists():
-    print("FAIL audit missing")
-    raise SystemExit(1)
-
-for n, line in enumerate(p.read_text().splitlines(), 1):
-    obj = json.loads(line)
-    got = obj.pop("hash")
-    if obj["previous_hash"] != prev:
-        print(f"FAIL chain break line {n}")
-        raise SystemExit(1)
-    payload = json.dumps(obj, sort_keys=True, separators=(",", ":"))
-    expected = hashlib.sha256(payload.encode()).hexdigest()
-    if expected != got:
-        print(f"FAIL bad hash line {n}")
-        raise SystemExit(1)
-    prev = got
-
-print("PASS audit chain")
-PY
-    ;;
-
   tail)
-    tail -20 "$AUDIT" 2>/dev/null || true
+    shift
+    cmd_tail "$@"
     ;;
-
+  verify)
+    cmd_verify
+    ;;
+  report)
+    cmd_report
+    ;;
+  ""|help|--help|-h)
+    usage
+    ;;
   *)
-    echo "Usage: wl-audit append <authority> <action> <result> | verify | tail"
-    exit 2
+    echo "FAIL: unknown audit command: $1"
+    usage
+    exit 1
     ;;
 esac

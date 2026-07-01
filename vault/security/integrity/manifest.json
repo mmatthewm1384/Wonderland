@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "component": "wonderland-integrity",
+  "mode": "local-report-only",
+  "required_paths": [
+    "bin/wl",
+    "bin/wl-audit",
+    "bin/wl-security",
+    "bin/wl-security-report",
+    "bin/wl-security-dashboard",
+    "vault/security/audit-policy.json",
+    "vault/security/permissions-policy.json",
+    "vault/security/secrets-policy.json",
+    "vault/security/identity-policy.json"
+  ],
+  "hash_paths": [
+    "vault/security/audit-policy.json",
+    "vault/security/permissions-policy.json",
+    "vault/security/secrets-policy.json",
+    "vault/security/identity-policy.json",
+    "vault/security/dashboard/schema.json"
+  ]
+}

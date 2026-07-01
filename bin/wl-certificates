@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+POLICY="$ROOT/vault/security/certificates/policy.json"
+REPORT="$ROOT/logs/security/certificates-report.json"
+
+usage() {
+  echo "Usage: wl certificates verify|report"
+}
+
+audit() {
+  if [[ -x "$ROOT/bin/wl-audit" ]]; then
+    "$ROOT/bin/wl-audit" log "$1" --status "$2" --message "${3:-}" >/dev/null 2>&1 || true
+  fi
+}
+
+report() {
+  python3 - "$ROOT" "$POLICY" "$REPORT" <<'PY'
+import json
+import subprocess
+import sys
+from pathlib import Path
+from datetime import datetime, timezone
+
+root = Path(sys.argv[1])
+policy_path = Path(sys.argv[2])
+report_path = Path(sys.argv[3])
+
+if not policy_path.exists():
+    raise SystemExit("FAIL: missing certificates policy")
+
+policy = json.loads(policy_path.read_text())
+exts = set(policy.get("certificate_extensions", []))
+watch_paths = policy.get("watch_paths", [])
+
+certs = []
+errors = []
+
+for rel in watch_paths:
+    base = root / rel
+    if not base.exists():
+        continue
+
+    for path in base.rglob("*"):
+        if path.suffix not in exts or not path.is_file():
+            continue
+
+        item = {
+            "path": str(path.relative_to(root)),
+            "parseable": False,
+            "not_after": None,
+            "days_remaining": None
+        }
+
+        try:
+            out = subprocess.check_output(
+                ["openssl", "x509", "-enddate", "-noout", "-in", str(path)],
+                text=True,
+                stderr=subprocess.STDOUT,
+            ).strip()
+
+            if out.startswith("notAfter="):
+                item["parseable"] = True
+                item["not_after"] = out.split("=", 1)[1]
+        except Exception as e:
+            errors.append(f"{item['path']}: {e}")
+
+        certs.append(item)
+
+overall = "pass" if not errors else "warn"
+
+out = {
+    "component": "wonderland-certificates",
+    "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    "overall": overall,
+    "mode": policy.get("mode"),
+    "certificates_found": len(certs),
+    "certificates": certs,
+    "errors": errors
+}
+
+report_path.parent.mkdir(parents=True, exist_ok=True)
+report_path.write_text(json.dumps(out, indent=2) + "\n")
+print(json.dumps(out, indent=2))
+
+raise SystemExit(0 if overall != "fail" else 1)
+PY
+}
+
+case "${1:-}" in
+  report)
+    if report; then
+      audit certificates.report pass "Certificate report generated"
+    else
+      audit certificates.report fail "Certificate report failed"
+      exit 1
+    fi
+    ;;
+  verify)
+    if report >/dev/null; then
+      echo "PASS: certificate inspection complete"
+      audit certificates.verify pass "Certificate inspection passed"
+    else
+      echo "FAIL: certificate inspection failed"
+      audit certificates.verify fail "Certificate inspection failed"
+      exit 1
+    fi
+    ;;
+  ""|help|--help|-h)
+    usage
+    ;;
+  *)
+    echo "FAIL: unknown certificates command: $1"
+    usage
+    exit 1
+    ;;
+esac

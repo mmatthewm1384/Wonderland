@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "component": "wonderland-security-dashboard",
+  "inputs": [
+    "logs/security/security-report.json",
+    "logs/security/audit.jsonl",
+    "vault/security/permissions-policy.json",
+    "vault/security/secrets-policy.json",
+    "vault/security/identity-policy.json",
+    "logs/security/integrity-report.json",
+    "vault/security/integrity/manifest.json",
+    "logs/security/firewall-report.json",
+    "vault/security/firewall/policy.json",
+    "logs/security/certificates-report.json",
+    "vault/security/certificates/policy.json",
+    "logs/security/encryption-report.json",
+    "vault/security/encryption/policy.json"
+  ],
+  "outputs": [
+    "logs/security/security-dashboard.json"
+  ],
+  "status_values": [
+    "pass",
+    "warn",
+    "fail"
+  ]
+}
