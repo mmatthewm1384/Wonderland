@@ -78,7 +78,11 @@ def run(argv: Sequence[str] | None = None) -> int:
     if args and args[0].startswith("-"):
         args = ["build", *args]
 
-    from wlbuilder.cli import parse
+    from wlbuilder.cli import build_parser, parse
+
+    if args in (["-h"], ["--help"]):
+        build_parser().print_help()
+        return 0
 
     parsed = parse(args)
 
