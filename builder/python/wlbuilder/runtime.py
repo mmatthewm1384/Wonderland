@@ -1,67 +1,87 @@
 from __future__ import annotations
 
 import importlib
-from pathlib import Path
 import inspect
 import platform
 import sys
 from collections.abc import Sequence
-from typing import Any
+from pathlib import Path
 
 
 def _reject_direct_macos_execution() -> int:
     print("FAIL: direct wlbuilder execution on macOS is unsupported.", file=sys.stderr)
     print("Use:", file=sys.stderr)
-    print("bin/wl builder build --profile development", file=sys.stderr)
+    print("  bin/wl builder build --profile development", file=sys.stderr)
     return 1
 
 
-def _call_main(main: Any, argv: Sequence[str] | None) -> int:
-    signature = inspect.signature(main)
-    parameters = signature.parameters
+def _repo_root() -> Path:
+    return Path(__file__).resolve().parents[3]
 
-    if len(parameters) == 0:
+
+def _call_legacy_main(main, argv: Sequence[str]) -> int:
+    if len(inspect.signature(main).parameters) == 0:
         original_argv = sys.argv[:]
         try:
-            if argv is not None:
-                sys.argv = ["python3 -m wlbuilder", *list(argv)]
+            sys.argv = ["python3 -m wlbuilder", *argv]
             result = main()
         finally:
             sys.argv = original_argv
     else:
-        result = main(list(argv) if argv is not None else None)
+        result = main(list(argv))
 
     return int(result or 0)
 
 
-def _run_existing_builder(argv: Sequence[str] | None = None) -> int:
-    """
-    Temporary Builder v2 bridge.
+def _legacy_build(argv: Sequence[str]) -> int:
+    repo_root = _repo_root()
 
-    Directly imports the existing builder runtime without using runpy or
-    images/build-qcow2.py.
-    """
-    try:
-        
-        repo_root = Path(__file__).resolve().parents[3]
-        if str(repo_root) not in sys.path:
-            sys.path.insert(0, str(repo_root))
+    if str(repo_root) not in sys.path:
+        sys.path.insert(0, str(repo_root))
 
-        module = importlib.import_module("build.__main__")
-    except Exception as exc:
-        print(f"FAIL: unable to import build.__main__: {exc}", file=sys.stderr)
-        return 1
-
+    module = importlib.import_module("build.__main__")
     main = getattr(module, "main", None)
+
     if main is None:
         print("FAIL: build.__main__ does not expose main().", file=sys.stderr)
         return 1
 
+    return _call_legacy_main(main, argv)
+
+
+def _status() -> int:
+    repo_root = _repo_root()
+    runtime = Path(__file__).resolve()
+    legacy = repo_root / "build" / "__main__.py"
+
+    print("wlbuilder runtime: active")
+    print(f"repo_root: {repo_root}")
+    print(f"runtime: {runtime}")
+    print("execution_path: builder/python/wlbuilder/runtime.py")
+    print("legacy_bridge: build.__main__")
+    print(f"legacy_bridge_file: {legacy}")
+    print(f"legacy_bridge_exists: {str(legacy.exists()).lower()}")
+
     try:
-        return _call_main(main, argv)
+        if str(repo_root) not in sys.path:
+            sys.path.insert(0, str(repo_root))
+        importlib.import_module("build.__main__")
+        print("legacy_bridge_import: pass")
     except Exception as exc:
-        print(f"FAIL: builder runtime failed: {exc}", file=sys.stderr)
-        return 1
+        print(f"legacy_bridge_import: fail: {exc}")
+
+    try:
+        from wlbuilder.config import load_config
+
+        config = load_config(repo_root)
+        print("config: pass")
+        print(f"config_file: {config.path}")
+        print(f"default_profile: {config.default_profile}")
+        print(f"output_root: {config.output_root}")
+    except Exception as exc:
+        print(f"config: fail: {exc}")
+
+    return 0
 
 
 def run(argv: Sequence[str] | None = None) -> int:
@@ -70,47 +90,26 @@ def run(argv: Sequence[str] | None = None) -> int:
 
     args = list(argv) if argv is not None else sys.argv[1:]
 
-    # Backward compatibility:
-    #   python3 -m wlbuilder --profile development
-    #
-    # Preferred Builder v2 form:
-    #   python3 -m wlbuilder build --profile development
-    if args and args[0].startswith("-"):
-        args = ["build", *args]
-
     from wlbuilder.cli import build_parser, parse
 
     if args in (["-h"], ["--help"]):
         build_parser().print_help()
         return 0
 
+    if not args:
+        args = ["build"]
+
+    if args[0].startswith("-"):
+        args = ["build", *args]
+
     parsed = parse(args)
 
     if parsed.command == "status":
-        repo_root = Path(__file__).resolve().parents[3]
-        legacy_build = repo_root / "build" / "__main__.py"
-
-        print("wlbuilder runtime: active")
-        print(f"repo_root: {repo_root}")
-        print(f"runtime: {Path(__file__).resolve()}")
-        print("execution_path: builder/python/wlbuilder/runtime.py")
-        print("legacy_bridge: build.__main__")
-        print(f"legacy_bridge_file: {legacy_build}")
-        print(f"legacy_bridge_exists: {str(legacy_build.exists()).lower()}")
-
-        try:
-            if str(repo_root) not in sys.path:
-                sys.path.insert(0, str(repo_root))
-            importlib.import_module("build.__main__")
-            print("legacy_bridge_import: pass")
-        except Exception as exc:
-            print(f"legacy_bridge_import: fail: {exc}")
-
-        return 0
+        return _status()
 
     if parsed.command == "build":
         legacy_args = ["--profile", parsed.profile]
-        return _run_existing_builder(legacy_args)
+        return _legacy_build(legacy_args)
 
     print("FAIL: no builder command provided.", file=sys.stderr)
     return 1
