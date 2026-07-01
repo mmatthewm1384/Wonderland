@@ -51,6 +51,20 @@ python3 -m wlbuilder status >/dev/null && echo "PASS wlbuilder status" || {
   fail=1
 }
 
+python3 - <<'PYVERIFY' && echo "PASS wlbuilder runtime import" || {
+import wlbuilder.runtime
+from pathlib import Path
+
+runtime = Path(wlbuilder.runtime.__file__).as_posix()
+expected = "builder/python/wlbuilder/runtime.py"
+
+if not runtime.endswith(expected):
+    raise SystemExit(f"wrong runtime import: {runtime}")
+PYVERIFY
+  echo "FAIL wlbuilder runtime import"
+  fail=1
+}
+
 echo
 if [[ "$fail" -eq 0 ]]; then
   echo "PASS builder certification"
