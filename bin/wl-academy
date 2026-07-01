@@ -20,6 +20,10 @@ case "${1:-help}" in
   handoff)
     exec "$WL_ROOT/lib/academy/handoff.sh"
     ;;
+  summary)
+    exec "$WL_ROOT/lib/academy/summary.sh"
+    ;;
+
 
   path)
     echo "$WL_ROOT/academy"
