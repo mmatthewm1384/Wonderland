@@ -1,0 +1,49 @@
+arch: "aarch64"
+
+images:
+  - location: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-generic-arm64.qcow2"
+    arch: "aarch64"
+
+mounts:
+  - location: "/Users/wonderland/Wonderland"
+    mountPoint: "/home/wonderland/wonderland-os"
+    writable: true
+
+provision:
+  - mode: system
+    script: |
+      #!/usr/bin/env bash
+      set -euxo pipefail
+      apt-get update
+      DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        bash \
+        ca-certificates \
+        coreutils \
+        curl \
+        debootstrap \
+        dosfstools \
+        e2fsprogs \
+        fdisk \
+        file \
+        git \
+        jq \
+        kmod \
+        mount \
+        parted \
+        python3 \
+        qemu-utils \
+        rsync \
+        sudo \
+        util-linux
+  - mode: user
+    script: |
+      #!/usr/bin/env bash
+      set -euxo pipefail
+      mkdir -p /home/wonderland/wonderland-os
+      cd /home/wonderland/wonderland-os
+      test -x bin/wl
+      python3 -m wlbuilder --help
+
+containerd:
+  system: false
+  user: false
