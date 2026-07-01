@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "project": "Wonderland",
+  "canonical": {
+    "macos": "/Users/wonderland/Wonderland",
+    "lima": "/home/wonderland/wonderland-os"
+  },
+  "runtime": {
+    "host": "macos",
+    "builder": "lima",
+    "builder_instance": "wonderland-os-builder"
+  }
+}
