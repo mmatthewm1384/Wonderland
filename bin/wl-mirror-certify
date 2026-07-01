@@ -4,7 +4,18 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
+audit_event() {
+  local event="$1"
+  local status="$2"
+  local message="${3:-}"
+
+  if [[ -x "$ROOT/bin/wl-audit" ]]; then
+    "$ROOT/bin/wl-audit" log "$event" --status "$status" --message "$message" >/dev/null 2>&1 || true
+  fi
+}
+
 echo "== Wonderland Mirror Certification =="
+audit_event mirror.certification.started info "Mirror certification started"
 
 run() {
   echo
@@ -18,3 +29,4 @@ run bin/wl mirror diff
 
 echo
 echo "PASS: mirror certification complete"
+audit_event mirror.certification.completed pass "Mirror certification completed"

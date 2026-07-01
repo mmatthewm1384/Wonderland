@@ -6,3 +6,21 @@ wl_certify_main "$@"
 echo
 echo "## Mirror"
 bin/wl-mirror-certify
+
+
+echo
+echo "## Mirror Certification"
+if [[ -x "bin/wl-mirror-certify" ]]; then
+  bin/wl-mirror-certify
+else
+  echo "WARN: bin/wl-mirror-certify not found"
+fi
+
+echo
+echo "## Audit Certification"
+if [[ -x "bin/wl-audit-certify" ]]; then
+  bin/wl-audit-certify
+else
+  echo "WARN: bin/wl-audit-certify not found"
+fi
+
