@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+echo "Builder v2 smoke test"
+echo
+
+python3 -m wlbuilder --help >/dev/null
+echo "PASS wlbuilder help"
+
+python3 -m wlbuilder status >/dev/null
+echo "PASS wlbuilder status"
+
+python3 -m wlbuilder build --help >/dev/null
+echo "PASS wlbuilder build help"
+
+bin/wl builder certify >/dev/null
+echo "PASS wl builder certify"
+
+bin/wl builder doctor >/dev/null
+echo "PASS wl builder doctor"
+
+echo
+echo "PASS Builder v2 smoke test"
