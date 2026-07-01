@@ -10,6 +10,10 @@ case "${1:-help}" in
   doctor)
     exec "$WL_ROOT/lib/academy/doctor.sh"
     ;;
+  release)
+    shift || true
+    exec "$WL_ROOT/lib/academy/release.sh" "${1:-0.3.0}"
+    ;;
   path)
     echo "$WL_ROOT/academy"
     ;;
