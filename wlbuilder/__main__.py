@@ -1,7 +1,7 @@
-#!/usr/bin/env python3
 from __future__ import annotations
 
 import argparse
+import platform
 import runpy
 import sys
 from pathlib import Path
@@ -12,6 +12,11 @@ def repo_root() -> Path:
 
 
 def main() -> int:
+    if platform.system() == "Darwin":
+        print("FAIL: direct wlbuilder execution on macOS is unsupported.", file=sys.stderr)
+        print("Use: bin/wl builder build --profile development", file=sys.stderr)
+        return 1
+
     root = repo_root()
     builder = root / "images" / "build-qcow2.py"
 
@@ -19,21 +24,9 @@ def main() -> int:
         prog="python3 -m wlbuilder",
         description="Wonderland OS Python image builder",
     )
-    parser.add_argument(
-        "--profile",
-        default="development",
-        help="Build profile to pass to the image builder",
-    )
-    parser.add_argument(
-        "--output-dir",
-        default=None,
-        help="Optional output directory",
-    )
-    parser.add_argument(
-        "--no-qcow2",
-        action="store_true",
-        help="Build raw image only if supported by the underlying builder",
-    )
+    parser.add_argument("--profile", default="development")
+    parser.add_argument("--output-dir", default=None)
+    parser.add_argument("--no-qcow2", action="store_true")
 
     args, passthrough = parser.parse_known_args()
 
