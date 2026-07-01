@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+now="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+
+run_check() {
+  local name="$1"
+  shift
+
+  local output
+  local status="pass"
+
+  if ! output="$("$@" 2>&1)"; then
+    status="fail"
+  fi
+
+  python3 - "$name" "$status" "$output" <<'PY'
+import json
+import sys
+
+name, status, output = sys.argv[1], sys.argv[2], sys.argv[3]
+print(json.dumps({
+    "name": name,
+    "status": status,
+    "output": output[-4000:],
+}))
+PY
+}
+
+status_json="$(run_check status bin/wl mirror status)"
+verify_json="$(run_check verify bin/wl mirror verify)"
+diff_json="$(run_check diff bin/wl mirror diff)"
+
+python3 - "$now" "$status_json" "$verify_json" "$diff_json" <<'PY'
+import json
+import sys
+
+generated_at = sys.argv[1]
+checks = [json.loads(x) for x in sys.argv[2:]]
+
+overall = "pass" if all(c["status"] == "pass" for c in checks) else "fail"
+
+report = {
+    "component": "wonderland-mirror",
+    "generated_at": generated_at,
+    "overall": overall,
+    "checks": checks,
+}
+
+print(json.dumps(report, indent=2))
+PY

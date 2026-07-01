@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+echo "== Wonderland Audit Certification =="
+
+run() {
+  echo
+  echo "## $*"
+  "$@"
+}
+
+run bin/wl audit log audit.certification.started --status info --message "Audit certification started"
+run bin/wl audit verify
+run bin/wl audit report
+run bin/wl audit log audit.certification.completed --status pass --message "Audit certification completed"
+
+echo
+echo "PASS: audit certification complete"

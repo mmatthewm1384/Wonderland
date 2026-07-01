@@ -1,0 +1,22 @@
+{
+  "component": "wonderland-mirror",
+  "generated_at": "2026-07-01T03:34:23Z",
+  "overall": "fail",
+  "checks": [
+    {
+      "name": "status",
+      "status": "pass",
+      "output": "Wonderland Mirror Status\n\nSource:      /Users/wonderland/Wonderland\nDestination: /Volumes/T7_Wonderland/Wonderland\n\nSource ............ PASS\nT7 Mounted ........ PASS\nMirror Exists ..... PASS\nLatest Manifest ... PASS\n\n{\n  \"id\": \"20260630-203200\",\n  \"intent\": \"wonderland.replication.t7_hot_mirror\",\n  \"source\": \"/Users/wonderland/Wonderland\",\n  \"destination\": \"/Volumes/T7_Wonderland/Wonderland\",\n  \"git_commit\": \"3332e83a\",\n  \"source_files\": 16418,\n  \"destination_files\": 16418,\n  \"duration_seconds\": 2,\n  \"log\": \"/Users/wonderland/Wonderland/vault/08-Operations/replication/logs/update-20260630-203200.log\",\n  \"diff\": \"/Users/wonderland/Wonderland/vault/08-Operations/replication/manifests/latest.diff\",\n  \"result\": \"PASS\"\n}"
+    },
+    {
+      "name": "verify",
+      "status": "fail",
+      "output": "Mirror Verify\nSource files:      16423\nDestination files: 16418\nRESULT WARN inventory differs\nDiff: /Users/wonderland/Wonderland/vault/08-Operations/replication/manifests/latest.diff"
+    },
+    {
+      "name": "diff",
+      "status": "pass",
+      "output": "T7 Mounted ........ PASS\n.d..t...... bin/\n>f.st...... bin/wl\n>f.st...... bin/wl-certify\n>f+++++++++ bin/wl-mirror-certify\n>f+++++++++ bin/wl-mirror-report\n>f+++++++++ bin/wl-mirror-rollback\n.d..t...... builder/\n>f+++++++++ builder/mirror-report.json\n.d..t...... docs/\ncd+++++++++ docs/operations/\n>f+++++++++ docs/operations/mirror.md\n.d..t...... vault/05-Registry/chaos/\n>f..t...... vault/05-Registry/chaos/lease.json\n>f..t...... vault/05-Registry/docs/platform-engineering-commands.md\n>f.st...... vault/08-Operations/state/latest.json\n\nDiff log: /Users/wonderland/Wonderland/vault/08-Operations/replication/logs/diff-20260630-203425.log"
+    }
+  ]
+}
