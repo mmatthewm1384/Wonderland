@@ -114,3 +114,16 @@ logs/security/audit.jsonl
 # Local backup/runtime state
 .wl/backups/
 ephemeral/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Wonderland generated security runtime artifacts
+logs/security/*.json
+logs/security/*.jsonl
+logs/security/audit.jsonl
+
+# Wonderland local runtime/backups
+.wl/backups/
+ephemeral/
