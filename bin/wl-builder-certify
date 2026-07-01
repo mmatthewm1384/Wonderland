@@ -13,8 +13,8 @@ require_file() {
   fi
 }
 
-require_file wlbuilder/__main__.py
-require_file images/build-qcow2.py
+require_file builder/python/wlbuilder/__main__.py
+require_file builder/python/wlbuilder/runtime.py
 require_file bin/wl-build
 
 echo
@@ -24,8 +24,8 @@ import importlib.util
 from pathlib import Path
 
 required = [
-    "wlbuilder/__main__.py",
-    "images/build-qcow2.py",
+    "builder/python/wlbuilder/__main__.py",
+    "builder/python/wlbuilder/runtime.py",
 ]
 
 for item in required:

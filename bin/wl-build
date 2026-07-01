@@ -15,7 +15,7 @@ EOF
 case "${1:-}" in
   image)
     shift
-    exec python3 -m wlbuilder "$@"
+    exec python3 -m wlbuilder build "$@"
     ;;
   certify)
     exec bin/wl-builder-certify

@@ -88,8 +88,8 @@ case "${1:-help}" in
     if remote '
       test -d . &&
       test -x bin/wl &&
-      test -d wlbuilder &&
-      test -f images/build-qcow2.py &&
+      test -d builder/python/wlbuilder &&
+      test -f builder/python/wlbuilder/runtime.py &&
       python3 -m wlbuilder --help >/dev/null &&
       for tool in debootstrap parted losetup mkfs.ext4 qemu-img; do command -v "$tool" >/dev/null; done
     '; then
@@ -117,7 +117,7 @@ case "${1:-help}" in
 
   build)
     shift
-    exec limactl shell "$INSTANCE" -- bash -lc "cd '$REMOTE_ROOT' && python3 -m wlbuilder ${*:-}"
+    exec limactl shell "$INSTANCE" -- bash -lc "cd '$REMOTE_ROOT' && python3 -m wlbuilder build ${*:-}"
     ;;
 
   certify)
