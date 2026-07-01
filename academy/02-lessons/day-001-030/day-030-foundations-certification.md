@@ -76,3 +76,28 @@ academy/06-diagrams/computer-science/FOUNDATIONS.md
 Next Lesson Preview
 
 Continue to the next Foundations lesson and connect today’s concept to the next layer of the computing stack.
+
+## Wonderland Integration
+Identify one place in Wonderland where this concept appears and document it in your journal.
+
+## Verification Checklist
+- [ ] I can explain the concept.
+- [ ] I completed the lab.
+- [ ] I connected the concept to Wonderland.
+- [ ] I recorded notes in my journal.
+
+## Knowledge Check
+See the matching quiz file under `academy/07-quizzes/daily/`.
+
+## Optional Challenge
+Find one additional Wonderland subsystem that uses this concept indirectly.
+
+## Summary
+This lesson strengthens the foundation needed to debug, design, operate, and improve Wonderland.
+
+## Further Reading
+- `academy/05-reference/glossary/FOUNDATIONS.md`
+- `academy/05-reference/cheat-sheets/FOUNDATIONS.md`
+
+## Next Lesson Preview
+The next lesson builds on this concept and connects it to the next layer of the computing stack.
