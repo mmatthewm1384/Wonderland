@@ -1,24 +1,74 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="${WL_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CONFIG="$ROOT/vault/vm/default.json"
+
+usage() {
+cat <<EOF
+Usage:
+
+wl vm create
+wl vm boot
+wl vm stop
+wl vm status
+wl vm console
+wl vm certify
+EOF
+}
+
+provider() {
+python3 - <<PY
+import json
+print(json.load(open("$CONFIG"))["provider"])
+PY
+}
 
 case "${1:-}" in
-  doctor|verify)
-    test -d "$ROOT/tools/vm"
-    test -d "$ROOT/runtime/vm"
-    echo "PASS wl-vm"
-    ;;
-  status)
-    echo "wl-vm: sandbox engine skeleton"
-    ;;
-  *)
-    cat <<EOF
-wl-vm
 
-Usage:
-  wl-vm doctor
-  wl-vm status
-EOF
-    ;;
+create)
+
+echo "VM provider: $(provider)"
+echo
+echo "Next:"
+echo "Create a VMware Fusion VM using:"
+echo
+python3 - <<PY
+import json
+cfg=json.load(open("$CONFIG"))
+print(cfg["image"]["qcow2"])
+PY
+;;
+
+boot)
+
+echo "Launch VMware Fusion."
+echo "Boot the configured VM."
+;;
+
+stop)
+
+echo "Shutdown guest."
+;;
+
+status)
+
+echo "Provider: $(provider)"
+;;
+
+console)
+
+echo "Use VMware console."
+;;
+
+certify)
+
+exec "$ROOT/bin/wl-vm-certify"
+;;
+
+*)
+
+usage
+;;
+
 esac
