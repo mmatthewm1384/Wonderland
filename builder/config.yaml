@@ -1,0 +1,27 @@
+version: 1
+
+default_profile: development
+
+system:
+  name: wonderland-os
+  architecture: arm64
+  debian_release: bookworm
+
+paths:
+  output_root: builder/output
+  raw: builder/output/raw
+  qcow2: builder/output/qcow2
+  vmware: builder/output/vmware
+  logs: builder/output/logs
+  manifests: builder/output/manifests
+
+artifacts:
+  formats:
+    - raw
+    - qcow2
+    - vmware
+
+vm:
+  provider: lima
+  instance: wonderland-os-builder
+  remote_root: /home/wonderland/wonderland-os
