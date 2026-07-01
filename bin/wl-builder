@@ -8,34 +8,165 @@ REMOTE_ROOT="${WL_BUILDER_ROOT:-/home/wonderland/wonderland-os}"
 usage() {
 cat <<EOF
 Usage:
+  wl builder status
+  wl builder doctor
   wl builder shell
   wl builder root
   wl builder build [--profile development|release]
   wl builder certify
   wl builder recreate
+  wl builder start
+  wl builder stop
+  wl builder restart
+  wl builder clean
+  wl builder logs
 EOF
 }
 
+remote() {
+  limactl shell "$INSTANCE" -- bash -lc "cd '$REMOTE_ROOT' && $*"
+}
+
+instance_status() {
+  limactl list 2>/dev/null | awk -v name="$INSTANCE" '$1 == name {print $2}'
+}
+
 case "${1:-help}" in
+  status)
+    echo "== Wonderland Builder Status =="
+    echo
+    echo "Instance: $INSTANCE"
+    echo "Status:   $(instance_status || echo unknown)"
+    echo "Host:     $ROOT"
+    echo "Builder:  $REMOTE_ROOT"
+    echo
+    remote '
+      echo "Repository:"
+      pwd
+      test -x bin/wl && echo "bin/wl: PASS" || echo "bin/wl: FAIL"
+      echo
+      echo "Root:"
+      bin/wl root
+      echo
+      echo "Python:"
+      python3 --version
+      python3 -m wlbuilder --help >/dev/null && echo "wlbuilder: PASS" || echo "wlbuilder: FAIL"
+      echo
+      echo "Tools:"
+      for tool in debootstrap parted losetup mkfs.ext4 qemu-img; do
+        if command -v "$tool" >/dev/null 2>&1; then
+          echo "$tool: PASS"
+        else
+          echo "$tool: FAIL"
+        fi
+      done
+      echo
+      echo "Artifacts:"
+      ls -lh releases/*.qcow2 2>/dev/null || echo "No QCOW2 release artifacts found"
+      ls -lh build/vmware/*.vmdk 2>/dev/null || echo "No VMware VMDK artifacts found"
+    '
+    ;;
+
+  doctor)
+    rc=0
+    echo "== Wonderland Builder Doctor =="
+
+    if limactl list 2>/dev/null | awk '{print $1}' | grep -qx "$INSTANCE"; then
+      echo "Instance exists: PASS"
+    else
+      echo "Instance exists: FAIL"
+      rc=1
+    fi
+
+    if [[ "$(instance_status || true)" == "Running" ]]; then
+      echo "Instance running: PASS"
+    else
+      echo "Instance running: FAIL"
+      rc=1
+    fi
+
+    if remote '
+      test -d . &&
+      test -x bin/wl &&
+      test -d wlbuilder &&
+      test -f images/build-qcow2.py &&
+      python3 -m wlbuilder --help >/dev/null &&
+      for tool in debootstrap parted losetup mkfs.ext4 qemu-img; do command -v "$tool" >/dev/null; done
+    '; then
+      echo "Builder environment: PASS"
+    else
+      echo "Builder environment: FAIL"
+      rc=1
+    fi
+
+    if [[ "$rc" -eq 0 ]]; then
+      echo "PASS"
+    else
+      echo "FAIL"
+    fi
+    exit "$rc"
+    ;;
+
   shell)
     exec limactl shell "$INSTANCE" -- bash -lc "cd '$REMOTE_ROOT' && exec bash"
     ;;
+
   root)
-    exec limactl shell "$INSTANCE" -- bash -lc "cd '$REMOTE_ROOT' && pwd && bin/wl root"
+    remote 'pwd && bin/wl root'
     ;;
+
   build)
     shift
     exec limactl shell "$INSTANCE" -- bash -lc "cd '$REMOTE_ROOT' && python3 -m wlbuilder ${*:-}"
     ;;
+
   certify)
-    exec limactl shell "$INSTANCE" -- bash -lc "cd '$REMOTE_ROOT' && bin/wl build certify"
+    remote 'bin/wl build certify'
     ;;
+
   recreate)
     exec "$ROOT/bin/wl-builder-recreate"
     ;;
+
+  start)
+    exec limactl start "$INSTANCE"
+    ;;
+
+  stop)
+    exec limactl stop "$INSTANCE"
+    ;;
+
+  restart)
+    limactl stop "$INSTANCE" || true
+    exec limactl start "$INSTANCE"
+    ;;
+
+  clean)
+    remote '
+      rm -rf \
+        builder/image \
+        builder/image-python \
+        builder/qcow2 \
+        builder/mount \
+        builder/rootfs \
+        builder/work \
+        build/image \
+        build/image-python \
+        build/qcow2 \
+        build/vmware
+      echo "PASS: builder generated artifacts cleaned"
+    '
+    ;;
+
+  logs)
+    LOG_DIR="$HOME/.lima/$INSTANCE"
+    find "$LOG_DIR" -maxdepth 2 -type f \( -name "*.log" -o -name "ha.stderr.log" -o -name "ha.stdout.log" \) -print
+    ;;
+
   help|-h|--help)
     usage
     ;;
+
   *)
     usage
     exit 1
