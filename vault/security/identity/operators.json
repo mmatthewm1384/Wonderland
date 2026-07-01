@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "component": "wonderland-operators",
+  "operators": [
+    {
+      "name": "local",
+      "role": "local-operator",
+      "source": "system-user"
+    }
+  ]
+}

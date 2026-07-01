@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+usage() {
+  cat <<'EOF'
+Usage:
+  wl security report
+  wl security dashboard
+  wl security certify
+  wl security verify
+EOF
+}
+
+case "${1:-}" in
+  report)
+    exec bin/wl-security-report
+    ;;
+  dashboard)
+    exec bin/wl-security-dashboard
+    ;;
+  certify)
+    exec bin/wl-security-certify
+    ;;
+  verify)
+    exec bin/wl-security-certify
+    ;;
+  ""|help|--help|-h)
+    usage
+    ;;
+  *)
+    echo "FAIL: unknown security command: $1"
+    usage
+    exit 1
+    ;;
+esac

@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+MANIFEST="$ROOT/vault/security/integrity/manifest.json"
+REPORT="$ROOT/logs/security/integrity-report.json"
+
+usage() {
+  cat <<'EOF'
+Usage:
+  wl integrity verify
+  wl integrity report
+EOF
+}
+
+audit() {
+  if [[ -x "$ROOT/bin/wl-audit" ]]; then
+    "$ROOT/bin/wl-audit" log "$1" --status "$2" --message "${3:-}" >/dev/null 2>&1 || true
+  fi
+}
+
+report() {
+  python3 - "$ROOT" "$MANIFEST" "$REPORT" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+from datetime import datetime, timezone
+
+root = Path(sys.argv[1])
+manifest_path = Path(sys.argv[2])
+report_path = Path(sys.argv[3])
+
+errors = []
+
+if not manifest_path.exists():
+    raise SystemExit("FAIL: missing integrity manifest")
+
+manifest = json.loads(manifest_path.read_text())
+
+required = []
+for rel in manifest.get("required_paths", []):
+    path = root / rel
+    required.append({
+        "path": rel,
+        "exists": path.exists(),
+        "type": "dir" if path.is_dir() else "file" if path.exists() else "missing"
+    })
+    if not path.exists():
+        errors.append(f"missing required path: {rel}")
+
+hashes = []
+for rel in manifest.get("hash_paths", []):
+    path = root / rel
+    if not path.exists():
+        hashes.append({"path": rel, "exists": False, "sha256": None})
+        errors.append(f"missing hash path: {rel}")
+        continue
+
+    h = hashlib.sha256(path.read_bytes()).hexdigest()
+    hashes.append({"path": rel, "exists": True, "sha256": h})
+
+out = {
+    "component": "wonderland-integrity",
+    "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    "overall": "pass" if not errors else "fail",
+    "required": required,
+    "hashes": hashes,
+    "errors": errors
+}
+
+report_path.parent.mkdir(parents=True, exist_ok=True)
+report_path.write_text(json.dumps(out, indent=2) + "\n")
+print(json.dumps(out, indent=2))
+
+raise SystemExit(0 if not errors else 1)
+PY
+}
+
+case "${1:-}" in
+  report)
+    if report; then
+      audit integrity.report pass "Integrity report generated"
+    else
+      audit integrity.report fail "Integrity report failed"
+      exit 1
+    fi
+    ;;
+  verify)
+    if report >/dev/null; then
+      echo "PASS: integrity verification complete"
+      audit integrity.verify pass "Integrity verification passed"
+    else
+      echo "FAIL: integrity verification failed"
+      audit integrity.verify fail "Integrity verification failed"
+      exit 1
+    fi
+    ;;
+  ""|help|--help|-h)
+    usage
+    ;;
+  *)
+    echo "FAIL: unknown integrity command: $1"
+    usage
+    exit 1
+    ;;
+esac

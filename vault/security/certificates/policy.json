@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "component": "wonderland-certificates",
+  "mode": "report-only",
+  "watch_paths": [
+    "vault/security/certificates"
+  ],
+  "certificate_extensions": [
+    ".pem",
+    ".crt",
+    ".cer"
+  ],
+  "minimum_days_remaining": 30
+}

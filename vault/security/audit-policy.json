@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "component": "wonderland-audit",
+  "log_path": "logs/security/audit.jsonl",
+  "mode": "append-only-jsonl",
+  "required_fields": [
+    "timestamp",
+    "event",
+    "status",
+    "actor",
+    "host",
+    "cwd"
+  ],
+  "allowed_status": [
+    "pass",
+    "fail",
+    "warn",
+    "info"
+  ]
+}

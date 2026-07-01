@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "component": "wonderland-encryption",
+  "mode": "readiness-report-only",
+  "preferred_tools": [
+    "age",
+    "openssl"
+  ],
+  "required_future_capabilities": [
+    "encrypt-file",
+    "decrypt-file",
+    "rotate-key",
+    "verify-key-access",
+    "touch-id-gated-decrypt"
+  ],
+  "protected_paths": [
+    "vault/security/secrets",
+    "vault/security/certificates"
+  ]
+}

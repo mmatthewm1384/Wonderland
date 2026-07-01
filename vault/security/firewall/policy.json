@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "component": "wonderland-firewall",
+  "mode": "report-only",
+  "default_policy": {
+    "inbound": "deny",
+    "outbound": "allow"
+  },
+  "allowed_local_services": [],
+  "blocked_patterns": [
+    "public-inbound-by-default",
+    "secrets-service-public-bind",
+    "control-plane-public-bind"
+  ]
+}

@@ -22,6 +22,42 @@ if [[ -f "$ROOT/lib/core/dispatch/engineering.sh" ]]; then
 fi
 
 case "${1:-}" in
+    encryption)
+        shift
+        exec "$WL_ROOT/bin/wl-encryption" "$@"
+        ;;
+    certificates)
+        shift
+        exec "$WL_ROOT/bin/wl-certificates" "$@"
+        ;;
+    firewall)
+        shift
+        exec "$WL_ROOT/bin/wl-firewall" "$@"
+        ;;
+    integrity)
+        shift
+        exec "$WL_ROOT/bin/wl-integrity" "$@"
+        ;;
+    security)
+        shift
+        exec "$WL_ROOT/bin/wl-security" "$@"
+        ;;
+    identity)
+        shift
+        exec "$WL_ROOT/bin/wl-identity" "$@"
+        ;;
+    secrets)
+        shift
+        exec "$WL_ROOT/bin/wl-secrets" "$@"
+        ;;
+    permissions)
+        shift
+        exec "$WL_ROOT/bin/wl-permissions" "$@"
+        ;;
+    audit)
+        shift
+        exec "$WL_ROOT/bin/wl-audit" "$@"
+        ;;
   root)
     shift || true
     exec "$WL_ROOT/bin/wl-root" "${1:-$PWD}"
@@ -36,10 +72,28 @@ case "${1:-}" in
     exec "$WL_ROOT/bin/wl-academy" "${@:-help}"
     ;;
 
-  mirror)
-    shift
-    exec "$WL_ROOT/bin/wl-mirror" "$@"
-    ;;
+    mirror)
+        shift
+        subcommand="${1:-help}"
+
+        if [[ -x "$WL_ROOT/bin/wl-audit" ]]; then
+            "$WL_ROOT/bin/wl-audit" log "mirror.${subcommand}.started" --status info --message "wl mirror ${subcommand} started" >/dev/null 2>&1 || true
+        fi
+
+        if "$WL_ROOT/bin/wl-mirror" "$@"; then
+            rc=0
+            if [[ -x "$WL_ROOT/bin/wl-audit" ]]; then
+                "$WL_ROOT/bin/wl-audit" log "mirror.${subcommand}.completed" --status pass --message "wl mirror ${subcommand} completed" >/dev/null 2>&1 || true
+            fi
+        else
+            rc=$?
+            if [[ -x "$WL_ROOT/bin/wl-audit" ]]; then
+                "$WL_ROOT/bin/wl-audit" log "mirror.${subcommand}.failed" --status fail --message "wl mirror ${subcommand} failed with exit code ${rc}" >/dev/null 2>&1 || true
+            fi
+        fi
+
+        exit "$rc"
+        ;;
   migrate)
     shift
     . "${WL_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}/lib/migrate/cli.sh"

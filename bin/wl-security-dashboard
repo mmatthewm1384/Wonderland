@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+mkdir -p logs/security
+
+bin/wl-security-report > logs/security/security-report.json
+
+python3 - <<'PY'
+import json
+from pathlib import Path
+
+report_path = Path("logs/security/security-report.json")
+audit_path = Path("logs/security/audit.jsonl")
+out_path = Path("logs/security/security-dashboard.json")
+
+report = json.loads(report_path.read_text())
+
+audit_records = 0
+latest_audit_event = None
+
+if audit_path.exists():
+    for line in audit_path.read_text().splitlines():
+        if not line.strip():
+            continue
+        audit_records += 1
+        latest_audit_event = json.loads(line)
+
+checks = report.get("checks", [])
+
+dashboard = {
+    "component": "wonderland-security-dashboard",
+    "version": 1,
+    "overall": report.get("overall", "warn"),
+    "generated_at": report.get("generated_at"),
+    "summary": {
+        "checks": len(checks),
+        "passing": sum(1 for c in checks if c.get("status") == "pass"),
+        "warning": sum(1 for c in checks if c.get("status") == "warn"),
+        "failing": sum(1 for c in checks if c.get("status") == "fail"),
+        "audit_records": audit_records
+    },
+    "latest_audit_event": latest_audit_event,
+    "checks": checks
+}
+
+out_path.write_text(json.dumps(dashboard, indent=2) + "\n")
+print(json.dumps(dashboard, indent=2))
+PY
+
+bin/wl-audit log security.dashboard.generated --status pass --message "Security dashboard generated" >/dev/null 2>&1 || true

@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "component": "wonderland-permissions",
+  "mode": "advisory",
+  "rules": [
+    {
+      "id": "mirror-write",
+      "resource": "mirror",
+      "actions": ["update", "restore", "clean-stale"],
+      "requires": ["local-operator", "audit-log"]
+    },
+    {
+      "id": "mirror-read",
+      "resource": "mirror",
+      "actions": ["status", "verify", "diff"],
+      "requires": ["audit-log"]
+    },
+    {
+      "id": "security-read",
+      "resource": "security",
+      "actions": ["audit.tail", "audit.verify", "audit.report", "security.report"],
+      "requires": ["local-operator"]
+    },
+    {
+      "id": "secrets-write",
+      "resource": "secrets",
+      "actions": ["set", "delete", "rotate"],
+      "requires": ["local-operator", "audit-log", "future-touch-id"]
+    }
+  ]
+}

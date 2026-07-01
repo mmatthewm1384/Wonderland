@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "component": "wonderland-identity",
+  "mode": "local-advisory",
+  "operator_roles": [
+    "local-operator",
+    "automation",
+    "recovery"
+  ],
+  "requirements": {
+    "destructive_actions_require_local_operator": true,
+    "automation_requires_audit": true,
+    "recovery_requires_mirror": true
+  }
+}

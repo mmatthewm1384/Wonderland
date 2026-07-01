@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+POLICY="$ROOT/vault/security/identity-policy.json"
+OPERATORS="$ROOT/vault/security/identity/operators.json"
+
+usage() {
+  cat <<'EOF'
+Usage:
+  wl identity verify
+  wl identity report
+EOF
+}
+
+audit() {
+  if [[ -x "$ROOT/bin/wl-audit" ]]; then
+    "$ROOT/bin/wl-audit" log "$1" --status "$2" --message "${3:-}" >/dev/null 2>&1 || true
+  fi
+}
+
+verify() {
+  python3 - "$POLICY" "$OPERATORS" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+policy_path = Path(sys.argv[1])
+operators_path = Path(sys.argv[2])
+errors = []
+
+if not policy_path.exists():
+    errors.append("missing identity policy")
+
+if not operators_path.exists():
+    errors.append("missing operators file")
+
+if not errors:
+    policy = json.loads(policy_path.read_text())
+    operators = json.loads(operators_path.read_text())
+
+    if policy.get("component") != "wonderland-identity":
+        errors.append("invalid identity policy component")
+
+    if operators.get("component") != "wonderland-operators":
+        errors.append("invalid operators component")
+
+    roles = set(policy.get("operator_roles", []))
+    if not roles:
+        errors.append("operator_roles must not be empty")
+
+    for i, op in enumerate(operators.get("operators", []), start=1):
+        if not op.get("name"):
+            errors.append(f"operator {i}: missing name")
+        if op.get("role") not in roles:
+            errors.append(f"operator {i}: unknown role {op.get('role')}")
+
+if errors:
+    print("FAIL: identity verification failed")
+    for error in errors:
+        print(error)
+    raise SystemExit(1)
+
+print("PASS: identity policy valid")
+PY
+}
+
+report() {
+  python3 - "$POLICY" "$OPERATORS" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+policy = json.loads(Path(sys.argv[1]).read_text())
+operators = json.loads(Path(sys.argv[2]).read_text())
+
+print(json.dumps({
+  "component": "wonderland-identity",
+  "version": policy.get("version"),
+  "mode": policy.get("mode"),
+  "roles": policy.get("operator_roles", []),
+  "operators": len(operators.get("operators", []))
+}, indent=2))
+PY
+}
+
+case "${1:-}" in
+  verify)
+    verify
+    audit identity.verify pass "Identity policy verified"
+    ;;
+  report)
+    report
+    audit identity.report pass "Identity report generated"
+    ;;
+  ""|help|--help|-h)
+    usage
+    ;;
+  *)
+    echo "FAIL: unknown identity command: $1"
+    usage
+    exit 1
+    ;;
+esac

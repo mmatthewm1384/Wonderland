@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+echo "== Wonderland Security Certification =="
+
+run_optional() {
+  local label="$1"
+  shift
+
+  echo
+  echo "## $label"
+
+  if [[ -x "$1" ]]; then
+    "$@"
+  else
+    echo "WARN: missing $1"
+  fi
+}
+
+run_optional "Audit" bin/wl-audit-certify
+run_optional "Permissions" bin/wl permissions verify
+run_optional "Secrets" bin/wl-secrets-certify
+run_optional "Identity" bin/wl-identity-certify
+run_optional "Integrity" bin/wl integrity verify
+run_optional "Firewall" bin/wl firewall verify
+run_optional "Certificates" bin/wl certificates verify
+run_optional "Encryption" bin/wl encryption verify
+
+echo
+echo "## Security Report"
+bin/wl-security-report | tee logs/security/security-report.json
+
+if [[ -x bin/wl-audit ]]; then
+  bin/wl-audit log security.certification.completed --status pass --message "Security certification completed" >/dev/null 2>&1 || true
+fi
+
+echo
+echo "PASS: security certification complete"
