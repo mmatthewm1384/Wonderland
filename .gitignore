@@ -127,3 +127,31 @@ logs/security/audit.jsonl
 # Wonderland local runtime/backups
 .wl/backups/
 ephemeral/
+
+# Python generated artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Wonderland generated runtime/build artifacts
+build/
+builder/image/
+builder/image-python/
+builder/qcow2/
+builder/vmware/
+builder/mount/
+builder/rootfs/
+builder/work/
+releases/*.qcow2
+releases/*.raw
+releases/*.vmdk
+*.vmwarevm/
+
+# Runtime logs/state
+vault/ephemeral-runs.log
+vault/chaos/*.jsonl
+vault/08-Operations/state/*.json
+vault/08-Operations/replication/manifests/latest.*
