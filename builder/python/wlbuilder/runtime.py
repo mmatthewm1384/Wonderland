@@ -87,9 +87,25 @@ def run(argv: Sequence[str] | None = None) -> int:
     parsed = parse(args)
 
     if parsed.command == "status":
+        repo_root = Path(__file__).resolve().parents[3]
+        legacy_build = repo_root / "build" / "__main__.py"
+
         print("wlbuilder runtime: active")
+        print(f"repo_root: {repo_root}")
+        print(f"runtime: {Path(__file__).resolve()}")
         print("execution_path: builder/python/wlbuilder/runtime.py")
         print("legacy_bridge: build.__main__")
+        print(f"legacy_bridge_file: {legacy_build}")
+        print(f"legacy_bridge_exists: {str(legacy_build.exists()).lower()}")
+
+        try:
+            if str(repo_root) not in sys.path:
+                sys.path.insert(0, str(repo_root))
+            importlib.import_module("build.__main__")
+            print("legacy_bridge_import: pass")
+        except Exception as exc:
+            print(f"legacy_bridge_import: fail: {exc}")
+
         return 0
 
     if parsed.command == "build":
