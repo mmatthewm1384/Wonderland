@@ -120,3 +120,5 @@ fi
 
 source "$WL_BOOTSTRAP"
 wl_dispatch "$@"
+
+# Mirror command: wl mirror status|verify|diff|update
