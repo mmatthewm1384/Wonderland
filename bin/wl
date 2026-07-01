@@ -22,6 +22,10 @@ if [[ -f "$ROOT/lib/core/dispatch/engineering.sh" ]]; then
 fi
 
 case "${1:-}" in
+    build)
+        shift
+        exec "$WL_ROOT/bin/wl-build" "$@"
+        ;;
     encryption)
         shift
         exec "$WL_ROOT/bin/wl-encryption" "$@"
