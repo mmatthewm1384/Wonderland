@@ -146,7 +146,7 @@ case "${1:-help}" in
     ;;
 
   certify)
-    remote 'bin/wl build certify'
+    exec bin/wl-builder-certify
     ;;
 
   recreate)
