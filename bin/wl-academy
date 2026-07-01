@@ -16,7 +16,10 @@ case "${1:-help}" in
   tree)
     find "$WL_ROOT/academy" -maxdepth 2 -type d | sort
     ;;
-  status|today|start|lesson|lab|quiz|journal|build|generate|complete|progress|inventory|report|review|certify|help)
+  lint|migrate|author)
+    exec "$WL_ROOT/lib/academy/content.sh" "$@"
+    ;;
+  status|today|start|lesson|lab|quiz|journal|build|generate|complete|progress|inventory|report|review|certify|module1|open|help)
     exec "$WL_ROOT/lib/academy/cli.sh" "$@"
     ;;
   *)
