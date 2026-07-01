@@ -23,6 +23,11 @@ case "${1:-help}" in
   summary)
     exec "$WL_ROOT/lib/academy/summary.sh"
     ;;
+  cert-record)
+    shift || true
+    exec "$WL_ROOT/lib/academy/cert-record.sh" "${1:-1.0-alpha}"
+    ;;
+
 
 
   path)
