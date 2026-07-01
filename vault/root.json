@@ -2,12 +2,17 @@
   "version": 1,
   "project": "Wonderland",
   "canonical": {
-    "macos": "/Users/wonderland/Wonderland",
-    "lima": "/home/wonderland/wonderland-os"
+    "macos_repo": "/Users/wonderland/Wonderland",
+    "lima_builder_repo": "/home/wonderland/wonderland-os",
+    "lima_home": "/home/wonderland.guest"
   },
   "runtime": {
     "host": "macos",
     "builder": "lima",
     "builder_instance": "wonderland-os-builder"
+  },
+  "policy": {
+    "root_resolution": "scripts resolve repository root from their own location; do not derive repository root from HOME",
+    "builder_shell": "use wl builder shell instead of raw limactl shell for project work"
   }
 }

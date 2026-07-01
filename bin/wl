@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-set -euo pipefail
 WL_ROOT="${WL_ROOT:-$ROOT}"
+set -euo pipefail
 
 
 # Platform Core 2.2 dispatch
