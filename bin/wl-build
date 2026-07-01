@@ -1,31 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-cd "$ROOT"
-
-usage() {
-  cat <<'EOF'
-Usage:
-  wl build image [--profile development|release] [extra builder args]
-  wl build certify
-EOF
-}
+cd "$(git rev-parse --show-toplevel)"
 
 case "${1:-}" in
-  image)
-    shift
-    exec python3 -m wlbuilder build "$@"
-    ;;
-  certify)
-    exec bin/wl-builder-certify
-    ;;
-  ""|help|--help|-h)
-    usage
+  build)
+    exec python3 -m wlbuilder "$@"
     ;;
   *)
-    echo "FAIL: unknown build command: $1"
-    usage
-    exit 1
+    exec python3 -m wlbuilder build "$@"
     ;;
 esac
