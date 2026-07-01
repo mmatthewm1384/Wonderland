@@ -1,18 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 case "$(uname -s)" in
-  Darwin)
-    echo "/Users/wonderland/Wonderland"
-    ;;
-  Linux)
-    if [[ -d /home/wonderland/wonderland-os ]]; then
-      echo "/home/wonderland/wonderland-os"
-    else
-      pwd
-    fi
+  Darwin|Linux)
+    echo "$SCRIPT_ROOT"
     ;;
   *)
-    pwd
+    echo "$SCRIPT_ROOT"
     ;;
 esac
