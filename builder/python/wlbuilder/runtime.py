@@ -68,4 +68,29 @@ def run(argv: Sequence[str] | None = None) -> int:
     if platform.system() == "Darwin":
         return _reject_direct_macos_execution()
 
-    return _run_existing_builder(argv)
+    args = list(argv) if argv is not None else sys.argv[1:]
+
+    # Backward compatibility:
+    #   python3 -m wlbuilder --profile development
+    #
+    # Preferred Builder v2 form:
+    #   python3 -m wlbuilder build --profile development
+    if args and args[0].startswith("-"):
+        args = ["build", *args]
+
+    from wlbuilder.cli import parse
+
+    parsed = parse(args)
+
+    if parsed.command == "status":
+        print("wlbuilder runtime: active")
+        print("execution_path: builder/python/wlbuilder/runtime.py")
+        print("legacy_bridge: build.__main__")
+        return 0
+
+    if parsed.command == "build":
+        legacy_args = ["--profile", parsed.profile]
+        return _run_existing_builder(legacy_args)
+
+    print("FAIL: no builder command provided.", file=sys.stderr)
+    return 1

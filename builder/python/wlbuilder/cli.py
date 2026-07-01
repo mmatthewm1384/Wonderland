@@ -1,22 +1,30 @@
 from __future__ import annotations
 
 import argparse
+from collections.abc import Sequence
 
 
-def main(argv: list[str] | None = None) -> int:
+def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python3 -m wlbuilder",
         description="Wonderland OS Builder Runtime",
     )
 
-    parser.add_argument(
+    subcommands = parser.add_subparsers(dest="command")
+
+    status = subcommands.add_parser("status", help="Show builder runtime status")
+    status.set_defaults(command="status")
+
+    build = subcommands.add_parser("build", help="Build a Wonderland OS image")
+    build.add_argument(
         "--profile",
         default="development",
         help="Builder profile to use",
     )
+    build.set_defaults(command="build")
 
-    args = parser.parse_args(argv)
+    return parser
 
-    # Temporary placeholder until the old image logic is moved into runtime stages.
-    print(f"wlbuilder runtime active: profile={args.profile}")
-    return 0
+
+def parse(argv: Sequence[str] | None = None) -> argparse.Namespace:
+    return build_parser().parse_args(list(argv) if argv is not None else None)
