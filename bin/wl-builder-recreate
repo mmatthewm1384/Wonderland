@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+INSTANCE="${WL_BUILDER_INSTANCE:-wonderland-os-builder}"
+TEMPLATE="$ROOT/infra/lima/wonderland-os-builder.yaml"
+
+if [[ ! -f "$TEMPLATE" ]]; then
+  echo "FAIL: missing Lima template: $TEMPLATE"
+  exit 1
+fi
+
+echo "== Wonderland Builder Recreate =="
+echo "Instance: $INSTANCE"
+echo "Template: $TEMPLATE"
+
+limactl stop "$INSTANCE" >/dev/null 2>&1 || true
+limactl delete -f "$INSTANCE" >/dev/null 2>&1 || true
+limactl create --name "$INSTANCE" "$TEMPLATE"
+limactl start "$INSTANCE"
+
+echo
+echo "PASS: builder recreated"
+echo "Run: bin/wl builder root"

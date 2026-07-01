@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+INSTANCE="${WL_BUILDER_INSTANCE:-wonderland-os-builder}"
+REMOTE_ROOT="${WL_BUILDER_ROOT:-/home/wonderland/wonderland-os}"
+
+usage() {
+cat <<EOF
+Usage:
+  wl builder shell
+  wl builder root
+  wl builder build [--profile development|release]
+  wl builder certify
+  wl builder recreate
+EOF
+}
+
+case "${1:-help}" in
+  shell)
+    exec limactl shell "$INSTANCE" -- bash -lc "cd '$REMOTE_ROOT' && exec bash"
+    ;;
+  root)
+    exec limactl shell "$INSTANCE" -- bash -lc "cd '$REMOTE_ROOT' && pwd && bin/wl root"
+    ;;
+  build)
+    shift
+    exec limactl shell "$INSTANCE" -- bash -lc "cd '$REMOTE_ROOT' && python3 -m wlbuilder ${*:-}"
+    ;;
+  certify)
+    exec limactl shell "$INSTANCE" -- bash -lc "cd '$REMOTE_ROOT' && bin/wl build certify"
+    ;;
+  recreate)
+    exec "$ROOT/bin/wl-builder-recreate"
+    ;;
+  help|-h|--help)
+    usage
+    ;;
+  *)
+    usage
+    exit 1
+    ;;
+esac

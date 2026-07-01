@@ -30,6 +30,11 @@ case "${1:-}" in
         shift
         exec "$WL_ROOT/bin/wl-build" "$@"
         ;;
+
+builder)
+        shift
+        exec "$WL_ROOT/bin/wl-builder" "$@"
+        ;;
     encryption)
         shift
         exec "$WL_ROOT/bin/wl-encryption" "$@"
