@@ -17,6 +17,10 @@ case "${1:-help}" in
   baseline)
     exec "$WL_ROOT/lib/academy/baseline.sh"
     ;;
+  handoff)
+    exec "$WL_ROOT/lib/academy/handoff.sh"
+    ;;
+
   path)
     echo "$WL_ROOT/academy"
     ;;
