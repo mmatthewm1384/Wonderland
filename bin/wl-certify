@@ -2,3 +2,7 @@
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/core/bootstrap.sh"
 
 wl_certify_main "$@"
+
+echo
+echo "## Mirror"
+bin/wl-mirror-certify
