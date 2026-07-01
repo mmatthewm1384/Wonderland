@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-source "$HOME/Wonderland/lib/core/root.sh"
-
-root="$(wl_require_root "${1:-$PWD}")"
-
-echo "Wonderland Root"
-echo "────────────────────────"
-echo "$root"
+case "$(uname -s)" in
+  Darwin)
+    echo "/Users/wonderland/Wonderland"
+    ;;
+  Linux)
+    if [[ -d /home/wonderland/wonderland-os ]]; then
+      echo "/home/wonderland/wonderland-os"
+    else
+      pwd
+    fi
+    ;;
+  *)
+    pwd
+    ;;
+esac
