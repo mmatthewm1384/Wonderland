@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+echo "== Wonderland Mirror Certification =="
+
+run() {
+  echo
+  echo "## $*"
+  "$@"
+}
+
+run bin/wl mirror status
+run bin/wl mirror verify
+run bin/wl mirror diff
+
+echo
+echo "PASS: mirror certification complete"
