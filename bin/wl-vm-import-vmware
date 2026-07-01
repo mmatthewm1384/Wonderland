@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SRC="$ROOT/build/vmware/wonderland-os.vmdk"
+VM_DIR="${1:-}"
+
+if [[ -z "$VM_DIR" ]]; then
+  echo "Usage: wl vm import-vmdk /path/to/VM.vmwarevm"
+  exit 1
+fi
+
+if [[ ! -d "$VM_DIR" ]]; then
+  echo "FAIL: VM bundle not found: $VM_DIR"
+  exit 1
+fi
+
+if [[ ! -f "$SRC" ]]; then
+  echo "FAIL: missing VMDK. Run: wl vm create"
+  exit 1
+fi
+
+VMX="$(find "$VM_DIR" -maxdepth 1 -name "*.vmx" | head -n 1)"
+
+if [[ -z "$VMX" ]]; then
+  echo "FAIL: no .vmx found in $VM_DIR"
+  exit 1
+fi
+
+STAMP="$(date +%Y%m%d-%H%M%S)"
+cp "$VMX" "$VMX.before-wonderland-$STAMP"
+
+cp "$SRC" "$VM_DIR/wonderland-os.vmdk"
+
+python3 - "$VMX" <<'PY'
+from pathlib import Path
+import re
+import sys
+
+vmx = Path(sys.argv[1])
+text = vmx.read_text()
+
+# Replace first virtual disk fileName entry while preserving Fusion-created controller layout.
+pattern = re.compile(r'(^[^#\n]*:0\.fileName\s*=\s*").*?(")', re.MULTILINE)
+
+if not pattern.search(text):
+    raise SystemExit("FAIL: could not find primary disk fileName entry in VMX")
+
+text = pattern.sub(r'\1wonderland-os.vmdk\2', text, count=1)
+vmx.write_text(text)
+print("PASS: VMX now points to wonderland-os.vmdk")
+PY
+
+echo "PASS: imported Wonderland disk into:"
+echo "$VM_DIR"

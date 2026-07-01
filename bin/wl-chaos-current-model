@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WL_HOME:-$HOME/Wonderland}"
+STATE="$ROOT/vault/chaos/foundation-model.json"
+
+model="$(jq -r '.model // "unknown"' "$STATE" 2>/dev/null || echo unknown)"
+
+python3 - "$model" <<'PY'
+import sys
+m = sys.argv[1]
+print(" ".join(part.capitalize() for part in m.split("-")))
+PY

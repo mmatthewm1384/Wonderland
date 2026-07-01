@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+QCOW2="$ROOT/builder/qcow2/wonderland-os-latest.qcow2"
+VMWARE_BUILD_DIR="$ROOT/build/vmware"
+VMDK="$VMWARE_BUILD_DIR/wonderland-os.vmdk"
+README="$VMWARE_BUILD_DIR/README.md"
+
+if [[ ! -e "$QCOW2" ]]; then
+  echo "FAIL: missing canonical QCOW2: $QCOW2"
+  exit 1
+fi
+
+if ! command -v qemu-img >/dev/null 2>&1; then
+  echo "FAIL: qemu-img required. Install with: brew install qemu"
+  exit 1
+fi
+
+mkdir -p "$VMWARE_BUILD_DIR"
+
+echo "== Wonderland VMware Disk Prepare =="
+
+qemu-img check "$QCOW2"
+
+if [[ ! -f "$VMDK" || "$QCOW2" -nt "$VMDK" ]]; then
+  qemu-img convert -p -f qcow2 -O vmdk "$QCOW2" "$VMDK"
+else
+  echo "PASS: VMDK already up to date"
+fi
+
+cat > "$README" <<EOF
+# Wonderland VMware Boot
+
+Generated disk:
+
+$VMDK
+
+Recommended flow:
+
+1. Create a new VMware Fusion ARM64 Debian/Linux VM using Fusion defaults.
+2. Do not hand-edit PCIe devices.
+3. Run:
+
+   bin/wl vm import-vmdk "/path/to/VM.vmwarevm"
+
+4. Boot the VM in Fusion.
+EOF
+
+echo
+echo "PASS: VMware disk prepared"
+echo "$VMDK"

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+IP="$("$ROOT/bin/wl-vm-ip" | tail -n 1)"
+
+echo "Connecting to Wonderland VM: $IP"
+exec ssh \
+  -o StrictHostKeyChecking=accept-new \
+  wonderland@"$IP"

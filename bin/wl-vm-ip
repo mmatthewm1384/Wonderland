@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+STATE="$ROOT/vault/vm/state/default.env"
+
+if [[ -f "$STATE" ]]; then
+  # shellcheck disable=SC1090
+  source "$STATE"
+  if [[ -n "${WL_VM_IP:-}" ]] && nc -G 1 -z "$WL_VM_IP" 22 >/dev/null 2>&1; then
+    echo "$WL_VM_IP"
+    exit 0
+  fi
+fi
+
+echo "== Wonderland VM IP Discovery =="
+
+# Prefer hosts that respond to SSH and advertise a Wonderland/Debian hostname.
+CANDIDATES="$(arp -a | awk '{print $2}' | tr -d '()' | sort -u)"
+
+for ip in $CANDIDATES; do
+  if nc -G 1 -z "$ip" 22 >/dev/null 2>&1; then
+    if ssh -o BatchMode=yes \
+           -o ConnectTimeout=2 \
+           -o StrictHostKeyChecking=no \
+           -o UserKnownHostsFile=/dev/null \
+           "wonderland@$ip" 'hostname' 2>/dev/null | grep -qi 'wonderland\|debian'; then
+      echo "$ip"
+      exit 0
+    fi
+  fi
+done
+
+echo "FAIL: no Wonderland VM SSH endpoint found" >&2
+exit 1

@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+QCOW2="$ROOT/builder/qcow2/wonderland-os-latest.qcow2"
+VMWARE_BUILD_DIR="$ROOT/build/vmware"
+VM_DIR="$ROOT/builder/vmware/Wonderland OS.vmwarevm"
+VMDK="$VMWARE_BUILD_DIR/wonderland-os.vmdk"
+VMX="$VM_DIR/Wonderland OS.vmx"
+
+if [[ ! -e "$QCOW2" ]]; then
+  echo "FAIL: missing canonical QCOW2: $QCOW2"
+  exit 1
+fi
+
+if ! command -v qemu-img >/dev/null 2>&1; then
+  echo "FAIL: qemu-img is required for VMware VMDK conversion"
+  echo "Install with: brew install qemu"
+  exit 1
+fi
+
+mkdir -p "$VMWARE_BUILD_DIR" "$VM_DIR"
+
+echo "== Wonderland VMware VM Create =="
+
+echo
+echo "## Source image"
+qemu-img info "$QCOW2"
+
+echo
+echo "## QCOW2 integrity"
+qemu-img check "$QCOW2" || {
+  echo "FAIL: QCOW2 integrity check failed"
+  exit 1
+}
+
+if [[ ! -f "$VMDK" || "$QCOW2" -nt "$VMDK" ]]; then
+  echo
+  echo "## Converting QCOW2 to VMDK"
+  qemu-img convert \
+    -p \
+    -f qcow2 \
+    -O vmdk \
+    -o adapter_type=lsilogic,subformat=streamOptimized \
+    "$QCOW2" \
+    "$VMDK"
+else
+  echo
+  echo "## VMDK conversion"
+  echo "PASS: existing VMDK is up to date"
+fi
+
+echo
+echo "## VMDK"
+ls -lh "$VMDK"
+
+echo
+echo "## Writing VMX"
+
+cat > "$VMX" <<EOF
+.encoding = "UTF-8"
+config.version = "8"
+virtualHW.version = "21"
+
+displayName = "Wonderland OS"
+guestOS = "arm-debian12-64"
+firmware = "efi"
+
+memsize = "4096"
+numvcpus = "4"
+
+ethernet0.present = "TRUE"
+ethernet0.connectionType = "nat"
+ethernet0.virtualDev = "vmxnet3"
+
+scsi0.present = "TRUE"
+scsi0.virtualDev = "pvscsi"
+scsi0:0.present = "TRUE"
+scsi0:0.fileName = "$VMDK"
+scsi0:0.deviceType = "disk"
+
+usb.present = "TRUE"
+sound.present = "FALSE"
+tools.syncTime = "TRUE"
+EOF
+
+echo
+echo "PASS: VMware VM generated"
+echo "$VMX"

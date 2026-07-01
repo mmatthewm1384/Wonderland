@@ -4,71 +4,78 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CONFIG="$ROOT/vault/vm/default.json"
 
-usage() {
-cat <<EOF
-Usage:
-
-wl vm create
-wl vm boot
-wl vm stop
-wl vm status
-wl vm console
-wl vm certify
-EOF
-}
-
 provider() {
 python3 - <<PY
 import json
-print(json.load(open("$CONFIG"))["provider"])
+from pathlib import Path
+cfg=json.loads(Path("$CONFIG").read_text())
+print(cfg["provider"])
 PY
+}
+
+usage() {
+cat <<EOF
+Usage:
+  wl vm create
+  wl vm import-vmdk /path/to/VM.vmwarevm
+  wl vm ip
+  wl vm ssh
+  wl vm boot
+  wl vm stop
+  wl vm status
+  wl vm certify
+EOF
 }
 
 case "${1:-}" in
 
 create)
+    case "$(provider)" in
+        vmware-fusion)
+            exec "$ROOT/bin/wl-vm-create-vmware"
+            ;;
+        *)
+            echo "FAIL: unsupported provider: $(provider)"
+            exit 1
+            ;;
+    esac
+    ;;
 
-echo "VM provider: $(provider)"
-echo
-echo "Next:"
-echo "Create a VMware Fusion VM using:"
-echo
-python3 - <<PY
-import json
-cfg=json.load(open("$CONFIG"))
-print(cfg["image"]["qcow2"])
-PY
-;;
+import-vmdk)
+    shift
+    exec "$ROOT/bin/wl-vm-import-vmware" "$@"
+    ;;
+
+ip)
+    exec "$ROOT/bin/wl-vm-ip"
+    ;;
+
+ssh)
+    exec "$ROOT/bin/wl-vm-ssh"
+    ;;
 
 boot)
-
-echo "Launch VMware Fusion."
-echo "Boot the configured VM."
-;;
+    echo "Open the VMware Fusion VM you imported the Wonderland disk into."
+    ;;
 
 stop)
-
-echo "Shutdown guest."
-;;
+    echo "Shutdown the VM from the guest OS."
+    ;;
 
 status)
-
-echo "Provider: $(provider)"
-;;
-
-console)
-
-echo "Use VMware console."
-;;
+    echo "Provider: $(provider)"
+    ;;
 
 certify)
+    exec "$ROOT/bin/wl-vm-certify"
+    ;;
 
-exec "$ROOT/bin/wl-vm-certify"
-;;
+help|-h|--help|"")
+    usage
+    ;;
 
 *)
-
-usage
-;;
-
+    usage
+    exit 1
+    ;;
 esac
