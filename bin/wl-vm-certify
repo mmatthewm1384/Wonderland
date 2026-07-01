@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+echo "== Wonderland VM Certification =="
+
+python3 - <<PY
+import json
+from pathlib import Path
+
+cfg=json.loads(Path("vault/vm/default.json").read_text())
+
+errors=[]
+
+img=Path(cfg["image"]["qcow2"])
+
+if not img.exists():
+    errors.append(f"Missing image: {img}")
+
+if cfg["machine"]["firmware"]!="efi":
+    errors.append("Firmware should be EFI")
+
+if errors:
+    print("FAIL")
+    for e in errors:
+        print(e)
+    raise SystemExit(1)
+
+print("PASS")
+PY

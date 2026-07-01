@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "provider": "vmware-fusion",
+  "canonical_repo": "/Users/wonderland/Wonderland",
+  "machine": {
+    "name": "Wonderland OS",
+    "memory_mb": 4096,
+    "cpus": 4,
+    "firmware": "efi",
+    "network": "nat"
+  },
+  "image": {
+    "qcow2": "builder/qcow2/wonderland-os-latest.qcow2",
+    "source": "build/qcow2/debian-12-generic-arm64.qcow2"
+  }
+}
