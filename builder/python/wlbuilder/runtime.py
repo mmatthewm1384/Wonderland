@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib
+from pathlib import Path
 import inspect
 import platform
 import sys
@@ -41,6 +42,11 @@ def _run_existing_builder(argv: Sequence[str] | None = None) -> int:
     images/build-qcow2.py.
     """
     try:
+        
+        repo_root = Path(__file__).resolve().parents[3]
+        if str(repo_root) not in sys.path:
+            sys.path.insert(0, str(repo_root))
+
         module = importlib.import_module("build.__main__")
     except Exception as exc:
         print(f"FAIL: unable to import build.__main__: {exc}", file=sys.stderr)
