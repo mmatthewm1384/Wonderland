@@ -1,6 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+host_command_requires_limactl() {
+  case "${1:-}" in
+    status|doctor|start|stop|restart|shell|logs|root)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+if [[ "$(uname -s)" != "Darwin" ]] && host_command_requires_limactl "${1:-}"; then
+  if ! command -v limactl >/dev/null 2>&1; then
+    echo "FAIL: wl builder ${1:-} is a host-side command and requires limactl."
+    echo "Inside the builder VM, use:"
+    echo "  python3 -m wlbuilder status"
+    echo "  python3 -m wlbuilder build --profile development"
+    exit 1
+  fi
+fi
+
+
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 INSTANCE="${WL_BUILDER_INSTANCE:-wonderland-os-builder}"
 REMOTE_ROOT="${WL_BUILDER_ROOT:-/home/wonderland/wonderland-os}"
@@ -116,8 +138,11 @@ case "${1:-help}" in
     ;;
 
   build)
-    shift
-    exec limactl shell "$INSTANCE" -- bash -lc "cd '$REMOTE_ROOT' && python3 -m wlbuilder build ${*:-}"
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+      exec limactl shell "$INSTANCE" -- bash -lc "cd '$REMOTE_ROOT' && python3 -m wlbuilder build ${*:-}"
+    fi
+
+    exec python3 -m wlbuilder build "${@:2}"
     ;;
 
   certify)
