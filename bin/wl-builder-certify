@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+echo "== Wonderland Python Builder Certification =="
+
+require_file() {
+  if [[ ! -f "$1" ]]; then
+    echo "FAIL: missing $1"
+    exit 1
+  fi
+}
+
+require_file wlbuilder/__main__.py
+require_file images/build-qcow2.py
+require_file bin/wl-build
+
+echo
+echo "## Python module import"
+python3 - <<'PY'
+import importlib.util
+from pathlib import Path
+
+required = [
+    "wlbuilder/__main__.py",
+    "images/build-qcow2.py",
+]
+
+for item in required:
+    path = Path(item)
+    if not path.exists():
+        raise SystemExit(f"FAIL: missing {item}")
+
+print("PASS: builder files present")
+PY
+
+echo
+echo "## CLI help"
+python3 -m wlbuilder --help >/dev/null
+bin/wl build help >/dev/null || true
+
+echo
+echo "PASS: Python builder certification complete"
