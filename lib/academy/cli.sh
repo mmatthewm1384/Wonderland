@@ -518,6 +518,97 @@ cmd_review() {
   echo "  wl academy start"
 }
 
+cmd_open() {
+  require_state
+
+  local target="${1:-lesson}"
+  local day file
+  day="$(json_get current_day)"
+
+  case "$target" in
+    lesson) file="$(path_for_day lesson "$day")" ;;
+    lab) file="$(path_for_day lab "$day")" ;;
+    quiz) file="$(path_for_day quiz "$day")" ;;
+    journal)
+      file="$(journal_path_for_day "$day")"
+      mkdir -p "$(dirname "$file")"
+      [[ -f "$file" ]] || wl academy journal >/dev/null
+      ;;
+    module1) file="$ACADEMY/01-curriculum/year-1/module-01-foundations/README.md" ;;
+    *)
+      echo "FAIL unknown open target: $target" >&2
+      echo "Supported: lesson lab quiz journal module1" >&2
+      exit 1
+      ;;
+  esac
+
+  [[ -n "${file:-}" && -f "$file" ]] || {
+    echo "FAIL file missing for target: $target" >&2
+    exit 1
+  }
+
+  if command -v open >/dev/null 2>&1; then
+    open "$file"
+  else
+    echo "$file"
+  fi
+}
+
+
+cmd_quality() {
+  local fail=0
+
+  echo "Wonderland Academy Quality Gate"
+  echo
+
+  if wl academy doctor; then
+    echo "PASS doctor"
+  else
+    echo "FAIL doctor" >&2
+    fail=1
+  fi
+
+  echo
+
+  if wl academy certify; then
+    echo "PASS phase certification"
+  else
+    echo "FAIL phase certification" >&2
+    fail=1
+  fi
+
+  echo
+
+  if wl academy lint; then
+    echo "PASS content lint"
+  else
+    echo "FAIL content lint" >&2
+    fail=1
+  fi
+
+  echo
+
+  if wl academy module1; then
+    echo "PASS module1"
+  else
+    echo "FAIL module1" >&2
+    fail=1
+  fi
+
+  if [[ "$fail" -eq 0 ]]; then
+    echo "RESULT PASS"
+  else
+    echo "RESULT FAIL" >&2
+    exit 1
+  fi
+}
+
+
+cmd_module1() {
+  exec "$WL_ROOT/lib/academy/module1.sh"
+}
+
+
 cmd_help() {
   cat <<'HELP'
 Usage:
@@ -535,6 +626,9 @@ Usage:
   wl academy report             Generate Academy report
   wl academy review             Show review summary
   wl academy certify            Certify Academy phase 1
+  wl academy module1            Certify Module 1 Foundations
+  wl academy quality            Run full Academy quality gate
+  wl academy open <target>      Open lesson/lab/quiz/journal/module1
   wl academy generate year-1    Generate year-one lesson/lab/quiz scaffolds
 HELP
 }
@@ -555,5 +649,8 @@ case "${1:-help}" in
   report) cmd_report ;;
   review) cmd_review ;;
   certify) cmd_certify ;;
+  quality) cmd_quality ;;
+  module1) cmd_module1 ;;
+  open) shift || true; cmd_open "${1:-lesson}" ;;
   help|*) cmd_help ;;
 esac

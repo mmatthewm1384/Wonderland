@@ -19,7 +19,7 @@ case "${1:-help}" in
   lint|migrate|author)
     exec "$WL_ROOT/lib/academy/content.sh" "$@"
     ;;
-  status|today|start|lesson|lab|quiz|journal|build|generate|complete|progress|inventory|report|review|certify|module1|open|help)
+  status|today|start|lesson|lab|quiz|journal|build|generate|complete|progress|inventory|report|review|certify|quality|module1|open|help)
     exec "$WL_ROOT/lib/academy/cli.sh" "$@"
     ;;
   *)
