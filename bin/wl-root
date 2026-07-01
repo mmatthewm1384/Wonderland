@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$HOME/Wonderland/lib/core/root.sh"
+
+root="$(wl_require_root "${1:-$PWD}")"
+
+echo "Wonderland Root"
+echo "────────────────────────"
+echo "$root"

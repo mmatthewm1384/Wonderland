@@ -22,6 +22,15 @@ if [[ -f "$ROOT/lib/core/dispatch/engineering.sh" ]]; then
 fi
 
 case "${1:-}" in
+  root)
+    shift || true
+    exec "$WL_ROOT/bin/wl-root" "${1:-$PWD}"
+    ;;
+  cd)
+    shift || true
+    exec "$WL_ROOT/bin/wl-cd" "${1:-$PWD}"
+    ;;
+
   academy)
     shift || true
     exec "$WL_ROOT/bin/wl-academy" "${@:-help}"
