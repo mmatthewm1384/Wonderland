@@ -4,6 +4,7 @@ default_profile: development
 
 system:
   name: wonderland-os
+  version: 0.1.1
   architecture: arm64
   debian_release: bookworm
 
