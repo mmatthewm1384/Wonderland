@@ -1,81 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-CONFIG="$ROOT/vault/vm/default.json"
-
-provider() {
-python3 - <<PY
-import json
-from pathlib import Path
-cfg=json.loads(Path("$CONFIG").read_text())
-print(cfg["provider"])
-PY
-}
-
-usage() {
-cat <<EOF
+case "${1:-help}" in
+  ssh|create|start|stop|list)
+    echo "FAIL: wl vm $1 is not implemented yet."
+    exit 1
+    ;;
+  help|-h|--help|*)
+    cat <<'EOF'
 Usage:
   wl vm create
-  wl vm import-vmdk /path/to/VM.vmwarevm
-  wl vm ip
-  wl vm ssh
-  wl vm boot
+  wl vm start
   wl vm stop
-  wl vm status
-  wl vm certify
+  wl vm ssh
+  wl vm list
 EOF
-}
-
-case "${1:-}" in
-
-create)
-    case "$(provider)" in
-        vmware-fusion)
-            exec "$ROOT/bin/wl-vm-create-vmware"
-            ;;
-        *)
-            echo "FAIL: unsupported provider: $(provider)"
-            exit 1
-            ;;
-    esac
-    ;;
-
-import-vmdk)
-    shift
-    exec "$ROOT/bin/wl-vm-import-vmware" "$@"
-    ;;
-
-ip)
-    exec "$ROOT/bin/wl-vm-ip"
-    ;;
-
-ssh)
-    exec "$ROOT/bin/wl-vm-ssh"
-    ;;
-
-boot)
-    echo "Open the VMware Fusion VM you imported the Wonderland disk into."
-    ;;
-
-stop)
-    echo "Shutdown the VM from the guest OS."
-    ;;
-
-status)
-    echo "Provider: $(provider)"
-    ;;
-
-certify)
-    exec "$ROOT/bin/wl-vm-certify"
-    ;;
-
-help|-h|--help|"")
-    usage
-    ;;
-
-*)
-    usage
-    exit 1
     ;;
 esac
