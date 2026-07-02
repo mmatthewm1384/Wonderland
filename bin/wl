@@ -1,67 +1,38 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-cd "$ROOT"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export PATH="$ROOT/bin:$PATH"
 
 usage() {
   cat <<'EOF'
 Wonderland CLI
 
 Usage:
-  wl builder <command> [args...]
+  wl <subsystem> [command] [args...]
 
-Builder commands:
-  wl builder verify
-  wl builder doctor
-  wl builder certify
+Examples:
   wl builder build --profile development
-  wl builder status
-
-Platform aliases:
-  wl verify        # runs wl builder verify for now
-  wl doctor        # runs wl builder doctor for now
-  wl certify       # runs wl builder certify for now
-  wl builder shell
-  wl builder start
-  wl builder stop
-  wl builder restart
-  wl builder logs
-  wl builder root
-
-General:
-  wl help
+  wl builder doctor
+  wl release publish
+  wl vm ssh
 EOF
 }
 
-command="${1:-help}"
+if [[ $# -eq 0 || "${1:-}" == "help" || "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  usage
+  exit 0
+fi
 
-case "$command" in
-  help|-h|--help)
-    usage
-    ;;
+subsystem="$1"
+shift
 
-  builder)
-    shift
-    exec "$ROOT/bin/wl-builder" "$@"
-    ;;
-  verify)
-    exec "$ROOT/bin/wl-builder" verify
-    ;;
+tool="$ROOT/bin/wl-$subsystem"
 
-  doctor)
-    exec "$ROOT/bin/wl-builder" doctor
-    ;;
+if [[ ! -x "$tool" ]]; then
+  echo "FAIL: unknown subsystem: $subsystem" >&2
+  echo "Expected executable: $tool" >&2
+  exit 1
+fi
 
-  certify)
-    exec "$ROOT/bin/wl-builder" certify
-    ;;
-
-
-  *)
-    echo "FAIL: unknown wl command: $command" >&2
-    echo >&2
-    usage >&2
-    exit 1
-    ;;
-esac
+exec "$tool" "$@"
