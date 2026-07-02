@@ -84,6 +84,11 @@ def _status() -> int:
         print(f"vmware_output: {context.vmware_output}")
         print(f"log_root: {context.log_root}")
         print(f"manifest_root: {context.manifest_root}")
+        from wlbuilder.stages import default_pipeline
+
+        print("pipeline:")
+        for stage in default_pipeline():
+            print(f"  - {stage.name}")
     except Exception as exc:
         print(f"config: fail: {exc}")
 
