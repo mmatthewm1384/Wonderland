@@ -6,7 +6,7 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-from wlbuilder.context import create_context
+from wlbuilder.context import create_context, ensure_output_dirs
 
 
 @dataclass(frozen=True, slots=True)
@@ -50,6 +50,8 @@ def run_doctor(repo_root: Path | None = None) -> int:
 
     try:
         context = create_context(root)
+        ensure_output_dirs(context)
+
         checks.append(
             DoctorCheck(
                 name="config",
