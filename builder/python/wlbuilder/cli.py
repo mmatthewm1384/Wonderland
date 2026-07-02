@@ -18,6 +18,9 @@ def build_parser() -> argparse.ArgumentParser:
     doctor = subcommands.add_parser("doctor", help="Run builder runtime diagnostics")
     doctor.set_defaults(command="doctor")
 
+    verify = subcommands.add_parser("verify", help="Verify builder runtime contract")
+    verify.set_defaults(command="verify")
+
 
     build = subcommands.add_parser("build", help="Build a Wonderland OS image")
     build.add_argument(

@@ -123,6 +123,11 @@ def run(argv: Sequence[str] | None = None) -> int:
 
         return run_doctor(_repo_root())
 
+    if parsed.command == "verify":
+        from wlbuilder.verify import run_verify
+
+        return run_verify(_repo_root())
+
     if parsed.command == "build":
         from wlbuilder.context import create_context, ensure_output_dirs
 
