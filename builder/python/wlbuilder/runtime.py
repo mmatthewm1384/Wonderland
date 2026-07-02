@@ -140,7 +140,17 @@ def run(argv: Sequence[str] | None = None) -> int:
             return pipeline_status
 
         legacy_args = ["--profile", context.profile]
-        return _legacy_build(legacy_args)
+        build_status = _legacy_build(legacy_args)
+        if build_status != 0:
+            return build_status
+
+        from wlbuilder.artifacts import collect_legacy_artifacts
+
+        collected = collect_legacy_artifacts(context)
+        for artifact in collected:
+            print(f"artifact: {artifact}")
+
+        return 0
 
     print("FAIL: no builder command provided.", file=sys.stderr)
     return 1
