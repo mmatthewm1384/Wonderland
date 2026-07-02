@@ -7,6 +7,7 @@ from wlbuilder.stages.bootstrap import BootstrapStage
 from wlbuilder.stages.cleanup import CleanupStage
 from wlbuilder.stages.filesystem import FilesystemStage
 from wlbuilder.stages.manifest import ManifestStage
+from wlbuilder.stages.legacy import LegacyBuildStage
 from wlbuilder.stages.packages import PackageStage
 
 
@@ -19,6 +20,7 @@ def default_pipeline() -> list[BuilderStage]:
         ManifestStage(),
         ArtifactStage(),
         CleanupStage(),
+        LegacyBuildStage(),
     ]
 
 
@@ -29,6 +31,7 @@ __all__ = [
     "CleanupStage",
     "FilesystemStage",
     "ManifestStage",
+    "LegacyBuildStage",
     "PackageStage",
     "default_pipeline",
 ]
