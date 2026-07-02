@@ -97,22 +97,7 @@ case "${1:-help}" in
       exit 0
     fi
 
-    echo "Builder runtime:"
-    python3 -m wlbuilder status
-    echo
-
-    echo "Required Linux tools:"
-    fail=0
-    for tool in python3 qemu-img debootstrap parted mkfs.vfat mkfs.ext4 grub-install; do
-      if command -v "$tool" >/dev/null 2>&1; then
-        echo "$tool: PASS"
-      else
-        echo "$tool: FAIL"
-        fail=1
-      fi
-    done
-
-    exit "$fail"
+    exec python3 -m wlbuilder doctor
     ;;
 
   shell)

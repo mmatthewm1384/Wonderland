@@ -118,6 +118,11 @@ def run(argv: Sequence[str] | None = None) -> int:
     if parsed.command == "status":
         return _status()
 
+    if parsed.command == "doctor":
+        from wlbuilder.doctor import run_doctor
+
+        return run_doctor(_repo_root())
+
     if parsed.command == "build":
         from wlbuilder.context import create_context, ensure_output_dirs
 

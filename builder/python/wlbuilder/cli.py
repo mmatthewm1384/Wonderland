@@ -15,6 +15,10 @@ def build_parser() -> argparse.ArgumentParser:
     status = subcommands.add_parser("status", help="Show builder runtime status")
     status.set_defaults(command="status")
 
+    doctor = subcommands.add_parser("doctor", help="Run builder runtime diagnostics")
+    doctor.set_defaults(command="doctor")
+
+
     build = subcommands.add_parser("build", help="Build a Wonderland OS image")
     build.add_argument(
         "--profile",
