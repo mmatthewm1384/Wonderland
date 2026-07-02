@@ -71,13 +71,19 @@ def _status() -> int:
         print(f"legacy_bridge_import: fail: {exc}")
 
     try:
-        from wlbuilder.config import load_config
+        from wlbuilder.context import create_context
 
-        config = load_config(repo_root)
+        context = create_context(repo_root)
         print("config: pass")
-        print(f"config_file: {config.path}")
-        print(f"default_profile: {config.default_profile}")
-        print(f"output_root: {config.output_root}")
+        print(f"config_file: {context.config.path}")
+        print(f"default_profile: {context.config.default_profile}")
+        print(f"profile: {context.profile}")
+        print(f"output_root: {context.output_root}")
+        print(f"raw_output: {context.raw_output}")
+        print(f"qcow2_output: {context.qcow2_output}")
+        print(f"vmware_output: {context.vmware_output}")
+        print(f"log_root: {context.log_root}")
+        print(f"manifest_root: {context.manifest_root}")
     except Exception as exc:
         print(f"config: fail: {exc}")
 
@@ -108,7 +114,12 @@ def run(argv: Sequence[str] | None = None) -> int:
         return _status()
 
     if parsed.command == "build":
-        legacy_args = ["--profile", parsed.profile]
+        from wlbuilder.context import create_context, ensure_output_dirs
+
+        context = create_context(_repo_root(), parsed.profile)
+        ensure_output_dirs(context)
+
+        legacy_args = ["--profile", context.profile]
         return _legacy_build(legacy_args)
 
     print("FAIL: no builder command provided.", file=sys.stderr)
