@@ -51,6 +51,11 @@ python3 -m wlbuilder status >/dev/null && echo "PASS wlbuilder status" || {
   fail=1
 }
 
+python3 -m wlbuilder verify >/dev/null && echo "PASS wlbuilder verify" || {
+  echo "FAIL wlbuilder verify"
+  fail=1
+}
+
 python3 - <<'PYVERIFY' && echo "PASS wlbuilder runtime import" || {
 import wlbuilder.runtime
 from pathlib import Path
