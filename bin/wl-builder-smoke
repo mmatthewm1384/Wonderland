@@ -18,6 +18,9 @@ echo "PASS wlbuilder doctor"
 python3 -m wlbuilder verify >/dev/null
 echo "PASS wlbuilder verify"
 
+bin/wl builder verify >/dev/null
+echo "PASS wl builder verify"
+
 python3 -m wlbuilder build --help >/dev/null
 echo "PASS wlbuilder build help"
 

@@ -17,6 +17,9 @@ Builder commands:
   wl builder certify
   wl builder build --profile development
   wl builder status
+
+Platform aliases:
+  wl verify        # runs wl builder verify for now
   wl builder shell
   wl builder start
   wl builder stop
@@ -40,6 +43,10 @@ case "$command" in
     shift
     exec "$ROOT/bin/wl-builder" "$@"
     ;;
+  verify)
+    exec "$ROOT/bin/wl-builder" verify
+    ;;
+
 
   *)
     echo "FAIL: unknown wl command: $command" >&2
