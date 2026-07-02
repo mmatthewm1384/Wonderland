@@ -128,6 +128,15 @@ def run(argv: Sequence[str] | None = None) -> int:
 
         return run_verify(_repo_root())
 
+    if parsed.command == "artifacts":
+        from wlbuilder.context import create_context
+
+        context = create_context(_repo_root())
+        for artifact in sorted(context.output_root.rglob("*")):
+            if artifact.is_file():
+                print(artifact.relative_to(context.repo_root))
+        return 0
+
     if parsed.command == "build":
         from wlbuilder.context import create_context, ensure_output_dirs
         from wlbuilder.pipeline import execute

@@ -21,6 +21,9 @@ def build_parser() -> argparse.ArgumentParser:
     verify = subcommands.add_parser("verify", help="Verify builder runtime contract")
     verify.set_defaults(command="verify")
 
+    artifacts = subcommands.add_parser("artifacts", help="List Builder v2 artifacts")
+    artifacts.set_defaults(command="artifacts")
+
 
     build = subcommands.add_parser("build", help="Build a Wonderland OS image")
     build.add_argument(
