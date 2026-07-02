@@ -24,6 +24,12 @@ if [[ $# -eq 0 || "${1:-}" == "help" || "${1:-}" == "-h" || "${1:-}" == "--help"
   exit 0
 fi
 
+if [[ "${1:-}" == "list" ]]; then
+  echo "Wonderland subsystems:"
+  find "$ROOT/bin" -maxdepth 1 -type f -name 'wl-*' -perm -111     | sed "s#^$ROOT/bin/wl-#  #"     | sort
+  exit 0
+fi
+
 subsystem="$1"
 shift
 
