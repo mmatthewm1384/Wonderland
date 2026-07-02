@@ -26,16 +26,17 @@ def run_verify(repo_root: Path | None = None) -> int:
     try:
         context = create_context(root)
         ensure_output_dirs(context)
+
         check("config", True, str(context.config.path))
         check("profile", bool(context.profile), context.profile)
         check("output_root", context.output_root.is_dir(), str(context.output_root))
     except Exception as exc:
         check("config", False, str(exc))
-        context = None
 
     try:
         if str(root) not in sys.path:
             sys.path.insert(0, str(root))
+
         module = importlib.import_module("build.__main__")
         check("legacy_bridge", hasattr(module, "main"), "build.__main__")
     except Exception as exc:
@@ -43,7 +44,8 @@ def run_verify(repo_root: Path | None = None) -> int:
 
     try:
         pipeline = default_pipeline()
-        check("pipeline", len(pipeline) > 0, ",".join(stage.name for stage in pipeline))
+        names = ",".join(stage.name for stage in pipeline)
+        check("pipeline", len(pipeline) > 0, names)
     except Exception as exc:
         check("pipeline", False, str(exc))
 
