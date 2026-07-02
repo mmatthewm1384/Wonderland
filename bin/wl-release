@@ -1,4 +1,19 @@
 #!/usr/bin/env bash
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/core/bootstrap.sh"
+set -euo pipefail
 
-wl_release_main "$@"
+case "${1:-help}" in
+  publish)
+    echo "FAIL: wl release publish is not implemented yet."
+    exit 1
+    ;;
+  list)
+    find releases -maxdepth 3 -type f 2>/dev/null | sort || true
+    ;;
+  help|-h|--help|*)
+    cat <<'EOF'
+Usage:
+  wl release publish
+  wl release list
+EOF
+    ;;
+esac
