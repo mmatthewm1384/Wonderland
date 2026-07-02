@@ -1,0 +1,9 @@
+{
+  "website": true,
+  "pdf": true,
+  "epub": true,
+  "mobile": true,
+  "desktop": true,
+  "print": true,
+  "audio": false
+}
