@@ -130,9 +130,14 @@ def run(argv: Sequence[str] | None = None) -> int:
 
     if parsed.command == "build":
         from wlbuilder.context import create_context, ensure_output_dirs
+        from wlbuilder.pipeline import execute
 
         context = create_context(_repo_root(), parsed.profile)
         ensure_output_dirs(context)
+
+        pipeline_status = execute(context)
+        if pipeline_status != 0:
+            return pipeline_status
 
         legacy_args = ["--profile", context.profile]
         return _legacy_build(legacy_args)
