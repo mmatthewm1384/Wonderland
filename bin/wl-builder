@@ -3,7 +3,7 @@ set -euo pipefail
 
 host_command_requires_limactl() {
   case "${1:-}" in
-    status|doctor|start|stop|restart|shell|logs|root)
+    status|start|stop|restart|shell|logs|root)
       return 0
       ;;
     *)
