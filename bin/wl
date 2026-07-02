@@ -20,6 +20,8 @@ Builder commands:
 
 Platform aliases:
   wl verify        # runs wl builder verify for now
+  wl doctor        # runs wl builder doctor for now
+  wl certify       # runs wl builder certify for now
   wl builder shell
   wl builder start
   wl builder stop
@@ -45,6 +47,14 @@ case "$command" in
     ;;
   verify)
     exec "$ROOT/bin/wl-builder" verify
+    ;;
+
+  doctor)
+    exec "$ROOT/bin/wl-builder" doctor
+    ;;
+
+  certify)
+    exec "$ROOT/bin/wl-builder" certify
     ;;
 
 
