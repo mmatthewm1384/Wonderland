@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+echo "Wonderland CLI smoke test"
+echo
+
+bin/wl --help >/dev/null
+echo "PASS wl help"
+
+bin/wl list >/dev/null
+echo "PASS wl list"
+
+bin/wl builder verify >/dev/null
+echo "PASS wl builder verify"
+
+bin/wl builder doctor >/dev/null
+echo "PASS wl builder doctor"
+
+bin/wl builder certify >/dev/null
+echo "PASS wl builder certify"
+
+bin/wl release list >/dev/null
+echo "PASS wl release list"
+
+bin/wl vm --help >/dev/null
+echo "PASS wl vm help"
+
+echo
+echo "PASS Wonderland CLI smoke test"
