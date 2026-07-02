@@ -35,6 +35,7 @@ Usage:
   wl builder shell
   wl builder root
   wl builder build [--profile development|release]
+  wl builder verify
   wl builder certify
   wl builder recreate
   wl builder start
@@ -114,6 +115,10 @@ case "${1:-help}" in
     fi
 
     exec python3 -m wlbuilder build "${@:2}"
+    ;;
+
+  verify)
+    exec python3 -m wlbuilder verify
     ;;
 
   certify)
