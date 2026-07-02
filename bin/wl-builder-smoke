@@ -18,6 +18,12 @@ echo "PASS wlbuilder doctor"
 python3 -m wlbuilder verify >/dev/null
 echo "PASS wlbuilder verify"
 
+python3 -m wlbuilder artifacts >/dev/null
+echo "PASS wlbuilder artifacts"
+
+bin/wl builder artifacts >/dev/null
+echo "PASS wl builder artifacts"
+
 bin/wl builder verify >/dev/null
 echo "PASS wl builder verify"
 
