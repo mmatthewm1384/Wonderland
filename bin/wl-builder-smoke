@@ -12,6 +12,9 @@ echo "PASS wlbuilder help"
 python3 -m wlbuilder status >/dev/null
 echo "PASS wlbuilder status"
 
+python3 -m wlbuilder doctor >/dev/null
+echo "PASS wlbuilder doctor"
+
 python3 -m wlbuilder build --help >/dev/null
 echo "PASS wlbuilder build help"
 
