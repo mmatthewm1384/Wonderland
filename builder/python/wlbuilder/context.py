@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-from wlbuilder.config import BuilderConfig
+from wlbuilder.config import BuilderConfig, load_config
 
 
 @dataclass(frozen=True, slots=True)
@@ -23,28 +23,39 @@ class BuilderContext:
     tmp_root: Path
 
 
+def _resolve_repo_path(repo_root: Path, value: str) -> Path:
+    path = Path(value)
+    return path if path.is_absolute() else repo_root / path
+
+
 def create_context(repo_root: Path, profile: str | None = None) -> BuilderContext:
-    from wlbuilder.config import load_config
-
     config = load_config(repo_root)
-    builder_root = repo_root / "builder"
+    data = config.data
 
-    selected_profile = profile or config.default_profile
-    output_root = config.output_root
+    builder_root = repo_root / "builder"
+    selected_profile = profile or data.get("system", {}).get("profile") or config.default_profile
+
+    output_root = _resolve_repo_path(
+        repo_root,
+        str(data.get("output", {}).get("root") or "builder/output"),
+    )
+
+    paths = data.get("paths", {})
 
     return BuilderContext(
         repo_root=repo_root,
         builder_root=builder_root,
         config=config,
-        profile=selected_profile,
+        profile=str(selected_profile),
+
         output_root=output_root,
-        raw_output=output_root / "raw",
-        qcow2_output=output_root / "qcow2",
-        vmware_output=output_root / "vmware",
-        log_root=output_root / "logs",
-        manifest_root=output_root / "manifests",
-        cache_root=output_root / "cache",
-        tmp_root=output_root / "tmp",
+        raw_output=_resolve_repo_path(repo_root, str(paths.get("raw") or output_root / "raw")),
+        qcow2_output=_resolve_repo_path(repo_root, str(paths.get("qcow2") or output_root / "qcow2")),
+        vmware_output=_resolve_repo_path(repo_root, str(paths.get("vmware") or output_root / "vmware")),
+        log_root=_resolve_repo_path(repo_root, str(paths.get("logs") or output_root / "logs")),
+        manifest_root=_resolve_repo_path(repo_root, str(paths.get("manifests") or output_root / "manifests")),
+        cache_root=_resolve_repo_path(repo_root, str(paths.get("cache") or output_root / "cache")),
+        tmp_root=_resolve_repo_path(repo_root, str(paths.get("tmp") or output_root / "tmp")),
     )
 
 
