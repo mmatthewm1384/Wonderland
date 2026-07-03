@@ -4,6 +4,7 @@ from pathlib import Path
 
 from wlbuilder.config import load_config
 from wlbuilder.config_schema import validate_config
+from wlbuilder.context import create_context
 from wlbuilder.stages import default_pipeline
 
 
@@ -14,17 +15,14 @@ def _write_stage_migration(repo_root: Path) -> Path:
         handle.write("# Builder v2 Stage Migration\n\n")
         handle.write("This document is generated from the live Builder v2 stage registry.\n\n")
         handle.write("Regenerate with:\n\n")
-        handle.write("```bash\n")
-        handle.write("python3 -m wlbuilder docs\n")
-        handle.write("```\n\n")
+        handle.write("```bash\npython3 -m wlbuilder docs\n```\n\n")
         handle.write("| Stage | Status | Legacy Source | Responsibility |\n")
         handle.write("|---|---|---|---|\n")
 
         for stage in default_pipeline():
             status = "native" if getattr(stage, "implemented", False) else "pending"
             handle.write(
-                f"| `{stage.name}` | "
-                f"{status} | "
+                f"| `{stage.name}` | {status} | "
                 f"{getattr(stage, 'legacy_source', '')} | "
                 f"{getattr(stage, 'description', '')} |\n"
             )
@@ -41,10 +39,7 @@ def _write_config_reference(repo_root: Path) -> Path:
         handle.write("# Builder v2 Config Reference\n\n")
         handle.write("Generated from the active Builder configuration.\n\n")
         handle.write("Inspect with:\n\n")
-        handle.write("```bash\n")
-        handle.write("wl builder config\n")
-        handle.write("wl builder config --json\n")
-        handle.write("```\n\n")
+        handle.write("```bash\nwl builder config\nwl builder config --json\n```\n\n")
         handle.write(f"Config file: `{config.path}`\n\n")
         handle.write(f"Default profile: `{config.default_profile}`\n\n")
         handle.write(f"Valid: `{str(not issues).lower()}`\n\n")
@@ -59,6 +54,37 @@ def _write_config_reference(repo_root: Path) -> Path:
     return output
 
 
+def _write_artifact_authority(repo_root: Path) -> Path:
+    output = repo_root / "docs" / "builder" / "artifact-authority.md"
+    context = create_context(repo_root)
+
+    artifacts = sorted(
+        artifact.relative_to(repo_root)
+        for artifact in context.output_root.rglob("*")
+        if artifact.is_file()
+    )
+
+    with output.open("w", encoding="utf-8") as handle:
+        handle.write("# Builder v2 Artifact Authority\n\n")
+        handle.write("Builder v2 canonical artifacts live under:\n\n")
+        handle.write("```text\n")
+        handle.write(str(context.output_root.relative_to(repo_root)))
+        handle.write("/\n```\n\n")
+        handle.write("List artifacts with:\n\n")
+        handle.write("```bash\nwl builder artifacts\n```\n\n")
+        handle.write("The builder creates or collects build outputs into `builder/output/`.\n\n")
+        handle.write("The release subsystem should publish from `builder/output/`, not directly from legacy build locations.\n\n")
+
+        if artifacts:
+            handle.write("## Current Artifacts\n\n")
+            for artifact in artifacts:
+                handle.write(f"- `{artifact}`\n")
+        else:
+            handle.write("No artifacts currently present.\n")
+
+    return output
+
+
 def run(repo_root: Path) -> int:
     docs_root = repo_root / "docs" / "builder"
     docs_root.mkdir(parents=True, exist_ok=True)
@@ -66,6 +92,7 @@ def run(repo_root: Path) -> int:
     outputs = [
         _write_stage_migration(repo_root),
         _write_config_reference(repo_root),
+        _write_artifact_authority(repo_root),
     ]
 
     for output in outputs:
