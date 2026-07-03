@@ -3,25 +3,17 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from wlbuilder.config import load_config
+from wlbuilder.context import create_context
+from wlbuilder.migration import stage_mode
 from wlbuilder.stages import default_pipeline
 
 
-def _mode(config_data: dict, stage_name: str) -> str:
-    migration = config_data.get("migration", {})
-    if not isinstance(migration, dict):
-        return "legacy"
-
-    mode = str(migration.get(stage_name, "legacy"))
-    return mode if mode in {"native", "legacy", "skip"} else "legacy"
-
-
 def run(repo_root: Path, *, as_json: bool = False) -> int:
-    config = load_config(repo_root)
+    context = create_context(repo_root)
     stages = []
 
     for stage in default_pipeline():
-        mode = _mode(config.data, stage.name)
+        mode = stage_mode(context, stage.name)
         implemented = bool(getattr(stage, "implemented", False))
 
         stages.append(
