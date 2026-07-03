@@ -215,3 +215,6 @@ Wonderland-Builds/
 .DS_Store
 *.swp
 *.swo
+
+# Python package metadata
+*.egg-info/
