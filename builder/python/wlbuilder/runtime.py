@@ -1,10 +1,13 @@
 from __future__ import annotations
 
-import platform
 import os
+import platform
 import sys
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from pathlib import Path
+
+
+Command = Callable[..., int]
 
 
 def _repo_root() -> Path:
@@ -16,6 +19,41 @@ def _reject_direct_macos_execution() -> int:
     print("Use:", file=sys.stderr)
     print("  bin/wl builder build --profile development", file=sys.stderr)
     return 1
+
+
+def _commands() -> dict[str, Command]:
+    from wlbuilder.commands.artifacts import run as artifacts
+    from wlbuilder.commands.build import run as build
+    from wlbuilder.commands.config import run as config
+    from wlbuilder.commands.docs import run as docs
+    from wlbuilder.commands.doctor import run as doctor
+    from wlbuilder.commands.migration import run as migration
+    from wlbuilder.commands.native_state import run as native_state
+    from wlbuilder.commands.stages import run as stages
+    from wlbuilder.commands.status import run as status
+    from wlbuilder.commands.verify import run as verify
+
+    commands: dict[str, Command] = {
+        "artifacts": artifacts,
+        "build": build,
+        "config": config,
+        "docs": docs,
+        "doctor": doctor,
+        "migration": migration,
+        "native-state": native_state,
+        "stages": stages,
+        "status": status,
+        "verify": verify,
+    }
+
+    try:
+        from wlbuilder.commands.contract import run as contract
+
+        commands["contract"] = contract
+    except ImportError:
+        pass
+
+    return commands
 
 
 def run(argv: Sequence[str] | None = None) -> int:
@@ -37,56 +75,18 @@ def run(argv: Sequence[str] | None = None) -> int:
         args = ["build", *args]
 
     parsed = parse(args)
+    repo_root = _repo_root()
+    commands = _commands()
 
-    if parsed.command == "status":
-        from wlbuilder.commands.status import run as command
-
-        return command(_repo_root())
-
-    if parsed.command == "doctor":
-        from wlbuilder.commands.doctor import run as command
-
-        return command(_repo_root())
-
-    if parsed.command == "verify":
-        from wlbuilder.commands.verify import run as command
-
-        return command(_repo_root())
-
-    if parsed.command == "docs":
-        from wlbuilder.commands.docs import run as command
-
-        return command(_repo_root())
-
-    if parsed.command == "artifacts":
-        from wlbuilder.commands.artifacts import run as command
-
-        return command(_repo_root())
-
-    if parsed.command == "stages":
-        from wlbuilder.commands.stages import run as command
-
-        return command(_repo_root(), as_json=getattr(parsed, "json", False))
-
-    if parsed.command == "native-state":
-        from wlbuilder.commands.native_state import run as command
-
-        return command(_repo_root(), as_json=getattr(parsed, "json", False))
-
-    if parsed.command == "config":
-        from wlbuilder.commands.config import run as command
-
-        return command(_repo_root(), as_json=getattr(parsed, "json", False))
-
-    if parsed.command == "migration":
-        from wlbuilder.commands.migration import run as command
-
-        return command(_repo_root(), as_json=getattr(parsed, "json", False))
+    command = commands.get(parsed.command)
+    if command is None:
+        print(f"FAIL: unknown builder command: {parsed.command}", file=sys.stderr)
+        return 1
 
     if parsed.command == "build":
-        from wlbuilder.commands.build import run as command
+        return command(repo_root, parsed.profile)
 
-        return command(_repo_root(), parsed.profile)
+    if parsed.command in {"stages", "native-state", "config", "migration"}:
+        return command(repo_root, as_json=getattr(parsed, "json", False))
 
-    print("FAIL: no builder command provided.", file=sys.stderr)
-    return 1
+    return command(repo_root)
