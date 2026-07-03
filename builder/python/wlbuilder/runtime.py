@@ -138,6 +138,11 @@ def run(argv: Sequence[str] | None = None) -> int:
                 print(artifact.relative_to(context.repo_root))
         return 0
 
+    if parsed.command == "docs":
+        from wlbuilder.commands.docs import run
+
+        return run(_repo_root())
+
     if parsed.command == "stages":
         from wlbuilder.stages import default_pipeline
 

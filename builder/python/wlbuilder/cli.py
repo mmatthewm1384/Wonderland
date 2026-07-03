@@ -28,6 +28,9 @@ def build_parser() -> argparse.ArgumentParser:
     stages.add_argument("--json", action="store_true", help="Emit stage metadata as JSON")
     stages.set_defaults(command="stages")
 
+    docs = subcommands.add_parser("docs", help="Generate Builder v2 documentation")
+    docs.set_defaults(command="docs")
+
 
     build = subcommands.add_parser("build", help="Build a Wonderland OS image")
     build.add_argument(
