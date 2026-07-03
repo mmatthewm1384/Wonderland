@@ -60,6 +60,17 @@ def run_doctor(repo_root: Path | None = None) -> int:
             )
         )
 
+        from wlbuilder.config_schema import validate_config
+
+        issues = validate_config(context.config)
+        checks.append(
+            DoctorCheck(
+                name="config_schema",
+                passed=not issues,
+                detail=", ".join(f"{issue.field}: {issue.message}" for issue in issues) or "ok",
+            )
+        )
+
         for path in (
             context.output_root,
             context.raw_output,
