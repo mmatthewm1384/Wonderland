@@ -1,28 +1,57 @@
-version: 1
-
-default_profile: development
+builder:
+  name: Wonderland Builder
+  version: 2
 
 system:
   name: wonderland-os
   version: 0.1.1
   architecture: arm64
-  debian_release: bookworm
+  profile: development
 
-paths:
-  output_root: builder/output
-  raw: builder/output/raw
-  qcow2: builder/output/qcow2
-  vmware: builder/output/vmware
-  logs: builder/output/logs
-  manifests: builder/output/manifests
+disk:
+  size: 8G
+  partition_table: gpt
+
+image:
+  format: raw
 
 artifacts:
-  formats:
-    - raw
-    - qcow2
-    - vmware
+  raw: true
+  qcow2: true
+  vmdk: false
 
-vm:
-  provider: lima
-  instance: wonderland-os-builder
-  remote_root: /home/wonderland/wonderland-os
+output:
+  root: builder/output
+
+profiles:
+  development:
+    debug: true
+    optimize: false
+
+  release:
+    debug: false
+    optimize: true
+
+packages:
+  kernel: linux-image-arm64
+  bootloader: grub-efi-arm64
+
+  base:
+    - sudo
+    - openssh-server
+    - chrony
+    - avahi-daemon
+    - systemd-resolved
+    - locales
+
+user:
+  name: wonderland
+  shell: /bin/bash
+
+network:
+  ssh: true
+  avahi: true
+  chrony: true
+
+branding:
+  hostname: wonderland

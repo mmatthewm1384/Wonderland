@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from wlbuilder.artifacts import artifact_stem
-from wlbuilder.artifacts import artifact_stem
 from wlbuilder.commands_util import run_command
 from wlbuilder.context import BuilderContext
 from wlbuilder.native_state import write_stage_state
@@ -14,11 +13,20 @@ class DiskStage:
     description = "Create raw disk image and partition layout."
     legacy_source = "build.__main__ stage 02 Disk"
 
+    def _disk_size(self, context: BuilderContext) -> str:
+        data = context.config.data
+
+        return str(
+            data.get("disk", {}).get("size")
+            or data.get("image", {}).get("size")
+            or "8G"
+        )
+
     def run(self, context: BuilderContext) -> StageResult:
         raw_path = context.raw_output / f"{artifact_stem(context)}.raw"
         raw_path.parent.mkdir(parents=True, exist_ok=True)
 
-        size = "8G"
+        size = self._disk_size(context)
 
         if raw_path.exists():
             raw_path.unlink()
