@@ -5,6 +5,7 @@ from wlbuilder.stages.base import StageResult
 
 
 class MountStage:
+    implemented = False
     name = "mount"
 
     def run(self, context: BuilderContext) -> StageResult:

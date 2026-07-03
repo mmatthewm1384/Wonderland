@@ -5,6 +5,7 @@ from wlbuilder.stages.base import StageResult
 
 
 class BootloaderStage:
+    implemented = False
     name = "bootloader"
 
     def run(self, context: BuilderContext) -> StageResult:

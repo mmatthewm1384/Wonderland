@@ -15,6 +15,7 @@ class StageResult:
 
 class BuilderStage(Protocol):
     name: str
+    implemented: bool
 
     def run(self, context: BuilderContext) -> StageResult:
         ...

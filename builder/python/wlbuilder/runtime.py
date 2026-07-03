@@ -88,7 +88,8 @@ def _status() -> int:
 
         print("pipeline:")
         for stage in default_pipeline():
-            print(f"  - {stage.name}")
+            implementation = "native" if getattr(stage, "implemented", False) else "pending"
+            print(f"  - {stage.name} ({implementation})")
     except Exception as exc:
         print(f"config: fail: {exc}")
 
