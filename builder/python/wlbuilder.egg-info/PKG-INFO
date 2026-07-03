@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: wlbuilder
+Version: 0.2.0
+Summary: Wonderland OS image builder
+Requires-Python: >=3.11
+Requires-Dist: PyYAML>=6.0.1
