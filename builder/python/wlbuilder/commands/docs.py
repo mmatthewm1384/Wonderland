@@ -5,21 +5,14 @@ from pathlib import Path
 from wlbuilder.config import load_config
 from wlbuilder.config_schema import validate_config
 from wlbuilder.context import create_context
+from wlbuilder.migration import stage_mode
 from wlbuilder.stages import default_pipeline
-
-
-def _stage_mode(config_data: dict, stage_name: str) -> str:
-    migration = config_data.get("migration", {})
-    if not isinstance(migration, dict):
-        return "legacy"
-
-    mode = str(migration.get(stage_name, "legacy"))
-    return mode if mode in {"native", "legacy", "skip"} else "legacy"
 
 
 def _write_stage_migration(repo_root: Path) -> Path:
     output = repo_root / "docs" / "builder" / "stage-migration.md"
     config = load_config(repo_root)
+    context = create_context(repo_root)
 
     with output.open("w", encoding="utf-8") as handle:
         handle.write("# Builder v2 Stage Migration\n\n")
@@ -30,7 +23,7 @@ def _write_stage_migration(repo_root: Path) -> Path:
         handle.write("|---|---|---|---|---|---|\n")
 
         for stage in default_pipeline():
-            mode = _stage_mode(config.data, stage.name)
+            mode = stage_mode(context, stage.name)
             implemented = bool(getattr(stage, "implemented", False))
             ready = mode != "native" or implemented
 
