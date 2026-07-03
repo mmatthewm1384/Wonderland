@@ -1,18 +1,27 @@
 from __future__ import annotations
 
-from wlbuilder.context import BuilderContext
-from wlbuilder.stages.base import StageResult
+import subprocess
 
 
 class BootstrapStage:
-    implemented = False
-    description = "Install Debian base system."
-    legacy_source = "build.__main__ stage 04 Bootstrap"
     name = "bootstrap"
 
-    def run(self, context: BuilderContext) -> StageResult:
-        return StageResult(
-            name=self.name,
-            success=True,
-            message="Install Debian base system. Native implementation pending.",
-        )
+    def run(self, context) -> None:
+        rootfs = context.output_root / "tmp" / "mnt"
+
+        if not rootfs.exists():
+            raise RuntimeError(f"Root filesystem mount does not exist: {rootfs}")
+
+        if not (rootfs / "boot" / "efi").exists():
+            raise RuntimeError(f"EFI mount path missing: {rootfs / 'boot' / 'efi'}")
+
+        cmd = [
+            "sudo",
+            "debootstrap",
+            "--arch=arm64",
+            "bookworm",
+            str(rootfs),
+            "http://deb.debian.org/debian",
+        ]
+
+        subprocess.run(cmd, check=True)
