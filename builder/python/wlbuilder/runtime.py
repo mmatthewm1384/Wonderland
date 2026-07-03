@@ -77,6 +77,11 @@ def run(argv: Sequence[str] | None = None) -> int:
 
         return command(_repo_root(), as_json=getattr(parsed, "json", False))
 
+    if parsed.command == "migration":
+        from wlbuilder.commands.migration import run as command
+
+        return command(_repo_root(), as_json=getattr(parsed, "json", False))
+
     if parsed.command == "build":
         from wlbuilder.commands.build import run as command
 

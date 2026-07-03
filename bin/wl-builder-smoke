@@ -36,6 +36,15 @@ echo "PASS wlbuilder config"
 python3 -m wlbuilder config --json >/dev/null
 echo "PASS wlbuilder config json"
 
+python3 -m wlbuilder migration >/dev/null
+echo "PASS wlbuilder migration"
+
+python3 -m wlbuilder migration --json >/dev/null
+echo "PASS wlbuilder migration json"
+
+bin/wl builder migration >/dev/null
+echo "PASS wl builder migration"
+
 bin/wl builder config >/dev/null
 echo "PASS wl builder config"
 
