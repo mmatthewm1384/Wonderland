@@ -1,0 +1,1193 @@
+{
+  "root": "builder/python/wlbuilder",
+  "module_count": 47,
+  "modules": [
+    {
+      "path": "builder/python/wlbuilder/__init__.py",
+      "module": "wlbuilder.__init__",
+      "imports": [],
+      "definitions": {
+        "classes": [],
+        "functions": []
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/__main__.py",
+      "module": "wlbuilder.__main__",
+      "imports": [
+        "__future__",
+        "wlbuilder.runtime"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": []
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/api/__init__.py",
+      "module": "wlbuilder.api.__init__",
+      "imports": [
+        "wlbuilder.api.contracts"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": []
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/api/contracts.py",
+      "module": "wlbuilder.api.contracts",
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "pathlib",
+        "typing"
+      ],
+      "definitions": {
+        "classes": [
+          "ArtifactAuthority",
+          "StageResultContract",
+          "StageContract"
+        ],
+        "functions": []
+      },
+      "io_markers": [
+        "mount"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/artifacts.py",
+      "module": "wlbuilder.artifacts",
+      "imports": [
+        "__future__",
+        "wlbuilder.models.artifacts"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "_profile",
+          "artifact_stem",
+          "raw_image_name",
+          "qcow2_image_name",
+          "manifest_name"
+        ]
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/cli.py",
+      "module": "wlbuilder.cli",
+      "imports": [
+        "__future__",
+        "argparse",
+        "collections.abc"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "build_parser",
+          "parse"
+        ]
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/commands/__init__.py",
+      "module": "wlbuilder.commands.__init__",
+      "imports": [
+        "__future__"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": []
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/commands/artifacts.py",
+      "module": "wlbuilder.commands.artifacts",
+      "imports": [
+        "__future__",
+        "pathlib",
+        "wlbuilder.context"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "_is_excluded",
+          "run"
+        ]
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/commands/build.py",
+      "module": "wlbuilder.commands.build",
+      "imports": [
+        "__future__",
+        "pathlib",
+        "wlbuilder.context",
+        "wlbuilder.pipeline"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "run"
+        ]
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/commands/cleanup.py",
+      "module": "wlbuilder.commands.cleanup",
+      "imports": [
+        "__future__",
+        "pathlib",
+        "wlbuilder.commands_util",
+        "wlbuilder.context",
+        "wlbuilder.native_state"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "run"
+        ]
+      },
+      "io_markers": [
+        "sudo",
+        "mount",
+        "losetup"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/commands/config.py",
+      "module": "wlbuilder.commands.config",
+      "imports": [
+        "__future__",
+        "json",
+        "pathlib",
+        "wlbuilder.config",
+        "wlbuilder.config_schema"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "run"
+        ]
+      },
+      "io_markers": [
+        "json"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/commands/contract.py",
+      "module": "wlbuilder.commands.contract",
+      "imports": [
+        "__future__",
+        "pathlib",
+        "wlbuilder.context"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "run"
+        ]
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/commands/docs.py",
+      "module": "wlbuilder.commands.docs",
+      "imports": [
+        "__future__",
+        "pathlib",
+        "wlbuilder.config",
+        "wlbuilder.config_schema",
+        "wlbuilder.context",
+        "wlbuilder.migration",
+        "wlbuilder.stages"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "_write_stage_migration",
+          "_write_config_reference",
+          "_write_artifact_authority",
+          "_write_migration_plan",
+          "run"
+        ]
+      },
+      "io_markers": [
+        "filesystem_open",
+        "mkdir"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/commands/doctor.py",
+      "module": "wlbuilder.commands.doctor",
+      "imports": [
+        "__future__",
+        "pathlib",
+        "wlbuilder.doctor"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "run"
+        ]
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/commands/migration.py",
+      "module": "wlbuilder.commands.migration",
+      "imports": [
+        "__future__",
+        "json",
+        "pathlib",
+        "wlbuilder.context",
+        "wlbuilder.migration",
+        "wlbuilder.stages"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "run"
+        ]
+      },
+      "io_markers": [
+        "json"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/commands/native_state.py",
+      "module": "wlbuilder.commands.native_state",
+      "imports": [
+        "__future__",
+        "json",
+        "pathlib",
+        "wlbuilder.context",
+        "wlbuilder.native_state"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "run"
+        ]
+      },
+      "io_markers": [
+        "json"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/commands/stages.py",
+      "module": "wlbuilder.commands.stages",
+      "imports": [
+        "__future__",
+        "json",
+        "pathlib",
+        "wlbuilder.context",
+        "wlbuilder.migration",
+        "wlbuilder.stages"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "run"
+        ]
+      },
+      "io_markers": [
+        "json"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/commands/status.py",
+      "module": "wlbuilder.commands.status",
+      "imports": [
+        "__future__",
+        "importlib",
+        "pathlib",
+        "sys",
+        "wlbuilder.context",
+        "wlbuilder.native_state",
+        "wlbuilder.stages"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "run"
+        ]
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/commands/verify.py",
+      "module": "wlbuilder.commands.verify",
+      "imports": [
+        "__future__",
+        "pathlib",
+        "wlbuilder.verify"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "run"
+        ]
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/commands_util.py",
+      "module": "wlbuilder.commands_util",
+      "imports": [
+        "__future__",
+        "collections.abc",
+        "pathlib",
+        "subprocess"
+      ],
+      "definitions": {
+        "classes": [
+          "CommandError"
+        ],
+        "functions": [
+          "run_command"
+        ]
+      },
+      "io_markers": [
+        "subprocess"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/config.py",
+      "module": "wlbuilder.config",
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "os",
+        "pathlib",
+        "sys",
+        "typing",
+        "yaml"
+      ],
+      "definitions": {
+        "classes": [
+          "BuilderConfig"
+        ],
+        "functions": [
+          "resolve_output_root",
+          "load_config"
+        ]
+      },
+      "io_markers": [
+        "filesystem_open",
+        "yaml"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/config_schema.py",
+      "module": "wlbuilder.config_schema",
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "wlbuilder.config"
+      ],
+      "definitions": {
+        "classes": [
+          "ConfigIssue"
+        ],
+        "functions": [
+          "_get",
+          "validate_config"
+        ]
+      },
+      "io_markers": [
+        "mount"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/context.py",
+      "module": "wlbuilder.context",
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "os",
+        "pathlib",
+        "wlbuilder.artifacts",
+        "wlbuilder.config"
+      ],
+      "definitions": {
+        "classes": [
+          "BuilderContext"
+        ],
+        "functions": [
+          "_resolve_repo_path",
+          "_resolve_path",
+          "create_context",
+          "ensure_output_dirs"
+        ]
+      },
+      "io_markers": [
+        "mkdir"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/doctor.py",
+      "module": "wlbuilder.doctor",
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "importlib",
+        "pathlib",
+        "shutil",
+        "sys",
+        "wlbuilder.config_schema",
+        "wlbuilder.context"
+      ],
+      "definitions": {
+        "classes": [
+          "DoctorCheck"
+        ],
+        "functions": [
+          "_check_tool",
+          "run_doctor"
+        ]
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/migration.py",
+      "module": "wlbuilder.migration",
+      "imports": [
+        "__future__",
+        "wlbuilder.config_schema",
+        "wlbuilder.context"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "stage_mode",
+          "is_native_enabled"
+        ]
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/models/__init__.py",
+      "module": "wlbuilder.models.__init__",
+      "imports": [
+        "wlbuilder.models.artifacts",
+        "wlbuilder.models.stage"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": []
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/models/artifacts.py",
+      "module": "wlbuilder.models.artifacts",
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "pathlib",
+        "typing"
+      ],
+      "definitions": {
+        "classes": [
+          "BuildArtifacts"
+        ],
+        "functions": []
+      },
+      "io_markers": [
+        "mount"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/models/stage.py",
+      "module": "wlbuilder.models.stage",
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "typing"
+      ],
+      "definitions": {
+        "classes": [
+          "StageResultModel",
+          "StageModel"
+        ],
+        "functions": []
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/native_state.py",
+      "module": "wlbuilder.native_state",
+      "imports": [
+        "__future__",
+        "json",
+        "pathlib",
+        "typing",
+        "wlbuilder.context"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "state_path",
+          "read_state",
+          "write_stage_state"
+        ]
+      },
+      "io_markers": [
+        "filesystem_write",
+        "mkdir",
+        "json"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/pipeline.py",
+      "module": "wlbuilder.pipeline",
+      "imports": [
+        "__future__",
+        "wlbuilder.context",
+        "wlbuilder.stages.base",
+        "wlbuilder.stages.bootloader",
+        "wlbuilder.stages.bootstrap",
+        "wlbuilder.stages.cleanup",
+        "wlbuilder.stages.convert",
+        "wlbuilder.stages.disk",
+        "wlbuilder.stages.identity",
+        "wlbuilder.stages.locale",
+        "wlbuilder.stages.manifest",
+        "wlbuilder.stages.mount",
+        "wlbuilder.stages.networking",
+        "wlbuilder.stages.packages",
+        "wlbuilder.stages.users",
+        "wlbuilder.stages.verify_image"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "execute"
+        ]
+      },
+      "io_markers": [
+        "mount"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/runtime.py",
+      "module": "wlbuilder.runtime",
+      "imports": [
+        "__future__",
+        "collections.abc",
+        "os",
+        "pathlib",
+        "platform",
+        "sys",
+        "wlbuilder.cli",
+        "wlbuilder.commands.artifacts",
+        "wlbuilder.commands.build",
+        "wlbuilder.commands.config",
+        "wlbuilder.commands.contract",
+        "wlbuilder.commands.docs",
+        "wlbuilder.commands.doctor",
+        "wlbuilder.commands.migration",
+        "wlbuilder.commands.native_state",
+        "wlbuilder.commands.stages",
+        "wlbuilder.commands.status",
+        "wlbuilder.commands.verify"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "_repo_root",
+          "_reject_direct_macos_execution",
+          "_commands",
+          "run"
+        ]
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/stages/__init__.py",
+      "module": "wlbuilder.stages.__init__",
+      "imports": [
+        "__future__",
+        "wlbuilder.stages.base",
+        "wlbuilder.stages.bootloader",
+        "wlbuilder.stages.bootstrap",
+        "wlbuilder.stages.cleanup",
+        "wlbuilder.stages.convert",
+        "wlbuilder.stages.disk",
+        "wlbuilder.stages.identity",
+        "wlbuilder.stages.locale",
+        "wlbuilder.stages.manifest",
+        "wlbuilder.stages.mount",
+        "wlbuilder.stages.networking",
+        "wlbuilder.stages.packages",
+        "wlbuilder.stages.users",
+        "wlbuilder.stages.verify_image"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "default_pipeline"
+        ]
+      },
+      "io_markers": [
+        "mount"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/stages/base.py",
+      "module": "wlbuilder.stages.base",
+      "imports": [
+        "__future__",
+        "dataclasses",
+        "typing",
+        "wlbuilder.context"
+      ],
+      "definitions": {
+        "classes": [
+          "StageResult",
+          "BuilderStage"
+        ],
+        "functions": []
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/stages/bootloader.py",
+      "module": "wlbuilder.stages.bootloader",
+      "imports": [
+        "__future__",
+        "wlbuilder.commands_util",
+        "wlbuilder.context",
+        "wlbuilder.native_state",
+        "wlbuilder.stages.base"
+      ],
+      "definitions": {
+        "classes": [
+          "BootloaderStage"
+        ],
+        "functions": []
+      },
+      "io_markers": [
+        "sudo",
+        "mount",
+        "chroot"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/stages/bootstrap.py",
+      "module": "wlbuilder.stages.bootstrap",
+      "imports": [
+        "__future__",
+        "wlbuilder.commands_util",
+        "wlbuilder.context",
+        "wlbuilder.native_state",
+        "wlbuilder.stages.base"
+      ],
+      "definitions": {
+        "classes": [
+          "BootstrapStage"
+        ],
+        "functions": []
+      },
+      "io_markers": [
+        "sudo",
+        "mount"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/stages/cleanup.py",
+      "module": "wlbuilder.stages.cleanup",
+      "imports": [
+        "__future__",
+        "pathlib",
+        "subprocess",
+        "wlbuilder.context",
+        "wlbuilder.native_state",
+        "wlbuilder.stages.base"
+      ],
+      "definitions": {
+        "classes": [
+          "CleanupStage"
+        ],
+        "functions": []
+      },
+      "io_markers": [
+        "subprocess",
+        "mkdir",
+        "sudo",
+        "mount",
+        "losetup"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/stages/convert.py",
+      "module": "wlbuilder.stages.convert",
+      "imports": [
+        "__future__",
+        "hashlib",
+        "pathlib",
+        "subprocess",
+        "wlbuilder.context",
+        "wlbuilder.native_state",
+        "wlbuilder.stages.base"
+      ],
+      "definitions": {
+        "classes": [
+          "ConvertStage"
+        ],
+        "functions": [
+          "sha256_file"
+        ]
+      },
+      "io_markers": [
+        "subprocess",
+        "filesystem_write",
+        "filesystem_open",
+        "mkdir"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/stages/disk.py",
+      "module": "wlbuilder.stages.disk",
+      "imports": [
+        "__future__",
+        "wlbuilder.artifacts",
+        "wlbuilder.commands_util",
+        "wlbuilder.context",
+        "wlbuilder.native_state",
+        "wlbuilder.stages.base"
+      ],
+      "definitions": {
+        "classes": [
+          "DiskStage"
+        ],
+        "functions": []
+      },
+      "io_markers": [
+        "mkdir"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/stages/identity.py",
+      "module": "wlbuilder.stages.identity",
+      "imports": [
+        "__future__",
+        "shlex",
+        "wlbuilder.commands_util",
+        "wlbuilder.context",
+        "wlbuilder.native_state",
+        "wlbuilder.stages.base"
+      ],
+      "definitions": {
+        "classes": [
+          "IdentityStage"
+        ],
+        "functions": []
+      },
+      "io_markers": [
+        "sudo",
+        "mount"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/stages/locale.py",
+      "module": "wlbuilder.stages.locale",
+      "imports": [
+        "__future__",
+        "shlex",
+        "wlbuilder.commands_util",
+        "wlbuilder.context",
+        "wlbuilder.native_state",
+        "wlbuilder.stages.base"
+      ],
+      "definitions": {
+        "classes": [
+          "LocaleStage"
+        ],
+        "functions": []
+      },
+      "io_markers": [
+        "sudo",
+        "mount",
+        "chroot"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/stages/manifest.py",
+      "module": "wlbuilder.stages.manifest",
+      "imports": [
+        "__future__",
+        "datetime",
+        "json",
+        "pathlib",
+        "subprocess",
+        "wlbuilder.context",
+        "wlbuilder.native_state",
+        "wlbuilder.stages.base"
+      ],
+      "definitions": {
+        "classes": [
+          "ManifestStage"
+        ],
+        "functions": [
+          "git_commit"
+        ]
+      },
+      "io_markers": [
+        "subprocess",
+        "filesystem_write",
+        "mkdir",
+        "json"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/stages/mount.py",
+      "module": "wlbuilder.stages.mount",
+      "imports": [
+        "__future__",
+        "pathlib",
+        "re",
+        "wlbuilder.commands_util",
+        "wlbuilder.context",
+        "wlbuilder.native_state",
+        "wlbuilder.stages.base"
+      ],
+      "definitions": {
+        "classes": [
+          "MountStage"
+        ],
+        "functions": []
+      },
+      "io_markers": [
+        "sudo",
+        "mount",
+        "losetup"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/stages/networking.py",
+      "module": "wlbuilder.stages.networking",
+      "imports": [
+        "__future__",
+        "shlex",
+        "wlbuilder.commands_util",
+        "wlbuilder.context",
+        "wlbuilder.native_state",
+        "wlbuilder.stages.base"
+      ],
+      "definitions": {
+        "classes": [
+          "NetworkingStage"
+        ],
+        "functions": []
+      },
+      "io_markers": [
+        "sudo",
+        "mount",
+        "chroot"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/stages/packages.py",
+      "module": "wlbuilder.stages.packages",
+      "imports": [
+        "__future__",
+        "wlbuilder.commands_util",
+        "wlbuilder.context",
+        "wlbuilder.native_state",
+        "wlbuilder.stages.base"
+      ],
+      "definitions": {
+        "classes": [
+          "PackagesStage"
+        ],
+        "functions": []
+      },
+      "io_markers": [
+        "sudo",
+        "mount",
+        "chroot"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/stages/users.py",
+      "module": "wlbuilder.stages.users",
+      "imports": [
+        "__future__",
+        "shlex",
+        "wlbuilder.commands_util",
+        "wlbuilder.context",
+        "wlbuilder.native_state",
+        "wlbuilder.stages.base"
+      ],
+      "definitions": {
+        "classes": [
+          "UsersStage"
+        ],
+        "functions": []
+      },
+      "io_markers": [
+        "sudo",
+        "mount",
+        "chroot"
+      ]
+    },
+    {
+      "path": "builder/python/wlbuilder/stages/verify_image.py",
+      "module": "wlbuilder.stages.verify_image",
+      "imports": [
+        "__future__",
+        "wlbuilder.context",
+        "wlbuilder.stages.base"
+      ],
+      "definitions": {
+        "classes": [
+          "VerifyImageStage"
+        ],
+        "functions": []
+      },
+      "io_markers": []
+    },
+    {
+      "path": "builder/python/wlbuilder/verify.py",
+      "module": "wlbuilder.verify",
+      "imports": [
+        "__future__",
+        "importlib",
+        "pathlib",
+        "sys",
+        "wlbuilder.config_schema",
+        "wlbuilder.context",
+        "wlbuilder.stages"
+      ],
+      "definitions": {
+        "classes": [],
+        "functions": [
+          "run_verify"
+        ]
+      },
+      "io_markers": [
+        "mount"
+      ]
+    }
+  ],
+  "imported_by": {
+    "wlbuilder.api.contracts": [
+      "wlbuilder.api.__init__"
+    ],
+    "wlbuilder.artifacts": [
+      "wlbuilder.context",
+      "wlbuilder.stages.disk"
+    ],
+    "wlbuilder.cli": [
+      "wlbuilder.runtime"
+    ],
+    "wlbuilder.commands.artifacts": [
+      "wlbuilder.runtime"
+    ],
+    "wlbuilder.commands.build": [
+      "wlbuilder.runtime"
+    ],
+    "wlbuilder.commands.config": [
+      "wlbuilder.runtime"
+    ],
+    "wlbuilder.commands.contract": [
+      "wlbuilder.runtime"
+    ],
+    "wlbuilder.commands.docs": [
+      "wlbuilder.runtime"
+    ],
+    "wlbuilder.commands.doctor": [
+      "wlbuilder.runtime"
+    ],
+    "wlbuilder.commands.migration": [
+      "wlbuilder.runtime"
+    ],
+    "wlbuilder.commands.native_state": [
+      "wlbuilder.runtime"
+    ],
+    "wlbuilder.commands.stages": [
+      "wlbuilder.runtime"
+    ],
+    "wlbuilder.commands.status": [
+      "wlbuilder.runtime"
+    ],
+    "wlbuilder.commands.verify": [
+      "wlbuilder.runtime"
+    ],
+    "wlbuilder.commands_util": [
+      "wlbuilder.commands.cleanup",
+      "wlbuilder.stages.bootloader",
+      "wlbuilder.stages.bootstrap",
+      "wlbuilder.stages.disk",
+      "wlbuilder.stages.identity",
+      "wlbuilder.stages.locale",
+      "wlbuilder.stages.mount",
+      "wlbuilder.stages.networking",
+      "wlbuilder.stages.packages",
+      "wlbuilder.stages.users"
+    ],
+    "wlbuilder.config": [
+      "wlbuilder.commands.config",
+      "wlbuilder.commands.docs",
+      "wlbuilder.config_schema",
+      "wlbuilder.context"
+    ],
+    "wlbuilder.config_schema": [
+      "wlbuilder.commands.config",
+      "wlbuilder.commands.docs",
+      "wlbuilder.doctor",
+      "wlbuilder.migration",
+      "wlbuilder.verify"
+    ],
+    "wlbuilder.context": [
+      "wlbuilder.commands.artifacts",
+      "wlbuilder.commands.build",
+      "wlbuilder.commands.cleanup",
+      "wlbuilder.commands.contract",
+      "wlbuilder.commands.docs",
+      "wlbuilder.commands.migration",
+      "wlbuilder.commands.native_state",
+      "wlbuilder.commands.stages",
+      "wlbuilder.commands.status",
+      "wlbuilder.doctor",
+      "wlbuilder.migration",
+      "wlbuilder.native_state",
+      "wlbuilder.pipeline",
+      "wlbuilder.stages.base",
+      "wlbuilder.stages.bootloader",
+      "wlbuilder.stages.bootstrap",
+      "wlbuilder.stages.cleanup",
+      "wlbuilder.stages.convert",
+      "wlbuilder.stages.disk",
+      "wlbuilder.stages.identity",
+      "wlbuilder.stages.locale",
+      "wlbuilder.stages.manifest",
+      "wlbuilder.stages.mount",
+      "wlbuilder.stages.networking",
+      "wlbuilder.stages.packages",
+      "wlbuilder.stages.users",
+      "wlbuilder.stages.verify_image",
+      "wlbuilder.verify"
+    ],
+    "wlbuilder.doctor": [
+      "wlbuilder.commands.doctor"
+    ],
+    "wlbuilder.migration": [
+      "wlbuilder.commands.docs",
+      "wlbuilder.commands.migration",
+      "wlbuilder.commands.stages"
+    ],
+    "wlbuilder.models.artifacts": [
+      "wlbuilder.artifacts",
+      "wlbuilder.models.__init__"
+    ],
+    "wlbuilder.models.stage": [
+      "wlbuilder.models.__init__"
+    ],
+    "wlbuilder.native_state": [
+      "wlbuilder.commands.cleanup",
+      "wlbuilder.commands.native_state",
+      "wlbuilder.commands.status",
+      "wlbuilder.stages.bootloader",
+      "wlbuilder.stages.bootstrap",
+      "wlbuilder.stages.cleanup",
+      "wlbuilder.stages.convert",
+      "wlbuilder.stages.disk",
+      "wlbuilder.stages.identity",
+      "wlbuilder.stages.locale",
+      "wlbuilder.stages.manifest",
+      "wlbuilder.stages.mount",
+      "wlbuilder.stages.networking",
+      "wlbuilder.stages.packages",
+      "wlbuilder.stages.users"
+    ],
+    "wlbuilder.pipeline": [
+      "wlbuilder.commands.build"
+    ],
+    "wlbuilder.runtime": [
+      "wlbuilder.__main__"
+    ],
+    "wlbuilder.stages.base": [
+      "wlbuilder.pipeline",
+      "wlbuilder.stages.__init__",
+      "wlbuilder.stages.bootloader",
+      "wlbuilder.stages.bootstrap",
+      "wlbuilder.stages.cleanup",
+      "wlbuilder.stages.convert",
+      "wlbuilder.stages.disk",
+      "wlbuilder.stages.identity",
+      "wlbuilder.stages.locale",
+      "wlbuilder.stages.manifest",
+      "wlbuilder.stages.mount",
+      "wlbuilder.stages.networking",
+      "wlbuilder.stages.packages",
+      "wlbuilder.stages.users",
+      "wlbuilder.stages.verify_image"
+    ],
+    "wlbuilder.stages.bootloader": [
+      "wlbuilder.pipeline",
+      "wlbuilder.stages.__init__"
+    ],
+    "wlbuilder.stages.bootstrap": [
+      "wlbuilder.pipeline",
+      "wlbuilder.stages.__init__"
+    ],
+    "wlbuilder.stages.cleanup": [
+      "wlbuilder.pipeline",
+      "wlbuilder.stages.__init__"
+    ],
+    "wlbuilder.stages.convert": [
+      "wlbuilder.pipeline",
+      "wlbuilder.stages.__init__"
+    ],
+    "wlbuilder.stages.disk": [
+      "wlbuilder.pipeline",
+      "wlbuilder.stages.__init__"
+    ],
+    "wlbuilder.stages.identity": [
+      "wlbuilder.pipeline",
+      "wlbuilder.stages.__init__"
+    ],
+    "wlbuilder.stages.locale": [
+      "wlbuilder.pipeline",
+      "wlbuilder.stages.__init__"
+    ],
+    "wlbuilder.stages.manifest": [
+      "wlbuilder.pipeline",
+      "wlbuilder.stages.__init__"
+    ],
+    "wlbuilder.stages.mount": [
+      "wlbuilder.pipeline",
+      "wlbuilder.stages.__init__"
+    ],
+    "wlbuilder.stages.networking": [
+      "wlbuilder.pipeline",
+      "wlbuilder.stages.__init__"
+    ],
+    "wlbuilder.stages.packages": [
+      "wlbuilder.pipeline",
+      "wlbuilder.stages.__init__"
+    ],
+    "wlbuilder.stages.users": [
+      "wlbuilder.pipeline",
+      "wlbuilder.stages.__init__"
+    ],
+    "wlbuilder.stages.verify_image": [
+      "wlbuilder.pipeline",
+      "wlbuilder.stages.__init__"
+    ],
+    "wlbuilder.verify": [
+      "wlbuilder.commands.verify"
+    ]
+  }
+}
