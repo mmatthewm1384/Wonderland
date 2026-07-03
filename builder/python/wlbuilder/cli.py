@@ -25,6 +25,7 @@ def build_parser() -> argparse.ArgumentParser:
     artifacts.set_defaults(command="artifacts")
 
     stages = subcommands.add_parser("stages", help="List Builder v2 stages")
+    stages.add_argument("--json", action="store_true", help="Emit stage metadata as JSON")
     stages.set_defaults(command="stages")
 
 

@@ -141,9 +141,23 @@ def run(argv: Sequence[str] | None = None) -> int:
     if parsed.command == "stages":
         from wlbuilder.stages import default_pipeline
 
-        for stage in default_pipeline():
-            implementation = "native" if getattr(stage, "implemented", False) else "pending"
-            print(f"{stage.name}\t{implementation}")
+        stages = [
+            {
+                "name": stage.name,
+                "implemented": bool(getattr(stage, "implemented", False)),
+                "implementation": "native" if getattr(stage, "implemented", False) else "pending",
+            }
+            for stage in default_pipeline()
+        ]
+
+        if getattr(parsed, "json", False):
+            import json
+
+            print(json.dumps({"stages": stages}, indent=2, sort_keys=True))
+            return 0
+
+        for stage in stages:
+            print(f"{stage['name']}\t{stage['implementation']}")
         return 0
 
     if parsed.command == "build":
