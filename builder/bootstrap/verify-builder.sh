@@ -9,5 +9,6 @@ echo "==> Verifying Builder V2"
 bin/wl builder doctor
 bin/wl builder status
 bin/wl builder verify
+builder/tools/check-generated-state.sh
 
 echo "PASS: Builder V2 verification complete"
