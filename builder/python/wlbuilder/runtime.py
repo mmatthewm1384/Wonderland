@@ -147,28 +147,9 @@ def run(argv: Sequence[str] | None = None) -> int:
         return run(as_json=getattr(parsed, "json", False))
 
     if parsed.command == "build":
-        from wlbuilder.context import create_context, ensure_output_dirs
-        from wlbuilder.pipeline import execute
+        from wlbuilder.commands.build import run
 
-        context = create_context(_repo_root(), parsed.profile)
-        ensure_output_dirs(context)
-
-        pipeline_status = execute(context)
-        if pipeline_status != 0:
-            return pipeline_status
-
-        legacy_args = ["--profile", context.profile]
-        build_status = _legacy_build(legacy_args)
-        if build_status != 0:
-            return build_status
-
-        from wlbuilder.artifacts import collect_legacy_artifacts
-
-        collected = collect_legacy_artifacts(context)
-        for artifact in collected:
-            print(f"artifact: {artifact}")
-
-        return 0
+        return run(_repo_root(), parsed.profile)
 
     print("FAIL: no builder command provided.", file=sys.stderr)
     return 1
