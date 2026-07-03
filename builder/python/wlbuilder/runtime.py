@@ -132,13 +132,9 @@ def run(argv: Sequence[str] | None = None) -> int:
         return run_verify(_repo_root())
 
     if parsed.command == "artifacts":
-        from wlbuilder.context import create_context
+        from wlbuilder.commands.artifacts import run
 
-        context = create_context(_repo_root())
-        for artifact in sorted(context.output_root.rglob("*")):
-            if artifact.is_file():
-                print(artifact.relative_to(context.repo_root))
-        return 0
+        return run(_repo_root())
 
     if parsed.command == "docs":
         from wlbuilder.commands.docs import run
@@ -146,28 +142,9 @@ def run(argv: Sequence[str] | None = None) -> int:
         return run(_repo_root())
 
     if parsed.command == "stages":
-        from wlbuilder.stages import default_pipeline
+        from wlbuilder.commands.stages import run
 
-        stages = [
-            {
-                "name": stage.name,
-                "implemented": bool(getattr(stage, "implemented", False)),
-                "implementation": "native" if getattr(stage, "implemented", False) else "pending",
-                "description": getattr(stage, "description", ""),
-                "legacy_source": getattr(stage, "legacy_source", ""),
-            }
-            for stage in default_pipeline()
-        ]
-
-        if getattr(parsed, "json", False):
-            import json
-
-            print(json.dumps({"stages": stages}, indent=2, sort_keys=True))
-            return 0
-
-        for stage in stages:
-            print(f"{stage['name']}\t{stage['implementation']}")
-        return 0
+        return run(as_json=getattr(parsed, "json", False))
 
     if parsed.command == "build":
         from wlbuilder.context import create_context, ensure_output_dirs
