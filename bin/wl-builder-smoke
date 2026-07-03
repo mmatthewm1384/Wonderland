@@ -24,6 +24,12 @@ echo "PASS wlbuilder artifacts"
 python3 -m wlbuilder stages >/dev/null
 echo "PASS wlbuilder stages"
 
+python3 -m wlbuilder docs >/dev/null
+echo "PASS wlbuilder docs"
+
+bin/wl builder docs >/dev/null
+echo "PASS wl builder docs"
+
 bin/wl builder stages >/dev/null
 echo "PASS wl builder stages"
 
