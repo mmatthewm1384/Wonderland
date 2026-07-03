@@ -5,6 +5,7 @@ from wlbuilder.stages.base import StageResult
 
 
 class CleanupStage:
+    implemented = False
     name = "cleanup"
 
     def run(self, context: BuilderContext) -> StageResult:

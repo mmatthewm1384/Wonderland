@@ -5,6 +5,7 @@ from wlbuilder.stages.base import StageResult
 
 
 class LocaleStage:
+    implemented = False
     name = "locale"
 
     def run(self, context: BuilderContext) -> StageResult:

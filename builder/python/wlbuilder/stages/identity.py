@@ -5,6 +5,7 @@ from wlbuilder.stages.base import StageResult
 
 
 class IdentityStage:
+    implemented = False
     name = "identity"
 
     def run(self, context: BuilderContext) -> StageResult:

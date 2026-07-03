@@ -5,6 +5,7 @@ from wlbuilder.stages.base import StageResult
 
 
 class NetworkingStage:
+    implemented = False
     name = "networking"
 
     def run(self, context: BuilderContext) -> StageResult:

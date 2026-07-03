@@ -5,6 +5,7 @@ from wlbuilder.stages.base import StageResult
 
 
 class PackagesStage:
+    implemented = False
     name = "packages"
 
     def run(self, context: BuilderContext) -> StageResult:

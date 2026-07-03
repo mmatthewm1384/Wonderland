@@ -5,6 +5,7 @@ from wlbuilder.stages.base import StageResult
 
 
 class ConvertStage:
+    implemented = False
     name = "convert"
 
     def run(self, context: BuilderContext) -> StageResult:

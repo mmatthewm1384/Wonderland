@@ -5,6 +5,7 @@ from wlbuilder.stages.base import StageResult
 
 
 class VerifyImageStage:
+    implemented = False
     name = "verify-image"
 
     def run(self, context: BuilderContext) -> StageResult:

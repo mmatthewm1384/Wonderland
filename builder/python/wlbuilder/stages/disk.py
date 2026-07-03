@@ -5,6 +5,7 @@ from wlbuilder.stages.base import StageResult
 
 
 class DiskStage:
+    implemented = False
     name = "disk"
 
     def run(self, context: BuilderContext) -> StageResult:

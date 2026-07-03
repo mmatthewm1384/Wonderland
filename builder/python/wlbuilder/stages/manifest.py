@@ -5,6 +5,7 @@ from wlbuilder.stages.base import StageResult
 
 
 class ManifestStage:
+    implemented = False
     name = "manifest"
 
     def run(self, context: BuilderContext) -> StageResult:
