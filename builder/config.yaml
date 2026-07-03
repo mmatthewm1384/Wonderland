@@ -54,7 +54,7 @@ migration:
   bootloader: native
   verify-image: legacy
   cleanup: native
-  convert: legacy
+  convert: native
   manifest: legacy
 
 packages:
