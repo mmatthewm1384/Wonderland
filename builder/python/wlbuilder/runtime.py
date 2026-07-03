@@ -65,7 +65,7 @@ def run(argv: Sequence[str] | None = None) -> int:
     if parsed.command == "stages":
         from wlbuilder.commands.stages import run as command
 
-        return command(as_json=getattr(parsed, "json", False))
+        return command(_repo_root(), as_json=getattr(parsed, "json", False))
 
     if parsed.command == "native-state":
         from wlbuilder.commands.native_state import run as command
