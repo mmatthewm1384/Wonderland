@@ -27,6 +27,7 @@ def _commands() -> dict[str, Command]:
     from wlbuilder.commands.config import run as config
     from wlbuilder.commands.docs import run as docs
     from wlbuilder.commands.doctor import run as doctor
+    from wlbuilder.commands.hygiene import run as hygiene
     from wlbuilder.commands.migration import run as migration
     from wlbuilder.commands.native_state import run as native_state
     from wlbuilder.commands.stages import run as stages
@@ -39,6 +40,7 @@ def _commands() -> dict[str, Command]:
         "config": config,
         "docs": docs,
         "doctor": doctor,
+        "hygiene": hygiene,
         "migration": migration,
         "native-state": native_state,
         "stages": stages,
@@ -85,6 +87,9 @@ def run(argv: Sequence[str] | None = None) -> int:
 
     if parsed.command == "build":
         return command(repo_root, parsed.profile)
+
+    if parsed.command == "hygiene":
+        return command(getattr(parsed, "action", "check"))
 
     if parsed.command in {"stages", "native-state", "config", "migration"}:
         return command(repo_root, as_json=getattr(parsed, "json", False))
