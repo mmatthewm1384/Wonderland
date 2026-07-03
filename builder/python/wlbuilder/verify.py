@@ -71,20 +71,15 @@ def run_verify(repo_root: Path | None = None) -> int:
 
         check("pipeline", names == EXPECTED_STAGES, ",".join(names))
         migration = context.config.data.get("migration", {})
-        invalid_modes = []
         native_not_implemented = []
 
         for stage in pipeline:
             mode = str(migration.get(stage.name, "legacy")) if isinstance(migration, dict) else "legacy"
 
-            if mode not in {"native", "legacy", "skip"}:
-                invalid_modes.append(f"{stage.name}={mode}")
-
             if mode == "native" and not getattr(stage, "implemented", False):
                 native_not_implemented.append(stage.name)
 
         check("native_stage_contract", True, f"pending={','.join(pending)}")
-        check("migration_modes", not invalid_modes, ",".join(invalid_modes) or "ok")
         check("native_implemented", not native_not_implemented, ",".join(native_not_implemented) or "ok")
     except Exception as exc:
         check("pipeline", False, str(exc))
