@@ -53,7 +53,7 @@ migration:
   networking: native
   bootloader: native
   verify-image: legacy
-  cleanup: legacy
+  cleanup: native
   convert: legacy
   manifest: legacy
 
