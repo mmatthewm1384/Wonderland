@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import platform
+import os
 import sys
 from collections.abc import Sequence
 from pathlib import Path
@@ -18,7 +19,7 @@ def _reject_direct_macos_execution() -> int:
 
 
 def run(argv: Sequence[str] | None = None) -> int:
-    if platform.system() == "Darwin":
+    if platform.system() == "Darwin" and os.environ.get("WL_BUILDER_MANAGED") != "1":
         return _reject_direct_macos_execution()
 
     args = list(argv) if argv is not None else sys.argv[1:]

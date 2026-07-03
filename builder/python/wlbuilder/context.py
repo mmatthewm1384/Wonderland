@@ -29,6 +29,17 @@ def _resolve_repo_path(repo_root: Path, value: str) -> Path:
     return path if path.is_absolute() else repo_root / path
 
 
+def _resolve_path(repo_root: Path, configured: object, default: Path) -> Path:
+    if configured:
+        return _resolve_repo_path(repo_root, str(configured))
+
+    default = Path(default).expanduser()
+    if default.is_absolute():
+        return default
+
+    return repo_root / default
+
+
 def create_context(repo_root: Path, profile: str | None = None) -> BuilderContext:
     config = load_config(repo_root)
     data = config.data
@@ -47,13 +58,13 @@ def create_context(repo_root: Path, profile: str | None = None) -> BuilderContex
         profile=str(selected_profile),
 
         output_root=output_root,
-        raw_output=_resolve_repo_path(repo_root, str(paths.get("raw") or output_root / "raw")),
-        qcow2_output=_resolve_repo_path(repo_root, str(paths.get("qcow2") or output_root / "qcow2")),
-        vmware_output=_resolve_repo_path(repo_root, str(paths.get("vmware") or output_root / "vmware")),
-        log_root=_resolve_repo_path(repo_root, str(paths.get("logs") or output_root / "logs")),
-        manifest_root=_resolve_repo_path(repo_root, str(paths.get("manifests") or output_root / "manifests")),
-        cache_root=_resolve_repo_path(repo_root, str(paths.get("cache") or output_root / "cache")),
-        tmp_root=_resolve_repo_path(repo_root, str(paths.get("tmp") or output_root / "tmp")),
+        raw_output=_resolve_path(repo_root, paths.get("raw"), output_root / "images" / "raw"),
+        qcow2_output=_resolve_path(repo_root, paths.get("qcow2"), output_root / "images" / "qcow2"),
+        vmware_output=_resolve_path(repo_root, paths.get("vmware"), output_root / "images" / "vmware"),
+        log_root=_resolve_path(repo_root, paths.get("logs"), output_root / "logs"),
+        manifest_root=_resolve_path(repo_root, paths.get("manifests"), output_root / "manifests"),
+        cache_root=_resolve_path(repo_root, paths.get("cache"), output_root / "cache"),
+        tmp_root=_resolve_path(repo_root, paths.get("tmp"), output_root / "tmp"),
     )
 
 
