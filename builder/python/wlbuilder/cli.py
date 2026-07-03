@@ -31,10 +31,13 @@ def build_parser() -> argparse.ArgumentParser:
     docs = subcommands.add_parser("docs", help="Generate Builder v2 documentation")
     docs.set_defaults(command="docs")
 
+    hygiene = subcommands.add_parser("hygiene", help="Check or restore generated repository state")
+    hygiene.add_argument("action", nargs="?", default="check", choices=("check", "restore"))
+    hygiene.set_defaults(command="hygiene")
+
     native_state = subcommands.add_parser("native-state", help="Show native Builder v2 stage state")
     native_state.add_argument("--json", action="store_true", help="Emit native stage state as JSON")
     native_state.set_defaults(command="native-state")
-
 
     build = subcommands.add_parser("build", help="Build a Wonderland OS image")
     build.add_argument(
