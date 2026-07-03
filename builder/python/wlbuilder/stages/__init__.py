@@ -1,37 +1,34 @@
 from __future__ import annotations
 
-from wlbuilder.stage_types import BuilderStage
-from wlbuilder.stages.artifacts import ArtifactStage
-from wlbuilder.stages.bootloader import BootloaderStage
+from wlbuilder.stages.base import BuilderStage
+from wlbuilder.stages.disk import DiskStage
+from wlbuilder.stages.mount import MountStage
 from wlbuilder.stages.bootstrap import BootstrapStage
+from wlbuilder.stages.packages import PackagesStage
+from wlbuilder.stages.identity import IdentityStage
+from wlbuilder.stages.locale import LocaleStage
+from wlbuilder.stages.users import UsersStage
+from wlbuilder.stages.networking import NetworkingStage
+from wlbuilder.stages.bootloader import BootloaderStage
+from wlbuilder.stages.verify_image import VerifyImageStage
 from wlbuilder.stages.cleanup import CleanupStage
-from wlbuilder.stages.filesystem import FilesystemStage
+from wlbuilder.stages.convert import ConvertStage
 from wlbuilder.stages.manifest import ManifestStage
-from wlbuilder.stages.legacy import LegacyBuildStage
-from wlbuilder.stages.packages import PackageStage
 
 
 def default_pipeline() -> list[BuilderStage]:
     return [
+        DiskStage(),
+        MountStage(),
         BootstrapStage(),
-        FilesystemStage(),
-        PackageStage(),
+        PackagesStage(),
+        IdentityStage(),
+        LocaleStage(),
+        UsersStage(),
+        NetworkingStage(),
         BootloaderStage(),
-        ManifestStage(),
-        ArtifactStage(),
+        VerifyImageStage(),
         CleanupStage(),
-        LegacyBuildStage(),
+        ConvertStage(),
+        ManifestStage(),
     ]
-
-
-__all__ = [
-    "ArtifactStage",
-    "BootloaderStage",
-    "BootstrapStage",
-    "CleanupStage",
-    "FilesystemStage",
-    "ManifestStage",
-    "LegacyBuildStage",
-    "PackageStage",
-    "default_pipeline",
-]
