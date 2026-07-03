@@ -24,6 +24,9 @@ def build_parser() -> argparse.ArgumentParser:
     artifacts = subcommands.add_parser("artifacts", help="List Builder v2 artifacts")
     artifacts.set_defaults(command="artifacts")
 
+    stages = subcommands.add_parser("stages", help="List Builder v2 stages")
+    stages.set_defaults(command="stages")
+
 
     build = subcommands.add_parser("build", help="Build a Wonderland OS image")
     build.add_argument(

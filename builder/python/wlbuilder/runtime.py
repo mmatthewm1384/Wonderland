@@ -138,6 +138,14 @@ def run(argv: Sequence[str] | None = None) -> int:
                 print(artifact.relative_to(context.repo_root))
         return 0
 
+    if parsed.command == "stages":
+        from wlbuilder.stages import default_pipeline
+
+        for stage in default_pipeline():
+            implementation = "native" if getattr(stage, "implemented", False) else "pending"
+            print(f"{stage.name}\t{implementation}")
+        return 0
+
     if parsed.command == "build":
         from wlbuilder.context import create_context, ensure_output_dirs
         from wlbuilder.pipeline import execute
