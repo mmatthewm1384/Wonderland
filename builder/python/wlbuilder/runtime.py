@@ -146,6 +146,8 @@ def run(argv: Sequence[str] | None = None) -> int:
                 "name": stage.name,
                 "implemented": bool(getattr(stage, "implemented", False)),
                 "implementation": "native" if getattr(stage, "implemented", False) else "pending",
+                "description": getattr(stage, "description", ""),
+                "legacy_source": getattr(stage, "legacy_source", ""),
             }
             for stage in default_pipeline()
         ]

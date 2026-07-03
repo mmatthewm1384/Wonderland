@@ -6,6 +6,8 @@ from wlbuilder.stages.base import StageResult
 
 class VerifyImageStage:
     implemented = False
+    description = "Verify boot-critical image contents."
+    legacy_source = "build.__main__ stage 11 Verify"
     name = "verify-image"
 
     def run(self, context: BuilderContext) -> StageResult:

@@ -6,6 +6,8 @@ from wlbuilder.stages.base import StageResult
 
 class PackagesStage:
     implemented = False
+    description = "Install kernel, bootloader, SSH, and base packages."
+    legacy_source = "build.__main__ stage 05 Packages"
     name = "packages"
 
     def run(self, context: BuilderContext) -> StageResult:
