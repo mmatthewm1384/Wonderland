@@ -191,3 +191,27 @@ vault/**/latest-status.md
 .DS_Store
 *.swp
 *.swo
+
+# Python generated files
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# Wonderland generated artifacts
+builder/output/
+Wonderland-Builds/
+*.raw
+*.qcow2
+*.vmdk
+*.img
+*.iso
+*.manifest.json
+*.sha256
+
+# macOS / editor noise
+.DS_Store
+*.swp
+*.swo
