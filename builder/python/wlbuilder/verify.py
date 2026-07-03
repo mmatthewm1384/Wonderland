@@ -52,6 +52,15 @@ def run_verify(repo_root: Path | None = None) -> int:
         check("vmware_output", context.vmware_output.is_dir(), str(context.vmware_output))
         check("manifest_root", context.manifest_root.is_dir(), str(context.manifest_root))
         check("log_root", context.log_root.is_dir(), str(context.log_root))
+
+        from wlbuilder.config_schema import validate_config
+
+        issues = validate_config(context.config)
+        check(
+            "config_schema",
+            not issues,
+            ", ".join(f"{issue.field}: {issue.message}" for issue in issues) or "ok",
+        )
     except Exception as exc:
         check("config", False, str(exc))
 
