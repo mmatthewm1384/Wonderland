@@ -45,6 +45,17 @@ def run(repo_root: Path) -> int:
         for stage in default_pipeline():
             implementation = "native" if getattr(stage, "implemented", False) else "pending"
             print(f"  - {stage.name} ({implementation})")
+
+        from wlbuilder.native_state import read_state, state_path
+
+        state = read_state(context)
+        print(f"native_state_file: {state_path(context)}")
+        print("native_state:")
+        if state:
+            for name in sorted(state):
+                print(f"  - {name}")
+        else:
+            print("  - none")
     except Exception as exc:
         print(f"config: fail: {exc}")
 
