@@ -30,6 +30,15 @@ echo "PASS wlbuilder native-state"
 python3 -m wlbuilder native-state --json >/dev/null
 echo "PASS wlbuilder native-state json"
 
+python3 -m wlbuilder config >/dev/null
+echo "PASS wlbuilder config"
+
+python3 -m wlbuilder config --json >/dev/null
+echo "PASS wlbuilder config json"
+
+bin/wl builder config >/dev/null
+echo "PASS wl builder config"
+
 bin/wl builder native-state >/dev/null
 echo "PASS wl builder native-state"
 

@@ -67,6 +67,16 @@ def run(argv: Sequence[str] | None = None) -> int:
 
         return command(as_json=getattr(parsed, "json", False))
 
+    if parsed.command == "native-state":
+        from wlbuilder.commands.native_state import run as command
+
+        return command(_repo_root(), as_json=getattr(parsed, "json", False))
+
+    if parsed.command == "config":
+        from wlbuilder.commands.config import run as command
+
+        return command(_repo_root(), as_json=getattr(parsed, "json", False))
+
     if parsed.command == "build":
         from wlbuilder.commands.build import run as command
 
