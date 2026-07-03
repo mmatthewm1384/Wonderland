@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from wlbuilder.artifacts import artifact_stem
 from wlbuilder.commands_util import run_command
 from wlbuilder.context import BuilderContext
 from wlbuilder.native_state import write_stage_state
@@ -13,7 +14,7 @@ class DiskStage:
     legacy_source = "build.__main__ stage 02 Disk"
 
     def run(self, context: BuilderContext) -> StageResult:
-        raw_path = context.raw_output / f"wonderland-os-0.1.1-arm64-{context.profile}.raw"
+        raw_path = context.raw_output / f"{artifact_stem(context)}.raw"
         raw_path.parent.mkdir(parents=True, exist_ok=True)
 
         size = "8G"
