@@ -122,14 +122,14 @@ def run(argv: Sequence[str] | None = None) -> int:
         return run(_repo_root())
 
     if parsed.command == "doctor":
-        from wlbuilder.doctor import run_doctor
+        from wlbuilder.commands.doctor import run
 
-        return run_doctor(_repo_root())
+        return run(_repo_root())
 
     if parsed.command == "verify":
-        from wlbuilder.verify import run_verify
+        from wlbuilder.commands.verify import run
 
-        return run_verify(_repo_root())
+        return run(_repo_root())
 
     if parsed.command == "artifacts":
         from wlbuilder.commands.artifacts import run
