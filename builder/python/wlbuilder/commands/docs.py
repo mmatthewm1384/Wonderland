@@ -79,8 +79,8 @@ def _write_artifact_authority(repo_root: Path) -> Path:
         handle.write("/\n```\n\n")
         handle.write("List artifacts with:\n\n")
         handle.write("```bash\nwl builder artifacts\n```\n\n")
-        handle.write("The builder creates or collects build outputs into `builder/output/`.\n\n")
-        handle.write("The release subsystem should publish from `builder/output/`, not directly from legacy build locations.\n\n")
+        handle.write("The builder creates or collects build outputs into `$WONDERLAND_BUILD_ROOT/`.\n\n")
+        handle.write("The release subsystem should publish from `$WONDERLAND_BUILD_ROOT/`, not directly from legacy build locations.\n\n")
 
         if artifacts:
             handle.write("## Current Artifacts\n\n")

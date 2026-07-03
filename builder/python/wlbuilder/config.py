@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+import os
 from typing import Any
 import sys
 
@@ -13,6 +14,7 @@ except ImportError:  # pragma: no cover
 
 @dataclass(frozen=True)
 class BuilderConfig:
+    repo_root: Path
     path: Path
     data: dict[str, Any]
 
@@ -22,8 +24,21 @@ class BuilderConfig:
 
     @property
     def output_root(self) -> Path:
-        value = self.data.get("paths", {}).get("output_root", "builder/output")
-        return self.repo_root / value
+        return resolve_output_root(self.repo_root, self.data)
+
+
+def resolve_output_root(repo_root: Path, data: dict[str, Any]) -> Path:
+    configured = data.get("paths", {}).get("output_root")
+    value = (
+        configured
+        or os.environ.get("WONDERLAND_BUILD_ROOT")
+        or str(Path.home() / "Wonderland-Builds")
+    )
+
+    path = Path(str(value)).expanduser()
+    if path.is_absolute():
+        return path
+    return repo_root / path
 
     @property
     def repo_root(self) -> Path:
@@ -45,4 +60,4 @@ def load_config(repo_root: Path) -> BuilderConfig:
     if not isinstance(data, dict):
         raise ValueError(f"invalid builder config: expected mapping in {path}")
 
-    return BuilderConfig(path=path, data=data)
+    return BuilderConfig(repo_root=repo_root, path=path, data=data)
