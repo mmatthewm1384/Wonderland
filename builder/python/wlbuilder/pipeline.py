@@ -1,32 +1,63 @@
 from __future__ import annotations
 
 from wlbuilder.context import BuilderContext
-from wlbuilder.migration import stage_mode
-from wlbuilder.stages import default_pipeline
+from wlbuilder.stages.base import StageResult
+from wlbuilder.stages.disk import DiskStage
+from wlbuilder.stages.mount import MountStage
+from wlbuilder.stages.bootstrap import BootstrapStage
+from wlbuilder.stages.packages import PackagesStage
+from wlbuilder.stages.identity import IdentityStage
+from wlbuilder.stages.locale import LocaleStage
+from wlbuilder.stages.users import UsersStage
+from wlbuilder.stages.networking import NetworkingStage
+from wlbuilder.stages.bootloader import BootloaderStage
+from wlbuilder.stages.verify_image import VerifyImageStage
+from wlbuilder.stages.cleanup import CleanupStage
+from wlbuilder.stages.convert import ConvertStage
+from wlbuilder.stages.manifest import ManifestStage
 
 
-def execute(context: BuilderContext) -> int:
-    for stage in default_pipeline():
-        mode = stage_mode(context, stage.name)
+STAGES = [
+    DiskStage(),
+    MountStage(),
+    BootstrapStage(),
+    PackagesStage(),
+    IdentityStage(),
+    LocaleStage(),
+    UsersStage(),
+    NetworkingStage(),
+    BootloaderStage(),
+    VerifyImageStage(),
+    CleanupStage(),
+    ConvertStage(),
+    ManifestStage(),
+]
 
-        if mode == "skip":
-            print(f"SKIP stage:{stage.name} mode:skip")
-            continue
 
-        if mode == "native" and not getattr(stage, "implemented", False):
-            print(f"FAIL stage:{stage.name} mode:native reason:not-implemented")
-            return 1
+def execute(context: BuilderContext) -> list[StageResult]:
+    results: list[StageResult] = []
 
-        result = stage.run(context)
-        if result is None:
-            raise RuntimeError(f"stage {stage.name} returned None instead of StageResult")
-        status = "PASS" if result.success else "FAIL"
-        implementation = "native" if mode == "native" else "legacy"
-        detail = f": {result.message}" if result.message else ""
+    try:
+        for stage in STAGES:
+            if not getattr(stage, "implemented", False):
+                result = StageResult(
+                    name=stage.name,
+                    success=False,
+                    message=f"stage is not implemented natively: {stage.name}",
+                )
+            else:
+                result = stage.run(context)
 
-        print(f"{status} stage:{result.name} mode:{mode} implementation:{implementation}{detail}")
+            results.append(result)
 
-        if not result.success:
-            return 1
+            if not result.success:
+                break
 
-    return 0
+    finally:
+        # Cleanup must always run after mount-capable stages.
+        if not results or results[-1].name != "cleanup":
+            cleanup = CleanupStage()
+            cleanup_result = cleanup.run(context)
+            results.append(cleanup_result)
+
+    return results

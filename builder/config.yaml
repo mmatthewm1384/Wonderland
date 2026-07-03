@@ -52,10 +52,10 @@ migration:
   users: native
   networking: native
   bootloader: native
-  verify-image: legacy
+  verify-image: native
   cleanup: native
   convert: native
-  manifest: legacy
+  manifest: native
 
 packages:
   kernel: linux-image-arm64
