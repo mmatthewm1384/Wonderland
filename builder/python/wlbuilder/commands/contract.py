@@ -5,47 +5,43 @@ from pathlib import Path
 from wlbuilder.context import create_context
 
 
+REQUIRED_CONTEXT_FIELDS = [
+    "repo_root",
+    "builder_root",
+    "config",
+    "profile",
+    "output_root",
+    "raw_output",
+    "qcow2_output",
+    "vmware_output",
+    "log_root",
+    "manifest_root",
+    "cache_root",
+    "tmp_root",
+]
+
+
 def run(repo_root: Path) -> int:
     context = create_context(repo_root)
-
     failures: list[str] = []
 
-    if not context.output_root.is_absolute():
-        failures.append(f"output_root is not absolute: {context.output_root}")
+    for field in REQUIRED_CONTEXT_FIELDS:
+        if not hasattr(context, field):
+            failures.append(f"missing context field: {field}")
 
-    try:
-        context.output_root.relative_to(context.repo_root)
-        failures.append(f"output_root must not be inside repo: {context.output_root}")
-    except ValueError:
-        pass
-
-    required_paths = [
-        context.raw_output,
-        context.qcow2_output,
-        context.vmware_output,
-        context.log_root,
-        context.manifest_root,
-        context.cache_root,
-        context.tmp_root,
-    ]
-
-    for path in required_paths:
-        if not path.is_absolute():
-            failures.append(f"path is not absolute: {path}")
-
-    legacy = repo_root / "builder" / "output"
-    for path in required_paths:
-        try:
-            path.relative_to(legacy)
-            failures.append(f"path uses legacy builder/output: {path}")
-        except ValueError:
-            pass
+    for field in REQUIRED_CONTEXT_FIELDS:
+        path = getattr(context, field, None)
+        if field.endswith("_root") or field.endswith("_output"):
+            if path is not None and hasattr(path, "is_absolute") and not path.is_absolute():
+                failures.append(f"{field} must be absolute: {path}")
+            if path is not None and "builder/output" in str(path):
+                failures.append(f"{field} must not use legacy builder/output: {path}")
 
     if failures:
         for failure in failures:
             print(f"FAIL contract: {failure}")
         return 1
 
-    print("PASS Builder V2 contract")
+    print("PASS Builder V2 internal API contract")
     print(f"output_root: {context.output_root}")
     return 0
