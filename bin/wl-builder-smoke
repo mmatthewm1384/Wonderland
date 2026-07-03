@@ -24,6 +24,15 @@ echo "PASS wlbuilder artifacts"
 python3 -m wlbuilder stages >/dev/null
 echo "PASS wlbuilder stages"
 
+python3 -m wlbuilder native-state >/dev/null
+echo "PASS wlbuilder native-state"
+
+python3 -m wlbuilder native-state --json >/dev/null
+echo "PASS wlbuilder native-state json"
+
+bin/wl builder native-state >/dev/null
+echo "PASS wl builder native-state"
+
 python3 -m wlbuilder docs >/dev/null
 echo "PASS wlbuilder docs"
 
