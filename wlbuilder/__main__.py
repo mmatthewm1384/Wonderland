@@ -3,15 +3,12 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+_repo_root = Path(__file__).resolve().parent.parent
+_builder_python = _repo_root / "builder" / "python"
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
-BUILDER_PYTHON = REPO_ROOT / "builder" / "python"
-
-if BUILDER_PYTHON.exists():
-    sys.path.insert(0, str(BUILDER_PYTHON))
+if str(_builder_python) not in sys.path:
+    sys.path.insert(0, str(_builder_python))
 
 from wlbuilder.runtime import run
 
-
-if __name__ == "__main__":
-    raise SystemExit(run(sys.argv[1:]))
+raise SystemExit(run(sys.argv[1:]))
