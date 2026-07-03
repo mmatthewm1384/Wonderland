@@ -18,6 +18,8 @@ def execute(context: BuilderContext) -> int:
             return 1
 
         result = stage.run(context)
+        if result is None:
+            raise RuntimeError(f"stage {stage.name} returned None instead of StageResult")
         status = "PASS" if result.success else "FAIL"
         implementation = "native" if mode == "native" else "legacy"
         detail = f": {result.message}" if result.message else ""
