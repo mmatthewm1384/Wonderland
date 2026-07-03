@@ -2,14 +2,13 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from wlbuilder.config import load_config
+from wlbuilder.config_schema import validate_config
 from wlbuilder.stages import default_pipeline
 
 
-def run(repo_root: Path) -> int:
-    docs_root = repo_root / "docs" / "builder"
-    docs_root.mkdir(parents=True, exist_ok=True)
-
-    output = docs_root / "stage-migration.md"
+def _write_stage_migration(repo_root: Path) -> Path:
+    output = repo_root / "docs" / "builder" / "stage-migration.md"
 
     with output.open("w", encoding="utf-8") as handle:
         handle.write("# Builder v2 Stage Migration\n\n")
@@ -23,12 +22,53 @@ def run(repo_root: Path) -> int:
 
         for stage in default_pipeline():
             status = "native" if getattr(stage, "implemented", False) else "pending"
-            legacy_source = getattr(stage, "legacy_source", "")
-            description = getattr(stage, "description", "")
-
             handle.write(
-                f"| `{stage.name}` | {status} | {legacy_source} | {description} |\n"
+                f"| `{stage.name}` | "
+                f"{status} | "
+                f"{getattr(stage, 'legacy_source', '')} | "
+                f"{getattr(stage, 'description', '')} |\n"
             )
 
-    print(output.relative_to(repo_root))
+    return output
+
+
+def _write_config_reference(repo_root: Path) -> Path:
+    output = repo_root / "docs" / "builder" / "config-reference.md"
+    config = load_config(repo_root)
+    issues = validate_config(config)
+
+    with output.open("w", encoding="utf-8") as handle:
+        handle.write("# Builder v2 Config Reference\n\n")
+        handle.write("Generated from the active Builder configuration.\n\n")
+        handle.write("Inspect with:\n\n")
+        handle.write("```bash\n")
+        handle.write("wl builder config\n")
+        handle.write("wl builder config --json\n")
+        handle.write("```\n\n")
+        handle.write(f"Config file: `{config.path}`\n\n")
+        handle.write(f"Default profile: `{config.default_profile}`\n\n")
+        handle.write(f"Valid: `{str(not issues).lower()}`\n\n")
+
+        if issues:
+            handle.write("## Issues\n\n")
+            for issue in issues:
+                handle.write(f"- `{issue.field}`: {issue.message}\n")
+        else:
+            handle.write("No configuration issues detected.\n")
+
+    return output
+
+
+def run(repo_root: Path) -> int:
+    docs_root = repo_root / "docs" / "builder"
+    docs_root.mkdir(parents=True, exist_ok=True)
+
+    outputs = [
+        _write_stage_migration(repo_root),
+        _write_config_reference(repo_root),
+    ]
+
+    for output in outputs:
+        print(output.relative_to(repo_root))
+
     return 0

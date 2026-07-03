@@ -10,7 +10,7 @@ python3 -m wlbuilder docs
 
 | Stage | Status | Legacy Source | Responsibility |
 |---|---|---|---|
-| `disk` | pending | build.__main__ stage 02 Disk | Create raw disk image and partition layout. |
+| `disk` | native | build.__main__ stage 02 Disk | Create raw disk image and partition layout. |
 | `mount` | pending | build.__main__ stage 03 Mount | Attach image, mount filesystems, and prepare chroot. |
 | `bootstrap` | pending | build.__main__ stage 04 Bootstrap | Install Debian base system. |
 | `packages` | pending | build.__main__ stage 05 Packages | Install kernel, bootloader, SSH, and base packages. |
