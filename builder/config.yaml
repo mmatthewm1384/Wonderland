@@ -23,6 +23,15 @@ artifacts:
 output:
   root: builder/output
 
+paths:
+  raw: builder/output/raw
+  qcow2: builder/output/qcow2
+  vmware: builder/output/vmware
+  manifests: builder/output/manifests
+  logs: builder/output/logs
+  cache: builder/output/cache
+  tmp: builder/output/tmp
+
 profiles:
   development:
     debug: true
