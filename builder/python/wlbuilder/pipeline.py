@@ -1,29 +1,13 @@
 from __future__ import annotations
 
 from wlbuilder.context import BuilderContext
+from wlbuilder.migration import stage_mode
 from wlbuilder.stages import default_pipeline
-
-
-VALID_MODES = {"native", "legacy", "skip"}
-
-
-def _stage_mode(context: BuilderContext, stage_name: str) -> str:
-    migration = context.config.data.get("migration", {})
-
-    if not isinstance(migration, dict):
-        return "legacy"
-
-    mode = str(migration.get(stage_name, "legacy"))
-
-    if mode not in VALID_MODES:
-        return "legacy"
-
-    return mode
 
 
 def execute(context: BuilderContext) -> int:
     for stage in default_pipeline():
-        mode = _stage_mode(context, stage.name)
+        mode = stage_mode(context, stage.name)
 
         if mode == "skip":
             print(f"SKIP stage:{stage.name} mode:skip")
