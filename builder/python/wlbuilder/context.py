@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+import os
 
-from wlbuilder.config import BuilderConfig, load_config
+from wlbuilder.config import BuilderConfig, load_config, resolve_output_root
 
 
 @dataclass(frozen=True, slots=True)
@@ -35,10 +36,7 @@ def create_context(repo_root: Path, profile: str | None = None) -> BuilderContex
     builder_root = repo_root / "builder"
     selected_profile = profile or data.get("system", {}).get("profile") or config.default_profile
 
-    output_root = _resolve_repo_path(
-        repo_root,
-        str(data.get("output", {}).get("root") or "builder/output"),
-    )
+    output_root = resolve_output_root(repo_root, data)
 
     paths = data.get("paths", {})
 

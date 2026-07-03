@@ -1,3 +1,23 @@
+
+wl_builder_python() {
+  local root="$WL_ROOT"
+  local venv="$root/.venv"
+  local python_bin="$venv/bin/python"
+
+  if [ ! -x "$python_bin" ]; then
+    echo "wl: creating Python environment: $venv" >&2
+    python3 -m venv "$venv"
+  fi
+
+  "$python_bin" -m pip install --upgrade pip setuptools wheel >/dev/null
+  "$python_bin" -m pip install -e "$root/builder" >/dev/null
+
+  export WONDERLAND_BUILD_ROOT="${WONDERLAND_BUILD_ROOT:-$HOME/Wonderland-Builds}"
+  mkdir -p "$WONDERLAND_BUILD_ROOT"
+
+  "$python_bin" -m wlbuilder "$@"
+}
+
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -42,3 +62,12 @@ if [[ ! -x "$tool" ]]; then
 fi
 
 exec "$tool" "$@"
+
+
+case "${1:-}" in
+  builder)
+    shift
+    wl_builder_python "$@"
+    exit $?
+    ;;
+esac
