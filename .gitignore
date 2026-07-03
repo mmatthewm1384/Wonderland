@@ -158,3 +158,36 @@ vault/08-Operations/replication/manifests/latest.*
 
 # Builder v2 published release artifacts
 releases/builder-v2/
+
+# Python generated files
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# Wonderland generated artifacts
+builder/output/
+releases/
+Wonderland-Builds/
+*.raw
+*.qcow2
+*.vmdk
+*.img
+*.iso
+*.manifest.json
+*.sha256
+
+# Runtime/generated state
+vault/ephemeral-runs.log
+vault/**/audit.jsonl
+vault/**/latest.json
+vault/**/latest.diff
+vault/**/latest-status.json
+vault/**/latest-status.md
+
+# macOS / editor noise
+.DS_Store
+*.swp
+*.swo
