@@ -4,6 +4,10 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
+CANDIDATE_ROOT="builder/output"
+PUBLISH_ROOT="releases/builder-v2"
+MANIFEST="$PUBLISH_ROOT/publish-manifest.json"
+
 usage() {
   cat <<'EOF'
 Usage:
@@ -13,26 +17,80 @@ Usage:
 EOF
 }
 
+candidate_files() {
+  if [[ ! -d "$CANDIDATE_ROOT" ]]; then
+    return 0
+  fi
+
+  find "$CANDIDATE_ROOT" -type f \
+    \( -name '*.raw' -o -name '*.qcow2' -o -name '*.vmdk' -o -name '*.manifest.json' \) \
+    | sort
+}
+
 case "${1:-help}" in
   candidates)
-    if [[ ! -d builder/output ]]; then
-      echo "No Builder v2 output directory found."
-      exit 0
-    fi
-
-    find builder/output -type f \
-      \( -name '*.raw' -o -name '*.qcow2' -o -name '*.vmdk' -o -name '*.manifest.json' \) \
-      | sort
+    candidate_files
     ;;
 
   publish)
-    echo "FAIL: wl release publish is not implemented yet."
-    echo "Use: wl release candidates"
-    exit 1
+    mapfile -t files < <(candidate_files)
+
+    if [[ "${#files[@]}" -eq 0 ]]; then
+      echo "FAIL: no Builder v2 release candidates found."
+      echo "Run: wl builder build --profile development"
+      exit 1
+    fi
+
+    mkdir -p "$PUBLISH_ROOT"
+
+    for source in "${files[@]}"; do
+      target="$PUBLISH_ROOT/$(basename "$source")"
+      cp -p "$source" "$target"
+      echo "published: $target"
+    done
+
+    python3 - "$PUBLISH_ROOT" "${files[@]}" "${files[@]}" <<'PY'
+from __future__ import annotations
+
+import hashlib
+import json
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+publish_root = Path(sys.argv[1])
+sources = [Path(item) for item in sys.argv[2:]]
+
+items = []
+for source in sources:
+    target = publish_root / source.name
+    digest = hashlib.sha256(target.read_bytes()).hexdigest()
+    items.append(
+        {
+            "source": str(source),
+            "target": str(target),
+            "sha256": digest,
+            "size_bytes": target.stat().st_size,
+        }
+    )
+
+manifest = {
+    "published_at": datetime.now(timezone.utc).isoformat(),
+    "publish_root": str(publish_root),
+    "items": items,
+}
+
+(publish_root / "publish-manifest.json").write_text(
+    json.dumps(manifest, indent=2, sort_keys=True),
+    encoding="utf-8",
+)
+
+print(f"manifest: {publish_root / 'publish-manifest.json'}")
+PY
     ;;
 
   list)
-    find releases -maxdepth 3 -type f 2>/dev/null | sort || true
+    find releases -maxdepth 4 -type f 2>/dev/null | sort || true
     ;;
 
   help|-h|--help|*)
