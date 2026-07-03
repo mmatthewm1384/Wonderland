@@ -8,21 +8,35 @@ from wlbuilder.context import create_context
 from wlbuilder.stages import default_pipeline
 
 
+def _stage_mode(config_data: dict, stage_name: str) -> str:
+    migration = config_data.get("migration", {})
+    if not isinstance(migration, dict):
+        return "legacy"
+
+    mode = str(migration.get(stage_name, "legacy"))
+    return mode if mode in {"native", "legacy", "skip"} else "legacy"
+
+
 def _write_stage_migration(repo_root: Path) -> Path:
     output = repo_root / "docs" / "builder" / "stage-migration.md"
+    config = load_config(repo_root)
 
     with output.open("w", encoding="utf-8") as handle:
         handle.write("# Builder v2 Stage Migration\n\n")
         handle.write("This document is generated from the live Builder v2 stage registry.\n\n")
         handle.write("Regenerate with:\n\n")
         handle.write("```bash\npython3 -m wlbuilder docs\n```\n\n")
-        handle.write("| Stage | Status | Legacy Source | Responsibility |\n")
-        handle.write("|---|---|---|---|\n")
+        handle.write("| Stage | Mode | Implemented | Ready | Legacy Source | Responsibility |\n")
+        handle.write("|---|---|---|---|---|---|\n")
 
         for stage in default_pipeline():
-            status = "native" if getattr(stage, "implemented", False) else "pending"
+            mode = _stage_mode(config.data, stage.name)
+            implemented = bool(getattr(stage, "implemented", False))
+            ready = mode != "native" or implemented
+
             handle.write(
-                f"| `{stage.name}` | {status} | "
+                f"| `{stage.name}` | {mode} | {str(implemented).lower()} | "
+                f"{str(ready).lower()} | "
                 f"{getattr(stage, 'legacy_source', '')} | "
                 f"{getattr(stage, 'description', '')} |\n"
             )
