@@ -117,7 +117,9 @@ def run(argv: Sequence[str] | None = None) -> int:
     parsed = parse(args)
 
     if parsed.command == "status":
-        return _status()
+        from wlbuilder.commands.status import run
+
+        return run(_repo_root())
 
     if parsed.command == "doctor":
         from wlbuilder.doctor import run_doctor
