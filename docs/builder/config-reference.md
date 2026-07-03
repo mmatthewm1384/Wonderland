@@ -13,6 +13,20 @@ Config file: `/home/wonderland/wonderland-os/builder/config.yaml`
 
 Default profile: `development`
 
-Valid: `true`
+Valid: `false`
 
-No configuration issues detected.
+## Issues
+
+- `migration.disk`: missing migration mode
+- `migration.mount`: missing migration mode
+- `migration.bootstrap`: missing migration mode
+- `migration.packages`: missing migration mode
+- `migration.identity`: missing migration mode
+- `migration.locale`: missing migration mode
+- `migration.users`: missing migration mode
+- `migration.networking`: missing migration mode
+- `migration.bootloader`: missing migration mode
+- `migration.verify-image`: missing migration mode
+- `migration.cleanup`: missing migration mode
+- `migration.convert`: missing migration mode
+- `migration.manifest`: missing migration mode
