@@ -6,6 +6,7 @@ import os
 
 from wlbuilder.config import BuilderConfig, load_config, resolve_output_root
 from wlbuilder.artifacts import BuildArtifacts
+from wlbuilder.native_state import read_state
 
 
 @dataclass(frozen=True, slots=True)
@@ -67,7 +68,7 @@ def create_context(repo_root: Path, profile: str | None = None) -> BuilderContex
         manifest_root=_resolve_path(repo_root, paths.get("manifests"), output_root / "manifests"),
         cache_root=_resolve_path(repo_root, paths.get("cache"), output_root / "cache"),
         tmp_root=_resolve_path(repo_root, paths.get("tmp"), output_root / "tmp"),
-        artifacts=BuildArtifacts(),
+        artifacts=BuildArtifacts.from_state(read_state_for_context(repo_root, output_root)),
     )
 
 
@@ -83,3 +84,17 @@ def ensure_output_dirs(context: BuilderContext) -> None:
         context.tmp_root,
     ):
         path.mkdir(parents=True, exist_ok=True)
+
+
+def read_state_for_context(repo_root: Path, output_root: Path) -> dict:
+    class _Context:
+        pass
+
+    context = _Context()
+    context.repo_root = repo_root
+    context.tmp_root = output_root / "tmp"
+
+    try:
+        return read_state(context)  # type: ignore[arg-type]
+    except Exception:
+        return {}
