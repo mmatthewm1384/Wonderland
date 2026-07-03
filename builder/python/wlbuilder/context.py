@@ -5,6 +5,7 @@ from pathlib import Path
 import os
 
 from wlbuilder.config import BuilderConfig, load_config, resolve_output_root
+from wlbuilder.artifacts import BuildArtifacts
 
 
 @dataclass(frozen=True, slots=True)
@@ -22,6 +23,7 @@ class BuilderContext:
     manifest_root: Path
     cache_root: Path
     tmp_root: Path
+    artifacts: BuildArtifacts
 
 
 def _resolve_repo_path(repo_root: Path, value: str) -> Path:
@@ -65,6 +67,7 @@ def create_context(repo_root: Path, profile: str | None = None) -> BuilderContex
         manifest_root=_resolve_path(repo_root, paths.get("manifests"), output_root / "manifests"),
         cache_root=_resolve_path(repo_root, paths.get("cache"), output_root / "cache"),
         tmp_root=_resolve_path(repo_root, paths.get("tmp"), output_root / "tmp"),
+        artifacts=BuildArtifacts(),
     )
 
 
