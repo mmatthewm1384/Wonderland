@@ -32,6 +32,7 @@ class PackagesStage:
             "git",
             "iproute2",
             "net-tools",
+            "locales",
         ]
 
         try:
