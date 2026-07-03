@@ -6,6 +6,8 @@ from wlbuilder.stages.base import StageResult
 
 class ManifestStage:
     implemented = False
+    description = "Generate build manifest."
+    legacy_source = "build.__main__ stage 14 Manifest"
     name = "manifest"
 
     def run(self, context: BuilderContext) -> StageResult:

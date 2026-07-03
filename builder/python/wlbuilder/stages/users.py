@@ -6,6 +6,8 @@ from wlbuilder.stages.base import StageResult
 
 class UsersStage:
     implemented = False
+    description = "Create default user and sudo policy."
+    legacy_source = "build.__main__ stage 08 Users"
     name = "users"
 
     def run(self, context: BuilderContext) -> StageResult:

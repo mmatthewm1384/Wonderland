@@ -6,6 +6,8 @@ from wlbuilder.stages.base import StageResult
 
 class DiskStage:
     implemented = False
+    description = "Create raw disk image and partition layout."
+    legacy_source = "build.__main__ stage 02 Disk"
     name = "disk"
 
     def run(self, context: BuilderContext) -> StageResult:

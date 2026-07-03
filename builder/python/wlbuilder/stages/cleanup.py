@@ -6,6 +6,8 @@ from wlbuilder.stages.base import StageResult
 
 class CleanupStage:
     implemented = False
+    description = "Unmount filesystems and detach loop devices."
+    legacy_source = "build.__main__ stage 12 Cleanup"
     name = "cleanup"
 
     def run(self, context: BuilderContext) -> StageResult:

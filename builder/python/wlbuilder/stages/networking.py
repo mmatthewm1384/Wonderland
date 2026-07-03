@@ -6,6 +6,8 @@ from wlbuilder.stages.base import StageResult
 
 class NetworkingStage:
     implemented = False
+    description = "Configure SSH, Chrony, Avahi, resolved, and networking."
+    legacy_source = "build.__main__ stage 09 Networking"
     name = "networking"
 
     def run(self, context: BuilderContext) -> StageResult:
