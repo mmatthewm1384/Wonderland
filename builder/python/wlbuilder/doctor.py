@@ -83,7 +83,7 @@ def run_doctor(repo_root: Path | None = None) -> int:
         ):
             checks.append(
                 DoctorCheck(
-                    name=f"output:{path.relative_to(root)}",
+                    name=f"output:{path}",
                     passed=path.exists(),
                     detail=str(path),
                 )

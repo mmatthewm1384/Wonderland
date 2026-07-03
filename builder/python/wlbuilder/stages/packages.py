@@ -33,6 +33,8 @@ class PackagesStage:
             "iproute2",
             "net-tools",
             "locales",
+            "grub-efi-arm64",
+            "efibootmgr",
         ]
 
         try:

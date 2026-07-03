@@ -66,7 +66,7 @@ def _write_artifact_authority(repo_root: Path) -> Path:
     context = create_context(repo_root)
 
     artifacts = sorted(
-        artifact.relative_to(repo_root)
+        artifact
         for artifact in context.output_root.rglob("*")
         if artifact.is_file()
     )
@@ -75,7 +75,7 @@ def _write_artifact_authority(repo_root: Path) -> Path:
         handle.write("# Builder v2 Artifact Authority\n\n")
         handle.write("Builder v2 canonical artifacts live under:\n\n")
         handle.write("```text\n")
-        handle.write(str(context.output_root.relative_to(repo_root)))
+        handle.write(str(context.output_root))
         handle.write("/\n```\n\n")
         handle.write("List artifacts with:\n\n")
         handle.write("```bash\nwl builder artifacts\n```\n\n")
@@ -129,6 +129,6 @@ def run(repo_root: Path) -> int:
     ]
 
     for output in outputs:
-        print(output.relative_to(repo_root))
+        print(output)
 
     return 0
