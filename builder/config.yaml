@@ -46,8 +46,8 @@ migration:
   mount: native
 
   bootstrap: legacy
-  packages: legacy
-  identity: legacy
+  packages: native
+  identity: native
   locale: legacy
   users: legacy
   networking: legacy

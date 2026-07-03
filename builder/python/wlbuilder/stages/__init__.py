@@ -15,7 +15,6 @@ from wlbuilder.stages.cleanup import CleanupStage
 from wlbuilder.stages.convert import ConvertStage
 from wlbuilder.stages.manifest import ManifestStage
 
-
 def default_pipeline() -> list[BuilderStage]:
     return [
         DiskStage(),
