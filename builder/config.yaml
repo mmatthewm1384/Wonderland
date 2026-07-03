@@ -41,6 +41,22 @@ profiles:
     debug: false
     optimize: true
 
+migration:
+  disk: native
+  mount: native
+
+  bootstrap: legacy
+  packages: legacy
+  identity: legacy
+  locale: legacy
+  users: legacy
+  networking: legacy
+  bootloader: legacy
+  verify-image: legacy
+  cleanup: legacy
+  convert: legacy
+  manifest: legacy
+
 packages:
   kernel: linux-image-arm64
   bootloader: grub-efi-arm64
