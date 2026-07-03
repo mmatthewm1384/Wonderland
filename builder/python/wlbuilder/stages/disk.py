@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from wlbuilder.commands_util import run_command
 from wlbuilder.context import BuilderContext
+from wlbuilder.native_state import write_stage_state
 from wlbuilder.stages.base import StageResult
 
 
@@ -46,5 +47,14 @@ class DiskStage:
             ])
         except Exception as exc:
             return StageResult(self.name, False, str(exc))
+
+        write_stage_state(
+            context,
+            self.name,
+            {
+                "raw_path": str(raw_path),
+                "size": size,
+            },
+        )
 
         return StageResult(self.name, True, f"created {raw_path}")
