@@ -92,6 +92,31 @@ def _write_artifact_authority(repo_root: Path) -> Path:
     return output
 
 
+
+def _write_migration_plan(repo_root: Path) -> Path:
+    output = repo_root / "docs" / "builder" / "migration-plan.md"
+    context = create_context(repo_root)
+
+    with output.open("w", encoding="utf-8") as handle:
+        handle.write("# Builder v2 Migration Plan\n\n")
+        handle.write("Generated from the active Builder migration configuration.\n\n")
+        handle.write("Inspect with:\n\n")
+        handle.write("```bash\nwl builder migration\nwl builder migration --json\n```\n\n")
+        handle.write("| Stage | Mode | Implemented | Ready |\n")
+        handle.write("|---|---|---|---|\n")
+
+        for stage in default_pipeline():
+            mode = stage_mode(context, stage.name)
+            implemented = bool(getattr(stage, "implemented", False))
+            ready = mode != "native" or implemented
+
+            handle.write(
+                f"| `{stage.name}` | {mode} | "
+                f"{str(implemented).lower()} | {str(ready).lower()} |\n"
+            )
+
+    return output
+
 def run(repo_root: Path) -> int:
     docs_root = repo_root / "docs" / "builder"
     docs_root.mkdir(parents=True, exist_ok=True)
@@ -100,6 +125,7 @@ def run(repo_root: Path) -> int:
         _write_stage_migration(repo_root),
         _write_config_reference(repo_root),
         _write_artifact_authority(repo_root),
+        _write_migration_plan(repo_root),
     ]
 
     for output in outputs:
