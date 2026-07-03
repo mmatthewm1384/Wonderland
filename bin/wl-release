@@ -1,19 +1,41 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-case "${1:-help}" in
-  publish)
-    echo "FAIL: wl release publish is not implemented yet."
-    exit 1
-    ;;
-  list)
-    find releases -maxdepth 3 -type f 2>/dev/null | sort || true
-    ;;
-  help|-h|--help|*)
-    cat <<'EOF'
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+usage() {
+  cat <<'EOF'
 Usage:
+  wl release candidates
   wl release publish
   wl release list
 EOF
+}
+
+case "${1:-help}" in
+  candidates)
+    if [[ ! -d builder/output ]]; then
+      echo "No Builder v2 output directory found."
+      exit 0
+    fi
+
+    find builder/output -type f \
+      \( -name '*.raw' -o -name '*.qcow2' -o -name '*.vmdk' -o -name '*.manifest.json' \) \
+      | sort
+    ;;
+
+  publish)
+    echo "FAIL: wl release publish is not implemented yet."
+    echo "Use: wl release candidates"
+    exit 1
+    ;;
+
+  list)
+    find releases -maxdepth 3 -type f 2>/dev/null | sort || true
+    ;;
+
+  help|-h|--help|*)
+    usage
     ;;
 esac
