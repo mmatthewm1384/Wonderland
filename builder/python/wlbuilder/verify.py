@@ -8,6 +8,23 @@ from wlbuilder.context import create_context, ensure_output_dirs
 from wlbuilder.stages import default_pipeline
 
 
+EXPECTED_STAGES = (
+    "disk",
+    "mount",
+    "bootstrap",
+    "packages",
+    "identity",
+    "locale",
+    "users",
+    "networking",
+    "bootloader",
+    "verify-image",
+    "cleanup",
+    "convert",
+    "manifest",
+)
+
+
 def run_verify(repo_root: Path | None = None) -> int:
     root = repo_root or Path.cwd()
     failed = False
@@ -39,6 +56,13 @@ def run_verify(repo_root: Path | None = None) -> int:
         check("config", False, str(exc))
 
     try:
+        pipeline = default_pipeline()
+        names = tuple(stage.name for stage in pipeline)
+        check("pipeline", names == EXPECTED_STAGES, ",".join(names))
+    except Exception as exc:
+        check("pipeline", False, str(exc))
+
+    try:
         if str(root) not in sys.path:
             sys.path.insert(0, str(root))
 
@@ -46,12 +70,5 @@ def run_verify(repo_root: Path | None = None) -> int:
         check("legacy_bridge", hasattr(module, "main"), "build.__main__")
     except Exception as exc:
         check("legacy_bridge", False, str(exc))
-
-    try:
-        pipeline = default_pipeline()
-        names = ",".join(stage.name for stage in pipeline)
-        check("pipeline", len(pipeline) > 0, names)
-    except Exception as exc:
-        check("pipeline", False, str(exc))
 
     return 1 if failed else 0
