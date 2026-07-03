@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from wlbuilder.artifacts import artifact_stem
+from wlbuilder.artifacts import artifact_stem
 from wlbuilder.commands_util import run_command
 from wlbuilder.context import BuilderContext
 from wlbuilder.native_state import write_stage_state
