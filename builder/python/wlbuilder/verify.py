@@ -58,7 +58,10 @@ def run_verify(repo_root: Path | None = None) -> int:
     try:
         pipeline = default_pipeline()
         names = tuple(stage.name for stage in pipeline)
+        pending = tuple(stage.name for stage in pipeline if not getattr(stage, "implemented", False))
+
         check("pipeline", names == EXPECTED_STAGES, ",".join(names))
+        check("native_stage_contract", len(pending) == len(pipeline), f"pending={','.join(pending)}")
     except Exception as exc:
         check("pipeline", False, str(exc))
 
