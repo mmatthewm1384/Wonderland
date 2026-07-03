@@ -48,7 +48,7 @@ migration:
   bootstrap: legacy
   packages: native
   identity: native
-  locale: legacy
+  locale: native
   users: legacy
   networking: legacy
   bootloader: legacy
