@@ -24,13 +24,13 @@ output:
   root: builder/output
 
 paths:
-  raw: builder/output/raw
-  qcow2: builder/output/qcow2
-  vmware: builder/output/vmware
-  manifests: builder/output/manifests
-  logs: builder/output/logs
-  cache: builder/output/cache
-  tmp: builder/output/tmp
+  raw: null
+  qcow2: null
+  vmware: null
+  manifests: null
+  logs: null
+  cache: null
+  tmp: null
 
 profiles:
   development:
@@ -49,9 +49,9 @@ migration:
   packages: native
   identity: native
   locale: native
-  users: legacy
-  networking: legacy
-  bootloader: legacy
+  users: native
+  networking: native
+  bootloader: native
   verify-image: legacy
   cleanup: legacy
   convert: legacy
