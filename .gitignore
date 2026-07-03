@@ -155,3 +155,6 @@ vault/ephemeral-runs.log
 vault/chaos/*.jsonl
 vault/08-Operations/state/*.json
 vault/08-Operations/replication/manifests/latest.*
+
+# Builder v2 published release artifacts
+releases/builder-v2/
