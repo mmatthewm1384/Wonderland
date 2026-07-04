@@ -10,6 +10,8 @@ class BootloaderStage:
     implemented = True
     name = "bootloader"
     description = "Install GRUB EFI bootloader into the mounted image."
+    requires = ()
+    produces = ()
     legacy_source = "build.__main__ bootloader stage"
 
     def run(self, context: BuilderContext) -> StageResult:

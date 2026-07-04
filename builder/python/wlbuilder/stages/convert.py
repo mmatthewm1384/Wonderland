@@ -13,6 +13,8 @@ class ConvertStage:
     implemented = True
     name = "convert"
     description = "Convert raw image into QCOW2 artifact and generate checksums."
+    requires = ()
+    produces = ()
     legacy_source = "native convert"
 
     def run(self, context: BuilderContext) -> StageResult:

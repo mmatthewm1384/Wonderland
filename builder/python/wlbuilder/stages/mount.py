@@ -13,6 +13,8 @@ class MountStage:
     implemented = True
     name = "mount"
     description = "Attach image, create filesystems, and mount root/EFI filesystems."
+    requires = ()
+    produces = ()
     legacy_source = "build.__main__ stage 03 Mount"
 
     def _loop_device(self, output: str) -> str:

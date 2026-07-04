@@ -15,6 +15,9 @@ class StageModel(Protocol):
     name: str
     implemented: bool
     description: str
+    legacy_source: str
+    requires: tuple[str, ...]
+    produces: tuple[str, ...]
 
     def run(self, context: object) -> StageResultModel:
         ...

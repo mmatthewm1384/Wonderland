@@ -10,6 +10,8 @@ class BootstrapStage:
     implemented = True
     name = "bootstrap"
     description = "Bootstrap Debian root filesystem."
+    requires = ()
+    produces = ()
     legacy_source = "build.__main__ bootstrap stage"
 
     def run(self, context: BuilderContext) -> StageResult:

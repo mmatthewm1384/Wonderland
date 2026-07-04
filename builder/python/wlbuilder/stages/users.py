@@ -12,6 +12,8 @@ class UsersStage:
     implemented = True
     name = "users"
     description = "Create default Wonderland user and sudo access."
+    requires = ()
+    produces = ()
     legacy_source = "build.__main__ users stage"
 
     def run(self, context: BuilderContext) -> StageResult:
