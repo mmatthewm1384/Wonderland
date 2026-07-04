@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WONDERLAND_ROOT="${WONDERLAND_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+WONDERLAND_ROOT="${WONDERLAND_ROOT:-${WL_HOME:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}}"
 export WONDERLAND_ROOT
 
 exec "$WONDERLAND_ROOT/lib/wonderland/runtime/start.sh" "$@"
