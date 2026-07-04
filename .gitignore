@@ -218,3 +218,6 @@ Wonderland-Builds/
 
 # Python package metadata
 *.egg-info/
+
+# Python packaging metadata
+builder/python/wlbuilder.egg-info/
