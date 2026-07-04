@@ -14,6 +14,8 @@ class ManifestStage:
     implemented = True
     name = "manifest"
     description = "Generate build manifest from native artifact authority."
+    requires = ()
+    produces = ()
     legacy_source = "native manifest"
 
     def run(self, context: BuilderContext) -> StageResult:

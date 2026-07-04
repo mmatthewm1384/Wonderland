@@ -12,6 +12,8 @@ class LocaleStage:
     implemented = True
     name = "locale"
     description = "Configure locale, timezone, and keyboard defaults."
+    requires = ()
+    produces = ()
     legacy_source = "build.__main__ locale stage"
 
     def run(self, context: BuilderContext) -> StageResult:

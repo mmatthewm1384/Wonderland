@@ -12,6 +12,8 @@ class CleanupStage:
     implemented = True
     name = "cleanup"
     description = "Unmount image filesystems and detach loop devices."
+    requires = ()
+    produces = ()
     legacy_source = "native cleanup"
 
     def run(self, context: BuilderContext) -> StageResult:
