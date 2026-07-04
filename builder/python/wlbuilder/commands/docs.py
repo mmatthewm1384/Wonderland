@@ -4,26 +4,26 @@ from pathlib import Path
 
 from wlbuilder.config import load_config
 from wlbuilder.config_schema import validate_config
-from wlbuilder.context import create_context
 from wlbuilder.migration import stage_mode
+from wlbuilder.runtime_context import RuntimeContext
 from wlbuilder.stages import default_pipeline
 
 
-def _write_stage_migration(repo_root: Path) -> Path:
+def _write_stage_migration(context: RuntimeContext) -> Path:
+    repo_root = context.repo_root
+    builder = context.builder
     output = repo_root / "docs" / "builder" / "stage-migration.md"
-    config = load_config(repo_root)
-    context = create_context(repo_root)
 
     with output.open("w", encoding="utf-8") as handle:
         handle.write("# Builder v2 Stage Migration\n\n")
         handle.write("This document is generated from the live Builder v2 stage registry.\n\n")
         handle.write("Regenerate with:\n\n")
-        handle.write("```bash\npython3 -m wlbuilder docs\n```\n\n")
+        handle.write("```bash\nwl builder docs\n```\n\n")
         handle.write("| Stage | Mode | Implemented | Ready | Legacy Source | Responsibility |\n")
         handle.write("|---|---|---|---|---|---|\n")
 
         for stage in default_pipeline():
-            mode = stage_mode(context, stage.name)
+            mode = stage_mode(builder, stage.name)
             implemented = bool(getattr(stage, "implemented", False))
             ready = mode != "native" or implemented
 
@@ -61,21 +61,21 @@ def _write_config_reference(repo_root: Path) -> Path:
     return output
 
 
-def _write_artifact_authority(repo_root: Path) -> Path:
-    output = repo_root / "docs" / "builder" / "artifact-authority.md"
-    context = create_context(repo_root)
+def _write_artifact_authority(context: RuntimeContext) -> Path:
+    builder = context.builder
+    output = context.repo_root / "docs" / "builder" / "artifact-authority.md"
 
     artifacts = sorted(
         artifact
-        for artifact in context.output_root.rglob("*")
+        for artifact in builder.output_root.rglob("*")
         if artifact.is_file()
-    )
+    ) if builder.output_root.exists() else []
 
     with output.open("w", encoding="utf-8") as handle:
         handle.write("# Builder v2 Artifact Authority\n\n")
         handle.write("Builder v2 canonical artifacts live under:\n\n")
         handle.write("```text\n")
-        handle.write(str(context.output_root))
+        handle.write(str(builder.output_root))
         handle.write("/\n```\n\n")
         handle.write("List artifacts with:\n\n")
         handle.write("```bash\nwl builder artifacts\n```\n\n")
@@ -92,10 +92,9 @@ def _write_artifact_authority(repo_root: Path) -> Path:
     return output
 
 
-
-def _write_migration_plan(repo_root: Path) -> Path:
-    output = repo_root / "docs" / "builder" / "migration-plan.md"
-    context = create_context(repo_root)
+def _write_migration_plan(context: RuntimeContext) -> Path:
+    builder = context.builder
+    output = context.repo_root / "docs" / "builder" / "migration-plan.md"
 
     with output.open("w", encoding="utf-8") as handle:
         handle.write("# Builder v2 Migration Plan\n\n")
@@ -106,7 +105,7 @@ def _write_migration_plan(repo_root: Path) -> Path:
         handle.write("|---|---|---|---|\n")
 
         for stage in default_pipeline():
-            mode = stage_mode(context, stage.name)
+            mode = stage_mode(builder, stage.name)
             implemented = bool(getattr(stage, "implemented", False))
             ready = mode != "native" or implemented
 
@@ -117,15 +116,16 @@ def _write_migration_plan(repo_root: Path) -> Path:
 
     return output
 
-def run(repo_root: Path) -> int:
-    docs_root = repo_root / "docs" / "builder"
+
+def run(context: RuntimeContext) -> int:
+    docs_root = context.repo_root / "docs" / "builder"
     docs_root.mkdir(parents=True, exist_ok=True)
 
     outputs = [
-        _write_stage_migration(repo_root),
-        _write_config_reference(repo_root),
-        _write_artifact_authority(repo_root),
-        _write_migration_plan(repo_root),
+        _write_stage_migration(context),
+        _write_config_reference(context.repo_root),
+        _write_artifact_authority(context),
+        _write_migration_plan(context),
     ]
 
     for output in outputs:

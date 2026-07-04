@@ -22,7 +22,7 @@ class RuntimeContext:
     @property
     def builder(self) -> BuilderContext:
         if self._builder is None:
-            self._builder = create_context(self.repo_root)
+            self._builder = create_context(self.repo_root, self.profile)
         return self._builder
 
     @property
