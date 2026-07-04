@@ -67,7 +67,7 @@ def restore() -> int:
     return 0
 
 
-def run(action: str = "check") -> int:
+def run(repo_root: Path, *, action: str = "check") -> int:
     if action == "check":
         return check()
 
