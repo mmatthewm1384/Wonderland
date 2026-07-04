@@ -8,6 +8,8 @@ from collections.abc import Callable, Sequence
 from pathlib import Path
 from typing import Any
 
+from wlbuilder.registry import load_commands
+
 
 Command = Callable[..., int]
 
@@ -23,43 +25,6 @@ def _reject_direct_macos_execution() -> int:
     return 1
 
 
-def _commands() -> dict[str, Command]:
-    from wlbuilder.commands.artifacts import run as artifacts
-    from wlbuilder.commands.build import run as build
-    from wlbuilder.commands.config import run as config
-    from wlbuilder.commands.docs import run as docs
-    from wlbuilder.commands.doctor import run as doctor
-    from wlbuilder.commands.hygiene import run as hygiene
-    from wlbuilder.commands.migration import run as migration
-    from wlbuilder.commands.native_state import run as native_state
-    from wlbuilder.commands.stages import run as stages
-    from wlbuilder.commands.status import run as status
-    from wlbuilder.commands.verify import run as verify
-
-    commands: dict[str, Command] = {
-        "artifacts": artifacts,
-        "build": build,
-        "config": config,
-        "docs": docs,
-        "doctor": doctor,
-        "hygiene": hygiene,
-        "migration": migration,
-        "native-state": native_state,
-        "stages": stages,
-        "status": status,
-        "verify": verify,
-    }
-
-    try:
-        from wlbuilder.commands.contract import run as contract
-
-        commands["contract"] = contract
-    except ImportError:
-        pass
-
-    return commands
-
-
 def _dispatch(command: Command, repo_root: Path, parsed: Any) -> int:
     parsed_args = vars(parsed).copy()
     parsed_args.pop("command", None)
@@ -70,10 +35,7 @@ def _dispatch(command: Command, repo_root: Path, parsed: Any) -> int:
     signature = inspect.signature(command)
     parameters = signature.parameters
 
-    kwargs: dict[str, Any] = {}
-
-    if "repo_root" in parameters:
-        kwargs["repo_root"] = repo_root
+    kwargs: dict[str, Any] = {"repo_root": repo_root}
 
     accepts_var_kwargs = any(
         parameter.kind == inspect.Parameter.VAR_KEYWORD
@@ -106,7 +68,7 @@ def run(argv: Sequence[str] | None = None) -> int:
         args = ["build", *args]
 
     parsed = parse(args)
-    commands = _commands()
+    commands = load_commands()
 
     command = commands.get(parsed.command)
     if command is None:
