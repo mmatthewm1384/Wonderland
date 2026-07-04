@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from wlbuilder.registry import load_commands
+from wlbuilder.runtime_context import RuntimeContext
 
 
 Command = Callable[..., int]
@@ -26,14 +27,19 @@ def _reject_direct_macos_execution() -> int:
 
 
 def _dispatch(command: Command, repo_root: Path, parsed: Any) -> int:
+    context = RuntimeContext(repo_root=repo_root, args=parsed)
+
+    signature = inspect.signature(command)
+    parameters = signature.parameters
+
+    if len(parameters) == 1 and "context" in parameters:
+        return command(context)
+
     parsed_args = vars(parsed).copy()
     parsed_args.pop("command", None)
 
     if "json" in parsed_args:
         parsed_args["as_json"] = parsed_args.pop("json")
-
-    signature = inspect.signature(command)
-    parameters = signature.parameters
 
     kwargs: dict[str, Any] = {"repo_root": repo_root}
 
