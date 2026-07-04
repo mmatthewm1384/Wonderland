@@ -10,9 +10,9 @@ case "${1:-check}" in
   check)
     echo "==> Checking Controller runtime state"
     if [[ -f "$STATE" ]]; then
-      echo "PASS: $STATE exists"
+      echo "PASS: Controller runtime state present"
     else
-      echo "WARN: $STATE missing"
+      echo "INFO: Controller has not generated runtime/controller/latest.json yet"
     fi
     ;;
 
