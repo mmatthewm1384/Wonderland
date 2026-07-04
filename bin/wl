@@ -60,7 +60,7 @@ case "$cmd" in
         ;;
       animation)
         shift
-        exec python3 -m wl.runtime.animation_cli "$@"
+        exec python3 -m wl.runtime.commands.animation "$@"
         ;;
       status)
         shift
