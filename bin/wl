@@ -18,6 +18,7 @@ Runtime commands:
   verify
   doctor
   clean
+  animation
   status
   report
   theme
@@ -56,6 +57,10 @@ case "$cmd" in
       verify|doctor|clean|theme)
         shift
         exec python3 -m "wl.runtime.${subcmd}" "$@"
+        ;;
+      animation)
+        shift
+        exec python3 -m wl.runtime.animation_cli "$@"
         ;;
       status)
         shift
