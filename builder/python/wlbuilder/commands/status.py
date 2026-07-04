@@ -5,10 +5,12 @@ import sys
 from pathlib import Path
 
 from wlbuilder.context import create_context
+from wlbuilder.runtime_context import RuntimeContext
 from wlbuilder.stages import default_pipeline
 
 
-def run(repo_root: Path) -> int:
+def run(context: RuntimeContext) -> int:
+    repo_root = context.repo_root
     runtime = Path(__file__).resolve().parents[1] / "runtime.py"
     legacy = repo_root / "build" / "__main__.py"
 
@@ -29,17 +31,17 @@ def run(repo_root: Path) -> int:
         print(f"legacy_bridge_import: fail: {exc}")
 
     try:
-        context = create_context(repo_root)
+        builder_context = create_context(repo_root)
         print("config: pass")
-        print(f"config_file: {context.config.path}")
-        print(f"default_profile: {context.config.default_profile}")
-        print(f"profile: {context.profile}")
-        print(f"output_root: {context.output_root}")
-        print(f"raw_output: {context.raw_output}")
-        print(f"qcow2_output: {context.qcow2_output}")
-        print(f"vmware_output: {context.vmware_output}")
-        print(f"log_root: {context.log_root}")
-        print(f"manifest_root: {context.manifest_root}")
+        print(f"config_file: {builder_context.config.path}")
+        print(f"default_profile: {builder_context.config.default_profile}")
+        print(f"profile: {builder_context.profile}")
+        print(f"output_root: {builder_context.output_root}")
+        print(f"raw_output: {builder_context.raw_output}")
+        print(f"qcow2_output: {builder_context.qcow2_output}")
+        print(f"vmware_output: {builder_context.vmware_output}")
+        print(f"log_root: {builder_context.log_root}")
+        print(f"manifest_root: {builder_context.manifest_root}")
 
         print("pipeline:")
         for stage in default_pipeline():
@@ -48,8 +50,8 @@ def run(repo_root: Path) -> int:
 
         from wlbuilder.native_state import read_state, state_path
 
-        state = read_state(context)
-        print(f"native_state_file: {state_path(context)}")
+        state = read_state(builder_context)
+        print(f"native_state_file: {state_path(builder_context)}")
         print("native_state:")
         if state:
             for name in sorted(state):

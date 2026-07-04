@@ -3,16 +3,10 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
-RUNTIME_STATE = (
-    "vault/08-Operations/state/latest.json",
-    "vault/chaos/chaos-aether.json",
-    "vault/chaos/scheduler-audit.jsonl",
-    "vault/ephemeral-runs.log",
-)
+from wlbuilder.runtime_context import RuntimeContext
 
 
-def repo_root() -> Path:
-    return Path(__file__).resolve().parents[4]
+BUILDER_STATE: tuple[str, ...] = ()
 
 
 def _dirty_paths(root: Path, paths: tuple[str, ...]) -> list[str]:
@@ -33,15 +27,14 @@ def _dirty_paths(root: Path, paths: tuple[str, ...]) -> list[str]:
     return dirty
 
 
-def check() -> int:
-    root = repo_root()
-    dirty = _dirty_paths(root, RUNTIME_STATE)
+def check(root: Path) -> int:
+    print("==> Checking Builder repository hygiene")
 
-    print("==> Checking repository hygiene")
+    dirty = _dirty_paths(root, BUILDER_STATE)
 
     if dirty:
         print()
-        print("Dirty runtime state:")
+        print("Dirty Builder-managed state:")
         for path in dirty:
             print(f"DIRTY: {path}")
 
@@ -50,29 +43,33 @@ def check() -> int:
         print("bin/wl builder hygiene restore")
         return 1
 
-    print("PASS: runtime state is clean")
+    print("PASS: Builder-managed state is clean")
     return 0
 
 
-def restore() -> int:
-    root = repo_root()
+def restore(root: Path) -> int:
+    if not BUILDER_STATE:
+        print("PASS: no Builder-managed runtime state to restore")
+        return 0
 
     subprocess.run(
-        ["git", "restore", *RUNTIME_STATE],
+        ["git", "restore", *BUILDER_STATE],
         cwd=root,
         check=True,
     )
 
-    print("PASS: runtime state restored")
+    print("PASS: Builder-managed runtime state restored")
     return 0
 
 
-def run(repo_root: Path, *, action: str = "check") -> int:
+def run(context: RuntimeContext) -> int:
+    action = context.hygiene_action
+
     if action == "check":
-        return check()
+        return check(context.repo_root)
 
     if action == "restore":
-        return restore()
+        return restore(context.repo_root)
 
     print(f"FAIL: invalid hygiene action: {action}")
     return 2
