@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path.home() / "Wonderland"
-AUDIT = ROOT / "vault/chaos/scheduler-audit.jsonl"
+AUDIT = ROOT / "runtime/chaos/scheduler-audit.jsonl"
 STATE = ROOT / "vault/chaos/scheduler-state.json"
 
 TTL = {

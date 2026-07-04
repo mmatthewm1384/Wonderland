@@ -13,7 +13,7 @@ WL_HOME = Path(os.environ.get("WL_HOME", str(Path.home() / "Wonderland")))
 HOST = os.environ.get("WL_API_HOST", "127.0.0.1")
 PORT = int(os.environ.get("WL_API_PORT", "9105"))
 
-STATE = WL_HOME / "vault/08-Operations/state/latest.json"
+STATE = WL_HOME / "runtime/controller/latest.json"
 REGISTRY = WL_HOME / "vault/05-Registry/services.json"
 EVENTS = WL_HOME / "runtime/events/events.jsonl"
 TIMELINE = WL_HOME / "vault/09-Timeline/timeline.jsonl"

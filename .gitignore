@@ -221,3 +221,16 @@ Wonderland-Builds/
 
 # Python packaging metadata
 builder/python/wlbuilder.egg-info/
+
+# Wonderland runtime state
+runtime/controller/
+runtime/chaos/
+vault/08-Operations/state/latest.json
+vault/chaos/scheduler-audit.jsonl
+# Wonderland runtime state
+runtime/controller/*
+!runtime/controller/.gitkeep
+runtime/chaos/*
+!runtime/chaos/.gitkeep
+vault/08-Operations/state/latest.json
+vault/chaos/scheduler-audit.jsonl
