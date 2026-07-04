@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-
-source "$ROOT/lib/core/bootstrap.sh"
+WONDERLAND_ROOT="${WONDERLAND_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+export WONDERLAND_ROOT
 
 usage() {
-  cat <<'USAGE'
+  cat <<USAGE
 Usage:
+  wl start
   wl builder <command> [args...]
 
 Examples:
+  wl start
   wl builder status
   wl builder doctor
   wl builder build --profile development
@@ -22,16 +22,23 @@ USAGE
 cmd="${1:-}"
 
 case "$cmd" in
+  start)
+    shift
+    exec "$WONDERLAND_ROOT/bin/wl-start" "$@"
+    ;;
+
   builder)
     shift
-    exec "$WL_ROOT/lib/builder/launcher.sh" "$@"
+    exec "$WONDERLAND_ROOT/bin/wl-builder" "$@"
     ;;
-  ""|-h|--help|help)
+
+  ""|help|--help|-h)
     usage
     ;;
+
   *)
     echo "wl: unknown command: $cmd" >&2
     usage >&2
-    exit 2
+    exit 64
     ;;
 esac
