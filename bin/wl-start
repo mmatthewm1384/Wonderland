@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/core/bootstrap.sh"
+set -euo pipefail
 
-wl_start_main "$@"
+WONDERLAND_ROOT="${WONDERLAND_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+export WONDERLAND_ROOT
+
+exec "$WONDERLAND_ROOT/lib/wonderland/runtime/start.sh" "$@"
