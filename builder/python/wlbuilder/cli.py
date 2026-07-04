@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 from collections.abc import Sequence
 
+from wlbuilder.registry import COMMAND_SPECS
+
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -12,40 +14,23 @@ def build_parser() -> argparse.ArgumentParser:
 
     subcommands = parser.add_subparsers(dest="command")
 
-    status = subcommands.add_parser("status", help="Show builder runtime status")
-    status.set_defaults(command="status")
+    for spec in COMMAND_SPECS:
+        command = subcommands.add_parser(spec.name, help=spec.help)
 
-    doctor = subcommands.add_parser("doctor", help="Run builder runtime diagnostics")
-    doctor.set_defaults(command="doctor")
+        if spec.name in {"stages", "native-state", "config", "migration"}:
+            command.add_argument("--json", action="store_true", help="Emit output as JSON")
 
-    verify = subcommands.add_parser("verify", help="Verify builder runtime contract")
-    verify.set_defaults(command="verify")
+        if spec.name == "hygiene":
+            command.add_argument("action", nargs="?", default="check", choices=("check", "restore"))
 
-    artifacts = subcommands.add_parser("artifacts", help="List Builder v2 artifacts")
-    artifacts.set_defaults(command="artifacts")
+        if spec.name == "build":
+            command.add_argument(
+                "--profile",
+                default="development",
+                help="Builder profile to use",
+            )
 
-    stages = subcommands.add_parser("stages", help="List Builder v2 stages")
-    stages.add_argument("--json", action="store_true", help="Emit stage metadata as JSON")
-    stages.set_defaults(command="stages")
-
-    docs = subcommands.add_parser("docs", help="Generate Builder v2 documentation")
-    docs.set_defaults(command="docs")
-
-    hygiene = subcommands.add_parser("hygiene", help="Check or restore generated repository state")
-    hygiene.add_argument("action", nargs="?", default="check", choices=("check", "restore"))
-    hygiene.set_defaults(command="hygiene")
-
-    native_state = subcommands.add_parser("native-state", help="Show native Builder v2 stage state")
-    native_state.add_argument("--json", action="store_true", help="Emit native stage state as JSON")
-    native_state.set_defaults(command="native-state")
-
-    build = subcommands.add_parser("build", help="Build a Wonderland OS image")
-    build.add_argument(
-        "--profile",
-        default="development",
-        help="Builder profile to use",
-    )
-    build.set_defaults(command="build")
+        command.set_defaults(command=spec.name)
 
     return parser
 
