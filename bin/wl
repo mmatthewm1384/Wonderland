@@ -12,6 +12,7 @@ Usage:
   wl doctor
   wl runtime verify
   wl runtime doctor
+  wl runtime clean
   wl runtime status
   wl runtime report
   wl runtime theme
@@ -23,6 +24,7 @@ Examples:
   wl doctor
   wl runtime verify
   wl runtime doctor
+  wl runtime clean
   wl runtime status
   wl runtime report
   wl runtime theme
@@ -53,6 +55,11 @@ case "$cmd" in
         shift
         export PYTHONPATH="$WONDERLAND_ROOT:${PYTHONPATH:-}"
         exec python3 -m wl.runtime.doctor "$@"
+        ;;
+      clean)
+        shift
+        export PYTHONPATH="$WONDERLAND_ROOT:${PYTHONPATH:-}"
+        exec python3 -m wl.runtime.clean "$@"
         ;;
       status)
         shift
