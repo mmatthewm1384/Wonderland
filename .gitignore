@@ -234,3 +234,7 @@ runtime/chaos/*
 !runtime/chaos/.gitkeep
 vault/08-Operations/state/latest.json
 vault/chaos/scheduler-audit.jsonl
+
+# Python generated files
+__pycache__/
+*.py[cod]
