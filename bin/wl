@@ -13,6 +13,7 @@ Usage:
   wl runtime verify
   wl runtime doctor
   wl runtime status
+  wl runtime report
   wl runtime theme
   wl builder <command> [args...]
 
@@ -23,6 +24,7 @@ Examples:
   wl runtime verify
   wl runtime doctor
   wl runtime status
+  wl runtime report
   wl runtime theme
   wl builder status
   wl builder doctor
@@ -56,6 +58,11 @@ case "$cmd" in
         shift
         export PYTHONPATH="$WONDERLAND_ROOT:${PYTHONPATH:-}"
         exec python3 -m wl.runtime.show_status "$@"
+        ;;
+      report)
+        shift
+        export PYTHONPATH="$WONDERLAND_ROOT:${PYTHONPATH:-}"
+        exec python3 -m wl.runtime.report "$@"
         ;;
       theme)
         shift
