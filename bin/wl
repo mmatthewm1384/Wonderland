@@ -8,6 +8,8 @@ usage() {
   cat <<USAGE
 Usage:
   wl start
+  wl verify
+  wl doctor
   wl runtime verify
   wl runtime doctor
   wl runtime status
@@ -16,6 +18,8 @@ Usage:
 
 Examples:
   wl start
+  wl verify
+  wl doctor
   wl runtime verify
   wl runtime doctor
   wl runtime status
