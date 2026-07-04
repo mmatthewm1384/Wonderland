@@ -77,7 +77,7 @@ class SchemaValidator:
                 "desired-state.schema.json",
             ),
             self.validate_file(
-                self.root / "vault/08-Operations/state/latest.json",
+                self.root / "runtime/controller/latest.json",
                 "platform-state.schema.json",
             ),
         ]

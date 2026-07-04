@@ -48,7 +48,7 @@ check "recent audit used controller-api" "tail -50 '$AUDIT' | jq -R 'fromjson? |
 
 SCHEDULE="$ROOT/vault/chaos/escalation-schedule.json"
 SCHED_STATE="$ROOT/vault/chaos/scheduler-state.json"
-SCHED_AUDIT="$ROOT/vault/chaos/scheduler-audit.jsonl"
+SCHED_AUDIT="$ROOT/runtime/chaos/scheduler-audit.jsonl"
 
 check "schedule file exists" "test -f '$SCHEDULE'"
 check "schedule json valid" "jq -e '.schema == \"wonderland.chaos.escalation.v1\" and (.enabled | type == \"boolean\") and .strategy and .levels' '$SCHEDULE'"

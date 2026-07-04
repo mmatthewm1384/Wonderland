@@ -30,7 +30,7 @@ class WonderlandController:
         self.plugins = self.services.plugins()
 
         self.recovery_engine = RecoveryEngine(self.runtime)
-        self.state_path = root / "vault/08-Operations/state/latest.json"
+        self.state_path = root / "runtime/controller/latest.json"
         self.state = PlatformState()
 
     def cycle(self) -> PlatformState:
