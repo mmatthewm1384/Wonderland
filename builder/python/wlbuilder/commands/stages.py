@@ -1,19 +1,18 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
-from wlbuilder.context import create_context
 from wlbuilder.migration import stage_mode
+from wlbuilder.runtime_context import RuntimeContext
 from wlbuilder.stages import default_pipeline
 
 
-def run(repo_root: Path, *, as_json: bool = False) -> int:
-    context = create_context(repo_root)
+def run(context: RuntimeContext) -> int:
+    builder = context.builder
     stages = []
 
     for stage in default_pipeline():
-        mode = stage_mode(context, stage.name)
+        mode = stage_mode(builder, stage.name)
         implemented = bool(getattr(stage, "implemented", False))
 
         stages.append(
@@ -28,11 +27,15 @@ def run(repo_root: Path, *, as_json: bool = False) -> int:
             }
         )
 
-    if as_json:
+    if context.as_json:
         print(json.dumps({"stages": stages}, indent=2, sort_keys=True))
         return 0
 
     for stage in stages:
-        print(f"{stage['name']}\tmode:{stage['mode']}\timplemented:{str(stage['implemented']).lower()}")
+        print(
+            f"{stage['name']}\t"
+            f"mode:{stage['mode']}\t"
+            f"implemented:{str(stage['implemented']).lower()}"
+        )
 
     return 0

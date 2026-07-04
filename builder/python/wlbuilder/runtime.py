@@ -1,18 +1,16 @@
 from __future__ import annotations
 
-import inspect
 import os
 import platform
 import sys
 from collections.abc import Callable, Sequence
 from pathlib import Path
-from typing import Any
 
 from wlbuilder.registry import load_commands
 from wlbuilder.runtime_context import RuntimeContext
 
 
-Command = Callable[..., int]
+Command = Callable[[RuntimeContext], int]
 
 
 def _repo_root() -> Path:
@@ -24,35 +22,6 @@ def _reject_direct_macos_execution() -> int:
     print("Use:", file=sys.stderr)
     print("  bin/wl builder build --profile development", file=sys.stderr)
     return 1
-
-
-def _dispatch(command: Command, repo_root: Path, parsed: Any) -> int:
-    context = RuntimeContext(repo_root=repo_root, args=parsed)
-
-    signature = inspect.signature(command)
-    parameters = signature.parameters
-
-    if len(parameters) == 1 and "context" in parameters:
-        return command(context)
-
-    parsed_args = vars(parsed).copy()
-    parsed_args.pop("command", None)
-
-    if "json" in parsed_args:
-        parsed_args["as_json"] = parsed_args.pop("json")
-
-    kwargs: dict[str, Any] = {"repo_root": repo_root}
-
-    accepts_var_kwargs = any(
-        parameter.kind == inspect.Parameter.VAR_KEYWORD
-        for parameter in parameters.values()
-    )
-
-    for key, value in parsed_args.items():
-        if accepts_var_kwargs or key in parameters:
-            kwargs[key] = value
-
-    return command(**kwargs)
 
 
 def run(argv: Sequence[str] | None = None) -> int:
@@ -81,4 +50,5 @@ def run(argv: Sequence[str] | None = None) -> int:
         print(f"FAIL: unknown builder command: {parsed.command}", file=sys.stderr)
         return 1
 
-    return _dispatch(command, _repo_root(), parsed)
+    context = RuntimeContext(repo_root=_repo_root(), args=parsed)
+    return command(context)

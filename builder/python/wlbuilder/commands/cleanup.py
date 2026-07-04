@@ -1,15 +1,13 @@
 from __future__ import annotations
 
-from pathlib import Path
-
 from wlbuilder.commands_util import run_command
-from wlbuilder.context import create_context
 from wlbuilder.native_state import read_state
+from wlbuilder.runtime_context import RuntimeContext
 
 
-def run(repo_root: Path) -> int:
-    context = create_context(repo_root)
-    state = read_state(context)
+def run(context: RuntimeContext) -> int:
+    builder = context.builder
+    state = read_state(builder)
 
     mount = state.get("mount", {})
     mount_root = mount.get("mount_root")

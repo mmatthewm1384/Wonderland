@@ -1,18 +1,18 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
 from wlbuilder.config import load_config
 from wlbuilder.config_schema import validate_config
+from wlbuilder.runtime_context import RuntimeContext
 
 
-def run(repo_root: Path, *, as_json: bool = False) -> int:
-    config = load_config(repo_root)
+def run(context: RuntimeContext) -> int:
+    config = load_config(context.repo_root)
     issues = validate_config(config)
     migration = config.data.get("migration", {})
 
-    if as_json:
+    if context.as_json:
         print(
             json.dumps(
                 {

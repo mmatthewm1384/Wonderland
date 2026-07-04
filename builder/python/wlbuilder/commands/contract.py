@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-from pathlib import Path
-
-from wlbuilder.context import create_context
+from wlbuilder.runtime_context import RuntimeContext
 
 
 REQUIRED_CONTEXT_FIELDS = [
@@ -21,16 +19,16 @@ REQUIRED_CONTEXT_FIELDS = [
 ]
 
 
-def run(repo_root: Path) -> int:
-    context = create_context(repo_root)
+def run(context: RuntimeContext) -> int:
+    builder = context.builder
     failures: list[str] = []
 
     for field in REQUIRED_CONTEXT_FIELDS:
-        if not hasattr(context, field):
+        if not hasattr(builder, field):
             failures.append(f"missing context field: {field}")
 
     for field in REQUIRED_CONTEXT_FIELDS:
-        path = getattr(context, field, None)
+        path = getattr(builder, field, None)
         if field.endswith("_root") or field.endswith("_output"):
             if path is not None and hasattr(path, "is_absolute") and not path.is_absolute():
                 failures.append(f"{field} must be absolute: {path}")
@@ -43,5 +41,5 @@ def run(repo_root: Path) -> int:
         return 1
 
     print("PASS Builder V2 internal API contract")
-    print(f"output_root: {context.output_root}")
+    print(f"output_root: {builder.output_root}")
     return 0
