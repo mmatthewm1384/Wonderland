@@ -3,6 +3,7 @@ set -euo pipefail
 
 WONDERLAND_ROOT="${WONDERLAND_ROOT:-${WL_HOME:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}}"
 export WONDERLAND_ROOT
+export PYTHONPATH="$WONDERLAND_ROOT:${PYTHONPATH:-}"
 
 usage() {
   cat <<USAGE
@@ -10,28 +11,23 @@ Usage:
   wl start
   wl verify
   wl doctor
-  wl runtime verify
-  wl runtime doctor
-  wl runtime clean
-  wl runtime status
-  wl runtime report
-  wl runtime theme
+  wl runtime <command> [args...]
   wl builder <command> [args...]
+
+Runtime commands:
+  verify
+  doctor
+  clean
+  status
+  report
+  theme
 
 Examples:
   wl start
   wl verify
   wl doctor
-  wl runtime verify
-  wl runtime doctor
-  wl runtime clean
-  wl runtime status
   wl runtime report
-  wl runtime theme
   wl builder status
-  wl builder doctor
-  wl builder build --profile development
-  wl builder verify
 USAGE
 }
 
@@ -43,41 +39,37 @@ case "$cmd" in
     exec "$WONDERLAND_ROOT/bin/wl-start" "$@"
     ;;
 
+  verify)
+    shift
+    exec python3 -m wl.runtime.verify "$@"
+    ;;
+
+  doctor)
+    shift
+    exec python3 -m wl.runtime.doctor "$@"
+    ;;
+
   runtime)
     shift
-    case "${1:-}" in
-      verify)
+    subcmd="${1:-}"
+    case "$subcmd" in
+      verify|doctor|clean|theme)
         shift
-        export PYTHONPATH="$WONDERLAND_ROOT:${PYTHONPATH:-}"
-        exec python3 -m wl.runtime.verify "$@"
-        ;;
-      doctor)
-        shift
-        export PYTHONPATH="$WONDERLAND_ROOT:${PYTHONPATH:-}"
-        exec python3 -m wl.runtime.doctor "$@"
-        ;;
-      clean)
-        shift
-        export PYTHONPATH="$WONDERLAND_ROOT:${PYTHONPATH:-}"
-        exec python3 -m wl.runtime.clean "$@"
+        exec python3 -m "wl.runtime.${subcmd}" "$@"
         ;;
       status)
         shift
-        export PYTHONPATH="$WONDERLAND_ROOT:${PYTHONPATH:-}"
         exec python3 -m wl.runtime.show_status "$@"
         ;;
       report)
         shift
-        export PYTHONPATH="$WONDERLAND_ROOT:${PYTHONPATH:-}"
         exec python3 -m wl.runtime.report "$@"
         ;;
-      theme)
-        shift
-        export PYTHONPATH="$WONDERLAND_ROOT:${PYTHONPATH:-}"
-        exec python3 -m wl.runtime.theme "$@"
+      ""|help|--help|-h)
+        usage
         ;;
       *)
-        echo "wl: unknown runtime command: ${1:-}" >&2
+        echo "wl: unknown runtime command: $subcmd" >&2
         usage >&2
         exit 64
         ;;
