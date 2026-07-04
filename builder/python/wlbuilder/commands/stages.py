@@ -24,6 +24,8 @@ def run(context: RuntimeContext) -> int:
                 "implementation": "native" if mode == "native" else mode,
                 "description": getattr(stage, "description", ""),
                 "legacy_source": getattr(stage, "legacy_source", ""),
+                "requires": list(getattr(stage, "requires", ())),
+                "produces": list(getattr(stage, "produces", ())),
             }
         )
 
