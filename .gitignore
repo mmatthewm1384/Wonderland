@@ -238,3 +238,6 @@ vault/chaos/scheduler-audit.jsonl
 # Python generated files
 __pycache__/
 *.py[cod]
+
+# Wonderland generated runtime state
+state/runtime/
