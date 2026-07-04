@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
@@ -8,6 +7,7 @@ from pathlib import Path
 from wlbuilder.context import BuilderContext
 from wlbuilder.native_state import read_state, write_stage_state
 from wlbuilder.stages.base import StageResult
+from wlbuilder.state.manifest import write_manifest
 
 
 class ManifestStage:
@@ -21,8 +21,7 @@ class ManifestStage:
         convert = state.get("convert", {})
         disk = state.get("disk", {})
 
-        manifest_path = context.manifest_root / "wonderland-os-0.1.1-arm64-development.manifest.json"
-        context.manifest_root.mkdir(parents=True, exist_ok=True)
+        manifest_name = "wonderland-os-0.1.1-arm64-development.manifest.json"
 
         manifest = {
             "schema": "wonderland.builder.manifest.v2",
@@ -37,7 +36,7 @@ class ManifestStage:
             "stages": state,
         }
 
-        manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
+        manifest_path = write_manifest(context, manifest, name=manifest_name)
 
         write_stage_state(
             context,
