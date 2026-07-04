@@ -1,9 +1,8 @@
 from __future__ import annotations
 
-from pathlib import Path
-
+from wlbuilder.runtime_context import RuntimeContext
 from wlbuilder.verify import run_verify
 
 
-def run(repo_root: Path) -> int:
-    return run_verify(repo_root)
+def run(context: RuntimeContext) -> int:
+    return run_verify(context.repo_root)

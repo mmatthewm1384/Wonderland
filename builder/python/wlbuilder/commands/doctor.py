@@ -1,9 +1,8 @@
 from __future__ import annotations
 
-from pathlib import Path
-
 from wlbuilder.doctor import run_doctor
+from wlbuilder.runtime_context import RuntimeContext
 
 
-def run(repo_root: Path) -> int:
-    return run_doctor(repo_root)
+def run(context: RuntimeContext) -> int:
+    return run_doctor(context.repo_root)
