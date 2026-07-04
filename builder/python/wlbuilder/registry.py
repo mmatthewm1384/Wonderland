@@ -1,7 +1,20 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import Literal
+
+
+ArgumentKind = Literal["flag", "optional", "positional"]
+
+
+@dataclass(frozen=True)
+class CommandArgument:
+    name: str
+    kind: ArgumentKind
+    default: object | None = None
+    choices: tuple[str, ...] = ()
+    help: str = ""
 
 
 @dataclass(frozen=True)
@@ -9,6 +22,7 @@ class CommandSpec:
     name: str
     module: str
     help: str
+    arguments: tuple[CommandArgument, ...] = field(default_factory=tuple)
 
 
 COMMAND_SPECS: tuple[CommandSpec, ...] = (
@@ -16,21 +30,38 @@ COMMAND_SPECS: tuple[CommandSpec, ...] = (
     CommandSpec("doctor", "wlbuilder.commands.doctor", "Run builder runtime diagnostics"),
     CommandSpec("verify", "wlbuilder.commands.verify", "Verify builder runtime contract"),
     CommandSpec("artifacts", "wlbuilder.commands.artifacts", "List Builder v2 artifacts"),
-    CommandSpec("stages", "wlbuilder.commands.stages", "List Builder v2 stages"),
+    CommandSpec(
+        "stages",
+        "wlbuilder.commands.stages",
+        "List Builder v2 stages",
+        (CommandArgument("json", "flag", help="Emit output as JSON"),),
+    ),
     CommandSpec("docs", "wlbuilder.commands.docs", "Generate Builder v2 documentation"),
-    CommandSpec("hygiene", "wlbuilder.commands.hygiene", "Check or restore generated repository state"),
-    CommandSpec("native-state", "wlbuilder.commands.native_state", "Show native Builder v2 stage state"),
-    CommandSpec("build", "wlbuilder.commands.build", "Build a Wonderland OS image"),
+    CommandSpec(
+        "hygiene",
+        "wlbuilder.commands.hygiene",
+        "Check or restore generated repository state",
+        (CommandArgument("action", "positional", default="check", choices=("check", "restore")),),
+    ),
+    CommandSpec(
+        "native-state",
+        "wlbuilder.commands.native_state",
+        "Show native Builder v2 stage state",
+        (CommandArgument("json", "flag", help="Emit output as JSON"),),
+    ),
+    CommandSpec(
+        "build",
+        "wlbuilder.commands.build",
+        "Build a Wonderland OS image",
+        (CommandArgument("profile", "optional", default="development", help="Builder profile to use"),),
+    ),
 )
 
 
 def load_commands() -> dict[str, Callable[..., int]]:
     import importlib
 
-    commands: dict[str, Callable[..., int]] = {}
-
-    for spec in COMMAND_SPECS:
-        module = importlib.import_module(spec.module)
-        commands[spec.name] = module.run
-
-    return commands
+    return {
+        spec.name: importlib.import_module(spec.module).run
+        for spec in COMMAND_SPECS
+    }
