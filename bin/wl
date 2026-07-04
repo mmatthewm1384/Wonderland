@@ -9,11 +9,13 @@ usage() {
 Usage:
   wl start
   wl runtime verify
+  wl runtime status
   wl builder <command> [args...]
 
 Examples:
   wl start
   wl runtime verify
+  wl runtime status
   wl builder status
   wl builder doctor
   wl builder build --profile development
@@ -36,6 +38,11 @@ case "$cmd" in
         shift
         export PYTHONPATH="$WONDERLAND_ROOT:${PYTHONPATH:-}"
         exec python3 -m wl.runtime.verify "$@"
+        ;;
+      status)
+        shift
+        export PYTHONPATH="$WONDERLAND_ROOT:${PYTHONPATH:-}"
+        exec python3 -m wl.runtime.show_status "$@"
         ;;
       *)
         echo "wl: unknown runtime command: ${1:-}" >&2
