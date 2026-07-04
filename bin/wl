@@ -8,10 +8,12 @@ usage() {
   cat <<USAGE
 Usage:
   wl start
+  wl runtime verify
   wl builder <command> [args...]
 
 Examples:
   wl start
+  wl runtime verify
   wl builder status
   wl builder doctor
   wl builder build --profile development
@@ -25,6 +27,22 @@ case "$cmd" in
   start)
     shift
     exec "$WONDERLAND_ROOT/bin/wl-start" "$@"
+    ;;
+
+  runtime)
+    shift
+    case "${1:-}" in
+      verify)
+        shift
+        export PYTHONPATH="$WONDERLAND_ROOT:${PYTHONPATH:-}"
+        exec python3 -m wl.runtime.verify "$@"
+        ;;
+      *)
+        echo "wl: unknown runtime command: ${1:-}" >&2
+        usage >&2
+        exit 64
+        ;;
+    esac
     ;;
 
   builder)
