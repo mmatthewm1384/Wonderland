@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import inspect
 import os
 import platform
 import sys
 from collections.abc import Callable, Sequence
 from pathlib import Path
+from typing import Any
 
 
 Command = Callable[..., int]
@@ -58,6 +60,33 @@ def _commands() -> dict[str, Command]:
     return commands
 
 
+def _dispatch(command: Command, repo_root: Path, parsed: Any) -> int:
+    parsed_args = vars(parsed).copy()
+    parsed_args.pop("command", None)
+
+    if "json" in parsed_args:
+        parsed_args["as_json"] = parsed_args.pop("json")
+
+    signature = inspect.signature(command)
+    parameters = signature.parameters
+
+    kwargs: dict[str, Any] = {}
+
+    if "repo_root" in parameters:
+        kwargs["repo_root"] = repo_root
+
+    accepts_var_kwargs = any(
+        parameter.kind == inspect.Parameter.VAR_KEYWORD
+        for parameter in parameters.values()
+    )
+
+    for key, value in parsed_args.items():
+        if accepts_var_kwargs or key in parameters:
+            kwargs[key] = value
+
+    return command(**kwargs)
+
+
 def run(argv: Sequence[str] | None = None) -> int:
     if platform.system() == "Darwin" and os.environ.get("WL_BUILDER_MANAGED") != "1":
         return _reject_direct_macos_execution()
@@ -77,7 +106,6 @@ def run(argv: Sequence[str] | None = None) -> int:
         args = ["build", *args]
 
     parsed = parse(args)
-    repo_root = _repo_root()
     commands = _commands()
 
     command = commands.get(parsed.command)
@@ -85,13 +113,4 @@ def run(argv: Sequence[str] | None = None) -> int:
         print(f"FAIL: unknown builder command: {parsed.command}", file=sys.stderr)
         return 1
 
-    if parsed.command == "build":
-        return command(repo_root, parsed.profile)
-
-    if parsed.command == "hygiene":
-        return command(getattr(parsed, "action", "check"))
-
-    if parsed.command in {"stages", "native-state", "config", "migration"}:
-        return command(repo_root, as_json=getattr(parsed, "json", False))
-
-    return command(repo_root)
+    return _dispatch(command, _repo_root(), parsed)
