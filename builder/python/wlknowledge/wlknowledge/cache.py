@@ -25,17 +25,30 @@ def repository_fingerprint(root: Path) -> str:
         if not path.is_file():
             continue
 
-        if ".git" in path.parts:
+        try:
+            rel_path = path.relative_to(root)
+        except ValueError:
+            continue
+
+        rel_parts = rel_path.parts
+
+        if ".git" in rel_parts:
+            continue
+
+        if "__pycache__" in rel_parts:
+            continue
+
+        if path.suffix == ".pyc":
             continue
 
         # Exclude WKE outputs so a build does not invalidate its own cache.
-        if path.parts[:1] == ("knowledge",):
-            if "generated" in path.parts or "packages" in path.parts or ".cache" in path.parts:
+        if rel_parts[:1] == ("knowledge",):
+            if "generated" in rel_parts or "packages" in rel_parts or ".cache" in rel_parts:
                 continue
             if path.name == "manifest.json":
                 continue
 
-        rel = path.relative_to(root).as_posix()
+        rel = rel_path.as_posix()
         digest.update(rel.encode("utf-8"))
         digest.update(b"\0")
 
@@ -50,7 +63,6 @@ def repository_fingerprint(root: Path) -> str:
         digest.update(b"\0")
 
     return digest.hexdigest()[:16]
-
 
 def cache_path(root: Path) -> Path:
     return root / "knowledge" / ".cache" / "wke-cache.json"
