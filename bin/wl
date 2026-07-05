@@ -1,36 +1,130 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+export WL_ROOT
 
-if [[ "${1:-}" == "browser" ]]; then
-  shift
-  exec "$WL_HOME/bin/wl-browser" "$@"
-fi
+usage() {
+  cat <<'USAGE'
+Usage:
+  wl start
+  wl stop
+  wl restart
+  wl verify
+  wl doctor [module]
+  wl runtime <command> [args...]
+  wl services <command> [args...]
+  wl rootless <command> [args...]
+  wl builder <command> [args...]
+  wl browser <command> [args...]
+  wl academy <command> [args...]
 
-if [[ "${1:-}" == "root" ]]; then
-  shift
-  exec "$WL_HOME/bin/wl-root" "$@"
-fi
+Academy commands:
+  quality
+  verify
+  certify
+  inventory
+  report
+  review
+  chapter verify
+  chapter certify
+  chapter build
+  chapter package
+  chapter publish
 
-if [[ "${1:-}" == "academy-root" ]]; then
-  shift
-  exec "$WL_HOME/bin/wl-academy-root" "$@"
-fi
+Examples:
+  wl verify
+  wl doctor academy
+  wl academy quality
+  wl academy verify
+  wl academy certify
+USAGE
+}
 
-if [[ "${1:-}" == "vault-root" ]]; then
-  shift
-  exec "$WL_HOME/bin/wl-vault-root" "$@"
-fi
+cmd="${1:-help}"
 
-if [[ "${1:-}" == "apps-root" ]]; then
-  shift
-  exec "$WL_HOME/bin/wl-apps-root" "$@"
-fi
+case "$cmd" in
+  knowledge|know)
+    if [ -f "$ROOT/lib/knowledge/cli.sh" ]; then
+      # shellcheck source=/dev/null
+      source "$ROOT/lib/knowledge/cli.sh"
+      wl_knowledge_main "$@"
+      exit $?
+    fi
+    echo "FAIL knowledge subsystem missing: lib/knowledge/cli.sh" >&2
+    exit 1
+    ;;
+  start)
+    shift
+    exec "$WL_ROOT/bin/wl-start" "$@"
+    ;;
 
-if [[ "${1:-}" == "docs-root" ]]; then
-  shift
-  exec "$WL_HOME/bin/wl-docs-root" "$@"
-fi
+  stop)
+    shift
+    if [[ -x "$WL_ROOT/bin/wl-stop" ]]; then
+      exec "$WL_ROOT/bin/wl-stop" "$@"
+    fi
+    echo "FAIL wl-stop missing" >&2
+    exit 127
+    ;;
 
-exec "$WL_HOME/bin/wl.original" "$@"
+  restart)
+    shift
+    "$WL_ROOT/bin/wl" stop "$@" || true
+    exec "$WL_ROOT/bin/wl" start "$@"
+    ;;
+
+  verify)
+    shift
+    exec "$WL_ROOT/bin/wl-verify" "$@"
+    ;;
+
+  doctor)
+    shift
+    if [[ "${1:-}" == "academy" ]]; then
+      shift
+      WL_ROOT="$WL_ROOT" exec "$WL_ROOT/bin/wl-academy" verify "$@"
+    fi
+    exec "$WL_ROOT/bin/wl-doctor" "$@"
+    ;;
+
+  runtime)
+    shift
+    exec "$WL_ROOT/bin/wl-runtime" "$@"
+    ;;
+
+  services)
+    shift
+    exec "$WL_ROOT/bin/wl-services" "$@"
+    ;;
+
+  rootless)
+    shift
+    exec "$WL_ROOT/bin/wl-rootless" "$@"
+    ;;
+
+  builder)
+    shift
+    exec "$WL_ROOT/bin/wl-builder" "$@"
+    ;;
+
+  browser)
+    shift
+    exec "$WL_ROOT/bin/wl-browser" "$@"
+    ;;
+
+  academy)
+    shift
+    exec "$WL_ROOT/bin/wl-academy" "$@"
+    ;;
+
+  help|-h|--help)
+    usage
+    ;;
+
+  *)
+    echo "wl: unknown command: $cmd" >&2
+    usage >&2
+    exit 64
+    ;;
+esac
