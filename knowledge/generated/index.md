@@ -1,18 +1,15 @@
 # Wonderland Knowledge Index
 
-Generated: 2026-07-05T18:19:32Z
+Generated: 2026-07-05T22:00:11Z
 
-## Generated Catalogs
-- [applications.md](applications.md)
-- [commands.md](commands.md)
-- [documentation.md](documentation.md)
-- [knowledge-graph.md](knowledge-graph.md)
-- [repository-inventory.md](repository-inventory.md)
-- [services.md](services.md)
-- [statistics.md](statistics.md)
+Fingerprint: `9a28331cf890e4dd`
 
-## Source Knowledge
-- `knowledge/bootstrap/bootstrap.txt`
-- `knowledge/decisions/ADR-0001-rootless-by-default.md`
-- `knowledge/foundation/WL-KNOW-001-Foundation.md`
-- `knowledge/README.md`
+## Catalogs
+
+- [Compiler Summary](compiler-summary.md)
+- [Commands](commands.md)
+- [Applications](applications.md)
+- [Services](services.md)
+- [Documentation](documentation.md)
+- [Knowledge Graph](knowledge-graph.md)
+- [Model JSON](model.json)

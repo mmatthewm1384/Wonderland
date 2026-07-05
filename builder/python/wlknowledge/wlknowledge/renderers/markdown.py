@@ -1,115 +1,99 @@
 from __future__ import annotations
 
 from pathlib import Path
+
 from wlknowledge.model import Entity, KnowledgeModel
 
 
-def bullet(items: list[Entity], limit: int | None = None) -> str:
-    selected = items[:limit] if limit else items
+TEMPLATE_NAMES = [
+    "index.md",
+    "compiler-summary.md",
+    "commands.md",
+    "applications.md",
+    "services.md",
+    "documentation.md",
+    "knowledge-graph.md",
+]
+
+
+def package_root() -> Path:
+    return Path(__file__).resolve().parents[2]
+
+
+def template_root() -> Path:
+    return package_root() / "templates" / "markdown"
+
+
+def entity_list(items: list[Entity], limit: int | None = None) -> str:
+    selected = items if limit is None else items[:limit]
+
     if not selected:
-        return "- None detected\n"
-    return "\n".join(f"- `{i.path}` — {i.type}" for i in selected) + "\n"
+        return "- None detected"
+
+    return "\n".join(f"- `{item.path}` — {item.kind}" for item in selected)
 
 
-def write(path: Path, text: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(text.strip() + "\n")
+def knowledge_graph(model: KnowledgeModel) -> str:
+    return "\n".join(
+        [
+            "Wonderland",
+            f"├── Commands ({model.counts['commands']})",
+            f"├── Applications ({model.counts['applications']})",
+            f"├── Services ({model.counts['services']})",
+            f"├── Documents ({model.counts['documents']})",
+            f"├── Decisions ({model.counts['decisions']})",
+            "└── Knowledge Engine",
+        ]
+    )
 
 
-def render_markdown(model: KnowledgeModel, out: Path) -> None:
-    data = model.to_dict()
-    out.mkdir(parents=True, exist_ok=True)
+def context_for_model(model: KnowledgeModel) -> dict[str, str]:
+    return {
+        "generated_at": model.generated_at,
+        "fingerprint": model.fingerprint,
+        "commands_count": str(model.counts["commands"]),
+        "applications_count": str(model.counts["applications"]),
+        "services_count": str(model.counts["services"]),
+        "documents_count": str(model.counts["documents"]),
+        "decisions_count": str(model.counts["decisions"]),
+        "commands": entity_list(model.commands),
+        "applications": entity_list(model.applications),
+        "services": entity_list(model.services),
+        "decisions": entity_list(model.decisions),
+        "documents": entity_list(model.documents, limit=300),
+        "knowledge_graph": knowledge_graph(model),
+    }
 
-    write(out / "compiler-summary.md", f"""
-# Wonderland Knowledge Engine Summary
 
-Generated: {model.generated_at}
+def render_template(template: str, context: dict[str, str]) -> str:
+    output = template
 
-Fingerprint: `{model.fingerprint}`
+    for key, value in context.items():
+        output = output.replace("{{" + key + "}}", value)
 
-## Counts
+    return output.rstrip() + "\n"
 
-| Metric | Count |
-|---|---:|
-| Commands | {len(model.commands)} |
-| Applications | {len(model.applications)} |
-| Services | {len(model.services)} |
-| Documents | {len(model.documents)} |
-| Decisions | {len(model.decisions)} |
-""")
 
-    write(out / "commands.md", f"""
-# Command Catalog
+def render_markdown(model: KnowledgeModel, generated_dir: Path) -> list[Path]:
+    generated_dir.mkdir(parents=True, exist_ok=True)
 
-Generated: {model.generated_at}
+    root = template_root()
+    context = context_for_model(model)
+    written: list[Path] = []
 
-## Commands
+    for name in TEMPLATE_NAMES:
+        template_path = root / f"{name}.tpl"
 
-{bullet(model.commands)}
-""")
+        if not template_path.is_file():
+            raise FileNotFoundError(f"missing template: {template_path}")
 
-    write(out / "applications.md", f"""
-# Application Catalog
+        rendered = render_template(
+            template_path.read_text(encoding="utf-8"),
+            context,
+        )
 
-Generated: {model.generated_at}
+        output_path = generated_dir / name
+        output_path.write_text(rendered, encoding="utf-8")
+        written.append(output_path)
 
-## Applications
-
-{bullet(model.applications)}
-""")
-
-    write(out / "services.md", f"""
-# Service Catalog
-
-Generated: {model.generated_at}
-
-## Services
-
-{bullet(model.services)}
-""")
-
-    write(out / "documentation.md", f"""
-# Documentation Catalog
-
-Generated: {model.generated_at}
-
-## Decisions
-
-{bullet(model.decisions)}
-
-## Documents
-
-{bullet(model.documents, 300)}
-""")
-
-    write(out / "knowledge-graph.md", f"""
-# Knowledge Graph
-
-Generated: {model.generated_at}
-
-```text
-Wonderland
-├── Commands ({len(model.commands)})
-├── Applications ({len(model.applications)})
-├── Services ({len(model.services)})
-├── Documents ({len(model.documents)})
-├── Decisions ({len(model.decisions)})
-└── Knowledge Engine
-""")
-
-write(out / "index.md", f"""
-Wonderland Knowledge Index
-
-Generated: {model.generated_at}
-
-Fingerprint: {model.fingerprint}
-
-Generated
-compiler-summary.md
-commands.md
-applications.md
-services.md
-documentation.md
-knowledge-graph.md
-model.json
-""")
+    return written

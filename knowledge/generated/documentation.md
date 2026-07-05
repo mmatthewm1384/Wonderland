@@ -1,38 +1,332 @@
 # Documentation Catalog
 
-Generated: 2026-07-05T18:19:28Z
+Generated: 2026-07-05T22:00:11Z
 
-Markdown files: **1662**
-ADR / decision files: **23**
-Knowledge files: **12**
+## Decisions
 
-## Knowledge Documents
-- `knowledge/bootstrap/bootstrap.txt`
-- `knowledge/decisions/ADR-0001-rootless-by-default.md`
-- `knowledge/foundation/WL-KNOW-001-Foundation.md`
-- `knowledge/README.md`
+- `intelligence/obsidian/01-Architecture/adr/ADR-0000-template.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0001-governance-foundation.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0002-documentation-is-infrastructure.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0003-recoverability-over-convenience.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0004-obsidian-as-authoritative-knowledge-core.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0005-no-runtime-dependency-on-architect.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0006-platform-foundation.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0007-wl-as-primary-command-interface.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0008-git-backed-operational-state.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0009-containerized-runtime-baseline.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0010-network-volume-registry-required.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0011-secrets-excluded-from-plain-markdown.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0012-backup-baseline-required.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0013-service-definition-standard.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0014-compose-compatible-service-manifests.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0015-health-checks-required-for-services.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0016-automation-foundation.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0016-automation-must-be-auditable.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0017-intent-files-for-auditable-operations.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0017-shell-first-command-layer.md` — decision
+- `intelligence/obsidian/01-Architecture/adr/ADR-0018-bootstrap-commands-approved.md` — decision
+- `knowledge/decisions/ADR-0001-rootless-by-default.md` — decision
+- `vault/90-Operator/operations/08-operations/ai/decisions/wl-idea-20260619-new-capability-idea.decision.md` — decision
 
-## ADR / Decision Documents
-- `intelligence/obsidian/01-Architecture/adr/ADR-0000-template.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0001-governance-foundation.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0002-documentation-is-infrastructure.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0003-recoverability-over-convenience.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0004-obsidian-as-authoritative-knowledge-core.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0005-no-runtime-dependency-on-architect.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0006-platform-foundation.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0007-wl-as-primary-command-interface.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0008-git-backed-operational-state.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0009-containerized-runtime-baseline.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0010-network-volume-registry-required.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0011-secrets-excluded-from-plain-markdown.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0012-backup-baseline-required.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0013-service-definition-standard.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0014-compose-compatible-service-manifests.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0015-health-checks-required-for-services.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0016-automation-foundation.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0016-automation-must-be-auditable.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0017-intent-files-for-auditable-operations.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0017-shell-first-command-layer.md`
-- `intelligence/obsidian/01-Architecture/adr/ADR-0018-bootstrap-commands-approved.md`
-- `knowledge/decisions/ADR-0001-rootless-by-default.md`
-- `vault/90-Operator/operations/08-operations/ai/decisions/wl-idea-20260619-new-capability-idea.decision.md`
+## Documents
+
+- `.wl/backups/the-matrix-auto-dropin/20260619T232820Z/manifests.bak/the-matrix.manifest.md` — markdown
+- `.wl/backups/the-matrix-visual-standardize/20260620T011232Z/matrix-fluderation.before/DATA_PATH.md` — markdown
+- `PROJECT-INSTRUCTIONS.md` — markdown
+- `README.md` — markdown
+- `academy/00-governance/README.md` — markdown
+- `academy/00-governance/manifesto/MANIFESTO.md` — markdown
+- `academy/01-curriculum/templates/LESSON_TEMPLATE.md` — markdown
+- `academy/01-curriculum/year-1/module-01-foundations/README.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/README.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/assessments/challenge-project.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/assessments/knowledge-check.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/assessments/practical-assessment.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/certification.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/changelog.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/chapter-summary.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/chapter.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/cheatsheets/binary-cheatsheet.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/examples/binary-conversions.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/examples/wonderland-examples.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/examples/worked-example-01.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/examples/worked-example-02.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/examples/worked-example-03.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/key-takeaways.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/next-chapter.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/publishing/accessibility.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/publishing/editorial-review.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/publishing/epub-notes.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/publishing/print-layout.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/publishing/publication-checklist.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/publishing/style-review.md` — markdown
+- `academy/02-lessons/day-001-030/chapter-001-binary/reflection/reflection-001.md` — markdown
+- `academy/02-lessons/day-001-030/day-001-binary-numbers.md` — markdown
+- `academy/02-lessons/day-001-030/day-002-hexadecimal.md` — markdown
+- `academy/02-lessons/day-001-030/day-003-bits-and-bytes.md` — markdown
+- `academy/02-lessons/day-001-030/day-004-cpu-architecture.md` — markdown
+- `academy/02-lessons/day-001-030/day-005-memory.md` — markdown
+- `academy/02-lessons/day-001-030/day-006-files-and-bytes.md` — markdown
+- `academy/02-lessons/day-001-030/day-007-permissions-as-state.md` — markdown
+- `academy/02-lessons/day-001-030/day-008-academy-lesson-008.md` — markdown
+- `academy/02-lessons/day-001-030/day-009-academy-lesson-009.md` — markdown
+- `academy/02-lessons/day-001-030/day-010-academy-lesson-010.md` — markdown
+- `academy/02-lessons/day-001-030/day-011-academy-lesson-011.md` — markdown
+- `academy/02-lessons/day-001-030/day-012-academy-lesson-012.md` — markdown
+- `academy/02-lessons/day-001-030/day-013-academy-lesson-013.md` — markdown
+- `academy/02-lessons/day-001-030/day-014-academy-lesson-014.md` — markdown
+- `academy/02-lessons/day-001-030/day-015-academy-lesson-015.md` — markdown
+- `academy/02-lessons/day-001-030/day-016-academy-lesson-016.md` — markdown
+- `academy/02-lessons/day-001-030/day-017-academy-lesson-017.md` — markdown
+- `academy/02-lessons/day-001-030/day-018-academy-lesson-018.md` — markdown
+- `academy/02-lessons/day-001-030/day-019-academy-lesson-019.md` — markdown
+- `academy/02-lessons/day-001-030/day-020-academy-lesson-020.md` — markdown
+- `academy/02-lessons/day-001-030/day-021-academy-lesson-021.md` — markdown
+- `academy/02-lessons/day-001-030/day-022-academy-lesson-022.md` — markdown
+- `academy/02-lessons/day-001-030/day-023-academy-lesson-023.md` — markdown
+- `academy/02-lessons/day-001-030/day-024-academy-lesson-024.md` — markdown
+- `academy/02-lessons/day-001-030/day-025-academy-lesson-025.md` — markdown
+- `academy/02-lessons/day-001-030/day-026-academy-lesson-026.md` — markdown
+- `academy/02-lessons/day-001-030/day-027-academy-lesson-027.md` — markdown
+- `academy/02-lessons/day-001-030/day-028-academy-lesson-028.md` — markdown
+- `academy/02-lessons/day-001-030/day-029-academy-lesson-029.md` — markdown
+- `academy/02-lessons/day-001-030/day-030-academy-lesson-030.md` — markdown
+- `academy/02-lessons/day-001-030/day-030-foundations-certification.md` — markdown
+- `academy/02-lessons/day-031-060/day-031-academy-lesson-031.md` — markdown
+- `academy/02-lessons/day-031-060/day-032-academy-lesson-032.md` — markdown
+- `academy/02-lessons/day-031-060/day-033-academy-lesson-033.md` — markdown
+- `academy/02-lessons/day-031-060/day-034-academy-lesson-034.md` — markdown
+- `academy/02-lessons/day-031-060/day-035-academy-lesson-035.md` — markdown
+- `academy/02-lessons/day-031-060/day-036-academy-lesson-036.md` — markdown
+- `academy/02-lessons/day-031-060/day-037-academy-lesson-037.md` — markdown
+- `academy/02-lessons/day-031-060/day-038-academy-lesson-038.md` — markdown
+- `academy/02-lessons/day-031-060/day-039-academy-lesson-039.md` — markdown
+- `academy/02-lessons/day-031-060/day-040-academy-lesson-040.md` — markdown
+- `academy/02-lessons/day-031-060/day-041-academy-lesson-041.md` — markdown
+- `academy/02-lessons/day-031-060/day-042-academy-lesson-042.md` — markdown
+- `academy/02-lessons/day-031-060/day-043-academy-lesson-043.md` — markdown
+- `academy/02-lessons/day-031-060/day-044-academy-lesson-044.md` — markdown
+- `academy/02-lessons/day-031-060/day-045-academy-lesson-045.md` — markdown
+- `academy/02-lessons/day-031-060/day-046-academy-lesson-046.md` — markdown
+- `academy/02-lessons/day-031-060/day-047-academy-lesson-047.md` — markdown
+- `academy/02-lessons/day-031-060/day-048-academy-lesson-048.md` — markdown
+- `academy/02-lessons/day-031-060/day-049-academy-lesson-049.md` — markdown
+- `academy/02-lessons/day-031-060/day-050-academy-lesson-050.md` — markdown
+- `academy/02-lessons/day-031-060/day-051-academy-lesson-051.md` — markdown
+- `academy/02-lessons/day-031-060/day-052-academy-lesson-052.md` — markdown
+- `academy/02-lessons/day-031-060/day-053-academy-lesson-053.md` — markdown
+- `academy/02-lessons/day-031-060/day-054-academy-lesson-054.md` — markdown
+- `academy/02-lessons/day-031-060/day-055-academy-lesson-055.md` — markdown
+- `academy/02-lessons/day-031-060/day-056-academy-lesson-056.md` — markdown
+- `academy/02-lessons/day-031-060/day-057-academy-lesson-057.md` — markdown
+- `academy/02-lessons/day-031-060/day-058-academy-lesson-058.md` — markdown
+- `academy/02-lessons/day-031-060/day-059-academy-lesson-059.md` — markdown
+- `academy/02-lessons/day-031-060/day-060-academy-lesson-060.md` — markdown
+- `academy/02-lessons/day-061-090/day-061-academy-lesson-061.md` — markdown
+- `academy/02-lessons/day-061-090/day-062-academy-lesson-062.md` — markdown
+- `academy/02-lessons/day-061-090/day-063-academy-lesson-063.md` — markdown
+- `academy/02-lessons/day-061-090/day-064-academy-lesson-064.md` — markdown
+- `academy/02-lessons/day-061-090/day-065-academy-lesson-065.md` — markdown
+- `academy/02-lessons/day-061-090/day-066-academy-lesson-066.md` — markdown
+- `academy/02-lessons/day-061-090/day-067-academy-lesson-067.md` — markdown
+- `academy/02-lessons/day-061-090/day-068-academy-lesson-068.md` — markdown
+- `academy/02-lessons/day-061-090/day-069-academy-lesson-069.md` — markdown
+- `academy/02-lessons/day-061-090/day-070-academy-lesson-070.md` — markdown
+- `academy/02-lessons/day-061-090/day-071-academy-lesson-071.md` — markdown
+- `academy/02-lessons/day-061-090/day-072-academy-lesson-072.md` — markdown
+- `academy/02-lessons/day-061-090/day-073-academy-lesson-073.md` — markdown
+- `academy/02-lessons/day-061-090/day-074-academy-lesson-074.md` — markdown
+- `academy/02-lessons/day-061-090/day-075-academy-lesson-075.md` — markdown
+- `academy/02-lessons/day-061-090/day-076-academy-lesson-076.md` — markdown
+- `academy/02-lessons/day-061-090/day-077-academy-lesson-077.md` — markdown
+- `academy/02-lessons/day-061-090/day-078-academy-lesson-078.md` — markdown
+- `academy/02-lessons/day-061-090/day-079-academy-lesson-079.md` — markdown
+- `academy/02-lessons/day-061-090/day-080-academy-lesson-080.md` — markdown
+- `academy/02-lessons/day-061-090/day-081-academy-lesson-081.md` — markdown
+- `academy/02-lessons/day-061-090/day-082-academy-lesson-082.md` — markdown
+- `academy/02-lessons/day-061-090/day-083-academy-lesson-083.md` — markdown
+- `academy/02-lessons/day-061-090/day-084-academy-lesson-084.md` — markdown
+- `academy/02-lessons/day-061-090/day-085-academy-lesson-085.md` — markdown
+- `academy/02-lessons/day-061-090/day-086-academy-lesson-086.md` — markdown
+- `academy/02-lessons/day-061-090/day-087-academy-lesson-087.md` — markdown
+- `academy/02-lessons/day-061-090/day-088-academy-lesson-088.md` — markdown
+- `academy/02-lessons/day-061-090/day-089-academy-lesson-089.md` — markdown
+- `academy/02-lessons/day-061-090/day-090-academy-lesson-090.md` — markdown
+- `academy/02-lessons/day-091-120/day-091-academy-lesson-091.md` — markdown
+- `academy/02-lessons/day-091-120/day-092-academy-lesson-092.md` — markdown
+- `academy/02-lessons/day-091-120/day-093-academy-lesson-093.md` — markdown
+- `academy/02-lessons/day-091-120/day-094-academy-lesson-094.md` — markdown
+- `academy/02-lessons/day-091-120/day-095-academy-lesson-095.md` — markdown
+- `academy/02-lessons/day-091-120/day-096-academy-lesson-096.md` — markdown
+- `academy/02-lessons/day-091-120/day-097-academy-lesson-097.md` — markdown
+- `academy/02-lessons/day-091-120/day-098-academy-lesson-098.md` — markdown
+- `academy/02-lessons/day-091-120/day-099-academy-lesson-099.md` — markdown
+- `academy/02-lessons/day-091-120/day-100-academy-lesson-100.md` — markdown
+- `academy/02-lessons/day-091-120/day-101-academy-lesson-101.md` — markdown
+- `academy/02-lessons/day-091-120/day-102-academy-lesson-102.md` — markdown
+- `academy/02-lessons/day-091-120/day-103-academy-lesson-103.md` — markdown
+- `academy/02-lessons/day-091-120/day-104-academy-lesson-104.md` — markdown
+- `academy/02-lessons/day-091-120/day-105-academy-lesson-105.md` — markdown
+- `academy/02-lessons/day-091-120/day-106-academy-lesson-106.md` — markdown
+- `academy/02-lessons/day-091-120/day-107-academy-lesson-107.md` — markdown
+- `academy/02-lessons/day-091-120/day-108-academy-lesson-108.md` — markdown
+- `academy/02-lessons/day-091-120/day-109-academy-lesson-109.md` — markdown
+- `academy/02-lessons/day-091-120/day-110-academy-lesson-110.md` — markdown
+- `academy/02-lessons/day-091-120/day-111-academy-lesson-111.md` — markdown
+- `academy/02-lessons/day-091-120/day-112-academy-lesson-112.md` — markdown
+- `academy/02-lessons/day-091-120/day-113-academy-lesson-113.md` — markdown
+- `academy/02-lessons/day-091-120/day-114-academy-lesson-114.md` — markdown
+- `academy/02-lessons/day-091-120/day-115-academy-lesson-115.md` — markdown
+- `academy/02-lessons/day-091-120/day-116-academy-lesson-116.md` — markdown
+- `academy/02-lessons/day-091-120/day-117-academy-lesson-117.md` — markdown
+- `academy/02-lessons/day-091-120/day-118-academy-lesson-118.md` — markdown
+- `academy/02-lessons/day-091-120/day-119-academy-lesson-119.md` — markdown
+- `academy/02-lessons/day-091-120/day-120-academy-lesson-120.md` — markdown
+- `academy/02-lessons/day-121-150/day-121-academy-lesson-121.md` — markdown
+- `academy/02-lessons/day-121-150/day-122-academy-lesson-122.md` — markdown
+- `academy/02-lessons/day-121-150/day-123-academy-lesson-123.md` — markdown
+- `academy/02-lessons/day-121-150/day-124-academy-lesson-124.md` — markdown
+- `academy/02-lessons/day-121-150/day-125-academy-lesson-125.md` — markdown
+- `academy/02-lessons/day-121-150/day-126-academy-lesson-126.md` — markdown
+- `academy/02-lessons/day-121-150/day-127-academy-lesson-127.md` — markdown
+- `academy/02-lessons/day-121-150/day-128-academy-lesson-128.md` — markdown
+- `academy/02-lessons/day-121-150/day-129-academy-lesson-129.md` — markdown
+- `academy/02-lessons/day-121-150/day-130-academy-lesson-130.md` — markdown
+- `academy/02-lessons/day-121-150/day-131-academy-lesson-131.md` — markdown
+- `academy/02-lessons/day-121-150/day-132-academy-lesson-132.md` — markdown
+- `academy/02-lessons/day-121-150/day-133-academy-lesson-133.md` — markdown
+- `academy/02-lessons/day-121-150/day-134-academy-lesson-134.md` — markdown
+- `academy/02-lessons/day-121-150/day-135-academy-lesson-135.md` — markdown
+- `academy/02-lessons/day-121-150/day-136-academy-lesson-136.md` — markdown
+- `academy/02-lessons/day-121-150/day-137-academy-lesson-137.md` — markdown
+- `academy/02-lessons/day-121-150/day-138-academy-lesson-138.md` — markdown
+- `academy/02-lessons/day-121-150/day-139-academy-lesson-139.md` — markdown
+- `academy/02-lessons/day-121-150/day-140-academy-lesson-140.md` — markdown
+- `academy/02-lessons/day-121-150/day-141-academy-lesson-141.md` — markdown
+- `academy/02-lessons/day-121-150/day-142-academy-lesson-142.md` — markdown
+- `academy/02-lessons/day-121-150/day-143-academy-lesson-143.md` — markdown
+- `academy/02-lessons/day-121-150/day-144-academy-lesson-144.md` — markdown
+- `academy/02-lessons/day-121-150/day-145-academy-lesson-145.md` — markdown
+- `academy/02-lessons/day-121-150/day-146-academy-lesson-146.md` — markdown
+- `academy/02-lessons/day-121-150/day-147-academy-lesson-147.md` — markdown
+- `academy/02-lessons/day-121-150/day-148-academy-lesson-148.md` — markdown
+- `academy/02-lessons/day-121-150/day-149-academy-lesson-149.md` — markdown
+- `academy/02-lessons/day-121-150/day-150-academy-lesson-150.md` — markdown
+- `academy/02-lessons/day-151-180/day-151-academy-lesson-151.md` — markdown
+- `academy/02-lessons/day-151-180/day-152-academy-lesson-152.md` — markdown
+- `academy/02-lessons/day-151-180/day-153-academy-lesson-153.md` — markdown
+- `academy/02-lessons/day-151-180/day-154-academy-lesson-154.md` — markdown
+- `academy/02-lessons/day-151-180/day-155-academy-lesson-155.md` — markdown
+- `academy/02-lessons/day-151-180/day-156-academy-lesson-156.md` — markdown
+- `academy/02-lessons/day-151-180/day-157-academy-lesson-157.md` — markdown
+- `academy/02-lessons/day-151-180/day-158-academy-lesson-158.md` — markdown
+- `academy/02-lessons/day-151-180/day-159-academy-lesson-159.md` — markdown
+- `academy/02-lessons/day-151-180/day-160-academy-lesson-160.md` — markdown
+- `academy/02-lessons/day-151-180/day-161-academy-lesson-161.md` — markdown
+- `academy/02-lessons/day-151-180/day-162-academy-lesson-162.md` — markdown
+- `academy/02-lessons/day-151-180/day-163-academy-lesson-163.md` — markdown
+- `academy/02-lessons/day-151-180/day-164-academy-lesson-164.md` — markdown
+- `academy/02-lessons/day-151-180/day-165-academy-lesson-165.md` — markdown
+- `academy/02-lessons/day-151-180/day-166-academy-lesson-166.md` — markdown
+- `academy/02-lessons/day-151-180/day-167-academy-lesson-167.md` — markdown
+- `academy/02-lessons/day-151-180/day-168-academy-lesson-168.md` — markdown
+- `academy/02-lessons/day-151-180/day-169-academy-lesson-169.md` — markdown
+- `academy/02-lessons/day-151-180/day-170-academy-lesson-170.md` — markdown
+- `academy/02-lessons/day-151-180/day-171-academy-lesson-171.md` — markdown
+- `academy/02-lessons/day-151-180/day-172-academy-lesson-172.md` — markdown
+- `academy/02-lessons/day-151-180/day-173-academy-lesson-173.md` — markdown
+- `academy/02-lessons/day-151-180/day-174-academy-lesson-174.md` — markdown
+- `academy/02-lessons/day-151-180/day-175-academy-lesson-175.md` — markdown
+- `academy/02-lessons/day-151-180/day-176-academy-lesson-176.md` — markdown
+- `academy/02-lessons/day-151-180/day-177-academy-lesson-177.md` — markdown
+- `academy/02-lessons/day-151-180/day-178-academy-lesson-178.md` — markdown
+- `academy/02-lessons/day-151-180/day-179-academy-lesson-179.md` — markdown
+- `academy/02-lessons/day-151-180/day-180-academy-lesson-180.md` — markdown
+- `academy/02-lessons/day-181-210/day-181-academy-lesson-181.md` — markdown
+- `academy/02-lessons/day-181-210/day-182-academy-lesson-182.md` — markdown
+- `academy/02-lessons/day-181-210/day-183-academy-lesson-183.md` — markdown
+- `academy/02-lessons/day-181-210/day-184-academy-lesson-184.md` — markdown
+- `academy/02-lessons/day-181-210/day-185-academy-lesson-185.md` — markdown
+- `academy/02-lessons/day-181-210/day-186-academy-lesson-186.md` — markdown
+- `academy/02-lessons/day-181-210/day-187-academy-lesson-187.md` — markdown
+- `academy/02-lessons/day-181-210/day-188-academy-lesson-188.md` — markdown
+- `academy/02-lessons/day-181-210/day-189-academy-lesson-189.md` — markdown
+- `academy/02-lessons/day-181-210/day-190-academy-lesson-190.md` — markdown
+- `academy/02-lessons/day-181-210/day-191-academy-lesson-191.md` — markdown
+- `academy/02-lessons/day-181-210/day-192-academy-lesson-192.md` — markdown
+- `academy/02-lessons/day-181-210/day-193-academy-lesson-193.md` — markdown
+- `academy/02-lessons/day-181-210/day-194-academy-lesson-194.md` — markdown
+- `academy/02-lessons/day-181-210/day-195-academy-lesson-195.md` — markdown
+- `academy/02-lessons/day-181-210/day-196-academy-lesson-196.md` — markdown
+- `academy/02-lessons/day-181-210/day-197-academy-lesson-197.md` — markdown
+- `academy/02-lessons/day-181-210/day-198-academy-lesson-198.md` — markdown
+- `academy/02-lessons/day-181-210/day-199-academy-lesson-199.md` — markdown
+- `academy/02-lessons/day-181-210/day-200-academy-lesson-200.md` — markdown
+- `academy/02-lessons/day-181-210/day-201-academy-lesson-201.md` — markdown
+- `academy/02-lessons/day-181-210/day-202-academy-lesson-202.md` — markdown
+- `academy/02-lessons/day-181-210/day-203-academy-lesson-203.md` — markdown
+- `academy/02-lessons/day-181-210/day-204-academy-lesson-204.md` — markdown
+- `academy/02-lessons/day-181-210/day-205-academy-lesson-205.md` — markdown
+- `academy/02-lessons/day-181-210/day-206-academy-lesson-206.md` — markdown
+- `academy/02-lessons/day-181-210/day-207-academy-lesson-207.md` — markdown
+- `academy/02-lessons/day-181-210/day-208-academy-lesson-208.md` — markdown
+- `academy/02-lessons/day-181-210/day-209-academy-lesson-209.md` — markdown
+- `academy/02-lessons/day-181-210/day-210-academy-lesson-210.md` — markdown
+- `academy/02-lessons/day-211-240/day-211-academy-lesson-211.md` — markdown
+- `academy/02-lessons/day-211-240/day-212-academy-lesson-212.md` — markdown
+- `academy/02-lessons/day-211-240/day-213-academy-lesson-213.md` — markdown
+- `academy/02-lessons/day-211-240/day-214-academy-lesson-214.md` — markdown
+- `academy/02-lessons/day-211-240/day-215-academy-lesson-215.md` — markdown
+- `academy/02-lessons/day-211-240/day-216-academy-lesson-216.md` — markdown
+- `academy/02-lessons/day-211-240/day-217-academy-lesson-217.md` — markdown
+- `academy/02-lessons/day-211-240/day-218-academy-lesson-218.md` — markdown
+- `academy/02-lessons/day-211-240/day-219-academy-lesson-219.md` — markdown
+- `academy/02-lessons/day-211-240/day-220-academy-lesson-220.md` — markdown
+- `academy/02-lessons/day-211-240/day-221-academy-lesson-221.md` — markdown
+- `academy/02-lessons/day-211-240/day-222-academy-lesson-222.md` — markdown
+- `academy/02-lessons/day-211-240/day-223-academy-lesson-223.md` — markdown
+- `academy/02-lessons/day-211-240/day-224-academy-lesson-224.md` — markdown
+- `academy/02-lessons/day-211-240/day-225-academy-lesson-225.md` — markdown
+- `academy/02-lessons/day-211-240/day-226-academy-lesson-226.md` — markdown
+- `academy/02-lessons/day-211-240/day-227-academy-lesson-227.md` — markdown
+- `academy/02-lessons/day-211-240/day-228-academy-lesson-228.md` — markdown
+- `academy/02-lessons/day-211-240/day-229-academy-lesson-229.md` — markdown
+- `academy/02-lessons/day-211-240/day-230-academy-lesson-230.md` — markdown
+- `academy/02-lessons/day-211-240/day-231-academy-lesson-231.md` — markdown
+- `academy/02-lessons/day-211-240/day-232-academy-lesson-232.md` — markdown
+- `academy/02-lessons/day-211-240/day-233-academy-lesson-233.md` — markdown
+- `academy/02-lessons/day-211-240/day-234-academy-lesson-234.md` — markdown
+- `academy/02-lessons/day-211-240/day-235-academy-lesson-235.md` — markdown
+- `academy/02-lessons/day-211-240/day-236-academy-lesson-236.md` — markdown
+- `academy/02-lessons/day-211-240/day-237-academy-lesson-237.md` — markdown
+- `academy/02-lessons/day-211-240/day-238-academy-lesson-238.md` — markdown
+- `academy/02-lessons/day-211-240/day-239-academy-lesson-239.md` — markdown
+- `academy/02-lessons/day-211-240/day-240-academy-lesson-240.md` — markdown
+- `academy/02-lessons/day-241-270/day-241-academy-lesson-241.md` — markdown
+- `academy/02-lessons/day-241-270/day-242-academy-lesson-242.md` — markdown
+- `academy/02-lessons/day-241-270/day-243-academy-lesson-243.md` — markdown
+- `academy/02-lessons/day-241-270/day-244-academy-lesson-244.md` — markdown
+- `academy/02-lessons/day-241-270/day-245-academy-lesson-245.md` — markdown
+- `academy/02-lessons/day-241-270/day-246-academy-lesson-246.md` — markdown
+- `academy/02-lessons/day-241-270/day-247-academy-lesson-247.md` — markdown
+- `academy/02-lessons/day-241-270/day-248-academy-lesson-248.md` — markdown
+- `academy/02-lessons/day-241-270/day-249-academy-lesson-249.md` — markdown
+- `academy/02-lessons/day-241-270/day-250-academy-lesson-250.md` — markdown
+- `academy/02-lessons/day-241-270/day-251-academy-lesson-251.md` — markdown
+- `academy/02-lessons/day-241-270/day-252-academy-lesson-252.md` — markdown
+- `academy/02-lessons/day-241-270/day-253-academy-lesson-253.md` — markdown
+- `academy/02-lessons/day-241-270/day-254-academy-lesson-254.md` — markdown
+- `academy/02-lessons/day-241-270/day-255-academy-lesson-255.md` — markdown
+- `academy/02-lessons/day-241-270/day-256-academy-lesson-256.md` — markdown
+- `academy/02-lessons/day-241-270/day-257-academy-lesson-257.md` — markdown
+- `academy/02-lessons/day-241-270/day-258-academy-lesson-258.md` — markdown
+- `academy/02-lessons/day-241-270/day-259-academy-lesson-259.md` — markdown
+- `academy/02-lessons/day-241-270/day-260-academy-lesson-260.md` — markdown
+- `academy/02-lessons/day-241-270/day-261-academy-lesson-261.md` — markdown
+- `academy/02-lessons/day-241-270/day-262-academy-lesson-262.md` — markdown
+- `academy/02-lessons/day-241-270/day-263-academy-lesson-263.md` — markdown
+- `academy/02-lessons/day-241-270/day-264-academy-lesson-264.md` — markdown
+- `academy/02-lessons/day-241-270/day-265-academy-lesson-265.md` — markdown
+- `academy/02-lessons/day-241-270/day-266-academy-lesson-266.md` — markdown
+- `academy/02-lessons/day-241-270/day-267-academy-lesson-267.md` — markdown
+- `academy/02-lessons/day-241-270/day-268-academy-lesson-268.md` — markdown

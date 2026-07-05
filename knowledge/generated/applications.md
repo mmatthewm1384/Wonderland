@@ -1,27 +1,28 @@
 # Application Catalog
 
-Generated: 2026-07-05T18:19:26Z
+Generated: 2026-07-05T22:00:11Z
 
-Application directories: **0**
-Swift packages: **7**
-Tauri apps: **7**
+## Applications
 
-## App Paths
-
-## Swift Packages
-- `.wl/backups/the-matrix-visual-standardize/20260620T011232Z/matrix-fluderation.before/Package.swift`
-- `.wl/backups/wl-spin-city-hard-reset/20260619-151532/wl-spin-city.before/Package.swift`
-- `ephemeral/apps/wl-time-machine-ui/Package.swift`
-- `ephemeral/tests/fsevent-unit-tests/Package.swift`
-- `source/apps/macos/wl-chaos-menubar/Package.swift`
-- `source/packages/WonderlandUI/Package.swift`
-- `vault/08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/Package.swift`
-
-## Tauri Configs
-- `.wl/backups/the-matrix-visual-standardize/20260620T010212Z/wl-agitate.before/src-tauri/tauri.conf.json`
-- `.wl/backups/the-matrix-visual-standardize/20260620T010212Z/wl-matrix.before/src-tauri/tauri.conf.json`
-- `.wl/backups/the-matrix-visual-standardize/20260620T011232Z/matrix-fluderation.before/src-tauri/tauri.conf.json`
-- `.wl/backups/the-matrix-visual-standardize/20260620T011232Z/wl-agitate.before/src-tauri/tauri.conf.json`
-- `.wl/backups/the-matrix-visual-standardize/20260620T011232Z/wl-matrix.before/src-tauri/tauri.conf.json`
-- `.wl/backups/wl-spin-city-stabilize/20260619-153818/wl-spin-city.before/src-tauri/tauri.conf.json`
-- `.wl/backups/wl-spin-city-stabilize/20260619-153913/wl-spin-city.before/src-tauri/tauri.conf.json`
+- `apps/atom-slam` — application-directory
+- `apps/fluderation` — application-directory
+- `apps/macos` — application-directory
+- `apps/macos/wl-chaos-menubar` — swift-package
+- `apps/macos/wl-chaos-menubar/wl-chaos-menubar` — swift-package
+- `apps/macos/wl-control-center` — swift-package
+- `apps/matrix` — application-directory
+- `apps/matrix/matrix-fluderation` — tauri-app
+- `apps/matrix/wl-matrix-slam-watch` — swift-package
+- `apps/shared` — application-directory
+- `apps/spin-the-city` — application-directory
+- `apps/tauri` — application-directory
+- `apps/tauri/wl-agitate` — tauri-app
+- `apps/tauri/wl-matrix` — tauri-app
+- `apps/tauri/wl-spin-city` — tauri-app
+- `apps/wl-agitate` — application-directory
+- `apps/wl-chronosphere` — application-directory
+- `apps/wl-clipboard` — swift-package
+- `apps/wl-matrix` — application-directory
+- `apps/wl-mind-body-time-travel` — application-directory
+- `apps/wl-spin-city` — swift-package
+- `apps/wl-start-animation` — application-directory

@@ -1,0 +1,18 @@
+{
+  "name": "operator",
+  "title": "Wonderland Operator",
+  "intent": "Unified local-first operator environment for Wonderland OS",
+  "backend": "tmux",
+  "frontends": ["terminal", "tmux", "future-tui", "future-gui"],
+  "capabilities": [
+    "session-management",
+    "workspace-management",
+    "dashboard",
+    "health-aggregation",
+    "theme",
+    "event-routing",
+    "plugin-registry"
+  ],
+  "state_dir": "state/operator",
+  "status_contract": "wl operator status --json"
+}
