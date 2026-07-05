@@ -4,9 +4,7 @@ import argparse
 from pathlib import Path
 
 from wlknowledge import __version__
-from wlknowledge.compiler import compile_model
-from wlknowledge.renderers.json import render_manifest_json, render_model_json
-from wlknowledge.renderers.markdown import render_markdown
+from wlknowledge.pipeline import KnowledgePipeline
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -23,17 +21,6 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def render_markdown_outputs(root: Path, model) -> None:
-    render_markdown(model, root / "knowledge" / "generated")
-
-
-def render_json_outputs(root: Path, model) -> None:
-    knowledge_dir = root / "knowledge"
-    generated_dir = knowledge_dir / "generated"
-    render_model_json(model, generated_dir)
-    render_manifest_json(model, knowledge_dir)
-
-
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
@@ -44,8 +31,8 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "compile":
         root = Path.cwd().resolve()
-        model = compile_model(root)
-        render_json_outputs(root, model)
+        result = KnowledgePipeline(root).build()
+        model = result.model
         print("Wonderland Knowledge Engine")
         print(f"Stage .......... {model.stage}")
         print(f"Fingerprint .... {model.fingerprint}")
@@ -61,20 +48,19 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "render":
         root = Path.cwd().resolve()
-        model = compile_model(root)
-        render_json_outputs(root, model)
-        render_markdown_outputs(root, model)
+        result = KnowledgePipeline(root).build()
+        model = result.model
         print("Wonderland Knowledge Engine")
-        print("Markdown ....... PASS")
-        print("JSON ........... PASS")
+        print("Pipeline ....... PASS")
+        print(f"Written Files .. {len(result.written_files)}")
         print(f"Fingerprint .... {model.fingerprint}")
         print("RESULT PASS")
         return 0
 
     if args.command == "doctor":
         root = Path.cwd().resolve()
-        model = compile_model(root)
-        render_json_outputs(root, model)
+        result = KnowledgePipeline(root).build()
+        model = result.model
 
         print("Wonderland Knowledge Engine")
         print("Package ........ PASS")
