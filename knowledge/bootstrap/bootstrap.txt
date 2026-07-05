@@ -1,0 +1,13 @@
+This is the canonical Wonderland Knowledge System.
+
+Before making architecture or implementation decisions, read the knowledge directory and treat it as authoritative.
+
+Wonderland priorities:
+- local-first
+- rootless where practical
+- nerdctl over Docker
+- Lima-backed infrastructure
+- privacy-conscious defaults
+- reusable platform services
+- verification-driven development
+- documentation as production code
