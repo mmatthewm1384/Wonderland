@@ -1,8 +1,8 @@
 # Command Catalog
 
-Generated: 2026-07-05T18:17:34Z
+Generated: 2026-07-05T18:19:25Z
 
-Executable commands: **372**
+Executable commands: **373**
 
 ## Commands
 - `example-wrapper`
@@ -105,6 +105,7 @@ Executable commands: **372**
 - `wl-docs`
 - `wl-docs-root`
 - `wl-doctor`
+- `wl-doctor-knowledge`
 - `wl-doctor-lifecycle`
 - `wl-document-cleaner`
 - `wl-drift-check`

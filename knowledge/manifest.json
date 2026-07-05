@@ -2,14 +2,14 @@
   "system": "Wonderland Knowledge System",
   "version": "2.0",
   "stage": "repository-scanner",
-  "generated_at": "2026-07-05T18:17:51Z",
-  "fingerprint": "c10e56ca146c800e",
+  "generated_at": "2026-07-05T18:19:34Z",
+  "fingerprint": "fc429ab4e36be076",
   "counts": {
-    "commands": 382,
+    "commands": 383,
     "applications": 7435,
     "documentation": 1663,
     "services": 34,
-    "files": 34641
+    "files": 34656
   },
   "generated_catalogs": [
     "knowledge/generated/index.md",

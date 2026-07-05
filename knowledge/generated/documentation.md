@@ -1,6 +1,6 @@
 # Documentation Catalog
 
-Generated: 2026-07-05T18:17:39Z
+Generated: 2026-07-05T18:19:28Z
 
 Markdown files: **1662**
 ADR / decision files: **23**
