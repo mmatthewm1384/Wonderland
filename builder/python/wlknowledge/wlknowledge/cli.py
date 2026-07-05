@@ -97,6 +97,8 @@ def main(argv: list[str] | None = None) -> int:
         print("Documentation .. PASS")
         print("Decisions ...... PASS")
         print("Validation ..... PASS" if validation.ok else "Validation ..... FAIL")
+        print("Cache .......... HIT" if result.cache.hit else "Cache .......... MISS")
+        print(f"Repo FP ........ {result.cache.fingerprint}")
         print(f"Errors ......... {validation.error_count}")
         print(f"Warnings ....... {validation.warning_count}")
         print(f"Fingerprint .... {model.fingerprint}")

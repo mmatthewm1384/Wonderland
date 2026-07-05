@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
+from wlknowledge.cache import CacheStatus, check_cache, write_cache
 from wlknowledge.compiler import compile_model
 from wlknowledge.model import KnowledgeModel
 from wlknowledge.renderers.json import render_manifest_json, render_model_json
@@ -18,6 +19,7 @@ class PipelineResult:
     model: KnowledgeModel
     written_files: list[Path]
     validation: ValidationResult
+    cache: CacheStatus
 
 
 class KnowledgePipeline:
@@ -25,6 +27,9 @@ class KnowledgePipeline:
         self.root = root.resolve()
         self.knowledge_dir = self.root / "knowledge"
         self.generated_dir = self.knowledge_dir / "generated"
+
+    def cache_status(self) -> CacheStatus:
+        return check_cache(self.root)
 
     def scan(self) -> KnowledgeModel:
         return compile_model(self.root)
@@ -51,11 +56,13 @@ class KnowledgePipeline:
         )
 
     def build(self) -> PipelineResult:
+        cache = self.cache_status()
         model = self.scan()
         written: list[Path] = []
         written.extend(self.render_json(model))
         written.extend(self.render_markdown(model))
         validation = self.validate(model)
+        write_cache(self.root, cache.fingerprint, model.fingerprint)
 
         return PipelineResult(
             root=self.root,
@@ -64,4 +71,5 @@ class KnowledgePipeline:
             model=model,
             written_files=written,
             validation=validation,
+            cache=cache,
         )
