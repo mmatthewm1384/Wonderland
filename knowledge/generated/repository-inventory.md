@@ -1,6 +1,6 @@
 # Repository Inventory
 
-Generated: 2026-07-05T18:17:48Z
+Generated: 2026-07-05T18:19:32Z
 
 ## Top-Level Paths
 - `.backup`
@@ -61,12 +61,15 @@ Generated: 2026-07-05T18:17:48Z
 - `academy/14-publications`
 - `academy/academy.json`
 - `academy/archive`
+- `academy/build`
 - `academy/CANON.md`
 - `academy/certification`
 - `academy/codex`
 - `academy/CONSTITUTION.md`
+- `academy/dist`
 - `academy/EDITORIAL_CHECKLIST.md`
 - `academy/ENGINEERING_STANDARD.md`
+- `academy/generated`
 - `academy/README.md`
 - `academy/registry`
 - `academy/STYLE_GUIDE.md`
@@ -224,6 +227,7 @@ Generated: 2026-07-05T18:17:48Z
 - `bin/wl-docs`
 - `bin/wl-docs-root`
 - `bin/wl-doctor`
+- `bin/wl-doctor-knowledge`
 - `bin/wl-doctor-lifecycle`
 - `bin/wl-document-cleaner`
 - `bin/wl-drift-check`
