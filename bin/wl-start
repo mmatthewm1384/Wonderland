@@ -4,6 +4,16 @@ set -euo pipefail
 WL_HOME="${WL_HOME:-$HOME/Wonderland}"
 rm -f "$WL_HOME/state/runtime/stop.requested" 2>/dev/null || true
 
+python3 - <<'PYSTART'
+from pathlib import Path
+from wl.runtime.launchagents import bootstrap_default_launch_agents
+
+root = Path(__import__("os").environ.get("WL_HOME", Path.home() / "Wonderland"))
+for line in bootstrap_default_launch_agents(root):
+    print(line)
+PYSTART
+
+
 
 WONDERLAND_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export PYTHONPATH="$WONDERLAND_ROOT${PYTHONPATH:+:$PYTHONPATH}"
