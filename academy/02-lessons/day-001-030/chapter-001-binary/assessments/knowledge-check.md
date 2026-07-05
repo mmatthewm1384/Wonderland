@@ -1,3 +1,3 @@
 # Knowledge Check — Chapter 001
 
-TODO
+Questions covering information, binary, mathematics, hardware, Wonderland integration, and engineering judgment.
