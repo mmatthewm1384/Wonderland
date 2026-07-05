@@ -2455,7 +2455,7 @@
     "applications": 22,
     "commands": 386,
     "decisions": 23,
-    "documents": 1636,
+    "documents": 1637,
     "services": 30
   },
   "decisions": [
@@ -9874,6 +9874,12 @@
     {
       "kind": "markdown",
       "metadata": {},
+      "name": "v1.0-alpha.md",
+      "path": "docs/operator/milestones/v1.0-alpha.md"
+    },
+    {
+      "kind": "markdown",
+      "metadata": {},
       "name": "operator-manual.md",
       "path": "docs/operator-manual.md"
     },
@@ -12416,16 +12422,16 @@
       "path": "wl/runtime/README.md"
     }
   ],
-  "fingerprint": "3a79cd42275022ee",
-  "generated_at": "2026-07-05T22:19:49Z",
+  "fingerprint": "97b93c9f9e3c0a23",
+  "generated_at": "2026-07-05T22:23:10Z",
   "repository": {
     "branch": "feature/wke-python-engine",
-    "commit": "34932e9b",
-    "directory_count": 1401,
-    "file_count": 24101,
+    "commit": "92449b08",
+    "directory_count": 1402,
+    "file_count": 24118,
     "git": {
       "branch": "feature/wke-python-engine",
-      "commit": "34932e9b",
+      "commit": "92449b08",
       "dirty": true
     },
     "root": "/Users/wonderland/Wonderland",
