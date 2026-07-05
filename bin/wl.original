@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WONDERLAND_ROOT="${WONDERLAND_ROOT:-${WL_HOME:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}}"
+export WONDERLAND_ROOT
+export PYTHONPATH="$WONDERLAND_ROOT:${PYTHONPATH:-}"
+
+usage() {
+  cat <<USAGE
+Usage:
+  wl start
+  wl stop
+  wl verify
+  wl doctor
+  wl runtime <command> [args...]
+  wl services <command> [args...]
+  wl rootless <command> [args...]
+  wl builder <command> [args...]
+
+Runtime commands:
+  verify
+  doctor
+  clean
+  animation
+  status
+  report
+  theme
+  architecture-verify
+
+Examples:
+  wl start
+  wl stop
+  wl rootless doctor
+  wl verify
+  wl doctor
+  wl runtime report
+  wl services status
+  wl builder status
+USAGE
+}
+
+cmd="${1:-}"
+
+case "$cmd" in
+  start)
+    shift
+    exec "$WONDERLAND_ROOT/bin/wl-start" "$@"
+    ;;
+
+  stop)
+    shift
+    exec python3 -m wl.runtime.commands.stop "$@"
+    ;;
+
+  services)
+    shift
+    exec python3 -m wl.runtime.commands.services "$@"
+    ;;
+
+  verify)
+    shift
+    exec python3 -m wl.runtime.verify "$@"
+    ;;
+
+  doctor)
+    shift
+    exec python3 -m wl.runtime.doctor "$@"
+    ;;
+
+  runtime)
+    shift
+    subcmd="${1:-}"
+
+    if [ "$(uname -s)" = "Darwin" ]; then
+      case "$subcmd" in
+        verify|doctor|clean|status|report)
+          exec limactl shell wonderland-rootless bash -lc "cd /Users/wonderland/Wonderland && ./bin/wl runtime $subcmd ${*:2}"
+          ;;
+      esac
+    fi
+
+    case "$subcmd" in
+      verify|doctor|clean|theme)
+        shift
+        exec python3 -m "wl.runtime.${subcmd}" "$@"
+        ;;
+      architecture-verify)
+        shift
+        exec python3 -m wl.runtime.architecture_verify "$@"
+        ;;
+      animation)
+        shift
+        exec python3 -m wl.runtime.commands.animation "$@"
+        ;;
+      status)
+        shift
+        exec python3 -m wl.runtime.show_status "$@"
+        ;;
+      report)
+        shift
+        exec python3 -m wl.runtime.report "$@"
+        ;;
+      ""|help|--help|-h)
+        usage
+        ;;
+      *)
+        echo "wl: unknown runtime command: $subcmd" >&2
+        usage >&2
+        exit 64
+        ;;
+    esac
+    ;;
+
+  rootless)
+    shift
+    exec "$WONDERLAND_ROOT/bin/wl-rootless" "$@"
+    ;;
+
+  builder)
+    shift
+    exec "$WONDERLAND_ROOT/bin/wl-builder" "$@"
+    ;;
+
+  ""|help|--help|-h)
+    usage
+    ;;
+
+  *)
+    echo "wl: unknown command: $cmd" >&2
+    usage >&2
+    exit 64
+    ;;
+esac
