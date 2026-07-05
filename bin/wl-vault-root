@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$HOME/Wonderland/lib/core/paths/root.sh"
+root="$(wl_root_print "${1:-$PWD}")"
+printf '%s\n' "$root/vault"
