@@ -1,0 +1,48 @@
+{
+  "applications": [],
+  "commands": [],
+  "counts": {
+    "applications": 0,
+    "commands": 0,
+    "decisions": 0,
+    "documents": 0,
+    "services": 0
+  },
+  "decisions": [],
+  "documents": [],
+  "fingerprint": "2ed43589fc78f490",
+  "generated_at": "2026-07-05T21:02:25Z",
+  "repository": {
+    "branch": "feature/wke-python-engine",
+    "commit": "d1b3c955",
+    "directory_count": 5,
+    "file_count": 18,
+    "git": {
+      "branch": "feature/wke-python-engine",
+      "commit": "d1b3c955",
+      "dirty": true
+    },
+    "root": "/Users/wonderland/Wonderland/builder/python/wlknowledge",
+    "top_level": [
+      {
+        "kind": "file",
+        "name": "pyproject.toml",
+        "path": "pyproject.toml"
+      },
+      {
+        "kind": "directory",
+        "name": "tests",
+        "path": "tests"
+      },
+      {
+        "kind": "directory",
+        "name": "wlknowledge",
+        "path": "wlknowledge"
+      }
+    ]
+  },
+  "services": [],
+  "stage": "phase-2",
+  "system": "Wonderland Knowledge Engine",
+  "version": "0.1.0"
+}

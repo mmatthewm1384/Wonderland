@@ -5,6 +5,7 @@ from pathlib import Path
 
 from wlknowledge import __version__
 from wlknowledge.compiler import compile_model
+from wlknowledge.renderers.json import render_manifest_json, render_model_json
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -20,6 +21,13 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def render_json_outputs(root: Path, model) -> None:
+    knowledge_dir = root / "knowledge"
+    generated_dir = knowledge_dir / "generated"
+    render_model_json(model, generated_dir)
+    render_manifest_json(model, knowledge_dir)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
@@ -31,6 +39,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "compile":
         root = Path.cwd().resolve()
         model = compile_model(root)
+        render_json_outputs(root, model)
         print("Wonderland Knowledge Engine")
         print(f"Stage .......... {model.stage}")
         print(f"Fingerprint .... {model.fingerprint}")
@@ -47,6 +56,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "doctor":
         root = Path.cwd().resolve()
         model = compile_model(root)
+        render_json_outputs(root, model)
 
         print("Wonderland Knowledge Engine")
         print("Package ........ PASS")
