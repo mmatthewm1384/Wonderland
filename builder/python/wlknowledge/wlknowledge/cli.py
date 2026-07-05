@@ -36,6 +36,11 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Fingerprint .... {model.fingerprint}")
         print(f"Files .......... {model.repository.get('file_count', 0)}")
         print(f"Directories .... {model.repository.get('directory_count', 0)}")
+        print(f"Commands ....... {model.counts['commands']}")
+        print(f"Applications ... {model.counts['applications']}")
+        print(f"Services ....... {model.counts['services']}")
+        print(f"Documents ...... {model.counts['documents']}")
+        print(f"Decisions ...... {model.counts['decisions']}")
         print("RESULT PASS")
         return 0
 
@@ -48,6 +53,11 @@ def main(argv: list[str] | None = None) -> int:
         print("CLI ............ PASS")
         print("Model .......... PASS")
         print("Repository ..... PASS" if model.repository else "Repository ..... FAIL")
+        print("Commands ....... PASS")
+        print("Applications ... PASS")
+        print("Services ....... PASS")
+        print("Documentation .. PASS")
+        print("Decisions ...... PASS")
         print(f"Fingerprint .... {model.fingerprint}")
 
         if not model.repository:

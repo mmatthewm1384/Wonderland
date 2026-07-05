@@ -12,8 +12,16 @@ def scan_commands(root: Path) -> list[Entity]:
     if not bin_dir.exists():
         return []
 
-    out: list[Entity] = []
+    commands: list[Entity] = []
+
     for path in sorted(bin_dir.iterdir()):
         if path.is_file() and os.access(path, os.X_OK):
-            out.append(Entity(name=path.name, path=rel(root, path), type="command"))
-    return out
+            commands.append(
+                Entity(
+                    name=path.name,
+                    path=rel(root, path),
+                    kind="command",
+                )
+            )
+
+    return commands
