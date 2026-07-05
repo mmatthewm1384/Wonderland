@@ -1,0 +1,15 @@
+{
+  "counts": {
+    "applications": 0,
+    "commands": 0,
+    "decisions": 0,
+    "documents": 0,
+    "services": 0
+  },
+  "fingerprint": "2ed43589fc78f490",
+  "generated_at": "2026-07-05T21:02:25Z",
+  "model": "knowledge/generated/model.json",
+  "stage": "phase-2",
+  "system": "Wonderland Knowledge Engine",
+  "version": "0.1.0"
+}

@@ -1,24 +1,15 @@
 {
-  "system": "Wonderland Knowledge System",
-  "version": "2.0",
-  "stage": "repository-scanner",
-  "generated_at": "2026-07-05T18:19:34Z",
-  "fingerprint": "fc429ab4e36be076",
   "counts": {
-    "commands": 383,
-    "applications": 7435,
-    "documentation": 1663,
-    "services": 34,
-    "files": 34656
+    "applications": 22,
+    "commands": 385,
+    "decisions": 23,
+    "documents": 1634,
+    "services": 30
   },
-  "generated_catalogs": [
-    "knowledge/generated/index.md",
-    "knowledge/generated/commands.md",
-    "knowledge/generated/applications.md",
-    "knowledge/generated/documentation.md",
-    "knowledge/generated/services.md",
-    "knowledge/generated/statistics.md",
-    "knowledge/generated/repository-inventory.md",
-    "knowledge/generated/knowledge-graph.md"
-  ]
+  "fingerprint": "156e6c3e3bdc715d",
+  "generated_at": "2026-07-05T21:03:58Z",
+  "model": "knowledge/generated/model.json",
+  "stage": "phase-2",
+  "system": "Wonderland Knowledge Engine",
+  "version": "0.1.0"
 }
