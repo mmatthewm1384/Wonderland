@@ -28,8 +28,12 @@ def repository_fingerprint(root: Path) -> str:
         if ".git" in path.parts:
             continue
 
-        if "knowledge" in path.parts and "packages" in path.parts:
-            continue
+        # Exclude WKE outputs so a build does not invalidate its own cache.
+        if path.parts[:1] == ("knowledge",):
+            if "generated" in path.parts or "packages" in path.parts or ".cache" in path.parts:
+                continue
+            if path.name == "manifest.json":
+                continue
 
         rel = path.relative_to(root).as_posix()
         digest.update(rel.encode("utf-8"))
