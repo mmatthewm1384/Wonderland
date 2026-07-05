@@ -1,0 +1,5 @@
+{
+  "name": "development",
+  "description": "Daily engineering workspace",
+  "windows": ["dashboard", "runtime", "git", "logs", "scratch"]
+}

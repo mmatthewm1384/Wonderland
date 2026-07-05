@@ -1,0 +1,5 @@
+{
+  "name": "incident",
+  "description": "Diagnostics and recovery workspace",
+  "windows": ["dashboard", "runtime", "security", "logs", "scratch"]
+}
