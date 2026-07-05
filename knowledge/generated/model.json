@@ -1349,6 +1349,12 @@
     {
       "kind": "command",
       "metadata": {},
+      "name": "wl-operator",
+      "path": "bin/wl-operator"
+    },
+    {
+      "kind": "command",
+      "metadata": {},
       "name": "wl-operator-auth",
       "path": "bin/wl-operator-auth"
     },
@@ -2447,9 +2453,9 @@
   ],
   "counts": {
     "applications": 22,
-    "commands": 385,
+    "commands": 386,
     "decisions": 23,
-    "documents": 1634,
+    "documents": 1636,
     "services": 30
   },
   "decisions": [
@@ -9862,6 +9868,12 @@
     {
       "kind": "markdown",
       "metadata": {},
+      "name": "README.md",
+      "path": "docs/operator/README.md"
+    },
+    {
+      "kind": "markdown",
+      "metadata": {},
       "name": "operator-manual.md",
       "path": "docs/operator-manual.md"
     },
@@ -10668,6 +10680,12 @@
       "metadata": {},
       "name": "commands.md",
       "path": "knowledge/generated/commands.md"
+    },
+    {
+      "kind": "markdown",
+      "metadata": {},
+      "name": "compiler-summary.md",
+      "path": "knowledge/generated/compiler-summary.md"
     },
     {
       "kind": "markdown",
@@ -12398,16 +12416,16 @@
       "path": "wl/runtime/README.md"
     }
   ],
-  "fingerprint": "156e6c3e3bdc715d",
-  "generated_at": "2026-07-05T21:03:58Z",
+  "fingerprint": "1d45faba9c616d38",
+  "generated_at": "2026-07-05T22:00:28Z",
   "repository": {
     "branch": "feature/wke-python-engine",
-    "commit": "d1b3c955",
-    "directory_count": 1388,
-    "file_count": 23751,
+    "commit": "4f754217",
+    "directory_count": 1400,
+    "file_count": 24007,
     "git": {
       "branch": "feature/wke-python-engine",
-      "commit": "d1b3c955",
+      "commit": "4f754217",
       "dirty": true
     },
     "root": "/Users/wonderland/Wonderland",

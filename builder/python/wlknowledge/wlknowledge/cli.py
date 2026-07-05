@@ -6,6 +6,7 @@ from pathlib import Path
 from wlknowledge import __version__
 from wlknowledge.compiler import compile_model
 from wlknowledge.renderers.json import render_manifest_json, render_model_json
+from wlknowledge.renderers.markdown import render_markdown
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -15,10 +16,15 @@ def build_parser() -> argparse.ArgumentParser:
     subcommands = parser.add_subparsers(dest="command")
 
     subcommands.add_parser("version", help="Print WKE version")
-    subcommands.add_parser("compile", help="Compile the phase-1 knowledge model")
+    subcommands.add_parser("compile", help="Compile the knowledge model")
+    subcommands.add_parser("render", help="Compile and render Markdown catalogs")
     subcommands.add_parser("doctor", help="Run WKE health checks")
 
     return parser
+
+
+def render_markdown_outputs(root: Path, model) -> None:
+    render_markdown(model, root / "knowledge" / "generated")
 
 
 def render_json_outputs(root: Path, model) -> None:
@@ -50,6 +56,18 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Services ....... {model.counts['services']}")
         print(f"Documents ...... {model.counts['documents']}")
         print(f"Decisions ...... {model.counts['decisions']}")
+        print("RESULT PASS")
+        return 0
+
+    if args.command == "render":
+        root = Path.cwd().resolve()
+        model = compile_model(root)
+        render_json_outputs(root, model)
+        render_markdown_outputs(root, model)
+        print("Wonderland Knowledge Engine")
+        print("Markdown ....... PASS")
+        print("JSON ........... PASS")
+        print(f"Fingerprint .... {model.fingerprint}")
         print("RESULT PASS")
         return 0
 

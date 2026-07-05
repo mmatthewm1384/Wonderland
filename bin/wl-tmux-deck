@@ -1,0 +1,235 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SESSION="${WL_TMUX_SESSION:-wonderland}"
+ROOT="${WL_ROOT:-$(pwd)}"
+STATE_DIR="$ROOT/state/tmux"
+TMUX_CONF="$STATE_DIR/wonderland.tmux.conf"
+
+usage() {
+  cat <<USAGE
+Usage:
+  wl-tmux-deck start
+  wl-tmux-deck stop
+  wl-tmux-deck restart
+  wl-tmux-deck attach
+  wl-tmux-deck status
+  wl-tmux-deck reload
+  wl-tmux-deck dashboard
+  wl-tmux-deck verify
+USAGE
+}
+
+require_tmux() {
+  command -v tmux >/dev/null 2>&1 || {
+    echo "FAIL tmux not found" >&2
+    exit 1
+  }
+}
+
+session_exists() {
+  tmux has-session -t "$SESSION" 2>/dev/null
+}
+
+write_tmux_conf() {
+  mkdir -p "$STATE_DIR"
+
+  cat > "$TMUX_CONF" <<'TMUX'
+set -g status on
+set -g status-position bottom
+set -g status-interval 5
+set -g mouse on
+set -g history-limit 50000
+set -g base-index 0
+setw -g pane-base-index 0
+
+set -g @wl_green "#2FE66B"
+set -g @wl_cyan "#20D6E8"
+set -g @wl_purple "#9B5CFF"
+set -g @wl_orange "#FF9F43"
+set -g @wl_bg "#10141F"
+set -g @wl_fg "#D7E1F0"
+set -g @wl_muted "#667085"
+
+set -g status-style "bg=#10141F,fg=#D7E1F0"
+set -g status-left-length 48
+set -g status-right-length 96
+set -g status-left "#[fg=#10141F,bg=#2FE66B,bold] #S #[fg=#2FE66B,bg=#10141F] "
+set -g status-right "#[fg=#20D6E8]#H #[fg=#9B5CFF]| #[fg=#2FE66B]%H:%M #[fg=#667085]%d-%b-%y "
+setw -g window-status-format "#[fg=#667085] #I:#W "
+setw -g window-status-current-format "#[fg=#10141F,bg=#9B5CFF,bold] #I:#W "
+set -g pane-border-style "fg=#667085"
+set -g pane-active-border-style "fg=#20D6E8"
+set -g message-style "bg=#9B5CFF,fg=#D7E1F0,bold"
+set -g mode-style "bg=#20D6E8,fg=#10141F,bold"
+TMUX
+}
+
+run_in_window() {
+  local target="$1"
+  shift
+  tmux send-keys -t "$target" "cd \"$ROOT\"" C-m
+  tmux send-keys -t "$target" "$*" C-m
+}
+
+dashboard_deck() {
+  printf '\033[2J\033[H'
+  printf '\033[38;2;47;230;107m'
+  cat <<'ART'
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                     Wonderland Control Deck                 ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+ART
+  printf '\033[0m'
+  printf '\033[38;2;32;214;232m%s\033[0m\n\n' "local-first operator cockpit"
+
+  printf '\033[38;2;155;92;255m%-10s\033[0m %s\n' "Root" "$ROOT"
+  printf '\033[38;2;255;159;67m%-10s\033[0m %s\n\n' "Session" "$SESSION"
+
+  printf '\033[38;2;47;230;107m%s\033[0m\n' "Core"
+  printf '  %-30s %s\n' "bin/wl-tmux-deck status" "deck state"
+  printf '  %-30s %s\n' "bin/wl-tmux-deck reload" "reload theme"
+  printf '  %-30s %s\n' "bin/wl-tmux-deck verify" "script + session checks"
+  printf '\n'
+
+  printf '\033[38;2;32;214;232m%s\033[0m\n' "Wonderland"
+  printf '  %-30s %s\n' "wl runtime status" "runtime health"
+  printf '  %-30s %s\n' "wl runtime verify" "runtime verification"
+  printf '  %-30s %s\n' "wl doctor" "platform diagnostics"
+  printf '  %-30s %s\n' "git status --short" "repository changes"
+  printf '\n'
+
+  printf '\033[38;2;155;92;255m%s\033[0m\n' "Windows"
+  printf '  0 control   1 runtime   2 verify   3 logs   4 scratch\n\n'
+
+  printf '\033[38;2;255;159;67m%s\033[0m\n' "Navigation"
+  printf '  prefix + 0..4   switch window\n'
+  printf '  prefix + d      detach\n'
+}
+
+start_deck() {
+  require_tmux
+  write_tmux_conf
+
+  if session_exists; then
+    tmux source-file "$TMUX_CONF"
+    echo "PASS tmux deck already running: $SESSION"
+    return 0
+  fi
+
+  mkdir -p "$STATE_DIR"
+
+  tmux -f "$TMUX_CONF" new-session -d -s "$SESSION" -c "$ROOT" -n control
+  tmux source-file "$TMUX_CONF"
+
+  run_in_window "$SESSION:control" "bin/wl-tmux-deck dashboard"
+
+  tmux new-window -t "$SESSION" -c "$ROOT" -n runtime
+  run_in_window "$SESSION:runtime" "clear; echo 'Runtime Console'; echo; echo 'Try: wl runtime status'"
+
+  tmux new-window -t "$SESSION" -c "$ROOT" -n verify
+  run_in_window "$SESSION:verify" "clear; echo 'Verification Console'; echo; echo 'Try: wl runtime verify'"
+
+  tmux new-window -t "$SESSION" -c "$ROOT" -n logs
+  run_in_window "$SESSION:logs" "clear; echo 'Logs Console'; find state logs -maxdepth 3 -type f 2>/dev/null | sort | tail -50"
+
+  tmux new-window -t "$SESSION" -c "$ROOT" -n scratch
+  run_in_window "$SESSION:scratch" "clear; echo 'Scratch Console'"
+
+  tmux select-window -t "$SESSION:control"
+
+  cat > "$STATE_DIR/deck.json" <<JSON
+{
+  "version": 2,
+  "session": "$SESSION",
+  "root": "$ROOT",
+  "intent": "Wonderland reproducible tmux operator deck",
+  "tmux_config": "$TMUX_CONF",
+  "windows": ["control", "runtime", "verify", "logs", "scratch"]
+}
+JSON
+
+  echo "PASS started tmux deck: $SESSION"
+}
+
+stop_deck() {
+  require_tmux
+  if ! session_exists; then
+    echo "PASS tmux deck not running: $SESSION"
+    return 0
+  fi
+  tmux kill-session -t "$SESSION"
+  echo "PASS stopped tmux deck: $SESSION"
+}
+
+status_deck() {
+  require_tmux
+  if ! session_exists; then
+    echo "FAIL not running: $SESSION"
+    exit 1
+  fi
+
+  echo "PASS running: $SESSION"
+  tmux list-windows -t "$SESSION"
+}
+
+reload_deck() {
+  require_tmux
+  write_tmux_conf
+
+  if ! session_exists; then
+    echo "FAIL not running: $SESSION"
+    exit 1
+  fi
+
+  tmux source-file "$TMUX_CONF"
+  tmux send-keys -t "$SESSION:control" "bin/wl-tmux-deck dashboard" C-m
+  echo "PASS reloaded tmux deck: $SESSION"
+}
+
+verify_deck() {
+  require_tmux
+  bash -n "$0"
+
+  if session_exists; then
+    echo "PASS session exists: $SESSION"
+  else
+    echo "FAIL session missing: $SESSION"
+    exit 1
+  fi
+
+  test -f "$TMUX_CONF" && echo "PASS config exists: $TMUX_CONF" || {
+    echo "FAIL config missing: $TMUX_CONF"
+    exit 1
+  }
+
+  test -f "$STATE_DIR/deck.json" && echo "PASS state exists: $STATE_DIR/deck.json" || {
+    echo "FAIL state missing: $STATE_DIR/deck.json"
+    exit 1
+  }
+}
+
+attach_deck() {
+  require_tmux
+  if ! session_exists; then
+    start_deck
+  fi
+  tmux attach-session -t "$SESSION"
+}
+
+case "${1:-}" in
+  start) start_deck ;;
+  stop) stop_deck ;;
+  restart) stop_deck; start_deck ;;
+  attach) attach_deck ;;
+  status) status_deck ;;
+  reload) reload_deck ;;
+  dashboard) dashboard_deck ;;
+  verify) verify_deck ;;
+  -h|--help|help|"") usage ;;
+  *)
+    echo "FAIL unknown command: ${1:-}" >&2
+    usage >&2
+    exit 1
+    ;;
+esac

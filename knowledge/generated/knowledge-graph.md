@@ -1,16 +1,13 @@
 # Knowledge Graph
 
-Generated: 2026-07-05T18:19:32Z
+Generated: 2026-07-05T22:00:11Z
 
-```text
+~~~text
 Wonderland
-├── Commands
-├── Libraries
-├── Applications
-├── Builder
-├── Controller
-├── Configuration
-├── Documentation
-├── Vault
-└── Knowledge
-```
+├── Commands (386)
+├── Applications (22)
+├── Services (30)
+├── Documents (1636)
+├── Decisions (23)
+└── Knowledge Engine
+~~~

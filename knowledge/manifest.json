@@ -1,13 +1,13 @@
 {
   "counts": {
     "applications": 22,
-    "commands": 385,
+    "commands": 386,
     "decisions": 23,
-    "documents": 1634,
+    "documents": 1636,
     "services": 30
   },
-  "fingerprint": "156e6c3e3bdc715d",
-  "generated_at": "2026-07-05T21:03:58Z",
+  "fingerprint": "1d45faba9c616d38",
+  "generated_at": "2026-07-05T22:00:28Z",
   "model": "knowledge/generated/model.json",
   "stage": "phase-2",
   "system": "Wonderland Knowledge Engine",

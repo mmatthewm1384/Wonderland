@@ -1,380 +1,392 @@
 # Command Catalog
 
-Generated: 2026-07-05T18:19:25Z
-
-Executable commands: **373**
+Generated: 2026-07-05T22:00:11Z
 
 ## Commands
-- `example-wrapper`
-- `nerdctl`
-- `wl`
-- `wl-academy`
-- `wl-academy-root`
-- `wl-agitate`
-- `wl-ai`
-- `wl-ai-dropin-rollback`
-- `wl-ai-local`
-- `wl-ai-verify`
-- `wl-anon`
-- `wl-anon-route`
-- `wl-api`
-- `wl-api-agent`
-- `wl-api-v2`
-- `wl-apps-root`
-- `wl-audit`
-- `wl-audit-certify`
-- `wl-audit-report`
-- `wl-authorities`
-- `wl-authority`
-- `wl-backup`
-- `wl-backup-registry`
-- `wl-baseline`
-- `wl-body-time`
-- `wl-boot`
-- `wl-browser`
-- `wl-browser-certify`
-- `wl-browser-doctor`
-- `wl-browser-inventory`
-- `wl-browser-snapshot`
-- `wl-build`
-- `wl-builder`
-- `wl-builder-certify`
-- `wl-builder-recreate`
-- `wl-builder-smoke`
-- `wl-capability`
-- `wl-cd`
-- `wl-certificates`
-- `wl-certify`
-- `wl-certify-platform-services`
-- `wl-certify-rootless`
-- `wl-chaos`
-- `wl-chaos-controllers`
-- `wl-chaos-current-intent`
-- `wl-chaos-current-model`
-- `wl-chaos-environment`
-- `wl-chaos-environment-verify`
-- `wl-chaos-fingerprint`
-- `wl-chaos-fingerprint-verify`
-- `wl-chaos-intent`
-- `wl-chaos-lease`
-- `wl-chaos-lease-verify`
-- `wl-chaos-menubar-action`
-- `wl-chaos-menubar-action.bak.20260629-204746`
-- `wl-chaos-menubar-status`
-- `wl-chaos-menubar-status.bak.20260629-215700`
-- `wl-chaos-menubar-verify`
-- `wl-chaos-model`
-- `wl-chaos-panic`
-- `wl-chaos-policy`
-- `wl-chaos-schedule`
-- `wl-chaos-schedule-eval`
-- `wl-chaos-schedule-run`
-- `wl-chaos-session`
-- `wl-chaos-sync-model-profiles`
-- `wl-chaos-sync-model-registry`
-- `wl-chaos-verify`
-- `wl-chaos-visual-cleanup-verify`
-- `wl-chatgpt-keyless`
-- `wl-checkpoint`
-- `wl-chrono`
-- `wl-chrono-v2`
-- `wl-chronosphere`
-- `wl-chronosphere-app`
-- `wl-chronosphere-install`
-- `wl-chronosphere-v2`
-- `wl-chronosphere-v2-install`
-- `wl-clean-guest-metadata`
-- `wl-clean-macos-metadata`
-- `wl-clean-platform-metadata`
-- `wl-color-authority-asset`
-- `wl-command`
-- `wl-command-inventory`
-- `wl-command-registry`
-- `wl-config`
-- `wl-context`
-- `wl-control-center`
-- `wl-control-center-package`
-- `wl-controller`
-- `wl-controller-core`
-- `wl-controller-core-v2`
-- `wl-controller-v2`
-- `wl-core-22-doctor`
-- `wl-dashboard`
-- `wl-disposable`
-- `wl-dns`
-- `wl-docs`
-- `wl-docs-root`
-- `wl-doctor`
-- `wl-doctor-knowledge`
-- `wl-doctor-lifecycle`
-- `wl-document-cleaner`
-- `wl-drift-check`
-- `wl-encryption`
-- `wl-env-clean`
-- `wl-event`
-- `wl-events`
-- `wl-firefox`
-- `wl-firefox-verify`
-- `wl-firefox-webgpu`
-- `wl-firewall`
-- `wl-ga-plus-install`
-- `wl-governance`
-- `wl-governance-consolidate`
-- `wl-governance-runtime-chaos`
-- `wl-grafana-dashboard`
-- `wl-grok-keyless`
-- `wl-handoff`
-- `wl-health`
-- `wl-health-report`
-- `wl-idea`
-- `wl-identity`
-- `wl-identity-certify`
-- `wl-implement`
-- `wl-inspect`
-- `wl-install-matrix-atom-destroyer`
-- `wl-install-matrix-atom-destroyer-v2`
-- `wl-install-matrix-atom-destroyer-v4`
-- `wl-install-matrix-atom-destroyer-v5`
-- `wl-integrity`
-- `wl-intel`
-- `wl-intent`
-- `wl-intent-plan`
-- `wl-intent-status`
-- `wl-know`
-- `wl-knowledge`
-- `wl-knowledge-dropin`
-- `wl-language`
-- `wl-legacy`
-- `wl-legacy-promote`
-- `wl-lifecycle`
-- `wl-lifecycle-audit`
-- `wl-lifecycle-capture`
-- `wl-lifecycle-certify`
-- `wl-lifecycle-registry`
-- `wl-lifecycle-report`
-- `wl-lifecycle-services`
-- `wl-lifecycle-snapshot`
-- `wl-link-runtime`
-- `wl-lint`
-- `wl-mahaney`
-- `wl-mahaney-gate`
-- `wl-matrix`
-- `wl-matrix-add-agitate-waves`
-- `wl-matrix-add-iphone-access`
-- `wl-matrix-add-spin-city-iphone`
-- `wl-matrix-agitate`
-- `wl-matrix-agitate-iphone`
-- `wl-matrix-apps`
-- `wl-matrix-apps-certify`
-- `wl-matrix-apps-permanent-launchers`
-- `wl-matrix-atom-slam`
-- `wl-matrix-auto-tick`
-- `wl-matrix-doctor`
-- `wl-matrix-emit`
-- `wl-matrix-fix-agitate-waves-app`
-- `wl-matrix-fluderation`
-- `wl-matrix-ghosts`
-- `wl-matrix-influence`
-- `wl-matrix-iphone-doctor`
-- `wl-matrix-iphone-server`
-- `wl-matrix-native`
-- `wl-matrix-native-actions-fix`
-- `wl-matrix-presence`
-- `wl-matrix-rollback`
-- `wl-matrix-slam-watch`
-- `wl-matrix-spin-city-iphone`
-- `wl-matrix-suite`
-- `wl-matrix-tick`
-- `wl-matrix-watchers`
-- `wl-mind-body`
-- `wl-mind-body-app`
-- `wl-mind-body-install`
-- `wl-mirror`
-- `wl-mirror-certify`
-- `wl-mirror-report`
-- `wl-mirror-rollback`
-- `wl-mode`
-- `wl-music`
-- `wl-nats`
-- `wl-nav`
-- `wl-notifier`
-- `wl-oath`
-- `wl-observability`
-- `wl-obsidian`
-- `wl-openapi`
-- `wl-operations-index-reports`
-- `wl-operations-inventory`
-- `wl-ops-capture`
-- `wl-parse-anon-blueprint`
-- `wl-path-fix`
-- `wl-permissions`
-- `wl-plan-execute`
-- `wl-plan-status`
-- `wl-platform`
-- `wl-platform-freeze`
-- `wl-platform-status`
-- `wl-plugins`
-- `wl-policy`
-- `wl-portainer`
-- `wl-profile`
-- `wl-promote`
-- `wl-proxy`
-- `wl-reconcile`
-- `wl-recover`
-- `wl-recovery`
-- `wl-recovery-drill`
-- `wl-registry`
-- `wl-registry-audit`
-- `wl-registry-integrity`
-- `wl-registry-refresh`
-- `wl-registry-refresh-commands`
-- `wl-registry-refresh-documents`
-- `wl-registry-refresh-intents`
-- `wl-registry-refresh-plans`
-- `wl-registry-refresh-services`
-- `wl-release`
-- `wl-release-validate`
-- `wl-require-capability`
-- `wl-require-mode`
-- `wl-roam`
-- `wl-roam-audit`
-- `wl-roam-doctor`
-- `wl-roam-status`
-- `wl-roam-sync`
-- `wl-root`
-- `wl-root-certify`
-- `wl-root-status`
-- `wl-rootless`
-- `wl-rootless-audit`
-- `wl-rootless-quarantine-obsolete`
-- `wl-rootless-services`
-- `wl-roots`
-- `wl-runtime`
-- `wl-runtime-certify`
-- `wl-runtime-chaos-doctor`
-- `wl-runtime-drift`
-- `wl-runtime-env`
-- `wl-runtime-import-verify`
-- `wl-runtime-inventory`
-- `wl-runtime-phase2-certify`
-- `wl-runtime-phase2-certify.phase2api.bak`
-- `wl-runtime-promote-intent`
-- `wl-runtime-start`
-- `wl-runtime-verify`
-- `wl-schema`
-- `wl-sdk`
-- `wl-secrets`
-- `wl-secrets-certify`
-- `wl-security`
-- `wl-security-certify`
-- `wl-security-dashboard`
-- `wl-security-report`
-- `wl-service-certify`
-- `wl-service-endpoints`
-- `wl-service-health`
-- `wl-service-health-refresh`
-- `wl-services`
-- `wl-services-deploy`
-- `wl-services-discover-runtime`
-- `wl-services-doctor-registry`
-- `wl-services-graph`
-- `wl-services-health`
-- `wl-services-manifest`
-- `wl-services-recover`
-- `wl-services-recovery-order`
-- `wl-services-refresh`
-- `wl-services-status`
-- `wl-smoke`
-- `wl-snapshot`
-- `wl-spin-city`
-- `wl-spin-city-server`
-- `wl-spin-the-city-intent`
-- `wl-start`
-- `wl-state`
-- `wl-state-capture`
-- `wl-status`
-- `wl-status-v2`
-- `wl-stop`
-- `wl-storage`
-- `wl-storage-authority`
-- `wl-storage-clean`
-- `wl-storage-status`
-- `wl-tauri-ios-env`
-- `wl-tauri-matrix-bootstrap`
-- `wl-tauri-matrix-certify`
-- `wl-tauri-matrix-doctor`
-- `wl-tauri-matrix-hotkeys`
-- `wl-tauri-matrix-icons`
-- `wl-test`
-- `wl-the-matrix`
-- `wl-time-machine`
-- `wl-timeline`
-- `wl-torrent`
-- `wl-torrent-creds`
-- `wl-torrent-export`
-- `wl-tree`
-- `wl-unified`
-- `wl-universe`
-- `wl-universe-dashboard`
-- `wl-universe-graph`
-- `wl-vault`
-- `wl-vault-audit`
-- `wl-vault-capture-state`
-- `wl-vault-guard`
-- `wl-vault-health`
-- `wl-vault-lock`
-- `wl-vault-prune-snapshots`
-- `wl-vault-restore`
-- `wl-vault-root`
-- `wl-vault-snapshot`
-- `wl-vault-state`
-- `wl-vault-verify-snapshot`
-- `wl-vault-write`
-- `wl-verify`
-- `wl-verify-archive`
-- `wl-verify-completion`
-- `wl-verify-core`
-- `wl-verify-executions`
-- `wl-verify-governance`
-- `wl-verify-intelligence`
-- `wl-verify-intents`
-- `wl-verify-locks`
-- `wl-verify-operations`
-- `wl-verify-plans`
-- `wl-verify-policies`
-- `wl-verify-recovery-drill`
-- `wl-verify-registry`
-- `wl-verify-runtime`
-- `wl-verify-schemas`
-- `wl-verify-service-docs`
-- `wl-verify-service-registry`
-- `wl-verify-services`
-- `wl-verify-templates`
-- `wl-verify-vault`
-- `wl-visual-chaos`
-- `wl-vm`
-- `wl-vm-certify`
-- `wl-vm-create-vmware`
-- `wl-vm-import-vmware`
-- `wl-vm-ip`
-- `wl-vm-ssh`
-- `wl-wallpaper`
-- `wl-wallpaper-doctor`
-- `wl-wallpaper-source`
-- `wl-wel-verify`
-- `wl-wil`
-- `wl.backup.20260619072845`
-- `wl.backup.20260621-122411`
-- `wl.backup.20260621-184044`
-- `wl.backup.20260705-110053`
-- `wl.bak.20260703-110537`
-- `wl.bak.20260703-110542`
-- `wl.bak.20260704-122800`
-- `wl.bak.knowledge-stage1.20260705110236`
-- `wl.broken-minimal-20260621`
-- `wl.broken.20260609-152152`
-- `wl.legacy.20260627-050249`
-- `wl.minimal-20260621.backup`
-- `wl.original`
-- `wl.pre-mirror-wrapper.20260704-194314`
-- `wl.real.20260621-122439`
+
+- `bin/example-wrapper` — command
+- `bin/nerdctl` — command
+- `bin/wl` — command
+- `bin/wl-academy` — command
+- `bin/wl-academy-root` — command
+- `bin/wl-agitate` — command
+- `bin/wl-ai` — command
+- `bin/wl-ai-dropin-rollback` — command
+- `bin/wl-ai-local` — command
+- `bin/wl-ai-verify` — command
+- `bin/wl-anon` — command
+- `bin/wl-anon-route` — command
+- `bin/wl-api` — command
+- `bin/wl-api-agent` — command
+- `bin/wl-api-v2` — command
+- `bin/wl-apps-root` — command
+- `bin/wl-audit` — command
+- `bin/wl-audit-certify` — command
+- `bin/wl-audit-report` — command
+- `bin/wl-authorities` — command
+- `bin/wl-authority` — command
+- `bin/wl-backup` — command
+- `bin/wl-backup-registry` — command
+- `bin/wl-baseline` — command
+- `bin/wl-body-time` — command
+- `bin/wl-boot` — command
+- `bin/wl-browser` — command
+- `bin/wl-browser-certify` — command
+- `bin/wl-browser-doctor` — command
+- `bin/wl-browser-inventory` — command
+- `bin/wl-browser-snapshot` — command
+- `bin/wl-build` — command
+- `bin/wl-builder` — command
+- `bin/wl-builder-certify` — command
+- `bin/wl-builder-recreate` — command
+- `bin/wl-builder-smoke` — command
+- `bin/wl-capability` — command
+- `bin/wl-cd` — command
+- `bin/wl-certificates` — command
+- `bin/wl-certify` — command
+- `bin/wl-certify-platform-services` — command
+- `bin/wl-certify-rootless` — command
+- `bin/wl-chaos` — command
+- `bin/wl-chaos-authorized-action` — command
+- `bin/wl-chaos-controllers` — command
+- `bin/wl-chaos-current-intent` — command
+- `bin/wl-chaos-current-model` — command
+- `bin/wl-chaos-drill` — command
+- `bin/wl-chaos-environment` — command
+- `bin/wl-chaos-environment-verify` — command
+- `bin/wl-chaos-fingerprint` — command
+- `bin/wl-chaos-fingerprint-verify` — command
+- `bin/wl-chaos-intent` — command
+- `bin/wl-chaos-lease` — command
+- `bin/wl-chaos-lease-verify` — command
+- `bin/wl-chaos-menubar-action` — command
+- `bin/wl-chaos-menubar-action.bak.20260629-204746` — command
+- `bin/wl-chaos-menubar-status` — command
+- `bin/wl-chaos-menubar-status.bak.20260629-215700` — command
+- `bin/wl-chaos-menubar-verify` — command
+- `bin/wl-chaos-model` — command
+- `bin/wl-chaos-panic` — command
+- `bin/wl-chaos-policy` — command
+- `bin/wl-chaos-schedule` — command
+- `bin/wl-chaos-schedule-eval` — command
+- `bin/wl-chaos-schedule-run` — command
+- `bin/wl-chaos-session` — command
+- `bin/wl-chaos-sync-model-profiles` — command
+- `bin/wl-chaos-sync-model-registry` — command
+- `bin/wl-chaos-verify` — command
+- `bin/wl-chaos-visual-cleanup-verify` — command
+- `bin/wl-chatgpt-keyless` — command
+- `bin/wl-checkpoint` — command
+- `bin/wl-chrono` — command
+- `bin/wl-chrono-v2` — command
+- `bin/wl-chronosphere` — command
+- `bin/wl-chronosphere-app` — command
+- `bin/wl-chronosphere-install` — command
+- `bin/wl-chronosphere-v2` — command
+- `bin/wl-chronosphere-v2-install` — command
+- `bin/wl-clean-guest-metadata` — command
+- `bin/wl-clean-macos-metadata` — command
+- `bin/wl-clean-platform-metadata` — command
+- `bin/wl-color-authority-asset` — command
+- `bin/wl-command` — command
+- `bin/wl-command-inventory` — command
+- `bin/wl-command-registry` — command
+- `bin/wl-config` — command
+- `bin/wl-context` — command
+- `bin/wl-control-center` — command
+- `bin/wl-control-center-package` — command
+- `bin/wl-controller` — command
+- `bin/wl-controller-core` — command
+- `bin/wl-controller-core-v2` — command
+- `bin/wl-controller-v2` — command
+- `bin/wl-core-22-doctor` — command
+- `bin/wl-dashboard` — command
+- `bin/wl-disposable` — command
+- `bin/wl-dns` — command
+- `bin/wl-docs` — command
+- `bin/wl-docs-root` — command
+- `bin/wl-doctor` — command
+- `bin/wl-doctor-knowledge` — command
+- `bin/wl-doctor-lifecycle` — command
+- `bin/wl-document-cleaner` — command
+- `bin/wl-drift-check` — command
+- `bin/wl-encryption` — command
+- `bin/wl-env-clean` — command
+- `bin/wl-event` — command
+- `bin/wl-events` — command
+- `bin/wl-firefox` — command
+- `bin/wl-firefox-verify` — command
+- `bin/wl-firefox-webgpu` — command
+- `bin/wl-firewall` — command
+- `bin/wl-ga-plus-install` — command
+- `bin/wl-governance` — command
+- `bin/wl-governance-consolidate` — command
+- `bin/wl-governance-runtime-chaos` — command
+- `bin/wl-grafana-dashboard` — command
+- `bin/wl-grok-keyless` — command
+- `bin/wl-handoff` — command
+- `bin/wl-health` — command
+- `bin/wl-health-report` — command
+- `bin/wl-idea` — command
+- `bin/wl-identity` — command
+- `bin/wl-identity-certify` — command
+- `bin/wl-implement` — command
+- `bin/wl-inspect` — command
+- `bin/wl-install-matrix-atom-destroyer` — command
+- `bin/wl-install-matrix-atom-destroyer-v2` — command
+- `bin/wl-install-matrix-atom-destroyer-v4` — command
+- `bin/wl-install-matrix-atom-destroyer-v5` — command
+- `bin/wl-integrity` — command
+- `bin/wl-intel` — command
+- `bin/wl-intent` — command
+- `bin/wl-intent-plan` — command
+- `bin/wl-intent-status` — command
+- `bin/wl-kernel` — command
+- `bin/wl-know` — command
+- `bin/wl-knowledge` — command
+- `bin/wl-knowledge-dropin` — command
+- `bin/wl-language` — command
+- `bin/wl-legacy` — command
+- `bin/wl-legacy-promote` — command
+- `bin/wl-lifecycle` — command
+- `bin/wl-lifecycle-audit` — command
+- `bin/wl-lifecycle-capture` — command
+- `bin/wl-lifecycle-certify` — command
+- `bin/wl-lifecycle-registry` — command
+- `bin/wl-lifecycle-report` — command
+- `bin/wl-lifecycle-services` — command
+- `bin/wl-lifecycle-snapshot` — command
+- `bin/wl-link-runtime` — command
+- `bin/wl-lint` — command
+- `bin/wl-mahaney` — command
+- `bin/wl-mahaney-gate` — command
+- `bin/wl-matrix` — command
+- `bin/wl-matrix-add-agitate-waves` — command
+- `bin/wl-matrix-add-iphone-access` — command
+- `bin/wl-matrix-add-spin-city-iphone` — command
+- `bin/wl-matrix-agitate` — command
+- `bin/wl-matrix-agitate-iphone` — command
+- `bin/wl-matrix-apps` — command
+- `bin/wl-matrix-apps-certify` — command
+- `bin/wl-matrix-apps-permanent-launchers` — command
+- `bin/wl-matrix-atom-slam` — command
+- `bin/wl-matrix-auto-tick` — command
+- `bin/wl-matrix-doctor` — command
+- `bin/wl-matrix-emit` — command
+- `bin/wl-matrix-fix-agitate-waves-app` — command
+- `bin/wl-matrix-fluderation` — command
+- `bin/wl-matrix-ghosts` — command
+- `bin/wl-matrix-influence` — command
+- `bin/wl-matrix-iphone-doctor` — command
+- `bin/wl-matrix-iphone-server` — command
+- `bin/wl-matrix-native` — command
+- `bin/wl-matrix-native-actions-fix` — command
+- `bin/wl-matrix-presence` — command
+- `bin/wl-matrix-rollback` — command
+- `bin/wl-matrix-slam-watch` — command
+- `bin/wl-matrix-spin-city-iphone` — command
+- `bin/wl-matrix-suite` — command
+- `bin/wl-matrix-tick` — command
+- `bin/wl-matrix-watchers` — command
+- `bin/wl-mind-body` — command
+- `bin/wl-mind-body-app` — command
+- `bin/wl-mind-body-install` — command
+- `bin/wl-mirror` — command
+- `bin/wl-mirror-certify` — command
+- `bin/wl-mirror-report` — command
+- `bin/wl-mirror-rollback` — command
+- `bin/wl-mode` — command
+- `bin/wl-music` — command
+- `bin/wl-nats` — command
+- `bin/wl-nav` — command
+- `bin/wl-notifier` — command
+- `bin/wl-oath` — command
+- `bin/wl-observability` — command
+- `bin/wl-obsidian` — command
+- `bin/wl-openapi` — command
+- `bin/wl-operations-index-reports` — command
+- `bin/wl-operations-inventory` — command
+- `bin/wl-operator` — command
+- `bin/wl-operator-auth` — command
+- `bin/wl-ops-capture` — command
+- `bin/wl-parse-anon-blueprint` — command
+- `bin/wl-path-fix` — command
+- `bin/wl-permissions` — command
+- `bin/wl-plan-execute` — command
+- `bin/wl-plan-status` — command
+- `bin/wl-platform` — command
+- `bin/wl-platform-freeze` — command
+- `bin/wl-platform-status` — command
+- `bin/wl-plugins` — command
+- `bin/wl-policy` — command
+- `bin/wl-portainer` — command
+- `bin/wl-profile` — command
+- `bin/wl-promote` — command
+- `bin/wl-proxy` — command
+- `bin/wl-reconcile` — command
+- `bin/wl-recover` — command
+- `bin/wl-recovery` — command
+- `bin/wl-recovery-drill` — command
+- `bin/wl-registry` — command
+- `bin/wl-registry-audit` — command
+- `bin/wl-registry-integrity` — command
+- `bin/wl-registry-refresh` — command
+- `bin/wl-registry-refresh-commands` — command
+- `bin/wl-registry-refresh-documents` — command
+- `bin/wl-registry-refresh-intents` — command
+- `bin/wl-registry-refresh-plans` — command
+- `bin/wl-registry-refresh-services` — command
+- `bin/wl-release` — command
+- `bin/wl-release-validate` — command
+- `bin/wl-require-capability` — command
+- `bin/wl-require-mode` — command
+- `bin/wl-roam` — command
+- `bin/wl-roam-audit` — command
+- `bin/wl-roam-doctor` — command
+- `bin/wl-roam-queue` — command
+- `bin/wl-roam-recovery` — command
+- `bin/wl-roam-status` — command
+- `bin/wl-roam-sync` — command
+- `bin/wl-root` — command
+- `bin/wl-root-certify` — command
+- `bin/wl-root-status` — command
+- `bin/wl-rootless` — command
+- `bin/wl-rootless-audit` — command
+- `bin/wl-rootless-quarantine-obsolete` — command
+- `bin/wl-rootless-services` — command
+- `bin/wl-roots` — command
+- `bin/wl-runtime` — command
+- `bin/wl-runtime-certify` — command
+- `bin/wl-runtime-chaos-doctor` — command
+- `bin/wl-runtime-drift` — command
+- `bin/wl-runtime-env` — command
+- `bin/wl-runtime-import-verify` — command
+- `bin/wl-runtime-inventory` — command
+- `bin/wl-runtime-phase2-certify` — command
+- `bin/wl-runtime-phase2-certify.phase2api.bak` — command
+- `bin/wl-runtime-promote-intent` — command
+- `bin/wl-runtime-start` — command
+- `bin/wl-runtime-verify` — command
+- `bin/wl-schema` — command
+- `bin/wl-sdk` — command
+- `bin/wl-secret-agent` — command
+- `bin/wl-secrets` — command
+- `bin/wl-secrets-certify` — command
+- `bin/wl-security` — command
+- `bin/wl-security-certify` — command
+- `bin/wl-security-dashboard` — command
+- `bin/wl-security-report` — command
+- `bin/wl-service-certify` — command
+- `bin/wl-service-endpoints` — command
+- `bin/wl-service-health` — command
+- `bin/wl-service-health-refresh` — command
+- `bin/wl-services` — command
+- `bin/wl-services-deploy` — command
+- `bin/wl-services-discover-runtime` — command
+- `bin/wl-services-doctor-registry` — command
+- `bin/wl-services-graph` — command
+- `bin/wl-services-health` — command
+- `bin/wl-services-manifest` — command
+- `bin/wl-services-recover` — command
+- `bin/wl-services-recovery-order` — command
+- `bin/wl-services-refresh` — command
+- `bin/wl-services-status` — command
+- `bin/wl-smoke` — command
+- `bin/wl-snapshot` — command
+- `bin/wl-spin-city` — command
+- `bin/wl-spin-city-server` — command
+- `bin/wl-spin-the-city-intent` — command
+- `bin/wl-start` — command
+- `bin/wl-start-animation` — command
+- `bin/wl-state` — command
+- `bin/wl-state-capture` — command
+- `bin/wl-status` — command
+- `bin/wl-status-v2` — command
+- `bin/wl-stop` — command
+- `bin/wl-storage` — command
+- `bin/wl-storage-authority` — command
+- `bin/wl-storage-clean` — command
+- `bin/wl-storage-status` — command
+- `bin/wl-tauri-ios-env` — command
+- `bin/wl-tauri-matrix-bootstrap` — command
+- `bin/wl-tauri-matrix-certify` — command
+- `bin/wl-tauri-matrix-doctor` — command
+- `bin/wl-tauri-matrix-hotkeys` — command
+- `bin/wl-tauri-matrix-icons` — command
+- `bin/wl-test` — command
+- `bin/wl-the-matrix` — command
+- `bin/wl-theomatrix` — command
+- `bin/wl-time-machine` — command
+- `bin/wl-timeline` — command
+- `bin/wl-tmux-deck` — command
+- `bin/wl-torrent` — command
+- `bin/wl-torrent-creds` — command
+- `bin/wl-torrent-export` — command
+- `bin/wl-tree` — command
+- `bin/wl-unified` — command
+- `bin/wl-universe` — command
+- `bin/wl-universe-dashboard` — command
+- `bin/wl-universe-graph` — command
+- `bin/wl-vault` — command
+- `bin/wl-vault-audit` — command
+- `bin/wl-vault-capture-state` — command
+- `bin/wl-vault-guard` — command
+- `bin/wl-vault-health` — command
+- `bin/wl-vault-lock` — command
+- `bin/wl-vault-prune-snapshots` — command
+- `bin/wl-vault-restore` — command
+- `bin/wl-vault-root` — command
+- `bin/wl-vault-snapshot` — command
+- `bin/wl-vault-state` — command
+- `bin/wl-vault-verify-snapshot` — command
+- `bin/wl-vault-write` — command
+- `bin/wl-vaultwarden` — command
+- `bin/wl-verify` — command
+- `bin/wl-verify-archive` — command
+- `bin/wl-verify-completion` — command
+- `bin/wl-verify-core` — command
+- `bin/wl-verify-executions` — command
+- `bin/wl-verify-governance` — command
+- `bin/wl-verify-intelligence` — command
+- `bin/wl-verify-intents` — command
+- `bin/wl-verify-locks` — command
+- `bin/wl-verify-operations` — command
+- `bin/wl-verify-plans` — command
+- `bin/wl-verify-policies` — command
+- `bin/wl-verify-recovery-drill` — command
+- `bin/wl-verify-registry` — command
+- `bin/wl-verify-runtime` — command
+- `bin/wl-verify-schemas` — command
+- `bin/wl-verify-service-docs` — command
+- `bin/wl-verify-service-registry` — command
+- `bin/wl-verify-services` — command
+- `bin/wl-verify-templates` — command
+- `bin/wl-verify-vault` — command
+- `bin/wl-visual-chaos` — command
+- `bin/wl-vm` — command
+- `bin/wl-vm-certify` — command
+- `bin/wl-vm-create-vmware` — command
+- `bin/wl-vm-import-vmware` — command
+- `bin/wl-vm-ip` — command
+- `bin/wl-vm-ssh` — command
+- `bin/wl-wallpaper` — command
+- `bin/wl-wallpaper-doctor` — command
+- `bin/wl-wallpaper-source` — command
+- `bin/wl-wel-verify` — command
+- `bin/wl-wil` — command
+- `bin/wl.backup.20260619072845` — command
+- `bin/wl.backup.20260621-122411` — command
+- `bin/wl.backup.20260621-184044` — command
+- `bin/wl.backup.20260705-110053` — command
+- `bin/wl.bak.20260703-110537` — command
+- `bin/wl.bak.20260703-110542` — command
+- `bin/wl.bak.20260704-122800` — command
+- `bin/wl.bak.knowledge-stage1.20260705110236` — command
+- `bin/wl.broken-minimal-20260621` — command
+- `bin/wl.broken.20260609-152152` — command
+- `bin/wl.legacy.20260627-050249` — command
+- `bin/wl.minimal-20260621.backup` — command
+- `bin/wl.original` — command
+- `bin/wl.pre-mirror-wrapper.20260704-194314` — command
+- `bin/wl.real.20260621-122439` — command
+- `bin/wlknowledge` — command
