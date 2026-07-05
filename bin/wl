@@ -45,14 +45,8 @@ cmd="${1:-help}"
 
 case "$cmd" in
   knowledge|know)
-    if [ -f "$ROOT/lib/knowledge/cli.sh" ]; then
-      # shellcheck source=/dev/null
-      source "$ROOT/lib/knowledge/cli.sh"
-      wl_knowledge_main "$@"
-      exit $?
-    fi
-    echo "FAIL knowledge subsystem missing: lib/knowledge/cli.sh" >&2
-    exit 1
+    shift
+    exec "$(cd "$(dirname "$0")" && pwd)/wl-knowledge" "$@"
     ;;
   start)
     shift
