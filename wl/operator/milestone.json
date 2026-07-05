@@ -1,0 +1,7 @@
+{
+  "subsystem": "operator",
+  "milestone": "v1.0-alpha",
+  "status": "hit",
+  "summary": "Wonderland Operator is a first-class local-first operational control plane with tmux frontend, kernel, plugins, workspaces, health, events, notifications, status snapshots, and verification.",
+  "next": "v1.0-beta"
+}

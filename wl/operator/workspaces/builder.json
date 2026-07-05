@@ -1,0 +1,5 @@
+{
+  "name": "builder",
+  "description": "Image builder and release workspace",
+  "windows": ["dashboard", "builder", "logs", "git", "scratch"]
+}

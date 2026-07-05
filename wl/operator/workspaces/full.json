@@ -1,0 +1,5 @@
+{
+  "name": "full",
+  "description": "Complete Wonderland operator workspace",
+  "windows": ["dashboard", "runtime", "builder", "chaos", "security", "logs", "git", "scratch"]
+}

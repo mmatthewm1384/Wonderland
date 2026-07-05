@@ -1,76 +1,27 @@
 from __future__ import annotations
 
-from pathlib import Path
+import importlib
+import pkgutil
 
-from wl.operator.core import Capability, Health, HealthState, OperatorContext
-
-
-def path_exists(root: Path, path: str) -> bool:
-    return (root / path).exists()
+from wl.operator.core import Capability, OperatorContext
+import wl.operator.plugins as plugin_package
 
 
 def discover(context: OperatorContext) -> list[Capability]:
-    root = context.root
+    capabilities: list[Capability] = []
 
-    return [
-        Capability(
-            name="runtime",
-            title="Runtime",
-            shortcut="r",
-            window="runtime",
-            command="wl runtime status",
-            health=Health(
-                "runtime",
-                HealthState.HEALTHY if path_exists(root, "state/runtime") else HealthState.UNKNOWN,
-                "runtime state detected" if path_exists(root, "state/runtime") else "no runtime state",
-            ),
-        ),
-        Capability(
-            name="builder",
-            title="Builder",
-            shortcut="b",
-            window="builder",
-            command="wl builder status || wl builder doctor",
-            health=Health(
-                "builder",
-                HealthState.HEALTHY if path_exists(root, "builder/python/wlbuilder") else HealthState.UNKNOWN,
-                "builder available" if path_exists(root, "builder/python/wlbuilder") else "builder not detected",
-            ),
-        ),
-        Capability(
-            name="chaos",
-            title="Chaos",
-            shortcut="c",
-            window="chaos",
-            command="wl chaos status || wl-chaos-session status",
-            health=Health(
-                "chaos",
-                HealthState.HEALTHY if path_exists(root, "vault/chaos") else HealthState.UNKNOWN,
-                "chaos state detected" if path_exists(root, "vault/chaos") else "no chaos state",
-            ),
-        ),
-        Capability(
-            name="security",
-            title="Security",
-            shortcut="s",
-            window="security",
-            command="echo 'Future: wl security dashboard'",
-            health=Health("security", HealthState.UNKNOWN, "planned"),
-        ),
-        Capability(
-            name="git",
-            title="Git",
-            shortcut="g",
-            window="git",
-            command="git status --short",
-            health=Health("git", HealthState.HEALTHY, "repository available"),
-        ),
-        Capability(
-            name="logs",
-            title="Logs",
-            shortcut="L",
-            window="logs",
-            command="find state logs vault/chaos -maxdepth 3 -type f 2>/dev/null | sort | tail -80",
-            health=Health("logs", HealthState.UNKNOWN, "local logs"),
-        ),
-    ]
+    for module_info in sorted(pkgutil.iter_modules(plugin_package.__path__), key=lambda item: item.name):
+        module = importlib.import_module(f"{plugin_package.__name__}.{module_info.name}")
+        provider = getattr(module, "capability", None)
+
+        if provider is None:
+            continue
+
+        capability = provider(context)
+
+        if not isinstance(capability, Capability):
+            raise TypeError(f"Plugin returned invalid capability: {module.__name__}")
+
+        capabilities.append(capability)
+
+    return capabilities
