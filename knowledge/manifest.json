@@ -6,8 +6,8 @@
     "documents": 1636,
     "services": 30
   },
-  "fingerprint": "ea4b1af31f7e23dc",
-  "generated_at": "2026-07-05T22:08:51Z",
+  "fingerprint": "c4b57d40e826e3e9",
+  "generated_at": "2026-07-05T22:10:48Z",
   "model": "knowledge/generated/model.json",
   "stage": "phase-2",
   "system": "Wonderland Knowledge Engine",

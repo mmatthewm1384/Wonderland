@@ -5,6 +5,7 @@ from pathlib import Path
 
 from wlknowledge import __version__
 from wlknowledge.pipeline import KnowledgePipeline
+from wlknowledge.package import package_knowledge
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -17,6 +18,7 @@ def build_parser() -> argparse.ArgumentParser:
     subcommands.add_parser("compile", help="Compile the knowledge model")
     subcommands.add_parser("render", help="Compile and render Markdown catalogs")
     subcommands.add_parser("doctor", help="Run WKE health checks")
+    subcommands.add_parser("package", help="Build portable WKE package")
 
     return parser
 
@@ -54,6 +56,27 @@ def main(argv: list[str] | None = None) -> int:
         print("Pipeline ....... PASS")
         print(f"Written Files .. {len(result.written_files)}")
         print(f"Fingerprint .... {model.fingerprint}")
+        print("RESULT PASS")
+        return 0
+
+    if args.command == "package":
+        root = Path.cwd().resolve()
+        result = KnowledgePipeline(root).build()
+
+        if not result.validation.ok:
+            print("Validation ..... FAIL")
+            for issue in result.validation.issues:
+                print(f"{issue.severity.upper()} {issue.code}: {issue.message}")
+            print("RESULT FAIL")
+            return 1
+
+        package = package_knowledge(root)
+
+        print("Wonderland Knowledge Engine")
+        print("Pipeline ....... PASS")
+        print("Validation ..... PASS")
+        print(f"Package ........ {package.path.relative_to(root)}")
+        print(f"Files .......... {package.file_count}")
         print("RESULT PASS")
         return 0
 
