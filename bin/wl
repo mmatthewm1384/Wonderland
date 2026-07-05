@@ -44,6 +44,11 @@ USAGE
 cmd="${1:-help}"
 
 case "$cmd" in
+  knowledge-engine|wke)
+    shift
+    exec "$(cd "$(dirname "$0")" && pwd)/wlknowledge" "$@"
+    ;;
+
   knowledge|know)
     shift
     exec "$(cd "$(dirname "$0")" && pwd)/wl-knowledge" "$@"
@@ -80,6 +85,11 @@ case "$cmd" in
       WL_ROOT="$WL_ROOT" exec "$WL_ROOT/bin/wl-academy" verify "$@"
     fi
     exec "$WL_ROOT/bin/wl-doctor" "$@"
+    ;;
+
+  operator)
+    shift
+    exec python3 -m wl.operator "$@"
     ;;
 
   runtime)
