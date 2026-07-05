@@ -1,0 +1,37 @@
+{
+  "name": "wonderland-architecture-standard",
+  "version": "1.0",
+  "status": "active",
+  "reference_implementation": "wl/operator",
+  "required_commands": [
+    "status",
+    "status --json",
+    "verify",
+    "doctor"
+  ],
+  "lifecycle_commands": [
+    "start",
+    "stop",
+    "restart"
+  ],
+  "required_state_files": [
+    "status.json",
+    "events.jsonl",
+    "notifications.jsonl"
+  ],
+  "health_states": [
+    "healthy",
+    "busy",
+    "warning",
+    "failed",
+    "offline",
+    "unknown"
+  ],
+  "notification_levels": [
+    "info",
+    "success",
+    "warning",
+    "error",
+    "critical"
+  ]
+}

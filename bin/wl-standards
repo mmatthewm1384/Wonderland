@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+case "${1:-}" in
+  verify)
+    exec python3 -m wl.standards.verify
+    ;;
+  show|"")
+    cat docs/architecture/wonderland-architecture-standard-v1.md
+    ;;
+  *)
+    echo "Usage: wl-standards {show|verify}" >&2
+    exit 1
+    ;;
+esac
