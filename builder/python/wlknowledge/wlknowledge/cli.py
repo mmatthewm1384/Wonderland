@@ -61,6 +61,7 @@ def main(argv: list[str] | None = None) -> int:
         root = Path.cwd().resolve()
         result = KnowledgePipeline(root).build()
         model = result.model
+        validation = result.validation
 
         print("Wonderland Knowledge Engine")
         print("Package ........ PASS")
@@ -72,9 +73,15 @@ def main(argv: list[str] | None = None) -> int:
         print("Services ....... PASS")
         print("Documentation .. PASS")
         print("Decisions ...... PASS")
+        print("Validation ..... PASS" if validation.ok else "Validation ..... FAIL")
+        print(f"Errors ......... {validation.error_count}")
+        print(f"Warnings ....... {validation.warning_count}")
         print(f"Fingerprint .... {model.fingerprint}")
 
-        if not model.repository:
+        for issue in validation.issues:
+            print(f"{issue.severity.upper()} {issue.code}: {issue.message}")
+
+        if not model.repository or not validation.ok:
             print("RESULT FAIL")
             return 1
 
