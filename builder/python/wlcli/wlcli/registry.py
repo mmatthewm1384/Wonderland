@@ -31,6 +31,8 @@ def discover(root: Path) -> list[Command]:
         Command("graph-clean", "Runtime", "Remove Boot Graph state and logs"),
         Command("doctor", "Engineering", "Verify CLI and runtime prerequisites"),
         Command("self-test", "Engineering", "Verify wlcli lifecycle routing"),
+        Command("runtime-engine-10-intent", "Engineering", "Create Runtime Engine 1.0 intent", "wl-runtime-engine-10-intent"),
+        Command("runtime-engine-10-intent-verify", "Engineering", "Verify Runtime Engine 1.0 intent", "wl-runtime-engine-10-intent-verify"),
         Command("palette", "Interface", "Show Wonderland color palette"),
         Command("commands", "Engineering", "Show command registry table"),
         Command("commands-json", "Engineering", "Show command registry as JSON"),
