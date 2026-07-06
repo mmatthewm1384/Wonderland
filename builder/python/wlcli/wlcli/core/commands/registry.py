@@ -18,22 +18,24 @@ from wlcli.core.commands.graph import (
     GraphStateCommand,
     GraphValidateCommand,
 )
-from wlcli.core.commands.lifecycle import LifecycleGraphCommand, LifecycleGraphsCommand, LifecycleShowCommand
 from wlcli.core.commands.history import HistoryJsonCommand, HistoryShowCommand
+from wlcli.core.commands.lifecycle import (
+    LifecycleGraphCommand,
+    LifecycleGraphsCommand,
+    LifecycleRunCommand,
+    LifecycleShowCommand,
+)
 from wlcli.core.commands.metrics import MetricsJsonCommand, MetricsShowCommand
 from wlcli.core.commands.runtime import RuntimeBetaCommand, RuntimeContextCommand, RuntimeStatusCommand
 
 COMMANDS = {
-    "lifecycle.show": LifecycleShowCommand(),
-    "lifecycle.graphs": LifecycleGraphsCommand(),
-    "lifecycle.graph": LifecycleGraphCommand(),
     "events.show": EventsShowCommand(),
     "events.clear": EventsClearCommand(),
-    "events.doctor": EventsDoctorCommand(),
     "events.replay": EventsReplayCommand(),
     "events.tail": EventsTailCommand(),
-    "events.validate": EventsValidateCommand(),
     "events.metrics": EventsMetricsCommand(),
+    "events.validate": EventsValidateCommand(),
+    "events.doctor": EventsDoctorCommand(),
 
     "runtime.status": RuntimeStatusCommand(),
     "runtime.beta": RuntimeBetaCommand(),
@@ -46,6 +48,11 @@ COMMANDS = {
     "graph.logs": GraphLogsCommand(),
     "graph.open-log": GraphOpenLogCommand(),
     "graph.clean": GraphCleanCommand(),
+
+    "lifecycle.show": LifecycleShowCommand(),
+    "lifecycle.graphs": LifecycleGraphsCommand(),
+    "lifecycle.graph": LifecycleGraphCommand(),
+    "lifecycle.run": LifecycleRunCommand(),
 
     "history.show": HistoryShowCommand(),
     "history.json": HistoryJsonCommand(),
