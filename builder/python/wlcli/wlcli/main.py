@@ -5,6 +5,7 @@ import os
 import subprocess
 import sys
 from wlcli.namespaces import normalize_command
+from wlcli.core.architecture import verify_beta_architecture
 from pathlib import Path
 
 from wlcli.ui import logo, ok, warn, fail, run_step
@@ -210,6 +211,8 @@ def main() -> int:
         return history(wl_root(), args)
     if command == "history-json":
         return history_json(wl_root(), args)
+    if command == "runtime-beta":
+        return render_report(verify_beta_architecture(wl_root()))
     if command == "metrics":
         return metrics(wl_root())
     if command == "metrics-json":

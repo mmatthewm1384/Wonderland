@@ -17,6 +17,9 @@ class Command:
 def discover(root: Path) -> list[Command]:
     commands = [
         Command("runtime", "Runtime", "Namespace: runtime start|stop|status|doctor"),
+        Command("runtime-verify-python", "Engineering", "Compile-check wlcli Python modules", "wl-runtime-verify-python"),
+        Command("runtime-beta-verify", "Engineering", "Verify Runtime Engine 1.0 Beta structure", "wl-runtime-beta-verify"),
+        Command("runtime-beta-bootstrap", "Engineering", "Create Runtime Engine 1.0 Beta package boundaries", "wl-runtime-beta-bootstrap"),
         Command("graph", "Runtime", "Namespace: graph show|validate|current|logs|doctor"),
         Command("history", "Runtime", "Namespace: history show|failures|export"),
         Command("metrics", "Runtime", "Namespace: metrics show|export"),

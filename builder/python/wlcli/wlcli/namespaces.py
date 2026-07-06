@@ -11,6 +11,10 @@ def normalize_command(command: str, args: list[str]) -> tuple[str, list[str]]:
             "status": "status",
             "doctor": "doctor",
             "self-test": "self-test",
+            "verify-python": "runtime-verify-python",
+            "beta": "runtime-beta",
+            "beta-verify": "runtime-beta-verify",
+            "beta-bootstrap": "runtime-beta-bootstrap",
         }.get(sub, f"runtime-{sub}"), rest
 
     if command == "graph":
