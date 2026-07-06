@@ -17,6 +17,7 @@ from wlcli.metrics_cmd import metrics, metrics_json
 from wlcli.doctor import graph_doctor
 from wlcli.registry import command_map, print_commands, print_commands_json, print_help
 from wlcli.renderer import render_report
+from wlcli.ui.json_renderer import render as render_json_result
 from wlcli.report import build_boot_report, build_graph_current, graph_clean, graph_logs, graph_open_log, graph_state
 import shutil
 
@@ -212,7 +213,10 @@ def main() -> int:
 
     object_handler = get_command(object_key)
     if object_handler is not None:
-        return render_report(object_handler.run(RuntimeContext.from_env(), args))
+        result = object_handler.run(RuntimeContext.from_env(), args)
+        if object_key.endswith(".json"):
+            return render_json_result(result)
+        return render_report(result)
 
     if command in ("-h", "--help", "help"):
         print_help(wl_root())

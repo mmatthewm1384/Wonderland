@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
 import json
+from typing import Any
 
 
 @dataclass(frozen=True)
@@ -19,6 +20,7 @@ class CommandResult:
     message: str = ""
     lines: list[ResultLine] = field(default_factory=list)
     metadata: dict[str, str] = field(default_factory=dict)
+    payload: Any | None = None
 
     def exit_code(self) -> int:
         return 0 if self.state in ("PASS", "WARN") else 1
