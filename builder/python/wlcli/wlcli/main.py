@@ -9,7 +9,7 @@ from pathlib import Path
 from wlcli.ui import logo, ok, warn, fail, run_step
 from wlcli.graph import BootGraph
 from wlcli.registry import command_map, print_commands, print_commands_json, print_help
-from wlcli.report import boot_report, graph_clean, graph_logs, graph_state
+from wlcli.report import boot_report, graph_clean, graph_current, graph_logs, graph_open_log, graph_state
 import shutil
 
 
@@ -159,7 +159,7 @@ def self_test() -> int:
 
     lifecycle_commands = [
         "start", "stop", "status", "doctor",
-        "graph", "graph-json", "graph-validate", "graph-state", "graph-logs", "graph-clean", "boot-report",
+        "graph", "graph-json", "graph-validate", "graph-current", "graph-state", "graph-logs", "graph-open-log", "graph-clean", "boot-report",
         "commands", "commands-json", "self-test", "help",
     ]
 
@@ -204,10 +204,15 @@ def main() -> int:
         return 0
     if command == "boot-report":
         return boot_report(wl_root())
+    if command == "graph-current":
+        return graph_current(wl_root())
     if command == "graph-state":
         return graph_state(wl_root())
     if command == "graph-logs":
         return graph_logs(Path(os.environ.get("WL_LOG_DIR", "/tmp")))
+    if command == "graph-open-log":
+        stage = args[0] if args else None
+        return graph_open_log(Path(os.environ.get("WL_LOG_DIR", "/tmp")), stage)
     if command == "graph-clean":
         return graph_clean(wl_root(), Path(os.environ.get("WL_LOG_DIR", "/tmp")))
     if command == "self-test":
