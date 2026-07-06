@@ -200,7 +200,13 @@ def main() -> int:
 
     command, args = normalize_command(ns.command, ns.args)
 
-    object_handler = get_command(command.replace("runtime-", "runtime."))
+    object_key = command
+    if command.startswith("runtime-"):
+        object_key = command.replace("runtime-", "runtime.", 1)
+    elif command.startswith("graph-"):
+        object_key = command.replace("graph-", "graph.", 1)
+
+    object_handler = get_command(object_key)
     if object_handler is not None:
         return render_report(object_handler.run(RuntimeContext.from_env(), args))
 
