@@ -39,6 +39,7 @@ def discover(root: Path) -> list[Command]:
         Command("graph-clean", "Runtime", "Remove Boot Graph state and logs"),
         Command("doctor", "Engineering", "Verify CLI and runtime prerequisites"),
         Command("self-test", "Engineering", "Verify wlcli lifecycle routing"),
+        Command("architecture", "Engineering", "Analyze wlcli architecture", "wl-architecture"),
         Command("architecture-verify", "Engineering", "Verify wlcli architecture import boundaries", "wl-architecture-verify"),
         Command("runtime-engine-10-intent", "Engineering", "Create Runtime Engine 1.0 intent", "wl-runtime-engine-10-intent"),
         Command("runtime-engine-10-intent-verify", "Engineering", "Verify Runtime Engine 1.0 intent", "wl-runtime-engine-10-intent-verify"),

@@ -8,7 +8,7 @@ import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
-from wlcli.ui import GREEN, RED, YELLOW, CYAN, PURPLE, DIM, RESET, BOLD, fail, ok, warn
+from wlcli.core.ui import GREEN, RED, YELLOW, CYAN, PURPLE, DIM, RESET, BOLD, fail, ok, warn
 from wlcli.core.state.history import append_history
 
 
