@@ -10,6 +10,8 @@ from pathlib import Path
 
 from wlcli.core.ui import GREEN, RED, YELLOW, CYAN, PURPLE, DIM, RESET, BOLD, fail, ok, warn
 from wlcli.core.state.history import append_history
+from wlcli.core.events import EventBus
+from wlcli.core.runtime.context import RuntimeContext
 
 
 @dataclass(frozen=True)
@@ -189,12 +191,39 @@ class BootGraph:
         print(f"{PURPLE}╰────────────────────────────────────╯{RESET}\n")
 
         total_start = time.time()
+        event_bus = EventBus(RuntimeContext.from_env())
+        event_bus.emit(
+            "graph.started",
+            source="boot-graph",
+            payload={"graph": name, "stage_count": len(ordered)},
+        )
 
         for index, stage in enumerate(ordered, start=1):
             progress = int((index - 1) / max(len(ordered), 1) * 100)
             self.print_progress(progress, stage.title)
 
+            event_bus.emit(
+                "stage.started",
+                source="boot-graph",
+                payload={"graph": name, "stage": stage.id, "title": stage.title},
+            )
+
             result = self.run_stage(stage)
+
+            event_bus.emit(
+                "stage.completed" if result.state == "PASS" else "stage.failed",
+                source="boot-graph",
+                severity="INFO" if result.state == "PASS" else "ERROR",
+                payload={
+                    "graph": name,
+                    "stage": stage.id,
+                    "title": stage.title,
+                    "state": result.state,
+                    "code": result.code,
+                    "duration": result.duration,
+                    "log": result.log,
+                },
+            )
             results.append(result)
             self.write_state(name, results)
 
@@ -217,6 +246,12 @@ class BootGraph:
                     stage_results=results,
                     runtime_instance=os.environ.get("WL_RUNTIME_INSTANCE", "wonderland-rootless"),
                 )
+                event_bus.emit(
+                    "graph.failed",
+                    source="boot-graph",
+                    severity="ERROR",
+                    payload={"graph": name, "duration": total_duration},
+                )
                 print("RESULT FAIL")
                 return result.code or 1
 
@@ -234,6 +269,11 @@ class BootGraph:
             graph=name,
             stage_results=results,
             runtime_instance=os.environ.get("WL_RUNTIME_INSTANCE", "wonderland-rootless"),
+        )
+        event_bus.emit(
+            "graph.completed",
+            source="boot-graph",
+            payload={"graph": name, "duration": total_duration},
         )
         print("RESULT PASS")
         return 0

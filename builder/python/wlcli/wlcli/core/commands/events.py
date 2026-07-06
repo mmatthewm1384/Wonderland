@@ -6,6 +6,23 @@ from wlcli.output import CommandResult, ResultLine
 from wlcli.core.runtime.context import RuntimeContext
 
 
+def _parse(args: list[str]) -> tuple[int, str | None]:
+    limit = 50
+    event_type = None
+
+    if "--last" in args:
+        idx = args.index("--last")
+        if idx + 1 < len(args):
+            limit = int(args[idx + 1])
+
+    if "--type" in args:
+        idx = args.index("--type")
+        if idx + 1 < len(args):
+            event_type = args[idx + 1]
+
+    return limit, event_type
+
+
 class EventsShowCommand:
     spec = CommandSpec(
         name="events.show",
@@ -14,29 +31,7 @@ class EventsShowCommand:
     )
 
     def run(self, context: RuntimeContext, args: list[str]) -> CommandResult:
-        limit = 50
-        event_type = None
-
-        if "--last" in args:
-            try:
-                limit = int(args[args.index("--last") + 1])
-            except Exception:
-                return CommandResult(
-                    title="Wonderland Runtime Events",
-                    state="FAIL",
-                    message="usage: wl events show --last <count>",
-                )
-
-        if "--type" in args:
-            try:
-                event_type = args[args.index("--type") + 1]
-            except Exception:
-                return CommandResult(
-                    title="Wonderland Runtime Events",
-                    state="FAIL",
-                    message="usage: wl events show --type <event.type>",
-                )
-
+        limit, event_type = _parse(args)
         rows = EventBus(context).read(limit=limit, event_type=event_type)
 
         if not rows:
@@ -45,11 +40,12 @@ class EventsShowCommand:
                 state="WARN",
                 message="no runtime events found",
                 metadata={"Run": "wl start"},
+                payload=[],
             )
 
         lines = [
             ResultLine(
-                state="PASS" if row.get("severity") != "ERROR" else "FAIL",
+                state="FAIL" if row.get("severity") == "ERROR" else "PASS",
                 title=f"{row.get('timestamp')} {row.get('type')}",
                 detail=f"{row.get('source')} {row.get('severity')}",
             )
@@ -63,6 +59,24 @@ class EventsShowCommand:
             state="FAIL" if failed else "PASS",
             message="events loaded",
             lines=lines,
-            metadata={"Limit": str(limit), "Type": str(event_type or "*")},
+            metadata={"Limit": str(limit), "Type": event_type or "*"},
             payload=rows,
+        )
+
+
+class EventsClearCommand:
+    spec = CommandSpec(
+        name="events.clear",
+        namespace="events",
+        description="Clear runtime event log",
+    )
+
+    def run(self, context: RuntimeContext, args: list[str]) -> CommandResult:
+        count = EventBus(context).clear()
+
+        return CommandResult(
+            title="Wonderland Runtime Events",
+            state="PASS",
+            message=f"cleared {count} event(s)",
+            payload={"cleared": count},
         )
