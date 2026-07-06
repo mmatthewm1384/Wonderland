@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+cd "$WL_HOME"
+
+mkdir -p \
+  builder/python/wlcli/wlcli/core/commands \
+  builder/python/wlcli/wlcli/core/runtime \
+  builder/python/wlcli/wlcli/core/graph \
+  builder/python/wlcli/wlcli/core/report \
+  builder/python/wlcli/wlcli/core/state \
+  builder/python/wlcli/wlcli/core/ui \
+  builder/python/wlcli/wlcli/core/doctor
+
+for d in \
+  builder/python/wlcli/wlcli/core \
+  builder/python/wlcli/wlcli/core/commands \
+  builder/python/wlcli/wlcli/core/runtime \
+  builder/python/wlcli/wlcli/core/graph \
+  builder/python/wlcli/wlcli/core/report \
+  builder/python/wlcli/wlcli/core/state \
+  builder/python/wlcli/wlcli/core/ui \
+  builder/python/wlcli/wlcli/core/doctor
+do
+  touch "$d/__init__.py"
+done
+
+cat > builder/python/wlcli/wlcli/core/README.md <<'MD'
+# wlcli.core
+
+Internal implementation namespace for Runtime Engine 1.0 Beta.
+
+Rules:
+
+- New implementation code goes under `wlcli.core`.
+- Top-level modules remain compatibility shims.
+- Do not create new top-level module/package name collisions.
+- Python orchestrates.
+- Bash executes platform-specific operations.
+- Verify changes with `wl runtime verify-python`.
+MD
+
+echo "RESULT PASS"
