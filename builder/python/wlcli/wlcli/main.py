@@ -9,7 +9,8 @@ from pathlib import Path
 from wlcli.ui import logo, ok, warn, fail, run_step
 from wlcli.graph import BootGraph
 from wlcli.registry import command_map, print_commands, print_commands_json, print_help
-from wlcli.report import boot_report, graph_clean, graph_current, graph_logs, graph_open_log, graph_state
+from wlcli.renderer import render_report
+from wlcli.report import build_boot_report, build_graph_current, graph_clean, graph_logs, graph_open_log, graph_state
 import shutil
 
 
@@ -203,9 +204,9 @@ def main() -> int:
         print_commands_json(wl_root())
         return 0
     if command == "boot-report":
-        return boot_report(wl_root())
+        return render_report(build_boot_report(wl_root()))
     if command == "graph-current":
-        return graph_current(wl_root())
+        return render_report(build_graph_current(wl_root()))
     if command == "graph-state":
         return graph_state(wl_root())
     if command == "graph-logs":
