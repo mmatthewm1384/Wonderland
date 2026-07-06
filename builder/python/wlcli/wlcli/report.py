@@ -91,3 +91,80 @@ def graph_clean(root: Path, log_dir: Path) -> int:
 
     print(f"Removed {removed} graph artifact(s)")
     return 0
+
+
+def graph_open_log(log_dir: Path, stage: str | None) -> int:
+    if not stage:
+        fail("usage: wl graph-open-log <stage>")
+        return 1
+
+    candidates = [
+        log_dir / f"wl-stage-{stage}.log",
+        log_dir / f"wl-stage-{stage}-health.log",
+    ]
+
+    existing = [p for p in candidates if p.exists()]
+    if not existing:
+        warn(f"no log found for stage: {stage}")
+        print(f"searched: {', '.join(str(p) for p in candidates)}")
+        return 1
+
+    for path in existing:
+        print(f"== {path} ==")
+        print(path.read_text(errors="replace"), end="")
+        if not str(path).endswith("\n"):
+            print()
+
+    return 0
+
+
+def graph_current(root: Path) -> int:
+    path = graph_state_path(root)
+    if not path.exists():
+        warn(f"boot graph state missing: {path}")
+        print("Run: wl start")
+        return 1
+
+    data = json.loads(path.read_text())
+    graph = data.get("graph", "unknown")
+    updated_at = data.get("updated_at", "unknown")
+    results = data.get("results", [])
+
+    print("Wonderland Current Graph\n")
+    print(f"Graph   {graph}")
+    print(f"Updated {updated_at}\n")
+
+    failed = False
+    warned = False
+
+    for item in results:
+        state = item.get("state", "UNKNOWN")
+        title = item.get("title", item.get("id", "unknown"))
+        duration = float(item.get("duration", 0.0))
+
+        if state == "PASS":
+            color = GREEN
+        elif state == "WARN":
+            color = YELLOW
+            warned = True
+        else:
+            color = RED
+            failed = True
+
+        print(f"{color}{state:<5}{RESET} {title:<26} {DIM}{duration:.2f}s{RESET}")
+
+    print()
+
+    if failed:
+        fail("current graph degraded")
+        print("RESULT FAIL")
+        return 1
+
+    if warned:
+        warn("current graph has warnings")
+        print("RESULT WARN")
+        return 0
+
+    ok("current graph healthy")
+    print("RESULT PASS")
+    return 0
