@@ -61,6 +61,10 @@ def normalize_command(command: str, args: list[str]) -> tuple[str, list[str]]:
         rest = args[1:] if args else []
         if sub in ("show", "list"):
             return "lifecycle-show", rest
+        if sub == "graphs":
+            return "lifecycle-graphs", rest
+        if sub == "graph":
+            return "lifecycle-graph", rest
         return f"lifecycle-{sub}", rest
 
     if command == "events":
