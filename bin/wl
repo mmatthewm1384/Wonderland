@@ -202,6 +202,13 @@ cmd="${1:-help}"
 shift || true
 
 case "$cmd" in
+  start|stop|status|doctor|graph|graph-json|boot-report|commands|commands-json|self-test|help)
+    exec "$WL_ROOT/bin/wlcli" "$cmd" "$@"
+    ;;
+esac
+
+
+case "$cmd" in
   start) start_runtime "$@" ;;
   services)
     if [[ -x "$WL_ROOT/bin/wl-services" ]]; then

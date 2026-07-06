@@ -10,6 +10,7 @@ from wlcli.ui import logo, ok, warn, fail, run_step
 from wlcli.graph import BootGraph
 from wlcli.registry import command_map, print_commands, print_commands_json, print_help
 from wlcli.report import boot_report
+import shutil
 
 
 def wl_root() -> Path:
@@ -133,6 +134,42 @@ def dispatch_registered(command: str, args: list[str]) -> int:
     return subprocess.run([str(target), *args], env=env(), check=False).returncode
 
 
+
+def self_test() -> int:
+    root = wl_root()
+    failed = False
+
+    logo()
+
+    wl = root / "bin/wl"
+    wlcli = root / "bin/wlcli"
+
+    checks = [
+        ("bin/wl executable", wl.exists() and os.access(wl, os.X_OK)),
+        ("bin/wlcli executable", wlcli.exists() and os.access(wlcli, os.X_OK)),
+        ("Boot Graph module", (root / "builder/python/wlcli/wlcli/graph.py").exists()),
+        ("Registry module", (root / "builder/python/wlcli/wlcli/registry.py").exists()),
+        ("Report module", (root / "builder/python/wlcli/wlcli/report.py").exists()),
+    ]
+
+    text = wl.read_text(errors="replace") if wl.exists() else ""
+    checks.append(("wl start routed to wlcli", 'start|stop|status|doctor|graph|boot-report|commands|commands-json|help)' in text))
+    checks.append(("legacy start_runtime bypass guarded", 'exec "$WL_ROOT/bin/wlcli" "$cmd" "$@"' in text))
+
+    for name, passed in checks:
+        if passed:
+            ok(name)
+        else:
+            fail(name)
+            failed = True
+
+    if failed:
+        print("RESULT FAIL")
+        return 1
+
+    print("RESULT PASS")
+    return 0
+
 def main() -> int:
     parser = argparse.ArgumentParser(prog="wlcli", add_help=False)
     parser.add_argument("command", nargs="?", default="help")
@@ -155,6 +192,8 @@ def main() -> int:
         return 0
     if command == "boot-report":
         return boot_report(wl_root())
+    if command == "self-test":
+        return self_test()
     if command == "start":
         return start()
     if command == "stop":
@@ -172,6 +211,10 @@ def main() -> int:
             deps = ", ".join(stage.depends_on) if stage.depends_on else "-"
             required = "required" if stage.required else "optional"
             print(f"{stage.id:<12} {stage.title:<24} deps={deps:<16} {required}")
+        return 0
+    if command == "graph-json":
+        graph = graph_engine()
+        print(graph.graph_json(graph.start_stages()))
         return 0
 
     return dispatch_registered(command, args)
