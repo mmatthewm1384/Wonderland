@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import json
-
 from wlcli.core.commands.base import CommandSpec
 from wlcli.output import CommandResult, ResultLine
 from wlcli.runtime.context import RuntimeContext
@@ -70,6 +68,6 @@ class MetricsJsonCommand:
         return CommandResult(
             title="Wonderland Runtime Metrics JSON",
             state="PASS",
-            message=json.dumps(build_metrics(context.root), indent=2),
+            payload=build_metrics(context.root),
             metadata={"format": "json-payload"},
         )

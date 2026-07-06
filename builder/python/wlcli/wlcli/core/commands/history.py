@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import json
-
 from wlcli.core.commands.base import CommandSpec
 from wlcli.output import CommandResult, ResultLine
 from wlcli.runtime.context import RuntimeContext
@@ -76,6 +74,6 @@ class HistoryJsonCommand:
         return CommandResult(
             title="Wonderland Runtime History JSON",
             state="PASS",
-            message=json.dumps(rows, indent=2),
+            payload=rows,
             metadata={"format": "json-payload"},
         )
