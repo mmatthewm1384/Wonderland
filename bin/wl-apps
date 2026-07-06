@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cmd="${1:-status}"
+
+case "$cmd" in
+  start)
+    echo "Wonderland graphical shell start placeholder"
+    exit 0
+    ;;
+  stop)
+    echo "Wonderland graphical shell stop placeholder"
+    exit 0
+    ;;
+  status)
+    echo "Wonderland graphical shell status placeholder"
+    exit 0
+    ;;
+  *)
+    echo "Usage: wl-apps {start|stop|status}"
+    exit 1
+    ;;
+esac

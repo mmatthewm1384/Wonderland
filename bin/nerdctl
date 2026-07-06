@@ -1,2 +1,12 @@
 #!/usr/bin/env bash
-exec lima nerdctl "$@"
+set -euo pipefail
+
+WL_RUNTIME_INSTANCE="${WL_RUNTIME_INSTANCE:-wonderland-rootless}"
+LIMA_INSTANCE="${LIMA_INSTANCE:-$WL_RUNTIME_INSTANCE}"
+
+if command -v limactl >/dev/null 2>&1; then
+  exec limactl shell "$LIMA_INSTANCE" nerdctl "$@"
+fi
+
+echo "FAIL limactl not found" >&2
+exit 1

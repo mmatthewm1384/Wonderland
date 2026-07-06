@@ -18,8 +18,37 @@ wl_service_running() {
   LIMA_INSTANCE="$WL_RUNTIME_INSTANCE" nerdctl ps --format '{{.Names}}' 2>/dev/null | grep -qx "$svc"
 }
 
+wl_service_exists() {
+  local svc="$1"
+  LIMA_INSTANCE="$WL_RUNTIME_INSTANCE" nerdctl ps -a --format '{{.Names}}' 2>/dev/null | grep -qx "$svc"
+}
+
+wl_service_create() {
+  local svc="$1"
+
+  case "$svc" in
+    wl-loki)
+      LIMA_INSTANCE="$WL_RUNTIME_INSTANCE" nerdctl run -d \
+        --name wl-loki \
+        --restart unless-stopped \
+        -p 3100:3100 \
+        grafana/loki:2.9.8 \
+        -config.file=/etc/loki/local-config.yaml \
+        >/dev/null
+      ;;
+    *)
+      return 0
+      ;;
+  esac
+}
+
 wl_service_start() {
   local svc="$1"
+
+  if ! wl_service_exists "$svc"; then
+    wl_service_create "$svc" || return 1
+  fi
+
   LIMA_INSTANCE="$WL_RUNTIME_INSTANCE" nerdctl start "$svc" >/dev/null 2>&1 || true
 }
 
