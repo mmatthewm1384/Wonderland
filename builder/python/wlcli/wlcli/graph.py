@@ -19,6 +19,7 @@ class Stage:
     depends_on: list[str] = field(default_factory=list)
     required: bool = True
     timeout: int = 60
+    health: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -42,10 +43,34 @@ class BootGraph:
 
     def start_stages(self) -> list[Stage]:
         return [
-            Stage("runtime", "Rootless Runtime", [self.bin("wl-rootless"), "start"]),
-            Stage("services", "Core Services", [self.bin("wl-services"), "start"], ["runtime"]),
-            Stage("apps", "Graphical Shell", [self.bin("wl-apps"), "start"], ["services"], required=False),
-            Stage("verify", "Runtime Verification", [self.bin("wlcli"), "status"], ["services"], required=True),
+            Stage(
+                "runtime",
+                "Rootless Runtime",
+                [self.bin("wl-rootless"), "start"],
+                health=[self.bin("wl-rootless"), "status"],
+            ),
+            Stage(
+                "services",
+                "Core Services",
+                [self.bin("wl-services"), "start"],
+                ["runtime"],
+                health=[self.bin("wl-services"), "status"],
+            ),
+            Stage(
+                "apps",
+                "Graphical Shell",
+                [self.bin("wl-apps"), "start"],
+                ["services"],
+                required=False,
+                health=[self.bin("wl-apps"), "status"],
+            ),
+            Stage(
+                "verify",
+                "Runtime Verification",
+                [self.bin("wlcli"), "status"],
+                ["services"],
+                required=True,
+            ),
         ]
 
     def stop_stages(self) -> list[Stage]:
@@ -154,6 +179,30 @@ class BootGraph:
                 code = 127
 
         duration = time.time() - started
+        if code == 0 and stage.health:
+            health_log = self.log_dir / f"wl-stage-{safe}-health.log"
+            with health_log.open("w") as f:
+                try:
+                    health_proc = subprocess.run(
+                        stage.health,
+                        stdout=f,
+                        stderr=subprocess.STDOUT,
+                        env=env,
+                        timeout=min(stage.timeout, 30),
+                        check=False,
+                    )
+                    if health_proc.returncode != 0:
+                        code = health_proc.returncode
+                        log = health_log
+                except subprocess.TimeoutExpired:
+                    f.write("\nHEALTH TIMEOUT\n")
+                    code = 124
+                    log = health_log
+                except FileNotFoundError as e:
+                    f.write(f"\nMISSING health command: {e}\n")
+                    code = 127
+                    log = health_log
+
         state = "PASS" if code == 0 else ("WARN" if not stage.required else "FAIL")
 
         return StageResult(
