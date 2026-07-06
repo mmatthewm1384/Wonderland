@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from wlcli.core.commands.events import (
     EventsClearCommand,
+    EventsDoctorCommand,
     EventsMetricsCommand,
     EventsReplayCommand,
     EventsShowCommand,
@@ -24,6 +25,7 @@ from wlcli.core.commands.runtime import RuntimeBetaCommand, RuntimeContextComman
 COMMANDS = {
     "events.show": EventsShowCommand(),
     "events.clear": EventsClearCommand(),
+    "events.doctor": EventsDoctorCommand(),
     "events.replay": EventsReplayCommand(),
     "events.tail": EventsTailCommand(),
     "events.validate": EventsValidateCommand(),
