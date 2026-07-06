@@ -9,6 +9,8 @@ from pathlib import Path
 
 from wlcli.ui import logo, ok, warn, fail, run_step
 from wlcli.graph import BootGraph
+from wlcli.history_cmd import history, history_json
+from wlcli.metrics_cmd import metrics, metrics_json
 from wlcli.doctor import graph_doctor
 from wlcli.registry import command_map, print_commands, print_commands_json, print_help
 from wlcli.renderer import render_report
@@ -204,6 +206,14 @@ def main() -> int:
     if command == "commands-json":
         print_commands_json(wl_root())
         return 0
+    if command == "history":
+        return history(wl_root(), args)
+    if command == "history-json":
+        return history_json(wl_root(), args)
+    if command == "metrics":
+        return metrics(wl_root())
+    if command == "metrics-json":
+        return metrics_json(wl_root())
     if command == "boot-report":
         return render_report(build_boot_report(wl_root()))
     if command == "boot-report-json":
