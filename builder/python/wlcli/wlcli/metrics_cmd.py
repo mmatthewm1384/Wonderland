@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 from wlcli.state.metrics import build_metrics
-from wlcli.ui import BOLD, CYAN, DIM, GREEN, RED, RESET, YELLOW, ok, warn
+from wlcli.ui import BOLD, CYAN, GREEN, RESET, YELLOW, ok, warn
 
 
 def metrics(root: Path) -> int:
