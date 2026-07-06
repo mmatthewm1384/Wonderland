@@ -3,7 +3,7 @@ from __future__ import annotations
 from wlcli.core.commands.base import CommandSpec
 from wlcli.core.events import EventBus
 from wlcli.output import CommandResult, ResultLine
-from wlcli.runtime.context import RuntimeContext
+from wlcli.core.runtime.context import RuntimeContext
 
 
 class EventsShowCommand:

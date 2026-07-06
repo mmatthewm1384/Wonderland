@@ -13,6 +13,7 @@ def normalize_command(command: str, args: list[str]) -> tuple[str, list[str]]:
             "doctor": "doctor",
             "self-test": "self-test",
             "verify-python": "runtime-verify-python",
+            "verify-architecture": "runtime-verify-architecture",
             "beta": "runtime-beta",
             "beta-verify": "runtime-beta-verify",
             "beta-bootstrap": "runtime-beta-bootstrap",
@@ -52,6 +53,16 @@ def normalize_command(command: str, args: list[str]) -> tuple[str, list[str]]:
             return "history-json", [x for x in rest if x != "--json"]
 
         return f"history-{sub}", rest
+
+
+    if command == "events":
+        sub = args[0] if args else "show"
+        rest = args[1:] if args else []
+
+        if sub in ("show", "list"):
+            return "events-show", rest
+
+        return f"events-{sub}", rest
 
     if command == "metrics":
         sub = args[0] if args else "show"
