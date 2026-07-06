@@ -9,6 +9,7 @@ from pathlib import Path
 from wlcli.ui import logo, ok, warn, fail, run_step
 from wlcli.graph import BootGraph
 from wlcli.registry import command_map, print_commands, print_commands_json, print_help
+from wlcli.report import boot_report
 
 
 def wl_root() -> Path:
@@ -152,6 +153,8 @@ def main() -> int:
     if command == "commands-json":
         print_commands_json(wl_root())
         return 0
+    if command == "boot-report":
+        return boot_report(wl_root())
     if command == "start":
         return start()
     if command == "stop":

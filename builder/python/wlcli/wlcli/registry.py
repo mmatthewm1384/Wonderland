@@ -24,6 +24,7 @@ def discover(root: Path) -> list[Command]:
         Command("palette", "Interface", "Show Wonderland color palette"),
         Command("commands", "Engineering", "Show command registry table"),
         Command("commands-json", "Engineering", "Show command registry as JSON"),
+        Command("boot-report", "Runtime", "Show the last Boot Graph report"),
         Command("services", "Runtime", "Manage Wonderland services", "wl-services"),
         Command("rootless", "Runtime", "Manage Wonderland rootless runtime", "wl-rootless"),
         Command("apps", "Applications", "Manage Wonderland graphical app lifecycle", "wl-apps"),
