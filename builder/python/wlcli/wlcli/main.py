@@ -211,10 +211,13 @@ def main() -> int:
     elif command.startswith("metrics-"):
         object_key = command.replace("metrics-", "metrics.", 1)
 
+    json_mode = "--json" in args
+    clean_args = [arg for arg in args if arg != "--json"]
+
     object_handler = get_command(object_key)
     if object_handler is not None:
-        result = object_handler.run(RuntimeContext.from_env(), args)
-        if object_key.endswith(".json"):
+        result = object_handler.run(RuntimeContext.from_env(), clean_args)
+        if json_mode or object_key.endswith(".json"):
             return render_json_result(result)
         return render_report(result)
 
