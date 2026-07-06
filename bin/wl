@@ -202,7 +202,7 @@ cmd="${1:-help}"
 shift || true
 
 case "$cmd" in
-  start|stop|status|doctor|graph|graph-json|boot-report|commands|commands-json|self-test|help)
+  start|stop|status|doctor|graph|graph-json|graph-validate|boot-report|commands|commands-json|self-test|help)
     exec "$WL_ROOT/bin/wlcli" "$cmd" "$@"
     ;;
 esac
