@@ -205,3 +205,104 @@ class EventsValidateCommand:
                 "errors": sum(1 for line in lines if line.state == "FAIL"),
             },
         )
+
+
+
+class EventsDoctorCommand:
+    spec = CommandSpec("events.doctor", "events", "Run runtime event bus diagnostics")
+
+    def run(self, context: RuntimeContext, args: list[str]) -> CommandResult:
+        bus = EventBus(context)
+        rows = bus.read_all()
+
+        lines: list[ResultLine] = []
+        failed = False
+        warned = False
+
+        event_path = context.state_file("runtime-events.jsonl")
+        history_path = context.state_file("runtime-history.events.jsonl")
+        metrics_path = context.state_file("runtime-metrics.events.json")
+
+        if event_path.exists():
+            lines.append(ResultLine("PASS", "Event log", str(event_path)))
+        else:
+            warned = True
+            lines.append(ResultLine("WARN", "Event log", f"missing: {event_path}"))
+
+        if not rows:
+            warned = True
+            lines.append(ResultLine("WARN", "Events", "no events recorded"))
+        else:
+            lines.append(ResultLine("PASS", "Events", f"{len(rows)} event(s) recorded"))
+
+        type_counts: dict[str, int] = {}
+        severity_counts: dict[str, int] = {}
+        schema_counts: dict[str, int] = {}
+
+        validation_errors = 0
+
+        for idx, row in enumerate(rows, start=1):
+            event_type = str(row.get("type", ""))
+            severity = str(row.get("severity", "UNKNOWN"))
+            schema = str(row.get("schema", "unknown"))
+
+            type_counts[event_type] = type_counts.get(event_type, 0) + 1
+            severity_counts[severity] = severity_counts.get(severity, 0) + 1
+            schema_counts[schema] = schema_counts.get(schema, 0) + 1
+
+            errors = validate_event_shape(event_type, dict(row.get("payload", {})))
+            if errors:
+                failed = True
+                validation_errors += 1
+                lines.append(ResultLine("FAIL", f"Invalid event {idx}", "; ".join(errors)))
+
+        if rows and validation_errors == 0:
+            lines.append(ResultLine("PASS", "Schema validation", "all events valid"))
+
+        for name, count in sorted(type_counts.items()):
+            lines.append(ResultLine("PASS", f"type:{name}", str(count)))
+
+        for name, count in sorted(severity_counts.items()):
+            state = "WARN" if name == "ERROR" and count else "PASS"
+            if state == "WARN":
+                warned = True
+            lines.append(ResultLine(state, f"severity:{name}", str(count)))
+
+        for name, count in sorted(schema_counts.items()):
+            state = "PASS" if name == "1" else "WARN"
+            if state == "WARN":
+                warned = True
+            lines.append(ResultLine(state, f"schema:{name}", str(count)))
+
+        if history_path.exists():
+            lines.append(ResultLine("PASS", "History subscriber artifact", str(history_path)))
+        else:
+            warned = True
+            lines.append(ResultLine("WARN", "History subscriber artifact", f"missing: {history_path}"))
+
+        if metrics_path.exists():
+            lines.append(ResultLine("PASS", "Metrics subscriber artifact", str(metrics_path)))
+        else:
+            warned = True
+            lines.append(ResultLine("WARN", "Metrics subscriber artifact", f"missing: {metrics_path}"))
+
+        state = "FAIL" if failed else "WARN" if warned else "PASS"
+
+        return CommandResult(
+            title="Wonderland Runtime Event Doctor",
+            state=state,
+            message="event doctor failed" if failed else "event doctor has warnings" if warned else "event bus healthy",
+            lines=lines,
+            payload={
+                "event_count": len(rows),
+                "validation_errors": validation_errors,
+                "types": type_counts,
+                "severities": severity_counts,
+                "schemas": schema_counts,
+                "artifacts": {
+                    "events": str(event_path),
+                    "history": str(history_path),
+                    "metrics": str(metrics_path),
+                },
+            },
+        )
