@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from wlcli.models import Report, ReportLine
+from wlcli.output import CommandResult, ResultLine
 from wlcli.ui import fail, warn
 
 
@@ -13,6 +13,7 @@ def graph_state_path(root: Path) -> Path:
 
 def load_graph_state(root: Path) -> tuple[dict, str | None]:
     path = graph_state_path(root)
+
     if not path.exists():
         return {}, f"boot graph state missing: {path}"
 
@@ -22,10 +23,11 @@ def load_graph_state(root: Path) -> tuple[dict, str | None]:
         return {}, f"boot graph state invalid JSON: {e}"
 
 
-def build_boot_report(root: Path) -> Report:
+def build_boot_report(root: Path) -> CommandResult:
     data, error = load_graph_state(root)
+
     if error:
-        return Report(
+        return CommandResult(
             title="Wonderland Boot Report",
             state="FAIL",
             message=error,
@@ -33,20 +35,21 @@ def build_boot_report(root: Path) -> Report:
         )
 
     results = data.get("results", [])
-    lines: list[ReportLine] = []
+    lines: list[ResultLine] = []
 
     failed = False
     warned = False
 
     for item in results:
         state = item.get("state", "UNKNOWN")
+
         if state == "FAIL":
             failed = True
         elif state == "WARN":
             warned = True
 
         lines.append(
-            ReportLine(
+            ResultLine(
                 state=state,
                 title=item.get("title", item.get("id", "unknown")),
                 duration=float(item.get("duration", 0.0)),
@@ -56,7 +59,7 @@ def build_boot_report(root: Path) -> Report:
 
     overall = "FAIL" if failed else "WARN" if warned else "PASS"
 
-    return Report(
+    return CommandResult(
         title="Wonderland Boot Report",
         state=overall,
         lines=lines,
@@ -69,13 +72,15 @@ def build_boot_report(root: Path) -> Report:
         else "last boot graph has warnings"
         if warned
         else "last boot graph healthy",
+        payload=data,
     )
 
 
-def build_graph_current(root: Path) -> Report:
+def build_graph_current(root: Path) -> CommandResult:
     data, error = load_graph_state(root)
+
     if error:
-        return Report(
+        return CommandResult(
             title="Wonderland Current Graph",
             state="FAIL",
             message=error,
@@ -83,20 +88,21 @@ def build_graph_current(root: Path) -> Report:
         )
 
     results = data.get("results", [])
-    lines: list[ReportLine] = []
+    lines: list[ResultLine] = []
 
     failed = False
     warned = False
 
     for item in results:
         state = item.get("state", "UNKNOWN")
+
         if state == "FAIL":
             failed = True
         elif state == "WARN":
             warned = True
 
         lines.append(
-            ReportLine(
+            ResultLine(
                 state=state,
                 title=item.get("title", item.get("id", "unknown")),
                 duration=float(item.get("duration", 0.0)),
@@ -105,7 +111,7 @@ def build_graph_current(root: Path) -> Report:
 
     overall = "FAIL" if failed else "WARN" if warned else "PASS"
 
-    return Report(
+    return CommandResult(
         title="Wonderland Current Graph",
         state=overall,
         lines=lines,
@@ -118,6 +124,7 @@ def build_graph_current(root: Path) -> Report:
         else "current graph has warnings"
         if warned
         else "current graph healthy",
+        payload=data,
     )
 
 
@@ -129,14 +136,17 @@ def graph_logs(log_dir: Path) -> int:
         return 1
 
     print("Wonderland Graph Logs\n")
+
     for path in logs[:30]:
         size = path.stat().st_size
         print(f"{path.name:<36} {size:>8} bytes  {path}")
+
     return 0
 
 
 def graph_state(root: Path) -> int:
     path = graph_state_path(root)
+
     if not path.exists():
         warn(f"boot graph state missing: {path}")
         return 1
@@ -172,6 +182,7 @@ def graph_open_log(log_dir: Path, stage: str | None) -> int:
     ]
 
     existing = [p for p in candidates if p.exists()]
+
     if not existing:
         warn(f"no log found for stage: {stage}")
         print(f"searched: {', '.join(str(p) for p in candidates)}")
