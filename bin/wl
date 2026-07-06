@@ -202,9 +202,84 @@ cmd="${1:-help}"
 shift || true
 
 case "$cmd" in
+  architecture)
+    if [ "${1:-}" = "architecture" ]; then
+      shift
+    fi
+    exec "$WL_ROOT/bin/wl-architecture" "$@"
+    ;;
+  repository)
+    if [ "${1:-}" = "repository" ]; then
+      shift
+    fi
+    exec "$WL_ROOT/bin/wl-repository" "$@"
+    ;;
+      platform-0)
+        exec "$WL_ROOT/bin/wl-platform-0" "$@"
+        ;;
+      platform-0-status)
+        exec "$WL_ROOT/bin/wl-platform-0-status" "$@"
+        ;;
+      platform-0-doctor)
+        exec "$WL_ROOT/bin/wl-platform-0-doctor" "$@"
+        ;;
+      platform-0-verify)
+        exec "$WL_ROOT/bin/wl-platform-0-verify" "$@"
+        ;;
+      philosophy)
+        exec "$WL_ROOT/bin/wl-philosophy" "$@"
+        ;;
+      north-star)
+        exec "$WL_ROOT/bin/wl-north-star" "$@"
+        ;;
+      craftsmanship)
+        exec "$WL_ROOT/bin/wl-craftsmanship" "$@"
+        ;;
+      governance)
+        exec "$WL_ROOT/bin/wl-governance" "$@"
+        ;;
+      review)
+        exec "$WL_ROOT/bin/wl-review" "$@"
+        ;;
+      manifesto)
+        exec "$WL_ROOT/bin/wl-manifesto" "$@"
+        ;;
+      constitution)
+        exec "$WL_ROOT/bin/wl-constitution" "$@"
+        ;;
+      design-system)
+        exec "$WL_ROOT/bin/wl-design-system" "$@"
+        ;;
+      platform-0-doctor)
+        exec "$WL_ROOT/bin/wl-platform-0-doctor" "$@"
+        ;;
+      philosophy)
+        exec "$WL_ROOT/bin/wl-philosophy" "$@"
+        ;;
+      north-star)
+        exec "$WL_ROOT/bin/wl-north-star" "$@"
+        ;;
+      craftsmanship)
+        exec "$WL_ROOT/bin/wl-craftsmanship" "$@"
+        ;;
+      manifesto)
+        exec "$WL_ROOT/bin/wl-manifesto" "$@"
+        ;;
+      constitution)
+        exec "$WL_ROOT/bin/wl-constitution" "$@"
+        ;;
+      design-system)
+        exec "$WL_ROOT/bin/wl-design-system" "$@"
+        ;;
+      platform-0-verify)
+        exec "$WL_ROOT/bin/wl-platform-0-verify" "$@"
+        ;;
   start|stop|status|doctor|graph|graph-json|graph-validate|graph-doctor|graph-current|graph-current-json|graph-state|graph-logs|graph-open-log|graph-clean|boot-report|boot-report-json|commands|commands-json|self-test|help)
     exec "$WL_ROOT/bin/wlcli" "$cmd" "$@"
     ;;
+      mirror)
+        exec "$WL_ROOT/bin/wl-mirror" "$@"
+        ;;
 esac
 
 
