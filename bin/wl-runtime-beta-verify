@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+cd "$WL_HOME"
+
+export PYTHONPATH="$WL_HOME/builder/python/wlcli${PYTHONPATH:+:$PYTHONPATH}"
+
+python3 - <<'PY'
+from pathlib import Path
+import py_compile
+import sys
+
+root = Path("builder/python/wlcli")
+pkg = root / "wlcli"
+
+required = [
+    pkg / "core/__init__.py",
+    pkg / "core/architecture.py",
+    pkg / "core/commands/__init__.py",
+    pkg / "core/runtime/__init__.py",
+    pkg / "core/graph/__init__.py",
+    pkg / "core/report/__init__.py",
+    pkg / "core/state/__init__.py",
+    pkg / "core/ui/__init__.py",
+    pkg / "core/doctor/__init__.py",
+]
+
+approved_shadow_pairs = {
+    "graph",
+    "report",
+    "ui",
+}
+
+failed = False
+
+print("== Runtime Engine 1.0 Beta Verify ==")
+
+for path in required:
+    if path.exists():
+        print(f"PASS {path}")
+    else:
+        print(f"FAIL missing {path}")
+        failed = True
+
+for name in approved_shadow_pairs:
+    mod = pkg / f"{name}.py"
+    package = pkg / name / "__init__.py"
+    if package.exists() and not mod.exists():
+        print(f"WARN package exists without compatibility module: wlcli.{name}")
+    elif package.exists() and mod.exists():
+        print(f"PASS compatibility shadow approved: wlcli.{name}")
+
+for package_init in pkg.glob("*/__init__.py"):
+    name = package_init.parent.name
+    mod = pkg / f"{name}.py"
+    if mod.exists() and name not in approved_shadow_pairs:
+        print(f"FAIL unapproved module/package shadow: wlcli.{name}")
+        failed = True
+
+count = 0
+for f in sorted(root.rglob("*.py")):
+    try:
+        py_compile.compile(str(f), doraise=True)
+        count += 1
+    except Exception as e:
+        print(f"FAIL compile {f}")
+        print(e)
+        failed = True
+
+print()
+print(f"Compiled {count} module(s)")
+
+if failed:
+    print("RESULT FAIL")
+    sys.exit(1)
+
+print("RESULT PASS")
+PY
