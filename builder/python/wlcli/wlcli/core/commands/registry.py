@@ -5,14 +5,23 @@ from wlcli.core.commands.graph import (
     GraphDoctorCommand,
     GraphValidateCommand,
 )
+from wlcli.core.commands.history import HistoryJsonCommand, HistoryShowCommand
+from wlcli.core.commands.metrics import MetricsJsonCommand, MetricsShowCommand
 from wlcli.core.commands.runtime import RuntimeBetaCommand, RuntimeStatusCommand
 
 COMMANDS = {
     "runtime.status": RuntimeStatusCommand(),
     "runtime.beta": RuntimeBetaCommand(),
+
     "graph.validate": GraphValidateCommand(),
     "graph.current": GraphCurrentCommand(),
     "graph.doctor": GraphDoctorCommand(),
+
+    "history.show": HistoryShowCommand(),
+    "history.json": HistoryJsonCommand(),
+
+    "metrics.show": MetricsShowCommand(),
+    "metrics.json": MetricsJsonCommand(),
 }
 
 

@@ -44,7 +44,7 @@ def normalize_command(command: str, args: list[str]) -> tuple[str, list[str]]:
         rest = args[1:] if args else []
 
         if sub in ("show", "list"):
-            return "history", rest
+            return "history-show", rest
         if sub == "failures":
             return "history", ["--failures", *rest]
         if sub in ("json", "export"):
@@ -57,7 +57,7 @@ def normalize_command(command: str, args: list[str]) -> tuple[str, list[str]]:
         rest = args[1:] if args else []
 
         if sub in ("show", "summary"):
-            return "metrics", rest
+            return "metrics-show", rest
         if sub in ("json", "export"):
             return "metrics-json", [x for x in rest if x != "--json"]
 
