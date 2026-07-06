@@ -16,7 +16,11 @@ class Command:
 
 def discover(root: Path) -> list[Command]:
     commands = [
-        Command("start", "Runtime", "Start Wonderland through the Boot Graph"),
+        Command("runtime", "Runtime", "Namespace: runtime start|stop|status|doctor"),
+        Command("graph", "Runtime", "Namespace: graph show|validate|current|logs|doctor"),
+        Command("history", "Runtime", "Namespace: history show|failures|export"),
+        Command("metrics", "Runtime", "Namespace: metrics show|export"),
+        Command("start", "Runtime", "Alias: start Wonderland through the Boot Graph"),
         Command("stop", "Runtime", "Stop Wonderland through the Boot Graph"),
         Command("status", "Runtime", "Show runtime and service status"),
         Command("graph", "Runtime", "Show the START Boot Graph"),

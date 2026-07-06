@@ -4,6 +4,7 @@ import argparse
 import os
 import subprocess
 import sys
+from wlcli.namespaces import normalize_command
 from pathlib import Path
 
 from wlcli.ui import logo, ok, warn, fail, run_step
@@ -160,7 +161,7 @@ def self_test() -> int:
     has_wlcli_exec = 'exec "$WL_ROOT/bin/wlcli" "$cmd" "$@"' in text
 
     lifecycle_commands = [
-        "start", "stop", "status", "doctor",
+        "runtime", "start", "stop", "status", "doctor",
         "graph", "graph-json", "graph-validate", "graph-doctor", "graph-current", "graph-current-json", "graph-state", "graph-logs", "graph-open-log", "graph-clean", "boot-report", "boot-report-json",
         "commands", "commands-json", "self-test", "help",
     ]
@@ -192,8 +193,7 @@ def main() -> int:
 
     os.environ.update(env())
 
-    command = ns.command
-    args = ns.args
+    command, args = normalize_command(ns.command, ns.args)
 
     if command in ("-h", "--help", "help"):
         print_help(wl_root())
