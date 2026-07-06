@@ -10,7 +10,7 @@ from pathlib import Path
 
 from wlcli.core.ui import GREEN, RED, YELLOW, CYAN, PURPLE, DIM, RESET, BOLD, fail, ok, warn
 from wlcli.core.state.history import append_history
-from wlcli.core.events import EventBus
+from wlcli.core.events import EventBus, default_subscribers
 from wlcli.core.runtime.context import RuntimeContext
 
 
@@ -192,6 +192,9 @@ class BootGraph:
 
         total_start = time.time()
         event_bus = EventBus(RuntimeContext.from_env())
+        for subscriber in default_subscribers():
+            event_bus.register(subscriber)
+
         event_bus.emit(
             "graph.started",
             source="boot-graph",

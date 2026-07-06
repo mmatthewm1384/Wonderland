@@ -25,6 +25,10 @@ class EventBus:
         self.context = context
         self.path = context.state_file("runtime-events.jsonl")
         self.path.parent.mkdir(parents=True, exist_ok=True)
+        self.subscribers = []
+
+    def register(self, subscriber) -> None:
+        self.subscribers.append(subscriber)
 
     def emit(
         self,
@@ -43,12 +47,22 @@ class EventBus:
             payload=payload or {},
         )
 
-        with self.path.open("a") as f:
-            f.write(json.dumps(asdict(event), sort_keys=True) + "\n")
+        self._append(event)
+
+        for subscriber in self.subscribers:
+            subscriber.handle(self.context, event)
 
         return event
 
+    def _append(self, event: RuntimeEvent) -> None:
+        with self.path.open("a") as f:
+            f.write(json.dumps(asdict(event), sort_keys=True) + "\n")
+
     def read(self, limit: int = 50, event_type: str | None = None) -> list[dict]:
+        rows = self.read_all(event_type=event_type)
+        return rows[-limit:]
+
+    def read_all(self, event_type: str | None = None) -> list[dict]:
         if not self.path.exists():
             return []
 
@@ -57,6 +71,7 @@ class EventBus:
         for line in self.path.read_text(errors="replace").splitlines():
             if not line.strip():
                 continue
+
             try:
                 row = json.loads(line)
             except json.JSONDecodeError:
@@ -67,11 +82,32 @@ class EventBus:
 
             rows.append(row)
 
-        return rows[-limit:]
+        return rows
+
+    def replay(self, subscribers: list) -> int:
+        count = 0
+
+        for row in self.read_all():
+            event = RuntimeEvent(
+                id=str(row.get("id", "")),
+                timestamp=str(row.get("timestamp", "")),
+                type=str(row.get("type", "")),
+                source=str(row.get("source", "")),
+                severity=str(row.get("severity", "INFO")),
+                payload=dict(row.get("payload", {})),
+            )
+
+            for subscriber in subscribers:
+                subscriber.handle(self.context, event)
+
+            count += 1
+
+        return count
 
     def clear(self) -> int:
         if not self.path.exists():
             return 0
+
         count = len(self.path.read_text(errors="replace").splitlines())
         self.path.unlink()
         return count
