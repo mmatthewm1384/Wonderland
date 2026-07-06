@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+INTENT_FILE="$WL_HOME/vault/08-Operations/intents/runtime-engine-1.0.intent.md"
+
+required=(
+  "# Wonderland Intent — Runtime Engine 1.0"
+  "## Intent"
+  "## North Star"
+  "## Runtime Engine 1.0 Scope"
+  "## Success Criteria"
+  "## Final Definition"
+)
+
+if [[ ! -f "$INTENT_FILE" ]]; then
+  echo "FAIL intent missing: $INTENT_FILE"
+  exit 1
+fi
+
+for item in "${required[@]}"; do
+  if grep -Fq "$item" "$INTENT_FILE"; then
+    echo "PASS $item"
+  else
+    echo "FAIL missing section: $item"
+    exit 1
+  fi
+done
+
+echo "RESULT PASS"
