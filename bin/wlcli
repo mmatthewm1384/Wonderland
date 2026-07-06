@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export WL_HOME="${WL_HOME:-$WL_ROOT}"
+export PYTHONPATH="$WL_ROOT/builder/python/wlcli${PYTHONPATH:+:$PYTHONPATH}"
+
+exec python3 -m wlcli.main "$@"
