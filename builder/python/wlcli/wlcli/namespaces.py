@@ -9,6 +9,7 @@ def normalize_command(command: str, args: list[str]) -> tuple[str, list[str]]:
             "start": "start",
             "stop": "stop",
             "status": "status",
+            "context": "runtime-context",
             "doctor": "doctor",
             "self-test": "self-test",
             "verify-python": "runtime-verify-python",

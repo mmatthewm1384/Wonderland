@@ -47,3 +47,28 @@ class RuntimeBetaCommand:
         from wlcli.core.architecture import verify_beta_architecture
 
         return verify_beta_architecture(context.root)
+
+
+class RuntimeContextCommand:
+    spec = CommandSpec(
+        name="runtime.context",
+        namespace="runtime",
+        description="Show RuntimeContext",
+    )
+
+    def run(self, context: RuntimeContext, args: list[str]) -> CommandResult:
+        return CommandResult(
+            title="Wonderland Runtime Context",
+            state="PASS",
+            message="runtime context loaded",
+            lines=[
+                ResultLine("PASS", "Root", str(context.root)),
+                ResultLine("PASS", "Log dir", str(context.log_dir)),
+                ResultLine("PASS", "State dir", str(context.state_dir)),
+                ResultLine("PASS", "Runtime instance", context.runtime_instance),
+                ResultLine("PASS", "Profile", context.profile),
+                ResultLine("PASS", "Channel", context.channel),
+                ResultLine("PASS", "Version", context.version),
+            ],
+            payload=context.to_dict(),
+        )

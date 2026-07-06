@@ -11,11 +11,12 @@ from wlcli.core.commands.graph import (
 )
 from wlcli.core.commands.history import HistoryJsonCommand, HistoryShowCommand
 from wlcli.core.commands.metrics import MetricsJsonCommand, MetricsShowCommand
-from wlcli.core.commands.runtime import RuntimeBetaCommand, RuntimeStatusCommand
+from wlcli.core.commands.runtime import RuntimeBetaCommand, RuntimeContextCommand, RuntimeStatusCommand
 
 COMMANDS = {
     "runtime.status": RuntimeStatusCommand(),
     "runtime.beta": RuntimeBetaCommand(),
+    "runtime.context": RuntimeContextCommand(),
 
     "graph.validate": GraphValidateCommand(),
     "graph.current": GraphCurrentCommand(),
