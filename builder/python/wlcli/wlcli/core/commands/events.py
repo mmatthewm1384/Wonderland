@@ -4,6 +4,7 @@ import json
 
 from wlcli.core.commands.base import CommandSpec
 from wlcli.core.events import EventBus, default_subscribers
+from wlcli.core.events.schema import validate_event_shape
 from wlcli.output import CommandResult, ResultLine
 from wlcli.core.runtime.context import RuntimeContext
 
@@ -154,4 +155,53 @@ class EventsTailCommand:
             message="events tailed" if rows else "no events found",
             lines=lines,
             payload=rows,
+        )
+
+
+
+class EventsValidateCommand:
+    spec = CommandSpec("events.validate", "events", "Validate runtime event log")
+
+    def run(self, context: RuntimeContext, args: list[str]) -> CommandResult:
+        rows = EventBus(context).read_all()
+
+        lines: list[ResultLine] = []
+        failed = False
+
+        for idx, row in enumerate(rows, start=1):
+            errors = validate_event_shape(
+                str(row.get("type", "")),
+                dict(row.get("payload", {})),
+            )
+
+            if errors:
+                failed = True
+                lines.append(
+                    ResultLine(
+                        "FAIL",
+                        f"event:{idx}",
+                        "; ".join(errors),
+                    )
+                )
+
+        if not rows:
+            return CommandResult(
+                title="Wonderland Runtime Event Validation",
+                state="WARN",
+                message="no runtime events found",
+                payload={"validated": 0, "errors": 0},
+            )
+
+        if not failed:
+            lines.append(ResultLine("PASS", f"{len(rows)} event(s) valid"))
+
+        return CommandResult(
+            title="Wonderland Runtime Event Validation",
+            state="FAIL" if failed else "PASS",
+            message="event validation failed" if failed else "event log valid",
+            lines=lines,
+            payload={
+                "validated": len(rows),
+                "errors": sum(1 for line in lines if line.state == "FAIL"),
+            },
         )
