@@ -80,6 +80,26 @@ class BootGraph:
             Stage("runtime", "Rootless Runtime", [self.bin("wl-rootless"), "stop"], ["services"]),
         ]
 
+    def graph_json(self, stages: list[Stage]) -> str:
+        ordered = self.resolve(stages)
+        payload = {
+            "graph": "START",
+            "stage_count": len(ordered),
+            "stages": [
+                {
+                    "id": stage.id,
+                    "title": stage.title,
+                    "command": stage.command,
+                    "depends_on": stage.depends_on,
+                    "required": stage.required,
+                    "timeout": stage.timeout,
+                    "health": stage.health,
+                }
+                for stage in ordered
+            ],
+        }
+        return json.dumps(payload, indent=2)
+
     def bin(self, name: str) -> str:
         return str(self.root / "bin" / name)
 
