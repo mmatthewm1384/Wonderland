@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Protocol
 
 from wlcli.output import CommandResult
-from wlcli.runtime.context import RuntimeContext
+from wlcli.core.runtime.context import RuntimeContext
 
 
 @dataclass(frozen=True)

@@ -3,7 +3,7 @@ from __future__ import annotations
 from wlcli.core.commands.base import CommandSpec
 from wlcli.output import CommandResult, ResultLine
 from wlcli.runtime.context import RuntimeContext
-from wlcli.state.metrics import build_metrics
+from wlcli.core.state.metrics import build_metrics
 
 
 class MetricsShowCommand:

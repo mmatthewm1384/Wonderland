@@ -3,7 +3,7 @@ from __future__ import annotations
 from wlcli.core.commands.base import CommandSpec
 from wlcli.output import CommandResult, ResultLine
 from wlcli.runtime.context import RuntimeContext
-from wlcli.state.history import read_history
+from wlcli.core.state.history import read_history
 
 
 def _parse_args(args: list[str]) -> tuple[int, bool]:

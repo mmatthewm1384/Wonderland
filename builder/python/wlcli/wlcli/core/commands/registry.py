@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from wlcli.core.commands.events import EventsShowCommand
 from wlcli.core.commands.graph import (
     GraphCleanCommand,
     GraphCurrentCommand,
@@ -14,6 +15,7 @@ from wlcli.core.commands.metrics import MetricsJsonCommand, MetricsShowCommand
 from wlcli.core.commands.runtime import RuntimeBetaCommand, RuntimeContextCommand, RuntimeStatusCommand
 
 COMMANDS = {
+    "events.show": EventsShowCommand(),
     "runtime.status": RuntimeStatusCommand(),
     "runtime.beta": RuntimeBetaCommand(),
     "runtime.context": RuntimeContextCommand(),
