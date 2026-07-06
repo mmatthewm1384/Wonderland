@@ -5,8 +5,8 @@ from pathlib import Path
 from wlcli.core.commands.base import CommandSpec
 from wlcli.output import CommandResult, ResultLine
 from wlcli.runtime.context import RuntimeContext
-from wlcli.graph import BootGraph
-from wlcli.report import build_graph_current, graph_state_path
+from wlcli.core.graph import BootGraph
+from wlcli.core.report import build_graph_current, graph_state_path
 
 
 def graph_engine(context: RuntimeContext) -> BootGraph:

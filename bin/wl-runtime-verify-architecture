@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+cd "$WL_HOME"
+
+python3 - <<'PY'
+from pathlib import Path
+import py_compile
+import sys
+
+root = Path("builder/python/wlcli/wlcli")
+core = root / "core"
+
+failed = False
+
+print("== Runtime Architecture Verify ==")
+
+if not core.exists():
+    print(f"FAIL missing {core}")
+    sys.exit(1)
+
+for path in sorted(core.rglob("*.py")):
+    rel = path.relative_to(root)
+    text = path.read_text(errors="replace")
+
+    module = ".".join(("wlcli" / rel.with_suffix("")).parts)
+
+    bad_patterns = [
+        f"from {module} import",
+        f"import {module}",
+    ]
+
+    public_shim_imports = [
+        "from wlcli.runtime.",
+        "from wlcli.graph",
+        "from wlcli.report",
+        "from wlcli.state.",
+        "from wlcli.ui.",
+    ]
+
+    if any(pattern in text for pattern in bad_patterns):
+        print(f"FAIL self-import in {rel}")
+        failed = True
+    elif any(pattern in text for pattern in public_shim_imports):
+        print(f"FAIL core imports public shim in {rel}")
+        failed = True
+    else:
+        print(f"PASS architecture imports {rel}")
+
+for path in sorted(root.rglob("*.py")):
+    try:
+        py_compile.compile(str(path), doraise=True)
+    except Exception as e:
+        print(f"FAIL compile {path.relative_to(root)}")
+        print(e)
+        failed = True
+
+if failed:
+    print("RESULT FAIL")
+    sys.exit(1)
+
+print("RESULT PASS")
+PY
