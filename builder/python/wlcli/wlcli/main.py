@@ -153,8 +153,20 @@ def self_test() -> int:
     ]
 
     text = wl.read_text(errors="replace") if wl.exists() else ""
-    checks.append(("wl start routed to wlcli", 'start|stop|status|doctor|graph|boot-report|commands|commands-json|help)' in text))
-    checks.append(("legacy start_runtime bypass guarded", 'exec "$WL_ROOT/bin/wlcli" "$cmd" "$@"' in text))
+
+    has_early_case = "case \"$cmd\" in" in text
+    has_wlcli_exec = 'exec "$WL_ROOT/bin/wlcli" "$cmd" "$@"' in text
+
+    lifecycle_commands = [
+        "start", "stop", "status", "doctor",
+        "graph", "graph-json", "boot-report",
+        "commands", "commands-json", "self-test", "help",
+    ]
+
+    routed = has_early_case and has_wlcli_exec and all(cmd in text for cmd in lifecycle_commands)
+
+    checks.append(("wl lifecycle routed to wlcli", routed))
+    checks.append(("legacy lifecycle bypass guarded", has_wlcli_exec))
 
     for name, passed in checks:
         if passed:
