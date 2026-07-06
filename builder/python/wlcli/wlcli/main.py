@@ -6,6 +6,8 @@ import subprocess
 import sys
 from wlcli.namespaces import normalize_command
 from wlcli.core.architecture import verify_beta_architecture
+from wlcli.core.commands.registry import get_command
+from wlcli.runtime.context import RuntimeContext
 from pathlib import Path
 
 from wlcli.ui import logo, ok, warn, fail, run_step
@@ -197,6 +199,10 @@ def main() -> int:
     os.environ.update(env())
 
     command, args = normalize_command(ns.command, ns.args)
+
+    object_handler = get_command(command.replace("runtime-", "runtime."))
+    if object_handler is not None:
+        return render_report(object_handler.run(RuntimeContext.from_env(), args))
 
     if command in ("-h", "--help", "help"):
         print_help(wl_root())
