@@ -159,7 +159,7 @@ def self_test() -> int:
 
     lifecycle_commands = [
         "start", "stop", "status", "doctor",
-        "graph", "graph-json", "boot-report",
+        "graph", "graph-json", "graph-validate", "boot-report",
         "commands", "commands-json", "self-test", "help",
     ]
 
@@ -228,6 +228,22 @@ def main() -> int:
         graph = graph_engine()
         print(graph.graph_json(graph.start_stages()))
         return 0
+    if command == "graph-validate":
+        graph = graph_engine()
+        valid, messages = graph.validate(graph.start_stages())
+        logo()
+        print("Wonderland Boot Graph Validation\n")
+        for message in messages:
+            if message.startswith("stage") and "health" in message:
+                warn(message)
+            else:
+                fail(message)
+        if valid:
+            ok("boot graph valid")
+            print("RESULT PASS")
+            return 0
+        print("RESULT FAIL")
+        return 1
 
     return dispatch_registered(command, args)
 

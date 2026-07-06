@@ -103,6 +103,54 @@ class BootGraph:
     def bin(self, name: str) -> str:
         return str(self.root / "bin" / name)
 
+    def validate(self, stages: list[Stage]) -> tuple[bool, list[str]]:
+        errors: list[str] = []
+        warnings: list[str] = []
+
+        seen: set[str] = set()
+        for stage in stages:
+            if stage.id in seen:
+                errors.append(f"duplicate stage id: {stage.id}")
+            seen.add(stage.id)
+
+            if not stage.id:
+                errors.append("stage id cannot be empty")
+
+            if not stage.title:
+                errors.append(f"stage {stage.id} title cannot be empty")
+
+            if stage.timeout <= 0:
+                errors.append(f"stage {stage.id} timeout must be positive")
+
+            if not stage.command:
+                errors.append(f"stage {stage.id} command cannot be empty")
+            else:
+                cmd = Path(stage.command[0])
+                if not cmd.exists():
+                    errors.append(f"stage {stage.id} command missing: {cmd}")
+                elif not cmd.is_file():
+                    errors.append(f"stage {stage.id} command is not a file: {cmd}")
+                elif not os.access(cmd, os.X_OK):
+                    errors.append(f"stage {stage.id} command not executable: {cmd}")
+
+            if stage.health:
+                health_cmd = Path(stage.health[0])
+                if not health_cmd.exists():
+                    warnings.append(f"stage {stage.id} health command missing: {health_cmd}")
+                elif not os.access(health_cmd, os.X_OK):
+                    warnings.append(f"stage {stage.id} health command not executable: {health_cmd}")
+
+            for dep in stage.depends_on:
+                if dep not in {s.id for s in stages}:
+                    errors.append(f"stage {stage.id} depends on missing stage: {dep}")
+
+        try:
+            self.resolve(stages)
+        except Exception as e:
+            errors.append(str(e))
+
+        return len(errors) == 0, errors + warnings
+
     def resolve(self, stages: list[Stage]) -> list[Stage]:
         by_id = {s.id: s for s in stages}
         resolved: list[Stage] = []

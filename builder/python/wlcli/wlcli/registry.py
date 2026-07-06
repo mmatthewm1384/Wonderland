@@ -21,6 +21,7 @@ def discover(root: Path) -> list[Command]:
         Command("status", "Runtime", "Show runtime and service status"),
         Command("graph", "Runtime", "Show the START Boot Graph"),
         Command("graph-json", "Runtime", "Show the START Boot Graph as JSON"),
+        Command("graph-validate", "Runtime", "Validate the START Boot Graph"),
         Command("doctor", "Engineering", "Verify CLI and runtime prerequisites"),
         Command("self-test", "Engineering", "Verify wlcli lifecycle routing"),
         Command("palette", "Interface", "Show Wonderland color palette"),
