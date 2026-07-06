@@ -124,3 +124,34 @@ class EventsMetricsCommand:
             lines=lines,
             payload=data,
         )
+
+
+
+class EventsTailCommand:
+    spec = CommandSpec("events.tail", "events", "Show recent runtime events")
+
+    def run(self, context: RuntimeContext, args: list[str]) -> CommandResult:
+        limit = 20
+        if "--last" in args:
+            idx = args.index("--last")
+            if idx + 1 < len(args):
+                limit = int(args[idx + 1])
+
+        rows = EventBus(context).read(limit=limit)
+
+        lines = [
+            ResultLine(
+                state="FAIL" if row.get("severity") == "ERROR" else "PASS",
+                title=f"{row.get('timestamp')} {row.get('type')}",
+                detail=f"{row.get('source')} {row.get('payload')}",
+            )
+            for row in rows
+        ]
+
+        return CommandResult(
+            title="Wonderland Runtime Events Tail",
+            state="PASS" if rows else "WARN",
+            message="events tailed" if rows else "no events found",
+            lines=lines,
+            payload=rows,
+        )

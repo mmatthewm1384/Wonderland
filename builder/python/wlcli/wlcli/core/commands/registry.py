@@ -5,6 +5,7 @@ from wlcli.core.commands.events import (
     EventsMetricsCommand,
     EventsReplayCommand,
     EventsShowCommand,
+    EventsTailCommand,
 )
 from wlcli.core.commands.graph import (
     GraphCleanCommand,
@@ -23,6 +24,7 @@ COMMANDS = {
     "events.show": EventsShowCommand(),
     "events.clear": EventsClearCommand(),
     "events.replay": EventsReplayCommand(),
+    "events.tail": EventsTailCommand(),
     "events.metrics": EventsMetricsCommand(),
 
     "runtime.status": RuntimeStatusCommand(),
