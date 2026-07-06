@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 from wlcli.output import CommandResult, ResultLine
-from wlcli.ui import fail, warn
+from wlcli.core.ui import fail, warn
 
 
 def graph_state_path(root: Path) -> Path:
