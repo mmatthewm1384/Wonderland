@@ -8,6 +8,7 @@ from pathlib import Path
 
 from wlcli.ui import logo, ok, warn, fail, run_step
 from wlcli.graph import BootGraph
+from wlcli.doctor import graph_doctor
 from wlcli.registry import command_map, print_commands, print_commands_json, print_help
 from wlcli.renderer import render_report
 from wlcli.report import build_boot_report, build_graph_current, graph_clean, graph_logs, graph_open_log, graph_state
@@ -160,7 +161,7 @@ def self_test() -> int:
 
     lifecycle_commands = [
         "start", "stop", "status", "doctor",
-        "graph", "graph-json", "graph-validate", "graph-current", "graph-current-json", "graph-state", "graph-logs", "graph-open-log", "graph-clean", "boot-report", "boot-report-json",
+        "graph", "graph-json", "graph-validate", "graph-doctor", "graph-current", "graph-current-json", "graph-state", "graph-logs", "graph-open-log", "graph-clean", "boot-report", "boot-report-json",
         "commands", "commands-json", "self-test", "help",
     ]
 
@@ -252,7 +253,7 @@ def main() -> int:
         logo()
         print("Wonderland Boot Graph Validation\n")
         for message in messages:
-            if message.startswith("stage") and "health" in message:
+            if "health" in message:
                 warn(message)
             else:
                 fail(message)
@@ -262,6 +263,8 @@ def main() -> int:
             return 0
         print("RESULT FAIL")
         return 1
+    if command == "graph-doctor":
+        return graph_doctor(wl_root(), Path(os.environ.get("WL_LOG_DIR", "/tmp")))
 
     return dispatch_registered(command, args)
 

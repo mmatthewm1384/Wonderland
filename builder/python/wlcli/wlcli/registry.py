@@ -22,6 +22,7 @@ def discover(root: Path) -> list[Command]:
         Command("graph", "Runtime", "Show the START Boot Graph"),
         Command("graph-json", "Runtime", "Show the START Boot Graph as JSON"),
         Command("graph-validate", "Runtime", "Validate the START Boot Graph"),
+        Command("graph-doctor", "Runtime", "Run Boot Graph diagnostics"),
         Command("graph-current", "Runtime", "Show the current persisted Boot Graph summary"),
         Command("graph-current-json", "Runtime", "Show the current persisted Boot Graph summary as JSON"),
         Command("graph-state", "Runtime", "Print the persisted Boot Graph state"),
