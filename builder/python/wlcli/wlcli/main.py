@@ -205,6 +205,10 @@ def main() -> int:
         object_key = command.replace("runtime-", "runtime.", 1)
     elif command.startswith("graph-"):
         object_key = command.replace("graph-", "graph.", 1)
+    elif command.startswith("history-"):
+        object_key = command.replace("history-", "history.", 1)
+    elif command.startswith("metrics-"):
+        object_key = command.replace("metrics-", "metrics.", 1)
 
     object_handler = get_command(object_key)
     if object_handler is not None:
