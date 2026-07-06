@@ -68,3 +68,10 @@ class EventBus:
             rows.append(row)
 
         return rows[-limit:]
+
+    def clear(self) -> int:
+        if not self.path.exists():
+            return 0
+        count = len(self.path.read_text(errors="replace").splitlines())
+        self.path.unlink()
+        return count

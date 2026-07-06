@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from wlcli.core.commands.events import EventsShowCommand
+from wlcli.core.commands.events import EventsClearCommand, EventsShowCommand
 from wlcli.core.commands.graph import (
     GraphCleanCommand,
     GraphCurrentCommand,
@@ -16,6 +16,8 @@ from wlcli.core.commands.runtime import RuntimeBetaCommand, RuntimeContextComman
 
 COMMANDS = {
     "events.show": EventsShowCommand(),
+    "events.clear": EventsClearCommand(),
+
     "runtime.status": RuntimeStatusCommand(),
     "runtime.beta": RuntimeBetaCommand(),
     "runtime.context": RuntimeContextCommand(),

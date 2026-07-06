@@ -22,6 +22,7 @@ def discover(root: Path) -> list[Command]:
         Command("runtime-beta-verify", "Engineering", "Verify Runtime Engine 1.0 Beta structure", "wl-runtime-beta-verify"),
         Command("runtime-beta-bootstrap", "Engineering", "Create Runtime Engine 1.0 Beta package boundaries", "wl-runtime-beta-bootstrap"),
         Command("graph", "Runtime", "Namespace: graph show|validate|current|logs|doctor"),
+        Command("events", "Runtime", "Namespace: events show|clear"),
         Command("history", "Runtime", "Namespace: history show|failures|export"),
         Command("metrics", "Runtime", "Namespace: metrics show|export"),
         Command("start", "Runtime", "Alias: start Wonderland through the Boot Graph"),
