@@ -47,3 +47,47 @@ def boot_report(root: Path) -> int:
 
     print(f"{GREEN}RESULT PASS{RESET}")
     return 0
+
+
+def graph_state_path(root: Path) -> Path:
+    return root / "vault/08-Operations/state/wl-boot-graph.json"
+
+
+def graph_logs(log_dir: Path) -> int:
+    logs = sorted(log_dir.glob("wl-stage-*.log"), key=lambda p: p.stat().st_mtime, reverse=True)
+
+    if not logs:
+        warn(f"no graph logs found in {log_dir}")
+        return 1
+
+    print("Wonderland Graph Logs\n")
+    for path in logs[:30]:
+        size = path.stat().st_size
+        print(f"{path.name:<36} {size:>8} bytes  {path}")
+    return 0
+
+
+def graph_state(root: Path) -> int:
+    path = graph_state_path(root)
+    if not path.exists():
+        warn(f"boot graph state missing: {path}")
+        return 1
+
+    print(path.read_text(), end="")
+    return 0
+
+
+def graph_clean(root: Path, log_dir: Path) -> int:
+    removed = 0
+
+    state = graph_state_path(root)
+    if state.exists():
+        state.unlink()
+        removed += 1
+
+    for log in log_dir.glob("wl-stage-*.log"):
+        log.unlink()
+        removed += 1
+
+    print(f"Removed {removed} graph artifact(s)")
+    return 0
