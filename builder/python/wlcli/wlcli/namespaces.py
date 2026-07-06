@@ -55,6 +55,14 @@ def normalize_command(command: str, args: list[str]) -> tuple[str, list[str]]:
         return f"history-{sub}", rest
 
 
+
+    if command == "lifecycle":
+        sub = args[0] if args else "show"
+        rest = args[1:] if args else []
+        if sub in ("show", "list"):
+            return "lifecycle-show", rest
+        return f"lifecycle-{sub}", rest
+
     if command == "events":
         sub = args[0] if args else "show"
         rest = args[1:] if args else []
@@ -76,3 +84,7 @@ def normalize_command(command: str, args: list[str]) -> tuple[str, list[str]]:
         return f"metrics-{sub}", rest
 
     return command, args
+
+
+def _unused_marker():
+    pass
