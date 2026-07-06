@@ -160,7 +160,7 @@ def self_test() -> int:
 
     lifecycle_commands = [
         "start", "stop", "status", "doctor",
-        "graph", "graph-json", "graph-validate", "graph-current", "graph-state", "graph-logs", "graph-open-log", "graph-clean", "boot-report",
+        "graph", "graph-json", "graph-validate", "graph-current", "graph-current-json", "graph-state", "graph-logs", "graph-open-log", "graph-clean", "boot-report", "boot-report-json",
         "commands", "commands-json", "self-test", "help",
     ]
 
@@ -205,8 +205,14 @@ def main() -> int:
         return 0
     if command == "boot-report":
         return render_report(build_boot_report(wl_root()))
+    if command == "boot-report-json":
+        print(build_boot_report(wl_root()).to_json())
+        return 0
     if command == "graph-current":
         return render_report(build_graph_current(wl_root()))
+    if command == "graph-current-json":
+        print(build_graph_current(wl_root()).to_json())
+        return 0
     if command == "graph-state":
         return graph_state(wl_root())
     if command == "graph-logs":
