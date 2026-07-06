@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 from wlcli.output import CommandResult, ResultLine
-from wlcli.runtime.context import RuntimeContext
-from wlcli.runtime.interface import PlatformOperations
+from wlcli.core.runtime.context import RuntimeContext
+from wlcli.core.runtime.interface import PlatformOperations
 from wlcli.core.commands.base import CommandSpec
 
 

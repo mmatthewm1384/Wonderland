@@ -1,6 +1,5 @@
 from __future__ import annotations
-
-from wlcli.report.builders import (
+from wlcli.core.report import (
     build_boot_report,
     build_graph_current,
     graph_clean,
@@ -10,7 +9,6 @@ from wlcli.report.builders import (
     graph_state_path,
     load_graph_state,
 )
-
 __all__ = [
     "build_boot_report",
     "build_graph_current",

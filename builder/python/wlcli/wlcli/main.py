@@ -210,6 +210,8 @@ def main() -> int:
         object_key = command.replace("history-", "history.", 1)
     elif command.startswith("metrics-"):
         object_key = command.replace("metrics-", "metrics.", 1)
+    elif command.startswith("events-"):
+        object_key = command.replace("events-", "events.", 1)
 
     json_mode = "--json" in args
     clean_args = [arg for arg in args if arg != "--json"]

@@ -4,7 +4,7 @@ from pathlib import Path
 
 from wlcli.core.commands.base import CommandSpec
 from wlcli.output import CommandResult, ResultLine
-from wlcli.runtime.context import RuntimeContext
+from wlcli.core.runtime.context import RuntimeContext
 from wlcli.core.graph import BootGraph
 from wlcli.core.report import build_graph_current, graph_state_path
 

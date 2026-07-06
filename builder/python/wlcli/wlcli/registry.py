@@ -18,6 +18,7 @@ def discover(root: Path) -> list[Command]:
     commands = [
         Command("runtime", "Runtime", "Namespace: runtime start|stop|status|doctor"),
         Command("runtime-verify-python", "Engineering", "Compile-check wlcli Python modules", "wl-runtime-verify-python"),
+        Command("runtime-verify-architecture", "Engineering", "Verify Runtime Engine architecture boundaries", "wl-runtime-verify-architecture"),
         Command("runtime-beta-verify", "Engineering", "Verify Runtime Engine 1.0 Beta structure", "wl-runtime-beta-verify"),
         Command("runtime-beta-bootstrap", "Engineering", "Create Runtime Engine 1.0 Beta package boundaries", "wl-runtime-beta-bootstrap"),
         Command("graph", "Runtime", "Namespace: graph show|validate|current|logs|doctor"),
@@ -38,6 +39,7 @@ def discover(root: Path) -> list[Command]:
         Command("graph-clean", "Runtime", "Remove Boot Graph state and logs"),
         Command("doctor", "Engineering", "Verify CLI and runtime prerequisites"),
         Command("self-test", "Engineering", "Verify wlcli lifecycle routing"),
+        Command("architecture-verify", "Engineering", "Verify wlcli architecture import boundaries", "wl-architecture-verify"),
         Command("runtime-engine-10-intent", "Engineering", "Create Runtime Engine 1.0 intent", "wl-runtime-engine-10-intent"),
         Command("runtime-engine-10-intent-verify", "Engineering", "Verify Runtime Engine 1.0 intent", "wl-runtime-engine-10-intent-verify"),
         Command("palette", "Interface", "Show Wonderland color palette"),
