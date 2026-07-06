@@ -9,6 +9,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 from wlcli.ui import GREEN, RED, YELLOW, CYAN, PURPLE, DIM, RESET, BOLD, fail, ok, warn
+from wlcli.state.history import append_history
 
 
 @dataclass(frozen=True)
@@ -205,7 +206,17 @@ class BootGraph:
                 print(f"{RED}FAIL{RESET} {stage.title} {DIM}{result.duration:.2f}s{RESET}")
                 warn(f"log: {result.log}")
                 self.tail_log(Path(result.log), 60)
-                self.summary(name, results, time.time() - total_start)
+                total_duration = time.time() - total_start
+                self.summary(name, results, total_duration)
+                append_history(
+                    self.root,
+                    command=name.lower(),
+                    result="FAIL",
+                    duration=total_duration,
+                    graph=name,
+                    stage_results=results,
+                    runtime_instance=os.environ.get("WL_RUNTIME_INSTANCE", "wonderland-rootless"),
+                )
                 print("RESULT FAIL")
                 return result.code or 1
 
@@ -213,7 +224,17 @@ class BootGraph:
             warn(f"log: {result.log}")
 
         self.print_progress(100, "READY")
-        self.summary(name, results, time.time() - total_start)
+        total_duration = time.time() - total_start
+        self.summary(name, results, total_duration)
+        append_history(
+            self.root,
+            command=name.lower(),
+            result="PASS",
+            duration=total_duration,
+            graph=name,
+            stage_results=results,
+            runtime_instance=os.environ.get("WL_RUNTIME_INSTANCE", "wonderland-rootless"),
+        )
         print("RESULT PASS")
         return 0
 
