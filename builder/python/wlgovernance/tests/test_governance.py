@@ -54,6 +54,25 @@ class GovernanceEngineTests(unittest.TestCase):
                 ["optional"],
             )
 
+    def test_doctor_uses_portable_launcher_check(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            engine = GovernanceEngine(root)
+
+            contract = engine._doctor_contract()
+            command = contract["governance-launcher"]["command"]
+
+            self.assertEqual(command[0], "/bin/test")
+            self.assertEqual(command[1], "-x")
+            self.assertEqual(
+                Path(command[2]).resolve(),
+                (
+                    root
+                    / "bin"
+                    / "wl-governance"
+                ).resolve(),
+            )
+
     def test_atomic_state_write(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
