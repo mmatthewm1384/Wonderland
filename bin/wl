@@ -27,6 +27,29 @@ if [[ "${1:-}" == "governance" ]]; then
 fi
 # END WL-GOVERNANCE-PUBLIC-ROUTE
 
+# BEGIN WL-BUILDER-PUBLIC-ROUTE
+# Stable public route into the Wonderland Builder authority.
+if [[ "${1:-}" == "builder" ]]; then
+  shift
+
+  _wl_builder_root="$(
+    cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &&
+    pwd -P
+  )"
+
+  _wl_builder_base="${WL_ROOT:-$_wl_builder_root}"
+  _wl_builder="$_wl_builder_base/bin/wl-builder"
+
+  if [[ ! -x "$_wl_builder" ]]; then
+    printf 'FAIL Builder authority unavailable: %s\n' \
+      "$_wl_builder" >&2
+    exit 1
+  fi
+
+  exec "$_wl_builder" "$@"
+fi
+# END WL-BUILDER-PUBLIC-ROUTE
+
 # BEGIN WL-RUNTIME-PUBLIC-ROUTES
 # Stable public routes into the authoritative Runtime Engine.
 #

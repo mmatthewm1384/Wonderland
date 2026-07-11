@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+readonly WL_ROOT="${WL_ROOT:-/Users/wonderland/Wonderland}"
+readonly VERIFY="$WL_ROOT/bin/wl-architecture-verify"
+
+usage() {
+  cat <<'EOF'
+Usage:
+  wl-architecture verify
+  wl-architecture status
+  wl-architecture doctor
+EOF
+}
+
+command_name="${1:-verify}"
+
+case "$command_name" in
+  verify|status|doctor)
+    [[ -x "$VERIFY" ]] || {
+      printf 'FAIL architecture verifier unavailable: %s\n' \
+        "$VERIFY" >&2
+      exit 1
+    }
+
+    exec "$VERIFY"
+    ;;
+
+  --help|-h|help)
+    usage
+    ;;
+
+  *)
+    printf 'FAIL unknown architecture command: %s\n' \
+      "$command_name" >&2
+    usage >&2
+    exit 1
+    ;;
+esac

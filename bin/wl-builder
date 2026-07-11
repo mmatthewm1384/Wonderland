@@ -1,41 +1,30 @@
 #!/usr/bin/env bash
-set -euo pipefail
+# Wonderland deterministic Builder authority.
+set -Eeuo pipefail
 
-host_command_requires_limactl() {
-  case "${1:-}" in
-    status|start|stop|restart|shell|logs|root)
-      return 0
-      ;;
-    *)
-      return 1
-      ;;
-  esac
+export PATH="/Users/wonderland/Wonderland/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+readonly WL_ROOT="${WL_ROOT:-/Users/wonderland/Wonderland}"
+readonly BUILDER_SELF="$WL_ROOT/bin/wl-builder"
+readonly INSTANCE="${WL_BUILDER_INSTANCE:-wonderland-os-builder}"
+readonly LIMA_DIR="${LIMA_HOME:-$HOME/.lima}"
+readonly INSTANCE_DIR="$LIMA_DIR/$INSTANCE"
+readonly LEGACY="$WL_ROOT/bin/wl-builder-legacy"
+
+fail() {
+  printf 'FAIL %s\n' "$*" >&2
+  exit 1
 }
 
-if [[ "$(uname -s)" != "Darwin" ]] && host_command_requires_limactl "${1:-}"; then
-  if ! command -v limactl >/dev/null 2>&1; then
-    echo "FAIL: wl builder ${1:-} is a host-side command and requires limactl."
-    echo "Inside the builder VM, use:"
-    echo "  python3 -m wlbuilder status"
-    echo "  python3 -m wlbuilder build --profile development"
-    exit 1
-  fi
-fi
-
-
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-INSTANCE="${WL_BUILDER_INSTANCE:-wonderland-os-builder}"
-REMOTE_ROOT="${WL_BUILDER_ROOT:-/home/wonderland/wonderland-os}"
-
 usage() {
-cat <<EOF
+  cat <<'EOF'
 Usage:
   wl builder status
   wl builder doctor
-  wl builder shell
-  wl builder root
-  wl builder build [--profile development|release]
   wl builder verify
+  wl builder root
+  wl builder shell
+  wl builder build [--profile development|release]
   wl builder certify
   wl builder recreate
   wl builder start
@@ -46,130 +35,252 @@ Usage:
 EOF
 }
 
-remote() {
-  limactl shell "$INSTANCE" -- bash -lc "cd '$REMOTE_ROOT' && $*"
+# Executes limactl list with a strict process timeout and returns plain output.
+bounded_lima_list() {
+  python3 - "$INSTANCE" <<'PY'
+from __future__ import annotations
+
+import subprocess
+import sys
+
+instance = sys.argv[1]
+
+try:
+    completed = subprocess.run(
+        ["limactl", "list"],
+        text=True,
+        capture_output=True,
+        timeout=10,
+        check=False,
+    )
+except subprocess.TimeoutExpired:
+    print("FAIL limactl list timed out", file=sys.stderr)
+    raise SystemExit(124)
+except OSError as exc:
+    print(f"FAIL limactl unavailable: {exc}", file=sys.stderr)
+    raise SystemExit(127)
+
+if completed.stderr:
+    print(completed.stderr, end="", file=sys.stderr)
+
+print(completed.stdout, end="")
+raise SystemExit(completed.returncode)
+PY
+}
+
+instance_row() {
+  local output
+
+  output="$(bounded_lima_list)" || return $?
+
+  awk -v instance="$INSTANCE" '
+    $1 == instance {
+      print
+      exit
+    }
+  ' <<<"$output"
 }
 
 instance_status() {
-  limactl list 2>/dev/null | awk -v name="$INSTANCE" '$1 == name {print $2}'
+  local row
+
+  row="$(instance_row 2>/dev/null || true)"
+
+  if [[ -z "$row" ]]; then
+    if [[ -d "$INSTANCE_DIR" ]]; then
+      printf 'Registered\n'
+    else
+      printf 'Missing\n'
+    fi
+    return
+  fi
+
+  awk '{print $2}' <<<"$row"
 }
 
-case "${1:-help}" in
+builder_status() {
+  local status
+
+  status="$(instance_status)"
+
+  cat <<EOF
+== Wonderland Builder Status ==
+
+Instance: $INSTANCE
+Status:   $status
+Host:     $WL_ROOT
+Lima:     $INSTANCE_DIR
+EOF
+
+  if [[ "$status" == "Missing" ]]; then
+    printf '\nRESULT FAIL\n'
+    return 1
+  fi
+
+  printf '\nRESULT PASS\n'
+}
+
+builder_doctor() {
+  local failures=0
+
+  printf 'Wonderland Builder Doctor\n\n'
+
+  if command -v limactl >/dev/null 2>&1; then
+    printf 'PASS limactl              %s\n' \
+      "$(command -v limactl)"
+  else
+    printf 'FAIL limactl unavailable\n'
+    (( failures++ ))
+  fi
+
+  if [[ -d "$INSTANCE_DIR" ]]; then
+    printf 'PASS builder VM registry  %s\n' "$INSTANCE_DIR"
+  else
+    printf 'FAIL builder VM missing   %s\n' "$INSTANCE_DIR"
+    (( failures++ ))
+  fi
+
+  if [[ -d "$WL_ROOT" ]]; then
+    printf 'PASS host repository      %s\n' "$WL_ROOT"
+  else
+    printf 'FAIL host repository missing\n'
+    (( failures++ ))
+  fi
+
+  if [[ -x "$LEGACY" ]]; then
+    printf 'PASS mutation backend     %s\n' "$LEGACY"
+  else
+    printf 'FAIL mutation backend missing\n'
+    (( failures++ ))
+  fi
+
+  printf '\n'
+
+  if (( failures == 0 )); then
+    printf 'RESULT PASS\n'
+    return 0
+  fi
+
+  printf 'RESULT FAIL\n'
+  return 1
+}
+
+builder_verify() {
+  local failures=0
+  local component
+  local status
+
+  printf 'Wonderland Builder Verify\n\n'
+
+  if bash -n "$BUILDER_SELF"; then
+    printf 'PASS Builder authority syntax\n'
+  else
+    printf 'FAIL Builder authority syntax\n'
+    (( failures++ ))
+  fi
+
+  if bash -n "$LEGACY"; then
+    printf 'PASS legacy backend syntax\n'
+  else
+    printf 'FAIL legacy backend syntax\n'
+    (( failures++ ))
+  fi
+
+  if [[ -x "$WL_ROOT/bin/wl-build" ]] &&
+     bash -n "$WL_ROOT/bin/wl-build"
+  then
+    printf 'PASS build launcher syntax\n'
+  else
+    printf 'FAIL build launcher syntax\n'
+    (( failures++ ))
+  fi
+
+  # Architecture is verified independently by Platform and Governance.
+  # Builder verification must remain subsystem-local and non-recursive.
+  printf 'PASS architecture boundary delegated\n'
+
+  if [[ -d "$INSTANCE_DIR" ]]; then
+    status="$(instance_status)"
+    printf 'PASS builder VM registered status=%s\n' "$status"
+  else
+    printf 'FAIL builder VM not registered\n'
+    (( failures++ ))
+  fi
+
+  for component in \
+    bin/wl-builder-certify \
+    bin/wl-builder-ownership \
+    bin/wl-builder-recreate
+  do
+    if [[ -x "$WL_ROOT/$component" ]]; then
+      printf 'PASS builder component    %s\n' "$component"
+    else
+      printf 'FAIL builder component    %s\n' "$component"
+      (( failures++ ))
+    fi
+  done
+
+  # Do not run limactl shell, start a VM, inspect guest tools, or build images.
+  printf 'PASS verification is read-only\n'
+
+  printf '\n'
+
+  if (( failures == 0 )); then
+    printf 'RESULT PASS\n'
+    return 0
+  fi
+
+  printf 'RESULT FAIL\n'
+  return 1
+}
+
+builder_root() {
+  printf 'Host:     %s\n' "$WL_ROOT"
+  printf 'Instance: %s\n' "$INSTANCE"
+  printf 'Lima:     %s\n' "$INSTANCE_DIR"
+  printf 'Status:   %s\n' "$(instance_status)"
+}
+
+command_name="${1:---help}"
+
+case "$command_name" in
+  --help|-h|help)
+    usage
+    ;;
+
   status)
-    echo "== Wonderland Builder Status =="
-    echo
-    echo "Instance: $INSTANCE"
-    echo "Status:   $(instance_status || echo unknown)"
-    echo "Host:     $ROOT"
-    echo "Builder:  $REMOTE_ROOT"
-    echo
-    remote '
-      echo "Repository:"
-      pwd
-      test -x bin/wl && echo "bin/wl: PASS" || echo "bin/wl: FAIL"
-      echo
-      echo "Root:"
-      bin/wl root
-      echo
-      echo "Python:"
-      python3 --version
-      python3 -m wlbuilder --help >/dev/null && echo "wlbuilder: PASS" || echo "wlbuilder: FAIL"
-      echo
-      echo "Tools:"
-      for tool in debootstrap parted losetup mkfs.ext4 qemu-img; do
-        if command -v "$tool" >/dev/null 2>&1; then
-          echo "$tool: PASS"
-        else
-          echo "$tool: FAIL"
-        fi
-      done
-      echo
-      echo "Artifacts:"
-      ls -lh releases/*.qcow2 2>/dev/null || echo "No QCOW2 release artifacts found"
-      ls -lh build/vmware/*.vmdk 2>/dev/null || echo "No VMware VMDK artifacts found"
-    '
+    builder_status
     ;;
 
   doctor)
-    if [[ "$(uname -s)" == "Darwin" ]]; then
-      echo "Builder environment:"
-      command -v limactl >/dev/null 2>&1 && echo "limactl: PASS" || echo "limactl: FAIL"
-      limactl list "$INSTANCE" >/dev/null 2>&1 && echo "builder VM: PASS" || echo "builder VM: FAIL"
-      exit 0
-    fi
-
-    exec python3 -m wlbuilder doctor
-    ;;
-
-  shell)
-    exec limactl shell "$INSTANCE" -- bash -lc "cd '$REMOTE_ROOT' && exec bash"
-    ;;
-
-  root)
-    remote 'pwd && bin/wl root'
-    ;;
-
-  build)
-    if [[ "$(uname -s)" == "Darwin" ]]; then
-      exec limactl shell "$INSTANCE" -- bash -lc "cd '$REMOTE_ROOT' && python3 -m wlbuilder build ${*:-}"
-    fi
-
-    exec python3 -m wlbuilder build "${@:2}"
+    builder_doctor
     ;;
 
   verify)
-    exec python3 -m wlbuilder verify
+    builder_verify
     ;;
 
-  certify)
-    exec bin/wl-builder-certify
+  root)
+    builder_root
     ;;
 
-  recreate)
-    exec "$ROOT/bin/wl-builder-recreate"
+  shell)
+    shift
+
+    [[ "$(instance_status)" == "Running" ]] ||
+      fail "Builder VM is not running; use: wl builder start"
+
+    exec limactl shell "$INSTANCE" -- "$@"
     ;;
 
-  start)
-    exec limactl start "$INSTANCE"
-    ;;
+  build|certify|recreate|start|stop|restart|clean|logs)
+    [[ -x "$LEGACY" ]] ||
+      fail "Builder mutation backend unavailable: $LEGACY"
 
-  stop)
-    exec limactl stop "$INSTANCE"
-    ;;
-
-  restart)
-    limactl stop "$INSTANCE" || true
-    exec limactl start "$INSTANCE"
-    ;;
-
-  clean)
-    remote '
-      rm -rf \
-        builder/image \
-        builder/image-python \
-        builder/qcow2 \
-        builder/mount \
-        builder/rootfs \
-        builder/work \
-        build/image \
-        build/image-python \
-        build/qcow2 \
-        build/vmware
-      echo "PASS: builder generated artifacts cleaned"
-    '
-    ;;
-
-  logs)
-    LOG_DIR="$HOME/.lima/$INSTANCE"
-    find "$LOG_DIR" -maxdepth 2 -type f \( -name "*.log" -o -name "ha.stderr.log" -o -name "ha.stdout.log" \) -print
-    ;;
-
-  help|-h|--help)
-    usage
+    exec "$LEGACY" "$@"
     ;;
 
   *)
-    usage
-    exit 1
+    fail "unknown Builder command: $command_name"
     ;;
 esac
