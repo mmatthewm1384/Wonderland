@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+readonly WL_ROOT="${WL_ROOT:-/Users/wonderland/Wonderland}"
+readonly WLCLI_ROOT="$WL_ROOT/builder/python/wlcli/wlcli"
+readonly WLRUNTIME_ROOT="$WL_ROOT/builder/python/wlruntime/wlruntime"
+
+fail() {
+  printf 'FAIL %s\n' "$*" >&2
+  exit 1
+}
+
+[[ -d "$WLCLI_ROOT" ]] ||
+  fail "missing wlcli package: $WLCLI_ROOT"
+
+[[ -d "$WLRUNTIME_ROOT" ]] ||
+  fail "missing wlruntime package: $WLRUNTIME_ROOT"
+
+command -v python3 >/dev/null 2>&1 ||
+  fail "python3 unavailable"
+
+cd "$WL_ROOT"
+
+python3 - \
+  "$WLCLI_ROOT" \
+  "$WLRUNTIME_ROOT" <<'PY'
+from __future__ import annotations
+
+import py_compile
+import sys
+from pathlib import Path
+
+roots = [Path(value).resolve() for value in sys.argv[1:]]
+files: list[Path] = []
+
+for root in roots:
+    if not root.is_dir():
+        raise SystemExit(f"FAIL package root missing: {root}")
+
+    files.extend(
+        sorted(
+            path
+            for path in root.rglob("*.py")
+            if "__pycache__" not in path.parts
+        )
+    )
+
+if not files:
+    raise SystemExit("FAIL no Python modules found")
+
+failures: list[str] = []
+
+for path in files:
+    try:
+        py_compile.compile(
+            str(path),
+            doraise=True,
+        )
+    except py_compile.PyCompileError as exc:
+        failures.append(f"{path}: {exc.msg}")
+    except Exception as exc:
+        failures.append(
+            f"{path}: {type(exc).__name__}: {exc}"
+        )
+
+if failures:
+    for failure in failures:
+        print(f"FAIL {failure}", file=sys.stderr)
+
+    print(
+        f"Compiled {len(files) - len(failures)} "
+        f"of {len(files)} module(s)"
+    )
+    print("RESULT FAIL")
+    raise SystemExit(1)
+
+print(f"Compiled {len(files)} module(s)")
+print("RESULT PASS")
+PY
