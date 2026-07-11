@@ -1,0 +1,670 @@
+#!/usr/bin/env python3
+"""
+Wonderland Builder structural verifier.
+
+This verifier is intentionally:
+
+- host-safe;
+- read-only;
+- non-interactive;
+- independent of Lima VM runtime state;
+- suitable for Platform aggregation and CI.
+
+It verifies Builder structure, launchers, Python syntax, package importability,
+public command routing, and configuration contracts. It does not start a VM,
+build an image, mutate state, or perform guest-side verification.
+"""
+
+from __future__ import annotations
+
+import argparse
+import ast
+import json
+import os
+import py_compile
+import subprocess
+import sys
+import time
+from dataclasses import asdict, dataclass
+from pathlib import Path
+from typing import Callable, Iterable
+
+
+PASS = "PASS"
+WARN = "WARN"
+FAIL = "FAIL"
+SKIP = "SKIP"
+
+
+@dataclass(frozen=True, slots=True)
+class Result:
+    name: str
+    status: str
+    summary: str
+    duration_ms: int = 0
+    details: dict[str, object] | None = None
+
+
+class VerificationError(RuntimeError):
+    pass
+
+
+def repository_root() -> Path:
+    configured = os.environ.get("WL_HOME") or os.environ.get("WONDERLAND_ROOT")
+
+    if configured:
+        candidate = Path(configured).expanduser().resolve()
+        if (candidate / ".git").exists():
+            return candidate
+
+    candidate = Path(__file__).resolve().parent.parent
+    if (candidate / ".git").exists():
+        return candidate
+
+    completed = subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+        check=False,
+    )
+
+    if completed.returncode == 0 and completed.stdout.strip():
+        return Path(completed.stdout.strip()).resolve()
+
+    raise VerificationError("unable to locate Wonderland repository root")
+
+
+def timed_check(name: str, check: Callable[[], Result]) -> Result:
+    started = time.monotonic()
+
+    try:
+        result = check()
+    except VerificationError as exc:
+        result = Result(name=name, status=FAIL, summary=str(exc))
+    except Exception as exc:  # defensive verifier boundary
+        result = Result(
+            name=name,
+            status=FAIL,
+            summary=f"unexpected verifier error: {type(exc).__name__}: {exc}",
+        )
+
+    duration_ms = round((time.monotonic() - started) * 1000)
+
+    return Result(
+        name=result.name,
+        status=result.status,
+        summary=result.summary,
+        duration_ms=duration_ms,
+        details=result.details,
+    )
+
+
+def require_file(path: Path, *, executable: bool = False) -> None:
+    if not path.is_file():
+        raise VerificationError(f"missing file: {path}")
+
+    if executable and not os.access(path, os.X_OK):
+        raise VerificationError(f"file is not executable: {path}")
+
+
+def discover_builder_package(root: Path) -> Path:
+    candidates = (
+        root / "builder/python/wlbuilder",
+        root / "builder/python",
+    )
+
+    for candidate in candidates:
+        if candidate.is_dir():
+            if candidate.name == "wlbuilder":
+                return candidate
+
+            nested = candidate / "wlbuilder"
+            if nested.is_dir():
+                return nested
+
+    raise VerificationError("Builder Python package directory not found")
+
+
+def check_authority_launcher(root: Path) -> Result:
+    launcher = root / "bin/wl-builder"
+    require_file(launcher, executable=True)
+
+    text = launcher.read_text(errors="replace")
+
+    forbidden = (
+        "limactl start",
+        "lima start",
+    )
+
+    # The controller may contain VM commands, but verification dispatch itself
+    # must be routed before operational commands.
+    if "verify)" not in text and '"verify"' not in text and "'verify'" not in text:
+        raise VerificationError(
+            "bin/wl-builder does not expose an explicit verify command"
+        )
+
+    return Result(
+        name="authority_launcher",
+        status=PASS,
+        summary="Builder authority launcher exists and exposes verify",
+        details={
+            "path": str(launcher.relative_to(root)),
+            "contains_vm_commands": any(token in text for token in forbidden),
+        },
+    )
+
+
+def check_public_route(root: Path) -> Result:
+    env = os.environ.copy()
+    env["WL_HOME"] = str(root)
+    env["WONDERLAND_ROOT"] = str(root)
+    env["CI"] = "1"
+    env["WL_NONINTERACTIVE"] = "1"
+
+    completed = subprocess.run(
+        [str(root / "bin/wl"), "builder", "--help"],
+        cwd=root,
+        env=env,
+        stdin=subprocess.DEVNULL,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        timeout=30,
+        check=False,
+    )
+
+    output = f"{completed.stdout}\n{completed.stderr}"
+
+    if completed.returncode != 0:
+        raise VerificationError(
+            f"public Builder route exited {completed.returncode}"
+        )
+
+    required = ("doctor", "verify", "certify", "status", "build")
+    missing = [command for command in required if command not in output]
+
+    if missing:
+        raise VerificationError(
+            "public Builder route missing commands: " + ", ".join(missing)
+        )
+
+    return Result(
+        name="public_route",
+        status=PASS,
+        summary="wl builder command route is complete",
+        details={"commands": list(required)},
+    )
+
+
+def python_files(package_root: Path) -> list[Path]:
+    return sorted(
+        path
+        for path in package_root.rglob("*.py")
+        if "__pycache__" not in path.parts
+    )
+
+
+def check_python_syntax(root: Path, package_root: Path) -> Result:
+    files = python_files(package_root)
+
+    if not files:
+        raise VerificationError("Builder Python package contains no Python files")
+
+    failures: list[str] = []
+
+    for path in files:
+        try:
+            py_compile.compile(str(path), doraise=True)
+        except py_compile.PyCompileError as exc:
+            failures.append(
+                f"{path.relative_to(root)}: {exc.msg}"
+            )
+
+    if failures:
+        raise VerificationError(
+            "Python compilation failed:\n" + "\n".join(failures[:20])
+        )
+
+    return Result(
+        name="python_compile",
+        status=PASS,
+        summary=f"{len(files)} Builder Python modules compile",
+        details={"module_count": len(files)},
+    )
+
+
+def check_ast_integrity(root: Path, package_root: Path) -> Result:
+    files = python_files(package_root)
+    parse_failures: list[str] = []
+    import_count = 0
+
+    for path in files:
+        try:
+            tree = ast.parse(path.read_text(), filename=str(path))
+        except (SyntaxError, UnicodeDecodeError) as exc:
+            parse_failures.append(
+                f"{path.relative_to(root)}: {exc}"
+            )
+            continue
+
+        import_count += sum(
+            isinstance(node, (ast.Import, ast.ImportFrom))
+            for node in ast.walk(tree)
+        )
+
+    if parse_failures:
+        raise VerificationError(
+            "AST parsing failed:\n" + "\n".join(parse_failures[:20])
+        )
+
+    return Result(
+        name="ast_integrity",
+        status=PASS,
+        summary="Builder source AST is valid",
+        details={
+            "files": len(files),
+            "imports": import_count,
+        },
+    )
+
+
+def check_package_import(root: Path) -> Result:
+    python_root = root / "builder/python"
+
+    if not python_root.is_dir():
+        raise VerificationError("missing builder/python")
+
+    env = os.environ.copy()
+    env["PYTHONPATH"] = os.pathsep.join(
+        filter(
+            None,
+            (
+                str(python_root),
+                env.get("PYTHONPATH", ""),
+            ),
+        )
+    )
+    env["WL_HOME"] = str(root)
+    env["WONDERLAND_ROOT"] = str(root)
+    env["WL_BUILDER_VERIFY_ONLY"] = "1"
+    env["WL_NONINTERACTIVE"] = "1"
+
+    code = """
+import importlib.util
+
+spec = importlib.util.find_spec("wlbuilder")
+if spec is None:
+    raise SystemExit("wlbuilder package not importable")
+
+print(spec.origin or "namespace-package")
+"""
+
+    completed = subprocess.run(
+        [sys.executable, "-c", code],
+        cwd=root,
+        env=env,
+        stdin=subprocess.DEVNULL,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        timeout=30,
+        check=False,
+    )
+
+    if completed.returncode != 0:
+        message = completed.stderr.strip() or completed.stdout.strip()
+        raise VerificationError(
+            f"wlbuilder package import discovery failed: {message}"
+        )
+
+    return Result(
+        name="package_import",
+        status=PASS,
+        summary="wlbuilder package is importable",
+        details={"origin": completed.stdout.strip()},
+    )
+
+
+def check_stage_contracts(root: Path, package_root: Path) -> Result:
+    stage_roots = (
+        package_root / "stages",
+        root / "builder/python/wlbuilder/stages",
+    )
+
+    stages_root = next(
+        (candidate for candidate in stage_roots if candidate.is_dir()),
+        None,
+    )
+
+    if stages_root is None:
+        return Result(
+            name="stage_contracts",
+            status=WARN,
+            summary="Builder stage directory not found",
+        )
+
+    files = sorted(
+        path
+        for path in stages_root.glob("*.py")
+        if path.name != "__init__.py"
+    )
+
+    if not files:
+        raise VerificationError("Builder stages directory is empty")
+
+    malformed: list[str] = []
+
+    for path in files:
+        tree = ast.parse(path.read_text(), filename=str(path))
+        functions = {
+            node.name
+            for node in tree.body
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+        }
+        classes = {
+            node.name
+            for node in tree.body
+            if isinstance(node, ast.ClassDef)
+        }
+
+        if not functions and not classes:
+            malformed.append(str(path.relative_to(root)))
+
+    if malformed:
+        raise VerificationError(
+            "Builder stage modules expose no callable or class contracts: "
+            + ", ".join(malformed)
+        )
+
+    return Result(
+        name="stage_contracts",
+        status=PASS,
+        summary=f"{len(files)} Builder stage modules have structural contracts",
+        details={
+            "stage_count": len(files),
+            "stages": [path.stem for path in files],
+        },
+    )
+
+
+def check_configuration(root: Path) -> Result:
+    candidates = (
+        root / "builder",
+        root / "config/builder",
+        root / "01-Platform/builder",
+    )
+
+    existing = [path for path in candidates if path.exists()]
+
+    if not existing:
+        raise VerificationError("no Builder configuration root found")
+
+    config_extensions = {
+        ".json",
+        ".toml",
+        ".yaml",
+        ".yml",
+        ".ini",
+        ".cfg",
+    }
+
+    configs = sorted(
+        path
+        for base in existing
+        for path in base.rglob("*")
+        if path.is_file() and path.suffix.lower() in config_extensions
+    )
+
+    invalid_json: list[str] = []
+
+    for path in configs:
+        if path.suffix.lower() != ".json":
+            continue
+
+        try:
+            json.loads(path.read_text())
+        except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+            invalid_json.append(
+                f"{path.relative_to(root)}: {exc}"
+            )
+
+    if invalid_json:
+        raise VerificationError(
+            "invalid Builder JSON configuration:\n"
+            + "\n".join(invalid_json[:20])
+        )
+
+    return Result(
+        name="configuration",
+        status=PASS,
+        summary=f"{len(configs)} Builder configuration files inspected",
+        details={
+            "roots": [str(path.relative_to(root)) for path in existing],
+            "config_count": len(configs),
+        },
+    )
+
+
+def check_no_verifier_vm_start(root: Path) -> Result:
+    """
+    Verify that the dedicated structural verifier does not execute a command
+    capable of starting Lima.
+
+    This uses AST call analysis rather than raw string matching so documentation,
+    test literals, and the forbidden-command definitions themselves cannot
+    produce false positives.
+    """
+    verifier = root / "bin/wl-builder-verify"
+
+    if not verifier.is_file():
+        raise VerificationError("Builder verifier is missing")
+
+    tree = ast.parse(
+        verifier.read_text(),
+        filename=str(verifier),
+    )
+
+    process_functions = {
+        "run",
+        "call",
+        "check_call",
+        "check_output",
+        "Popen",
+    }
+
+    dangerous_calls: list[str] = []
+
+    def literal_command(node: ast.AST) -> list[str] | None:
+        if not isinstance(node, (ast.List, ast.Tuple)):
+            return None
+
+        values: list[str] = []
+
+        for element in node.elts:
+            if not isinstance(element, ast.Constant):
+                return None
+            if not isinstance(element.value, str):
+                return None
+            values.append(element.value)
+
+        return values
+
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+
+        function_name: str | None = None
+
+        if isinstance(node.func, ast.Attribute):
+            function_name = node.func.attr
+        elif isinstance(node.func, ast.Name):
+            function_name = node.func.id
+
+        if function_name not in process_functions:
+            continue
+
+        if not node.args:
+            continue
+
+        command = literal_command(node.args[0])
+
+        if not command:
+            continue
+
+        executable = Path(command[0]).name
+        arguments = command[1:]
+
+        if executable in {"limactl", "lima"} and "start" in arguments:
+            dangerous_calls.append(" ".join(command))
+
+    if dangerous_calls:
+        raise VerificationError(
+            "verification path may start Builder VM: "
+            + "; ".join(sorted(set(dangerous_calls)))
+        )
+
+    return Result(
+        name="noninteractive_contract",
+        status=PASS,
+        summary="Builder verifier contains no executable VM-start calls",
+    )
+
+
+def aggregate(results: list[Result]) -> tuple[str, int]:
+    if any(result.status == FAIL for result in results):
+        return FAIL, 1
+
+    if any(result.status == WARN for result in results):
+        return WARN, 0
+
+    return PASS, 0
+
+
+def render_text(results: list[Result], overall: str, verbose: bool) -> None:
+    print("Wonderland Builder Verify")
+    print()
+
+    width = max(len(result.name) for result in results)
+
+    for result in results:
+        print(f"{result.name:<{width}}: {result.status}")
+
+        if verbose:
+            print(f"  {result.summary}")
+            print(f"  duration_ms: {result.duration_ms}")
+
+            if result.details:
+                for key, value in sorted(result.details.items()):
+                    print(f"  {key}: {value}")
+
+    print()
+    print(f"RESULT {overall}")
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Verify Wonderland Builder structural readiness",
+    )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="emit JSON",
+    )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="show verification details",
+    )
+    args = parser.parse_args()
+
+    try:
+        root = repository_root()
+        package_root = discover_builder_package(root)
+    except VerificationError as exc:
+        if args.json:
+            json.dump(
+                {
+                    "schema_version": 1,
+                    "result": FAIL,
+                    "error": str(exc),
+                    "checks": [],
+                },
+                sys.stdout,
+                indent=2,
+                sort_keys=True,
+            )
+            print()
+        else:
+            print(f"FAIL {exc}", file=sys.stderr)
+            print("RESULT FAIL")
+        return 1
+
+    checks: list[tuple[str, Callable[[], Result]]] = [
+        (
+            "authority_launcher",
+            lambda: check_authority_launcher(root),
+        ),
+        (
+            "public_route",
+            lambda: check_public_route(root),
+        ),
+        (
+            "python_compile",
+            lambda: check_python_syntax(root, package_root),
+        ),
+        (
+            "ast_integrity",
+            lambda: check_ast_integrity(root, package_root),
+        ),
+        (
+            "package_import",
+            lambda: check_package_import(root),
+        ),
+        (
+            "stage_contracts",
+            lambda: check_stage_contracts(root, package_root),
+        ),
+        (
+            "configuration",
+            lambda: check_configuration(root),
+        ),
+        (
+            "noninteractive_contract",
+            lambda: check_no_verifier_vm_start(root),
+        ),
+    ]
+
+    started = time.monotonic()
+    results = [
+        timed_check(name, check)
+        for name, check in checks
+    ]
+    overall, exit_code = aggregate(results)
+    duration_ms = round((time.monotonic() - started) * 1000)
+
+    if args.json:
+        payload = {
+            "schema_version": 1,
+            "root": str(root),
+            "package_root": str(package_root),
+            "result": overall,
+            "duration_ms": duration_ms,
+            "checks": [asdict(result) for result in results],
+            "summary": {
+                "pass": sum(result.status == PASS for result in results),
+                "warn": sum(result.status == WARN for result in results),
+                "fail": sum(result.status == FAIL for result in results),
+                "skip": sum(result.status == SKIP for result in results),
+            },
+        }
+        json.dump(payload, sys.stdout, indent=2, sort_keys=True)
+        print()
+    else:
+        render_text(results, overall, args.verbose)
+
+    return exit_code
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

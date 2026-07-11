@@ -1,0 +1,653 @@
+#!/usr/bin/env python3
+"""
+Wonderland Governance structural verifier.
+
+The verifier is read-only and deterministic. It validates Governance source
+roots, policy documents, JSON artifacts, schemas, command routing, prohibited
+legacy concepts, and repository integrity without modifying Governance state.
+"""
+
+from __future__ import annotations
+
+import argparse
+import ast
+import json
+import os
+import re
+import subprocess
+import sys
+import time
+from dataclasses import asdict, dataclass
+from pathlib import Path
+from typing import Callable, Iterable
+
+
+PASS = "PASS"
+WARN = "WARN"
+FAIL = "FAIL"
+SKIP = "SKIP"
+
+
+@dataclass(frozen=True, slots=True)
+class Result:
+    name: str
+    status: str
+    summary: str
+    duration_ms: int = 0
+    details: dict[str, object] | None = None
+
+
+class VerificationError(RuntimeError):
+    pass
+
+
+def repository_root() -> Path:
+    configured = os.environ.get("WL_HOME") or os.environ.get("WONDERLAND_ROOT")
+
+    if configured:
+        candidate = Path(configured).expanduser().resolve()
+        if (candidate / ".git").exists():
+            return candidate
+
+    candidate = Path(__file__).resolve().parent.parent
+
+    if (candidate / ".git").exists():
+        return candidate
+
+    completed = subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+        check=False,
+    )
+
+    if completed.returncode == 0 and completed.stdout.strip():
+        return Path(completed.stdout.strip()).resolve()
+
+    raise VerificationError("unable to locate Wonderland repository root")
+
+
+def timed(name: str, callback: Callable[[], Result]) -> Result:
+    started = time.monotonic()
+
+    try:
+        result = callback()
+    except VerificationError as exc:
+        result = Result(name=name, status=FAIL, summary=str(exc))
+    except Exception as exc:
+        result = Result(
+            name=name,
+            status=FAIL,
+            summary=f"unexpected verifier error: {type(exc).__name__}: {exc}",
+        )
+
+    return Result(
+        name=result.name,
+        status=result.status,
+        summary=result.summary,
+        duration_ms=round((time.monotonic() - started) * 1000),
+        details=result.details,
+    )
+
+
+def governance_roots(root: Path) -> list[Path]:
+    candidates = (
+        root / "vault/04-Governance",
+        root / "vault/05-Governance",
+        root / "vault/Governance",
+        root / "governance",
+        root / "01-Platform/governance",
+        root / "docs/governance",
+        root / "config/governance",
+    )
+
+    return [candidate for candidate in candidates if candidate.exists()]
+
+
+def iter_files(
+    roots: Iterable[Path],
+    suffixes: set[str] | None = None,
+) -> list[Path]:
+    result: set[Path] = set()
+
+    for base in roots:
+        if base.is_file():
+            paths = (base,)
+        else:
+            paths = base.rglob("*")
+
+        for path in paths:
+            if not path.is_file():
+                continue
+
+            if "__pycache__" in path.parts:
+                continue
+
+            if suffixes is not None and path.suffix.lower() not in suffixes:
+                continue
+
+            result.add(path)
+
+    return sorted(result)
+
+
+def check_authority_launcher(root: Path) -> Result:
+    launcher = root / "bin/wl-governance"
+
+    if not launcher.is_file():
+        raise VerificationError("missing bin/wl-governance")
+
+    if not os.access(launcher, os.X_OK):
+        raise VerificationError("bin/wl-governance is not executable")
+
+    text = launcher.read_text(errors="replace")
+
+    required = ("doctor", "verify", "certify")
+    missing = [command for command in required if command not in text]
+
+    if missing:
+        raise VerificationError(
+            "Governance launcher missing commands: "
+            + ", ".join(missing)
+        )
+
+    return Result(
+        name="authority_launcher",
+        status=PASS,
+        summary="Governance authority launcher is complete",
+        details={"path": "bin/wl-governance"},
+    )
+
+
+def check_public_route(root: Path) -> Result:
+    env = os.environ.copy()
+    env["WL_HOME"] = str(root)
+    env["WONDERLAND_ROOT"] = str(root)
+    env["CI"] = "1"
+    env["WL_NONINTERACTIVE"] = "1"
+
+    completed = subprocess.run(
+        [str(root / "bin/wl"), "governance", "--help"],
+        cwd=root,
+        env=env,
+        stdin=subprocess.DEVNULL,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        timeout=30,
+        check=False,
+    )
+
+    output = f"{completed.stdout}\n{completed.stderr}"
+
+    if completed.returncode != 0:
+        raise VerificationError(
+            f"wl governance --help exited {completed.returncode}"
+        )
+
+    required = ("doctor", "verify", "certify")
+    missing = [command for command in required if command not in output]
+
+    if missing:
+        raise VerificationError(
+            "public Governance route missing commands: "
+            + ", ".join(missing)
+        )
+
+    return Result(
+        name="public_route",
+        status=PASS,
+        summary="wl governance route is available",
+        details={"commands": list(required)},
+    )
+
+
+def check_governance_roots(root: Path) -> Result:
+    roots = governance_roots(root)
+
+    if not roots:
+        raise VerificationError("no Governance source roots found")
+
+    files = iter_files(roots)
+
+    if not files:
+        raise VerificationError("Governance roots contain no files")
+
+    return Result(
+        name="governance_roots",
+        status=PASS,
+        summary=f"{len(roots)} Governance roots contain {len(files)} files",
+        details={
+            "roots": [str(path.relative_to(root)) for path in roots],
+            "file_count": len(files),
+        },
+    )
+
+
+def check_json_integrity(root: Path) -> Result:
+    """
+    Validate only authoritative Governance and Registry JSON.
+
+    Runtime evidence, certification output, backups, quarantine, logs, and
+    ephemeral state are intentionally excluded. A verifier must never consume
+    the file currently receiving its own redirected output.
+    """
+    roots = governance_roots(root)
+
+    registry_roots = [
+        path
+        for path in (
+            root / "vault/05-Registry/governance",
+            root / "vault/05-Registry/policies",
+            root / "vault/05-Registry/authorities",
+        )
+        if path.exists()
+    ]
+
+    files = iter_files(roots + registry_roots, {".json"})
+    failures: list[str] = []
+
+    excluded_parts = {
+        "08-Operations",
+        "certifications",
+        "backups",
+        "quarantine",
+        "state",
+        "logs",
+        "tmp",
+        "temp",
+    }
+
+    files = [
+        path
+        for path in files
+        if not any(part in excluded_parts for part in path.parts)
+    ]
+
+    for candidate in files:
+        try:
+            content = candidate.read_text()
+        except UnicodeDecodeError as exc:
+            failures.append(
+                f"{candidate.relative_to(root)}: {exc}"
+            )
+            continue
+
+        if not content.strip():
+            failures.append(
+                f"{candidate.relative_to(root)}: empty JSON document"
+            )
+            continue
+
+        try:
+            json.loads(content)
+        except json.JSONDecodeError as exc:
+            failures.append(
+                f"{candidate.relative_to(root)}: {exc}"
+            )
+
+    if failures:
+        raise VerificationError(
+            "invalid authoritative Governance JSON:\n"
+            + "\n".join(failures[:30])
+        )
+
+    return Result(
+        name="json_integrity",
+        status=PASS,
+        summary=(
+            f"{len(files)} authoritative Governance JSON files parse"
+        ),
+        details={"json_count": len(files)},
+    )
+
+
+def check_python_integrity(root: Path) -> Result:
+    """
+    Parse only Python modules owned by the Governance subsystem.
+
+    The previous implementation scanned all of builder/python, allowing an
+    unrelated wlknowledge test defect to fail Governance verification.
+    """
+    python_roots = [
+        path
+        for path in (
+            root / "01-Platform/governance",
+            root / "governance",
+            root / "builder/python/wlgovernance",
+            root / "builder/python/wlplatform/governance",
+        )
+        if path.exists()
+    ]
+
+    files = iter_files(python_roots, {".py"})
+    failures: list[str] = []
+
+    for candidate in files:
+        try:
+            ast.parse(
+                candidate.read_text(),
+                filename=str(candidate),
+            )
+        except (SyntaxError, UnicodeDecodeError) as exc:
+            failures.append(
+                f"{candidate.relative_to(root)}: {exc}"
+            )
+
+    if failures:
+        raise VerificationError(
+            "Governance Python AST failures:\n"
+            + "\n".join(failures[:30])
+        )
+
+    if not files:
+        return Result(
+            name="python_integrity",
+            status=SKIP,
+            summary="no Governance-owned Python modules found",
+            details={"roots": []},
+        )
+
+    return Result(
+        name="python_integrity",
+        status=PASS,
+        summary=f"{len(files)} Governance-owned Python modules parse",
+        details={
+            "module_count": len(files),
+            "roots": [
+                str(candidate.relative_to(root))
+                for candidate in python_roots
+            ],
+        },
+    )
+
+
+def check_policy_documents(root: Path) -> Result:
+    roots = governance_roots(root)
+    files = iter_files(roots, {".md", ".txt", ".rst"})
+
+    if not files:
+        raise VerificationError("no Governance policy documents found")
+
+    empty: list[str] = []
+
+    for path in files:
+        if not path.read_text(errors="replace").strip():
+            empty.append(str(path.relative_to(root)))
+
+    if empty:
+        raise VerificationError(
+            "empty Governance documents: " + ", ".join(empty[:30])
+        )
+
+    return Result(
+        name="policy_documents",
+        status=PASS,
+        summary=f"{len(files)} Governance policy documents are non-empty",
+        details={"document_count": len(files)},
+    )
+
+
+def check_schema_documents(root: Path) -> Result:
+    roots = [
+        path
+        for path in (
+            root / "vault/05-Registry",
+            root / "vault/04-Governance",
+            root / "vault/05-Governance",
+            root / "governance",
+            root / "01-Platform/governance",
+        )
+        if path.exists()
+    ]
+
+    json_files = iter_files(roots, {".json"})
+    schema_files: list[Path] = []
+
+    for path in json_files:
+        try:
+            payload = json.loads(path.read_text())
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            continue
+
+        if not isinstance(payload, dict):
+            continue
+
+        if (
+            "$schema" in payload
+            or "schema_version" in payload
+            or path.name.endswith(".schema.json")
+        ):
+            schema_files.append(path)
+
+    if not schema_files:
+        return Result(
+            name="schema_documents",
+            status=WARN,
+            summary="no explicit Governance schema documents discovered",
+        )
+
+    return Result(
+        name="schema_documents",
+        status=PASS,
+        summary=f"{len(schema_files)} Governance schema documents discovered",
+        details={
+            "schemas": [
+                str(path.relative_to(root))
+                for path in schema_files[:50]
+            ],
+        },
+    )
+
+
+def check_prohibited_controls(root: Path) -> Result:
+    """
+    Protect the current Governance direction.
+
+    Wonderland Governance must not reintroduce mandatory personality control,
+    behavioral enforcement, or oath-based runtime compliance.
+    """
+    roots = governance_roots(root)
+    files = iter_files(roots, {".md", ".txt", ".json", ".yaml", ".yml", ".py"})
+
+    prohibited = (
+        re.compile(
+            r"\bmandatory\s+(?:operator\s+)?oath\b",
+            re.IGNORECASE,
+        ),
+        re.compile(
+            r"\bpersonality\s+control\b",
+            re.IGNORECASE,
+        ),
+        re.compile(
+            r"\bbehavioral\s+enforcement\b",
+            re.IGNORECASE,
+        ),
+        re.compile(
+            r"\bforced\s+honesty\s+oath\b",
+            re.IGNORECASE,
+        ),
+    )
+
+    matches: list[str] = []
+
+    for path in files:
+        text = path.read_text(errors="replace")
+
+        for pattern in prohibited:
+            if pattern.search(text):
+                matches.append(
+                    f"{path.relative_to(root)}: {pattern.pattern}"
+                )
+
+    if matches:
+        raise VerificationError(
+            "prohibited Governance controls detected:\n"
+            + "\n".join(matches[:30])
+        )
+
+    return Result(
+        name="prohibited_controls",
+        status=PASS,
+        summary="no prohibited coercive Governance controls detected",
+    )
+
+
+def check_repository_paths(root: Path) -> Result:
+    suspicious: list[str] = []
+
+    for path in governance_roots(root):
+        for child in path.rglob("*"):
+            relative = child.relative_to(root)
+
+            if any(
+                part in {
+                    ".DS_Store",
+                    "__pycache__",
+                    ".pytest_cache",
+                }
+                for part in relative.parts
+            ):
+                suspicious.append(str(relative))
+
+    if suspicious:
+        return Result(
+            name="repository_hygiene",
+            status=WARN,
+            summary=f"{len(suspicious)} generated Governance paths found",
+            details={"paths": suspicious[:50]},
+        )
+
+    return Result(
+        name="repository_hygiene",
+        status=PASS,
+        summary="Governance roots contain no obvious generated-state debris",
+    )
+
+
+def aggregate(results: list[Result]) -> tuple[str, int]:
+    if any(result.status == FAIL for result in results):
+        return FAIL, 1
+
+    if any(result.status == WARN for result in results):
+        return WARN, 0
+
+    return PASS, 0
+
+
+def render_text(
+    results: list[Result],
+    overall: str,
+    verbose: bool,
+) -> None:
+    print("Wonderland Governance Verify")
+    print()
+
+    width = max(len(result.name) for result in results)
+
+    for result in results:
+        print(f"{result.name:<{width}}: {result.status}")
+
+        if verbose:
+            print(f"  {result.summary}")
+            print(f"  duration_ms: {result.duration_ms}")
+
+            if result.details:
+                for key, value in sorted(result.details.items()):
+                    print(f"  {key}: {value}")
+
+    print()
+    print(f"RESULT {overall}")
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Verify Wonderland Governance",
+    )
+    parser.add_argument("--json", action="store_true")
+    parser.add_argument("--verbose", action="store_true")
+    args = parser.parse_args()
+
+    try:
+        root = repository_root()
+    except VerificationError as exc:
+        if args.json:
+            print(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "result": FAIL,
+                        "error": str(exc),
+                        "checks": [],
+                    },
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+        else:
+            print(f"FAIL {exc}", file=sys.stderr)
+            print("RESULT FAIL")
+        return 1
+
+    checks: list[tuple[str, Callable[[], Result]]] = [
+        ("authority_launcher", lambda: check_authority_launcher(root)),
+        ("public_route", lambda: check_public_route(root)),
+        ("governance_roots", lambda: check_governance_roots(root)),
+        ("json_integrity", lambda: check_json_integrity(root)),
+        ("python_integrity", lambda: check_python_integrity(root)),
+        ("policy_documents", lambda: check_policy_documents(root)),
+        ("schema_documents", lambda: check_schema_documents(root)),
+        ("prohibited_controls", lambda: check_prohibited_controls(root)),
+        ("repository_hygiene", lambda: check_repository_paths(root)),
+    ]
+
+    started = time.monotonic()
+    results = [
+        timed(name, callback)
+        for name, callback in checks
+    ]
+
+    overall, exit_code = aggregate(results)
+    duration_ms = round((time.monotonic() - started) * 1000)
+
+    if args.json:
+        print(
+            json.dumps(
+                {
+                    "schema_version": 1,
+                    "root": str(root),
+                    "result": overall,
+                    "duration_ms": duration_ms,
+                    "checks": [asdict(result) for result in results],
+                    "summary": {
+                        "pass": sum(
+                            result.status == PASS
+                            for result in results
+                        ),
+                        "warn": sum(
+                            result.status == WARN
+                            for result in results
+                        ),
+                        "fail": sum(
+                            result.status == FAIL
+                            for result in results
+                        ),
+                        "skip": sum(
+                            result.status == SKIP
+                            for result in results
+                        ),
+                    },
+                },
+                indent=2,
+                sort_keys=True,
+            )
+        )
+    else:
+        render_text(results, overall, args.verbose)
+
+    return exit_code
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

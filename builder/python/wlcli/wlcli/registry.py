@@ -52,6 +52,24 @@ def discover(root: Path) -> list[Command]:
         Command("services", "Runtime", "Manage Wonderland services", "wl-services"),
         Command("rootless", "Runtime", "Manage Wonderland rootless runtime", "wl-rootless"),
         Command("apps", "Applications", "Manage Wonderland graphical app lifecycle", "wl-apps"),
+        Command(
+            "builder",
+            "Engineering",
+            "Manage Wonderland Builder verification, certification, and image construction",
+            target="wl-builder",
+        ),
+        Command(
+            "governance",
+            "Engineering",
+            "Manage Wonderland Governance verification and certification",
+            target="wl-governance",
+        ),
+        Command(
+            "platform",
+            "Engineering",
+            "Manage Wonderland Platform Engine verification and certification",
+            target="wl-platform",
+        ),
     ]
 
     candidates = {

@@ -1,17 +1,112 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-readonly WL_ROOT="${WL_ROOT:-/Users/wonderland/Wonderland}"
-readonly PACKAGE_ROOT="$WL_ROOT/builder/python/wlgovernance"
+ROOT="${WL_HOME:-${WONDERLAND_ROOT:-}}"
 
-if [[ ! -d "$PACKAGE_ROOT/wlgovernance" ]]; then
-  printf 'FAIL Governance package unavailable: %s\n' \
-    "$PACKAGE_ROOT/wlgovernance" >&2
-  exit 1
+if [[ -z "$ROOT" ]]; then
+  ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
 fi
 
-export WL_ROOT
-export WL_HOME="$WL_ROOT"
-export PYTHONPATH="$PACKAGE_ROOT${PYTHONPATH:+:$PYTHONPATH}"
+export WL_HOME="$ROOT"
+export WONDERLAND_ROOT="$ROOT"
 
-exec python3 -m wlgovernance "$@"
+usage() {
+  cat <<'USAGE'
+Usage:
+  wl governance doctor
+  wl governance verify [--json] [--verbose]
+  wl governance certify [--json]
+  wl governance status
+  wl governance help
+
+Commands:
+  doctor    Verify Governance authority availability
+  verify    Perform read-only Governance validation
+  certify   Produce signed-by-digest certification evidence
+  status    Alias for Governance verification
+USAGE
+}
+
+doctor() {
+  local failures=0
+
+  printf 'Wonderland Governance Doctor\n\n'
+
+  if [[ -x "$ROOT/bin/wl-governance" ]]; then
+    printf 'PASS Governance authority launcher\n'
+  else
+    printf 'FAIL Governance authority launcher\n'
+    failures=$((failures + 1))
+  fi
+
+  if [[ -x "$ROOT/bin/wl-governance-verify" ]]; then
+    printf 'PASS Governance verifier\n'
+  else
+    printf 'FAIL Governance verifier\n'
+    failures=$((failures + 1))
+  fi
+
+  if [[ -x "$ROOT/bin/wl-governance-certify" ]]; then
+    printf 'PASS Governance certification authority\n'
+  else
+    printf 'FAIL Governance certification authority\n'
+    failures=$((failures + 1))
+  fi
+
+  if command -v python3 >/dev/null 2>&1; then
+    printf 'PASS python3\n'
+  else
+    printf 'FAIL python3 unavailable\n'
+    failures=$((failures + 1))
+  fi
+
+  printf '\n'
+
+  if (( failures > 0 )); then
+    printf 'RESULT FAIL\n'
+    return 1
+  fi
+
+  printf 'RESULT PASS\n'
+}
+
+command_name="${1:-status}"
+
+case "$command_name" in
+  --json|--verbose)
+    command_name="verify"
+    ;;
+  --help|-h)
+    command_name="help"
+    ;;
+  *)
+    if [[ $# -gt 0 ]]; then
+      shift
+    fi
+    ;;
+esac
+
+case "$command_name" in
+  doctor)
+    doctor "$@"
+    ;;
+
+  verify|status)
+    exec "$ROOT/bin/wl-governance-verify" "$@"
+    ;;
+
+  certify)
+    exec "$ROOT/bin/wl-governance-certify" "$@"
+    ;;
+
+  help)
+    usage
+    ;;
+
+  *)
+    printf 'FAIL unknown Governance command: %s\n\n' \
+      "$command_name" >&2
+    usage >&2
+    exit 2
+    ;;
+esac

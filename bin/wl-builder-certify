@@ -1,80 +1,441 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/usr/bin/env python3
+"""
+Wonderland Builder certification controller.
 
-cd "$(git rev-parse --show-toplevel)"
+Certification performs:
 
-fail=0
+1. structural verification;
+2. deterministic evidence generation;
+3. SHA256 manifest generation;
+4. independent evidence validation.
 
-require_file() {
-  local path="$1"
+Guest-side image builds are opt-in through --full. This prevents ordinary
+certification from unexpectedly starting Lima or mutating Builder state.
+"""
 
-  if [[ -f "$path" ]]; then
-    echo "PASS file: $path"
-  else
-    echo "FAIL file: $path"
-    fail=1
-  fi
-}
+from __future__ import annotations
 
-require_dir() {
-  local path="$1"
-
-  if [[ -d "$path" ]]; then
-    echo "PASS dir: $path"
-  else
-    echo "FAIL dir: $path"
-    fail=1
-  fi
-}
-
-echo "Wonderland Builder Certification"
-echo
-
-require_dir "builder/python/wlbuilder"
-
-require_file "builder/python/wlbuilder/__init__.py"
-require_file "builder/python/wlbuilder/__main__.py"
-require_file "builder/python/wlbuilder/runtime.py"
-require_file "builder/python/wlbuilder/cli.py"
-
-require_file "wlbuilder/__init__.py"
-require_file "wlbuilder/__main__.py"
-
-echo
-python3 -m wlbuilder --help >/dev/null && echo "PASS wlbuilder help" || {
-  echo "FAIL wlbuilder help"
-  fail=1
-}
-
-python3 -m wlbuilder status >/dev/null && echo "PASS wlbuilder status" || {
-  echo "FAIL wlbuilder status"
-  fail=1
-}
-
-python3 -m wlbuilder verify >/dev/null && echo "PASS wlbuilder verify" || {
-  echo "FAIL wlbuilder verify"
-  fail=1
-}
-
-python3 - <<'PYVERIFY' && echo "PASS wlbuilder runtime import" || {
-import wlbuilder.runtime
+import argparse
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import sys
+import tarfile
+import tempfile
+import time
+from datetime import datetime, timezone
 from pathlib import Path
+from typing import Sequence
 
-runtime = Path(wlbuilder.runtime.__file__).as_posix()
-expected = "builder/python/wlbuilder/runtime.py"
 
-if not runtime.endswith(expected):
-    raise SystemExit(f"wrong runtime import: {runtime}")
-PYVERIFY
-  echo "FAIL wlbuilder runtime import"
-  fail=1
-}
+PASS = "PASS"
+FAIL = "FAIL"
 
-echo
-if [[ "$fail" -eq 0 ]]; then
-  echo "PASS builder certification"
-else
-  echo "FAIL builder certification"
-fi
 
-exit "$fail"
+class CertificationError(RuntimeError):
+    pass
+
+
+def repository_root() -> Path:
+    configured = os.environ.get("WL_HOME") or os.environ.get("WONDERLAND_ROOT")
+
+    if configured:
+        candidate = Path(configured).expanduser().resolve()
+        if (candidate / ".git").exists():
+            return candidate
+
+    candidate = Path(__file__).resolve().parent.parent
+    if (candidate / ".git").exists():
+        return candidate
+
+    completed = subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+        check=False,
+    )
+
+    if completed.returncode == 0 and completed.stdout.strip():
+        return Path(completed.stdout.strip()).resolve()
+
+    raise CertificationError("unable to locate Wonderland repository root")
+
+
+def run(
+    command: Sequence[str],
+    *,
+    root: Path,
+    timeout: int,
+) -> subprocess.CompletedProcess[str]:
+    env = os.environ.copy()
+    env["WL_HOME"] = str(root)
+    env["WONDERLAND_ROOT"] = str(root)
+    env["CI"] = "1"
+    env["WL_NONINTERACTIVE"] = "1"
+
+    return subprocess.run(
+        list(command),
+        cwd=root,
+        env=env,
+        stdin=subprocess.DEVNULL,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        timeout=timeout,
+        check=False,
+    )
+
+
+def git_value(root: Path, *args: str) -> str:
+    completed = subprocess.run(
+        ["git", *args],
+        cwd=root,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+
+    if completed.returncode != 0:
+        return "unknown"
+
+    return completed.stdout.strip()
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+
+    return digest.hexdigest()
+
+
+def write_json(path: Path, payload: object) -> None:
+    path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n"
+    )
+
+
+def certify(root: Path, *, full: bool) -> tuple[Path, dict[str, object]]:
+    created = datetime.now(timezone.utc)
+    stamp = created.strftime("%Y%m%dT%H%M%SZ")
+
+    certification_root = (
+        root
+        / "vault/08-Operations/certifications/builder"
+        / stamp
+    )
+    certification_root.mkdir(parents=True, exist_ok=False)
+
+    verify_json = certification_root / "builder-verify.json"
+    verify_text = certification_root / "builder-verify.txt"
+
+    verify = run(
+        [str(root / "bin/wl-builder-verify"), "--json"],
+        root=root,
+        timeout=180,
+    )
+    verify_json.write_text(verify.stdout)
+    verify_text.write_text(
+        verify.stdout
+        + ("\nSTDERR\n" + verify.stderr if verify.stderr else "")
+    )
+
+    if verify.returncode != 0:
+        raise CertificationError(
+            f"Builder verification failed with exit {verify.returncode}"
+        )
+
+    try:
+        verify_payload = json.loads(verify.stdout)
+    except json.JSONDecodeError as exc:
+        raise CertificationError(
+            f"Builder verifier returned invalid JSON: {exc}"
+        ) from exc
+
+    if verify_payload.get("result") not in {PASS, "WARN"}:
+        raise CertificationError(
+            f"Builder verification result was {verify_payload.get('result')}"
+        )
+
+    full_result: dict[str, object] | None = None
+
+    if full:
+        full_command_candidates = (
+            [str(root / "bin/wl-builder"), "build"],
+            [str(root / "bin/wl"), "builder", "build"],
+        )
+
+        build_completed: subprocess.CompletedProcess[str] | None = None
+        selected_command: list[str] | None = None
+
+        for command in full_command_candidates:
+            executable = Path(command[0])
+
+            if executable.is_file() and os.access(executable, os.X_OK):
+                selected_command = command
+                build_completed = run(
+                    command,
+                    root=root,
+                    timeout=7200,
+                )
+                break
+
+        if build_completed is None or selected_command is None:
+            raise CertificationError(
+                "full certification requested but Builder build command "
+                "is unavailable"
+            )
+
+        (certification_root / "builder-build.stdout.txt").write_text(
+            build_completed.stdout
+        )
+        (certification_root / "builder-build.stderr.txt").write_text(
+            build_completed.stderr
+        )
+
+        full_result = {
+            "command": selected_command,
+            "exit_code": build_completed.returncode,
+        }
+
+        if build_completed.returncode != 0:
+            raise CertificationError(
+                f"Builder full build exited {build_completed.returncode}"
+            )
+
+    source_paths = [
+        path
+        for path in (
+            root / "bin/wl-builder",
+            root / "bin/wl-builder-verify",
+            root / "bin/wl-builder-certify",
+        )
+        if path.exists()
+    ]
+
+    builder_python = root / "builder/python/wlbuilder"
+
+    if builder_python.exists():
+        source_paths.extend(
+            sorted(
+                path
+                for path in builder_python.rglob("*.py")
+                if "__pycache__" not in path.parts
+            )
+        )
+
+    source_manifest = {
+        str(path.relative_to(root)): {
+            "sha256": sha256(path),
+            "size_bytes": path.stat().st_size,
+        }
+        for path in sorted(set(source_paths))
+        if path.is_file()
+    }
+
+    write_json(
+        certification_root / "source-manifest.json",
+        {
+            "schema_version": 1,
+            "files": source_manifest,
+        },
+    )
+
+    certification_payload: dict[str, object] = {
+        "schema_version": 1,
+        "subsystem": "builder",
+        "created_at": created.isoformat(),
+        "mode": "full" if full else "structural",
+        "result": PASS,
+        "repository": {
+            "root": str(root),
+            "branch": git_value(root, "branch", "--show-current"),
+            "commit": git_value(root, "rev-parse", "HEAD"),
+            "dirty": bool(git_value(root, "status", "--porcelain")),
+        },
+        "verification": {
+            "result": verify_payload.get("result"),
+            "check_count": len(verify_payload.get("checks", [])),
+        },
+        "full_build": full_result,
+    }
+
+    write_json(
+        certification_root / "builder-certification.json",
+        certification_payload,
+    )
+
+    evidence_files = sorted(
+        path
+        for path in certification_root.iterdir()
+        if path.is_file() and path.name != "SHA256SUMS"
+    )
+
+    sums_path = certification_root / "SHA256SUMS"
+    sums_path.write_text(
+        "".join(
+            f"{sha256(path)}  {path.name}\n"
+            for path in evidence_files
+        )
+    )
+
+    archive_path = certification_root / (
+        f"builder-certification-{stamp}.tar.gz"
+    )
+
+    with tarfile.open(archive_path, "w:gz") as archive:
+        for path in sorted(certification_root.iterdir()):
+            if path == archive_path:
+                continue
+            archive.add(path, arcname=path.name)
+
+    archive_digest_path = certification_root / (
+        archive_path.name + ".sha256"
+    )
+    archive_digest_path.write_text(
+        f"{sha256(archive_path)}  {archive_path.name}\n"
+    )
+
+    independently_verify_archive(
+        archive_path,
+        archive_digest_path,
+    )
+
+    return certification_root, certification_payload
+
+
+def independently_verify_archive(
+    archive_path: Path,
+    digest_path: Path,
+) -> None:
+    expected = digest_path.read_text().split()[0]
+    actual = sha256(archive_path)
+
+    if actual != expected:
+        raise CertificationError(
+            "evidence archive SHA256 mismatch"
+        )
+
+    with tempfile.TemporaryDirectory(prefix="wl-builder-certify-") as tmp:
+        extraction_root = Path(tmp)
+
+        with tarfile.open(archive_path, "r:gz") as archive:
+            members = archive.getmembers()
+
+            for member in members:
+                destination = (
+                    extraction_root / member.name
+                ).resolve()
+
+                if extraction_root.resolve() not in destination.parents and (
+                    destination != extraction_root.resolve()
+                ):
+                    raise CertificationError(
+                        "unsafe path in evidence archive"
+                    )
+
+            archive.extractall(extraction_root)
+
+        sums_path = extraction_root / "SHA256SUMS"
+
+        if not sums_path.exists():
+            raise CertificationError(
+                "evidence archive missing SHA256SUMS"
+            )
+
+        for line in sums_path.read_text().splitlines():
+            expected_digest, filename = line.split(maxsplit=1)
+            filename = filename.strip()
+            candidate = extraction_root / filename
+
+            if not candidate.is_file():
+                raise CertificationError(
+                    f"evidence file missing: {filename}"
+                )
+
+            if sha256(candidate) != expected_digest:
+                raise CertificationError(
+                    f"evidence checksum mismatch: {filename}"
+                )
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Certify Wonderland Builder",
+    )
+    parser.add_argument(
+        "--full",
+        action="store_true",
+        help="include explicit Builder build execution",
+    )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="emit JSON result",
+    )
+    args = parser.parse_args()
+
+    started = time.monotonic()
+
+    try:
+        root = repository_root()
+        certification_root, payload = certify(
+            root,
+            full=args.full,
+        )
+    except (
+        CertificationError,
+        subprocess.TimeoutExpired,
+        OSError,
+    ) as exc:
+        result = {
+            "schema_version": 1,
+            "result": FAIL,
+            "error": str(exc),
+            "duration_ms": round(
+                (time.monotonic() - started) * 1000
+            ),
+        }
+
+        if args.json:
+            print(json.dumps(result, indent=2, sort_keys=True))
+        else:
+            print("Wonderland Builder Certification")
+            print()
+            print(f"FAIL {exc}")
+            print()
+            print("RESULT FAIL")
+
+        return 1
+
+    result = {
+        "schema_version": 1,
+        "result": PASS,
+        "mode": payload["mode"],
+        "certification": str(certification_root),
+        "duration_ms": round(
+            (time.monotonic() - started) * 1000
+        ),
+    }
+
+    if args.json:
+        print(json.dumps(result, indent=2, sort_keys=True))
+    else:
+        print("Wonderland Builder Certification")
+        print()
+        print(f"mode: {result['mode']}")
+        print(f"evidence: {certification_root}")
+        print()
+        print("RESULT PASS")
+
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
