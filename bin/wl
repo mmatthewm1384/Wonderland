@@ -3,6 +3,30 @@ set -euo pipefail
 
 
 
+
+# BEGIN WL-GOVERNANCE-PUBLIC-ROUTE
+# Stable public route into the Wonderland Governance Engine.
+if [[ "${1:-}" == "governance" ]]; then
+  shift
+
+  _wl_governance_root="$(
+    cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &&
+    pwd -P
+  )"
+
+  _wl_governance_base="${WL_ROOT:-$_wl_governance_root}"
+  _wl_governance="$_wl_governance_base/bin/wl-governance"
+
+  if [[ ! -x "$_wl_governance" ]]; then
+    printf 'FAIL Governance Engine unavailable: %s\n' \
+      "$_wl_governance" >&2
+    exit 1
+  fi
+
+  exec "$_wl_governance" "$@"
+fi
+# END WL-GOVERNANCE-PUBLIC-ROUTE
+
 # BEGIN WL-RUNTIME-PUBLIC-ROUTES
 # Stable public routes into the authoritative Runtime Engine.
 #
