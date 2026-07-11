@@ -1,38 +1,99 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WL_HOME="${WL_HOME:-$HOME/Wonderland}"
-source "$WL_HOME/bin/wl-runtime-env"
+WONDERLAND_ROOT="${WONDERLAND_ROOT:-${WL_HOME:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}}"
+INSTANCE="${WONDERLAND_ROOTLESS_INSTANCE:-wonderland-rootless}"
 
-case "${1:-status}" in
+usage() {
+  cat <<USAGE
+Usage:
+  wl-rootless start
+  wl-rootless stop
+  wl-rootless shell
+  wl-rootless status
+  wl-rootless bootstrap
+  wl-rootless rebuild
+  wl-rootless exec <command...>
+  wl-rootless state
+  wl-rootless health
+  wl-rootless doctor
+USAGE
+}
+
+cmd="${1:-status}"
+
+case "$cmd" in
   start)
-    limactl start wonderland-rootless
+    limactl start "$INSTANCE"
     ;;
   stop)
-    limactl stop wonderland-rootless
-    ;;
-  restart)
-    limactl stop wonderland-rootless || true
-    limactl start wonderland-rootless
-    ;;
-  status)
-    limactl list | grep -E '^wonderland-rootless[[:space:]]' || {
-      echo "FAIL wonderland-rootless not found"
-      exit 1
-    }
-
-    limactl list | grep -E '^wonderland-rootless[[:space:]]+Running' >/dev/null || {
-      echo "FAIL wonderland-rootless not running"
-      exit 1
-    }
-
-    echo "PASS wonderland-rootless running"
+    limactl stop "$INSTANCE"
     ;;
   shell)
-    limactl shell wonderland-rootless
+    limactl shell "$INSTANCE" bash -lc 'cd /Users/wonderland/Wonderland && exec bash -l'
+    ;;
+  status)
+    limactl list "$INSTANCE"
+    ;;
+  bootstrap)
+    if limactl list "$INSTANCE" >/dev/null 2>&1; then
+      limactl start "$INSTANCE"
+    else
+      limactl create --name "$INSTANCE" "$WONDERLAND_ROOT/infrastructure/lima/wonderland-rootless.yaml"
+      limactl start "$INSTANCE"
+    fi
+    ;;
+
+  rebuild)
+    limactl stop "$INSTANCE" 2>/dev/null || true
+    limactl delete "$INSTANCE" 2>/dev/null || true
+    limactl create --name "$INSTANCE" "$WONDERLAND_ROOT/infrastructure/lima/wonderland-rootless.yaml"
+    limactl start "$INSTANCE"
+    ;;
+  exec)
+    shift
+    if [ "$#" -eq 0 ]; then
+      echo "wl-rootless exec requires a command" >&2
+      exit 64
+    fi
+    limactl shell "$INSTANCE" bash -lc "cd /Users/wonderland/Wonderland && $*"
+    ;;
+
+  state)
+    limactl shell "$INSTANCE" bash -lc 'ls -la ~/.local/state/wonderland/runtime && echo && for f in ~/.local/state/wonderland/runtime/*.json; do echo "== $f =="; head -80 "$f"; echo; done'
+    ;;
+
+  health)
+    limactl shell "$INSTANCE" bash -lc 'cd /Users/wonderland/Wonderland && ./bin/wl runtime status'
+    ;;
+
+  doctor)
+    limactl shell "$INSTANCE" bash -lc '
+      set -e
+      source ~/.profile 2>/dev/null || true
+      echo "Wonderland Rootless Doctor"
+      echo
+      echo "Instance: wonderland-rootless"
+      echo "Role: ${WONDERLAND_ROLE:-unset}"
+      echo "Host: ${WONDERLAND_HOST:-unset}"
+      echo "Repo: ${WONDERLAND_REPO:-unset}"
+      echo
+      for cmd in python3 git jq yq micro rg shellcheck sqlite3 tmux nerdctl; do
+        printf "%-12s " "$cmd"
+        command -v "$cmd" || true
+      done
+      echo
+      cd /Users/wonderland/Wonderland
+      ./bin/wl start --inside-linux --fast >/dev/null
+      ./bin/wl runtime status
+    '
+    ;;
+  ""|help|--help|-h)
+    usage
     ;;
   *)
-    echo "usage: wl-rootless {start|stop|restart|status|shell}"
-    exit 2
+    echo "unknown wl-rootless command: $cmd" >&2
+    usage >&2
+    exit 64
     ;;
 esac
