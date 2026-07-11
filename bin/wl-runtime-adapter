@@ -156,9 +156,7 @@ case "$ENGINE_ID:$ACTION" in
   runtime-verification:start|runtime-verification:verify)
     run_strict \
       "runtime architecture verification" \
-      "$WL_ROOT/bin/wl" \
-      architecture \
-      verify
+      "$WL_ROOT/bin/wl-architecture-verify"
 
     run_strict \
       "runtime Python verification" \

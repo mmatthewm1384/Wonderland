@@ -77,33 +77,10 @@ releases/*.raw.zst
 releases/*.manifest.json
 releases/*.manifest.txt
 releases/*.sha256
-__pycache__/
-*.pyc
 
-.build/
-releases/*.qcow2
-releases/*.vmdk
-releases/*.vhdx
-releases/*.raw
-releases/*.raw.zst
-releases/*.manifest.json
-releases/*.manifest.txt
-releases/*.sha256
-__pycache__/
-*.pyc
 
-.build/
-releases/*.qcow2
-releases/*.vmdk
-releases/*.vhdx
-releases/*.raw
-releases/*.raw.zst
-releases/*.manifest.json
-releases/*.manifest.txt
-releases/*.sha256
 
 # Python cache
-__pycache__/
 *.py[cod]
 
 # Wonderland generated runtime logs/reports
@@ -115,22 +92,12 @@ logs/security/audit.jsonl
 .wl/backups/
 ephemeral/
 
-# Python cache
-__pycache__/
-*.py[cod]
 
 # Wonderland generated security runtime artifacts
-logs/security/*.json
-logs/security/*.jsonl
-logs/security/audit.jsonl
 
 # Wonderland local runtime/backups
-.wl/backups/
-ephemeral/
 
 # Python generated artifacts
-__pycache__/
-*.py[cod]
 *.pyo
 .pytest_cache/
 .mypy_cache/
@@ -145,9 +112,6 @@ builder/vmware/
 builder/mount/
 builder/rootfs/
 builder/work/
-releases/*.qcow2
-releases/*.raw
-releases/*.vmdk
 *.vmwarevm/
 
 # Runtime logs/state
@@ -160,14 +124,11 @@ vault/08-Operations/replication/manifests/latest.*
 releases/builder-v2/
 
 # Python generated files
-__pycache__/
-*.py[cod]
 *$py.class
 .venv/
 venv/
 ENV/
 
-# Wonderland generated artifacts
 builder/output/
 releases/
 Wonderland-Builds/
@@ -180,7 +141,6 @@ Wonderland-Builds/
 *.sha256
 
 # Runtime/generated state
-vault/ephemeral-runs.log
 vault/**/audit.jsonl
 vault/**/latest.json
 vault/**/latest.diff
@@ -188,33 +148,11 @@ vault/**/latest-status.json
 vault/**/latest-status.md
 
 # macOS / editor noise
-.DS_Store
 *.swp
 *.swo
 
-# Python generated files
-__pycache__/
-*.py[cod]
-*$py.class
-.venv/
-venv/
-ENV/
 
-# Wonderland generated artifacts
-builder/output/
-Wonderland-Builds/
-*.raw
-*.qcow2
-*.vmdk
-*.img
-*.iso
-*.manifest.json
-*.sha256
 
-# macOS / editor noise
-.DS_Store
-*.swp
-*.swo
 
 # Python package metadata
 *.egg-info/
@@ -227,17 +165,21 @@ runtime/controller/
 runtime/chaos/
 vault/08-Operations/state/latest.json
 vault/chaos/scheduler-audit.jsonl
-# Wonderland runtime state
 runtime/controller/*
 !runtime/controller/.gitkeep
 runtime/chaos/*
 !runtime/chaos/.gitkeep
-vault/08-Operations/state/latest.json
-vault/chaos/scheduler-audit.jsonl
 
-# Python generated files
-__pycache__/
-*.py[cod]
 
 # Wonderland generated runtime state
 state/runtime/
+
+# Wonderland Runtime Engine generated certification evidence
+/vault/08-Operations/certifications/runtime-certification-*/
+/vault/08-Operations/certifications/runtime-engine-certified-*.json
+/vault/08-Operations/certifications/runtime-rc1-gate-*/
+/vault/08-Operations/certifications/runtime-rc1-gate-*.json
+/vault/08-Operations/certifications/runtime-beta-test-*/
+/vault/08-Operations/certifications/runtime-rollback-test-*/
+/vault/08-Operations/state/wl-runtime-engine.json
+/vault/08-Operations/state/wl-runtime-engine.json.lock

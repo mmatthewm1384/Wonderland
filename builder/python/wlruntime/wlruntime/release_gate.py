@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -70,6 +71,20 @@ class RuntimeReleaseGate:
             / f"runtime-rc1-gate-{timestamp}"
         )
 
+        # Evaluate release cleanliness before creating any gate evidence.
+        git_status = subprocess.run(
+            ["git", "status", "--porcelain"],
+            cwd=self.root,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+
+        repository_clean_at_start = (
+            git_status.returncode == 0
+            and not git_status.stdout.strip()
+        )
+
         evidence_root.mkdir(
             parents=True,
             exist_ok=False,
@@ -85,11 +100,21 @@ class RuntimeReleaseGate:
         )
 
         checks: dict[str, bool] = {
+            "repository_clean": (
+                repository_clean_at_start
+                if require_clean
+                else True
+            ),
             "regression": (
                 regression["result"] == "PASS"
-            )
+            ),
         }
         errors: list[str] = []
+
+        if require_clean and not repository_clean_at_start:
+            errors.append(
+                "repository was dirty when the RC1 gate started"
+            )
 
         if not checks["regression"]:
             errors.append(
@@ -98,7 +123,10 @@ class RuntimeReleaseGate:
 
         certification_summary: dict[str, Any] | None = None
 
-        if checks["regression"]:
+        if (
+            checks["regression"]
+            and checks["repository_clean"]
+        ):
             certification = RuntimeCertificationEngine(
                 root=self.root,
                 registry=self.registry,
@@ -106,7 +134,9 @@ class RuntimeReleaseGate:
                 engine=self.engine,
             ).certify(
                 mode="full",
-                require_clean=require_clean,
+                # The release gate already captured cleanliness before
+                # generating its own evidence directory.
+                require_clean=False,
             )
 
             certification_summary = {
@@ -144,6 +174,12 @@ class RuntimeReleaseGate:
                 )
         else:
             checks["full_certification"] = False
+
+            if not checks["repository_clean"]:
+                errors.append(
+                    "full certification skipped because "
+                    "the strict gate began with a dirty repository"
+                )
 
         result = (
             "PASS"
