@@ -1,66 +1,17 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
 
-WL_HOME="${WL_HOME:-$HOME/Wonderland}"
-cd "$WL_HOME"
+readonly WL_ROOT="${WL_ROOT:-/Users/wonderland/Wonderland}"
+readonly PACKAGE_ROOT="$WL_ROOT/builder/python/wlgovernance"
 
-ROOT="${WONDERLAND_ROOT:-$HOME/Wonderland}"
-REPORT_DIR="$ROOT/vault/09-Governance/reports"
-REPORT="$REPORT_DIR/governance-status.json"
+if [[ ! -d "$PACKAGE_ROOT/wlgovernance" ]]; then
+  printf 'FAIL Governance package unavailable: %s\n' \
+    "$PACKAGE_ROOT/wlgovernance" >&2
+  exit 1
+fi
 
-usage() {
-  cat <<EOF
-Usage:
-  wl governance audit
-  wl governance repair
-  wl governance status
-  wl governance report
-EOF
-}
+export WL_ROOT
+export WL_HOME="$WL_ROOT"
+export PYTHONPATH="$PACKAGE_ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
-case "${1:-}" in
-  audit)
-    "$ROOT/tools/governance/audit-footers.sh"
-    ;;
-
-  repair)
-    "$ROOT/tools/governance/apply-footer.sh"
-    ;;
-
-  status)
-    "$ROOT/tools/governance/audit-footers.sh" | awk '
-      /^PASS/ {pass++}
-      /^FAIL/ {fail++}
-      END {
-        printf "PASS=%d\n", pass+0
-        printf "FAIL=%d\n", fail+0
-      }'
-    ;;
-
-  report)
-    mkdir -p "$REPORT_DIR"
-
-    tmp="$(mktemp)"
-    "$ROOT/tools/governance/audit-footers.sh" > "$tmp"
-
-    pass="$(grep -c '^PASS' "$tmp" || true)"
-    fail="$(grep -c '^FAIL' "$tmp" || true)"
-
-    cat > "$REPORT" <<EOF
-{
-  "generated": "$(date -Iseconds)",
-  "standard": "WL-GOV-001",
-  "pass": $pass,
-  "fail": $fail
-}
-EOF
-
-    rm -f "$tmp"
-    echo "$REPORT"
-    ;;
-
-  *)
-    usage
-    exit 1
-    ;;
-esac
+exec python3 -m wlgovernance "$@"
