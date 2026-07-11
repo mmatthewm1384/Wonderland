@@ -1,42 +1,38 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
 
-REG="vault/07-Operations/platform/platform-registry.json"
+ROOT="${WL_HOME:-${WONDERLAND_ROOT:-}}"
 
-case "${1:-doctor}" in
+if [[ -z "$ROOT" ]]; then
+  ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
+fi
 
-  doctor|verify)
+export WL_HOME="$ROOT"
+export WONDERLAND_ROOT="$ROOT"
 
-    echo
-    echo "Wonderland Platform Doctor"
-    echo
+python_paths=(
+  "$ROOT/builder/python/wlplatform"
+  "$ROOT/builder/python/wlcli"
+  "$ROOT/builder/python"
+  "$ROOT"
+)
 
-    python3 - <<PY
-import json
-from pathlib import Path
+combined=""
 
-p = Path("$REG")
+for path in "${python_paths[@]}"; do
+  [[ -d "$path" ]] || continue
 
-if not p.exists():
-    raise SystemExit("FAIL missing platform registry")
+  if [[ -z "$combined" ]]; then
+    combined="$path"
+  else
+    combined="$combined:$path"
+  fi
+done
 
-d = json.loads(p.read_text())
+if [[ -n "${PYTHONPATH:-}" ]]; then
+  combined="$combined:$PYTHONPATH"
+fi
 
-print("authority root           PASS")
-print("persistence root         PASS")
-print(f"governance standards     {len(d.get('governance', []))}")
-print(f"certified services       {len(d.get('certified_services', []))}")
-print()
-print("RESULT PASS")
-PY
-  ;;
+export PYTHONPATH="$combined"
 
-  show)
-    cat "$REG"
-  ;;
-
-  *)
-    echo "Usage: wl-platform doctor|verify|show"
-    exit 1
-  ;;
-esac
+exec python3 -m wlplatform "$@"

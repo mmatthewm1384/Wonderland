@@ -1,286 +1,185 @@
 #!/usr/bin/env bash
-# Wonderland deterministic Builder authority.
 set -Eeuo pipefail
 
-export PATH="/Users/wonderland/Wonderland/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+ROOT="${WL_HOME:-${WONDERLAND_ROOT:-}}"
 
-readonly WL_ROOT="${WL_ROOT:-/Users/wonderland/Wonderland}"
-readonly BUILDER_SELF="$WL_ROOT/bin/wl-builder"
-readonly INSTANCE="${WL_BUILDER_INSTANCE:-wonderland-os-builder}"
-readonly LIMA_DIR="${LIMA_HOME:-$HOME/.lima}"
-readonly INSTANCE_DIR="$LIMA_DIR/$INSTANCE"
-readonly LEGACY="$WL_ROOT/bin/wl-builder-legacy"
+if [[ -z "$ROOT" ]]; then
+  ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
+fi
 
-fail() {
-  printf 'FAIL %s\n' "$*" >&2
-  exit 1
-}
+export WL_HOME="$ROOT"
+export WONDERLAND_ROOT="$ROOT"
 
 usage() {
-  cat <<'EOF'
+  cat <<'USAGE'
 Usage:
   wl builder status
   wl builder doctor
-  wl builder verify
-  wl builder root
-  wl builder shell
-  wl builder build [--profile development|release]
-  wl builder certify
-  wl builder recreate
-  wl builder start
-  wl builder stop
-  wl builder restart
-  wl builder clean
-  wl builder logs
-EOF
+  wl builder verify [--json] [--verbose]
+  wl builder certify [--json] [--full]
+  wl builder build [args...]
+  wl builder shell [args...]
+  wl builder start [args...]
+  wl builder stop [args...]
+  wl builder help
+
+Command classes:
+  verify    Host-safe, read-only structural verification
+  certify   Generate deterministic certification evidence
+  build     Explicit image or artifact build; may start the Builder VM
+  start     Explicitly start Builder infrastructure
+  stop      Explicitly stop Builder infrastructure
+  shell     Explicitly enter the Builder environment
+  status    Read-only operational status
+  doctor    Host-side Builder diagnostics
+USAGE
 }
 
-# Executes limactl list with a strict process timeout and returns plain output.
-bounded_lima_list() {
-  python3 - "$INSTANCE" <<'PY'
-from __future__ import annotations
+find_legacy_launcher() {
+  local candidate
 
-import subprocess
-import sys
-
-instance = sys.argv[1]
-
-try:
-    completed = subprocess.run(
-        ["limactl", "list"],
-        text=True,
-        capture_output=True,
-        timeout=10,
-        check=False,
-    )
-except subprocess.TimeoutExpired:
-    print("FAIL limactl list timed out", file=sys.stderr)
-    raise SystemExit(124)
-except OSError as exc:
-    print(f"FAIL limactl unavailable: {exc}", file=sys.stderr)
-    raise SystemExit(127)
-
-if completed.stderr:
-    print(completed.stderr, end="", file=sys.stderr)
-
-print(completed.stdout, end="")
-raise SystemExit(completed.returncode)
-PY
-}
-
-instance_row() {
-  local output
-
-  output="$(bounded_lima_list)" || return $?
-
-  awk -v instance="$INSTANCE" '
-    $1 == instance {
-      print
-      exit
-    }
-  ' <<<"$output"
-}
-
-instance_status() {
-  local row
-
-  row="$(instance_row 2>/dev/null || true)"
-
-  if [[ -z "$row" ]]; then
-    if [[ -d "$INSTANCE_DIR" ]]; then
-      printf 'Registered\n'
-    else
-      printf 'Missing\n'
+  for candidate in \
+    "$ROOT/bin/wl-builder-legacy" \
+    "$ROOT/bin/wlbuilder" \
+    "$ROOT/builder/bin/wl-builder" \
+    "$ROOT/builder/wl-builder"
+  do
+    if [[ -x "$candidate" && "$candidate" != "$ROOT/bin/wl-builder" ]]; then
+      printf '%s\n' "$candidate"
+      return 0
     fi
-    return
-  fi
+  done
 
-  awk '{print $2}' <<<"$row"
+  return 1
 }
 
-builder_status() {
-  local status
+run_legacy() {
+  local legacy
 
-  status="$(instance_status)"
-
-  cat <<EOF
-== Wonderland Builder Status ==
-
-Instance: $INSTANCE
-Status:   $status
-Host:     $WL_ROOT
-Lima:     $INSTANCE_DIR
-EOF
-
-  if [[ "$status" == "Missing" ]]; then
-    printf '\nRESULT FAIL\n'
-    return 1
+  if ! legacy="$(find_legacy_launcher)"; then
+    printf 'FAIL no legacy Builder operational launcher available\n' >&2
+    exit 1
   fi
 
-  printf '\nRESULT PASS\n'
+  exec "$legacy" "$@"
 }
 
-builder_doctor() {
+status_command() {
+  local legacy
+
+  if legacy="$(find_legacy_launcher)"; then
+    WL_NONINTERACTIVE=1 \
+    WL_STATUS_ONLY=1 \
+      "$legacy" status "$@"
+    return $?
+  fi
+
+  if command -v limactl >/dev/null 2>&1; then
+    local output
+
+    output="$(limactl list --json 2>/dev/null || true)"
+
+    if [[ -n "$output" ]]; then
+      printf '%s\n' "$output"
+      return 0
+    fi
+  fi
+
+  printf 'Builder VM: UNKNOWN\n'
+  printf 'RESULT WARN\n'
+  return 0
+}
+
+doctor_command() {
   local failures=0
 
   printf 'Wonderland Builder Doctor\n\n'
 
+  if [[ -d "$ROOT/builder" ]]; then
+    printf 'PASS builder root\n'
+  else
+    printf 'FAIL builder root missing\n'
+    failures=$((failures + 1))
+  fi
+
+  if [[ -d "$ROOT/builder/python/wlbuilder" ]]; then
+    printf 'PASS wlbuilder Python package\n'
+  else
+    printf 'FAIL wlbuilder Python package missing\n'
+    failures=$((failures + 1))
+  fi
+
+  if [[ -x "$ROOT/bin/wl-builder-verify" ]]; then
+    printf 'PASS Builder verifier\n'
+  else
+    printf 'FAIL Builder verifier unavailable\n'
+    failures=$((failures + 1))
+  fi
+
+  if [[ -x "$ROOT/bin/wl-builder-certify" ]]; then
+    printf 'PASS Builder certification authority\n'
+  else
+    printf 'FAIL Builder certification authority unavailable\n'
+    failures=$((failures + 1))
+  fi
+
+  if command -v python3 >/dev/null 2>&1; then
+    printf 'PASS python3\n'
+  else
+    printf 'FAIL python3 unavailable\n'
+    failures=$((failures + 1))
+  fi
+
   if command -v limactl >/dev/null 2>&1; then
-    printf 'PASS limactl              %s\n' \
-      "$(command -v limactl)"
+    printf 'PASS limactl available\n'
   else
-    printf 'FAIL limactl unavailable\n'
-    (( failures++ ))
-  fi
-
-  if [[ -d "$INSTANCE_DIR" ]]; then
-    printf 'PASS builder VM registry  %s\n' "$INSTANCE_DIR"
-  else
-    printf 'FAIL builder VM missing   %s\n' "$INSTANCE_DIR"
-    (( failures++ ))
-  fi
-
-  if [[ -d "$WL_ROOT" ]]; then
-    printf 'PASS host repository      %s\n' "$WL_ROOT"
-  else
-    printf 'FAIL host repository missing\n'
-    (( failures++ ))
-  fi
-
-  if [[ -x "$LEGACY" ]]; then
-    printf 'PASS mutation backend     %s\n' "$LEGACY"
-  else
-    printf 'FAIL mutation backend missing\n'
-    (( failures++ ))
+    printf 'WARN limactl unavailable\n'
   fi
 
   printf '\n'
 
-  if (( failures == 0 )); then
-    printf 'RESULT PASS\n'
-    return 0
+  if (( failures > 0 )); then
+    printf 'RESULT FAIL\n'
+    return 1
   fi
 
-  printf 'RESULT FAIL\n'
-  return 1
+  printf 'RESULT PASS\n'
 }
 
-builder_verify() {
-  local failures=0
-  local component
-  local status
+command_name="${1:-help}"
 
-  printf 'Wonderland Builder Verify\n\n'
-
-  if bash -n "$BUILDER_SELF"; then
-    printf 'PASS Builder authority syntax\n'
-  else
-    printf 'FAIL Builder authority syntax\n'
-    (( failures++ ))
-  fi
-
-  if bash -n "$LEGACY"; then
-    printf 'PASS legacy backend syntax\n'
-  else
-    printf 'FAIL legacy backend syntax\n'
-    (( failures++ ))
-  fi
-
-  if [[ -x "$WL_ROOT/bin/wl-build" ]] &&
-     bash -n "$WL_ROOT/bin/wl-build"
-  then
-    printf 'PASS build launcher syntax\n'
-  else
-    printf 'FAIL build launcher syntax\n'
-    (( failures++ ))
-  fi
-
-  # Architecture is verified independently by Platform and Governance.
-  # Builder verification must remain subsystem-local and non-recursive.
-  printf 'PASS architecture boundary delegated\n'
-
-  if [[ -d "$INSTANCE_DIR" ]]; then
-    status="$(instance_status)"
-    printf 'PASS builder VM registered status=%s\n' "$status"
-  else
-    printf 'FAIL builder VM not registered\n'
-    (( failures++ ))
-  fi
-
-  for component in \
-    bin/wl-builder-certify \
-    bin/wl-builder-ownership \
-    bin/wl-builder-recreate
-  do
-    if [[ -x "$WL_ROOT/$component" ]]; then
-      printf 'PASS builder component    %s\n' "$component"
-    else
-      printf 'FAIL builder component    %s\n' "$component"
-      (( failures++ ))
-    fi
-  done
-
-  # Do not run limactl shell, start a VM, inspect guest tools, or build images.
-  printf 'PASS verification is read-only\n'
-
-  printf '\n'
-
-  if (( failures == 0 )); then
-    printf 'RESULT PASS\n'
-    return 0
-  fi
-
-  printf 'RESULT FAIL\n'
-  return 1
-}
-
-builder_root() {
-  printf 'Host:     %s\n' "$WL_ROOT"
-  printf 'Instance: %s\n' "$INSTANCE"
-  printf 'Lima:     %s\n' "$INSTANCE_DIR"
-  printf 'Status:   %s\n' "$(instance_status)"
-}
-
-command_name="${1:---help}"
+if [[ $# -gt 0 ]]; then
+  shift
+fi
 
 case "$command_name" in
-  --help|-h|help)
-    usage
+  verify)
+    exec "$ROOT/bin/wl-builder-verify" "$@"
     ;;
 
-  status)
-    builder_status
+  certify)
+    exec "$ROOT/bin/wl-builder-certify" "$@"
     ;;
 
   doctor)
-    builder_doctor
+    doctor_command "$@"
     ;;
 
-  verify)
-    builder_verify
+  status)
+    status_command "$@"
     ;;
 
-  root)
-    builder_root
+  build|shell|start|stop|clean|graph)
+    run_legacy "$command_name" "$@"
     ;;
 
-  shell)
-    shift
-
-    [[ "$(instance_status)" == "Running" ]] ||
-      fail "Builder VM is not running; use: wl builder start"
-
-    exec limactl shell "$INSTANCE" -- "$@"
-    ;;
-
-  build|certify|recreate|start|stop|restart|clean|logs)
-    [[ -x "$LEGACY" ]] ||
-      fail "Builder mutation backend unavailable: $LEGACY"
-
-    exec "$LEGACY" "$@"
+  help|--help|-h)
+    usage
     ;;
 
   *)
-    fail "unknown Builder command: $command_name"
+    printf 'FAIL unknown Builder command: %s\n\n' "$command_name" >&2
+    usage >&2
+    exit 2
     ;;
 esac
