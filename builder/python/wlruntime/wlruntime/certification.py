@@ -123,14 +123,16 @@ class RuntimeCertificationEngine:
             / f"runtime-engine-certified-{run_timestamp}.json"
         )
 
-        evidence_root.mkdir(parents=True, exist_ok=False)
-
+        # Capture repository cleanliness before generating evidence.
+        # Certification artifacts must never invalidate their own gate.
         dirty_output = git_value(
             self.root,
             "status",
             "--short",
         )
         repository_dirty = bool(dirty_output)
+
+        evidence_root.mkdir(parents=True, exist_ok=False)
 
         checks: dict[str, bool] = {}
         evidence: dict[str, Any] = {}

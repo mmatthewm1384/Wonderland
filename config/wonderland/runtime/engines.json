@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "engines": {
+    "rootless-runtime": {
+      "description": "Rootless infrastructure runtime",
+      "dependencies": [],
+      "required": true,
+      "commands": {
+        "start": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "rootless-runtime",
+            "start"
+          ],
+          "timeout_seconds": 300
+        },
+        "stop": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "rootless-runtime",
+            "stop"
+          ],
+          "timeout_seconds": 300
+        },
+        "verify": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "rootless-runtime",
+            "verify"
+          ],
+          "timeout_seconds": 120
+        }
+      }
+    },
+    "core-services": {
+      "description": "Wonderland core services",
+      "dependencies": [
+        "rootless-runtime"
+      ],
+      "required": true,
+      "commands": {
+        "start": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "core-services",
+            "start"
+          ],
+          "timeout_seconds": 600
+        },
+        "stop": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "core-services",
+            "stop"
+          ],
+          "timeout_seconds": 600
+        },
+        "verify": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "core-services",
+            "verify"
+          ],
+          "timeout_seconds": 180
+        }
+      }
+    },
+    "runtime-verification": {
+      "description": "Runtime post-start verification",
+      "dependencies": [
+        "core-services"
+      ],
+      "required": true,
+      "commands": {
+        "start": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "runtime-verification",
+            "start"
+          ],
+          "timeout_seconds": 180
+        },
+        "stop": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "runtime-verification",
+            "stop"
+          ],
+          "timeout_seconds": 60
+        },
+        "verify": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "runtime-verification",
+            "verify"
+          ],
+          "timeout_seconds": 180
+        }
+      }
+    }
+  }
+}
