@@ -1,0 +1,177 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+readonly WL_ROOT="/Users/wonderland/Wonderland"
+
+ENGINE_ID="${1:-}"
+ACTION="${2:-}"
+
+fail() {
+  printf 'FAIL %s\n' "$*" >&2
+  exit 1
+}
+
+semantic_failure() {
+  grep -Eiq \
+    '(^|[[:space:]])RESULT[[:space:]]+FAIL([[:space:]]|$)|(^|[[:space:]])FAIL([[:space:]]|$)|Traceback \(most recent call last\)|command not found|No such file or directory|read-only file system'
+}
+
+run_strict() {
+  local label="$1"
+  shift
+
+  local stdout_file
+  local stderr_file
+  local status
+
+  stdout_file="$(mktemp "${TMPDIR:-/tmp}/wl-runtime-adapter.stdout.XXXXXX")"
+  stderr_file="$(mktemp "${TMPDIR:-/tmp}/wl-runtime-adapter.stderr.XXXXXX")"
+
+  set +e
+  (
+    cd "$WL_ROOT"
+    "$@"
+  ) >"$stdout_file" 2>"$stderr_file"
+  status=$?
+  set -e
+
+  cat "$stdout_file"
+  cat "$stderr_file" >&2
+
+  if [[ "$status" -ne 0 ]]; then
+    rm -f "$stdout_file" "$stderr_file"
+    fail "$label exited with status $status"
+  fi
+
+  if cat "$stdout_file" "$stderr_file" | semantic_failure; then
+    rm -f "$stdout_file" "$stderr_file"
+    fail "$label emitted failure output"
+  fi
+
+  rm -f "$stdout_file" "$stderr_file"
+  printf 'PASS %s\n' "$label"
+}
+
+run_first_supported() {
+  local label="$1"
+  shift
+
+  local candidate
+  local executable
+  local args_text
+  local -a args
+
+  for candidate in "$@"; do
+    executable="${candidate%%|*}"
+
+    if [[ "$candidate" == "$executable" ]]; then
+      args=()
+    else
+      args_text="${candidate#*|}"
+      IFS='|' read -r -a args <<< "$args_text"
+    fi
+
+    if [[ -x "$WL_ROOT/$executable" ]]; then
+      run_strict \
+        "$label" \
+        "$WL_ROOT/$executable" \
+        "${args[@]}"
+      return 0
+    fi
+  done
+
+  fail "$label has no supported executable"
+}
+
+[[ -n "$ENGINE_ID" ]] ||
+  fail "missing engine ID"
+
+[[ -n "$ACTION" ]] ||
+  fail "missing lifecycle action"
+
+case "$ENGINE_ID:$ACTION" in
+  rootless-runtime:start)
+    run_first_supported \
+      "rootless-runtime start" \
+      "bin/wl-rootless|start" \
+      "bin/wl|rootless|start"
+    ;;
+
+  rootless-runtime:stop)
+    run_first_supported \
+      "rootless-runtime stop" \
+      "bin/wl-rootless|stop" \
+      "bin/wl|rootless|stop"
+    ;;
+
+  rootless-runtime:verify)
+    rootless_output="$(
+      cd "$WL_ROOT"
+      "$WL_ROOT/bin/wl-rootless" status 2>&1
+    )"
+    rootless_status=$?
+
+    printf '%s\n' "$rootless_output"
+
+    if [[ "$rootless_status" -ne 0 ]]; then
+      fail "rootless-runtime status exited with status $rootless_status"
+    fi
+
+    if ! awk '
+      $1 == "wonderland-rootless" && $2 == "Running" {
+        found = 1
+      }
+      END {
+        exit(found ? 0 : 1)
+      }
+    ' <<<"$rootless_output"
+    then
+      fail "rootless-runtime is not Running"
+    fi
+
+    printf 'PASS rootless-runtime health\n'
+    ;;
+
+  core-services:start)
+    run_first_supported \
+      "core-services start" \
+      "bin/wl-services|start" \
+      "bin/wl|services|start"
+    ;;
+
+  core-services:stop)
+    run_first_supported \
+      "core-services stop" \
+      "bin/wl-services|stop" \
+      "bin/wl|services|stop"
+    ;;
+
+  core-services:verify)
+    run_first_supported \
+      "core-services status" \
+      "bin/wl-services|status" \
+      "bin/wl|services|status"
+    ;;
+
+  runtime-verification:start|runtime-verification:verify)
+    run_strict \
+      "runtime architecture verification" \
+      "$WL_ROOT/bin/wl" \
+      architecture \
+      verify
+
+    run_strict \
+      "runtime Python verification" \
+      "$WL_ROOT/bin/wl" \
+      runtime \
+      verify-python
+    ;;
+
+  runtime-verification:stop)
+    printf 'PASS runtime-verification stop\n'
+    ;;
+
+  *)
+    fail "unsupported lifecycle operation: $ENGINE_ID:$ACTION"
+    ;;
+esac
