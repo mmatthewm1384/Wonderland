@@ -1,6 +1,66 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+
+
+# BEGIN WL-RUNTIME-PUBLIC-ROUTES
+# Stable public routes into the authoritative Runtime Engine.
+#
+#   wl runtime start [--dry-run]
+#   wl runtime stop [--dry-run]
+#   wl runtime status
+#   wl runtime verify
+#   wl runtime health
+#   wl runtime doctor
+#   wl runtime recover
+#   wl runtime graph
+#   wl runtime plan
+#   wl runtime registry
+#   wl runtime certify [...]
+if [[ "${1:-}" == "runtime" ]]; then
+  case "${2:-}" in
+    start|stop|status|verify|health|doctor|recover|graph|plan|registry|self-test|release-gate)
+      _wl_runtime_command="$2"
+      shift 2
+
+      _wl_runtime_root="$(
+        cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &&
+        pwd -P
+      )"
+
+      _wl_runtime_engine="${WL_ROOT:-$_wl_runtime_root}/bin/wl-runtime-engine"
+
+      if [[ ! -x "$_wl_runtime_engine" ]]; then
+        printf 'FAIL Runtime Engine unavailable: %s\n' \
+          "$_wl_runtime_engine" >&2
+        exit 1
+      fi
+
+      exec "$_wl_runtime_engine" "$_wl_runtime_command" "$@"
+      ;;
+
+    certify)
+      shift 2
+
+      _wl_runtime_root="$(
+        cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &&
+        pwd -P
+      )"
+
+      _wl_runtime_engine="${WL_ROOT:-$_wl_runtime_root}/bin/wl-runtime-engine"
+
+      if [[ ! -x "$_wl_runtime_engine" ]]; then
+        printf 'FAIL Runtime Certification Engine unavailable: %s\n' \
+          "$_wl_runtime_engine" >&2
+        exit 1
+      fi
+
+      exec "$_wl_runtime_engine" certify "$@"
+      ;;
+  esac
+fi
+# END WL-RUNTIME-PUBLIC-ROUTES
+
 WL_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "$WL_ROOT/lib/core/ui.sh"
 
@@ -202,15 +262,34 @@ cmd="${1:-help}"
 shift || true
 
 case "$cmd" in
+    registry-v2)
+      exec "$WL_ROOT/bin/wl-registry-v2" "$@"
+      ;;
+    architecture)
+      exec "$WL_ROOT/bin/wl-architecture" "$@"
+      ;;
+    capability)
+      exec "$WL_ROOT/bin/wl-capability" "$@"
+      ;;
+    direction)
+      shift
+      case "${1:-verify}" in
+        verify)
+          exec "$WL_ROOT/bin/wl-direction-verify"
+          ;;
+        *)
+          echo "Usage: wl direction verify" >&2
+          exit 2
+          ;;
+      esac
+      ;;
+  platform)
+    shift
+    exec "$WL_ROOT/bin/wl-platform" "$@"
+    ;;
   architecture-gate)
     shift
     exec "$WL_ROOT/bin/wl-architecture-gate" "$@"
-    ;;
-  architecture)
-    if [ "${1:-}" = "architecture" ]; then
-      shift
-    fi
-    exec "$WL_ROOT/bin/wl-architecture" "$@"
     ;;
   repository)
     if [ "${1:-}" = "repository" ]; then

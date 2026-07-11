@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+readonly WL_ROOT="/Users/wonderland/Wonderland"
+readonly PACKAGE_ROOT="$WL_ROOT/builder/python/wlruntime"
+
+fail() {
+  printf 'FAIL %s\n' "$*" >&2
+  exit 1
+}
+
+[[ -d "$WL_ROOT/.git" ]] ||
+  fail "Wonderland repository missing: $WL_ROOT"
+
+[[ -d "$PACKAGE_ROOT/wlruntime" ]] ||
+  fail "runtime package missing: $PACKAGE_ROOT/wlruntime"
+
+[[ -f "$PACKAGE_ROOT/wlruntime/cli.py" ]] ||
+  fail "runtime CLI module missing: $PACKAGE_ROOT/wlruntime/cli.py"
+
+command -v python3 >/dev/null 2>&1 ||
+  fail "python3 is unavailable"
+
+export WL_ROOT
+
+if [[ -n "${PYTHONPATH:-}" ]]; then
+  export PYTHONPATH="$PACKAGE_ROOT:$PYTHONPATH"
+else
+  export PYTHONPATH="$PACKAGE_ROOT"
+fi
+
+cd "$WL_ROOT"
+
+exec python3 -m wlruntime.cli \
+  --root "$WL_ROOT" \
+  "$@"
