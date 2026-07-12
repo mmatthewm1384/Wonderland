@@ -83,6 +83,10 @@ class RepositoryEngine:
         self.root = root.resolve()
         self.policy_path = self.root / "policy/repository/policy.json"
         self.gitignore_path = self.root / ".gitignore"
+        self.certificate_path = (
+            self.root /
+            ".state/repository/certificate.json"
+        )
 
     def _run_git(
         self,
@@ -230,6 +234,35 @@ class RepositoryEngine:
         return hashlib.sha256(
             self.gitignore_path.read_bytes()
         ).hexdigest()
+
+    def write_certificate(self) -> dict[str, Any]:
+        certificate = self.certification()
+
+        self.certificate_path.parent.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        self.certificate_path.write_text(
+            json.dumps(
+                certificate,
+                indent=2,
+                sort_keys=True,
+            ) + "\n",
+            encoding="utf-8",
+        )
+
+        return certificate
+
+    def load_certificate(self) -> dict[str, Any] | None:
+        if not self.certificate_path.exists():
+            return None
+
+        return json.loads(
+            self.certificate_path.read_text(
+                encoding="utf-8"
+            )
+        )
 
     def policy_digest(self) -> str:
         return hashlib.sha256(
@@ -439,6 +472,23 @@ class RepositoryEngine:
                 ".gitignore",
             )
 
+        certificate = self.load_certificate()
+
+        if certificate:
+            if (
+                certificate.get("policy_digest")
+                != self.policy_digest()
+            ):
+                result.add(
+                    "ERROR",
+                    "POLICY_DIGEST_MISMATCH",
+                    (
+                        "repository policy changed "
+                        "after certification"
+                    ),
+                    "policy/repository/policy.json",
+                )
+
         try:
             tracked_ignored = self.tracked_ignored()
         except subprocess.CalledProcessError as exc:
@@ -463,6 +513,53 @@ class RepositoryEngine:
             )
 
         return result
+
+    def verify_certificate(self) -> dict[str, Any]:
+        certificate = self.load_certificate()
+
+        if certificate is None:
+            return {
+                "certificate": False,
+                "valid": False,
+                "checks": {
+                    "certificate": "MISSING",
+                },
+            }
+
+        checks = {}
+
+        checks["policy_digest"] = (
+            "PASS"
+            if certificate.get("policy_digest")
+            == self.policy_digest()
+            else "FAIL"
+        )
+
+        checks["generated_digest"] = (
+            "PASS"
+            if certificate.get("generated_digest")
+            == self.generated_digest()
+            else "FAIL"
+        )
+
+        verification = self.verify()
+
+        checks["verification"] = (
+            "PASS"
+            if verification.passed
+            else "FAIL"
+        )
+
+        valid = all(
+            value == "PASS"
+            for value in checks.values()
+        )
+
+        return {
+            "certificate": True,
+            "valid": valid,
+            "checks": checks,
+        }
 
     def status(self) -> dict[str, Any]:
         document = self.load_document()
