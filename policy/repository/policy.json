@@ -1,0 +1,277 @@
+{
+  "schema_version": 1,
+  "engine": {
+    "id": "repository",
+    "name": "Wonderland Repository Engine",
+    "version": "1.0.0"
+  },
+  "policy": {
+    "principles": [
+      "Track source, documentation, configuration, schemas, and durable evidence.",
+      "Ignore generated state, caches, local credentials, backups, and build output.",
+      "Use narrow path-specific rules instead of broad source-tree exclusions.",
+      "Never mutate the Git index during generation or verification."
+    ],
+    "protected_source_prefixes": [
+      "academy/",
+      "bin/",
+      "builder/python/",
+      "config/",
+      "docs/",
+      "ephemeral/",
+      "lib/",
+      "policy/",
+      "schemas/",
+      "scripts/",
+      "tests/"
+    ],
+    "sections": [
+      {
+        "name": "Secrets and local credentials",
+        "patterns": [
+          "/secrets/",
+          "/vault/secrets/*",
+          "!/vault/secrets/.gitkeep",
+          ".env",
+          ".env.*",
+          "!.env.example",
+          "!.env.template",
+          "*.pem",
+          "*.key",
+          "*.p12",
+          "*.pfx"
+        ]
+      },
+      {
+        "name": "Wonderland local workspace",
+        "patterns": [
+          "/.wl/",
+          "/.wl-registry"
+        ]
+      },
+      {
+        "name": "Backups and temporary files",
+        "patterns": [
+          "/.backup/",
+          "*.bak",
+          "*.bak.*",
+          "*.backup",
+          "*.backup.*",
+          "*.orig",
+          "*.rej",
+          "*~",
+          "/tmp/",
+          "/temp/",
+          "*.tmp",
+          "*.temp",
+          "*.lock.tmp"
+        ]
+      },
+      {
+        "name": "Logs",
+        "patterns": [
+          "/logs/",
+          "*.log",
+          "!tests/fixtures/**/*.log",
+          "!**/fixtures/**/*.log"
+        ]
+      },
+      {
+        "name": "Wonderland runtime state",
+        "patterns": [
+          "/runtime/controller/*",
+          "!/runtime/controller/.gitkeep",
+          "/runtime/chaos/*",
+          "!/runtime/chaos/.gitkeep",
+          "/state/runtime/",
+          "/vault/snapshots/",
+          "/vault/ephemeral-runs.log",
+          "/vault/chaos/*.json",
+          "/vault/chaos/*.jsonl",
+          "/vault/chaos/*.log",
+          "/vault/chaos/*.pid"
+        ]
+      },
+      {
+        "name": "Generated operational state",
+        "patterns": [
+          "/vault/06-Services/service-health.json",
+          "/vault/07-Operations/drift/*.json",
+          "/vault/08-Operations/state/",
+          "/vault/08-Operations/logs/",
+          "/vault/08-Operations/backups/",
+          "/vault/08-Operations/checkpoints/",
+          "/vault/08-Operations/baselines/",
+          "/vault/08-Operations/certifications/",
+          "/vault/08-Operations/reports/",
+          "/vault/08-Operations/handoffs/",
+          "/vault/08-Operations/replication/manifests/latest.*",
+          "/vault/08-Operations/recovery/git-rescue/*.tar.gz"
+        ]
+      },
+      {
+        "name": "Generated registry snapshots",
+        "patterns": [
+          "/vault/05-Registry/architecture/baselines/architecture-*.tsv",
+          "/vault/05-Registry/gates/latest-gate-check.txt",
+          "/vault/05-Registry/gates/latest-gate-promote.txt",
+          "/vault/05-Registry/git/latest-git-status.txt",
+          "/vault/05-Registry/reports/platform-report.txt"
+        ]
+      },
+      {
+        "name": "Generated Vault pointers and caches",
+        "patterns": [
+          "/vault/**/audit.jsonl",
+          "/vault/**/latest.json",
+          "/vault/**/latest.diff",
+          "/vault/**/latest-status.json",
+          "/vault/**/latest-status.md",
+          "/vault/**/generated/",
+          "/vault/**/cache/",
+          "/vault/**/tmp/",
+          "/vault/**/.cache/"
+        ]
+      },
+      {
+        "name": "Torrent runtime data",
+        "patterns": [
+          "/vault/data/torrents/config/",
+          "/vault/data/torrents/downloads/",
+          "/vault/data/torrents/downloads-export/",
+          "/vault/data/torrents/quarantine/",
+          "*.fastresume",
+          "*.torrent"
+        ]
+      },
+      {
+        "name": "Builder-generated workspaces",
+        "patterns": [
+          "/builder/image/",
+          "/builder/image-python/",
+          "/builder/mount/",
+          "/builder/output/",
+          "/builder/qcow2/",
+          "/builder/rootfs/",
+          "/builder/vmware/",
+          "/builder/work/",
+          "/Wonderland-Builds/"
+        ]
+      },
+      {
+        "name": "Build output",
+        "patterns": [
+          "/build/",
+          "/dist/",
+          "/out/",
+          "/coverage/",
+          "/htmlcov/",
+          "**/.build/",
+          "**/target/",
+          "**/node_modules/",
+          "apps/**/build/",
+          "apps/**/backups/",
+          "apps/**/*.app/",
+          "*.dSYM/"
+        ]
+      },
+      {
+        "name": "Release binary artifacts",
+        "patterns": [
+          "/releases/**/*.raw",
+          "/releases/**/*.raw.zst",
+          "/releases/**/*.qcow2",
+          "/releases/**/*.vmdk",
+          "/releases/**/*.vhdx",
+          "/releases/**/*.img",
+          "/releases/**/*.iso",
+          "/releases/**/*.dmg",
+          "/releases/**/*.app",
+          "/releases/**/*.vmwarevm"
+        ]
+      },
+      {
+        "name": "Python",
+        "patterns": [
+          "__pycache__/",
+          "*.py[cod]",
+          "*$py.class",
+          ".pytest_cache/",
+          ".mypy_cache/",
+          ".ruff_cache/",
+          ".pyre/",
+          ".pytype/",
+          ".coverage",
+          ".coverage.*",
+          "*.egg-info/",
+          ".eggs/",
+          ".venv/",
+          "venv/",
+          "ENV/"
+        ]
+      },
+      {
+        "name": "Swift, Xcode, Rust, and frontend tooling",
+        "patterns": [
+          "DerivedData/",
+          "*.xcuserstate",
+          "xcuserdata/",
+          "node_modules/",
+          ".npm/",
+          ".yarn/cache/",
+          ".pnpm-store/",
+          "*.tsbuildinfo"
+        ]
+      },
+      {
+        "name": "Editor, macOS, and tool caches",
+        "patterns": [
+          ".vscode/",
+          ".idea/",
+          "*.swp",
+          "*.swo",
+          ".DS_Store",
+          ".AppleDouble",
+          ".LSOverride",
+          "._*",
+          ".Spotlight-V100",
+          ".Trashes",
+          ".fseventsd",
+          ".cache/",
+          ".tox/",
+          ".nox/",
+          ".hypothesis/"
+        ]
+      }
+    ],
+    "must_ignore": [
+      ".wl/state/example.json",
+      ".backup/manual/example.bak",
+      "runtime/controller/state.json",
+      "runtime/chaos/session.json",
+      "state/runtime/runtime.json",
+      "vault/ephemeral-runs.log",
+      "vault/chaos/chaos-aether.json",
+      "vault/08-Operations/state/runtime.json",
+      "builder/output/image.raw",
+      "builder/python/example/__pycache__/module.pyc",
+      "__wl_probe__/src-tauri/target/debug/example",
+      "ephemeral/tests/example/.build/debug/example",
+      "releases/1.1/wonderland.qcow2",
+      ".DS_Store"
+    ],
+    "must_track": [
+      "ephemeral/README.md",
+      "ephemeral/bin/wl",
+      "ephemeral/services/wl-sandbox/wl-sandbox",
+      "releases/README.md",
+      "releases/wonderland-1.1.0.manifest.json",
+      "releases/wonderland-1.1.0.sha256",
+      "builder/python/wlbuilder/state/manifest.py",
+      "builder/python/wlcli/wlcli/core/state/history.py",
+      "config/wonderland/runtime/engines.json",
+      "academy/09-progress/reviews/releases/academy-core.md",
+      "policy/repository/policy.json"
+    ]
+  }
+}
