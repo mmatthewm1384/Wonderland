@@ -1,4 +1,37 @@
 #!/usr/bin/env bash
-set -euo pipefail
-WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
-exec "$WL_ROOT/lib/mirror/cli.sh" "$@"
+set -Eeuo pipefail
+
+ROOT="${WL_HOME:-${WONDERLAND_ROOT:-}}"
+
+if [[ -z "$ROOT" ]]; then
+  ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
+fi
+
+export WL_HOME="$ROOT"
+export WONDERLAND_ROOT="$ROOT"
+
+python_paths=(
+  "$ROOT/builder/python/wlmirror"
+  "$ROOT/builder/python"
+  "$ROOT"
+)
+
+combined=""
+
+for path in "${python_paths[@]}"; do
+  [[ -d "$path" ]] || continue
+
+  if [[ -z "$combined" ]]; then
+    combined="$path"
+  else
+    combined="$combined:$path"
+  fi
+done
+
+if [[ -n "${PYTHONPATH:-}" ]]; then
+  combined="$combined:$PYTHONPATH"
+fi
+
+export PYTHONPATH="$combined"
+
+exec python3 -m wlmirror "$@"
