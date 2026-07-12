@@ -1,0 +1,24 @@
+{
+  "created_at": "2026-07-12T02:51:29.856715+00:00",
+  "exemption_count": 4,
+  "exemptions": [
+    {
+      "path": "academy/02-lessons/day-001-030/chapter-001-binary/examples/wonderland-examples.md",
+      "reason": "Legacy Academy content pending heading normalization"
+    },
+    {
+      "path": "academy/02-lessons/day-001-030/chapter-001-binary/examples/worked-example-01.md",
+      "reason": "Legacy Academy content pending heading normalization"
+    },
+    {
+      "path": "academy/02-lessons/day-001-030/chapter-001-binary/examples/worked-example-02.md",
+      "reason": "Legacy Academy content pending heading normalization"
+    },
+    {
+      "path": "academy/02-lessons/day-001-030/chapter-001-binary/examples/worked-example-03.md",
+      "reason": "Legacy Academy content pending heading normalization"
+    }
+  ],
+  "policy": "Headingless Markdown is permitted only when explicitly listed here.",
+  "schema_version": 1
+}

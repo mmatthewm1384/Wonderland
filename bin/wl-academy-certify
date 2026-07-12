@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+ROOT="${WL_HOME:-${WONDERLAND_ROOT:-}}"
+
+if [[ -z "$ROOT" ]]; then
+  ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
+fi
+
+exec "$ROOT/bin/wl-academy" certify "$@"

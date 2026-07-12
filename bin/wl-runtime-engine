@@ -1,36 +1,96 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-readonly WL_ROOT="/Users/wonderland/Wonderland"
-readonly PACKAGE_ROOT="$WL_ROOT/builder/python/wlruntime"
+ROOT="${WL_HOME:-${WONDERLAND_ROOT:-}}"
 
-fail() {
-  printf 'FAIL %s\n' "$*" >&2
+if [[ -z "$ROOT" ]]; then
+  ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
+fi
+
+CORE="$ROOT/bin/wl-runtime-engine-core"
+
+[[ -x "$CORE" ]] || {
+  printf 'FAIL Runtime core launcher unavailable: %s\n' "$CORE" >&2
   exit 1
 }
 
-[[ -d "$WL_ROOT/.git" ]] ||
-  fail "Wonderland repository missing: $WL_ROOT"
+if [[ "${1:-}" == "verify" ]]; then
+  shift
 
-[[ -d "$PACKAGE_ROOT/wlruntime" ]] ||
-  fail "runtime package missing: $PACKAGE_ROOT/wlruntime"
+  json=false
+  forwarded=()
 
-[[ -f "$PACKAGE_ROOT/wlruntime/cli.py" ]] ||
-  fail "runtime CLI module missing: $PACKAGE_ROOT/wlruntime/cli.py"
+  for argument in "$@"; do
+    case "$argument" in
+      --json)
+        json=true
+        ;;
+      *)
+        forwarded+=("$argument")
+        ;;
+    esac
+  done
 
-command -v python3 >/dev/null 2>&1 ||
-  fail "python3 is unavailable"
+  if [[ "$json" == true ]]; then
+    stdout_file="$(mktemp)"
+    stderr_file="$(mktemp)"
 
-export WL_ROOT
+    cleanup() {
+      rm -f "$stdout_file" "$stderr_file"
+    }
 
-if [[ -n "${PYTHONPATH:-}" ]]; then
-  export PYTHONPATH="$PACKAGE_ROOT:$PYTHONPATH"
-else
-  export PYTHONPATH="$PACKAGE_ROOT"
+    trap cleanup EXIT
+
+    set +e
+    "$CORE" verify "${forwarded[@]}" \
+      > "$stdout_file" \
+      2> "$stderr_file"
+    rc=$?
+    set -e
+
+    python3 - \
+      "$rc" \
+      "$stdout_file" \
+      "$stderr_file" \
+      "$ROOT" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+return_code = int(sys.argv[1])
+stdout = Path(sys.argv[2]).read_text()
+stderr = Path(sys.argv[3]).read_text()
+root = sys.argv[4]
+
+combined = f"{stdout}\n{stderr}".upper()
+
+if return_code != 0 or "RESULT FAIL" in combined:
+    result = "FAIL"
+elif "RESULT WARN" in combined:
+    result = "WARN"
+elif "RESULT IDLE" in combined:
+    result = "IDLE"
+else:
+    result = "PASS"
+
+payload = {
+    "schema_version": 1,
+    "subsystem": "runtime",
+    "command": "verify",
+    "root": root,
+    "result": result,
+    "exit_code": return_code,
+    "stdout": stdout.strip(),
+    "stderr": stderr.strip(),
+}
+
+print(json.dumps(payload, indent=2, sort_keys=True))
+PY
+
+    exit "$rc"
+  fi
+
+  exec "$CORE" verify "${forwarded[@]}"
 fi
 
-cd "$WL_ROOT"
-
-exec python3 -m wlruntime.cli \
-  --root "$WL_ROOT" \
-  "$@"
+exec "$CORE" "$@"

@@ -68,21 +68,20 @@ class PlatformController:
                 ),
             ),
             verify_manifests,
-        )
-
-    def _optional_checks(self) -> tuple[Check, ...]:
-        return (
             lambda context: run_command(
                 context,
                 CommandSpec(
                     name="mirror",
                     commands=(
-                        ("bin/wl", "mirror", "verify"),
-                        ("bin/wl-mirror", "verify"),
-                        ("bin/wl", "mirror", "doctor"),
+                        ("bin/wl", "mirror", "verify", "--json"),
+                        ("bin/wl-mirror", "verify", "--json"),
                     ),
-                    required=False,
+                    required=True,
                     timeout=300,
+                    idle_patterns=(
+                        '"result": "IDLE"',
+                        "result idle",
+                    ),
                 ),
             ),
             lambda context: run_command(
@@ -90,15 +89,17 @@ class PlatformController:
                 CommandSpec(
                     name="academy",
                     commands=(
-                        ("bin/wl", "academy", "verify"),
-                        ("bin/wl-academy", "verify"),
-                        ("bin/wl", "academy", "doctor"),
+                        ("bin/wl", "academy", "verify", "--json"),
+                        ("bin/wl-academy", "verify", "--json"),
                     ),
-                    required=False,
+                    required=True,
                     timeout=300,
                 ),
             ),
         )
+
+    def _optional_checks(self) -> tuple[Check, ...]:
+        return ()
 
     def verify(
         self,
