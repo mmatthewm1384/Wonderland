@@ -338,10 +338,7 @@ case "$cmd" in
     shift
     exec "$WL_ROOT/bin/wl-architecture-gate" "$@"
     ;;
-  repository)
-    if [ "${1:-}" = "repository" ]; then
-      shift
-    fi
+  repo|repository)
     exec "$WL_ROOT/bin/wl-repository" "$@"
     ;;
       platform-0)

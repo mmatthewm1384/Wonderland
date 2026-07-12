@@ -1,244 +1,188 @@
-secrets/
-secrets/*
-data/
-tmp/
-logs/
-.DS_Store
-# Generated runtime state
-runtime/
-vault/snapshots/
-vault/07-Operations/drift/*.json
-vault/06-Services/service-health.json
+###############################################################################
+# Wonderland Repository Ignore Policy 2.0
+#
+# GENERATED FILE. DO NOT EDIT DIRECTLY.
+#
+# Source:
+#   policy/repository/policy.json
+#
+# Regenerate:
+#   wl repo generate
+#
+###############################################################################
 
-# Recovery drill extraction
-runtime/recovery-drills/
-# Local registries
-.wl-registry
-# macOS
-# Vault secrets
-vault/secrets/*
-!vault/secrets/.gitkeep
-# Torrent runtime data
-vault/data/torrents/config/
-vault/data/torrents/downloads/
-vault/data/torrents/downloads-export/
-vault/data/torrents/quarantine/
-# qBittorrent runtime artifacts
-*.fastresume
-*.torrent
-# Rust build artifacts
-tools/wil-rust/target/
-# Wonderland generated app/build artifacts
-apps/**/node_modules/
-apps/**/src-tauri/target/
-apps/**/*.app/
-apps/macos/wl-chaos-menubar/.build/
-apps/macos/wl-chaos-menubar/build/
-apps/macos/wl-chaos-menubar/backups/
+###############################################################################
+# Policy principles
+###############################################################################
+
+# - Track source, documentation, configuration, schemas, and durable evidence.
+# - Ignore generated state, caches, local credentials, backups, and build output.
+# - Use narrow path-specific rules instead of broad source-tree exclusions.
+# - Never mutate the Git index during generation or verification.
+
+###############################################################################
+# Secrets and local credentials
+###############################################################################
+
+/secrets/
+/vault/secrets/*
+!/vault/secrets/.gitkeep
+.env
+.env.*
+!.env.example
+!.env.template
+*.pem
+*.key
+*.p12
+*.pfx
+
+###############################################################################
+# Wonderland local workspace
+###############################################################################
+
+/.wl/
+/.wl-registry
+
+###############################################################################
+# Backups and temporary files
+###############################################################################
+
+/.backup/
+*.bak
+*.bak.*
+*.backup
 *.backup.*
-.wl/
-# Wonderland generated artifacts
-apps/**/.build/
-apps/**/build/
-apps/**/backups/
-*.dSYM/
-vault/chaos/*.log
-vault/chaos/*.pid
-vault/08-Operations/recovery/git-rescue/*.tar.gz
-# Wonderland generated runtime artifacts
-/runtime/
-/reports/
-/state/
+*.orig
+*.rej
+*~
+/tmp/
+/temp/
+*.tmp
+*.temp
+*.lock.tmp
+
+###############################################################################
+# Logs
+###############################################################################
+
 /logs/
-# Wonderland operational generated artifacts
-/vault/08-Operations/baselines/
-/vault/08-Operations/handoffs/
+*.log
+!tests/fixtures/**/*.log
+!**/fixtures/**/*.log
+
+###############################################################################
+# Wonderland runtime state
+###############################################################################
+
+/runtime/controller/*
+!/runtime/controller/.gitkeep
+/runtime/chaos/*
+!/runtime/chaos/.gitkeep
+/state/runtime/
+/vault/snapshots/
+/vault/ephemeral-runs.log
+/vault/chaos/*.json
+/vault/chaos/*.jsonl
+/vault/chaos/*.log
+/vault/chaos/*.pid
+
+###############################################################################
+# Generated operational state
+###############################################################################
+
+/vault/06-Services/service-health.json
+/vault/07-Operations/drift/*.json
+/vault/08-Operations/state/
+/vault/08-Operations/logs/
+/vault/08-Operations/backups/
 /vault/08-Operations/checkpoints/
+/vault/08-Operations/baselines/
 /vault/08-Operations/certifications/
 /vault/08-Operations/reports/
-/vault/08-Operations/logs/
-# Local backups from refactors
-*.bak.*
-# Wonderland Platform Core 2.3 generated/transient artifacts
-vault/05-Registry/architecture/baselines/architecture-*.tsv
-vault/05-Registry/gates/latest-gate-check.txt
-vault/05-Registry/gates/latest-gate-promote.txt
-vault/05-Registry/git/latest-git-status.txt
-vault/05-Registry/reports/platform-report.txt
-__pycache__/
-*.pyc
+/vault/08-Operations/handoffs/
+/vault/08-Operations/replication/manifests/latest.*
+/vault/08-Operations/recovery/git-rescue/*.tar.gz
 
-.build/
-releases/*.qcow2
-releases/*.vmdk
-releases/*.vhdx
-releases/*.raw
-releases/*.raw.zst
-releases/*.manifest.json
-releases/*.manifest.txt
-releases/*.sha256
+###############################################################################
+# Generated registry snapshots
+###############################################################################
 
+/vault/05-Registry/architecture/baselines/architecture-*.tsv
+/vault/05-Registry/gates/latest-gate-check.txt
+/vault/05-Registry/gates/latest-gate-promote.txt
+/vault/05-Registry/git/latest-git-status.txt
+/vault/05-Registry/reports/platform-report.txt
 
+###############################################################################
+# Generated Vault pointers and caches
+###############################################################################
 
-# Python cache
-*.py[cod]
+/vault/**/audit.jsonl
+/vault/**/latest.json
+/vault/**/latest.diff
+/vault/**/latest-status.json
+/vault/**/latest-status.md
+/vault/**/generated/
+/vault/**/cache/
+/vault/**/tmp/
+/vault/**/.cache/
 
-# Wonderland generated runtime logs/reports
-logs/security/*.json
-logs/security/*.jsonl
-logs/security/audit.jsonl
+###############################################################################
+# Torrent runtime data
+###############################################################################
 
-# Local backup/runtime state
-.wl/backups/
-ephemeral/
+/vault/data/torrents/config/
+/vault/data/torrents/downloads/
+/vault/data/torrents/downloads-export/
+/vault/data/torrents/quarantine/
+*.fastresume
+*.torrent
 
+###############################################################################
+# Builder-generated workspaces
+###############################################################################
 
-# Wonderland generated security runtime artifacts
+/builder/image/
+/builder/image-python/
+/builder/mount/
+/builder/output/
+/builder/qcow2/
+/builder/rootfs/
+/builder/vmware/
+/builder/work/
+/Wonderland-Builds/
 
-# Wonderland local runtime/backups
+###############################################################################
+# Build output
+###############################################################################
 
-# Python generated artifacts
-*.pyo
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-
-# Wonderland generated runtime/build artifacts
-build/
-builder/image/
-builder/image-python/
-builder/qcow2/
-builder/vmware/
-builder/mount/
-builder/rootfs/
-builder/work/
-*.vmwarevm/
-
-# Runtime logs/state
-vault/ephemeral-runs.log
-vault/chaos/*.jsonl
-vault/08-Operations/state/*.json
-vault/08-Operations/replication/manifests/latest.*
-
-# Builder v2 published release artifacts
-releases/builder-v2/
-
-# Python generated files
-*$py.class
-.venv/
-venv/
-ENV/
-
-builder/output/
-releases/
-Wonderland-Builds/
-*.raw
-*.qcow2
-*.vmdk
-*.img
-*.iso
-*.manifest.json
-*.sha256
-
-# Runtime/generated state
-vault/**/audit.jsonl
-vault/**/latest.json
-vault/**/latest.diff
-vault/**/latest-status.json
-vault/**/latest-status.md
-
-# macOS / editor noise
-*.swp
-*.swo
-
-
-
-
-# Python package metadata
-*.egg-info/
-
-# Python packaging metadata
-builder/python/wlbuilder.egg-info/
-
-# Wonderland runtime state
-runtime/controller/
-runtime/chaos/
-vault/08-Operations/state/latest.json
-vault/chaos/scheduler-audit.jsonl
-runtime/controller/*
-!runtime/controller/.gitkeep
-runtime/chaos/*
-!runtime/chaos/.gitkeep
-
-
-# Wonderland generated runtime state
-state/runtime/
-
-# Wonderland Runtime Engine generated certification evidence
-/vault/08-Operations/certifications/runtime-certification-*/
-/vault/08-Operations/certifications/runtime-engine-certified-*.json
-/vault/08-Operations/certifications/runtime-rc1-gate-*/
-/vault/08-Operations/certifications/runtime-rc1-gate-*.json
-/vault/08-Operations/certifications/runtime-beta-test-*/
-/vault/08-Operations/certifications/runtime-rollback-test-*/
-/vault/08-Operations/state/wl-runtime-engine.json
-/vault/08-Operations/state/wl-runtime-engine.json.lock
-
-# Wonderland generated local state
-.wl/snapshots/
-
-# Rust and Tauri build output
-target/
+/build/
+/dist/
+/out/
+/coverage/
+/htmlcov/
+**/.build/
 **/target/
-
-
-
-# Generic build artifacts
-dist/
-*.dmg
-
-# Generated operational state
-vault/08-Operations/state/
-vault/08-Operations/backups/
-vault/08-Operations/certifications/
-
-# Python generated state
+**/node_modules/
+apps/**/build/
+apps/**/backups/
+apps/**/*.app/
+*.dSYM/
 
 ###############################################################################
-# Wonderland Runtime State (1.1)
+# Release binary artifacts
 ###############################################################################
 
-# Runtime logs
-vault/*.log
-vault/**/*.log
-
-# Chaos runtime state
-vault/chaos/*.json
-
-# Ephemeral runtime state
-vault/ephemeral-*
-vault/**/ephemeral-*
-
-# Runtime evidence (generated)
-vault/**/generated/
-vault/**/cache/
-vault/**/tmp/
-vault/**/.cache/
-
-# Local runtime workspace
-.wl/
-.wl/**
-
-###############################################################################
-# Build Artifacts
-###############################################################################
-
-target/
-dist/
-build/
-out/
-coverage/
-htmlcov/
+/releases/**/*.raw
+/releases/**/*.raw.zst
+/releases/**/*.qcow2
+/releases/**/*.vmdk
+/releases/**/*.vhdx
+/releases/**/*.img
+/releases/**/*.iso
+/releases/**/*.dmg
+/releases/**/*.app
+/releases/**/*.vmwarevm
 
 ###############################################################################
 # Python
@@ -246,34 +190,66 @@ htmlcov/
 
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
+*$py.class
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.pyre/
+.pytype/
+.coverage
+.coverage.*
+*.egg-info/
+.eggs/
+.venv/
+venv/
+ENV/
 
 ###############################################################################
-# macOS
+# Swift, Xcode, Rust, and frontend tooling
 ###############################################################################
 
-.DS_Store
-.AppleDouble
-.LSOverride
+DerivedData/
+*.xcuserstate
+xcuserdata/
+node_modules/
+.npm/
+.yarn/cache/
+.pnpm-store/
+*.tsbuildinfo
 
 ###############################################################################
-# Editor
+# Editor, macOS, and tool caches
 ###############################################################################
 
 .vscode/
 .idea/
 *.swp
 *.swo
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+.cache/
+.tox/
+.nox/
+.hypothesis/
 
 ###############################################################################
-# Temporary Files
+# Protected source trees
 ###############################################################################
 
-*.tmp
-*.bak
-*.orig
-*.rej
+# These trees remain eligible for source control.
+#   /academy/
+#   /bin/
+#   /builder/python/
+#   /config/
+#   /docs/
+#   /ephemeral/
+#   /lib/
+#   /policy/
+#   /schemas/
+#   /scripts/
+#   /tests/

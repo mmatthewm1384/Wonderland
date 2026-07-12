@@ -109,8 +109,20 @@ print(guesses.get(component, "UNKNOWN"))
 PY
     ;;
 
+  generate|tracked-ignored|explain-ignore)
+    exec "$WL_ROOT/bin/wl-repository-policy" "$cmd" "${@:2}"
+    ;;
+
   doctor|verify)
-    "$WL_ROOT/bin/wl-architecture" verify
+    architecture_status=0
+    repository_status=0
+
+    "$WL_ROOT/bin/wl-architecture" verify || architecture_status=$?
+    "$WL_ROOT/bin/wl-repository-policy" "$cmd" "${@:2}" || repository_status=$?
+
+    if [ "$architecture_status" -ne 0 ] || [ "$repository_status" -ne 0 ]; then
+      exit 1
+    fi
     ;;
 
   report)
@@ -146,8 +158,11 @@ Commands:
   aliases
   explain <path>
   locate <component>
+  generate
   doctor
   verify
+  tracked-ignored
+  explain-ignore <path>
   report
   migrate
 USAGE
