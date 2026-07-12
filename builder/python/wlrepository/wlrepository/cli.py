@@ -67,6 +67,8 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("generate")
     subparsers.add_parser("verify")
     subparsers.add_parser("doctor")
+    subparsers.add_parser("health")
+    subparsers.add_parser("repair")
     subparsers.add_parser("tracked-ignored")
 
     explain = subparsers.add_parser("explain-ignore")
@@ -101,6 +103,11 @@ def main(argv: list[str] | None = None) -> int:
                     "tracked_ignored="
                     f"{payload['tracked_ignored']}"
                 )
+                if "verification" in payload:
+                    print(
+                        "verification="
+                        f"{payload['verification']['result']}"
+                    )
                 print(
                     "RESULT "
                     f"{'PASS' if payload['synchronized'] else 'WARN'}"
@@ -118,6 +125,47 @@ def main(argv: list[str] | None = None) -> int:
                 engine.verify(),
                 json_output=args.json,
             )
+
+        if args.command == "health":
+            payload = engine.health()
+
+            if args.json:
+                print(json.dumps(payload, indent=2, sort_keys=True))
+            else:
+                print("Wonderland Repository Health")
+                print(f"score={payload['score']}")
+                print(f"result={payload['result']}")
+                print(f"errors={payload['errors']}")
+                print(f"warnings={payload['warnings']}")
+
+            return 0 if payload["result"] == "PASS" else 1
+
+        if args.command == "repair":
+            before = engine.verify()
+
+            if not engine.generate(check_only=True):
+                engine.generate()
+
+            after = engine.verify()
+
+            payload = {
+                "before": before.as_dict(),
+                "action": (
+                    "generated .gitignore"
+                    if not before.passed or not engine.generate(check_only=True)
+                    else "no action required"
+                ),
+                "after": after.as_dict(),
+            }
+
+            if args.json:
+                print(json.dumps(payload, indent=2, sort_keys=True))
+            else:
+                print("Repository repair")
+                print(payload["action"])
+                print(f"RESULT {payload['after']['result']}")
+
+            return 0 if after.passed else 1
 
         if args.command == "tracked-ignored":
             paths = engine.tracked_ignored()
