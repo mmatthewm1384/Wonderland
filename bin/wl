@@ -50,6 +50,34 @@ if [[ "${1:-}" == "builder" ]]; then
 fi
 # END WL-BUILDER-PUBLIC-ROUTE
 
+# BEGIN WL-DOCTOR-PUBLIC-ROUTE
+# Stable public route into the Wonderland Doctor Engine.
+#
+#   wl doctor
+#   wl doctor --json
+if [[ "${1:-}" == "doctor" ]]; then
+  shift
+
+  _wl_doctor_root="$(
+    cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &&
+    pwd -P
+  )"
+
+  _wl_doctor_base="${WL_ROOT:-$_wl_doctor_root}"
+
+  if [[ ! -d "$_wl_doctor_base/builder/python/wldoctor" ]]; then
+    printf 'FAIL Doctor Engine unavailable: %s\n' \
+      "$_wl_doctor_base/builder/python/wldoctor" >&2
+    exit 1
+  fi
+
+  PYTHONPATH="$_wl_doctor_base/builder/python/wldoctor:$_wl_doctor_base/builder/python/wlrepository${PYTHONPATH:+:$PYTHONPATH}" \
+    python -m wldoctor.cli "$@"
+
+  exit $?
+fi
+# END WL-DOCTOR-PUBLIC-ROUTE
+
 # BEGIN WL-RUNTIME-PUBLIC-ROUTES
 # Stable public routes into the authoritative Runtime Engine.
 #
