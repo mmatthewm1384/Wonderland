@@ -70,6 +70,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("health")
     subparsers.add_parser("repair")
     subparsers.add_parser("certify")
+    subparsers.add_parser("verify-certificate")
     subparsers.add_parser("tracked-ignored")
 
     explain = subparsers.add_parser("explain-ignore")
@@ -169,7 +170,7 @@ def main(argv: list[str] | None = None) -> int:
             return 0 if after.passed else 1
 
         if args.command == "certify":
-            payload = engine.certification()
+            payload = engine.write_certificate()
 
             if args.json:
                 print(
@@ -192,6 +193,35 @@ def main(argv: list[str] | None = None) -> int:
                 )
 
             return 0 if payload["certified"] else 1
+
+        if args.command == "verify-certificate":
+            payload = engine.verify_certificate()
+
+            if args.json:
+                print(
+                    json.dumps(
+                        payload,
+                        indent=2,
+                        sort_keys=True,
+                    )
+                )
+            else:
+                print(
+                    "Repository Certificate Verification"
+                )
+
+                for key, value in payload[
+                    "checks"
+                ].items():
+                    print(
+                        f"{key}={value}"
+                    )
+
+                print(
+                    f"VALID={payload['valid']}"
+                )
+
+            return 0 if payload["valid"] else 1
 
         if args.command == "tracked-ignored":
             paths = engine.tracked_ignored()
