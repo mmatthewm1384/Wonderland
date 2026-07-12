@@ -91,5 +91,32 @@ class RepositoryEngineTests(unittest.TestCase):
         self.assertTrue(result.passed, result.as_dict())
 
 
+    def test_policy_digest_is_stable(self) -> None:
+        first = self.engine.policy_digest()
+        second = self.engine.policy_digest()
+
+        self.assertEqual(first, second)
+        self.assertEqual(len(first), 64)
+
+    def test_health_reports_score(self) -> None:
+        self.engine.generate()
+
+        health = self.engine.health()
+
+        self.assertEqual(health["result"], "PASS")
+        self.assertIn("score", health)
+        self.assertIn("errors", health)
+        self.assertIn("warnings", health)
+
+    def test_status_contains_verification_state(self) -> None:
+        self.engine.generate()
+
+        status = self.engine.status()
+
+        self.assertIn("generated_digest", status)
+        self.assertIn("current_digest", status)
+        self.assertTrue(status["synchronized"])
+
+
 if __name__ == "__main__":
     unittest.main()
