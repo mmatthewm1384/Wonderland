@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+BUILD_ROOT="${WONDERLAND_BUILD_ROOT:-$HOME/Wonderland-Builds}"
+
+echo "Wonderland Storage Status"
+echo
+
+echo "Disk:"
+df -h /
+
+echo
+echo "Build root:"
+du -sh "$BUILD_ROOT" 2>/dev/null || true
+
+echo
+echo "Wonderland source:"
+du -sh "$HOME/Wonderland" 2>/dev/null || true
+
+echo
+echo "Largest Wonderland paths:"
+du -xh -d 2 "$HOME/Wonderland" "$BUILD_ROOT" 2>/dev/null | sort -h | tail -40

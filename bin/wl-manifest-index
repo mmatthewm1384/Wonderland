@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-/Users/wonderland/Wonderland}"
+cd "$WL_ROOT"
+
+exec python3 01-Platform/release/manifest-index.py "$@"

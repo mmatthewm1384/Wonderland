@@ -1,0 +1,105 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+CERT_DIR="$WL_ROOT/vault/08-Operations/certifications"
+STATE_DIR="$WL_ROOT/vault/08-Operations/state"
+
+mkdir -p "$CERT_DIR" "$STATE_DIR"
+
+ts="$(date +%Y%m%d-%H%M%S)"
+cert="$CERT_DIR/platform-2-baseline-certified-$ts.json"
+latest="$STATE_DIR/platform-2-baseline-certified-latest.json"
+log="$STATE_DIR/platform-2-baseline-$ts.log"
+
+if "$WL_ROOT/bin/wl-platform-converge" >"$log" 2>&1; then
+  status="PASS"
+else
+  status="FAIL"
+fi
+
+python3 - "$WL_ROOT" "$cert" "$latest" "$log" "$status" <<'PY'
+import json
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+root = Path(sys.argv[1])
+cert = Path(sys.argv[2])
+latest = Path(sys.argv[3])
+log = Path(sys.argv[4])
+status = sys.argv[5]
+
+artifacts = {
+    "registry_engine": "builder/python/wlregistry",
+    "architecture_engine": "builder/python/wlarchitecture",
+    "capability_engine": "builder/python/wlcapability",
+    "domain_registry": "architecture/domains.yaml",
+    "capability_registry": "capabilities/registry.yaml",
+    "component_registry": "architecture/components.yaml",
+    "implementation_registry": "architecture/implementations.yaml",
+    "artifact_registry": "architecture/artifacts.yaml",
+    "architecture_graph": "vault/08-Operations/state/architecture-graph-latest.json",
+    "inventory": "vault/08-Operations/state/platform-inventory-latest.json",
+    "ownership": "vault/08-Operations/state/platform-ownership-latest.json",
+    "consolidation": "vault/08-Operations/state/consolidation-plan-latest.json",
+    "academy_lesson": "academy/generated/platform-convergence-v2.md",
+}
+
+checks = []
+for name, rel in artifacts.items():
+    path = root / rel
+    checks.append({
+        "name": name,
+        "path": rel,
+        "exists": path.exists(),
+        "status": "PASS" if path.exists() else "FAIL",
+    })
+    if not path.exists():
+        status = "FAIL"
+
+payload = {
+    "certification": "wonderland-platform-2-baseline",
+    "status": status,
+    "timestamp": datetime.now(timezone.utc).isoformat(),
+    "mission": "Registry-driven Wonderland Platform 2.0 baseline.",
+    "command": "wl platform baseline",
+    "source_run": "wl platform converge",
+    "log": str(log),
+    "baseline": {
+        "registry_driven": True,
+        "purge_allowed": False,
+        "academy_required": True,
+        "definition_of_complete": [
+            "works",
+            "verified",
+            "certified",
+            "understood",
+            "operator-can-explain",
+            "academy-can-teach"
+        ],
+    },
+    "artifacts": checks,
+    "next_step": "Begin migrating existing subsystems to consume Registry Engine v2 instead of maintaining duplicate metadata.",
+}
+
+cert.write_text(json.dumps(payload, indent=2) + "\n")
+latest.write_text(json.dumps(payload, indent=2) + "\n")
+
+print(f"Certification: {cert}")
+print(f"Latest:        {latest}")
+print(f"Log:           {log}")
+
+for check in checks:
+    print(f"{check['status']} {check['name']} :: {check['path']}")
+
+print(f"RESULT {status}")
+
+if status != "PASS":
+    print()
+    print("Last baseline log lines:")
+    lines = log.read_text(errors="replace").splitlines()
+    for line in lines[-60:]:
+        print(line)
+    raise SystemExit(1)
+PY

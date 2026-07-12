@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+ROOT="${WL_HOME:-${WONDERLAND_ROOT:-}}"
+
+if [[ -z "$ROOT" ]]; then
+  ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
+fi
+
+export WL_HOME="$ROOT"
+export WONDERLAND_ROOT="$ROOT"
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  wl platform status [--json] [--verbose]
+  wl platform verify [--json] [--verbose]
+  wl platform doctor [--json] [--verbose]
+  wl platform certify [args...]
+  wl platform help
+
+Semantics:
+  status   Read-only Platform convergence status
+  verify   Alias for deterministic Platform status verification
+  doctor   Alias for deterministic Platform status verification
+  certify  Delegate to the Platform certification authority
+USAGE
+}
+
+command_name="${1:-status}"
+
+# Some top-level wl dispatch implementations consume the explicit Platform
+# action and forward only its options. Treat leading options as verification
+# options rather than as an unknown command.
+case "$command_name" in
+  --json|--verbose)
+    command_name="verify"
+    ;;
+  --help|-h)
+    command_name="help"
+    ;;
+  *)
+    if [[ $# -gt 0 ]]; then
+      shift
+    fi
+    ;;
+esac
+
+case "$command_name" in
+  status|verify|doctor)
+    exec "$ROOT/bin/wl-platform-status" "$@"
+    ;;
+
+  certify)
+    if [[ -x "$ROOT/bin/wl-platform-certify" ]]; then
+      exec "$ROOT/bin/wl-platform-certify" "$@"
+    fi
+
+    if [[ -x "$ROOT/bin/wl" ]]; then
+      exec "$ROOT/bin/wl" certify "$@"
+    fi
+
+    printf 'FAIL Platform certification authority is unavailable\n' >&2
+    exit 1
+    ;;
+
+  help|--help|-h)
+    usage
+    ;;
+
+  *)
+    printf 'FAIL unknown Platform command: %s\n\n' "$command_name" >&2
+    usage >&2
+    exit 2
+    ;;
+esac

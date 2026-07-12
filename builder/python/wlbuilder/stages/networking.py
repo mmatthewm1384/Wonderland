@@ -12,8 +12,8 @@ class NetworkingStage:
     implemented = True
     name = "networking"
     description = "Configure basic DHCP networking and SSH."
-    requires = ()
-    produces = ()
+    requires = ("rootfs",)
+    produces = ("network_backend", "dhcp", "ssh_enabled", "network_config")
     legacy_source = "build.__main__ networking stage"
 
     def run(self, context: BuilderContext) -> StageResult:

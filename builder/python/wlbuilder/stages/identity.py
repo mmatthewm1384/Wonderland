@@ -12,8 +12,8 @@ class IdentityStage:
     implemented = True
     name = "identity"
     description = "Configure system hostname and hosts file."
-    requires = ()
-    produces = ()
+    requires = ("rootfs",)
+    produces = ("hostname", "hostname_path", "hosts_path")
     legacy_source = "build.__main__ identity stage"
 
     def run(self, context: BuilderContext) -> StageResult:

@@ -40,8 +40,8 @@ check "state json valid" "jq -e '.schema == \"wonderland.chaos.menubar.state.v1\
 
 check "binary has authority strings" "strings '$BIN' | grep -E 'Authority|Fingerprint|Lease|Touch ID Ready'"
 check "binary has chaos models" "strings '$BIN' | grep -E 'Calm|Nudge|Drift|Storm|Blackout|Cataclysm|Recovery'"
-check "binary has gate strings" "strings '$BIN' | grep -E 'lease mode mismatch|operator authentication failed|typed confirmation failed'"
-check "binary has controller execution" "strings '$BIN' | grep -F 'controller-api'"
+check "binary has gate strings" "strings '$BIN' | grep -E 'Gate:|Touch ID required|Touch ID verified|wl-chaos-authorized-action|ChaosExecutionGate'"
+check "binary has controller execution" "strings '$BIN' | grep -E 'ChaosControllerClient|ChaosControllerStatus|Controller Online|Controller Offline|controllerOnline'"
 check "binary has no cli fallback execution" "! strings '$BIN' | grep -F 'cli-fallback'"
 check "state uses controller-api" "jq -e '.effect | contains(\"controller-api\")' '$STATE'"
 check "recent audit used controller-api" "tail -50 '$AUDIT' | jq -R 'fromjson? | select(.event == \"execution_source\" and .source == \"controller-api\" and .success == true)' | grep -q controller-api"

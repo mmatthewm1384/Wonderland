@@ -1,0 +1,159 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+cd "$WL_ROOT"
+
+ok() { echo "PASS $*"; }
+warn() { echo "WARN $*" >&2; }
+fail() { echo "FAIL $*" >&2; exit 1; }
+
+# Tolerate dispatchers that call: wl-repository repository <subcommand>
+if [ "${1:-}" = "repository" ]; then
+  shift
+fi
+
+cmd="${1:-status}"
+arg="${2:-}"
+
+json_get() {
+  python3 - "$@" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+file = Path(sys.argv[1])
+key = sys.argv[2] if len(sys.argv) > 2 else ""
+
+data = json.loads(file.read_text())
+
+if not key:
+    print(json.dumps(data, indent=2, sort_keys=True))
+    raise SystemExit(0)
+
+cur = data
+for part in key.split("."):
+    cur = cur[part]
+
+if isinstance(cur, (dict, list)):
+    print(json.dumps(cur, indent=2, sort_keys=True))
+else:
+    print(cur)
+PY
+}
+
+case "$cmd" in
+  status)
+    "$WL_ROOT/bin/wl-architecture" status
+    ;;
+
+  layout)
+    cat <<'LAYOUT'
+Wonderland Constitutional Repository Layout
+
+00-Philosophy      Constitutional authority
+01-Platform        Shared platform behavior
+02-Infrastructure  Runtime implementation substrate
+03-Applications    End-user software
+04-Documentation   Living engineering documentation
+05-Vault           Operational state
+LAYOUT
+    ;;
+
+  ownership)
+    json_get 01-Platform/registry/repository-ownership.json
+    ;;
+
+  rules)
+    json_get 01-Platform/registry/repository-rules.json
+    ;;
+
+  aliases)
+    json_get 01-Platform/registry/repository-aliases.json
+    ;;
+
+  explain)
+    [ -n "$arg" ] || fail "usage: wl repository explain <path>"
+    "$WL_ROOT/bin/wl-architecture" explain "$arg"
+    ;;
+
+  locate)
+    [ -n "$arg" ] || fail "usage: wl repository locate <component>"
+
+    python3 - "$arg" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+component = sys.argv[1]
+aliases = json.loads(Path("01-Platform/registry/repository-aliases.json").read_text()).get("aliases", {})
+
+if component in aliases:
+    print(aliases[component]["target"])
+    raise SystemExit(0)
+
+guesses = {
+    "chaos": "03-Applications/chaos",
+    "matrix": "03-Applications/matrix",
+    "clipboard": "03-Applications/clipboard",
+    "academy": "03-Applications/academy",
+    "runtime": "01-Platform/runtime",
+    "builder": "01-Platform/builder",
+    "registry": "01-Platform/registry",
+    "observability": "02-Infrastructure/observability",
+    "storage": "02-Infrastructure/storage",
+    "dns": "02-Infrastructure/dns"
+}
+
+print(guesses.get(component, "UNKNOWN"))
+PY
+    ;;
+
+  doctor|verify)
+    "$WL_ROOT/bin/wl-architecture" verify
+    ;;
+
+  report)
+    "$WL_ROOT/bin/wl-architecture" report
+    ;;
+
+  migrate)
+    cat <<'MIGRATE'
+Platform 0.3 repository migration remains compatibility-first.
+
+No destructive moves are performed by this command.
+
+Use:
+  wl repository report
+  wl repository explain <path>
+  wl repository locate <component>
+  wl repository aliases
+
+Migration is deferred until wrappers, rollback, tests, and certification gates are verified.
+MIGRATE
+    ;;
+
+  help|-h|--help)
+    cat <<'USAGE'
+Usage:
+  wl repository [command]
+
+Commands:
+  status
+  layout
+  ownership
+  rules
+  aliases
+  explain <path>
+  locate <component>
+  doctor
+  verify
+  report
+  migrate
+USAGE
+    ;;
+
+  *)
+    fail "unknown repository command: $cmd"
+    ;;
+esac

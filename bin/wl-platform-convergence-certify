@@ -1,0 +1,122 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+CERT_DIR="$WL_ROOT/vault/08-Operations/certifications"
+STATE_DIR="$WL_ROOT/vault/08-Operations/state"
+mkdir -p "$CERT_DIR" "$STATE_DIR"
+
+ts="$(date +%Y%m%d-%H%M%S)"
+cert="$CERT_DIR/platform-convergence-v2-certified-$ts.json"
+latest="$STATE_DIR/platform-convergence-certification-latest.json"
+
+PYTHONPATH="$WL_ROOT/builder/python/wlregistry${PYTHONPATH:+:$PYTHONPATH}" \
+python3 - "$WL_ROOT" "$cert" "$latest" <<'PY'
+import json
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+from wlregistry import RegistryEngine
+
+root = Path(sys.argv[1])
+cert = Path(sys.argv[2])
+latest = Path(sys.argv[3])
+registry = RegistryEngine(root)
+
+required = {
+    "direction": root / "vault/08-Operations/state/wonderland-direction-status.json",
+    "inventory": root / "vault/08-Operations/state/platform-inventory-latest.json",
+    "ownership": root / "vault/08-Operations/state/platform-ownership-latest.json",
+    "consolidation": root / "vault/08-Operations/state/consolidation-plan-latest.json",
+    "architecture_graph": root / "vault/08-Operations/state/architecture-graph-latest.json",
+}
+
+checks = []
+status = "PASS"
+
+registry_problems = registry.verify()
+if registry_problems:
+    status = "FAIL"
+    for problem in registry_problems:
+        checks.append({"name": "registry-v2", "status": "FAIL", "reason": problem})
+else:
+    checks.append({"name": "registry-v2", "status": "PASS"})
+
+for name, path in required.items():
+    if not path.exists():
+        checks.append({"name": name, "status": "FAIL", "path": str(path), "reason": "missing"})
+        status = "FAIL"
+        continue
+
+    try:
+        data = json.loads(path.read_text())
+        item_status = data.get("status", "UNKNOWN")
+    except Exception as exc:
+        checks.append({"name": name, "status": "FAIL", "path": str(path), "reason": f"invalid json: {exc}"})
+        status = "FAIL"
+        continue
+
+    if item_status not in {"PASS", "WARN"}:
+        checks.append({"name": name, "status": "FAIL", "path": str(path), "reason": f"bad status: {item_status}"})
+        status = "FAIL"
+    else:
+        checks.append({"name": name, "status": item_status, "path": str(path)})
+
+inventory = json.loads(required["inventory"].read_text()) if required["inventory"].exists() else {}
+ownership = json.loads(required["ownership"].read_text()) if required["ownership"].exists() else {}
+consolidation = json.loads(required["consolidation"].read_text()) if required["consolidation"].exists() else {}
+
+if inventory.get("version") != 2:
+    checks.append({"name": "inventory-v2", "status": "FAIL", "reason": "inventory is not version 2"})
+    status = "FAIL"
+else:
+    checks.append({"name": "inventory-v2", "status": "PASS"})
+
+if ownership.get("version") != 2:
+    checks.append({"name": "ownership-v2", "status": "FAIL", "reason": "ownership is not version 2"})
+    status = "FAIL"
+else:
+    checks.append({"name": "ownership-v2", "status": "PASS"})
+
+if consolidation.get("version") != 2:
+    checks.append({"name": "consolidation-v2", "status": "FAIL", "reason": "consolidation is not version 2"})
+    status = "FAIL"
+else:
+    checks.append({"name": "consolidation-v2", "status": "PASS"})
+
+if consolidation.get("policy", {}).get("purge_allowed") is not False:
+    checks.append({"name": "purge-policy", "status": "FAIL", "reason": "purge must remain blocked"})
+    status = "FAIL"
+else:
+    checks.append({"name": "purge-policy", "status": "PASS", "reason": "purge blocked"})
+
+payload = {
+    "certification": "wonderland-platform-convergence-v2",
+    "status": status,
+    "timestamp": datetime.now(timezone.utc).isoformat(),
+    "definition_of_complete": [
+        "works",
+        "verified",
+        "certified",
+        "understood",
+        "operator-can-explain",
+        "academy-can-teach"
+    ],
+    "purge_allowed": False,
+    "checks": checks,
+    "next_step": "Generate Academy explanation for Platform Convergence 2.0.",
+}
+
+cert.write_text(json.dumps(payload, indent=2) + "\n")
+latest.write_text(json.dumps(payload, indent=2) + "\n")
+
+print(f"Certification: {cert}")
+print(f"Latest:        {latest}")
+for check in checks:
+    print(f"{check['status']} {check['name']}")
+print(f"RESULT {status}")
+
+if status != "PASS":
+    raise SystemExit(1)
+PY

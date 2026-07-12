@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+export WL_ROOT
+
+source "$WL_ROOT/lib/academy/cli.sh"
+wl_academy_main "$@"

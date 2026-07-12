@@ -8,8 +8,8 @@ class VerifyImageStage:
     implemented = True
     name = "verify-image"
     description = "Verify boot-critical image contents."
-    requires = ()
-    produces = ()
+    requires = ("rootfs",)
+    produces = ("verified_image",)
     legacy_source = "native verify-image"
 
     def run(self, context: BuilderContext) -> StageResult:

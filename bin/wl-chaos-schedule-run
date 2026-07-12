@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path.home() / "Wonderland"
 AUDIT = ROOT / "runtime/chaos/scheduler-audit.jsonl"
-STATE = ROOT / "vault/chaos/scheduler-state.json"
+STATE = ROOT / "vault/05-Registry/chaos/scheduler-state.json"
 
 TTL = {
     "calm": 60,

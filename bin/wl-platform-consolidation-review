@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+PLAN="$WL_ROOT/vault/08-Operations/state/consolidation-plan-latest.json"
+
+if [[ ! -f "$PLAN" ]]; then
+  echo "FAIL missing consolidation plan: $PLAN"
+  echo "Run: wl platform consolidation"
+  exit 1
+fi
+
+python3 - "$PLAN" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+plan = json.loads(Path(sys.argv[1]).read_text())
+
+items = plan.get("items", [])
+reviews = [i for i in items if i.get("recommendation") == "review"]
+archive = [i for i in items if i.get("recommendation") == "archive-candidate"]
+dupes = plan.get("duplicate_capability_review", [])
+policy = plan.get("policy", {})
+
+print("== Wonderland Consolidation Review ==")
+print()
+print(f"Plan status: {plan.get('status', 'UNKNOWN')}")
+print(f"Purge allowed: {policy.get('purge_allowed', False)}")
+print(f"Purge policy: {policy.get('reason', 'No policy recorded.')}")
+print()
+
+def show_group(title, rows):
+    print(title)
+    if not rows:
+        print("  PASS none")
+        print()
+        return
+
+    for row in rows:
+        print(f"  - {row.get('path')}")
+        print(f"    owner: {row.get('owner')}")
+        print(f"    capability: {row.get('capability')}")
+        print(f"    reason: {row.get('reason')}")
+    print()
+
+show_group("Review Required", reviews)
+show_group("Archive Candidates", archive)
+
+print("Duplicate Capability Review")
+if not dupes:
+    print("  PASS none")
+else:
+    for item in dupes:
+        print(f"  - {item.get('capability')} :: {item.get('component_count')} components")
+print()
+
+if reviews or archive or dupes:
+    print("RESULT WARN")
+else:
+    print("RESULT PASS")
+PY

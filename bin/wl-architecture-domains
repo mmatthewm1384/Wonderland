@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+DOMAIN_FILE="$WL_ROOT/architecture/domains.yaml"
+
+if [[ ! -f "$DOMAIN_FILE" ]]; then
+  echo "FAIL missing domain registry: $DOMAIN_FILE"
+  exit 1
+fi
+
+case "${1:-list}" in
+  list)
+    echo "Wonderland Architecture Domains"
+    echo
+    grep -E '^  - id: ' "$DOMAIN_FILE" | sed 's/^  - id: /- /'
+    echo
+    echo "RESULT PASS"
+    ;;
+  show)
+    cat "$DOMAIN_FILE"
+    ;;
+  *)
+    echo "Usage: wl architecture domains [list|show]" >&2
+    exit 2
+    ;;
+esac

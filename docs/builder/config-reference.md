@@ -9,24 +9,10 @@ wl builder config
 wl builder config --json
 ```
 
-Config file: `/home/wonderland/wonderland-os/builder/config.yaml`
+Config file: `/Users/wonderland/Wonderland/builder/config.yaml`
 
 Default profile: `development`
 
-Valid: `false`
+Valid: `true`
 
-## Issues
-
-- `migration.disk`: missing migration mode
-- `migration.mount`: missing migration mode
-- `migration.bootstrap`: missing migration mode
-- `migration.packages`: missing migration mode
-- `migration.identity`: missing migration mode
-- `migration.locale`: missing migration mode
-- `migration.users`: missing migration mode
-- `migration.networking`: missing migration mode
-- `migration.bootloader`: missing migration mode
-- `migration.verify-image`: missing migration mode
-- `migration.cleanup`: missing migration mode
-- `migration.convert`: missing migration mode
-- `migration.manifest`: missing migration mode
+No configuration issues detected.

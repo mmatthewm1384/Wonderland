@@ -1,0 +1,175 @@
+{
+  "schema": "wonderland.academy.manifest.v1",
+  "generated_at": "2026-07-05T18:19:03Z",
+  "chapter": {
+    "id": "001",
+    "title": "Binary \u2014 The Language of Every Computer",
+    "status": "draft",
+    "version": "0.1.0",
+    "path": "02-lessons/day-001-030/chapter-001-binary"
+  },
+  "counts": {
+    "words": 932,
+    "files": 25,
+    "images": 0,
+    "diagrams": 0,
+    "labs": 0,
+    "quizzes": 0,
+    "references": 0,
+    "glossary": 0,
+    "codex": 0,
+    "handbook": 0
+  },
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 311,
+      "sha256": "d520887139f7dd675b32ee20752f50f670f5f355f350eafdfa7ef42a7d3e8c1c",
+      "kind": "text"
+    },
+    {
+      "path": "assessments/challenge-project.md",
+      "bytes": 97,
+      "sha256": "3253251714513168352118e838a42a62bb6819f76a32c7b0e3c47df579e15854",
+      "kind": "text"
+    },
+    {
+      "path": "assessments/knowledge-check.md",
+      "bytes": 148,
+      "sha256": "eeaf83d3fe58df07cce46e11e434c32455b9c694d1670e959d21fc398accca9c",
+      "kind": "text"
+    },
+    {
+      "path": "assessments/practical-assessment.md",
+      "bytes": 590,
+      "sha256": "2bfa71b6adf9232e4db1bf0ab9fd0811788be279d512eff03f0b00bd66443f35",
+      "kind": "text"
+    },
+    {
+      "path": "certification.md",
+      "bytes": 264,
+      "sha256": "3b5c28ae6890bf7ea18468f0eb5af01488ac8f1b69a413eefc94bcc4dfa5bb8c",
+      "kind": "text"
+    },
+    {
+      "path": "changelog.md",
+      "bytes": 61,
+      "sha256": "f0f53a0ba205112f6dd01782285dd2f61785eced4e1116851a8619bc5a2c09a9",
+      "kind": "text"
+    },
+    {
+      "path": "chapter-summary.md",
+      "bytes": 112,
+      "sha256": "30c0af4f2f279ced4eea56d8aa59cbfa914c21653f4d4b27fb0adf4d911bc350",
+      "kind": "text"
+    },
+    {
+      "path": "chapter.md",
+      "bytes": 6652,
+      "sha256": "43664456b13438e46e2c6ecfd4c0c6dc828b8733253851828747acd9cdcbc234",
+      "kind": "text"
+    },
+    {
+      "path": "cheatsheets/binary-cheatsheet.md",
+      "bytes": 605,
+      "sha256": "cc732ced31c3286f9c4d4e39bea8d7b48985cdf8fa8f3de73e0b0eb7c0ab9db0",
+      "kind": "text"
+    },
+    {
+      "path": "examples/binary-conversions.md",
+      "bytes": 271,
+      "sha256": "4ff3d769521b07f1b020bab4abe979fc1cc71e1137007a1cbcbe73c51653dd78",
+      "kind": "text"
+    },
+    {
+      "path": "examples/wonderland-examples.md",
+      "bytes": 479,
+      "sha256": "38f42fb4a2a0702ebb19ba2e5fc3657e69111febf1c843718ad87fa77a67acf3",
+      "kind": "text"
+    },
+    {
+      "path": "examples/worked-example-01.md",
+      "bytes": 177,
+      "sha256": "124eadcaae7462364e25548e40aed6694d1a704d91ae5584709cfbad2871a37d",
+      "kind": "text"
+    },
+    {
+      "path": "examples/worked-example-02.md",
+      "bytes": 221,
+      "sha256": "b1948f7f4e6ec84139ffeb4044167ac238fd315c879572a4922d7b02ec8ca663",
+      "kind": "text"
+    },
+    {
+      "path": "examples/worked-example-03.md",
+      "bytes": 223,
+      "sha256": "95bd8eb8cacd2043a18121e164dc749e0ae4a6400908399d2d43996279cf0182",
+      "kind": "text"
+    },
+    {
+      "path": "key-takeaways.md",
+      "bytes": 91,
+      "sha256": "728ccf838a3673b000f99f6ce86df845fd7ea5578fcfcc942be6d26441a3bccc",
+      "kind": "text"
+    },
+    {
+      "path": "metadata.yaml",
+      "bytes": 285,
+      "sha256": "cad0f4998c85a045c4e760db9fde80b7ab27eeff73f9d3098a8f7f8f64bf9c41",
+      "kind": "text"
+    },
+    {
+      "path": "next-chapter.md",
+      "bytes": 96,
+      "sha256": "4ed20789198a15d48dd92455e7bec34bbf942e55b84b2a01bc67c5807c311c86",
+      "kind": "text"
+    },
+    {
+      "path": "publication.json",
+      "bytes": 125,
+      "sha256": "d0a1c2eb4a36a707485caf80fc7d4547aedcd58699c3fc71816515f3514e60e9",
+      "kind": "text"
+    },
+    {
+      "path": "publishing/accessibility.md",
+      "bytes": 471,
+      "sha256": "38950bf2680f7d76833f020a482ca6337efed72bb3e879995a773c1ccc96206c",
+      "kind": "text"
+    },
+    {
+      "path": "publishing/editorial-review.md",
+      "bytes": 354,
+      "sha256": "eb27377af51ca902edff7646870afd9b558744118361ba9206a44d767ad1f214",
+      "kind": "text"
+    },
+    {
+      "path": "publishing/epub-notes.md",
+      "bytes": 450,
+      "sha256": "5a0fac71e7f237a539473e95318f3ecf03d23a291c302f2c60481cd5305bb5e7",
+      "kind": "text"
+    },
+    {
+      "path": "publishing/print-layout.md",
+      "bytes": 514,
+      "sha256": "f598c2151eeb1ece8dfa9f11017ede9d5ba87437f583b330c8142971bdfbf30b",
+      "kind": "text"
+    },
+    {
+      "path": "publishing/publication-checklist.md",
+      "bytes": 466,
+      "sha256": "d332e29cfa8f233e7278f6bc2048d04d0edd72084b50be6cad1fe7117a08d85b",
+      "kind": "text"
+    },
+    {
+      "path": "publishing/style-review.md",
+      "bytes": 390,
+      "sha256": "d1371933a0dc6f49de9eee43a51e3fb0039a1e15c0b1cf3767712d15c24615e6",
+      "kind": "text"
+    },
+    {
+      "path": "reflection/reflection-001.md",
+      "bytes": 120,
+      "sha256": "e5a38bd64fc2fc068cd12b8a14b78361614f5eb5006ca58c8300485041052995",
+      "kind": "text"
+    }
+  ]
+}

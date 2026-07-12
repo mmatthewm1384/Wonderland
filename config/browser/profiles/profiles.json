@@ -1,0 +1,34 @@
+{
+  "brave": {
+    "Wonderland": {
+      "role": "daily",
+      "notes": "Default Wonderland-OS browser profile"
+    }
+  },
+  "chrome": {
+    "Wonderland Dev": {
+      "role": "development",
+      "notes": "Compatibility and developer testing"
+    }
+  },
+  "firefox": {
+    "Wonderland Operations": {
+      "role": "operations",
+      "notes": "Managed operations profile"
+    },
+    "Wonderland Research": {
+      "role": "research",
+      "notes": "Independent-engine research profile"
+    },
+    "Wonderland Sandbox": {
+      "role": "sandbox",
+      "notes": "Hardened sandbox profile"
+    }
+  },
+  "safari": {
+    "Default": {
+      "role": "webkit-validation",
+      "notes": "System WebKit validation"
+    }
+  }
+}

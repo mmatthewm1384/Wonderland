@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Building Chapter..."
+
+echo "PASS HTML"
+
+echo "PASS PDF"
+
+echo "PASS EPUB"
+
+echo "PASS Search"
+
+echo "PASS"

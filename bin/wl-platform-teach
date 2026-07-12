@@ -1,0 +1,161 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+OUT_DIR="$WL_ROOT/academy/generated"
+STATE="$WL_ROOT/vault/08-Operations/state/platform-teach-latest.json"
+CERT="$WL_ROOT/vault/08-Operations/state/platform-convergence-certification-latest.json"
+
+mkdir -p "$OUT_DIR" "$(dirname "$STATE")"
+
+if [[ ! -f "$CERT" ]]; then
+  echo "FAIL missing convergence certification"
+  echo "Run: wl platform certify"
+  exit 1
+fi
+
+lesson="$OUT_DIR/platform-convergence-v2.md"
+
+PYTHONPATH="$WL_ROOT/builder/python/wlregistry${PYTHONPATH:+:$PYTHONPATH}" \
+python3 - "$WL_ROOT" "$lesson" "$STATE" <<'PY'
+import json
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+from wlregistry import RegistryEngine
+
+root = Path(sys.argv[1])
+lesson = Path(sys.argv[2])
+state = Path(sys.argv[3])
+registry = RegistryEngine(root)
+
+domains = registry.load_domains().get("domains", [])
+capabilities = registry.load_capabilities()
+components = registry.load_components()
+implementations = registry.load_implementations()
+artifacts = registry.load_artifacts()
+
+def section_list(items, key="id"):
+    if not items:
+        return "- none\n"
+    return "".join(f"- `{item.get(key)}` — {item.get('purpose') or item.get('owner') or ''}\n" for item in items)
+
+lesson.write_text(f"""# Platform Convergence 2.0
+
+## Purpose
+
+Platform Convergence 2.0 makes the Registry Engine the authoritative source of truth for Wonderland.
+
+The goal is to stop duplicated classification logic and make every platform subsystem consume the same architectural model.
+
+## Core Idea
+
+```text
+Registry Engine
+  ├── Domains
+  ├── Capabilities
+  ├── Components
+  ├── Implementations
+  ├── Artifacts
+  └── Ownership
+Everything else asks the Registry Engine.
+
+Why This Exists
+
+Wonderland had too many overlapping scripts and scanners. Multiple systems tried to classify the same files, commands, registries, and runtime areas differently.
+
+Convergence 2.0 fixes that by enforcing:
+
+one source of truth
+one capability owner
+one architecture model
+one path classifier
+one purge policy
+one teachable explanation
+Current Domains
+
+{section_list(domains)}
+
+Current Capabilities
+
+{section_list(capabilities)}
+
+Current Components
+
+{section_list(components)}
+
+Current Implementations
+
+{section_list(implementations)}
+
+Artifact Policies
+
+{section_list(artifacts)}
+
+Operational Flow
+Repository
+  ↓
+Registry Engine
+  ↓
+Inventory
+  ↓
+Ownership
+  ↓
+Consolidation
+  ↓
+Certification
+  ↓
+Academy
+Explain It Test
+
+The operator should be able to explain:
+
+Why the Registry Engine exists.
+Why inventory should not classify paths independently.
+Why ownership derives from domains/components/implementations.
+Why purge remains blocked by default.
+How Platform Convergence 2.0 reduces waste.
+How Academy teaches the architecture.
+Purge Rule
+
+Nothing is purged until the architecture proves it is unnecessary and the replacement is:
+
+implemented
+verified
+certified
+understood
+explainable
+teachable
+Summary
+
+Platform Convergence 2.0 turns Wonderland from a collection of tools into a coherent registry-driven educational operating platform.
+""")
+
+payload = {
+"capability": "academy.platform-convergence-v2",
+"status": "PASS",
+"timestamp": datetime.now(timezone.utc).isoformat(),
+"lesson": str(lesson),
+"registry_counts": {
+"domains": len(domains),
+"capabilities": len(capabilities),
+"components": len(components),
+"implementations": len(implementations),
+"artifacts": len(artifacts),
+},
+"operator_explain_test": [
+"why the Registry Engine exists",
+"why inventory consumes Registry v2",
+"why ownership is derived",
+"why purge remains blocked",
+"how Academy teaches convergence"
+],
+}
+
+state.write_text(json.dumps(payload, indent=2) + "\n")
+
+print(f"Lesson: {lesson}")
+print(f"State: {state}")
+print("RESULT PASS")
+PY

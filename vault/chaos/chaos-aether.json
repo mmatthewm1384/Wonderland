@@ -6,8 +6,8 @@
     "counter-rotate-city-wave",
     "slam-waste-eliminator"
   ],
-  "last_reapplied": "2026-06-29T13:53:15.172653+00:00",
-  "last_reapply_reason": "watchdog_startup",
+  "last_reapplied": "2026-07-12T12:06:28.289415+00:00",
+  "last_reapply_reason": "scheduled_aether_retrigger",
   "mode": "permanent_high_chaos",
   "reason": "manual",
   "recovery": "Run wl-chaos-watchdog up or repair after wake/reboot. Run wl-chaos-watchdog reset to clear.",

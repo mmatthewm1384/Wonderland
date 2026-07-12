@@ -1,0 +1,12 @@
+.git/
+.DS_Store
+node_modules/
+target/
+dist/
+build/
+DerivedData/
+.cache/
+tmp/
+*.log
+vault/08-Operations/logs/
+vault/08-Operations/backups/browser/

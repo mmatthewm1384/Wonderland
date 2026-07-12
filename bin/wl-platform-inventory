@@ -1,0 +1,119 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+OUT_DIR="$WL_ROOT/vault/08-Operations/inventory"
+STATE_DIR="$WL_ROOT/vault/08-Operations/state"
+mkdir -p "$OUT_DIR" "$STATE_DIR"
+
+ts="$(date +%Y%m%d-%H%M%S)"
+out="$OUT_DIR/platform-inventory-$ts.json"
+latest="$STATE_DIR/platform-inventory-latest.json"
+
+PYTHONPATH="$WL_ROOT/builder/python/wlregistry${PYTHONPATH:+:$PYTHONPATH}" \
+python3 - "$WL_ROOT" "$out" "$latest" <<'PY'
+import json
+import os
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+from wlregistry import RegistryEngine
+
+root = Path(sys.argv[1]).resolve()
+out = Path(sys.argv[2])
+latest = Path(sys.argv[3])
+registry = RegistryEngine(root)
+
+SKIP_NAMES = {
+    ".git",
+    ".DS_Store",
+    "__pycache__",
+    "node_modules",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+}
+
+components = []
+commands = []
+
+for child in sorted(root.iterdir(), key=lambda p: p.name):
+    if child.name in SKIP_NAMES:
+        continue
+
+    rel = child.relative_to(root).as_posix()
+    classified = registry.classify_path(rel)
+
+    components.append({
+        "path": rel,
+        "kind": "directory" if child.is_dir() else "file",
+        "classification": classified.get("classification"),
+        "domain": classified.get("domain"),
+        "owner": classified.get("owner"),
+        "capability": classified.get("capability"),
+        "component": classified.get("component"),
+        "implementation": classified.get("implementation"),
+        "disposition": classified.get("disposition"),
+        "purge_allowed": classified.get("purge_allowed", False),
+    })
+
+bin_dir = root / "bin"
+if bin_dir.exists():
+    for cmd in sorted(bin_dir.iterdir(), key=lambda p: p.name):
+        if cmd.is_file() and os.access(cmd, os.X_OK):
+            rel = cmd.relative_to(root).as_posix()
+            classified = registry.classify_path(rel)
+            commands.append({
+                "name": cmd.name,
+                "path": rel,
+                "classification": classified.get("classification"),
+                "domain": classified.get("domain"),
+                "owner": classified.get("owner"),
+                "capability": classified.get("capability"),
+                "component": classified.get("component"),
+                "implementation": classified.get("implementation"),
+            })
+
+summary = {}
+for item in components:
+    key = item.get("classification") or "unknown"
+    summary[key] = summary.get(key, 0) + 1
+
+domain_summary = {}
+for item in components:
+    key = item.get("domain") or "unknown"
+    domain_summary[key] = domain_summary.get(key, 0) + 1
+
+unassigned = [item["path"] for item in components if item.get("owner") == "UNASSIGNED"]
+
+payload = {
+    "inventory": "wonderland-platform",
+    "version": 2,
+    "status": "PASS" if not unassigned else "WARN",
+    "timestamp": datetime.now(timezone.utc).isoformat(),
+    "root": str(root),
+    "summary": dict(sorted(summary.items())),
+    "domain_summary": dict(sorted(domain_summary.items())),
+    "unassigned_count": len(unassigned),
+    "unassigned": unassigned,
+    "components": components,
+    "commands": commands,
+    "next_step": "Use Registry Engine v2 for ownership, convergence, certification, and purge planning.",
+}
+
+out.write_text(json.dumps(payload, indent=2) + "\n")
+latest.write_text(json.dumps(payload, indent=2) + "\n")
+
+print(f"Inventory: {out}")
+print(f"Latest:    {latest}")
+print("Summary:")
+for key, value in sorted(summary.items()):
+    print(f"  {key}: {value}")
+print("Domains:")
+for key, value in sorted(domain_summary.items()):
+    print(f"  {key}: {value}")
+print(f"Unassigned: {len(unassigned)}")
+print(f"Commands: {len(commands)}")
+print(f"RESULT {payload['status']}")
+PY

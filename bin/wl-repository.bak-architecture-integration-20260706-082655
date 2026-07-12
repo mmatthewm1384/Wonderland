@@ -1,0 +1,273 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+cd "$WL_ROOT"
+
+ok() { echo "PASS $*"; }
+warn() { echo "WARN $*" >&2; }
+fail() { echo "FAIL $*" >&2; exit 1; }
+
+dirs=(
+  00-Philosophy
+  01-Platform
+  02-Infrastructure
+  03-Applications
+  04-Documentation
+  05-Vault
+)
+
+registry_files=(
+  01-Platform/registry/repository-layout.json
+  01-Platform/registry/repository-ownership.json
+  01-Platform/registry/repository-rules.json
+  01-Platform/registry/repository-aliases.json
+)
+
+# Tolerate dispatchers that call: wl-repository repository <subcommand>
+if [ "${1:-}" = "repository" ]; then
+  shift
+fi
+
+cmd="${1:-status}"
+arg="${2:-}"
+
+json_get() {
+  python3 - "$@" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+file = Path(sys.argv[1])
+key = sys.argv[2] if len(sys.argv) > 2 else ""
+
+data = json.loads(file.read_text())
+
+if not key:
+    print(json.dumps(data, indent=2))
+    raise SystemExit(0)
+
+cur = data
+for part in key.split("."):
+    cur = cur[part]
+
+if isinstance(cur, (dict, list)):
+    print(json.dumps(cur, indent=2))
+else:
+    print(cur)
+PY
+}
+
+case "$cmd" in
+  status)
+    echo "Wonderland Repository Status"
+    echo
+    for d in "${dirs[@]}"; do
+      [ -d "$d" ] && ok "$d" || warn "$d missing"
+    done
+    ;;
+
+  layout)
+    cat <<'LAYOUT'
+Wonderland Constitutional Repository Layout
+
+00-Philosophy      Constitutional authority
+01-Platform        Shared platform behavior
+02-Infrastructure  Runtime implementation substrate
+03-Applications    End-user software
+04-Documentation   Living engineering documentation
+05-Vault           Operational state
+LAYOUT
+    ;;
+
+  ownership)
+    json_get 01-Platform/registry/repository-ownership.json
+    ;;
+
+  rules)
+    json_get 01-Platform/registry/repository-rules.json
+    ;;
+
+  aliases)
+    json_get 01-Platform/registry/repository-aliases.json
+    ;;
+
+  explain)
+    [ -n "$arg" ] || fail "usage: wl repository explain <path>"
+
+    python3 - "$arg" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = sys.argv[1].strip("/")
+
+ownership = json.loads(Path("01-Platform/registry/repository-ownership.json").read_text())
+aliases = json.loads(Path("01-Platform/registry/repository-aliases.json").read_text())["aliases"]
+
+top = path.split("/", 1)[0]
+
+print(f"Path: {path}")
+print()
+
+if top in ownership:
+    item = ownership[top]
+    print(f"Constitutional Area: {top}")
+    print(f"Owner: {item['owner']}")
+    print(f"Purpose: {item['purpose']}")
+    print(f"Migration Policy: {item['migration_policy']}")
+elif top in aliases:
+    item = aliases[top]
+    target = item["target"]
+    print(f"Legacy Path: {top}")
+    print(f"Compatibility Target: {target}")
+    print(f"Status: {item['status']}")
+    print(f"Move Policy: {item['move_policy']}")
+
+    area = target.split("/", 1)[0]
+    if area in ownership:
+        owner = ownership[area]
+        print()
+        print(f"Constitutional Area: {area}")
+        print(f"Owner: {owner['owner']}")
+        print(f"Purpose: {owner['purpose']}")
+else:
+    print("Constitutional Area: UNKNOWN")
+    print("Owner: UNKNOWN")
+    print("Status: ORPHAN-CANDIDATE")
+PY
+    ;;
+
+  locate)
+    [ -n "$arg" ] || fail "usage: wl repository locate <component>"
+
+    python3 - "$arg" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+component = sys.argv[1]
+aliases = json.loads(Path("01-Platform/registry/repository-aliases.json").read_text())["aliases"]
+
+if component in aliases:
+    print(aliases[component]["target"])
+else:
+    guesses = {
+        "chaos": "03-Applications/chaos",
+        "matrix": "03-Applications/matrix",
+        "clipboard": "03-Applications/clipboard",
+        "academy": "03-Applications/academy",
+        "runtime": "01-Platform/runtime",
+        "builder": "01-Platform/builder",
+        "registry": "01-Platform/registry",
+        "observability": "02-Infrastructure/observability",
+        "storage": "02-Infrastructure/storage",
+        "dns": "02-Infrastructure/dns"
+    }
+    print(guesses.get(component, "UNKNOWN"))
+PY
+    ;;
+
+  doctor|verify)
+    missing=0
+
+    for d in "${dirs[@]}"; do
+      if [ -d "$d" ]; then
+        ok "directory present: $d"
+      else
+        warn "directory missing: $d"
+        missing=$((missing + 1))
+      fi
+    done
+
+    for f in "${registry_files[@]}"; do
+      if [ -f "$f" ]; then
+        ok "registry present: $f"
+      else
+        warn "registry missing: $f"
+        missing=$((missing + 1))
+      fi
+    done
+
+    python3 <<'PY'
+import json
+from pathlib import Path
+
+files = [
+    "01-Platform/registry/repository-layout.json",
+    "01-Platform/registry/repository-ownership.json",
+    "01-Platform/registry/repository-rules.json",
+    "01-Platform/registry/repository-aliases.json",
+]
+
+for f in files:
+    json.loads(Path(f).read_text())
+
+ownership = json.loads(Path("01-Platform/registry/repository-ownership.json").read_text())
+
+required = [
+    "00-Philosophy",
+    "01-Platform",
+    "02-Infrastructure",
+    "03-Applications",
+    "04-Documentation",
+    "05-Vault",
+]
+
+for d in required:
+    item = ownership.get(d)
+    if not item:
+        raise SystemExit(f"missing ownership entry: {d}")
+    if not item.get("owner"):
+        raise SystemExit(f"missing owner: {d}")
+    if not item.get("purpose"):
+        raise SystemExit(f"missing purpose: {d}")
+PY
+    ok "repository registry valid"
+
+    if [ "$missing" -eq 0 ]; then
+      ok "repository constitutional registry verified"
+      echo "RESULT PASS"
+    else
+      fail "repository verification failed: $missing issue(s)"
+    fi
+    ;;
+
+  migrate)
+    cat <<'MIGRATE'
+Platform 0.3 repository registry is compatibility-first.
+
+No destructive moves are performed.
+
+Use:
+  wl repository explain <path>
+  wl repository locate <component>
+  wl repository aliases
+
+Migration remains deferred until compatibility wrappers and rollback are verified.
+MIGRATE
+    ;;
+
+  help|-h|--help)
+    cat <<'USAGE'
+Usage:
+  wl repository [command]
+
+Commands:
+  status
+  layout
+  ownership
+  rules
+  aliases
+  explain <path>
+  locate <component>
+  doctor
+  verify
+  migrate
+USAGE
+    ;;
+
+  *)
+    fail "unknown repository command: $cmd"
+    ;;
+esac

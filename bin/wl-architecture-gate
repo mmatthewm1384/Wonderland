@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+exec "$WL_ROOT/01-Platform/certification/architecture-gate.sh"

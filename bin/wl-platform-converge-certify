@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+CERT_DIR="$WL_ROOT/vault/08-Operations/certifications"
+STATE_DIR="$WL_ROOT/vault/08-Operations/state"
+
+mkdir -p "$CERT_DIR" "$STATE_DIR"
+
+ts="$(date +%Y%m%d-%H%M%S)"
+cert="$CERT_DIR/platform-converge-run-certified-$ts.json"
+latest="$STATE_DIR/platform-converge-run-certified-latest.json"
+log="$STATE_DIR/platform-converge-run-$ts.log"
+
+if "$WL_ROOT/bin/wl-platform-converge" >"$log" 2>&1; then
+  status="PASS"
+else
+  status="FAIL"
+fi
+
+python3 - "$cert" "$latest" "$log" "$status" <<'PY'
+import json
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+cert = Path(sys.argv[1])
+latest = Path(sys.argv[2])
+log = Path(sys.argv[3])
+status = sys.argv[4]
+
+payload = {
+    "certification": "platform-converge-run",
+    "status": status,
+    "timestamp": datetime.now(timezone.utc).isoformat(),
+    "log": str(log),
+    "command": "wl platform converge",
+    "definition_of_complete": [
+        "works",
+        "verified",
+        "certified",
+        "understood",
+        "operator-can-explain",
+        "academy-can-teach"
+    ],
+}
+
+cert.write_text(json.dumps(payload, indent=2) + "\n")
+latest.write_text(json.dumps(payload, indent=2) + "\n")
+
+print(f"Certification: {cert}")
+print(f"Latest:        {latest}")
+print(f"Log:           {log}")
+print(f"RESULT {status}")
+
+if status != "PASS":
+    print()
+    print("Last convergence log lines:")
+    lines = log.read_text(errors="replace").splitlines()
+    for line in lines[-40:]:
+        print(line)
+    raise SystemExit(1)
+PY

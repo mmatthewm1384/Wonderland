@@ -1,0 +1,20 @@
+{
+  "platform": "0.1",
+  "name": "Philosophy Engine",
+  "status": "implemented",
+  "commands": [
+    "wl philosophy",
+    "wl north-star",
+    "wl craftsmanship",
+    "wl governance",
+    "wl review",
+    "wl manifesto",
+    "wl constitution",
+    "wl design-system",
+    "wl platform-0-status",
+    "wl platform-0-doctor",
+    "wl platform-0-verify"
+  ],
+  "north_star": "Create a world where engineering becomes art, and art remains engineered.",
+  "principle": "Leave behind evidence that someone cared."
+}

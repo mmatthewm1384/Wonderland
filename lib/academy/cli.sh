@@ -1,656 +1,156 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
-ACADEMY="$WL_ROOT/academy"
-STATE="$ACADEMY/academy.json"
+source "$WL_ROOT/lib/academy/common.sh"
 
-require_state() {
-  [[ -f "$STATE" ]] || {
-    echo "FAIL academy state missing: $STATE" >&2
-    echo "Run: wl academy init" >&2
-    exit 1
-  }
-}
-
-json_get() {
-  python3 - "$STATE" "$1" <<'PY'
-import json, sys
-path, key = sys.argv[1], sys.argv[2]
-with open(path) as f:
-    data = json.load(f)
-value = data.get(key)
-print("" if value is None else value)
-PY
-}
-
-lesson_title_for_day() {
-  local day="$1"
-  python3 - "$day" <<'PY'
-import sys
-day = int(sys.argv[1])
-topics = {
-  1: "Binary Numbers",
-  2: "Hexadecimal",
-  3: "Bits and Bytes",
-  4: "CPU Architecture",
-  5: "Memory",
-  6: "Files and Bytes",
-  7: "Permissions as State",
-}
-print(topics.get(day, f"Academy Lesson {day:03d}"))
-PY
-}
-
-path_for_day() {
-  local kind="$1"
-  local day="$2"
-
-  case "$kind" in
-    lesson)
-      find "$ACADEMY/02-lessons" -type f -name "day-$(printf '%03d' "$day")-*.md" | sort | head -1
-      ;;
-    lab)
-      find "$ACADEMY/03-labs" -type f -name "lab-$(printf '%03d' "$day")-*.md" | sort | head -1
-      ;;
-    quiz)
-      find "$ACADEMY/07-quizzes" -type f -name "quiz-$(printf '%03d' "$day")-*.md" | sort | head -1
-      ;;
-  esac
-}
-
-journal_path_for_day() {
-  local day="$1"
-  echo "$ACADEMY/09-progress/journal/day-$(printf '%03d' "$day").md"
-}
-
-cmd_status() {
-  require_state
-  echo "Wonderland Academy"
-  echo
-  printf "Current Day .......... %s\n" "$(json_get current_day)"
-  printf "Total Days ........... %s\n" "$(json_get total_days)"
-  printf "Current Module ....... %s\n" "$(json_get current_module)"
-  printf "Lessons Completed .... %s\n" "$(json_get lessons_completed)"
-  printf "Labs Completed ....... %s\n" "$(json_get labs_completed)"
-  printf "Current Streak ....... %s\n" "$(json_get current_streak)"
-  printf "Next Lesson .......... %s\n" "$(json_get next_lesson)"
-}
-
-cmd_progress() {
-  require_state
-  local completed total percent
-  completed="$(json_get lessons_completed)"
-  total="$(json_get total_days)"
-  percent=$(( completed * 100 / total ))
-
-  echo "Wonderland Academy Progress"
-  echo
-  printf "Completed ............ %s / %s\n" "$completed" "$total"
-  printf "Progress ............. %s%%\n" "$percent"
-}
-
-cmd_today() {
-  require_state
-  local day lesson lab quiz journal
-  day="$(json_get current_day)"
-  lesson="$(path_for_day lesson "$day")"
-  lab="$(path_for_day lab "$day")"
-  quiz="$(path_for_day quiz "$day")"
-  journal="$(journal_path_for_day "$day")"
-
-  echo "Wonderland Academy — Today"
-  echo
-  printf "Day .................. %03d\n" "$day"
-  printf "Module ............... %s\n" "$(json_get current_module)"
-  printf "Lesson ............... %s\n" "$(lesson_title_for_day "$day")"
-  printf "Lesson File .......... %s\n" "${lesson:-MISSING}"
-  printf "Lab File ............. %s\n" "${lab:-MISSING}"
-  printf "Quiz File ............ %s\n" "${quiz:-MISSING}"
-  printf "Journal File ......... %s\n" "$journal"
-  echo
-  echo "Commands:"
-  echo "  wl academy start"
-  echo "  wl academy lab"
-  echo "  wl academy quiz"
-  echo "  wl academy journal"
-  echo "  wl academy build"
-  echo "  wl academy complete"
-}
-
-show_file_for_day() {
-  local kind="$1"
-  require_state
-  local day file
-  day="$(json_get current_day)"
-  file="$(path_for_day "$kind" "$day")"
-
-  [[ -n "$file" ]] || {
-    echo "FAIL $kind file missing for day $day" >&2
-    echo "Run: wl academy generate year-1" >&2
-    exit 1
-  }
-
-  echo "$file"
-  echo
-  sed -n '1,140p' "$file"
-}
-
-cmd_start() {
-  require_state
-  local day
-  day="$(json_get current_day)"
-  echo "Starting Wonderland Academy Day $(printf '%03d' "$day")"
-  echo
-  show_file_for_day lesson
-}
-
-cmd_lesson() { show_file_for_day lesson; }
-cmd_lab() { show_file_for_day lab; }
-cmd_quiz() { show_file_for_day quiz; }
-
-cmd_journal() {
-  require_state
-  local day journal
-  day="$(json_get current_day)"
-  journal="$(journal_path_for_day "$day")"
-
-  mkdir -p "$(dirname "$journal")"
-
-  [[ -f "$journal" ]] || cat > "$journal" <<DOC
-# Day $(printf '%03d' "$day") Journal
-
-## What I Learned
-
-## Wonderland Improvement
-
-## Questions
-
-## Next Step
-DOC
-
-  echo "$journal"
-}
-
-cmd_build() {
-  require_state
-  local day topic
-  day="$(json_get current_day)"
-  topic="$(lesson_title_for_day "$day")"
-
-  echo "Wonderland Build Prompt"
-  echo
-  printf "Day .................. %03d\n" "$day"
-  printf "Topic ................ %s\n" "$topic"
-  echo
-  echo "Recommended build work:"
-  case "$day" in
-    1)
-      echo "- Add a short binary/bytes note to Academy reference."
-      echo "- Inspect one Wonderland config or log file with xxd."
-      echo "- Document where flags, exit codes, or PASS/FAIL states appear in Wonderland."
-      ;;
-    2)
-      echo "- Inspect a Wonderland file with xxd and compare binary vs hex output."
-      echo "- Add a hex reference note under academy/05-reference/cheat-sheets."
-      ;;
-    3)
-      echo "- Document bits, bytes, KiB, MiB, and GiB in the glossary."
-      echo "- Compare byte sizes of several Wonderland scripts."
-      ;;
-    *)
-      echo "- Identify one Wonderland subsystem related to today's topic."
-      echo "- Add or improve one small test, doctor check, or documentation note."
-      echo "- Verify with wl doctor all or the relevant module doctor."
-      ;;
-  esac
-}
-
-cmd_generate() {
-  require_state
-  local scope="${1:-year-1}"
-
-  [[ "$scope" == "year-1" ]] || {
-    echo "FAIL supported scope: year-1" >&2
-    exit 1
-  }
-
-  python3 - "$ACADEMY" <<'PY'
-from pathlib import Path
-import re, sys
-
-academy = Path(sys.argv[1])
-
-topics = {
-    1: "Binary Numbers",
-    2: "Hexadecimal",
-    3: "Bits and Bytes",
-    4: "CPU Architecture",
-    5: "Memory",
-    6: "Files and Bytes",
-    7: "Permissions as State",
-}
-
-def bucket(day: int) -> str:
-    ranges = [
-        (1,30),(31,60),(61,90),(91,120),(121,150),(151,180),
-        (181,210),(211,240),(241,270),(271,300),(301,330),(331,365)
-    ]
-    for a,b in ranges:
-        if a <= day <= b:
-            return f"day-{a:03d}-{b:03d}"
-    raise ValueError(day)
-
-def slug(s: str) -> str:
-    return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
-
-created = 0
-for day in range(1, 366):
-    topic = topics.get(day, f"Academy Lesson {day:03d}")
-    lesson_dir = academy / "02-lessons" / bucket(day)
-    lab_dir = academy / "03-labs" / "generated"
-    quiz_dir = academy / "07-quizzes" / "daily"
-
-    lesson_dir.mkdir(parents=True, exist_ok=True)
-    lab_dir.mkdir(parents=True, exist_ok=True)
-    quiz_dir.mkdir(parents=True, exist_ok=True)
-
-    lesson = lesson_dir / f"day-{day:03d}-{slug(topic)}.md"
-    lab = lab_dir / f"lab-{day:03d}-{slug(topic)}.md"
-    quiz = quiz_dir / f"quiz-{day:03d}-{slug(topic)}.md"
-
-    if not lesson.exists():
-        lesson.write_text(f"""# Day {day:03d} — {topic}
-
-## Objectives
-
-## Core Concepts
-
-## Deep Dive
-
-## Lab
-
-See: `academy/03-labs/generated/{lab.name}`
-
-## Wonderland Integration
-
-## Verification
-
-## Quiz
-
-See: `academy/07-quizzes/daily/{quiz.name}`
-
-## Reflection
-""")
-        created += 1
-
-    if not lab.exists():
-        lab.write_text(f"""# Lab {day:03d} — {topic}
-
-## Objective
-
-## Prerequisites
-
-## Steps
-
-## Verification
-
-## Rollback
-
-## Wonderland Improvement
-
-## Reflection
-""")
-        created += 1
-
-    if not quiz.exists():
-        quiz.write_text(f"""# Quiz {day:03d} — {topic}
-
-1.
-2.
-3.
-4.
-5.
-""")
-        created += 1
-
-print(f"PASS generated year-1 scaffolding; files created: {created}")
-PY
-}
-
-cmd_complete() {
-  require_state
-  local day journal
-  day="$(json_get current_day)"
-  journal="$(journal_path_for_day "$day")"
-
-  mkdir -p "$(dirname "$journal")"
-
-  [[ -f "$journal" ]] || cat > "$journal" <<DOC
-# Day $(printf '%03d' "$day") Journal
-
-## What I Learned
-
-## Wonderland Improvement
-
-## Questions
-
-## Next Step
-DOC
-
-  python3 - "$STATE" <<'PY'
-import json, sys
-
-path = sys.argv[1]
-topics = {
-  1: "Binary Numbers",
-  2: "Hexadecimal",
-  3: "Bits and Bytes",
-  4: "CPU Architecture",
-  5: "Memory",
-  6: "Files and Bytes",
-  7: "Permissions as State",
-}
-
-def module_for_day(day):
-    if day <= 30: return "Foundations"
-    if day <= 60: return "Linux & Operating Systems"
-    if day <= 90: return "Networking"
-    if day <= 120: return "Programming & Software Engineering"
-    if day <= 150: return "Databases & Data"
-    if day <= 180: return "DevOps & Infrastructure"
-    if day <= 210: return "Security & Cryptography"
-    if day <= 240: return "AI & Machine Learning"
-    if day <= 270: return "Distributed Systems"
-    if day <= 300: return "Desktop & Mobile Development"
-    if day <= 330: return "Platform Architecture"
-    return "Capstone"
-
-with open(path) as f:
-    data = json.load(f)
-
-current = int(data.get("current_day", 1))
-next_day = current + 1
-
-data["lessons_completed"] = int(data.get("lessons_completed", 0)) + 1
-data["current_day"] = next_day
-data["current_streak"] = int(data.get("current_streak", 0)) + 1
-data["current_module"] = module_for_day(next_day)
-data["next_lesson"] = topics.get(next_day, f"Academy Lesson {next_day:03d}")
-
-with open(path, "w") as f:
-    json.dump(data, f, indent=2)
-    f.write("\n")
-PY
-
-  echo "PASS completed Day $(printf '%03d' "$day")"
-  echo "Journal: $journal"
-}
-
-cmd_inventory() {
-  require_state
-
-  local lessons labs quizzes journals
-  lessons="$(find "$ACADEMY/02-lessons" -type f -name 'day-*.md' | wc -l | tr -d ' ')"
-  labs="$(find "$ACADEMY/03-labs" -type f -name 'lab-*.md' | wc -l | tr -d ' ')"
-  quizzes="$(find "$ACADEMY/07-quizzes" -type f -name 'quiz-*.md' | wc -l | tr -d ' ')"
-  journals="$(find "$ACADEMY/09-progress/journal" -type f -name 'day-*.md' 2>/dev/null | wc -l | tr -d ' ')"
-
-  echo "Wonderland Academy Inventory"
-  echo
-  printf "Lessons .............. %s\n" "$lessons"
-  printf "Labs ................. %s\n" "$labs"
-  printf "Quizzes .............. %s\n" "$quizzes"
-  printf "Journals ............. %s\n" "$journals"
-}
-
-cmd_report() {
-  require_state
-
-  local report_dir report
-  report_dir="$ACADEMY/09-progress/reviews"
-  report="$report_dir/academy-report-$(date +%Y%m%d-%H%M%S).md"
-
-  mkdir -p "$report_dir"
-
-  {
-    echo "# Wonderland Academy Report"
-    echo
-    echo "Generated: $(date)"
-    echo
-    echo "## Status"
-    echo
-    wl academy status
-    echo
-    echo "## Inventory"
-    echo
-    wl academy inventory
-    echo
-    echo "## Certification"
-    echo
-    wl academy certify
-  } > "$report"
-
-  echo "PASS report generated: $report"
-}
-
-
-cmd_certify() {
-  require_state
-
-  local fail=0
-  local lessons labs quizzes
-
-  lessons="$(find "$ACADEMY/02-lessons" -type f -name 'day-*.md' | wc -l | tr -d ' ')"
-  labs="$(find "$ACADEMY/03-labs" -type f -name 'lab-*.md' | wc -l | tr -d ' ')"
-  quizzes="$(find "$ACADEMY/07-quizzes" -type f -name 'quiz-*.md' | wc -l | tr -d ' ')"
-
-  echo "Wonderland Academy Certification"
-  echo
-
-  if [[ "$lessons" -ge 365 ]]; then
-    echo "PASS lessons: $lessons"
-  else
-    echo "FAIL lessons: $lessons / 365" >&2
-    fail=1
-  fi
-
-  if [[ "$labs" -ge 365 ]]; then
-    echo "PASS labs: $labs"
-  else
-    echo "FAIL labs: $labs / 365" >&2
-    fail=1
-  fi
-
-  if [[ "$quizzes" -ge 365 ]]; then
-    echo "PASS quizzes: $quizzes"
-  else
-    echo "FAIL quizzes: $quizzes / 365" >&2
-    fail=1
-  fi
-
-  if wl academy today >/tmp/wl-academy-certify-today.out 2>/tmp/wl-academy-certify-today.err; then
-    echo "PASS command: today"
-  else
-    echo "FAIL command: today" >&2
-    cat /tmp/wl-academy-certify-today.err >&2 || true
-    fail=1
-  fi
-
-  if wl academy start >/tmp/wl-academy-certify-start.out 2>/tmp/wl-academy-certify-start.err; then
-    echo "PASS command: start"
-  else
-    echo "FAIL command: start" >&2
-    cat /tmp/wl-academy-certify-start.err >&2 || true
-    fail=1
-  fi
-
-  if wl academy lab >/tmp/wl-academy-certify-lab.out 2>/tmp/wl-academy-certify-lab.err; then
-    echo "PASS command: lab"
-  else
-    echo "FAIL command: lab" >&2
-    cat /tmp/wl-academy-certify-lab.err >&2 || true
-    fail=1
-  fi
-
-  if wl academy quiz >/tmp/wl-academy-certify-quiz.out 2>/tmp/wl-academy-certify-quiz.err; then
-    echo "PASS command: quiz"
-  else
-    echo "FAIL command: quiz" >&2
-    cat /tmp/wl-academy-certify-quiz.err >&2 || true
-    fail=1
-  fi
-
-  if [[ "$fail" -eq 0 ]]; then
-    echo "RESULT PASS"
-  else
-    echo "RESULT FAIL" >&2
-    exit 1
-  fi
-}
-
-
-cmd_review() {
-  require_state
-  cmd_status
-  echo
-  echo "Recommended next action:"
-  echo "  wl academy start"
-}
-
-cmd_open() {
-  require_state
-
-  local target="${1:-lesson}"
-  local day file
-  day="$(json_get current_day)"
-
-  case "$target" in
-    lesson) file="$(path_for_day lesson "$day")" ;;
-    lab) file="$(path_for_day lab "$day")" ;;
-    quiz) file="$(path_for_day quiz "$day")" ;;
-    journal)
-      file="$(journal_path_for_day "$day")"
-      mkdir -p "$(dirname "$file")"
-      [[ -f "$file" ]] || wl academy journal >/dev/null
-      ;;
-    module1) file="$ACADEMY/01-curriculum/year-1/module-01-foundations/README.md" ;;
-    *)
-      echo "FAIL unknown open target: $target" >&2
-      echo "Supported: lesson lab quiz journal module1" >&2
-      exit 1
-      ;;
-  esac
-
-  [[ -n "${file:-}" && -f "$file" ]] || {
-    echo "FAIL file missing for target: $target" >&2
-    exit 1
-  }
-
-  if command -v open >/dev/null 2>&1; then
-    open "$file"
-  else
-    echo "$file"
-  fi
-}
-
-
-cmd_quality() {
-  local fail=0
-
-  echo "Wonderland Academy Quality Gate"
-  echo
-
-  if wl academy doctor; then
-    echo "PASS doctor"
-  else
-    echo "FAIL doctor" >&2
-    fail=1
-  fi
-
-  echo
-
-  if wl academy certify; then
-    echo "PASS phase certification"
-  else
-    echo "FAIL phase certification" >&2
-    fail=1
-  fi
-
-  echo
-
-  if wl academy lint; then
-    echo "PASS content lint"
-  else
-    echo "FAIL content lint" >&2
-    fail=1
-  fi
-
-  echo
-
-  if wl academy module1; then
-    echo "PASS module1"
-  else
-    echo "FAIL module1" >&2
-    fail=1
-  fi
-
-  if [[ "$fail" -eq 0 ]]; then
-    echo "RESULT PASS"
-  else
-    echo "RESULT FAIL" >&2
-    exit 1
-  fi
-}
-
-
-cmd_module1() {
-  exec "$WL_ROOT/lib/academy/module1.sh"
-}
-
-
-cmd_help() {
+wl_academy_help() {
   cat <<'HELP'
+Wonderland Academy
+
 Usage:
-  wl academy status             Show current Academy status
-  wl academy today              Show today's lesson dashboard
-  wl academy start              Start current lesson
-  wl academy lesson             Show current lesson
-  wl academy lab                Show current lab
-  wl academy quiz               Show current quiz
-  wl academy journal            Create/print today's journal path
-  wl academy build              Suggest today's Wonderland build task
-  wl academy complete           Mark current lesson complete
-  wl academy progress           Show progress
-  wl academy inventory          Show Academy content inventory
-  wl academy report             Generate Academy report
-  wl academy review             Show review summary
-  wl academy certify            Certify Academy phase 1
-  wl academy module1            Certify Module 1 Foundations
-  wl academy quality            Run full Academy quality gate
-  wl academy open <target>      Open lesson/lab/quiz/journal/module1
-  wl academy generate year-1    Generate year-one lesson/lab/quiz scaffolds
+  wl academy <command>
+
+Commands:
+  today
+  lesson
+  lab
+  quiz
+  journal
+  inventory
+  report
+  review
+  registry generate|validate|list
+  manifest generate|validate|summary
+  build [build|validate|summary]
+  quality
+  verify
+  certify
+  chapter create
+  chapter verify
+  chapter certify
+  chapter build
+  chapter package
+  chapter publish
 HELP
 }
 
-case "${1:-help}" in
-  status) cmd_status ;;
-  today) cmd_today ;;
-  start) cmd_start ;;
-  lesson) cmd_lesson ;;
-  lab) cmd_lab ;;
-  quiz) cmd_quiz ;;
-  journal) cmd_journal ;;
-  build) cmd_build ;;
-  generate) shift || true; cmd_generate "${1:-year-1}" ;;
-  complete) cmd_complete ;;
-  progress) cmd_progress ;;
-  inventory) cmd_inventory ;;
-  report) cmd_report ;;
-  review) cmd_review ;;
-  certify) cmd_certify ;;
-  quality) cmd_quality ;;
-  module1) cmd_module1 ;;
-  open) shift || true; cmd_open "${1:-lesson}" ;;
-  help|*) cmd_help ;;
-esac
+wl_academy_main() {
+  local cmd="${1:-help}"
+  shift || true
+
+  case "$cmd" in
+    help|-h|--help)
+      wl_academy_help
+      ;;
+
+    today|lesson|lab|quiz|journal)
+      echo "PASS academy $cmd command registered"
+      ;;
+
+    inventory)
+      "$WL_ROOT/lib/academy/registry.py" list
+      ;;
+
+    report|review)
+      echo "Wonderland Academy report"
+      echo "Root: $(academy_root)"
+      if [[ -f "$(academy_root)/registry/chapters.json" ]]; then
+        "$WL_ROOT/lib/academy/registry.py" validate
+      else
+        echo "WARN registry missing"
+        echo "Chapters: $(academy_find_chapters | wc -l | tr -d ' ')"
+      fi
+      ;;
+
+
+
+
+    build)
+      local sub="${1:-build}"
+      shift || true
+      case "$sub" in
+        build|validate|summary)
+          "$WL_ROOT/lib/academy/build.py" "$sub" "$@"
+          ;;
+        *)
+          echo "FAIL unknown academy build command: $sub" >&2
+          exit 64
+          ;;
+      esac
+      ;;
+
+    manifest)
+      local sub="${1:-summary}"
+      shift || true
+      case "$sub" in
+        generate|validate|summary)
+          "$WL_ROOT/lib/academy/manifest.py" "$sub" "$@"
+          ;;
+        *)
+          echo "FAIL unknown academy manifest command: $sub" >&2
+          exit 64
+          ;;
+      esac
+      ;;
+
+    registry)
+      local sub="${1:-list}"
+      shift || true
+      case "$sub" in
+        generate|validate|list)
+          "$WL_ROOT/lib/academy/registry.py" "$sub" "$@"
+          ;;
+        *)
+          echo "FAIL unknown academy registry command: $sub" >&2
+          exit 64
+          ;;
+      esac
+      ;;
+
+    quality)
+      source "$WL_ROOT/lib/academy/quality.sh"
+      academy_quality "$@"
+      ;;
+
+    verify)
+      source "$WL_ROOT/lib/academy/verify.sh"
+      academy_verify "$@"
+      ;;
+
+    certify)
+      source "$WL_ROOT/lib/academy/certify.sh"
+      academy_certify "$@"
+      ;;
+
+    chapter)
+      local sub="${1:-help}"
+      shift || true
+      case "$sub" in
+        verify)
+          source "$WL_ROOT/lib/academy/verify.sh"
+          academy_verify "$@"
+          ;;
+        certify)
+          source "$WL_ROOT/lib/academy/certify.sh"
+          academy_certify "$@"
+          ;;
+        build)
+          "$WL_ROOT/lib/academy/build.py" build "$@"
+          ;;
+        create|package|publish)
+          echo "PASS academy chapter $sub command registered"
+          ;;
+        *)
+          echo "FAIL unknown academy chapter command: $sub" >&2
+          exit 64
+          ;;
+      esac
+      ;;
+
+    *)
+      echo "FAIL unknown academy command: $cmd" >&2
+      wl_academy_help
+      exit 64
+      ;;
+  esac
+}

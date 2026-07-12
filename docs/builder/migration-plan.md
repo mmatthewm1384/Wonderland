@@ -11,16 +11,16 @@ wl builder migration --json
 
 | Stage | Mode | Implemented | Ready |
 |---|---|---|---|
-| `disk` | legacy | true | true |
-| `mount` | legacy | false | true |
-| `bootstrap` | legacy | false | true |
-| `packages` | legacy | false | true |
-| `identity` | legacy | false | true |
-| `locale` | legacy | false | true |
-| `users` | legacy | false | true |
-| `networking` | legacy | false | true |
-| `bootloader` | legacy | false | true |
-| `verify-image` | legacy | false | true |
-| `cleanup` | legacy | false | true |
-| `convert` | legacy | false | true |
-| `manifest` | legacy | false | true |
+| `disk` | native | true | true |
+| `mount` | native | true | true |
+| `bootstrap` | legacy | true | true |
+| `packages` | native | true | true |
+| `identity` | native | true | true |
+| `locale` | native | true | true |
+| `users` | native | true | true |
+| `networking` | native | true | true |
+| `bootloader` | native | true | true |
+| `verify-image` | native | true | true |
+| `cleanup` | native | true | true |
+| `convert` | native | true | true |
+| `manifest` | native | true | true |
