@@ -183,3 +183,10 @@ state/runtime/
 /vault/08-Operations/certifications/runtime-rollback-test-*/
 /vault/08-Operations/state/wl-runtime-engine.json
 /vault/08-Operations/state/wl-runtime-engine.json.lock
+
+# Wonderland generated local state
+.wl/snapshots/
+
+# Rust and Tauri build output
+target/
+**/target/
