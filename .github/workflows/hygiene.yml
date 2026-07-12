@@ -1,0 +1,84 @@
+name: Repository Hygiene
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hygiene:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reject oversized Git blobs
+        shell: bash
+        run: |
+          oversized="$(
+            git rev-list --objects --all |
+            git cat-file \
+              --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' |
+            awk '$1 == "blob" && $3 > 104857600'
+          )"
+
+          if [[ -n "$oversized" ]]; then
+            printf '%s\n' "$oversized"
+            exit 1
+          fi
+
+          echo "PASS no Git blobs exceed 100 MiB"
+
+      - name: Reject generated paths
+        shell: bash
+        run: |
+          generated="$(
+            git ls-files |
+            grep -E \
+              '(^|/)(target|__pycache__|\.pytest_cache)(/|$)|^\.wl/(backups|snapshots)/' \
+              || true
+          )"
+
+          if [[ -n "$generated" ]]; then
+            printf '%s\n' "$generated"
+            exit 1
+          fi
+
+          echo "PASS no generated paths are tracked"
+
+      - name: Validate JSON
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+
+          files = sorted(
+              path
+              for path in Path(".").rglob("*.json")
+              if ".git" not in path.parts
+              and "node_modules" not in path.parts
+          )
+
+          failures = []
+
+          for path in files:
+              try:
+                  json.loads(path.read_text())
+              except Exception as exc:
+                  failures.append(f"{path}: {exc}")
+
+          if failures:
+              raise SystemExit("\n".join(failures))
+
+          print(f"PASS validated {len(files)} JSON files")
+          PY

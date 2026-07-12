@@ -1,0 +1,110 @@
+name: Wonderland Verify
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - "feature/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Integrated verification
+    runs-on: macos-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Configure Python paths
+        shell: bash
+        run: |
+          {
+            echo "WL_HOME=$GITHUB_WORKSPACE"
+            echo "WONDERLAND_ROOT=$GITHUB_WORKSPACE"
+            echo "PYTHONPATH=$GITHUB_WORKSPACE/builder/python/wlplatform:$GITHUB_WORKSPACE/builder/python/wlmirror:$GITHUB_WORKSPACE/builder/python/wlacademy:$GITHUB_WORKSPACE/builder/python/wlbuilder:$GITHUB_WORKSPACE/builder/python/wlgovernance:$GITHUB_WORKSPACE/builder/python/wlcli:$GITHUB_WORKSPACE/builder/python:$GITHUB_WORKSPACE"
+          } >> "$GITHUB_ENV"
+
+      - name: Verify Python syntax
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import py_compile
+
+          roots = [
+              Path("builder/python/wlplatform"),
+              Path("builder/python/wlmirror"),
+              Path("builder/python/wlacademy"),
+              Path("builder/python/wlbuilder"),
+              Path("builder/python/wlgovernance"),
+              Path("builder/python/wlcli"),
+          ]
+
+          files = sorted(
+              path
+              for root in roots
+              if root.exists()
+              for path in root.rglob("*.py")
+              if "__pycache__" not in path.parts
+          )
+
+          if not files:
+              raise SystemExit("No Python files discovered")
+
+          for path in files:
+              py_compile.compile(str(path), doraise=True)
+
+          print(f"PASS compiled {len(files)} Python files")
+          PY
+
+      - name: Run Platform Engine tests
+        run: |
+          python3 -m unittest discover \
+            -s builder/python/wlplatform/tests \
+            -p 'test_*.py' \
+            -v
+
+      - name: Run Mirror Engine tests
+        run: |
+          python3 -m unittest discover \
+            -s builder/python/wlmirror/tests \
+            -p 'test_*.py' \
+            -v
+
+      - name: Run Academy Engine tests
+        run: |
+          python3 -m unittest discover \
+            -s builder/python/wlacademy/tests \
+            -p 'test_*.py' \
+            -v
+
+      - name: Verify Runtime
+        run: bin/wl runtime verify --json
+
+      - name: Verify Builder
+        run: bin/wl builder verify --json
+
+      - name: Verify Governance
+        run: bin/wl governance verify --json
+
+      - name: Verify Mirror
+        run: bin/wl mirror verify --json
+
+      - name: Verify Academy
+        run: bin/wl academy verify --json
+
+      - name: Verify Platform
+        run: bin/wl platform verify --json
+
+      - name: Verify integrated Wonderland release gate
+        run: bin/wl-wonderland-certify --json
