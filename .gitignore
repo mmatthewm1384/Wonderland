@@ -190,3 +190,16 @@ state/runtime/
 # Rust and Tauri build output
 target/
 **/target/
+
+
+
+# Generic build artifacts
+dist/
+*.dmg
+
+# Generated operational state
+vault/08-Operations/state/
+vault/08-Operations/backups/
+vault/08-Operations/certifications/
+
+# Python generated state
