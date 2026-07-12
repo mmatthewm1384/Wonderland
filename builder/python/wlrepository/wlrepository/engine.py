@@ -210,6 +210,20 @@ class RepositoryEngine:
             self.render_gitignore().encode("utf-8")
         ).hexdigest()
 
+    def certification(self) -> dict[str, Any]:
+        verification = self.verify()
+        health = self.health()
+
+        return {
+            "engine": "repository",
+            "version": "1.2",
+            "policy_digest": self.policy_digest(),
+            "generated_digest": self.generated_digest(),
+            "verification": verification.as_dict()["result"],
+            "health_score": health["score"],
+            "certified": verification.passed,
+        }
+
     def current_digest(self) -> str | None:
         if not self.gitignore_path.exists():
             return None

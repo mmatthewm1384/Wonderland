@@ -69,6 +69,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("doctor")
     subparsers.add_parser("health")
     subparsers.add_parser("repair")
+    subparsers.add_parser("certify")
     subparsers.add_parser("tracked-ignored")
 
     explain = subparsers.add_parser("explain-ignore")
@@ -166,6 +167,31 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"RESULT {payload['after']['result']}")
 
             return 0 if after.passed else 1
+
+        if args.command == "certify":
+            payload = engine.certification()
+
+            if args.json:
+                print(
+                    json.dumps(
+                        payload,
+                        indent=2,
+                        sort_keys=True,
+                    )
+                )
+            else:
+                print("Wonderland Repository Certification")
+                print(
+                    f"verification={payload['verification']}"
+                )
+                print(
+                    f"health_score={payload['health_score']}"
+                )
+                print(
+                    f"certified={payload['certified']}"
+                )
+
+            return 0 if payload["certified"] else 1
 
         if args.command == "tracked-ignored":
             paths = engine.tracked_ignored()
