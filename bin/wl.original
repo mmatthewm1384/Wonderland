@@ -10,6 +10,7 @@ usage() {
 Usage:
   wl start
   wl stop
+  wl restart
   wl verify
   wl doctor
   wl runtime <command> [args...]
@@ -26,14 +27,17 @@ Runtime commands:
   report
   theme
   architecture-verify
+  certify
 
 Examples:
   wl start
   wl stop
+  wl restart
   wl rootless doctor
   wl verify
   wl doctor
   wl runtime report
+  wl runtime certify
   wl services status
   wl builder status
 USAGE
@@ -50,6 +54,11 @@ case "$cmd" in
   stop)
     shift
     exec python3 -m wl.runtime.commands.stop "$@"
+    ;;
+
+  restart)
+    shift
+    exec python3 -m wl.runtime.commands.restart "$@"
     ;;
 
   services)
@@ -80,7 +89,7 @@ case "$cmd" in
     fi
 
     case "$subcmd" in
-      verify|doctor|clean|theme)
+      verify|doctor|clean|theme|certify)
         shift
         exec python3 -m "wl.runtime.${subcmd}" "$@"
         ;;

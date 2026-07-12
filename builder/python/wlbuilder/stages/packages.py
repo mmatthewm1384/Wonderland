@@ -10,8 +10,8 @@ class PackagesStage:
     implemented = True
     name = "packages"
     description = "Install base Wonderland OS packages into the bootstrapped root filesystem."
-    requires = ()
-    produces = ()
+    requires = ("rootfs",)
+    produces = ("packages", "package_count")
     legacy_source = "build.__main__ packages stage"
 
     def run(self, context: BuilderContext) -> StageResult:

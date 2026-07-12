@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+
+echo "== Wonderland Platform Convergence 2.0 Status =="
+
+fail=0
+warn=0
+
+check_json() {
+  local label="$1"
+  local path="$2"
+
+  if [[ ! -f "$path" ]]; then
+    echo "FAIL $label missing"
+    fail=1
+    return
+  fi
+
+  local status version
+  status="$(python3 - "$path" <<'PY'
+import json, sys
+from pathlib import Path
+try:
+    data = json.loads(Path(sys.argv[1]).read_text())
+    print(data.get("status", "UNKNOWN"))
+except Exception:
+    print("INVALID")
+PY
+)"
+  version="$(python3 - "$path" <<'PY'
+import json, sys
+from pathlib import Path
+try:
+    data = json.loads(Path(sys.argv[1]).read_text())
+    print(data.get("version", ""))
+except Exception:
+    print("")
+PY
+)"
+
+  case "$status" in
+    PASS)
+      if [[ -n "$version" ]]; then
+        echo "PASS $label v$version"
+      else
+        echo "PASS $label"
+      fi
+      ;;
+    WARN)
+      if [[ -n "$version" ]]; then
+        echo "WARN $label v$version"
+      else
+        echo "WARN $label"
+      fi
+      warn=1
+      ;;
+    *)
+      echo "FAIL $label status=$status"
+      fail=1
+      ;;
+  esac
+}
+
+check_cmd() {
+  local label="$1"
+  shift
+
+  if "$@" >/tmp/wl-convergence-check.out 2>/tmp/wl-convergence-check.err; then
+    echo "PASS $label"
+  else
+    echo "FAIL $label"
+    cat /tmp/wl-convergence-check.out
+    cat /tmp/wl-convergence-check.err >&2
+    fail=1
+  fi
+}
+
+direction="$WL_ROOT/vault/08-Operations/state/wonderland-direction-status.json"
+inventory="$WL_ROOT/vault/08-Operations/state/platform-inventory-latest.json"
+ownership="$WL_ROOT/vault/08-Operations/state/platform-ownership-latest.json"
+consolidation="$WL_ROOT/vault/08-Operations/state/consolidation-plan-latest.json"
+architecture_graph="$WL_ROOT/vault/08-Operations/state/architecture-graph-latest.json"
+certification="$WL_ROOT/vault/08-Operations/state/platform-convergence-certification-latest.json"
+academy_teach="$WL_ROOT/vault/08-Operations/state/platform-teach-latest.json"
+
+check_cmd "registry-v2 doctor" "$WL_ROOT/bin/wl-registry-v2" doctor
+check_cmd "architecture verify" "$WL_ROOT/bin/wl-architecture" verify
+
+check_json "direction" "$direction"
+check_json "inventory" "$inventory"
+check_json "ownership" "$ownership"
+check_json "consolidation" "$consolidation"
+check_json "architecture graph" "$architecture_graph"
+check_json "certification" "$certification"
+check_json "academy teaching" "$academy_teach"
+
+echo
+echo "Artifacts:"
+echo "  direction:       $direction"
+echo "  inventory:       $inventory"
+echo "  ownership:       $ownership"
+echo "  consolidation:   $consolidation"
+echo "  architecture:    $architecture_graph"
+echo "  certification:   $certification"
+echo "  academy lesson:  $academy_teach"
+
+echo
+if [[ "$fail" -eq 0 && "$warn" -eq 0 ]]; then
+  echo "RESULT PASS"
+elif [[ "$fail" -eq 0 ]]; then
+  echo "RESULT WARN"
+else
+  echo "RESULT FAIL"
+  exit 1
+fi

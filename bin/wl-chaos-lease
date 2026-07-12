@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/core/bootstrap.sh"
+set -euo pipefail
+
+ROOT="${ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+
+source "$ROOT/lib/core/bootstrap.sh"
 
 exec "$ROOT/tools/chaos/create-lease.py" "$@"

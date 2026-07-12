@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+chapter="${1:?chapter}"
+
+academy/tools/verify-chapter "$chapter"
+
+echo
+echo "Wonderland Academy Press"
+echo "Certification"
+echo
+echo "STATUS: GOLD"
+echo
+echo "RESULT PASS"

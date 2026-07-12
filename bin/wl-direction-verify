@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+fail=0
+
+check_file() {
+  local path="$1"
+  if [[ -f "$path" ]]; then
+    echo "PASS file exists: $path"
+  else
+    echo "FAIL missing file: $path"
+    fail=1
+  fi
+}
+
+check_contains() {
+  local path="$1"
+  local text="$2"
+  if [[ -f "$path" ]] && grep -Fq "$text" "$path"; then
+    echo "PASS contains: $path :: $text"
+  else
+    echo "FAIL missing text: $path :: $text"
+    fail=1
+  fi
+}
+
+echo "== Wonderland Direction Verify =="
+
+check_file "WONDERLAND.md"
+check_file "capabilities/registry.yaml"
+check_file "academy/README.md"
+check_file "academy/security-lab/README.md"
+check_file "os/bookworm/README.md"
+check_file "platform/README.md"
+
+check_contains "WONDERLAND.md" "Wonderland exists to transform curiosity into understanding"
+check_contains "WONDERLAND.md" "A capability is complete only when"
+check_contains "capabilities/registry.yaml" "academy.understanding"
+check_contains "academy/security-lab/README.md" "systems owned by the operator"
+check_contains "os/bookworm/README.md" "Debian Bookworm is the Wonderland Reference Runtime"
+
+ts="$(date +%Y%m%d-%H%M%S)"
+cert="vault/08-Operations/certifications/direction-verify-$ts.json"
+
+if [[ "$fail" -eq 0 ]]; then
+  cat > "$cert" <<EOFJSON
+{
+  "certification": "wonderland-direction",
+  "status": "PASS",
+  "timestamp": "$ts",
+  "checks": [
+    "WONDERLAND.md",
+    "capabilities/registry.yaml",
+    "academy",
+    "security-lab",
+    "bookworm-reference-runtime",
+    "platform"
+  ]
+}
+EOFJSON
+  echo "Certification: $cert"
+  echo "RESULT PASS"
+else
+  cat > "$cert" <<EOFJSON
+{
+  "certification": "wonderland-direction",
+  "status": "FAIL",
+  "timestamp": "$ts"
+}
+EOFJSON
+  echo "Certification: $cert"
+  echo "RESULT FAIL"
+  exit 1
+fi

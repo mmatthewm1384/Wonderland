@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+
+if [[ "${1:-}" == "browser" ]]; then
+  shift
+  exec "$WL_HOME/bin/wl-browser" "$@"
+fi
+
+if [[ "${1:-}" == "root" ]]; then
+  shift
+  exec "$WL_HOME/bin/wl-root" "$@"
+fi
+
+if [[ "${1:-}" == "academy-root" ]]; then
+  shift
+  exec "$WL_HOME/bin/wl-academy-root" "$@"
+fi
+
+if [[ "${1:-}" == "vault-root" ]]; then
+  shift
+  exec "$WL_HOME/bin/wl-vault-root" "$@"
+fi
+
+if [[ "${1:-}" == "apps-root" ]]; then
+  shift
+  exec "$WL_HOME/bin/wl-apps-root" "$@"
+fi
+
+if [[ "${1:-}" == "docs-root" ]]; then
+  shift
+  exec "$WL_HOME/bin/wl-docs-root" "$@"
+fi
+
+exec "$WL_HOME/bin/wl.original" "$@"

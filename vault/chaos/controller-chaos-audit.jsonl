@@ -20,3 +20,4 @@
 {"command": "panic", "event": "controller_chaos_model", "model": "blackout", "risk_level": 4, "timestamp": "2026-06-30T03:56:16.919954+00:00"}
 {"command": "panic", "event": "controller_chaos_model", "model": "blackout", "risk_level": 4, "timestamp": "2026-06-30T03:56:29.390197+00:00"}
 {"command": "panic", "event": "controller_chaos_model", "model": "blackout", "risk_level": 4, "timestamp": "2026-06-30T04:05:05.752193+00:00"}
+{"command": "panic", "event": "controller_chaos_model", "model": "storm", "risk_level": 3, "timestamp": "2026-07-06T07:29:04.150744+00:00"}

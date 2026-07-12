@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+PYTHONPATH="$WL_ROOT/builder/python/wlregistry${PYTHONPATH:+:$PYTHONPATH}" \
+  python3 -m wlregistry.cli --root "$WL_ROOT" "$@"

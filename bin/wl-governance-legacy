@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+readonly WL_ROOT="${WL_ROOT:-/Users/wonderland/Wonderland}"
+readonly PACKAGE_ROOT="$WL_ROOT/builder/python/wlgovernance"
+
+if [[ ! -d "$PACKAGE_ROOT/wlgovernance" ]]; then
+  printf 'FAIL Governance package unavailable: %s\n' \
+    "$PACKAGE_ROOT/wlgovernance" >&2
+  exit 1
+fi
+
+export WL_ROOT
+export WL_HOME="$WL_ROOT"
+export PYTHONPATH="$PACKAGE_ROOT${PYTHONPATH:+:$PYTHONPATH}"
+
+exec python3 -m wlgovernance "$@"

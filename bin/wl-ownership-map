@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+INV="$WL_ROOT/vault/08-Operations/state/platform-inventory-latest.json"
+OUT_DIR="$WL_ROOT/vault/08-Operations/ownership"
+STATE="$WL_ROOT/vault/08-Operations/state/platform-ownership-latest.json"
+
+mkdir -p "$OUT_DIR" "$(dirname "$STATE")"
+
+if [[ ! -f "$INV" ]]; then
+  echo "FAIL missing inventory: $INV"
+  echo "Run: wl platform inventory"
+  exit 1
+fi
+
+ts="$(date +%Y%m%d-%H%M%S)"
+out="$OUT_DIR/platform-ownership-$ts.json"
+
+python3 - "$INV" "$out" "$STATE" <<'PY'
+import json
+import sys
+from collections import defaultdict
+from datetime import datetime, timezone
+from pathlib import Path
+
+inventory_path = Path(sys.argv[1])
+out = Path(sys.argv[2])
+state = Path(sys.argv[3])
+
+inventory = json.loads(inventory_path.read_text())
+entries = []
+summary = defaultdict(int)
+owners = defaultdict(int)
+domains = defaultdict(int)
+
+for item in inventory.get("components", []):
+    status = "assigned" if item.get("owner") != "UNASSIGNED" else "needs-review"
+    entry = {
+        "path": item.get("path"),
+        "kind": item.get("kind"),
+        "classification": item.get("classification"),
+        "domain": item.get("domain"),
+        "owner": item.get("owner"),
+        "capability": item.get("capability"),
+        "component": item.get("component"),
+        "implementation": item.get("implementation"),
+        "status": status,
+    }
+    entries.append(entry)
+    summary[status] += 1
+    owners[item.get("owner", "UNKNOWN")] += 1
+    domains[item.get("domain", "UNKNOWN")] += 1
+
+payload = {
+    "ownership": "wonderland-platform",
+    "version": 2,
+    "status": "PASS" if summary.get("needs-review", 0) == 0 else "WARN",
+    "timestamp": datetime.now(timezone.utc).isoformat(),
+    "source_inventory": str(inventory_path),
+    "summary": dict(sorted(summary.items())),
+    "owner_summary": dict(sorted(owners.items())),
+    "domain_summary": dict(sorted(domains.items())),
+    "entries": entries,
+    "next_step": "Review only needs-review items. Assigned items derive from Registry Engine v2.",
+}
+
+out.write_text(json.dumps(payload, indent=2) + "\n")
+state.write_text(json.dumps(payload, indent=2) + "\n")
+
+print(f"Ownership: {out}")
+print(f"Latest:    {state}")
+print("Summary:")
+for key, value in sorted(summary.items()):
+    print(f"  {key}: {value}")
+print(f"RESULT {payload['status']}")
+PY

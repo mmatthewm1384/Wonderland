@@ -13,8 +13,8 @@ class MountStage:
     implemented = True
     name = "mount"
     description = "Attach image, create filesystems, and mount root/EFI filesystems."
-    requires = ()
-    produces = ()
+    requires = ("raw_path",)
+    produces = ("loop", "efi_partition", "root_partition", "mount_root", "efi_mount")
     legacy_source = "build.__main__ stage 03 Mount"
 
     def _loop_device(self, output: str) -> str:

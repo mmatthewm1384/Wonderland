@@ -29,9 +29,7 @@
       "risk": 5
     }
   ],
-  "resumed_at": "2026-06-28T21:34:36.087926+00:00",
   "schema": "wonderland.chaos.escalation.v1",
-  "started_at": "2026-06-28T21:32:18.615280+00:00",
-  "stopped_at": "2026-06-28T21:34:32.375735+00:00",
+  "started_at": "2026-07-05T21:37:23.449844+00:00",
   "strategy": "exponential"
 }

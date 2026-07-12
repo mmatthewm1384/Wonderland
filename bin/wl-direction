@@ -1,0 +1,122 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+STATE_DIR="$WL_ROOT/vault/08-Operations/state"
+STATE_FILE="$STATE_DIR/wonderland-direction-status.json"
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  wl direction verify
+  wl direction status
+  wl direction explain
+
+Purpose:
+  Show and verify Wonderland's permanent goal direction.
+USAGE
+}
+
+verify() {
+  exec "$WL_ROOT/bin/wl-direction-verify"
+}
+
+status() {
+  mkdir -p "$STATE_DIR"
+
+  local status="PASS"
+  local missing=()
+
+  for path in \
+    "WONDERLAND.md" \
+    "capabilities/registry.yaml" \
+    "academy/README.md" \
+    "academy/security-lab/README.md" \
+    "os/bookworm/README.md" \
+    "platform/README.md"
+  do
+    if [[ ! -f "$WL_ROOT/$path" ]]; then
+      status="FAIL"
+      missing+=("$path")
+    fi
+  done
+
+  python3 - "$STATE_FILE" "$status" "${missing[@]}" <<'PY'
+import json
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+state_file = Path(sys.argv[1])
+status = sys.argv[2]
+missing = sys.argv[3:]
+
+payload = {
+    "capability": "platform.direction",
+    "status": status,
+    "timestamp": datetime.now(timezone.utc).isoformat(),
+    "mission": "Wonderland is an educational platform for understanding, building, operating, and protecting a digital world.",
+    "entrypoint": "wl",
+    "academy_role": "Understanding engine",
+    "bookworm_role": "Reference Runtime",
+    "missing": missing,
+}
+
+state_file.write_text(json.dumps(payload, indent=2) + "\n")
+print(json.dumps(payload, indent=2))
+PY
+
+  [[ "$status" == "PASS" ]]
+}
+
+explain() {
+  cat <<'EOFEXPLAIN'
+Wonderland Direction
+
+Mission:
+  Wonderland exists to make advanced computing understandable.
+
+Core focus:
+  Education through building.
+
+Permanent model:
+  Wonderland Platform runs alongside macOS, Windows, and Linux.
+  Wonderland Academy teaches the platform.
+  Wonderland OS is the long-term full packaged expression.
+  Debian Bookworm is the reference runtime and developer edition.
+
+Definition of Complete:
+  A capability is complete when:
+    - it works
+    - it is verified
+    - it is certified
+    - it can be understood
+    - the operator can explain it
+    - Academy can teach it
+
+Security principle:
+  Defensive security, privacy, encryption, anonymity, and secrecy are taught as accessible capabilities.
+  Testing is limited to owned or explicitly authorized systems and isolated labs.
+EOFEXPLAIN
+}
+
+cmd="${1:-status}"
+case "$cmd" in
+  verify)
+    verify
+    ;;
+  status)
+    status
+    ;;
+  explain|why)
+    explain
+    ;;
+  help|-h|--help)
+    usage
+    ;;
+  *)
+    echo "FAIL unknown direction command: $cmd" >&2
+    usage >&2
+    exit 2
+    ;;
+esac

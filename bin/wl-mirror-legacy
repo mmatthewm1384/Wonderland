@@ -1,0 +1,258 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
+SRC="${WL_MIRROR_SOURCE:-$WL_ROOT}"
+VOL="${WL_MIRROR_VOLUME:-/Volumes/T7_Wonderland}"
+DST="${WL_MIRROR_DEST:-$VOL/Wonderland}"
+
+REP="$WL_ROOT/vault/08-Operations/replication"
+LOG="$REP/logs"
+STATE="$REP/state"
+HIST="$REP/history"
+CERT="$WL_ROOT/vault/08-Operations/certifications"
+MANIFEST="$STATE/manifest.json"
+
+mkdir -p "$LOG" "$STATE" "$HIST" "$CERT"
+
+pass(){ echo "PASS $*"; }
+warn(){ echo "WARN $*"; }
+fail(){ echo "FAIL $*"; }
+
+stamp(){ date -u +%Y%m%d-%H%M%S; }
+now(){ date -u +%Y-%m-%dT%H:%M:%SZ; }
+
+mounted(){ [[ -d "$VOL" ]]; }
+writable(){ [[ -d "$VOL" && -w "$VOL" ]]; }
+
+excludes(){
+  cat <<'EX'
+.git/
+.DS_Store
+node_modules/
+target/
+dist/
+build/
+__pycache__/
+*.pyc
+vault/08-Operations/replication/
+vault/08-Operations/certifications/
+EX
+}
+
+write_manifest(){
+  local health="${1:-UNKNOWN}"
+  local action="${2:-status}"
+  python3 - "$MANIFEST" "$health" "$action" "$(now)" "$SRC" "$DST" <<'PY'
+import json, os, sys
+path, health, action, ts, src, dst = sys.argv[1:]
+data = {}
+if os.path.exists(path):
+    try:
+        data = json.load(open(path))
+    except Exception:
+        data = {}
+data.update({
+    "version": 1,
+    "health": health,
+    "last_action": action,
+    "updated_at": ts,
+    "source": src,
+    "destination": dst,
+    "policy": "safe-incremental-rsync"
+})
+if action == "update":
+    data["last_sync"] = ts
+if action == "verify":
+    data["last_verify"] = ts
+os.makedirs(os.path.dirname(path), exist_ok=True)
+tmp = path + ".tmp"
+with open(tmp, "w") as f:
+    json.dump(data, f, indent=2, sort_keys=True)
+    f.write("\n")
+os.replace(tmp, path)
+PY
+}
+
+doctor(){
+  local bad=0
+  echo "Wonderland Mirror Doctor"
+  echo
+
+  command -v rsync >/dev/null && pass "rsync available" || { fail "rsync missing"; bad=1; }
+  command -v python3 >/dev/null && pass "python3 available" || { fail "python3 missing"; bad=1; }
+  [[ -d "$WL_ROOT" ]] && pass "Wonderland root exists" || { fail "Wonderland root missing"; bad=1; }
+  mounted && pass "T7 mounted" || { fail "T7 not mounted: $VOL"; bad=1; }
+  writable && pass "T7 writable" || { fail "T7 not writable"; bad=1; }
+  [[ -d "$REP" ]] && pass "replication directory exists" || { fail "replication directory missing"; bad=1; }
+
+  if [[ -f "$MANIFEST" ]]; then
+    python3 -m json.tool "$MANIFEST" >/dev/null && pass "manifest valid" || { fail "manifest invalid"; bad=1; }
+  else
+    warn "manifest missing; will be created by update/manifest"
+  fi
+
+  echo
+  if [[ "$bad" -eq 0 ]]; then
+    write_manifest PASS doctor
+    echo "RESULT PASS"
+  else
+    write_manifest FAIL doctor
+    echo "RESULT FAIL"
+    return 1
+  fi
+}
+
+status(){
+  echo "Wonderland Mirror Status"
+  echo
+  echo "Source:      $SRC"
+  echo "Volume:      $VOL"
+  echo "Destination: $DST"
+  echo
+  mounted && pass "T7 mounted" || fail "T7 not mounted"
+  writable && pass "T7 writable" || warn "T7 not writable"
+  [[ -d "$DST" ]] && pass "mirror destination exists" || warn "mirror destination missing"
+  [[ -f "$MANIFEST" ]] && pass "manifest exists" || warn "manifest missing"
+  [[ -f "$MANIFEST" ]] && { echo; cat "$MANIFEST"; }
+}
+
+exclude_file(){
+  local f="$STATE/excludes.txt"
+  excludes > "$f"
+  echo "$f"
+}
+
+diff_cmd(){
+  mounted || { fail "T7 not mounted"; return 1; }
+  mkdir -p "$DST"
+  local f logf
+  f="$(exclude_file)"
+  logf="$LOG/diff-$(stamp).log"
+
+  rsync -aHAXn --itemize-changes --human-readable \
+    --exclude-from="$f" \
+    "$SRC/" "$DST/" | tee "$logf"
+
+  echo
+  echo "Diff log: $logf"
+}
+
+update(){
+  mounted || { fail "T7 not mounted"; return 1; }
+  writable || { fail "T7 not writable"; return 1; }
+  mkdir -p "$DST"
+  local f logf
+  f="$(exclude_file)"
+  logf="$LOG/update-$(stamp).log"
+
+  rsync -aHAX --itemize-changes --human-readable --safe-links \
+    --exclude-from="$f" \
+    "$SRC/" "$DST/" | tee "$logf"
+
+  write_manifest PASS update
+  cp "$MANIFEST" "$HIST/manifest-update-$(stamp).json"
+
+  echo
+  echo "Update log: $logf"
+  echo "RESULT PASS"
+}
+
+verify(){
+  mounted || { fail "T7 not mounted"; return 1; }
+  [[ -d "$DST" ]] || { fail "mirror destination missing"; return 1; }
+  local f logf
+  f="$(exclude_file)"
+  logf="$LOG/verify-$(stamp).log"
+
+  rsync -aHAXcn --itemize-changes \
+    --exclude-from="$f" \
+    "$SRC/" "$DST/" | tee "$logf"
+
+  if [[ -s "$logf" ]]; then
+    warn "mirror drift detected"
+    write_manifest WARN verify
+    echo "RESULT WARN"
+    return 2
+  fi
+
+  pass "mirror matches source"
+  write_manifest PASS verify
+  echo "RESULT PASS"
+}
+
+certify(){
+  local out status
+  out="$CERT/mirror-certified-$(stamp).json"
+  status=PASS
+
+  doctor || status=FAIL
+  update || status=FAIL
+  verify || status=FAIL
+
+  python3 - "$out" "$status" "$(now)" "$SRC" "$DST" <<'PY'
+import json, os, sys
+path, status, ts, src, dst = sys.argv[1:]
+os.makedirs(os.path.dirname(path), exist_ok=True)
+json.dump({
+  "certification": "wonderland-mirror",
+  "version": 1,
+  "status": status,
+  "certified_at": ts,
+  "source": src,
+  "destination": dst,
+  "safety": {
+    "restore_default": "dry-run",
+    "destructive_cleanup_default": False
+  }
+}, open(path, "w"), indent=2, sort_keys=True)
+open(path, "a").write("\n")
+PY
+
+  echo
+  echo "Certification: $out"
+  echo "RESULT $status"
+  [[ "$status" == PASS ]]
+}
+
+restore(){
+  [[ "${1:-}" == "--dry-run" ]] || {
+    fail "restore requires --dry-run"
+    echo "Example: wl mirror restore --dry-run /tmp/wonderland-restore-preview"
+    return 1
+  }
+
+  local target="${2:-/tmp/wonderland-restore-preview}"
+  mounted || { fail "T7 not mounted"; return 1; }
+  [[ -d "$DST" ]] || { fail "mirror destination missing"; return 1; }
+  mkdir -p "$target"
+
+  rsync -aHAXn --itemize-changes "$DST/" "$target/"
+  echo
+  echo "Restore dry-run target: $target"
+  echo "RESULT PASS"
+}
+
+manifest(){
+  write_manifest UNKNOWN manifest
+  cat "$MANIFEST"
+}
+
+case "${1:-help}" in
+  doctor) shift; doctor "$@" ;;
+  status) shift; status "$@" ;;
+  diff) shift; diff_cmd "$@" ;;
+  update) shift; update "$@" ;;
+  verify) shift; verify "$@" ;;
+  certify) shift; certify "$@" ;;
+  restore) shift; restore "$@" ;;
+  manifest) shift; manifest "$@" ;;
+  clean-stale) shift; diff_cmd "$@" ;;
+  help|-h|--help)
+    echo "Usage: wl mirror {doctor|status|diff|update|verify|certify|restore --dry-run|manifest|clean-stale}"
+    ;;
+  *)
+    fail "unknown mirror command: $1"
+    exit 64
+    ;;
+esac

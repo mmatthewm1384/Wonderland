@@ -1,0 +1,11 @@
+{
+  "storage": {
+    "name": "T7_Wonderland",
+    "volume_path": "/Volumes/T7_Wonderland",
+    "source": "/Users/wonderland/Wonderland",
+    "destination": "/Volumes/T7_Wonderland/Wonderland",
+    "exclude_file": "config/storage/t7-mirror-excludes.txt",
+    "required": true,
+    "role": "external_mirror"
+  }
+}

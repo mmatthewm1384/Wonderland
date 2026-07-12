@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+cd "$WL_HOME"
+
+mkdir -p \
+  builder/python/wlcli/wlcli/core/graph \
+  builder/python/wlcli/wlcli/core/report \
+  builder/python/wlcli/wlcli/core/runtime \
+  builder/python/wlcli/wlcli/core/state \
+  builder/python/wlcli/wlcli/core/ui \
+  builder/python/wlcli/wlcli/core/events
+
+touch \
+  builder/python/wlcli/wlcli/core/graph/__init__.py \
+  builder/python/wlcli/wlcli/core/report/__init__.py \
+  builder/python/wlcli/wlcli/core/runtime/__init__.py \
+  builder/python/wlcli/wlcli/core/state/__init__.py \
+  builder/python/wlcli/wlcli/core/ui/__init__.py \
+  builder/python/wlcli/wlcli/core/events/__init__.py
+
+cp builder/python/wlcli/wlcli/graph/engine.py builder/python/wlcli/wlcli/core/graph/engine.py
+cp builder/python/wlcli/wlcli/report/builders.py builder/python/wlcli/wlcli/core/report/builders.py
+cp builder/python/wlcli/wlcli/runtime/context.py builder/python/wlcli/wlcli/core/runtime/context.py
+cp builder/python/wlcli/wlcli/runtime/interface.py builder/python/wlcli/wlcli/core/runtime/interface.py
+cp builder/python/wlcli/wlcli/runtime/operation.py builder/python/wlcli/wlcli/core/runtime/operation.py
+cp builder/python/wlcli/wlcli/state/history.py builder/python/wlcli/wlcli/core/state/history.py
+cp builder/python/wlcli/wlcli/state/metrics.py builder/python/wlcli/wlcli/core/state/metrics.py
+cp builder/python/wlcli/wlcli/ui/terminal.py builder/python/wlcli/wlcli/core/ui/terminal.py
+cp builder/python/wlcli/wlcli/ui/json_renderer.py builder/python/wlcli/wlcli/core/ui/json_renderer.py
+
+cat > builder/python/wlcli/wlcli/core/graph/__init__.py <<'PY'
+from __future__ import annotations
+from wlcli.core.graph.engine import BootGraph, Stage, StageResult
+__all__ = ["BootGraph", "Stage", "StageResult"]
+PY
+
+cat > builder/python/wlcli/wlcli/core/report/__init__.py <<'PY'
+from __future__ import annotations
+from wlcli.core.report.builders import (
+    build_boot_report,
+    build_graph_current,
+    graph_clean,
+    graph_logs,
+    graph_open_log,
+    graph_state,
+    graph_state_path,
+    load_graph_state,
+)
+__all__ = [
+    "build_boot_report",
+    "build_graph_current",
+    "graph_clean",
+    "graph_logs",
+    "graph_open_log",
+    "graph_state",
+    "graph_state_path",
+    "load_graph_state",
+]
+PY
+
+cat > builder/python/wlcli/wlcli/core/runtime/__init__.py <<'PY'
+from __future__ import annotations
+from wlcli.core.runtime.context import RuntimeContext
+from wlcli.core.runtime.interface import PlatformOperations
+from wlcli.core.runtime.operation import BashOperationRunner, OperationResult
+__all__ = ["RuntimeContext", "PlatformOperations", "BashOperationRunner", "OperationResult"]
+PY
+
+cat > builder/python/wlcli/wlcli/core/state/__init__.py <<'PY'
+from __future__ import annotations
+from wlcli.core.state.history import append_history, history_path, read_history
+from wlcli.core.state.metrics import build_metrics
+__all__ = ["append_history", "history_path", "read_history", "build_metrics"]
+PY
+
+cat > builder/python/wlcli/wlcli/core/ui/__init__.py <<'PY'
+from __future__ import annotations
+PY
+
+echo "RESULT PASS"

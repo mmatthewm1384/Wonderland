@@ -1,0 +1,15 @@
+{
+  "schema": "wonderland.academy.chapters.v1",
+  "generated_at": "2026-07-05T18:10:55Z",
+  "chapter_count": 1,
+  "chapters": [
+    {
+      "id": "001",
+      "title": "Binary \u2014 The Language of Every Computer",
+      "status": "draft",
+      "version": "0.1.0",
+      "path": "02-lessons/day-001-030/chapter-001-binary",
+      "chapter_file": "02-lessons/day-001-030/chapter-001-binary/chapter.md"
+    }
+  ]
+}

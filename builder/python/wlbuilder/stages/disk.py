@@ -12,7 +12,7 @@ class DiskStage:
     name = "disk"
     description = "Create raw disk image and partition layout."
     requires = ()
-    produces = ()
+    produces = ("raw_path", "disk_size")
     legacy_source = "build.__main__ stage 02 Disk"
 
     def _disk_size(self, context: BuilderContext) -> str:

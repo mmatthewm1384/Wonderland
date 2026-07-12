@@ -1,0 +1,314 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$WL_ROOT/lib/core/ui.sh"
+
+WL_APP_NAME="${WL_APP_NAME:-Wonderland}"
+WL_LIMA_INSTANCE="${WL_LIMA_INSTANCE:-wonderland-rootless}"
+export LIMA_INSTANCE="$WL_LIMA_INSTANCE"
+export NERDCTL_NAMESPACE="${NERDCTL_NAMESPACE:-default}"
+
+usage() {
+  wl_logo
+  cat <<USAGE
+
+Usage:
+  wl start
+  wl stop
+  wl status
+  wl doctor
+  wl palette
+
+Environment:
+  WL_APP_NAME        default: Wonderland
+
+USAGE
+}
+
+has_cmd() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+lima_exists() {
+  has_cmd limactl && limactl list --format '{{.Name}}' 2>/dev/null | grep -qx "$WL_LIMA_INSTANCE"
+}
+
+start_rootless() {
+  if [[ -x "$WL_ROOT/bin/wl-rootless" ]]; then
+    "$WL_ROOT/bin/wl-rootless" start
+  elif [[ -x "$WL_ROOT/bin/wl-runtime" ]]; then
+    "$WL_ROOT/bin/wl-runtime" start
+  else
+    wl_warn "no Wonderland rootless/runtime starter found"
+    return 0
+  fi
+}
+
+stop_rootless() {
+  if [[ -x "$WL_ROOT/bin/wl-rootless" ]]; then
+    "$WL_ROOT/bin/wl-rootless" stop
+  elif [[ -x "$WL_ROOT/bin/wl-runtime" ]]; then
+    "$WL_ROOT/bin/wl-runtime" stop
+  else
+    wl_warn "no Wonderland rootless/runtime stopper found"
+    return 0
+  fi
+}
+
+start_services() {
+  if command -v nerdctl >/dev/null 2>&1; then
+    for _ in 1 2 3 4 5 6 7 8 9 10; do
+      if nerdctl ps >/dev/null 2>&1; then
+        break
+      fi
+      sleep 1
+    done
+  fi
+
+  if [[ -x "$WL_ROOT/bin/wl-services" ]]; then
+    "$WL_ROOT/bin/wl-services" start
+  elif [[ -x "$WL_ROOT/bin/wl-runtime" ]]; then
+    "$WL_ROOT/bin/wl-runtime" services start
+  else
+    wl_warn "no Wonderland service starter found"
+    return 0
+  fi
+
+  if command -v nerdctl >/dev/null 2>&1; then
+    echo
+    echo "== nerdctl containers =="
+    nerdctl ps -a --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' || true
+  fi
+}
+
+stop_services() {
+  if [[ -x "$WL_ROOT/bin/wl-services" ]]; then
+    "$WL_ROOT/bin/wl-services" stop
+  elif [[ -x "$WL_ROOT/bin/wl-runtime" ]]; then
+    "$WL_ROOT/bin/wl-runtime" services stop
+  else
+    wl_warn "no Wonderland service stopper found"
+    return 0
+  fi
+}
+
+wl_command_supports() {
+  local cmd="$1"
+  local subcmd="$2"
+  "$cmd" help 2>&1 | grep -Eq "(^|[[:space:]])$subcmd($|[[:space:]])" \
+    || "$cmd" --help 2>&1 | grep -Eq "(^|[[:space:]])$subcmd($|[[:space:]])"
+}
+
+start_apps() {
+  local launched=0
+
+  for app in \
+    "$WL_ROOT/bin/wl-control-center" \
+    "$WL_ROOT/bin/wl-chaos-menubar" \
+    "$WL_ROOT/bin/wl-spin-city"
+  do
+    if [[ -x "$app" ]] && wl_command_supports "$app" start; then
+      "$app" start
+      launched=1
+    fi
+  done
+
+  if [[ "$launched" -eq 0 ]]; then
+    wl_warn "no start-capable Wonderland graphical app launcher found"
+    return 0
+  fi
+}
+
+stop_apps() {
+  local stopped=0
+
+  for app in \
+    "$WL_ROOT/bin/wl-control-center" \
+    "$WL_ROOT/bin/wl-chaos-menubar" \
+    "$WL_ROOT/bin/wl-spin-city"
+  do
+    if [[ -x "$app" ]] && wl_command_supports "$app" stop; then
+      "$app" stop
+      stopped=1
+    fi
+  done
+
+  if [[ "$stopped" -eq 0 ]]; then
+    wl_warn "no stop-capable Wonderland graphical app launcher found"
+    return 0
+  fi
+}
+
+start_runtime() {
+  wl_logo
+  wl_info "Starting Wonderland runtime"
+
+  wl_run_with_spinner "Starting Wonderland rootless runtime" start_rootless
+  export LIMA_INSTANCE="$WL_LIMA_INSTANCE"
+  wl_run_with_spinner "Starting nerdctl services" start_services
+  wl_run_with_spinner "Launching graphical shell: $WL_APP_NAME" start_apps
+
+  wl_ok "Wonderland started"
+}
+
+stop_runtime() {
+  wl_logo
+  wl_info "Stopping Wonderland runtime"
+
+  wl_run_with_spinner "Stopping graphical shell: $WL_APP_NAME" stop_apps
+  wl_run_with_spinner "Stopping nerdctl services" stop_services
+  wl_run_with_spinner "Stopping Wonderland rootless runtime" stop_rootless
+
+  wl_ok "Wonderland stopped"
+}
+
+status_runtime() {
+  wl_logo
+
+  has_cmd limactl && wl_ok "limactl available" || wl_warn "limactl missing"
+  has_cmd nerdctl && wl_ok "nerdctl available" || wl_warn "nerdctl missing"
+
+  if [[ -x "$WL_ROOT/bin/wl-rootless" ]]; then
+    "$WL_ROOT/bin/wl-rootless" status || true
+  elif [[ -x "$WL_ROOT/bin/wl-runtime" ]]; then
+    "$WL_ROOT/bin/wl-runtime" status || true
+  else
+    wl_warn "no Wonderland runtime status command found"
+  fi
+
+  if has_cmd nerdctl; then
+    nerdctl ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' 2>/dev/null || wl_warn "nerdctl ps failed"
+  fi
+}
+
+doctor_runtime() {
+  wl_logo
+
+  [[ -f "$WL_ROOT/lib/core/ui.sh" ]] && wl_ok "ui framework present" || wl_fail "ui framework missing"
+  [[ -x "$WL_ROOT/bin/wl" ]] && wl_ok "wl executable" || wl_fail "wl not executable"
+
+  has_cmd bash && wl_ok "bash available" || wl_fail "bash missing"
+  has_cmd limactl && wl_ok "limactl available" || wl_warn "limactl missing"
+  has_cmd nerdctl && wl_ok "nerdctl available" || wl_warn "nerdctl missing"
+
+  [[ -x "$WL_ROOT/bin/wl-rootless" ]] && wl_ok "wl-rootless available" || wl_warn "wl-rootless missing"
+  [[ -x "$WL_ROOT/bin/wl-services" ]] && wl_ok "wl-services available" || wl_warn "wl-services missing"
+
+  wl_ok "doctor complete"
+}
+
+cmd="${1:-help}"
+shift || true
+
+case "$cmd" in
+  repository)
+    if [ "${1:-}" = "repository" ]; then
+      shift
+    fi
+    exec "$WL_ROOT/bin/wl-repository" "$@"
+    ;;
+      platform-0)
+        exec "$WL_ROOT/bin/wl-platform-0" "$@"
+        ;;
+      platform-0-status)
+        exec "$WL_ROOT/bin/wl-platform-0-status" "$@"
+        ;;
+      platform-0-doctor)
+        exec "$WL_ROOT/bin/wl-platform-0-doctor" "$@"
+        ;;
+      platform-0-verify)
+        exec "$WL_ROOT/bin/wl-platform-0-verify" "$@"
+        ;;
+      philosophy)
+        exec "$WL_ROOT/bin/wl-philosophy" "$@"
+        ;;
+      north-star)
+        exec "$WL_ROOT/bin/wl-north-star" "$@"
+        ;;
+      craftsmanship)
+        exec "$WL_ROOT/bin/wl-craftsmanship" "$@"
+        ;;
+      governance)
+        exec "$WL_ROOT/bin/wl-governance" "$@"
+        ;;
+      review)
+        exec "$WL_ROOT/bin/wl-review" "$@"
+        ;;
+      manifesto)
+        exec "$WL_ROOT/bin/wl-manifesto" "$@"
+        ;;
+      constitution)
+        exec "$WL_ROOT/bin/wl-constitution" "$@"
+        ;;
+      design-system)
+        exec "$WL_ROOT/bin/wl-design-system" "$@"
+        ;;
+      platform-0-doctor)
+        exec "$WL_ROOT/bin/wl-platform-0-doctor" "$@"
+        ;;
+      philosophy)
+        exec "$WL_ROOT/bin/wl-philosophy" "$@"
+        ;;
+      north-star)
+        exec "$WL_ROOT/bin/wl-north-star" "$@"
+        ;;
+      craftsmanship)
+        exec "$WL_ROOT/bin/wl-craftsmanship" "$@"
+        ;;
+      manifesto)
+        exec "$WL_ROOT/bin/wl-manifesto" "$@"
+        ;;
+      constitution)
+        exec "$WL_ROOT/bin/wl-constitution" "$@"
+        ;;
+      design-system)
+        exec "$WL_ROOT/bin/wl-design-system" "$@"
+        ;;
+      platform-0-verify)
+        exec "$WL_ROOT/bin/wl-platform-0-verify" "$@"
+        ;;
+  start|stop|status|doctor|graph|graph-json|graph-validate|graph-doctor|graph-current|graph-current-json|graph-state|graph-logs|graph-open-log|graph-clean|boot-report|boot-report-json|commands|commands-json|self-test|help)
+    exec "$WL_ROOT/bin/wlcli" "$cmd" "$@"
+    ;;
+      mirror)
+        exec "$WL_ROOT/bin/wl-mirror" "$@"
+        ;;
+esac
+
+
+case "$cmd" in
+  start) start_runtime "$@" ;;
+  services)
+    if [[ -x "$WL_ROOT/bin/wl-services" ]]; then
+      exec "$WL_ROOT/bin/wl-services" "$@"
+    else
+      wl_fail "wl-services missing"
+      exit 1
+    fi
+    ;;
+  rootless)
+    if [[ -x "$WL_ROOT/bin/wl-rootless" ]]; then
+      exec "$WL_ROOT/bin/wl-rootless" "$@"
+    else
+      wl_fail "wl-rootless missing"
+      exit 1
+    fi
+    ;;
+  stop) stop_runtime "$@" ;;
+  status) status_runtime "$@" ;;
+  doctor) doctor_runtime "$@" ;;
+  palette) wl_palette ;;
+  apps)
+    exec "$WL_ROOT/bin/wl-apps" "$@"
+    ;;
+  start|stop|status|doctor|graph|help)
+    exec "$WL_ROOT/bin/wlcli" "$cmd" "$@"
+    ;;
+  help|-h|--help)
+    exec "$WL_ROOT/bin/wlcli" help
+    ;;
+  *)
+    exec "$WL_ROOT/bin/wlcli" "$cmd" "$@"
+    ;;
+esac

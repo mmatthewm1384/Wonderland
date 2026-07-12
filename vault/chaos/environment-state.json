@@ -1,12 +1,16 @@
 {
   "schema": "wonderland.chaos.environment.state.v1",
   "model": "dreamfield",
-  "updated_at": "2026-06-30T05:10:55Z",
+  "updated_at": "2026-07-05T16:34:29Z",
   "effects": {
     "intensity": 0.5,
     "motion": "slow-wave",
     "matrix": true,
-    "message": "Dreamfield environment selected"
+    "message": "Dreamfield environment selected",
+    "controllers": [
+      "matrix",
+      "menubar"
+    ]
   },
   "status": "applied"
 }

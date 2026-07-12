@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+
+step() {
+  echo
+  echo "== $1 =="
+  shift
+  "$@"
+}
+
+step "Direction Status" "$WL_ROOT/bin/wl-direction" status
+step "Registry v2 Doctor" "$WL_ROOT/bin/wl-registry-v2" doctor
+step "Platform Inventory" "$WL_ROOT/bin/wl-platform-inventory"
+step "Platform Ownership" "$WL_ROOT/bin/wl-ownership-map"
+step "Platform Consolidation" "$WL_ROOT/bin/wl-platform-consolidation"
+step "Architecture Verify" "$WL_ROOT/bin/wl-architecture" verify
+step "Architecture Graph" "$WL_ROOT/bin/wl-architecture" graph
+step "Platform Certification" "$WL_ROOT/bin/wl-platform-convergence-certify"
+step "Academy Teaching" "$WL_ROOT/bin/wl-platform-teach"
+step "Convergence Status" "$WL_ROOT/bin/wl-convergence-status"
+
+echo
+echo "RESULT PASS"

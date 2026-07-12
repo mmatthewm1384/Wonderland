@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CHAPTER="${1:?usage: verify-chapter chapter-dir}"
+
+pass() { printf 'PASS %s\n' "$1"; }
+fail() { printf 'FAIL %s\n' "$1"; exit 1; }
+
+required=(
+README.md
+chapter.md
+metadata.yaml
+publication.json
+certification.md
+chapter-summary.md
+key-takeaways.md
+next-chapter.md
+)
+
+for f in "${required[@]}"; do
+    [[ -f "$CHAPTER/$f" ]] || fail "$f missing"
+    pass "$f"
+done
+
+dirs=(
+diagrams
+labs
+quizzes
+reflection
+codex
+references
+publishing
+)
+
+for d in "${dirs[@]}"; do
+    [[ -d "$CHAPTER/$d" ]] || fail "$d missing"
+    pass "$d"
+done
+
+echo
+echo "RESULT PASS"

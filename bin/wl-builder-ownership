@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "${WL_ROOT:-/Users/wonderland/Wonderland}"
+exec python3 01-Platform/builder/ownership-check.py

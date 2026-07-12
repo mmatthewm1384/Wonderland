@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+OWNERSHIP="$WL_ROOT/vault/08-Operations/state/platform-ownership-latest.json"
+OUT_DIR="$WL_ROOT/vault/08-Operations/convergence"
+STATE="$WL_ROOT/vault/08-Operations/state/consolidation-plan-latest.json"
+
+mkdir -p "$OUT_DIR" "$(dirname "$STATE")"
+
+if [[ ! -f "$OWNERSHIP" ]]; then
+  echo "FAIL missing ownership map: $OWNERSHIP"
+  echo "Run: wl platform inventory && wl platform ownership"
+  exit 1
+fi
+
+ts="$(date +%Y%m%d-%H%M%S)"
+out="$OUT_DIR/consolidation-plan-$ts.json"
+
+python3 - "$OWNERSHIP" "$out" "$STATE" <<'PY'
+import json
+import sys
+from collections import defaultdict
+from datetime import datetime, timezone
+from pathlib import Path
+
+ownership_path = Path(sys.argv[1])
+out = Path(sys.argv[2])
+state = Path(sys.argv[3])
+
+ownership = json.loads(ownership_path.read_text())
+entries = ownership.get("entries", [])
+
+def recommendation(entry):
+    status = entry.get("status")
+    classification = entry.get("classification")
+    domain = entry.get("domain")
+    owner = entry.get("owner")
+    path = entry.get("path")
+
+    if status == "needs-review" or owner == "UNASSIGNED":
+        return "review", "No authoritative Registry v2 assignment exists.", False
+
+    if classification == "artifact":
+        return "archive-candidate", "Artifact Policy matched this path. Archive/remove only after certification.", False
+
+    if domain in {"legacy", "legacy-scripts", "legacy-root-artifacts", "experiments"}:
+        return "legacy-review", "Legacy domain assigned. Review before archive.", False
+
+    if classification in {"domain", "implementation", "ignored"}:
+        return "keep", "Registry v2 assignment exists.", False
+
+    return "keep", "Assigned by Registry v2.", False
+
+items = []
+summary = defaultdict(int)
+domain_summary = defaultdict(int)
+owner_summary = defaultdict(int)
+component_summary = defaultdict(int)
+
+for entry in entries:
+    action, reason, safe_to_purge = recommendation(entry)
+    item = {
+        **entry,
+        "recommendation": action,
+        "reason": reason,
+        "safe_to_purge": safe_to_purge,
+    }
+    items.append(item)
+    summary[action] += 1
+    domain_summary[entry.get("domain", "unknown")] += 1
+    owner_summary[entry.get("owner", "unknown")] += 1
+    component_summary[str(entry.get("component") or "none")] += 1
+
+payload = {
+    "consolidation": "wonderland-platform",
+    "version": 2,
+    "status": "PASS" if summary.get("review", 0) == 0 else "WARN",
+    "timestamp": datetime.now(timezone.utc).isoformat(),
+    "source_ownership": str(ownership_path),
+    "policy": {
+        "purge_allowed": False,
+        "reason": "Purge remains blocked until replacements are verified, certified, understood, explainable, and teachable."
+    },
+    "summary": dict(sorted(summary.items())),
+    "domain_summary": dict(sorted(domain_summary.items())),
+    "owner_summary": dict(sorted(owner_summary.items())),
+    "component_summary": dict(sorted(component_summary.items())),
+    "items": items,
+    "next_step": "Review archive-candidate and legacy-review items. Do not delete anything until certified replacement exists.",
+}
+
+out.write_text(json.dumps(payload, indent=2) + "\n")
+state.write_text(json.dumps(payload, indent=2) + "\n")
+
+print(f"Consolidation: {out}")
+print(f"Latest:        {state}")
+print("Summary:")
+for key, value in sorted(summary.items()):
+    print(f"  {key}: {value}")
+print(f"Purge allowed: {payload['policy']['purge_allowed']}")
+print(f"RESULT {payload['status']}")
+PY

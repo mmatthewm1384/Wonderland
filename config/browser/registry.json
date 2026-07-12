@@ -1,0 +1,40 @@
+{
+  "default": "brave",
+  "fallback": "chrome",
+  "browsers": {
+    "brave": {
+      "name": "Brave",
+      "path": "/Applications/Brave Browser.app",
+      "bundle_id": "com.brave.Browser",
+      "role": "daily",
+      "webgpu": true
+    },
+    "chrome": {
+      "name": "Google Chrome",
+      "path": "/Applications/Google Chrome.app",
+      "bundle_id": "com.google.Chrome",
+      "role": "development",
+      "webgpu": true
+    },
+    "firefox": {
+      "name": "Firefox",
+      "path": "/Applications/Firefox.app",
+      "bundle_id": "org.mozilla.firefox",
+      "role": "privacy-validation",
+      "webgpu": false
+    },
+    "safari": {
+      "name": "Safari",
+      "path": "/Applications/Safari.app",
+      "bundle_id": "com.apple.Safari",
+      "role": "webkit-validation",
+      "webgpu": false
+    }
+  },
+  "deprecated": {
+    "chromium": {
+      "path": "/Applications/Chromium.app",
+      "reason": "Homebrew Chromium cask deprecated for macOS Gatekeeper compliance"
+    }
+  }
+}
