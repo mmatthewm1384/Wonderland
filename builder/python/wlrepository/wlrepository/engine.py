@@ -561,6 +561,27 @@ class RepositoryEngine:
             "checks": checks,
         }
 
+    def doctor(self) -> dict[str, Any]:
+        verification = self.verify()
+        certificate = self.verify_certificate()
+
+        return {
+            "schema_version": 1,
+            "engine": "repository",
+            "version": "1.2.2",
+            "status": (
+                "PASS"
+                if (
+                    verification.passed
+                    and certificate.get("valid", False)
+                )
+                else "FAIL"
+            ),
+            "verification": verification.as_dict(),
+            "certificate": certificate,
+            "health": self.health(),
+        }
+
     def status(self) -> dict[str, Any]:
         document = self.load_document()
         tracked_ignored = self.tracked_ignored()

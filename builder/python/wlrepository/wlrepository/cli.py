@@ -122,10 +122,38 @@ def main(argv: list[str] | None = None) -> int:
             print("RESULT PASS")
             return 0
 
-        if args.command in {"verify", "doctor"}:
+        if args.command == "verify":
             return emit_result(
                 engine.verify(),
                 json_output=args.json,
+            )
+
+        if args.command == "doctor":
+            payload = engine.doctor()
+
+            if args.json:
+                print(
+                    json.dumps(
+                        payload,
+                        indent=2,
+                        sort_keys=True,
+                    )
+                )
+            else:
+                print(
+                    "Wonderland Repository Doctor"
+                )
+                print(
+                    f"status={payload['status']}"
+                )
+                print(
+                    f"health={payload['health']['score']}"
+                )
+
+            return (
+                0
+                if payload["status"] == "PASS"
+                else 1
             )
 
         if args.command == "health":
