@@ -62,6 +62,7 @@ def build_parser() -> argparse.ArgumentParser:
         "doctor",
         "recover",
         "status",
+        "reset",
     ):
         subcommands.add_parser(name)
 
@@ -195,6 +196,9 @@ def main(argv: list[str] | None = None) -> int:
             ).run(
                 require_clean=not arguments.allow_dirty,
             )
+
+        elif arguments.command == "reset":
+            result = engine.reset()
 
         elif arguments.command == "status":
             result = state_store.read()
