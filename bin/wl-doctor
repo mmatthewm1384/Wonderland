@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/core/bootstrap.sh"
+set -euo pipefail
 
-wl_doctor_main "$@"
+WL_ROOT="$(
+  cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &&
+  pwd -P
+)"
+
+export WL_ROOT
+
+exec env \
+  PYTHONPATH="$WL_ROOT/builder/python/wldoctor:$WL_ROOT/builder/python/wlrepository${PYTHONPATH:+:$PYTHONPATH}" \
+  python3 -m wldoctor.cli "$@"

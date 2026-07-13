@@ -108,6 +108,74 @@ class RepositoryEngineTests(unittest.TestCase):
         self.assertIn("errors", health)
         self.assertIn("warnings", health)
 
+    def test_certification_returns_valid_contract(self) -> None:
+        self.engine.generate()
+
+        certification = self.engine.certification()
+
+        self.assertEqual(
+            certification["engine"],
+            "repository",
+        )
+        self.assertEqual(
+            certification["version"],
+            "1.2.4",
+        )
+
+        self.assertEqual(
+            certification["schema_version"],
+            1,
+        )
+
+        self.assertIn(
+            "state_digest",
+            certification,
+        )
+        self.assertTrue(
+            certification["certified"],
+        )
+        self.assertEqual(
+            certification["verification"],
+            "PASS",
+        )
+        self.assertEqual(
+            certification["health_score"],
+            100,
+        )
+        self.assertEqual(
+            len(certification["policy_digest"]),
+            64,
+        )
+        self.assertEqual(
+            len(certification["generated_digest"]),
+            64,
+        )
+
+
+    def test_policy_drift_detection(self) -> None:
+        self.engine.generate()
+
+        policy = self.engine.policy_path.read_text(
+            encoding="utf-8"
+        )
+
+        self.engine.policy_path.write_text(
+            policy + "\n",
+            encoding="utf-8",
+        )
+
+        result = self.engine.verify()
+
+        codes = [
+            item.code
+            for item in result.findings
+        ]
+
+        self.assertIn(
+            "POLICY_DIGEST_MISMATCH",
+            codes,
+        )
+
     def test_status_contains_verification_state(self) -> None:
         self.engine.generate()
 

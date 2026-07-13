@@ -89,6 +89,21 @@ class RepositoryCliTests(unittest.TestCase):
 
         self.assertIn(rc, (0, 1))
 
+    def test_certify_json(self) -> None:
+        from wlrepository.engine import RepositoryEngine
+
+        engine = RepositoryEngine(self.root)
+        engine.generate()
+
+        with patch.dict(
+            "os.environ",
+            {"WL_ROOT": str(self.root)},
+        ):
+            rc = main(["--json", "certify"])
+
+        self.assertEqual(rc, 0)
+
+
     def test_unknown_command(self) -> None:
         with self.assertRaises(SystemExit):
             main(["does-not-exist"])

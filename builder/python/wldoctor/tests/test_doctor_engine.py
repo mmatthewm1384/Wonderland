@@ -9,6 +9,23 @@ from wldoctor.engine import DoctorEngine
 
 class DoctorEngineTests(unittest.TestCase):
 
+    def test_certification_summary(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            report = DoctorEngine(
+                Path(tmp)
+            ).doctor()
+
+            self.assertIn(
+                "certification",
+                report,
+            )
+
+            self.assertIn(
+                "overall",
+                report["certification"],
+            )
+
+
     def test_schema_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             report = DoctorEngine(

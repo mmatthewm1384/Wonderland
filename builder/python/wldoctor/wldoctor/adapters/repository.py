@@ -8,6 +8,33 @@ class RepositoryAdapter:
     name = "repository"
 
     def run(self, root: Path) -> dict[str, Any]:
-        from wlrepository.engine import RepositoryEngine
+        try:
+            from wlrepository.engine import RepositoryEngine
 
-        return RepositoryEngine(root).doctor()
+            report = RepositoryEngine(root).doctor()
+
+            if not isinstance(report, dict):
+                raise RuntimeError(
+                    "repository doctor returned invalid report"
+                )
+
+            report.setdefault(
+                "schema_version",
+                1,
+            )
+
+            report.setdefault(
+                "engine",
+                self.name,
+            )
+
+            return report
+
+        except Exception as exc:
+            return {
+                "schema_version": 1,
+                "engine": self.name,
+                "status": "FAIL",
+                "error": str(exc),
+                "certified": False,
+            }

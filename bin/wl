@@ -52,9 +52,6 @@ fi
 
 # BEGIN WL-DOCTOR-PUBLIC-ROUTE
 # Stable public route into the Wonderland Doctor Engine.
-#
-#   wl doctor
-#   wl doctor --json
 if [[ "${1:-}" == "doctor" ]]; then
   shift
 
@@ -64,17 +61,14 @@ if [[ "${1:-}" == "doctor" ]]; then
   )"
 
   _wl_doctor_base="${WL_ROOT:-$_wl_doctor_root}"
+  _wl_doctor="$_wl_doctor_base/bin/wl-doctor"
 
-  if [[ ! -d "$_wl_doctor_base/builder/python/wldoctor" ]]; then
-    printf 'FAIL Doctor Engine unavailable: %s\n' \
-      "$_wl_doctor_base/builder/python/wldoctor" >&2
+  if [[ ! -x "$_wl_doctor" ]]; then
+    printf 'FAIL Doctor Engine unavailable: %s\n'       "$_wl_doctor" >&2
     exit 1
   fi
 
-  PYTHONPATH="$_wl_doctor_base/builder/python/wldoctor:$_wl_doctor_base/builder/python/wlrepository${PYTHONPATH:+:$PYTHONPATH}" \
-    python -m wldoctor.cli "$@"
-
-  exit $?
+  exec "$_wl_doctor" "$@"
 fi
 # END WL-DOCTOR-PUBLIC-ROUTE
 
