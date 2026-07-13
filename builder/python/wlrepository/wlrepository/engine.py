@@ -214,15 +214,30 @@ class RepositoryEngine:
             self.render_gitignore().encode("utf-8")
         ).hexdigest()
 
-    def certification(self) -> dict[str, Any]:
-        verification = self.verify()
-        health = self.health()
-
-        return {
-            "engine": "repository",
-            "version": "1.2",
+    def state_digest(self) -> str:
+        payload = {
             "policy_digest": self.policy_digest(),
             "generated_digest": self.generated_digest(),
+        }
+
+        encoded = json.dumps(
+            payload,
+            sort_keys=True,
+        ).encode("utf-8")
+
+        return hashlib.sha256(encoded).hexdigest()
+
+    def certification(self) -> dict[str, Any]:
+        verification = self.verify(ignore_certificate=True)
+        health = self.health(ignore_certificate=True)
+
+        return {
+            "schema_version": 1,
+            "engine": "repository",
+            "version": "1.2.4",
+            "policy_digest": self.policy_digest(),
+            "generated_digest": self.generated_digest(),
+            "state_digest": self.state_digest(),
             "verification": verification.as_dict()["result"],
             "health_score": health["score"],
             "certified": verification.passed,
@@ -243,14 +258,44 @@ class RepositoryEngine:
             exist_ok=True,
         )
 
-        self.certificate_path.write_text(
+        payload = (
             json.dumps(
                 certificate,
                 indent=2,
                 sort_keys=True,
-            ) + "\n",
-            encoding="utf-8",
+            )
+            + "\n"
         )
+
+        self.certificate_path.parent.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        fd, temporary_name = tempfile.mkstemp(
+            prefix=".certificate.",
+            suffix=".tmp",
+            dir=self.certificate_path.parent,
+            text=True,
+        )
+
+        temporary = Path(temporary_name)
+
+        try:
+            with os.fdopen(
+                fd,
+                "w",
+                encoding="utf-8",
+                newline="\n",
+            ) as stream:
+                stream.write(payload)
+                stream.flush()
+                os.fsync(stream.fileno())
+
+            temporary.replace(self.certificate_path)
+
+        finally:
+            temporary.unlink(missing_ok=True)
 
         return certificate
 
@@ -258,10 +303,69 @@ class RepositoryEngine:
         if not self.certificate_path.exists():
             return None
 
-        return json.loads(
+        certificate = json.loads(
             self.certificate_path.read_text(
                 encoding="utf-8"
             )
+        )
+
+        required = {
+            "schema_version",
+            "engine",
+            "version",
+            "policy_digest",
+            "generated_digest",
+            "state_digest",
+            "verification",
+            "certified",
+        }
+
+        if not required.issubset(certificate):
+            raise RuntimeError(
+                "invalid repository certificate schema"
+            )
+
+        if certificate["engine"] != "repository":
+            raise RuntimeError(
+                "invalid repository certificate engine"
+            )
+
+        for key in (
+            "policy_digest",
+            "generated_digest",
+            "state_digest",
+        ):
+            if (
+                not isinstance(certificate[key], str)
+                or len(certificate[key]) != 64
+            ):
+                raise RuntimeError(
+                    f"invalid certificate digest: {key}"
+                )
+
+        return certificate
+
+    @property
+    def policy_digest_path(self) -> Path:
+        return self.root / ".wonderland/repository-policy.digest"
+
+    def stored_policy_digest(self) -> str | None:
+        if not self.policy_digest_path.exists():
+            return None
+
+        return self.policy_digest_path.read_text(
+            encoding="utf-8"
+        ).strip()
+
+    def write_policy_digest(self) -> None:
+        self.policy_digest_path.parent.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        self.policy_digest_path.write_text(
+            self.policy_digest() + "\n",
+            encoding="utf-8",
         )
 
     def policy_digest(self) -> str:
@@ -269,17 +373,22 @@ class RepositoryEngine:
             self.policy_path.read_bytes()
         ).hexdigest()
 
-    def health(self) -> dict[str, Any]:
-        verification = self.verify()
+    def health(
+        self,
+        *,
+        ignore_certificate: bool = False,
+    ) -> dict[str, Any]:
+        verification = self.verify(
+            ignore_certificate=ignore_certificate
+        )
 
         score = 100
         score -= verification.errors * 25
-        score -= verification.warnings * 5
         score = max(score, 0)
 
         return {
             "score": score,
-            "result": "PASS" if verification.passed else "FAIL",
+            "result": "PASS" if verification.errors == 0 else "FAIL",
             "errors": verification.errors,
             "warnings": verification.warnings,
         }
@@ -308,6 +417,7 @@ class RepositoryEngine:
                 os.fsync(stream.fileno())
 
             temporary.replace(self.gitignore_path)
+            self.write_policy_digest()
         finally:
             temporary.unlink(missing_ok=True)
 
@@ -441,7 +551,11 @@ class RepositoryEngine:
                         path,
                     )
 
-    def verify(self) -> VerificationResult:
+    def verify(
+        self,
+        *,
+        ignore_certificate: bool = False,
+    ) -> VerificationResult:
         result = VerificationResult()
 
         try:
@@ -472,22 +586,41 @@ class RepositoryEngine:
                 ".gitignore",
             )
 
-        certificate = self.load_certificate()
+        stored_digest_path = self.root / ".wonderland" / "repository-policy.digest"
 
-        if certificate:
-            if (
-                certificate.get("policy_digest")
-                != self.policy_digest()
-            ):
+        if stored_digest_path.exists():
+            stored_digest = stored_digest_path.read_text(
+                encoding="utf-8"
+            ).strip()
+
+            if stored_digest != self.policy_digest():
                 result.add(
                     "ERROR",
                     "POLICY_DIGEST_MISMATCH",
                     (
                         "repository policy changed "
-                        "after certification"
+                        "after generation"
                     ),
                     "policy/repository/policy.json",
                 )
+
+        if not ignore_certificate:
+            certificate = self.load_certificate()
+
+            if certificate:
+                if (
+                    certificate.get("policy_digest")
+                    != self.policy_digest()
+                ):
+                    result.add(
+                        "ERROR",
+                        "POLICY_DIGEST_MISMATCH",
+                        (
+                            "repository policy changed "
+                            "after certification"
+                        ),
+                        "policy/repository/policy.json",
+                    )
 
         try:
             tracked_ignored = self.tracked_ignored()
@@ -502,7 +635,7 @@ class RepositoryEngine:
                 "TRACKED_IGNORED",
                 (
                     f"{len(tracked_ignored)} tracked files match "
-                    "current ignore rules"
+                    "current ignore rules; cleanup recommended"
                 ),
             )
         else:
