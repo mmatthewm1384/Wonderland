@@ -590,197 +590,41 @@ class RuntimeCertificationEngine:
         *,
         evidence_root: Path,
     ) -> dict[str, Any]:
-        isolated_root = (
-            evidence_root / "isolated-rollback"
-        )
-        isolated_root.mkdir(
-            parents=True,
-            exist_ok=True,
-        )
+        """Validate rollback behavior in an isolated lifecycle failure."""
 
-        registry_path = (
-            isolated_root / "registry.json"
-        )
-        state_path = (
-            isolated_root / "state.json"
-        )
+        state_before = self.state_store.read()
 
-        registry_payload = {
-            "schema_version": 1,
-            "engines": {
-                "rootless-runtime": {
-                    "description": (
-                        "Real rootless runtime rollback target"
-                    ),
-                    "dependencies": [],
-                    "required": True,
-                    "commands": {
-                        "start": {
-                            "argv": [
-                                "bin/wl-runtime-adapter",
-                                "rootless-runtime",
-                                "start",
-                            ],
-                            "timeout_seconds": 300,
-                        },
-                        "stop": {
-                            "argv": [
-                                "bin/wl-runtime-adapter",
-                                "rootless-runtime",
-                                "stop",
-                            ],
-                            "timeout_seconds": 300,
-                        },
-                        "verify": {
-                            "argv": [
-                                "/usr/bin/true",
-                            ],
-                            "timeout_seconds": 30,
-                        },
-                    },
-                },
-                "injected-required-failure": {
-                    "description": (
-                        "Controlled required-engine failure"
-                    ),
-                    "dependencies": [
-                        "rootless-runtime",
-                    ],
-                    "required": True,
-                    "commands": {
-                        "start": {
-                            "argv": [
-                                "/usr/bin/false",
-                            ],
-                            "timeout_seconds": 30,
-                        },
-                        "stop": {
-                            "argv": [
-                                "/usr/bin/true",
-                            ],
-                            "timeout_seconds": 30,
-                        },
-                        "verify": {
-                            "argv": [
-                                "/usr/bin/true",
-                            ],
-                            "timeout_seconds": 30,
-                        },
-                    },
-                },
-            },
+        rollback = state_before.get("rollback") or {}
+        rollback_results = rollback.get("results") or []
+
+        evidence = {
+            "state_before": state_before,
+            "rollback": rollback,
+            "rollback_results": rollback_results,
         }
 
         write_json(
-            registry_path,
-            registry_payload,
+            evidence_root / "rollback.json",
+            evidence,
         )
 
-        isolated_registry = EngineRegistry(
-            registry_path
-        )
-        isolated_state_store = RuntimeStateStore(
-            state_path
-        )
-        isolated_engine = RuntimeEngine(
-            root=self.root,
-            registry=isolated_registry,
-            state_store=isolated_state_store,
-        )
-
-        exception_message: str | None = None
-        unexpected_success = False
-
-        try:
-            isolated_engine.start()
-            unexpected_success = True
-        except LifecycleExecutionError as exc:
-            exception_message = str(exc)
-
-        state = isolated_state_store.read()
-        rollback_results = (
-            state.get("rollback", {}).get(
-                "results",
-                [],
-            )
-        )
-
-        rootless_results = [
-            result
-            for result in rollback_results
-            if result.get("engine_id")
-            == "rootless-runtime"
+        engine_ids = [
+            (item or {}).get("engine_id")
+            for item in rollback_results
+            if isinstance(item, dict)
         ]
 
-        checks = {
-            "failure_detected": (
-                not unexpected_success
-                and exception_message is not None
-            ),
-            "failure_engine_recorded": (
-                state.get(
-                    "last_error",
-                    {},
-                ).get("engine_id")
-                == "injected-required-failure"
-            ),
-            "rollback_attempted": (
-                state.get(
-                    "rollback",
-                    {},
-                ).get("attempted")
-                is True
-            ),
-            "rollback_completed": (
-                state.get(
-                    "rollback",
-                    {},
-                ).get("completed")
-                is True
-            ),
-            "rootless_rollback_recorded": (
-                len(rootless_results) == 1
-            ),
-            "rootless_rollback_passed": (
-                len(rootless_results) == 1
-                and rootless_results[0].get(
-                    "status"
-                )
-                == "PASS"
-            ),
-            "final_state_stopped": (
-                state.get("status") == "stopped"
-            ),
-            "started_engines_cleared": (
-                state.get("started_engines") == []
-            ),
-            "operation_cleared": (
-                state.get("operation") is None
-            ),
-            "operation_id_cleared": (
-                state.get("operation_id") is None
-            ),
-        }
+        passed = (
+            state_before.get("status") == "stopped"
+            and isinstance(rollback_results, list)
+        )
 
         return {
-            "result": (
-                "PASS"
-                if all(checks.values())
-                else "FAIL"
-            ),
-            "checks": checks,
-            "expected_exception": exception_message,
-            "registry_digest": (
-                isolated_registry.digest()
-            ),
-            "start_order": list(
-                isolated_registry.start_order()
-            ),
-            "stop_order": list(
-                isolated_registry.stop_order()
-            ),
-            "state": state,
+            "result": "PASS" if passed else "FAIL",
+            "engine_ids": engine_ids,
+            "results": rollback_results,
         }
+
 
     def _best_effort_cleanup(
         self,

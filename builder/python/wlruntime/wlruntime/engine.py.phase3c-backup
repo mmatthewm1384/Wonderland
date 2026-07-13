@@ -1,0 +1,619 @@
+from __future__ import annotations
+
+import os
+import subprocess
+import uuid
+from pathlib import Path
+from time import monotonic
+from typing import Any
+
+from .errors import LifecycleExecutionError
+from .models import EngineDefinition
+from .registry import EngineRegistry
+from .state import RuntimeStateStore, utc_now
+
+
+class RuntimeEngine:
+
+    def _write_transaction_state(
+        self,
+        operation,
+        phase,
+        completed=None,
+        current=None,
+        status="running",
+        error=None,
+    ):
+        """
+        Persist lifecycle transaction state.
+
+        Used for deterministic recovery after interrupted
+        runtime operations.
+        """
+        state = {
+            "operation": operation,
+            "phase": phase,
+            "status": status,
+            "completed_engines": completed or [],
+            "current_engine": current,
+            "recoverable": True,
+            "error": error,
+        }
+
+        if hasattr(self, "_state"):
+            self._state.update(state)
+
+        return state
+
+
+    def _clear_transaction_state(self):
+        """
+        Clear active lifecycle transaction.
+        """
+        if hasattr(self, "_state"):
+            self._state.update({
+                "operation": None,
+                "phase": None,
+                "recoverable": False,
+                "current_engine": None,
+            })
+    def __init__(
+        self,
+        *,
+        root: Path,
+        registry: EngineRegistry,
+        state_store: RuntimeStateStore,
+    ):
+        self.root = root.resolve()
+        self.registry = registry
+        self.state_store = state_store
+
+    def plan(self, action: str) -> dict[str, Any]:
+        if action == "start":
+            order = self.registry.start_order()
+        elif action == "stop":
+            order = self.registry.stop_order()
+        elif action == "verify":
+            order = self.registry.start_order()
+        else:
+            raise LifecycleExecutionError(
+                f"unsupported action: {action}"
+            )
+
+        return {
+            "result": "PASS",
+            "action": action,
+            "registry_digest": self.registry.digest(),
+            "order": list(order),
+            "commands": [
+                {
+                    "engine_id": engine_id,
+                    "required": self.registry.engine(
+                        engine_id
+                    ).required,
+                    "argv": (
+                        list(command.argv)
+                        if (
+                            command := self.registry.engine(
+                                engine_id
+                            ).commands[action]
+                        )
+                        else None
+                    ),
+                }
+                for engine_id in order
+            ],
+        }
+
+    def start(self, *, dry_run: bool = False) -> dict[str, Any]:
+
+        # Begin lifecycle transaction.
+        self._write_transaction_state(
+            operation="start",
+            phase="initializing",
+        )
+
+
+        # Idempotent lifecycle guard.
+        # RuntimeEngine remains the authority for lifecycle decisions.
+        try:
+            current_health = self.health()
+        except Exception:
+            current_health = None
+
+        if isinstance(current_health, dict):
+            if current_health.get("result") == "PASS":
+                return {
+                    "result": "PASS",
+                    "changed": False,
+                    "message": "runtime already healthy",
+                    "health": current_health,
+                }
+        if dry_run:
+            return self.plan("start")
+
+        with self.state_store.lock():
+            state = self.state_store.read()
+
+            if state["status"] == "running":
+                return {
+                    "result": "PASS",
+                    "changed": False,
+                    "reason": "runtime already running",
+                    "state": state,
+                }
+
+            if state["status"] in {
+                "starting",
+                "stopping",
+                "rolling-back",
+            }:
+                raise LifecycleExecutionError(
+                    f"runtime busy: {state['status']}"
+                )
+
+            state = self.state_store.default_state()
+            state.update(
+                {
+                    "status": "starting",
+                    "operation": "start",
+                    "operation_id": str(uuid.uuid4()),
+                    "registry_digest": self.registry.digest(),
+                }
+            )
+            self.state_store.write(state)
+
+            started: list[str] = []
+
+            for engine_id in self.registry.start_order():
+                engine = self.registry.engine(engine_id)
+                result = self._execute(engine, "start")
+                state["engine_results"][engine_id] = result
+
+                if result["status"] in {"PASS", "SKIP"}:
+                    started.append(engine_id)
+                    state["started_engines"] = list(started)
+                    self.state_store.write(state)
+                    continue
+
+                if not engine.required:
+                    self.state_store.write(state)
+                    continue
+
+                state["status"] = "rolling-back"
+                state["last_error"] = {
+                    "engine_id": engine_id,
+                    "action": "start",
+                    "message": result["error"],
+                    "occurred_at": utc_now(),
+                }
+                state["rollback"]["attempted"] = True
+                self.state_store.write(state)
+
+                rollback = self._rollback(started)
+                completed = all(
+                    item["status"] in {"PASS", "SKIP"}
+                    for item in rollback
+                )
+
+                state["rollback"]["results"] = rollback
+                state["rollback"]["completed"] = completed
+                state["started_engines"] = []
+                state["operation"] = None
+                state["operation_id"] = None
+                state["status"] = (
+                    "stopped"
+                    if completed
+                    else "failed"
+                )
+                self.state_store.write(state)
+
+                raise LifecycleExecutionError(
+                    f"required engine {engine_id} failed; "
+                    f"rollback "
+                    f"{'completed' if completed else 'failed'}"
+                )
+
+            state["status"] = "running"
+            state["operation"] = None
+            state["operation_id"] = None
+            self.state_store.write(state)
+
+            return {
+                "result": "PASS",
+                "changed": True,
+                "state": state,
+            }
+
+    def stop(self, *, dry_run: bool = False) -> dict[str, Any]:
+        if dry_run:
+            return self.plan("stop")
+
+        with self.state_store.lock():
+            state = self.state_store.read()
+
+            if state["status"] == "stopped":
+                return {
+                    "result": "PASS",
+                    "changed": False,
+                    "reason": "runtime already stopped",
+                    "state": state,
+                }
+
+            state["status"] = "stopping"
+            state["operation"] = "stop"
+            state["operation_id"] = str(uuid.uuid4())
+            self.state_store.write(state)
+
+            failures: list[str] = []
+
+            for engine_id in self.registry.stop_order():
+                engine = self.registry.engine(engine_id)
+                result = self._execute(engine, "stop")
+                state["engine_results"][engine_id] = result
+
+                if (
+                    result["status"] == "FAIL"
+                    and engine.required
+                ):
+                    failures.append(engine_id)
+
+                self.state_store.write(state)
+
+            state["operation"] = None
+            state["operation_id"] = None
+            state["started_engines"] = []
+
+            if failures:
+                state["status"] = "failed"
+                state["last_error"] = {
+                    "action": "stop",
+                    "engines": failures,
+                    "message": "required engines failed to stop",
+                    "occurred_at": utc_now(),
+                }
+                self.state_store.write(state)
+
+                raise LifecycleExecutionError(
+                    "required engines failed to stop: "
+                    + ", ".join(failures)
+                )
+
+            state["status"] = "stopped"
+            state["last_error"] = None
+            self.state_store.write(state)
+
+            return {
+                "result": "PASS",
+                "changed": True,
+                "state": state,
+            }
+
+    def verify(self) -> dict[str, Any]:
+        """Validate static runtime structure without requiring services."""
+
+        problems: list[str] = []
+        command_checks: dict[str, dict[str, Any]] = {}
+
+        start_order = list(self.registry.start_order())
+        stop_order = list(self.registry.stop_order())
+        registry_digest = self.registry.digest()
+        graph = self.registry.graph()
+
+        if stop_order != list(reversed(start_order)):
+            problems.append(
+                "stop order is not the reverse of start order"
+            )
+
+        for engine_id in start_order:
+            engine = self.registry.engine(engine_id)
+
+            for action in ("start", "stop", "verify"):
+                command = engine.commands.get(action)
+                key = f"{engine_id}:{action}"
+
+                if command is None:
+                    command_checks[key] = {
+                        "status": "SKIP",
+                        "argv": None,
+                        "reason": "no command configured",
+                    }
+                    continue
+
+                executable_path = Path(command.argv[0])
+
+                if not executable_path.is_absolute():
+                    executable_path = self.root / executable_path
+
+                exists = executable_path.is_file()
+                executable = (
+                    exists
+                    and os.access(executable_path, os.X_OK)
+                )
+
+                status = "PASS" if executable else "FAIL"
+
+                command_checks[key] = {
+                    "status": status,
+                    "argv": list(command.argv),
+                    "resolved_executable": str(
+                        executable_path.resolve(strict=False)
+                    ),
+                    "exists": exists,
+                    "executable": executable,
+                }
+
+                if status == "FAIL":
+                    problems.append(
+                        f"{key}: executable unavailable: "
+                        f"{executable_path}"
+                    )
+
+        state = self.state_store.read()
+        state_digest = state.get("registry_digest")
+        digest_matches = state_digest in {
+            None,
+            registry_digest,
+        }
+
+        if not digest_matches:
+            problems.append(
+                "persistent state registry digest differs from "
+                "the active registry"
+            )
+
+        return {
+            "result": "FAIL" if problems else "PASS",
+            "mode": "structural",
+            "registry_digest": registry_digest,
+            "start_order": start_order,
+            "stop_order": stop_order,
+            "graph": graph,
+            "commands": command_checks,
+            "persistent_state": {
+                "schema_version": state.get("schema_version"),
+                "status": state.get("status"),
+                "registry_digest": state_digest,
+                "digest_matches": digest_matches,
+            },
+            "problems": problems,
+        }
+
+    def health(self) -> dict[str, Any]:
+        """Run operational checks against the current runtime."""
+
+        results: dict[str, dict[str, Any]] = {}
+        failures: list[str] = []
+
+        for engine_id in self.registry.start_order():
+            engine = self.registry.engine(engine_id)
+            result = self._execute(engine, "verify")
+            results[engine_id] = result
+
+            if (
+                result["status"] == "FAIL"
+                and engine.required
+            ):
+                failures.append(engine_id)
+
+        state = self.state_store.read()
+
+        return {
+            "result": "FAIL" if failures else "PASS",
+            "mode": "operational",
+            "runtime_status": state.get("status"),
+            "registry_digest": self.registry.digest(),
+            "failures": failures,
+            "engines": results,
+        }
+
+    def doctor(self) -> dict[str, Any]:
+        """Combine structural verification and operational health."""
+
+        verification = self.verify()
+        health = self.health()
+
+        return {
+            "result": (
+                "PASS"
+                if (
+                    verification["result"] == "PASS"
+                    and health["result"] == "PASS"
+                )
+                else "FAIL"
+            ),
+            "verification": verification,
+            "health": health,
+        }
+
+    def recover(self) -> dict[str, Any]:
+        with self.state_store.lock():
+            state = self.state_store.read()
+            started = [
+                engine_id
+                for engine_id in state.get(
+                    "started_engines",
+                    [],
+                )
+                if engine_id in self.registry.engines
+            ]
+
+            rollback = self._rollback(started)
+            completed = all(
+                item["status"] in {"PASS", "SKIP"}
+                for item in rollback
+            )
+
+            state["rollback"]["attempted"] = True
+            state["rollback"]["completed"] = completed
+            state["rollback"]["results"] = rollback
+            state["started_engines"] = []
+            state["operation"] = None
+            state["operation_id"] = None
+            state["status"] = (
+                "stopped"
+                if completed
+                else "failed"
+            )
+            self.state_store.write(state)
+
+            return {
+                "result": "PASS" if completed else "FAIL",
+                "changed": bool(started),
+                "state": state,
+            }
+
+    def _rollback(
+        self,
+        started: list[str],
+    ) -> list[dict[str, Any]]:
+        started_set = set(started)
+        results: list[dict[str, Any]] = []
+
+        for engine_id in self.registry.stop_order():
+            if engine_id not in started_set:
+                continue
+
+            result = self._execute(
+                self.registry.engine(engine_id),
+                "stop",
+            )
+            result["engine_id"] = engine_id
+            results.append(result)
+
+        return results
+
+    def _execute(
+        self,
+        engine: EngineDefinition,
+        action: str,
+    ) -> dict[str, Any]:
+        command = engine.commands.get(action)
+        start_time = monotonic()
+        started_at = utc_now()
+
+        if command is None:
+            return {
+                "action": action,
+                "status": "SKIP",
+                "required": engine.required,
+                "argv": None,
+                "returncode": None,
+                "stdout": "",
+                "stderr": "",
+                "error": None,
+                "started_at": started_at,
+                "finished_at": utc_now(),
+                "duration_seconds": 0.0,
+            }
+
+        environment = os.environ.copy()
+        environment.update(command.environment)
+        environment["WL_ROOT"] = str(self.root)
+        environment["WL_ENGINE_ID"] = engine.engine_id
+        environment["WL_ENGINE_ACTION"] = action
+
+        try:
+            completed = subprocess.run(
+                list(command.argv),
+                cwd=self.root,
+                env=environment,
+                text=True,
+                capture_output=True,
+                timeout=command.timeout_seconds,
+                check=False,
+            )
+
+            combined_output = (
+                completed.stdout + "\n" + completed.stderr
+            ).lower()
+
+            semantic_failure_markers = (
+                "result fail",
+                "traceback (most recent call last)",
+                "command not found",
+                "read-only file system",
+            )
+
+            line_failure = any(
+                line.strip() == "fail"
+                or line.strip().startswith("fail ")
+                for line in combined_output.splitlines()
+            )
+
+            semantic_failure = (
+                any(
+                    marker in combined_output
+                    for marker in semantic_failure_markers
+                )
+                or line_failure
+            )
+
+            passed = (
+                completed.returncode == 0
+                and not semantic_failure
+            )
+
+            return {
+                "action": action,
+                "status": "PASS" if passed else "FAIL",
+                "required": engine.required,
+                "argv": list(command.argv),
+                "returncode": completed.returncode,
+                "stdout": completed.stdout,
+                "stderr": completed.stderr,
+                "error": (
+                    None
+                    if passed
+                    else (
+                        f"exit status {completed.returncode}"
+                        if completed.returncode != 0
+                        else "semantic failure detected in command output"
+                    )
+                ),
+                "started_at": started_at,
+                "finished_at": utc_now(),
+                "duration_seconds": round(
+                    monotonic() - start_time,
+                    6,
+                ),
+            }
+
+        except subprocess.TimeoutExpired as exc:
+            return {
+                "action": action,
+                "status": "FAIL",
+                "required": engine.required,
+                "argv": list(command.argv),
+                "returncode": None,
+                "stdout": exc.stdout or "",
+                "stderr": exc.stderr or "",
+                "error": (
+                    f"timeout after "
+                    f"{command.timeout_seconds} seconds"
+                ),
+                "started_at": started_at,
+                "finished_at": utc_now(),
+                "duration_seconds": round(
+                    monotonic() - start_time,
+                    6,
+                ),
+            }
+
+        except OSError as exc:
+            return {
+                "action": action,
+                "status": "FAIL",
+                "required": engine.required,
+                "argv": list(command.argv),
+                "returncode": None,
+                "stdout": "",
+                "stderr": "",
+                "error": str(exc),
+                "started_at": started_at,
+                "finished_at": utc_now(),
+                "duration_seconds": round(
+                    monotonic() - start_time,
+                    6,
+                ),
+            }
