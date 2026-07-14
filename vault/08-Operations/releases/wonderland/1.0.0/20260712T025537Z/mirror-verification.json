@@ -1,0 +1,97 @@
+{
+  "checks": [
+    {
+      "details": {
+        "commands": [
+          "certify",
+          "diff",
+          "doctor",
+          "restore",
+          "snapshot",
+          "status",
+          "verify"
+        ],
+        "path": "bin/wl-mirror"
+      },
+      "duration_ms": 51,
+      "name": "authority_launcher",
+      "status": "PASS",
+      "summary": "Mirror authority launcher and Python CLI contract are complete"
+    },
+    {
+      "details": {},
+      "duration_ms": 59,
+      "name": "public_route",
+      "status": "PASS",
+      "summary": "wl mirror route is available"
+    },
+    {
+      "details": {
+        "destination": null,
+        "source": "/Users/wonderland/Wonderland"
+      },
+      "duration_ms": 0,
+      "name": "authority",
+      "status": "WARN",
+      "summary": "no explicit Mirror authority file; using repository source"
+    },
+    {
+      "details": {
+        "path": "/Users/wonderland/Wonderland"
+      },
+      "duration_ms": 0,
+      "name": "source",
+      "status": "PASS",
+      "summary": "Mirror source is readable"
+    },
+    {
+      "details": {},
+      "duration_ms": 0,
+      "name": "destination",
+      "status": "IDLE",
+      "summary": "Mirror destination is not configured"
+    },
+    {
+      "details": {},
+      "duration_ms": 0,
+      "name": "path_safety",
+      "status": "PASS",
+      "summary": "no destination configured; destructive checks inactive"
+    },
+    {
+      "details": {},
+      "duration_ms": 0,
+      "name": "persistent_state",
+      "status": "IDLE",
+      "summary": "no Mirror persistent state has been created"
+    },
+    {
+      "details": {
+        "path": "bin/wl-mirror-legacy"
+      },
+      "duration_ms": 0,
+      "name": "legacy_adapter",
+      "status": "PASS",
+      "summary": "legacy Mirror operations remain available"
+    },
+    {
+      "details": {},
+      "duration_ms": 0,
+      "name": "nonrecursive_contract",
+      "status": "PASS",
+      "summary": "Mirror launcher is non-recursive"
+    }
+  ],
+  "duration_ms": 111,
+  "engine_version": "1.0.0",
+  "result": "WARN",
+  "root": "/Users/wonderland/Wonderland",
+  "schema_version": 1,
+  "summary": {
+    "fail": 0,
+    "idle": 2,
+    "pass": 6,
+    "skip": 0,
+    "warn": 1
+  }
+}

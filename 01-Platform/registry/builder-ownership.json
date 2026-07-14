@@ -1,0 +1,23 @@
+{
+  "version": "1.0",
+  "builders": {
+    "wlbuilder": {
+      "legacy_path": "builder/python/wlbuilder",
+      "constitutional_area": "01-Platform",
+      "target": "01-Platform/builder",
+      "owner": "Platform Core",
+      "purpose": "Wonderland image/runtime builder",
+      "outputs": ["05-Vault/generated", "vault/08-Operations/certifications"],
+      "state": "bridge"
+    },
+    "academy": {
+      "legacy_path": "lib/academy",
+      "constitutional_area": "03-Applications",
+      "target": "03-Applications/academy",
+      "owner": "Applications",
+      "purpose": "Wonderland Academy content and quality pipeline",
+      "outputs": ["05-Vault/generated", "vault/08-Operations/certifications"],
+      "state": "bridge"
+    }
+  }
+}

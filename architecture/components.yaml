@@ -1,0 +1,56 @@
+version: 1
+
+components:
+  - id: cli.dispatch
+    domain: cli
+    owner: CLI Engine
+    capability: cli.dispatch
+    purpose: Provide the single Wonderland operator interface.
+
+  - id: capability.registry
+    domain: architecture
+    owner: Architecture Engine
+    capability: platform.capability-registry
+    purpose: Maintain the authoritative capability registry.
+
+  - id: architecture.graph
+    domain: architecture
+    owner: Architecture Engine
+    capability: platform.architecture
+    purpose: Model domains, capabilities, components, implementations, and ownership.
+
+  - id: academy.curriculum
+    domain: academy
+    owner: Wonderland Academy
+    capability: academy.understanding
+    purpose: Teach Wonderland concepts and platform internals.
+
+  - id: academy.security-lab
+    domain: academy
+    owner: Wonderland Academy
+    capability: security.defensive-lab
+    purpose: Provide safe defensive security labs.
+
+  - id: os.bookworm.reference
+    domain: os
+    owner: Wonderland OS
+    capability: os.reference.bookworm
+    purpose: Provide the reproducible Linux reference runtime.
+
+  - id: runtime.lifecycle
+    domain: runtime
+    owner: Runtime Engine
+    capability: runtime.lifecycle
+    purpose: Start, stop, verify, and supervise runtime services.
+
+  - id: operations.state
+    domain: operations
+    owner: Operations Engine
+    capability: operations.state
+    purpose: Persist operational state and evidence.
+
+  - id: security.defensive
+    domain: security
+    owner: Security Engine
+    capability: security.defensive
+    purpose: Teach and enforce defensive security principles.

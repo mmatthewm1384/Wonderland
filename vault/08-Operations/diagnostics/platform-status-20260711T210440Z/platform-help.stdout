@@ -1,0 +1,14 @@
+Usage:
+  wl platform inventory
+  wl platform ownership
+  wl platform convergence
+  wl platform converge
+  wl platform converge-certify
+  wl platform baseline
+  wl platform consolidation
+  wl platform consolidation-review
+  wl platform certify
+  wl platform status
+
+Purpose:
+  Inspect Wonderland platform convergence state.

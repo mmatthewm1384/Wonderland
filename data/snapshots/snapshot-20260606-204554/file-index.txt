@@ -1,0 +1,12 @@
+# Wonderland Snapshot File Index
+
+Generated: 2026-06-07T03:45:55Z
+
+## Captured Files
+/Users/wonderland/Wonderland/data/snapshots/snapshot-20260606-204554/.wl-registry
+/Users/wonderland/Wonderland/data/snapshots/snapshot-20260606-204554/doctor.txt
+/Users/wonderland/Wonderland/data/snapshots/snapshot-20260606-204554/file-index.txt
+/Users/wonderland/Wonderland/data/snapshots/snapshot-20260606-204554/Governance.md
+/Users/wonderland/Wonderland/data/snapshots/snapshot-20260606-204554/manifest.json
+/Users/wonderland/Wonderland/data/snapshots/snapshot-20260606-204554/wl-services-status.txt
+/Users/wonderland/Wonderland/data/snapshots/snapshot-20260606-204554/wl-status.txt

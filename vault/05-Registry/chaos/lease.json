@@ -1,9 +1,9 @@
 {
-  "expires_at": "2026-07-07T05:12:54.587520+00:00",
+  "expires_at": "2026-07-14T04:06:45.444096+00:00",
   "fingerprint_id": "389c0c2a0336cedbdb8299e277d70a534639144665dfc250224f3489e1eb0a62",
   "fingerprint_short": "389c0c2a0336",
-  "issued_at": "2026-07-06T17:12:54.587520+00:00",
-  "lease_id": "467900d9-9862-490f-b286-5e7896c9811e",
+  "issued_at": "2026-07-13T16:06:45.444096+00:00",
+  "lease_id": "ea2ec492-7fe9-4053-a78c-d7800d8fc966",
   "mode": "calm",
   "operator": "wonderland",
   "schema": "wonderland.chaos.lease.v1",

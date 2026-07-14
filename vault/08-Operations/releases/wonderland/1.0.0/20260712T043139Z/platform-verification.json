@@ -1,0 +1,147 @@
+{
+  "checks": [
+    {
+      "command": [],
+      "details": {
+        "internal_command_count": 25,
+        "internal_source": "attribute:COMMANDS",
+        "mode": "hybrid",
+        "public_command_count": 46,
+        "public_source": "commands-json",
+        "required_public_commands": [
+          "architecture",
+          "builder",
+          "governance",
+          "runtime"
+        ]
+      },
+      "duration_ms": 87,
+      "exit_code": null,
+      "name": "registry",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "",
+      "summary": "25 internal and 46 public commands registered"
+    },
+    {
+      "command": [
+        "bin/wl",
+        "architecture",
+        "verify"
+      ],
+      "details": {},
+      "duration_ms": 65,
+      "exit_code": 0,
+      "name": "architecture",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "== Wonderland Architecture Verify ==\nPASS layer boundaries\n\nImport graph edges:\n  wlcli.core.architecture -> wlcli.output\n  wlcli.core.commands.base -> wlcli.core.runtime.context\n  wlcli.core.commands.base -> wlcli.output\n  wlcli.core.commands.events -> wlcli.core.commands.base\n  wlcli.core.commands.events -> wlcli.core.events\n  wlcli.core.commands.events -> wlcli.core.events.schema\n  wlcli.core.commands.events -> wlcli.core.runtime.context\n  wlcli.core.commands.events -> wlcli.output\n  wlcli.core.commands.graph -> wlcli.core.commands.base\n  wlcli.core.commands.graph -> wlcli.core.graph\n  wlcli.core.commands.graph -> wlcli.core.report\n  wlcli.core.commands.graph -> wlcli.core.runtime.context\n  wlcli.core.commands.graph -> wlcli.output\n  wlcli.core.commands.history -> wlcli.core.commands.base\n  wlcli.core.commands.history -> wlcli.core.runtime.context\n  wlcli.core.commands.history -> wlcli.core.state.history\n  wlcli.core.commands.history -> wlcli.output\n  wlcli.core.commands.lifecycle -> wlcli.core.commands.base\n  wlcli.core.commands.lifecycle -> wlcli.core.lifecycle\n  wlcli.core.commands.lifecycle -> wlcli.core.runtime.context\n  wlcli.core.commands.lifecycle -> wlcli.output\n  wlcli.core.commands.metrics -> wlcli.core.commands.base\n  wlcli.core.commands.metrics -> wlcli.core.runtime.context\n  wlcli.core.commands.metrics -> wlcli.core.state.metrics\n  wlcli.core.commands.metrics -> wlcli.output\n  wlcli.core.commands.registry -> wlcli.core.commands.events\n  wlcli.core.commands.registry -> wlcli.core.commands.graph\n  wlcli.core.commands.registry -> wlcli.core.commands.history\n  wlcli.core.commands.registry -> wlcli.core.commands.lifecycle\n  wlcli.core.commands.registry -> wlcli.core.commands.metrics\n  wlcli.core.commands.registry -> wlcli.core.commands.runtime\n  wlcli.core.commands.runtime -> wlcli.core.architecture\n  wlcli.core.commands.runtime -> wlcli.core.commands.base\n  wlcli.core.commands.runtime -> wlcli.core.runtime.context\n  wlcli.core.commands.runtime -> wlcli.core.runtime.interface\n  wlcli.core.commands.runtime -> wlcli.output\n  wlcli.core.events -> wlcli.core.events.bus\n  wlcli.core.events -> wlcli.core.events.publisher\n  wlcli.core.events -> wlcli.core.events.store\n  wlcli.core.events -> wlcli.core.events.subscribers\n  wlcli.core.events -> wlcli.core.events.types\n  wlcli.core.events.bus -> wlcli.core.runtime.context\n  wlcli.core.events.publisher -> wlcli.core.events.bus\n  wlcli.core.events.publisher -> wlcli.core.events.payloads\n  wlcli.core.events.publisher -> wlcli.core.events.types\n  wlcli.core.events.schema -> wlcli.core.events.types\n  wlcli.core.events.store -> wlcli.core.runtime.context\n  wlcli.core.events.subscriber -> wlcli.core.events.bus\n  wlcli.core.events.subscriber -> wlcli.core.runtime.context\n  wlcli.core.events.subscribers -> wlcli.core.events.subscribers.history\n  wlcli.core.events.subscribers -> wlcli.core.events.subscribers.metrics\n  wlcli.core.events.subscribers.history -> wlcli.core.events.bus\n  wlcli.core.events.subscribers.history -> wlcli.core.runtime.context\n  wlcli.core.events.subscribers.metrics -> wlcli.core.events.bus\n  wlcli.core.events.subscribers.metrics -> wlcli.core.runtime.context\n  wlcli.core.graph -> wlcli.core.graph.engine\n  wlcli.core.graph.engine -> wlcli.core.events\n  wlcli.core.graph.engine -> wlcli.core.runtime.context\n  wlcli.core.graph.engine -> wlcli.core.state.history\n  wlcli.core.graph.engine -> wlcli.core.ui\n  wlcli.core.lifecycle -> wlcli.core.lifecycle.executor\n  wlcli.core.lifecycle -> wlcli.core.lifecycle.graphs\n  wlcli.core.lifecycle -> wlcli.core.lifecycle.registry\n  wlcli.core.lifecycle.executor -> wlcli.core.events\n  wlcli.core.lifecycle.executor -> wlcli.core.lifecycle.graphs\n  wlcli.core.lifecycle.executor -> wlcli.core.runtime.context\n  wlcli.core.lifecycle.executor -> wlcli.output\n  wlcli.core.report -> wlcli.core.report.builders\n  wlcli.core.report.builders -> wlcli.core.ui\n  wlcli.core.report.builders -> wlcli.output\n  wlcli.core.runtime -> wlcli.core.runtime.context\n  wlcli.core.runtime -> wlcli.core.runtime.interface\n  wlcli.core.runtime -> wlcli.core.runtime.operation\n  wlcli.core.runtime.interface -> wlcli.core.runtime.context\n  wlcli.core.runtime.interface -> wlcli.core.runtime.operation\n  wlcli.core.runtime.interface -> wlcli.output\n  wlcli.core.runtime.operation -> wlcli.core.runtime.context\n  wlcli.core.state -> wlcli.core.state.history\n  wlcli.core.state -> wlcli.core.state.metrics\n  wlcli.core.state.metrics -> wlcli.core.state.history\n  wlcli.core.ui -> wlcli.core.ui.legacy\n  wlcli.core.ui.terminal -> wlcli.output\n  wlcli.doctor -> wlcli.graph\n  wlcli.doctor -> wlcli.report\n  wlcli.doctor -> wlcli.ui\n  wlcli.graph -> wlcli.core.graph\n  wlcli.graph.engine -> wlcli.core.graph.engine\n  wlcli.history_cmd -> wlcli.state.history\n  wlcli.history_cmd -> wlcli.ui\n  wlcli.main -> wlcli.core.architecture\n  wlcli.main -> wlcli.core.commands.registry\n  wlcli.main -> wlcli.doctor\n  wlcli.main -> wlcli.graph\n  wlcli.main -> wlcli.history_cmd\n  wlcli.main -> wlcli.metrics_cmd\n  wlcli.main -> wlcli.namespaces\n  wlcli.main -> wlcli.registry\n  wlcli.main -> wlcli.renderer\n  wlcli.main -> wlcli.report\n  wlcli.main -> wlcli.runtime.context\n  wlcli.main -> wlcli.ui\n  wlcli.main -> wlcli.ui.json_renderer\n  wlcli.metrics_cmd -> wlcli.state.metrics\n  wlcli.metrics_cmd -> wlcli.ui\n  wlcli.renderer -> wlcli.models\n  wlcli.renderer -> wlcli.ui\n  wlcli.report -> wlcli.core.report\n  wlcli.report.builders -> wlcli.core.report.builders\n  wlcli.runtime.context -> wlcli.core.runtime.context\n  wlcli.runtime.interface -> wlcli.core.runtime.interface\n  wlcli.runtime.operation -> wlcli.core.runtime.operation\n  wlcli.state.history -> wlcli.core.state.history\n  wlcli.state.metrics -> wlcli.core.state.metrics\n  wlcli.ui -> wlcli.core.ui\n  wlcli.ui.json_renderer -> wlcli.core.ui.json_renderer\n  wlcli.ui.terminal -> wlcli.core.ui.terminal\n\nRESULT PASS",
+      "summary": "verification passed"
+    },
+    {
+      "command": [
+        "bin/wl",
+        "builder",
+        "verify",
+        "--json"
+      ],
+      "details": {},
+      "duration_ms": 133,
+      "exit_code": 0,
+      "name": "builder",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checks\": [\n    {\n      \"details\": {\n        \"contains_vm_commands\": false,\n        \"path\": \"bin/wl-builder\"\n      },\n      \"duration_ms\": 0,\n      \"name\": \"authority_launcher\",\n      \"status\": \"PASS\",\n      \"summary\": \"Builder authority launcher exists and exposes verify\"\n    },\n    {\n      \"details\": {\n        \"commands\": [\n          \"doctor\",\n          \"verify\",\n          \"certify\",\n          \"status\",\n          \"build\"\n        ]\n      },\n      \"duration_ms\": 16,\n      \"name\": \"public_route\",\n      \"status\": \"PASS\",\n      \"summary\": \"wl builder command route is complete\"\n    },\n    {\n      \"details\": {\n        \"module_count\": 53\n      },\n      \"duration_ms\": 17,\n      \"name\": \"python_compile\",\n      \"status\": \"PASS\",\n      \"summary\": \"53 Builder Python modules compile\"\n    },\n    {\n      \"details\": {\n        \"files\": 53,\n        \"imports\": 268\n      },\n      \"duration_ms\": 13,\n      \"name\": \"ast_integrity\",\n      \"status\": \"PASS\",\n      \"summary\": \"Builder source AST is valid\"\n    },\n    {\n      \"details\": {\n        \"origin\": \"/Users/wonderland/Wonderland/wlbuilder/__init__.py\"\n      },\n      \"duration_ms\": 18,\n      \"name\": \"package_import\",\n      \"status\": \"PASS\",\n      \"summary\": \"wlbuilder package is importable\"\n    },\n    {\n      \"details\": {\n        \"stage_count\": 14,\n        \"stages\": [\n          \"base\",\n          \"bootloader\",\n          \"bootstrap\",\n          \"cleanup\",\n          \"convert\",\n          \"disk\",\n          \"identity\",\n          \"locale\",\n          \"manifest\",\n          \"mount\",\n          \"networking\",\n          \"packages\",\n          \"users\",\n          \"verify_image\"\n        ]\n      },\n      \"duration_ms\": 2,\n      \"name\": \"stage_contracts\",\n      \"status\": \"PASS\",\n      \"summary\": \"14 Builder stage modules have structural contracts\"\n    },\n    {\n      \"details\": {\n        \"config_count\": 7,\n        \"roots\": [\n          \"builder\",\n          \"01-Platform/builder\"\n        ]\n      },\n      \"duration_ms\": 7,\n      \"name\": \"configuration\",\n      \"status\": \"PASS\",\n      \"summary\": \"7 Builder configuration files inspected\"\n    },\n    {\n      \"details\": null,\n      \"duration_ms\": 3,\n      \"name\": \"noninteractive_contract\",\n      \"status\": \"PASS\",\n      \"summary\": \"Builder verifier contains no executable VM-start calls\"\n    }\n  ],\n  \"duration_ms\": 76,\n  \"package_root\": \"/Users/wonderland/Wonderland/builder/python/wlbuilder\",\n  \"result\": \"PASS\",\n  \"root\": \"/Users/wonderland/Wonderland\",\n  \"schema_version\": 1,\n  \"summary\": {\n    \"fail\": 0,\n    \"pass\": 8,\n    \"skip\": 0,\n    \"warn\": 0\n  }\n}",
+      "summary": "verification passed"
+    },
+    {
+      "command": [
+        "bin/wl",
+        "governance",
+        "verify",
+        "--json"
+      ],
+      "details": {},
+      "duration_ms": 77,
+      "exit_code": 0,
+      "name": "governance",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checks\": [\n    {\n      \"details\": {\n        \"path\": \"bin/wl-governance\"\n      },\n      \"duration_ms\": 0,\n      \"name\": \"authority_launcher\",\n      \"status\": \"PASS\",\n      \"summary\": \"Governance authority launcher is complete\"\n    },\n    {\n      \"details\": {\n        \"commands\": [\n          \"doctor\",\n          \"verify\",\n          \"certify\"\n        ]\n      },\n      \"duration_ms\": 16,\n      \"name\": \"public_route\",\n      \"status\": \"PASS\",\n      \"summary\": \"wl governance route is available\"\n    },\n    {\n      \"details\": {\n        \"file_count\": 10,\n        \"roots\": [\n          \"vault/Governance\",\n          \"governance\",\n          \"docs/governance\"\n        ]\n      },\n      \"duration_ms\": 1,\n      \"name\": \"governance_roots\",\n      \"status\": \"PASS\",\n      \"summary\": \"3 Governance roots contain 10 files\"\n    },\n    {\n      \"details\": {\n        \"json_count\": 3\n      },\n      \"duration_ms\": 0,\n      \"name\": \"json_integrity\",\n      \"status\": \"PASS\",\n      \"summary\": \"3 authoritative Governance JSON files parse\"\n    },\n    {\n      \"details\": {\n        \"module_count\": 8,\n        \"roots\": [\n          \"governance\",\n          \"builder/python/wlgovernance\"\n        ]\n      },\n      \"duration_ms\": 3,\n      \"name\": \"python_integrity\",\n      \"status\": \"PASS\",\n      \"summary\": \"8 Governance-owned Python modules parse\"\n    },\n    {\n      \"details\": {\n        \"document_count\": 6\n      },\n      \"duration_ms\": 0,\n      \"name\": \"policy_documents\",\n      \"status\": \"PASS\",\n      \"summary\": \"6 Governance policy documents are non-empty\"\n    },\n    {\n      \"details\": {\n        \"schemas\": [\n          \"governance/schemas/governance-artifact.schema.json\"\n        ]\n      },\n      \"duration_ms\": 4,\n      \"name\": \"schema_documents\",\n      \"status\": \"PASS\",\n      \"summary\": \"1 Governance schema documents discovered\"\n    },\n    {\n      \"details\": null,\n      \"duration_ms\": 1,\n      \"name\": \"prohibited_controls\",\n      \"status\": \"PASS\",\n      \"summary\": \"no prohibited coercive Governance controls detected\"\n    },\n    {\n      \"details\": null,\n      \"duration_ms\": 0,\n      \"name\": \"repository_hygiene\",\n      \"status\": \"PASS\",\n      \"summary\": \"Governance roots contain no obvious generated-state debris\"\n    }\n  ],\n  \"duration_ms\": 25,\n  \"result\": \"PASS\",\n  \"root\": \"/Users/wonderland/Wonderland\",\n  \"schema_version\": 1,\n  \"summary\": {\n    \"fail\": 0,\n    \"pass\": 9,\n    \"skip\": 0,\n    \"warn\": 0\n  }\n}",
+      "summary": "verification passed"
+    },
+    {
+      "command": [],
+      "details": {
+        "manifest_count": 135,
+        "roots": [
+          "vault/05-Registry",
+          "01-Platform/registry",
+          "vault/08-Operations/releases"
+        ]
+      },
+      "duration_ms": 7,
+      "exit_code": null,
+      "name": "manifest_index",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "",
+      "summary": "135 manifests validated"
+    },
+    {
+      "command": [
+        "bin/wl",
+        "mirror",
+        "verify",
+        "--json"
+      ],
+      "details": {},
+      "duration_ms": 164,
+      "exit_code": 0,
+      "name": "mirror",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checks\": [\n    {\n      \"details\": {\n        \"commands\": [\n          \"certify\",\n          \"diff\",\n          \"doctor\",\n          \"restore\",\n          \"snapshot\",\n          \"status\",\n          \"verify\"\n        ],\n        \"path\": \"bin/wl-mirror\"\n      },\n      \"duration_ms\": 50,\n      \"name\": \"authority_launcher\",\n      \"status\": \"PASS\",\n      \"summary\": \"Mirror authority launcher and Python CLI contract are complete\"\n    },\n    {\n      \"details\": {},\n      \"duration_ms\": 58,\n      \"name\": \"public_route\",\n      \"status\": \"PASS\",\n      \"summary\": \"wl mirror route is available\"\n    },\n    {\n      \"details\": {\n        \"destination\": null,\n        \"source\": \"/Users/wonderland/Wonderland\"\n      },\n      \"duration_ms\": 0,\n      \"name\": \"authority\",\n      \"status\": \"WARN\",\n      \"summary\": \"no explicit Mirror authority file; using repository source\"\n    },\n    {\n      \"details\": {\n        \"path\": \"/Users/wonderland/Wonderland\"\n      },\n      \"duration_ms\": 0,\n      \"name\": \"source\",\n      \"status\": \"PASS\",\n      \"summary\": \"Mirror source is readable\"\n    },\n    {\n      \"details\": {},\n      \"duration_ms\": 0,\n      \"name\": \"destination\",\n      \"status\": \"IDLE\",\n      \"summary\": \"Mirror destination is not configured\"\n    },\n    {\n      \"details\": {},\n      \"duration_ms\": 0,\n      \"name\": \"path_safety\",\n      \"status\": \"PASS\",\n      \"summary\": \"no destination configured; destructive checks inactive\"\n    },\n    {\n      \"details\": {},\n      \"duration_ms\": 0,\n      \"name\": \"persistent_state\",\n      \"status\": \"IDLE\",\n      \"summary\": \"no Mirror persistent state has been created\"\n    },\n    {\n      \"details\": {\n        \"path\": \"bin/wl-mirror-legacy\"\n      },\n      \"duration_ms\": 0,\n      \"name\": \"legacy_adapter\",\n      \"status\": \"PASS\",\n      \"summary\": \"legacy Mirror operations remain available\"\n    },\n    {\n      \"details\": {},\n      \"duration_ms\": 0,\n      \"name\": \"nonrecursive_contract\",\n      \"status\": \"PASS\",\n      \"summary\": \"Mirror launcher is non-recursive\"\n    }\n  ],\n  \"duration_ms\": 108,\n  \"engine_version\": \"1.0.0\",\n  \"result\": \"WARN\",\n  \"root\": \"/Users/wonderland/Wonderland\",\n  \"schema_version\": 1,\n  \"summary\": {\n    \"fail\": 0,\n    \"idle\": 2,\n    \"pass\": 6,\n    \"skip\": 0,\n    \"warn\": 1\n  }\n}",
+      "summary": "verification passed"
+    },
+    {
+      "command": [
+        "bin/wl",
+        "academy",
+        "verify",
+        "--json"
+      ],
+      "details": {},
+      "duration_ms": 372,
+      "exit_code": 0,
+      "name": "academy",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checks\": [\n    {\n      \"details\": {\n        \"commands\": [\n          \"certify\",\n          \"chapter\",\n          \"doctor\",\n          \"lesson\",\n          \"status\",\n          \"verify\"\n        ],\n        \"path\": \"bin/wl-academy\"\n      },\n      \"duration_ms\": 50,\n      \"name\": \"authority_launcher\",\n      \"status\": \"PASS\",\n      \"summary\": \"Academy authority launcher and CLI contract are complete\"\n    },\n    {\n      \"details\": {},\n      \"duration_ms\": 114,\n      \"name\": \"public_route\",\n      \"status\": \"PASS\",\n      \"summary\": \"wl academy route is available\"\n    },\n    {\n      \"details\": {\n        \"file_count\": 1191,\n        \"path\": \"academy\"\n      },\n      \"duration_ms\": 9,\n      \"name\": \"academy_root\",\n      \"status\": \"PASS\",\n      \"summary\": \"Academy root contains 1191 files\"\n    },\n    {\n      \"details\": {\n        \"chapter_count\": 1,\n        \"path\": \"academy/registry/chapters.json\"\n      },\n      \"duration_ms\": 0,\n      \"name\": \"chapter_registry\",\n      \"status\": \"PASS\",\n      \"summary\": \"1 chapter entries registered\"\n    },\n    {\n      \"details\": {\n        \"lesson_count\": 806,\n        \"mode\": \"registry\",\n        \"path\": \"academy/registry/lessons.json\"\n      },\n      \"duration_ms\": 17,\n      \"name\": \"lesson_registry\",\n      \"status\": \"PASS\",\n      \"summary\": \"806 lesson entries registered\"\n    },\n    {\n      \"details\": {\n        \"json_count\": 8\n      },\n      \"duration_ms\": 4,\n      \"name\": \"json_integrity\",\n      \"status\": \"PASS\",\n      \"summary\": \"8 Academy JSON files parse\"\n    },\n    {\n      \"details\": {\n        \"exemption_registry\": \"academy/registry/heading-exemptions.json\",\n        \"heading_exemption_count\": 4,\n        \"markdown_count\": 1173\n      },\n      \"duration_ms\": 37,\n      \"name\": \"markdown\",\n      \"status\": \"PASS\",\n      \"summary\": \"1173 Academy Markdown files validated; 4 explicit heading exemptions\"\n    },\n    {\n      \"details\": {\n        \"module_count\": 12\n      },\n      \"duration_ms\": 7,\n      \"name\": \"python_integrity\",\n      \"status\": \"PASS\",\n      \"summary\": \"12 Academy Python modules parse\"\n    },\n    {\n      \"details\": {\n        \"file_count\": 806,\n        \"registry_count\": 806\n      },\n      \"duration_ms\": 22,\n      \"name\": \"manifest_consistency\",\n      \"status\": \"PASS\",\n      \"summary\": \"lesson registry matches 806 lesson files\"\n    },\n    {\n      \"details\": {\n        \"path\": \"bin/wl-academy-legacy\"\n      },\n      \"duration_ms\": 0,\n      \"name\": \"legacy_adapter\",\n      \"status\": \"PASS\",\n      \"summary\": \"legacy Academy operations remain available\"\n    },\n    {\n      \"details\": {},\n      \"duration_ms\": 0,\n      \"name\": \"nonrecursive_contract\",\n      \"status\": \"PASS\",\n      \"summary\": \"Academy launcher is non-recursive\"\n    }\n  ],\n  \"duration_ms\": 259,\n  \"engine_version\": \"1.0.0\",\n  \"result\": \"PASS\",\n  \"root\": \"/Users/wonderland/Wonderland\",\n  \"schema_version\": 1,\n  \"summary\": {\n    \"fail\": 0,\n    \"idle\": 0,\n    \"pass\": 11,\n    \"skip\": 0,\n    \"warn\": 0\n  }\n}",
+      "summary": "verification passed"
+    },
+    {
+      "command": [],
+      "details": {},
+      "duration_ms": 0,
+      "exit_code": null,
+      "name": "engineering_gate",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "",
+      "summary": "all Platform engineering dependencies passed"
+    }
+  ],
+  "duration_ms": 907,
+  "engine_version": "1.0.0",
+  "result": "PASS",
+  "root": "/Users/wonderland/Wonderland",
+  "schema_version": 1,
+  "summary": {
+    "fail": 0,
+    "idle": 0,
+    "pass": 8,
+    "skip": 0,
+    "warn": 0
+  }
+}

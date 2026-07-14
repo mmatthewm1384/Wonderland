@@ -1,0 +1,388 @@
+{
+  "generated": true,
+  "generated_from": "/Users/wonderland/Wonderland/intelligence/obsidian/00-Core/Governance.md",
+  "generated_at": "2026-06-07T03:44:17+00:00",
+  "system": "Wonderland",
+  "operator": "Matthew Mahaney",
+  "runtime": {
+    "container_runtime": "nerdctl",
+    "compose_engine": "nerdctl compose",
+    "rootless": true
+  },
+  "paths": {
+    "root": "~/Wonderland",
+    "bin": "~/Wonderland/bin",
+    "core": "~/Wonderland/core",
+    "intelligence": "~/Wonderland/intelligence/obsidian",
+    "logs": "~/Wonderland/logs",
+    "data": "~/Wonderland/data",
+    "secrets": "~/Wonderland/secrets",
+    "tools": "~/Wonderland/tools"
+  },
+  "commands": {},
+  "services": {},
+  "networks": {},
+  "volumes": {},
+  "security": {
+    "default_mode": "private",
+    "secrets_policy": "references_only",
+    "plaintext_secrets": "forbidden",
+    "audit_logging": "required",
+    "least_privilege": "required"
+  },
+  "encryption": {
+    "required": true,
+    "at_rest": "required",
+    "in_transit": "preferred",
+    "secrets": "external_or_encrypted",
+    "registry_contains_secrets": false
+  },
+  "privacy": {
+    "personal_data_policy": "minimize",
+    "thought_content_policy": "never_store_raw",
+    "anonymize_identifiers": true,
+    "generated_registry_redaction": "required"
+  },
+  "anonymity": {
+    "operator_identity": "governed",
+    "public_identity": "minimized",
+    "thought_records": "prohibited",
+    "derived_metadata_only": true
+  },
+  "redaction": {
+    "contains_plaintext_secrets": false,
+    "contains_raw_thought_content": false,
+    "contains_private_credentials": false,
+    "policy": "generated metadata only"
+  },
+  "runtime_inventory": {
+    "generated": true,
+    "generated_at": "2026-06-07T03:44:18+00:00",
+    "policy": {
+      "source": "runtime discovery",
+      "authority": "generated cache only",
+      "secrets": "references only",
+      "thought_content": "never stored",
+      "raw_private_content": "excluded"
+    },
+    "commands": [
+      {
+        "name": "wl-body-time",
+        "path": "/Users/wonderland/Wonderland/bin/wl-body-time",
+        "relative_path": "bin/wl-body-time"
+      },
+      {
+        "name": "wl-chrono",
+        "path": "/Users/wonderland/Wonderland/bin/wl-chrono",
+        "relative_path": "bin/wl-chrono"
+      },
+      {
+        "name": "wl-chrono-v2",
+        "path": "/Users/wonderland/Wonderland/bin/wl-chrono-v2",
+        "relative_path": "bin/wl-chrono-v2"
+      },
+      {
+        "name": "wl-chronosphere",
+        "path": "/Users/wonderland/Wonderland/bin/wl-chronosphere",
+        "relative_path": "bin/wl-chronosphere"
+      },
+      {
+        "name": "wl-chronosphere-app",
+        "path": "/Users/wonderland/Wonderland/bin/wl-chronosphere-app",
+        "relative_path": "bin/wl-chronosphere-app"
+      },
+      {
+        "name": "wl-chronosphere-install",
+        "path": "/Users/wonderland/Wonderland/bin/wl-chronosphere-install",
+        "relative_path": "bin/wl-chronosphere-install"
+      },
+      {
+        "name": "wl-chronosphere-v2",
+        "path": "/Users/wonderland/Wonderland/bin/wl-chronosphere-v2",
+        "relative_path": "bin/wl-chronosphere-v2"
+      },
+      {
+        "name": "wl-chronosphere-v2-install",
+        "path": "/Users/wonderland/Wonderland/bin/wl-chronosphere-v2-install",
+        "relative_path": "bin/wl-chronosphere-v2-install"
+      },
+      {
+        "name": "wl-context",
+        "path": "/Users/wonderland/Wonderland/bin/wl-context",
+        "relative_path": "bin/wl-context"
+      },
+      {
+        "name": "wl-disposable",
+        "path": "/Users/wonderland/Wonderland/bin/wl-disposable",
+        "relative_path": "bin/wl-disposable"
+      },
+      {
+        "name": "wl-doctor",
+        "path": "/Users/wonderland/Wonderland/bin/wl-doctor",
+        "relative_path": "bin/wl-doctor"
+      },
+      {
+        "name": "wl-env-clean",
+        "path": "/Users/wonderland/Wonderland/bin/wl-env-clean",
+        "relative_path": "bin/wl-env-clean"
+      },
+      {
+        "name": "wl-ga-plus-install",
+        "path": "/Users/wonderland/Wonderland/bin/wl-ga-plus-install",
+        "relative_path": "bin/wl-ga-plus-install"
+      },
+      {
+        "name": "wl-governance",
+        "path": "/Users/wonderland/Wonderland/bin/wl-governance",
+        "relative_path": "bin/wl-governance"
+      },
+      {
+        "name": "wl-intel",
+        "path": "/Users/wonderland/Wonderland/bin/wl-intel",
+        "relative_path": "bin/wl-intel"
+      },
+      {
+        "name": "wl-knowledge-dropin",
+        "path": "/Users/wonderland/Wonderland/bin/wl-knowledge-dropin",
+        "relative_path": "bin/wl-knowledge-dropin"
+      },
+      {
+        "name": "wl-link-runtime",
+        "path": "/Users/wonderland/Wonderland/bin/wl-link-runtime",
+        "relative_path": "bin/wl-link-runtime"
+      },
+      {
+        "name": "wl-mind-body",
+        "path": "/Users/wonderland/Wonderland/bin/wl-mind-body",
+        "relative_path": "bin/wl-mind-body"
+      },
+      {
+        "name": "wl-mind-body-app",
+        "path": "/Users/wonderland/Wonderland/bin/wl-mind-body-app",
+        "relative_path": "bin/wl-mind-body-app"
+      },
+      {
+        "name": "wl-mind-body-install",
+        "path": "/Users/wonderland/Wonderland/bin/wl-mind-body-install",
+        "relative_path": "bin/wl-mind-body-install"
+      },
+      {
+        "name": "wl-path-fix",
+        "path": "/Users/wonderland/Wonderland/bin/wl-path-fix",
+        "relative_path": "bin/wl-path-fix"
+      },
+      {
+        "name": "wl-proxy",
+        "path": "/Users/wonderland/Wonderland/bin/wl-proxy",
+        "relative_path": "bin/wl-proxy"
+      },
+      {
+        "name": "wl-registry",
+        "path": "/Users/wonderland/Wonderland/bin/wl-registry",
+        "relative_path": "bin/wl-registry"
+      },
+      {
+        "name": "wl-services",
+        "path": "/Users/wonderland/Wonderland/bin/wl-services",
+        "relative_path": "bin/wl-services"
+      },
+      {
+        "name": "wl-snapshot",
+        "path": "/Users/wonderland/Wonderland/bin/wl-snapshot",
+        "relative_path": "bin/wl-snapshot"
+      },
+      {
+        "name": "wl-start",
+        "path": "/Users/wonderland/Wonderland/bin/wl-start",
+        "relative_path": "bin/wl-start"
+      },
+      {
+        "name": "wl-status",
+        "path": "/Users/wonderland/Wonderland/bin/wl-status",
+        "relative_path": "bin/wl-status"
+      },
+      {
+        "name": "wl-stop",
+        "path": "/Users/wonderland/Wonderland/bin/wl-stop",
+        "relative_path": "bin/wl-stop"
+      },
+      {
+        "name": "wl-vault",
+        "path": "/Users/wonderland/Wonderland/bin/wl-vault",
+        "relative_path": "bin/wl-vault"
+      }
+    ],
+    "core_scripts": [
+      {
+        "name": "consolidate.sh",
+        "path": "/Users/wonderland/Wonderland/core/consolidate.sh",
+        "relative_path": "core/consolidate.sh",
+        "executable": true
+      },
+      {
+        "name": "doctor.sh",
+        "path": "/Users/wonderland/Wonderland/core/doctor.sh",
+        "relative_path": "core/doctor.sh",
+        "executable": true
+      },
+      {
+        "name": "doctor_security.sh",
+        "path": "/Users/wonderland/Wonderland/core/doctor_security.sh",
+        "relative_path": "core/doctor_security.sh",
+        "executable": true
+      },
+      {
+        "name": "doctor_volume_alignment.sh",
+        "path": "/Users/wonderland/Wonderland/core/doctor_volume_alignment.sh",
+        "relative_path": "core/doctor_volume_alignment.sh",
+        "executable": true
+      }
+    ],
+    "repositories": [
+      {
+        "name": "Wonderland",
+        "path": "/Users/wonderland/Wonderland",
+        "relative_path": "."
+      }
+    ],
+    "services": [],
+    "zones": [],
+    "logs": [
+      {
+        "name": "context",
+        "path": "/Users/wonderland/Wonderland/logs/context",
+        "relative_path": "logs/context"
+      },
+      {
+        "name": "governance",
+        "path": "/Users/wonderland/Wonderland/logs/governance",
+        "relative_path": "logs/governance"
+      },
+      {
+        "name": "registry",
+        "path": "/Users/wonderland/Wonderland/logs/registry",
+        "relative_path": "logs/registry"
+      },
+      {
+        "name": "services",
+        "path": "/Users/wonderland/Wonderland/logs/services",
+        "relative_path": "logs/services"
+      },
+      {
+        "name": "snapshot",
+        "path": "/Users/wonderland/Wonderland/logs/snapshot",
+        "relative_path": "logs/snapshot"
+      }
+    ],
+    "data_paths": [
+      {
+        "name": "archive",
+        "path": "/Users/wonderland/Wonderland/data/archive",
+        "relative_path": "data/archive"
+      },
+      {
+        "name": "backups",
+        "path": "/Users/wonderland/Wonderland/data/backups",
+        "relative_path": "data/backups"
+      },
+      {
+        "name": "knowledge",
+        "path": "/Users/wonderland/Wonderland/data/knowledge",
+        "relative_path": "data/knowledge"
+      },
+      {
+        "name": "media",
+        "path": "/Users/wonderland/Wonderland/data/media",
+        "relative_path": "data/media"
+      },
+      {
+        "name": "models",
+        "path": "/Users/wonderland/Wonderland/data/models",
+        "relative_path": "data/models"
+      },
+      {
+        "name": "snapshots",
+        "path": "/Users/wonderland/Wonderland/data/snapshots",
+        "relative_path": "data/snapshots"
+      },
+      {
+        "name": "vaults",
+        "path": "/Users/wonderland/Wonderland/data/vaults",
+        "relative_path": "data/vaults"
+      }
+    ],
+    "tools": [
+      {
+        "name": "bin",
+        "path": "/Users/wonderland/Wonderland/tools/bin",
+        "relative_path": "tools/bin"
+      }
+    ],
+    "intelligence": [
+      {
+        "name": "obsidian",
+        "path": "/Users/wonderland/Wonderland/intelligence/obsidian",
+        "relative_path": "intelligence/obsidian"
+      }
+    ],
+    "secret_references": [
+      {
+        "name": ".anthropic_token_vault",
+        "path": "/Users/wonderland/Wonderland/secrets/.anthropic_token_vault",
+        "relative_path": "secrets/.anthropic_token_vault",
+        "content_recorded": false,
+        "policy": "reference_only"
+      },
+      {
+        "name": ".gemini_token_vault",
+        "path": "/Users/wonderland/Wonderland/secrets/.gemini_token_vault",
+        "relative_path": "secrets/.gemini_token_vault",
+        "content_recorded": false,
+        "policy": "reference_only"
+      },
+      {
+        "name": ".github_token_vault",
+        "path": "/Users/wonderland/Wonderland/secrets/.github_token_vault",
+        "relative_path": "secrets/.github_token_vault",
+        "content_recorded": false,
+        "policy": "reference_only"
+      },
+      {
+        "name": ".openai_token_vault",
+        "path": "/Users/wonderland/Wonderland/secrets/.openai_token_vault",
+        "relative_path": "secrets/.openai_token_vault",
+        "content_recorded": false,
+        "policy": "reference_only"
+      },
+      {
+        "name": ".vault_token",
+        "path": "/Users/wonderland/Wonderland/secrets/.vault_token",
+        "relative_path": "secrets/.vault_token",
+        "content_recorded": false,
+        "policy": "reference_only"
+      },
+      {
+        "name": ".wandb_token_vault",
+        "path": "/Users/wonderland/Wonderland/secrets/.wandb_token_vault",
+        "relative_path": "secrets/.wandb_token_vault",
+        "content_recorded": false,
+        "policy": "reference_only"
+      },
+      {
+        "name": "openai_rights_manifest.json",
+        "path": "/Users/wonderland/Wonderland/secrets/openai_rights_manifest.json",
+        "relative_path": "secrets/openai_rights_manifest.json",
+        "content_recorded": false,
+        "policy": "reference_only"
+      },
+      {
+        "name": "wl-registry.json",
+        "path": "/Users/wonderland/Wonderland/secrets/wl-registry.json",
+        "relative_path": "secrets/wl-registry.json",
+        "content_recorded": false,
+        "policy": "reference_only"
+      }
+    ]
+  },
+  "runtime_inventory_generated_at": "2026-06-07T03:44:18+00:00"
+}

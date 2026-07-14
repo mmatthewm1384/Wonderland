@@ -1,0 +1,32 @@
+{
+  "00-Philosophy": {
+    "owner": "Platform Constitution",
+    "purpose": "Constitutional authority, philosophy, design standards, and engineering standards",
+    "migration_policy": "rare-change"
+  },
+  "01-Platform": {
+    "owner": "Platform Core",
+    "purpose": "Shared CLI, runtime, builder, governance, registry, release tooling, and libraries",
+    "migration_policy": "compatibility-first"
+  },
+  "02-Infrastructure": {
+    "owner": "Infrastructure",
+    "purpose": "nerdctl, Lima, networking, observability, DNS, storage, backup, secrets, and runtime services",
+    "migration_policy": "compatibility-first"
+  },
+  "03-Applications": {
+    "owner": "Applications",
+    "purpose": "End-user software that consumes the platform",
+    "migration_policy": "compatibility-first"
+  },
+  "04-Documentation": {
+    "owner": "Documentation",
+    "purpose": "Living documentation, guides, runbooks, ADRs, architecture, and reference material",
+    "migration_policy": "continuous"
+  },
+  "05-Vault": {
+    "owner": "Operations",
+    "purpose": "Operational state, generated artifacts, certification records, audit logs, checkpoints, and knowledge",
+    "migration_policy": "state-safe"
+  }
+}

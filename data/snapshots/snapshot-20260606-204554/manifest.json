@@ -1,0 +1,21 @@
+{
+  "snapshot": "snapshot-20260606-204554",
+  "system": "Wonderland",
+  "operator": "Matthew Mahaney",
+  "created_at": "2026-06-07T03:45:55Z",
+  "root": "/Users/wonderland/Wonderland",
+  "policy": {
+    "secrets_content_captured": false,
+    "raw_thought_content_captured": false,
+    "registry_is_generated": true,
+    "source_of_truth": "/Users/wonderland/Wonderland/intelligence/obsidian/00-Core/Governance.md"
+  },
+  "contents": [
+    "Governance.md",
+    ".wl-registry",
+    "wl-status.txt",
+    "doctor.txt",
+    "wl-services-status.txt",
+    "file-index.txt"
+  ]
+}

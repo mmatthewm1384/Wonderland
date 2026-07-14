@@ -1,0 +1,9 @@
+{
+  "name": "T7_Wonderland",
+  "volume_path": "/Volumes/T7_Wonderland",
+  "source": "/Users/wonderland/Wonderland",
+  "destination": "/Volumes/T7_Wonderland/Wonderland",
+  "mounted": false,
+  "source_exists": true,
+  "destination_exists": false
+}

@@ -1,0 +1,518 @@
+{
+  "created_at": "2026-07-11T21:36:00.850068+00:00",
+  "manifest_count": 64,
+  "manifests": [
+    {
+      "created_at": "2026-07-06T19:39:20.694475+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-193920",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-193920/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:39:28.463855+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-193928",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-193928/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:42:27.869483+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-194227",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-194227/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:42:35.028876+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-194234",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-194234/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:46:17.596030+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-194617",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-194617/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:46:24.835045+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-194624",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-194624/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:57:29.153258+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-195728",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-195728/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:57:29.812273+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-195729",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-195729/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:57:30.958858+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-195730",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-195730/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:57:31.629502+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-195731",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-195731/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:57:42.092540+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-195741",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-195741/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:57:43.173994+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-195742",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-195742/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:57:43.840984+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-195743",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-195743/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:59:17.168870+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-195916",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-195916/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:59:17.845102+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-195917",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-195917/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:59:26.747620+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-195926",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-195926/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:59:27.413367+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-195927",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-195927/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:10:34.188448+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-201033",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-201033/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:10:34.903637+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-201034",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-201034/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:10:38.135550+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-201037",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-201037/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:10:38.818592+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-201038",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-201038/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:11:48.270379+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-201147",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-201147/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:13:20.200699+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-201319",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-201319/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:13:31.654917+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-201331",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-201331/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:13:32.289118+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-preflight-20260706-201332",
+      "mode": "preflight",
+      "path": "05-Vault/generated/releases/platform-0.4-preflight-20260706-201332/release-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:42:27.872856+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certification-preflight-20260706-194227",
+      "mode": "preflight",
+      "path": "05-Vault/generated/certifications/platform-0.4-certification-preflight-20260706-194227/certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:42:35.032603+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certification-preflight-20260706-194234",
+      "mode": "preflight",
+      "path": "05-Vault/generated/certifications/platform-0.4-certification-preflight-20260706-194234/certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:46:17.600534+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certification-preflight-20260706-194617",
+      "mode": "preflight",
+      "path": "05-Vault/generated/certifications/platform-0.4-certification-preflight-20260706-194617/certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:46:24.838945+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certification-preflight-20260706-194624",
+      "mode": "preflight",
+      "path": "05-Vault/generated/certifications/platform-0.4-certification-preflight-20260706-194624/certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:57:29.815661+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certification-preflight-20260706-195729",
+      "mode": "preflight",
+      "path": "05-Vault/generated/certifications/platform-0.4-certification-preflight-20260706-195729/certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:57:31.633089+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certification-preflight-20260706-195730",
+      "mode": "preflight",
+      "path": "05-Vault/generated/certifications/platform-0.4-certification-preflight-20260706-195730/certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:57:42.095879+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certification-preflight-20260706-195741",
+      "mode": "preflight",
+      "path": "05-Vault/generated/certifications/platform-0.4-certification-preflight-20260706-195741/certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:57:43.844262+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certification-preflight-20260706-195743",
+      "mode": "preflight",
+      "path": "05-Vault/generated/certifications/platform-0.4-certification-preflight-20260706-195743/certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:59:17.856300+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certification-preflight-20260706-195917",
+      "mode": "preflight",
+      "path": "05-Vault/generated/certifications/platform-0.4-certification-preflight-20260706-195917/certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:59:27.416637+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certification-preflight-20260706-195926",
+      "mode": "preflight",
+      "path": "05-Vault/generated/certifications/platform-0.4-certification-preflight-20260706-195926/certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:10:34.907158+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certification-preflight-20260706-201034",
+      "mode": "preflight",
+      "path": "05-Vault/generated/certifications/platform-0.4-certification-preflight-20260706-201034/certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:10:38.821765+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certification-preflight-20260706-201038",
+      "mode": "preflight",
+      "path": "05-Vault/generated/certifications/platform-0.4-certification-preflight-20260706-201038/certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:11:48.273672+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certification-preflight-20260706-201147",
+      "mode": "preflight",
+      "path": "05-Vault/generated/certifications/platform-0.4-certification-preflight-20260706-201147/certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:13:20.203861+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certification-preflight-20260706-201319",
+      "mode": "preflight",
+      "path": "05-Vault/generated/certifications/platform-0.4-certification-preflight-20260706-201319/certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:13:32.291983+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certification-preflight-20260706-201331",
+      "mode": "preflight",
+      "path": "05-Vault/generated/certifications/platform-0.4-certification-preflight-20260706-201331/certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:57:30.230857+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certified-20260706-195728",
+      "mode": "platform-certification",
+      "path": "05-Vault/generated/platform-certifications/platform-0.4-certified-20260706-195728/platform-certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:57:32.045148+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certified-20260706-195730",
+      "mode": "platform-certification",
+      "path": "05-Vault/generated/platform-certifications/platform-0.4-certified-20260706-195730/platform-certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:57:42.500495+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certified-20260706-195740",
+      "mode": "platform-certification",
+      "path": "05-Vault/generated/platform-certifications/platform-0.4-certified-20260706-195740/platform-certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:57:44.250037+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certified-20260706-195742",
+      "mode": "platform-certification",
+      "path": "05-Vault/generated/platform-certifications/platform-0.4-certified-20260706-195742/platform-certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:59:18.268056+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certified-20260706-195916",
+      "mode": "platform-certification",
+      "path": "05-Vault/generated/platform-certifications/platform-0.4-certified-20260706-195916/platform-certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T19:59:27.848193+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certified-20260706-195926",
+      "mode": "platform-certification",
+      "path": "05-Vault/generated/platform-certifications/platform-0.4-certified-20260706-195926/platform-certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:10:35.318949+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certified-20260706-201033",
+      "mode": "platform-certification",
+      "path": "05-Vault/generated/platform-certifications/platform-0.4-certified-20260706-201033/platform-certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:10:39.258713+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certified-20260706-201037",
+      "mode": "platform-certification",
+      "path": "05-Vault/generated/platform-certifications/platform-0.4-certified-20260706-201037/platform-certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:11:48.720933+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certified-20260706-201146",
+      "mode": "platform-certification",
+      "path": "05-Vault/generated/platform-certifications/platform-0.4-certified-20260706-201146/platform-certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:13:20.617549+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certified-20260706-201318",
+      "mode": "platform-certification",
+      "path": "05-Vault/generated/platform-certifications/platform-0.4-certified-20260706-201318/platform-certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:13:32.737357+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-certified-20260706-201331",
+      "mode": "platform-certification",
+      "path": "05-Vault/generated/platform-certifications/platform-0.4-certified-20260706-201331/platform-certification-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:06:20.294790+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-handoff-20260706-200619",
+      "mode": "",
+      "path": "05-Vault/generated/handoffs/platform-0.4-handoff-20260706-200619/handoff-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:06:21.028132+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-handoff-20260706-200620",
+      "mode": "",
+      "path": "05-Vault/generated/handoffs/platform-0.4-handoff-20260706-200620/handoff-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:06:31.396329+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-handoff-20260706-200630",
+      "mode": "",
+      "path": "05-Vault/generated/handoffs/platform-0.4-handoff-20260706-200630/handoff-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:08:16.446194+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-handoff-20260706-200815",
+      "mode": "",
+      "path": "05-Vault/generated/handoffs/platform-0.4-handoff-20260706-200815/handoff-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:10:36.713408+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-handoff-20260706-201036",
+      "mode": "",
+      "path": "05-Vault/generated/handoffs/platform-0.4-handoff-20260706-201036/handoff-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:10:40.709612+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-handoff-20260706-201040",
+      "mode": "",
+      "path": "05-Vault/generated/handoffs/platform-0.4-handoff-20260706-201040/handoff-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:11:50.146101+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-handoff-20260706-201149",
+      "mode": "",
+      "path": "05-Vault/generated/handoffs/platform-0.4-handoff-20260706-201149/handoff-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:13:21.958759+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-handoff-20260706-201321",
+      "mode": "",
+      "path": "05-Vault/generated/handoffs/platform-0.4-handoff-20260706-201321/handoff-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:13:34.083547+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-handoff-20260706-201333",
+      "mode": "",
+      "path": "05-Vault/generated/handoffs/platform-0.4-handoff-20260706-201333/handoff-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:23:58.666759+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-handoff-20260706-202358",
+      "mode": "",
+      "path": "05-Vault/generated/handoffs/platform-0.4-handoff-20260706-202358/handoff-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:25:50.414373+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-handoff-20260706-202549",
+      "mode": "",
+      "path": "05-Vault/generated/handoffs/platform-0.4-handoff-20260706-202549/handoff-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:30:07.004031+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-handoff-20260706-203006",
+      "mode": "",
+      "path": "05-Vault/generated/handoffs/platform-0.4-handoff-20260706-203006/handoff-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "created_at": "2026-07-06T20:38:20.523841+00:00",
+      "destructive_changes": false,
+      "id": "platform-0.4-handoff-20260706-203819",
+      "mode": "",
+      "path": "05-Vault/generated/handoffs/platform-0.4-handoff-20260706-203819/handoff-manifest.json",
+      "status": "PASS"
+    }
+  ]
+}

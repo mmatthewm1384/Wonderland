@@ -1,0 +1,356 @@
+{
+  "classifications": {
+    "00-Philosophy": {
+      "state": "native",
+      "target": "00-Philosophy",
+      "type": "constitutional"
+    },
+    "01-Platform": {
+      "state": "native",
+      "target": "01-Platform",
+      "type": "constitutional"
+    },
+    "02-Infrastructure": {
+      "state": "native",
+      "target": "02-Infrastructure",
+      "type": "constitutional"
+    },
+    "03-Applications": {
+      "state": "native",
+      "target": "03-Applications",
+      "type": "constitutional"
+    },
+    "04-Documentation": {
+      "state": "native",
+      "target": "04-Documentation",
+      "type": "constitutional"
+    },
+    "05-Vault": {
+      "state": "native",
+      "target": "05-Vault",
+      "type": "constitutional"
+    },
+    "Wonderland-v4": {
+      "note": "historic Wonderland project tree retained intentionally",
+      "state": "retained",
+      "target": "05-Vault/legacy",
+      "type": "historic"
+    },
+    "WonderlandApp": {
+      "state": "compatibility",
+      "target": "03-Applications/control-center",
+      "type": "application"
+    },
+    "academy": {
+      "state": "compatibility",
+      "target": "03-Applications/academy",
+      "type": "application"
+    },
+    "apps": {
+      "note": "legacy repository root retained as compatibility bridge",
+      "state": "bridge",
+      "target": "03-Applications",
+      "type": "bridge"
+    },
+    "archive": {
+      "state": "compatibility",
+      "target": "05-Vault/checkpoints",
+      "type": "operational"
+    },
+    "assets": {
+      "state": "compatibility",
+      "target": "04-Documentation/reference/assets",
+      "type": "documentation"
+    },
+    "authorities": {
+      "state": "compatibility",
+      "target": "01-Platform/governance",
+      "type": "platform"
+    },
+    "backup": {
+      "state": "compatibility",
+      "target": "02-Infrastructure/backup",
+      "type": "infrastructure"
+    },
+    "bin": {
+      "note": "legacy repository root retained as compatibility bridge",
+      "state": "bridge",
+      "target": "01-Platform/cli",
+      "type": "bridge"
+    },
+    "build": {
+      "state": "managed",
+      "target": "05-Vault/generated/build",
+      "type": "generated"
+    },
+    "builder": {
+      "note": "legacy repository root retained as compatibility bridge",
+      "state": "bridge",
+      "target": "01-Platform/builder",
+      "type": "bridge"
+    },
+    "concepts": {
+      "state": "compatibility",
+      "target": "00-Philosophy/concepts",
+      "type": "philosophy"
+    },
+    "config": {
+      "note": "legacy repository root retained as compatibility bridge",
+      "state": "bridge",
+      "target": "02-Infrastructure",
+      "type": "bridge"
+    },
+    "controller": {
+      "state": "compatibility",
+      "target": "03-Applications/control-center",
+      "type": "application"
+    },
+    "core": {
+      "state": "compatibility",
+      "target": "01-Platform/runtime",
+      "type": "platform"
+    },
+    "dashboard": {
+      "state": "compatibility",
+      "target": "03-Applications/control-center",
+      "type": "application"
+    },
+    "data": {
+      "state": "managed",
+      "target": "05-Vault/runtime-state/data",
+      "type": "runtime-state"
+    },
+    "design": {
+      "state": "compatibility",
+      "target": "00-Philosophy/design",
+      "type": "philosophy"
+    },
+    "docker": {
+      "state": "compatibility",
+      "target": "02-Infrastructure/nerdctl/compat/docker",
+      "type": "infrastructure"
+    },
+    "docs": {
+      "note": "legacy repository root retained as compatibility bridge",
+      "state": "bridge",
+      "target": "04-Documentation",
+      "type": "bridge"
+    },
+    "ephemeral": {
+      "state": "managed",
+      "target": "05-Vault/runtime-state/ephemeral",
+      "type": "runtime-state"
+    },
+    "governance": {
+      "state": "compatibility",
+      "target": "01-Platform/governance",
+      "type": "platform"
+    },
+    "images": {
+      "state": "compatibility",
+      "target": "04-Documentation/reference/images",
+      "type": "documentation"
+    },
+    "infra": {
+      "state": "compatibility",
+      "target": "02-Infrastructure",
+      "type": "infrastructure"
+    },
+    "infrastructure": {
+      "state": "compatibility",
+      "target": "02-Infrastructure",
+      "type": "infrastructure"
+    },
+    "intelligence": {
+      "state": "compatibility",
+      "target": "01-Platform/lib/intelligence",
+      "type": "platform"
+    },
+    "intents": {
+      "state": "compatibility",
+      "target": "01-Platform/registry/intents",
+      "type": "platform"
+    },
+    "kernel": {
+      "state": "compatibility",
+      "target": "01-Platform/runtime/kernel",
+      "type": "platform"
+    },
+    "knowledge": {
+      "state": "managed",
+      "target": "05-Vault/knowledge",
+      "type": "operational"
+    },
+    "legacy": {
+      "state": "retained",
+      "target": "05-Vault/legacy",
+      "type": "historic"
+    },
+    "lib": {
+      "note": "legacy repository root retained as compatibility bridge",
+      "state": "bridge",
+      "target": "01-Platform/lib",
+      "type": "bridge"
+    },
+    "logs": {
+      "state": "managed",
+      "target": "05-Vault/audit-logs",
+      "type": "operational"
+    },
+    "manuscript": {
+      "state": "retained",
+      "target": "04-Documentation/reference/manuscript",
+      "type": "documentation"
+    },
+    "plugins": {
+      "state": "compatibility",
+      "target": "01-Platform/lib/plugins",
+      "type": "platform"
+    },
+    "policies": {
+      "state": "compatibility",
+      "target": "01-Platform/governance/policies",
+      "type": "platform"
+    },
+    "profiles": {
+      "state": "compatibility",
+      "target": "02-Infrastructure/runtime/profiles",
+      "type": "infrastructure"
+    },
+    "raycast": {
+      "state": "compatibility",
+      "target": "03-Applications/raycast",
+      "type": "application"
+    },
+    "recovery": {
+      "state": "compatibility",
+      "target": "02-Infrastructure/backup/recovery",
+      "type": "infrastructure"
+    },
+    "registries": {
+      "state": "compatibility",
+      "target": "01-Platform/registry",
+      "type": "platform"
+    },
+    "registry": {
+      "state": "compatibility",
+      "target": "01-Platform/registry",
+      "type": "platform"
+    },
+    "release": {
+      "state": "compatibility",
+      "target": "01-Platform/release",
+      "type": "platform"
+    },
+    "releases": {
+      "state": "compatibility",
+      "target": "01-Platform/release/releases",
+      "type": "platform"
+    },
+    "reports": {
+      "state": "managed",
+      "target": "05-Vault/generated/reports",
+      "type": "generated"
+    },
+    "runtime": {
+      "state": "compatibility",
+      "target": "01-Platform/runtime",
+      "type": "platform"
+    },
+    "scheduler": {
+      "state": "compatibility",
+      "target": "01-Platform/runtime/scheduler",
+      "type": "platform"
+    },
+    "schemas": {
+      "state": "compatibility",
+      "target": "01-Platform/registry/schemas",
+      "type": "platform"
+    },
+    "scripts": {
+      "state": "compatibility",
+      "target": "01-Platform/cli/scripts",
+      "type": "platform"
+    },
+    "sdk": {
+      "state": "compatibility",
+      "target": "01-Platform/lib/sdk",
+      "type": "platform"
+    },
+    "secrets": {
+      "state": "compatibility",
+      "target": "02-Infrastructure/secrets",
+      "type": "infrastructure"
+    },
+    "security": {
+      "state": "compatibility",
+      "target": "02-Infrastructure/security",
+      "type": "infrastructure"
+    },
+    "services": {
+      "note": "legacy repository root retained as compatibility bridge",
+      "state": "bridge",
+      "target": "02-Infrastructure/services",
+      "type": "bridge"
+    },
+    "shared": {
+      "state": "compatibility",
+      "target": "01-Platform/lib/shared",
+      "type": "platform"
+    },
+    "source": {
+      "state": "compatibility",
+      "target": "01-Platform/lib/source",
+      "type": "platform"
+    },
+    "state": {
+      "state": "managed",
+      "target": "05-Vault/runtime-state",
+      "type": "runtime-state"
+    },
+    "tests": {
+      "state": "compatibility",
+      "target": "01-Platform/tests",
+      "type": "platform"
+    },
+    "tmp": {
+      "state": "managed",
+      "target": "05-Vault/runtime-state/tmp",
+      "type": "runtime-state"
+    },
+    "tools": {
+      "state": "compatibility",
+      "target": "01-Platform/cli/tools",
+      "type": "platform"
+    },
+    "vault": {
+      "note": "legacy repository root retained as compatibility bridge",
+      "state": "bridge",
+      "target": "05-Vault",
+      "type": "bridge"
+    },
+    "wl": {
+      "state": "compatibility",
+      "target": "01-Platform/cli/wl",
+      "type": "platform"
+    },
+    "wlbuilder": {
+      "state": "compatibility",
+      "target": "01-Platform/builder",
+      "type": "platform"
+    },
+    "zones": {
+      "state": "compatibility",
+      "target": "02-Infrastructure/networking/zones",
+      "type": "infrastructure"
+    }
+  },
+  "states": {
+    "bridge": "Legacy root retained as compatibility bridge during constitutional migration.",
+    "compatibility": "Legacy path intentionally retained while canonical migration is deferred.",
+    "managed": "Operational or generated path intentionally managed outside canonical source layout.",
+    "native": "Constitutional directory already in canonical location.",
+    "retained": "Historic or reference material intentionally retained.",
+    "unclassified": "Directory has no architectural classification."
+  }
+}

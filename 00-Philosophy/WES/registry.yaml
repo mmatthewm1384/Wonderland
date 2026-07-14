@@ -1,0 +1,28 @@
+version: 1
+
+standard: Wonderland Engineering Standard
+
+owner: Wonderland Platform
+
+status: active
+
+documents:
+
+  - WES-100-Philosophy
+  - WES-200-Architecture
+  - WES-300-Implementation
+  - WES-400-Verification
+  - WES-500-Certification
+  - WES-600-Academy
+  - WES-700-Documentation
+  - WES-800-Release
+  - WES-900-Maintenance
+
+definition_of_complete:
+
+  - Works
+  - Verified
+  - Certified
+  - Understood
+  - Operator Can Explain
+  - Academy Can Teach

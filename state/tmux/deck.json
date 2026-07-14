@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "session": "wonderland",
+  "root": "/Users/wonderland/Wonderland",
+  "intent": "Wonderland reproducible tmux operator deck",
+  "tmux_config": "/Users/wonderland/Wonderland/state/tmux/wonderland.tmux.conf",
+  "windows": ["control", "runtime", "verify", "logs", "scratch"]
+}

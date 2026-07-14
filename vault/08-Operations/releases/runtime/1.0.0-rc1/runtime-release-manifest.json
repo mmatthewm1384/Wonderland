@@ -1,0 +1,177 @@
+{
+  "build_environment": {
+    "platform": "macOS-26.5.1-arm64-arm-64bit-Mach-O",
+    "python": "3.14.6 (main, Jun 10 2026, 10:03:53) [Clang 21.0.0 (clang-2100.0.123.102)]"
+  },
+  "capabilities": {
+    "automated_certification": true,
+    "automatic_rollback": true,
+    "deterministic_start": true,
+    "deterministic_stop": true,
+    "isolated_regression": true,
+    "operational_health": true,
+    "persistent_state": true,
+    "start_idempotency": true,
+    "stop_idempotency": true,
+    "strict_release_gate": true,
+    "structural_verification": true
+  },
+  "certification": {
+    "certificate_path": "evidence/certificate/runtime-engine-certificate.json",
+    "certificate_sha256": "f534491bd592a347b9c9245c0bfabcd48e9521388b26de491f3e42c51a94f452",
+    "checks": {
+      "full_certification": true,
+      "regression": true,
+      "repository_clean": true
+    },
+    "full_evidence": "evidence/full-certification",
+    "gate_evidence": "evidence/gate-evidence",
+    "gate_path": "evidence/gate/runtime-rc1-gate.json",
+    "gate_sha256": "36cd641906fb07cd5ba1e3471853b3ad4dcc6fd92cd2b7ad220d3395e8b60690",
+    "original_sources": {
+      "certificate": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-engine-certified-20260711T174925Z.json",
+      "full_certification": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-certification-full-20260711T174925Z",
+      "gate": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-rc1-gate-20260711T174925Z.json",
+      "gate_evidence": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-rc1-gate-20260711T174925Z"
+    },
+    "regression": {
+      "errors": 0,
+      "failures": 0,
+      "result": "PASS",
+      "schema_contracts": {
+        "registry": 1,
+        "state": 1
+      },
+      "skipped": 0,
+      "tests_run": 9
+    },
+    "result": "PASS",
+    "strict_clean_worktree": true
+  },
+  "contracts": {
+    "engine_ids": [
+      "core-services",
+      "rootless-runtime",
+      "runtime-verification"
+    ],
+    "persistent_state_schema": 1,
+    "registry_digest": "610e45d084731cb6fe5c0350f2de1ccdafda8242b88d8073a5f813a13a8c4461",
+    "registry_file_sha256": "9f1fd1adc2c23ae6b1a9fc81a1a65f38091e5bf2de775d06032b0cf16048dc80",
+    "registry_schema": 1,
+    "release_manifest_schema": 1,
+    "start_order": [
+      "rootless-runtime",
+      "core-services",
+      "runtime-verification"
+    ],
+    "stop_order": [
+      "runtime-verification",
+      "core-services",
+      "rootless-runtime"
+    ]
+  },
+  "evidence_bundle": {
+    "artifacts": {
+      "certificate": {
+        "path": "evidence/certificate/runtime-engine-certificate.json",
+        "sha256": "f534491bd592a347b9c9245c0bfabcd48e9521388b26de491f3e42c51a94f452",
+        "size_bytes": 3537,
+        "source": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-engine-certified-20260711T174925Z.json",
+        "type": "file"
+      },
+      "full_certification": {
+        "file_count": 15,
+        "files": {
+          "evidence/full-certification/certificate.json": "f534491bd592a347b9c9245c0bfabcd48e9521388b26de491f3e42c51a94f452",
+          "evidence/full-certification/doctor-running.json": "f512be8597d15d56ec98d221749a8b4afb930ebcffde394f91d40fe0102305e2",
+          "evidence/full-certification/health-running.json": "17177c48e855039127de896403aa446cadc93e12065a3246f3f94f77dfa614f6",
+          "evidence/full-certification/isolated-rollback/registry.json": "5719c890ff9377d91b41c9d318e22d0eaee4df1de2557d2919ec7bb863e3ba7d",
+          "evidence/full-certification/isolated-rollback/state.json": "8efe8dbe7b6b5f42fcee9171c3cee2a6cc3f50530c3b4950e463464c38f08aa8",
+          "evidence/full-certification/isolated-rollback/state.json.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "evidence/full-certification/rollback.json": "f983070b8b0b2760b801385b9271dac9fd3972562f9a4adb48bcda324e303915",
+          "evidence/full-certification/start-first.json": "c247a50edc234f6b2d98dc2dda4253fa90bdb9e836b221460e60ccbf4684744d",
+          "evidence/full-certification/start-second.json": "d2a92c1effc12e6ff909c13f929470c63bcba1a8b7da80c58f9f2140ede3d087",
+          "evidence/full-certification/state-after.json": "f717617080cb40937c8e2cd38c5abd64da00d8e524b33d1847fa85703b275ba1",
+          "evidence/full-certification/state-before.json": "1e5edd3bb2914598ff5fed75e01e6e8c7bd974782bc40e91df2a2fe5e30b7e07",
+          "evidence/full-certification/stop-first.json": "439dbd811be668cc7133b091635ab43c976589efe72f687f888b6ccc023db4c9",
+          "evidence/full-certification/stop-second.json": "fafbf32b46b53f5b005ad1512fcf88a2e19ee317f0b3fe869f5829a627ee7626",
+          "evidence/full-certification/verify-after.json": "0e0d1f12ae4d4fd3833f16bdf3c75664110c5b7298384718bcdb419be606e06f",
+          "evidence/full-certification/verify-before.json": "0e0d1f12ae4d4fd3833f16bdf3c75664110c5b7298384718bcdb419be606e06f"
+        },
+        "path": "evidence/full-certification",
+        "source": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-certification-full-20260711T174925Z",
+        "type": "directory"
+      },
+      "gate": {
+        "path": "evidence/gate/runtime-rc1-gate.json",
+        "sha256": "36cd641906fb07cd5ba1e3471853b3ad4dcc6fd92cd2b7ad220d3395e8b60690",
+        "size_bytes": 1392,
+        "source": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-rc1-gate-20260711T174925Z.json",
+        "type": "file"
+      },
+      "gate_evidence": {
+        "file_count": 3,
+        "files": {
+          "evidence/gate-evidence/full-certification.json": "755c204a33c8c1b11017a06133ebdec672aff6e70bc5b1cc4493b065f3533dc6",
+          "evidence/gate-evidence/regression.json": "cafb3de9b4753af93bee12f5a50e150d4b4067def3baad648be598a1f7b01422",
+          "evidence/gate-evidence/release-gate.json": "36cd641906fb07cd5ba1e3471853b3ad4dcc6fd92cd2b7ad220d3395e8b60690"
+        },
+        "path": "evidence/gate-evidence",
+        "source": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-rc1-gate-20260711T174925Z",
+        "type": "directory"
+      }
+    },
+    "portable_paths": true,
+    "self_contained": true,
+    "vendored_at": "2026-07-11T18:30:10.482418+00:00"
+  },
+  "files": {
+    "bin/wl": "785ad9d6082cb5f650c67c4ca82e11c4ae6d9a026dc9e3d679bacef06e3b5718",
+    "bin/wl-runtime-adapter": "9d9874c276a6a4854ad6ac6930681f3056e29e5d8fe5aab344caa0e531fed508",
+    "bin/wl-runtime-engine": "836e982b1ebb0e4987d8c907561c4b9960b36be7852c2efcb85299649a261732",
+    "bin/wl-runtime-verify-python": "e08d524c767f8c80418f023ca37c4721dbb85783ddfa4e91e8747b3e8e861c2e",
+    "builder/python/wlruntime/wlruntime/__init__.py": "074f0ff5d9a59de2fa29739a09125a43e58e831f7014a7c54f9d35fb8b404f6f",
+    "builder/python/wlruntime/wlruntime/certification.py": "d95bfb6096dd9800b7b4e5ee2912c7e1eec6bd97f6060abf091e0643e42a3cb5",
+    "builder/python/wlruntime/wlruntime/cli.py": "ede14c4bf61a033f16314e9be0b0d6ee4631d874b11930d8066ad3bd6f7793ce",
+    "builder/python/wlruntime/wlruntime/engine.py": "1b3183e2179ebe0b1502bbfff8609545b5583046aa0a4dda3bc805612b5ebf5e",
+    "builder/python/wlruntime/wlruntime/errors.py": "ec29c116b5a6e4c2eece0584b4fb96fb3916179f360d944c90711b316ab03ab4",
+    "builder/python/wlruntime/wlruntime/models.py": "0f54ec82e232b91d163567708926487e0d1cb5176e5ebab8f2e578f91ae271c9",
+    "builder/python/wlruntime/wlruntime/registry.py": "730dd0995b3a4b8017f0120049e315dacb3c5043631fe46bfce4bb0be6e9c962",
+    "builder/python/wlruntime/wlruntime/regression.py": "441fac1876678fd7ca3be4519cb13a4d56c8e2db7e0bfad75657212a3173970e",
+    "builder/python/wlruntime/wlruntime/release_gate.py": "fe5d0bc8133940868eb8cbaae05d2dbef808d3cb04af7dc7fc6b3ae9d35068e4",
+    "builder/python/wlruntime/wlruntime/state.py": "f494780ac70a2df693edb36e2409ed2ee2db1e3a3d661a5a616618f2a4c2ddd9",
+    "config/wonderland/runtime/engines.json": "9f1fd1adc2c23ae6b1a9fc81a1a65f38091e5bf2de775d06032b0cf16048dc80"
+  },
+  "public_cli": [
+    "wl runtime start",
+    "wl runtime stop",
+    "wl runtime status",
+    "wl runtime verify",
+    "wl runtime health",
+    "wl runtime doctor",
+    "wl runtime recover",
+    "wl runtime graph",
+    "wl runtime plan",
+    "wl runtime registry",
+    "wl runtime self-test",
+    "wl runtime certify",
+    "wl runtime certify --mode full",
+    "wl runtime release-gate"
+  ],
+  "release": {
+    "channel": "release-candidate",
+    "commit": "786ffdd186d375961a9cd8b1d848b5e4e06e4601",
+    "commit_timestamp": "2026-07-11T10:22:45-07:00",
+    "generated_at": "2026-07-11T18:10:47.742250+00:00",
+    "name": "Wonderland Runtime Engine",
+    "tag": "runtime-engine-v1.0.0-rc1",
+    "version": "1.0.0-rc1"
+  },
+  "repository": {
+    "root": "/Users/wonderland/Wonderland",
+    "tag_commit": "786ffdd186d375961a9cd8b1d848b5e4e06e4601",
+    "tag_object": "c76a87280a7d78c88d52b68c5d6c976b7aec5143",
+    "tree": "540aa33cb99ad4ffae2d5dc3f445992e9ca6029e"
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,12 @@
+== Wonderland Architecture Verify ==
+Root: /Users/wonderland/Wonderland
+PASS registry engine
+PASS capability registry
+PASS domain registry
+PASS component registry
+PASS implementation registry
+PASS artifact registry
+PASS inventory present
+PASS ownership present
+PASS architecture graph buildable
+RESULT PASS

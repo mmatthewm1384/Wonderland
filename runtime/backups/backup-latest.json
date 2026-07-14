@@ -1,0 +1,23 @@
+{
+  "archive": "/Users/wonderland/Wonderland/runtime/backups/wonderland-control-plane-20260627-045700.tar.gz",
+  "generated_at": 1782561420.733103,
+  "includes": [
+    "vault/05-Registry",
+    "vault/08-Operations/state",
+    "vault/09-Timeline",
+    "runtime/events",
+    "runtime/release",
+    "schemas",
+    "controller/wl_controller",
+    "dashboard",
+    "release",
+    "backup",
+    "docs",
+    "bin/wl-controller-v2",
+    "bin/wl-api-v2",
+    "bin/wl-dashboard",
+    "bin/wl-release",
+    "bin/wl-platform-freeze"
+  ],
+  "type": "wonderland-control-plane-backup"
+}

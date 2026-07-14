@@ -1,0 +1,13 @@
+{"level": "info", "message": "tmux session stopped", "payload": {}, "source": "operator", "timestamp": "2026-07-05T22:09:51.890403+00:00", "title": "Operator stopped"}
+{"level": "info", "message": "Workspace active: full", "payload": {"workspace": "full"}, "source": "operator", "timestamp": "2026-07-05T22:09:52.055266+00:00", "title": "Operator started"}
+{"level": "info", "message": "tmux theme and dashboard refreshed", "payload": {}, "source": "operator", "timestamp": "2026-07-05T22:09:52.167876+00:00", "title": "Operator reloaded"}
+{"level": "info", "message": "tmux session stopped", "payload": {}, "source": "operator", "timestamp": "2026-07-05T22:13:14.092669+00:00", "title": "Operator stopped"}
+{"level": "info", "message": "Workspace active: full", "payload": {"workspace": "full"}, "source": "operator", "timestamp": "2026-07-05T22:13:14.294939+00:00", "title": "Operator started"}
+{"level": "info", "message": "tmux session stopped", "payload": {}, "source": "operator", "timestamp": "2026-07-05T22:18:21.631147+00:00", "title": "Operator stopped"}
+{"level": "info", "message": "Workspace active: full", "payload": {"workspace": "full"}, "source": "operator", "timestamp": "2026-07-05T22:18:21.843033+00:00", "title": "Operator started"}
+{"level": "info", "message": "tmux session stopped", "payload": {}, "source": "operator", "timestamp": "2026-07-05T22:22:31.580206+00:00", "title": "Operator stopped"}
+{"level": "info", "message": "Workspace active: full", "payload": {"workspace": "full"}, "source": "operator", "timestamp": "2026-07-05T22:22:31.778682+00:00", "title": "Operator started"}
+{"level": "info", "message": "tmux session stopped", "payload": {}, "source": "operator", "timestamp": "2026-07-05T23:17:41.228580+00:00", "title": "Operator stopped"}
+{"level": "info", "message": "Workspace active: full", "payload": {"workspace": "full"}, "source": "operator", "timestamp": "2026-07-05T23:17:41.395492+00:00", "title": "Operator started"}
+{"level": "info", "message": "tmux session stopped", "payload": {}, "source": "operator", "timestamp": "2026-07-05T23:17:54.488815+00:00", "title": "Operator stopped"}
+{"level": "info", "message": "Workspace active: full", "payload": {"workspace": "full"}, "source": "operator", "timestamp": "2026-07-05T23:18:24.248996+00:00", "title": "Operator started"}

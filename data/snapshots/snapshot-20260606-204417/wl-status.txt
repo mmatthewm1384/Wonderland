@@ -1,0 +1,41 @@
+=== Wonderland Status ===
+
+Root
+  /Users/wonderland/Wonderland
+
+Authority
+  ✓ Governance hub present
+  ✓ Generated registry present
+
+Health
+  ✓ Governance healthy
+  ✓ Registry healthy
+
+Registry
+  Generated At: 2026-06-07T03:44:17+00:00
+  Inventory At: 2026-06-07T03:44:18+00:00
+  Runtime:      nerdctl
+  Operator:     Matthew Mahaney
+
+Inventory
+  Commands:     29
+  Core Scripts: 4
+  Repositories: 1
+  Services:     0
+  Zones:        0
+  Logs:         5
+  Data Paths:   7
+  Tools:        1
+  Secrets Refs: 8
+
+Security Boundary
+  Secrets:      references_only
+  Plaintext:    forbidden
+  Encryption:   True
+  Raw Thought:  never_store_raw
+  Anonymity:    True
+
+Recommended Refresh
+  wl-governance sync
+  wl-registry inventory
+  wl-status

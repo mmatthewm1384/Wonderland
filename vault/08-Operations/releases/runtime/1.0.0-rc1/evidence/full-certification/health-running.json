@@ -1,0 +1,60 @@
+{
+  "engines": {
+    "core-services": {
+      "action": "verify",
+      "argv": [
+        "bin/wl-runtime-adapter",
+        "core-services",
+        "verify"
+      ],
+      "duration_seconds": 0.261697,
+      "error": null,
+      "finished_at": "2026-07-11T17:49:26.557187+00:00",
+      "required": true,
+      "returncode": 0,
+      "started_at": "2026-07-11T17:49:26.295631+00:00",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "\n== Wonderland Services ==\nPASS wl-loki                  required up\nWARN wl-vaultwarden           optional not up\nWARN wl-vaultwarden-db        optional not up\n\nRESULT PASS\nPASS core-services status\n"
+    },
+    "rootless-runtime": {
+      "action": "verify",
+      "argv": [
+        "bin/wl-runtime-adapter",
+        "rootless-runtime",
+        "verify"
+      ],
+      "duration_seconds": 0.072276,
+      "error": null,
+      "finished_at": "2026-07-11T17:49:26.295593+00:00",
+      "required": true,
+      "returncode": 0,
+      "started_at": "2026-07-11T17:49:26.223372+00:00",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "wonderland-rootless      Running    127.0.0.1:50213    vz        aarch64    4       4GiB      100GiB    ~/.lima/wonderland-rootless\nPASS wonderland-rootless running\nPASS rootless-runtime health\n"
+    },
+    "runtime-verification": {
+      "action": "verify",
+      "argv": [
+        "bin/wl-runtime-adapter",
+        "runtime-verification",
+        "verify"
+      ],
+      "duration_seconds": 0.20913,
+      "error": null,
+      "finished_at": "2026-07-11T17:49:26.766232+00:00",
+      "required": true,
+      "returncode": 0,
+      "started_at": "2026-07-11T17:49:26.557223+00:00",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "== Wonderland Architecture Verify ==\nPASS layer boundaries\n\nImport graph edges:\n  wlcli.core.architecture -> wlcli.output\n  wlcli.core.commands.base -> wlcli.core.runtime.context\n  wlcli.core.commands.base -> wlcli.output\n  wlcli.core.commands.events -> wlcli.core.commands.base\n  wlcli.core.commands.events -> wlcli.core.events\n  wlcli.core.commands.events -> wlcli.core.events.schema\n  wlcli.core.commands.events -> wlcli.core.runtime.context\n  wlcli.core.commands.events -> wlcli.output\n  wlcli.core.commands.graph -> wlcli.core.commands.base\n  wlcli.core.commands.graph -> wlcli.core.graph\n  wlcli.core.commands.graph -> wlcli.core.report\n  wlcli.core.commands.graph -> wlcli.core.runtime.context\n  wlcli.core.commands.graph -> wlcli.output\n  wlcli.core.commands.history -> wlcli.core.commands.base\n  wlcli.core.commands.history -> wlcli.core.runtime.context\n  wlcli.core.commands.history -> wlcli.core.state.history\n  wlcli.core.commands.history -> wlcli.output\n  wlcli.core.commands.lifecycle -> wlcli.core.commands.base\n  wlcli.core.commands.lifecycle -> wlcli.core.lifecycle\n  wlcli.core.commands.lifecycle -> wlcli.core.runtime.context\n  wlcli.core.commands.lifecycle -> wlcli.output\n  wlcli.core.commands.metrics -> wlcli.core.commands.base\n  wlcli.core.commands.metrics -> wlcli.core.runtime.context\n  wlcli.core.commands.metrics -> wlcli.core.state.metrics\n  wlcli.core.commands.metrics -> wlcli.output\n  wlcli.core.commands.registry -> wlcli.core.commands.events\n  wlcli.core.commands.registry -> wlcli.core.commands.graph\n  wlcli.core.commands.registry -> wlcli.core.commands.history\n  wlcli.core.commands.registry -> wlcli.core.commands.lifecycle\n  wlcli.core.commands.registry -> wlcli.core.commands.metrics\n  wlcli.core.commands.registry -> wlcli.core.commands.runtime\n  wlcli.core.commands.runtime -> wlcli.core.architecture\n  wlcli.core.commands.runtime -> wlcli.core.commands.base\n  wlcli.core.commands.runtime -> wlcli.core.runtime.context\n  wlcli.core.commands.runtime -> wlcli.core.runtime.interface\n  wlcli.core.commands.runtime -> wlcli.output\n  wlcli.core.events -> wlcli.core.events.bus\n  wlcli.core.events -> wlcli.core.events.publisher\n  wlcli.core.events -> wlcli.core.events.store\n  wlcli.core.events -> wlcli.core.events.subscribers\n  wlcli.core.events -> wlcli.core.events.types\n  wlcli.core.events.bus -> wlcli.core.runtime.context\n  wlcli.core.events.publisher -> wlcli.core.events.bus\n  wlcli.core.events.publisher -> wlcli.core.events.payloads\n  wlcli.core.events.publisher -> wlcli.core.events.types\n  wlcli.core.events.schema -> wlcli.core.events.types\n  wlcli.core.events.store -> wlcli.core.runtime.context\n  wlcli.core.events.subscriber -> wlcli.core.events.bus\n  wlcli.core.events.subscriber -> wlcli.core.runtime.context\n  wlcli.core.events.subscribers -> wlcli.core.events.subscribers.history\n  wlcli.core.events.subscribers -> wlcli.core.events.subscribers.metrics\n  wlcli.core.events.subscribers.history -> wlcli.core.events.bus\n  wlcli.core.events.subscribers.history -> wlcli.core.runtime.context\n  wlcli.core.events.subscribers.metrics -> wlcli.core.events.bus\n  wlcli.core.events.subscribers.metrics -> wlcli.core.runtime.context\n  wlcli.core.graph -> wlcli.core.graph.engine\n  wlcli.core.graph.engine -> wlcli.core.events\n  wlcli.core.graph.engine -> wlcli.core.runtime.context\n  wlcli.core.graph.engine -> wlcli.core.state.history\n  wlcli.core.graph.engine -> wlcli.core.ui\n  wlcli.core.lifecycle -> wlcli.core.lifecycle.executor\n  wlcli.core.lifecycle -> wlcli.core.lifecycle.graphs\n  wlcli.core.lifecycle -> wlcli.core.lifecycle.registry\n  wlcli.core.lifecycle.executor -> wlcli.core.events\n  wlcli.core.lifecycle.executor -> wlcli.core.lifecycle.graphs\n  wlcli.core.lifecycle.executor -> wlcli.core.runtime.context\n  wlcli.core.lifecycle.executor -> wlcli.output\n  wlcli.core.report -> wlcli.core.report.builders\n  wlcli.core.report.builders -> wlcli.core.ui\n  wlcli.core.report.builders -> wlcli.output\n  wlcli.core.runtime -> wlcli.core.runtime.context\n  wlcli.core.runtime -> wlcli.core.runtime.interface\n  wlcli.core.runtime -> wlcli.core.runtime.operation\n  wlcli.core.runtime.interface -> wlcli.core.runtime.context\n  wlcli.core.runtime.interface -> wlcli.core.runtime.operation\n  wlcli.core.runtime.interface -> wlcli.output\n  wlcli.core.runtime.operation -> wlcli.core.runtime.context\n  wlcli.core.state -> wlcli.core.state.history\n  wlcli.core.state -> wlcli.core.state.metrics\n  wlcli.core.state.metrics -> wlcli.core.state.history\n  wlcli.core.ui -> wlcli.core.ui.legacy\n  wlcli.core.ui.terminal -> wlcli.output\n  wlcli.doctor -> wlcli.graph\n  wlcli.doctor -> wlcli.report\n  wlcli.doctor -> wlcli.ui\n  wlcli.graph -> wlcli.core.graph\n  wlcli.graph.engine -> wlcli.core.graph.engine\n  wlcli.history_cmd -> wlcli.state.history\n  wlcli.history_cmd -> wlcli.ui\n  wlcli.main -> wlcli.core.architecture\n  wlcli.main -> wlcli.core.commands.registry\n  wlcli.main -> wlcli.doctor\n  wlcli.main -> wlcli.graph\n  wlcli.main -> wlcli.history_cmd\n  wlcli.main -> wlcli.metrics_cmd\n  wlcli.main -> wlcli.namespaces\n  wlcli.main -> wlcli.registry\n  wlcli.main -> wlcli.renderer\n  wlcli.main -> wlcli.report\n  wlcli.main -> wlcli.runtime.context\n  wlcli.main -> wlcli.ui\n  wlcli.main -> wlcli.ui.json_renderer\n  wlcli.metrics_cmd -> wlcli.state.metrics\n  wlcli.metrics_cmd -> wlcli.ui\n  wlcli.renderer -> wlcli.models\n  wlcli.renderer -> wlcli.ui\n  wlcli.report -> wlcli.core.report\n  wlcli.report.builders -> wlcli.core.report.builders\n  wlcli.runtime.context -> wlcli.core.runtime.context\n  wlcli.runtime.interface -> wlcli.core.runtime.interface\n  wlcli.runtime.operation -> wlcli.core.runtime.operation\n  wlcli.state.history -> wlcli.core.state.history\n  wlcli.state.metrics -> wlcli.core.state.metrics\n  wlcli.ui -> wlcli.core.ui\n  wlcli.ui.json_renderer -> wlcli.core.ui.json_renderer\n  wlcli.ui.terminal -> wlcli.core.ui.terminal\n\nRESULT PASS\nPASS runtime architecture verification\nCompiled 80 module(s)\nRESULT PASS\nPASS runtime Python verification\n"
+    }
+  },
+  "failures": [],
+  "mode": "operational",
+  "registry_digest": "610e45d084731cb6fe5c0350f2de1ccdafda8242b88d8073a5f813a13a8c4461",
+  "result": "PASS",
+  "runtime_status": "running"
+}

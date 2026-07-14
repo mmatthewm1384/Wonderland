@@ -1,0 +1,12 @@
+{
+  "platform": "Wonderland",
+  "release": "Platform 0.2",
+  "layout": {
+    "00-Philosophy": "Constitutional authority",
+    "01-Platform": "Shared platform behavior",
+    "02-Infrastructure": "Implementation infrastructure",
+    "03-Applications": "End-user software",
+    "04-Documentation": "Living documentation",
+    "05-Vault": "Operational state"
+  }
+}

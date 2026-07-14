@@ -1,0 +1,68 @@
+{
+  "created_at": "2026-07-12T04:29:02.108565+00:00",
+  "release": "Wonderland 1.0.0",
+  "repository": {
+    "branch": "feature/wke-python-engine",
+    "commit": "1ba46060cea0f242872e1fd8c58fb495b7c4fb45",
+    "dirty": true,
+    "root": "/Users/wonderland/Wonderland"
+  },
+  "result": "PASS",
+  "schema_version": 1,
+  "subsystems": {
+    "academy": {
+      "command": [
+        "/Users/wonderland/Wonderland/bin/wl",
+        "academy",
+        "verify",
+        "--json"
+      ],
+      "result": "PASS"
+    },
+    "builder": {
+      "command": [
+        "/Users/wonderland/Wonderland/bin/wl",
+        "builder",
+        "verify",
+        "--json"
+      ],
+      "result": "PASS"
+    },
+    "governance": {
+      "command": [
+        "/Users/wonderland/Wonderland/bin/wl",
+        "governance",
+        "verify",
+        "--json"
+      ],
+      "result": "PASS"
+    },
+    "mirror": {
+      "command": [
+        "/Users/wonderland/Wonderland/bin/wl",
+        "mirror",
+        "verify",
+        "--json"
+      ],
+      "result": "WARN"
+    },
+    "platform": {
+      "command": [
+        "/Users/wonderland/Wonderland/bin/wl",
+        "platform",
+        "verify",
+        "--json"
+      ],
+      "result": "PASS"
+    },
+    "runtime": {
+      "command": [
+        "/Users/wonderland/Wonderland/bin/wl",
+        "runtime",
+        "verify",
+        "--json"
+      ],
+      "result": "PASS"
+    }
+  }
+}

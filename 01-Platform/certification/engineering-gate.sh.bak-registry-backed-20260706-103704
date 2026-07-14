@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-/Users/wonderland/Wonderland}"
+cd "$WL_ROOT"
+
+failures=0
+
+echo "Wonderland Engineering Gate"
+echo
+
+echo "== Architecture Gate =="
+if python3 01-Platform/architecture/engine.py gate --root "$WL_ROOT"; then
+  echo "PASS architecture gate"
+else
+  echo "FAIL architecture gate"
+  failures=$((failures + 1))
+fi
+
+echo
+echo "== Builder Ownership =="
+if [ -x bin/wl-builder-ownership ]; then
+  if bin/wl-builder-ownership; then
+    echo "PASS builder ownership"
+  else
+    echo "FAIL builder ownership"
+    failures=$((failures + 1))
+  fi
+else
+  echo "FAIL missing bin/wl-builder-ownership"
+  failures=$((failures + 1))
+fi
+
+echo
+if [ "$failures" -eq 0 ]; then
+  echo "PASS engineering gate"
+  echo "RESULT PASS"
+  exit 0
+fi
+
+echo "FAIL engineering gate: $failures failure(s)"
+echo "RESULT FAIL"
+exit 1

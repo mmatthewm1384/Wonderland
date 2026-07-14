@@ -1,0 +1,32 @@
+cLc.t...... .venv/bin/python3 -> /usr/bin/python3
+.f..t...... runtime/capabilities.json
+.f..t...... runtime/context.json
+.f..t...... runtime/state.json
+>fcst...... runtime/chaos/scheduler-audit.jsonl
+>fcst...... runtime/controller/api-v2.err.log
+>fcst...... runtime/controller/api.launchd.out.log
+>fcst...... runtime/controller/latest.json
+>fcst...... runtime/events/events.jsonl
+>fcst...... runtime/events/plugin-example-audit.jsonl
+cLc.t...... vault/08-Operations/certifications/latest.json -> /Users/wonderland/Wonderland/vault/08-Operations/certifications/certification-20260702T201340Z.json
+cLc.t...... vault/08-Operations/releases/latest.json -> /Users/wonderland/Wonderland/vault/08-Operations/releases/release-20260629T215129Z.json
+.d..t...... vault/08-Operations/replication/history/
+.d..t...... vault/08-Operations/replication/logs/
+.d..t...... vault/08-Operations/replication/state/
+.f..t...... vault/08-Operations/replication/state/excludes.txt
+>fc.t...... vault/08-Operations/replication/state/manifest.json
+>fcst...... vault/08-Operations/replication/state/verify-current.txt
+.d..t...... vault/09-Timeline/
+>f+++++++++ vault/09-Timeline/1783350176554-controller-v3-cycle-started.json
+>f+++++++++ vault/09-Timeline/1783350176859-controller-v3-cycle-finished.json
+>f+++++++++ vault/09-Timeline/1783350207100-controller-v3-cycle-started.json
+>f+++++++++ vault/09-Timeline/1783350207391-controller-v3-cycle-finished.json
+>f+++++++++ vault/09-Timeline/1783350302731-controller-v3-cycle-started.json
+>f+++++++++ vault/09-Timeline/1783350303178-controller-v3-cycle-finished.json
+>f+++++++++ vault/09-Timeline/1783350635945-controller-v3-cycle-started.json
+>f+++++++++ vault/09-Timeline/1783350636887-controller-v3-cycle-finished.json
+>f+++++++++ vault/09-Timeline/1783350666882-controller-v3-cycle-started.json
+>f+++++++++ vault/09-Timeline/1783350667224-controller-v3-cycle-finished.json
+>f+++++++++ vault/09-Timeline/1783350697451-controller-v3-cycle-started.json
+>f+++++++++ vault/09-Timeline/1783350697922-controller-v3-cycle-finished.json
+>fcst...... vault/chaos/scheduler.launchd.out.log

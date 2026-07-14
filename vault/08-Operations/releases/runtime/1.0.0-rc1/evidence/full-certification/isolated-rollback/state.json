@@ -1,0 +1,73 @@
+{
+  "engine_results": {
+    "injected-required-failure": {
+      "action": "start",
+      "argv": [
+        "/usr/bin/false"
+      ],
+      "duration_seconds": 0.002893,
+      "error": "exit status 1",
+      "finished_at": "2026-07-11T17:49:48.990635+00:00",
+      "required": true,
+      "returncode": 1,
+      "started_at": "2026-07-11T17:49:48.987758+00:00",
+      "status": "FAIL",
+      "stderr": "",
+      "stdout": ""
+    },
+    "rootless-runtime": {
+      "action": "start",
+      "argv": [
+        "bin/wl-runtime-adapter",
+        "rootless-runtime",
+        "start"
+      ],
+      "duration_seconds": 9.528597,
+      "error": null,
+      "finished_at": "2026-07-11T17:49:48.987112+00:00",
+      "required": true,
+      "returncode": 0,
+      "started_at": "2026-07-11T17:49:39.459961+00:00",
+      "status": "PASS",
+      "stderr": "time=\"2026-07-11T10:49:39-07:00\" level=info msg=\"Using the existing instance `wonderland-rootless`\"\ntime=\"2026-07-11T10:49:39-07:00\" level=info msg=\"Starting the instance \\\"wonderland-rootless\\\" with internal VM driver \\\"vz\\\"\"\ntime=\"2026-07-11T10:49:40-07:00\" level=info msg=\"[hostagent] hostagent socket created at /Users/wonderland/.lima/wonderland-rootless/ha.sock\"\ntime=\"2026-07-11T10:49:40-07:00\" level=info msg=\"[hostagent] Starting VZ (hint: to watch the boot progress, see `/Users/wonderland/.lima/wonderland-rootless/serial*.log`)\"\ntime=\"2026-07-11T10:49:40-07:00\" level=info msg=\"[hostagent] [VZ] - vm state change: running\"\ntime=\"2026-07-11T10:49:44-07:00\" level=info msg=\"[hostagent] Started vsock forwarder: 127.0.0.1:50227 -> vsock:22 on VM\"\ntime=\"2026-07-11T10:49:44-07:00\" level=info msg=\"[hostagent] Detected SSH server is listening on the vsock port; changed 127.0.0.1:50227 to proxy for the vsock port\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"SSH Local Port: 50227\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Waiting for the essential requirement 1 of 3: \\\"ssh\\\"\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] The essential requirement 1 of 3 is satisfied\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Waiting for the essential requirement 2 of 3: \\\"user session is ready for ssh\\\"\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] The essential requirement 2 of 3 is satisfied\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Waiting for the essential requirement 3 of 3: \\\"Explicitly start ssh ControlMaster\\\"\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] The essential requirement 3 of 3 is satisfied\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Waiting for the optional requirement 1 of 2: \\\"systemd must be available\\\"\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Guest agent is running\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Time sync: guest agent is alive, starting time synchronization\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] The optional requirement 1 of 2 is satisfied\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Forwarding TCP from 127.0.0.1:41559 to 127.0.0.1:41559\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Waiting for the optional requirement 2 of 2: \\\"containerd binaries to be installed\\\"\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Not forwarding TCP 0.0.0.0:22\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Not forwarding TCP 127.0.0.54:53\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Not forwarding TCP 127.0.0.53:53\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Not forwarding TCP [::]:22\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] The optional requirement 2 of 2 is satisfied\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Forwarding UDP from 127.0.0.1:323 to 127.0.0.1:323\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Waiting for the guest agent to be running\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Waiting for the final requirement 1 of 1: \\\"boot scripts must have finished\\\"\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Forwarding UDP from 0.0.0.0:5353 to 127.0.0.1:5353\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Not forwarding UDP 127.0.0.54:53\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Not forwarding UDP 127.0.0.53:53\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Not forwarding UDP 192.168.5.15:68\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Forwarding UDP from [::1]:323 to 127.0.0.1:323\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Forwarding UDP from [::]:5353 to 127.0.0.1:5353\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Not forwarding UDP 0.0.0.0:323\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Not forwarding UDP 127.0.0.1:323\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Not forwarding UDP 127.0.0.1:5353\"\ntime=\"2026-07-11T10:49:45-07:00\" level=info msg=\"[hostagent] Not forwarding UDP 127.0.0.1:5353\"\ntime=\"2026-07-11T10:49:48-07:00\" level=info msg=\"[hostagent] The final requirement 1 of 1 is satisfied\"\ntime=\"2026-07-11T10:49:48-07:00\" level=info msg=\"READY. Run `limactl shell wonderland-rootless` to open the shell.\"\n",
+      "stdout": "PASS rootless-runtime start\n"
+    }
+  },
+  "last_error": {
+    "action": "start",
+    "engine_id": "injected-required-failure",
+    "message": "exit status 1",
+    "occurred_at": "2026-07-11T17:49:48.990662+00:00"
+  },
+  "operation": null,
+  "operation_id": null,
+  "registry_digest": "247766ef5244bc02e95672f7920444e62a6e6b1cc0c0d188f65a9ae6f30bb034",
+  "rollback": {
+    "attempted": true,
+    "completed": true,
+    "results": [
+      {
+        "action": "stop",
+        "argv": [
+          "bin/wl-runtime-adapter",
+          "rootless-runtime",
+          "stop"
+        ],
+        "duration_seconds": 4.146188,
+        "engine_id": "rootless-runtime",
+        "error": null,
+        "finished_at": "2026-07-11T17:49:53.136859+00:00",
+        "required": true,
+        "returncode": 0,
+        "started_at": "2026-07-11T17:49:48.991110+00:00",
+        "status": "PASS",
+        "stderr": "time=\"2026-07-11T10:49:49-07:00\" level=info msg=\"Sending SIGINT to hostagent process 28435\"\ntime=\"2026-07-11T10:49:49-07:00\" level=info msg=\"Waiting for the host agent and the driver processes to shut down\"\ntime=\"2026-07-11T10:49:49-07:00\" level=info msg=\"[hostagent] Received SIGINT, shutting down the host agent\"\ntime=\"2026-07-11T10:49:49-07:00\" level=info msg=\"[hostagent] Shutting down the host agent\"\ntime=\"2026-07-11T10:49:49-07:00\" level=info msg=\"[hostagent] Shutting down VZ\"\ntime=\"2026-07-11T10:49:52-07:00\" level=info msg=\"[hostagent] [VZ] - vm state change: stopped\"\ntime=\"2026-07-11T10:49:52-07:00\" level=info msg=\"Waiting for the instance to shut down\"\ntime=\"2026-07-11T10:49:53-07:00\" level=info msg=\"The instance wonderland-rootless has shut down\"\n",
+        "stdout": "PASS rootless-runtime stop\n"
+      }
+    ]
+  },
+  "schema_version": 1,
+  "started_engines": [],
+  "status": "stopped",
+  "updated_at": "2026-07-11T17:49:53.136943+00:00"
+}

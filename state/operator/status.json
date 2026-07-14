@@ -1,0 +1,91 @@
+{
+  "backend": "tmux",
+  "capabilities": [
+    {
+      "command": "wl builder status || wl builder doctor",
+      "health": {
+        "message": "builder available",
+        "name": "builder",
+        "state": "healthy"
+      },
+      "name": "builder",
+      "shortcut": "b",
+      "title": "Builder",
+      "window": "builder"
+    },
+    {
+      "command": "wl chaos status || wl-chaos-session status",
+      "health": {
+        "message": "chaos state detected",
+        "name": "chaos",
+        "state": "healthy"
+      },
+      "name": "chaos",
+      "shortcut": "c",
+      "title": "Chaos",
+      "window": "chaos"
+    },
+    {
+      "command": "git status --short",
+      "health": {
+        "message": "repository available",
+        "name": "git",
+        "state": "healthy"
+      },
+      "name": "git",
+      "shortcut": "g",
+      "title": "Git",
+      "window": "git"
+    },
+    {
+      "command": "find state logs vault/chaos -maxdepth 3 -type f 2>/dev/null | sort | tail -80",
+      "health": {
+        "message": "local logs",
+        "name": "logs",
+        "state": "unknown"
+      },
+      "name": "logs",
+      "shortcut": "L",
+      "title": "Logs",
+      "window": "logs"
+    },
+    {
+      "command": "wl runtime status",
+      "health": {
+        "message": "runtime state detected",
+        "name": "runtime",
+        "state": "healthy"
+      },
+      "name": "runtime",
+      "shortcut": "r",
+      "title": "Runtime",
+      "window": "runtime"
+    },
+    {
+      "command": "echo 'Future: wl security dashboard'",
+      "health": {
+        "message": "planned",
+        "name": "security",
+        "state": "unknown"
+      },
+      "name": "security",
+      "shortcut": "s",
+      "title": "Security",
+      "window": "security"
+    }
+  ],
+  "git": {
+    "branch": "feature/wke-python-engine",
+    "changed_files": 41
+  },
+  "name": "operator",
+  "root": "/Users/wonderland/Wonderland",
+  "session": "wonderland",
+  "version": "1.0",
+  "workspaces": [
+    "builder",
+    "development",
+    "full",
+    "incident"
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "checks": [
+    {
+      "details": {
+        "path": "bin/wl-governance"
+      },
+      "duration_ms": 0,
+      "name": "authority_launcher",
+      "status": "PASS",
+      "summary": "Governance authority launcher is complete"
+    },
+    {
+      "details": {
+        "commands": [
+          "doctor",
+          "verify",
+          "certify"
+        ]
+      },
+      "duration_ms": 16,
+      "name": "public_route",
+      "status": "PASS",
+      "summary": "wl governance route is available"
+    },
+    {
+      "details": {
+        "file_count": 10,
+        "roots": [
+          "vault/Governance",
+          "governance",
+          "docs/governance"
+        ]
+      },
+      "duration_ms": 1,
+      "name": "governance_roots",
+      "status": "PASS",
+      "summary": "3 Governance roots contain 10 files"
+    },
+    {
+      "details": {
+        "json_count": 3
+      },
+      "duration_ms": 0,
+      "name": "json_integrity",
+      "status": "PASS",
+      "summary": "3 authoritative Governance JSON files parse"
+    },
+    {
+      "details": {
+        "module_count": 8,
+        "roots": [
+          "governance",
+          "builder/python/wlgovernance"
+        ]
+      },
+      "duration_ms": 3,
+      "name": "python_integrity",
+      "status": "PASS",
+      "summary": "8 Governance-owned Python modules parse"
+    },
+    {
+      "details": {
+        "document_count": 6
+      },
+      "duration_ms": 1,
+      "name": "policy_documents",
+      "status": "PASS",
+      "summary": "6 Governance policy documents are non-empty"
+    },
+    {
+      "details": {
+        "schemas": [
+          "governance/schemas/governance-artifact.schema.json"
+        ]
+      },
+      "duration_ms": 4,
+      "name": "schema_documents",
+      "status": "PASS",
+      "summary": "1 Governance schema documents discovered"
+    },
+    {
+      "details": null,
+      "duration_ms": 1,
+      "name": "prohibited_controls",
+      "status": "PASS",
+      "summary": "no prohibited coercive Governance controls detected"
+    },
+    {
+      "details": null,
+      "duration_ms": 0,
+      "name": "repository_hygiene",
+      "status": "PASS",
+      "summary": "Governance roots contain no obvious generated-state debris"
+    }
+  ],
+  "duration_ms": 26,
+  "result": "PASS",
+  "root": "/Users/wonderland/Wonderland",
+  "schema_version": 1,
+  "summary": {
+    "fail": 0,
+    "pass": 9,
+    "skip": 0,
+    "warn": 0
+  }
+}

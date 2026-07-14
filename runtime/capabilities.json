@@ -1,0 +1,8 @@
+{
+  "schema": "wonderland.runtime.capabilities.v1",
+  "internal_storage": true,
+  "external_storage": false,
+  "media": false,
+  "torrent": false,
+  "runtime": false
+}

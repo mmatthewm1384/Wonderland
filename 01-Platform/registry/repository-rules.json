@@ -1,0 +1,42 @@
+{
+  "rules": [
+    {
+      "id": "WL-REPO-001",
+      "name": "constitutional-directories-required",
+      "severity": "error",
+      "description": "All constitutional top-level directories must exist."
+    },
+    {
+      "id": "WL-REPO-002",
+      "name": "ownership-required",
+      "severity": "error",
+      "description": "Every constitutional directory must have an owner and purpose."
+    },
+    {
+      "id": "WL-REPO-003",
+      "name": "compatibility-before-migration",
+      "severity": "error",
+      "description": "Legacy paths must remain supported until compatibility is verified."
+    },
+    {
+      "id": "WL-REPO-004",
+      "name": "source-before-state",
+      "severity": "warning",
+      "description": "Source code should not be placed under operational state directories."
+    },
+    {
+      "id": "WL-REPO-005",
+      "name": "documentation-is-engineering",
+      "severity": "warning",
+      "description": "Architectural changes should include documentation updates."
+    }
+  ],
+  "reserved_top_level": [
+    "00-Philosophy",
+    "01-Platform",
+    "02-Infrastructure",
+    "03-Applications",
+    "04-Documentation",
+    "05-Vault"
+  ]
+}

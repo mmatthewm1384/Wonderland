@@ -1,0 +1,2383 @@
+{
+  "architecture": "wonderland",
+  "status": "PASS",
+  "timestamp": "2026-07-06T23:04:33.001303+00:00",
+  "nodes": [
+    {
+      "id": "platform.direction",
+      "type": "capability",
+      "name": "Platform Direction",
+      "owner": "Wonderland Doctrine",
+      "status": "active"
+    },
+    {
+      "id": "academy.understanding",
+      "type": "capability",
+      "name": "Platform Understanding",
+      "owner": "Wonderland Academy",
+      "status": "planned"
+    },
+    {
+      "id": "security.defensive-lab",
+      "type": "capability",
+      "name": "Defensive Security Lab",
+      "owner": "Wonderland Academy",
+      "status": "planned"
+    },
+    {
+      "id": "os.reference.bookworm",
+      "type": "capability",
+      "name": "Bookworm Reference Runtime",
+      "owner": "Wonderland OS",
+      "status": "planned"
+    },
+    {
+      "id": "platform.convergence",
+      "type": "capability",
+      "name": "Platform Convergence",
+      "owner": "Architecture Engine",
+      "status": "planned"
+    },
+    {
+      "id": "owner:Architecture Engine",
+      "type": "owner",
+      "name": "Architecture Engine",
+      "capabilities": [
+        "platform.capability-registry"
+      ]
+    },
+    {
+      "id": "owner:Configuration Engine",
+      "type": "owner",
+      "name": "Configuration Engine",
+      "capabilities": [
+        "configuration.policy"
+      ]
+    },
+    {
+      "id": "owner:Design System",
+      "type": "owner",
+      "name": "Design System",
+      "capabilities": [
+        "design.assets"
+      ]
+    },
+    {
+      "id": "owner:Implementation Workspace",
+      "type": "owner",
+      "name": "Implementation Workspace",
+      "capabilities": [
+        "implementation.workspace"
+      ]
+    },
+    {
+      "id": "owner:Knowledge Engine",
+      "type": "owner",
+      "name": "Knowledge Engine",
+      "capabilities": [
+        "knowledge.documentation"
+      ]
+    },
+    {
+      "id": "owner:Platform Engine",
+      "type": "owner",
+      "name": "Platform Engine",
+      "capabilities": [
+        "platform.core"
+      ]
+    },
+    {
+      "id": "owner:UNASSIGNED",
+      "type": "owner",
+      "name": "UNASSIGNED",
+      "capabilities": [
+        "review.required"
+      ]
+    },
+    {
+      "id": "owner:Verification Engine",
+      "type": "owner",
+      "name": "Verification Engine",
+      "capabilities": [
+        "verification.tests"
+      ]
+    },
+    {
+      "id": "owner:Wonderland Academy",
+      "type": "owner",
+      "name": "Wonderland Academy",
+      "capabilities": [
+        "academy.understanding"
+      ]
+    },
+    {
+      "id": "owner:Wonderland Doctrine",
+      "type": "owner",
+      "name": "Wonderland Doctrine",
+      "capabilities": [
+        "platform.direction"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "owner:Wonderland Doctrine",
+      "to": "platform.direction",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Wonderland Academy",
+      "to": "academy.understanding",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Wonderland Academy",
+      "to": "security.defensive-lab",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Wonderland OS",
+      "to": "os.reference.bookworm",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Architecture Engine",
+      "to": "platform.convergence",
+      "relationship": "owns"
+    },
+    {
+      "from": ".backup",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".backup-spin-the-city-intent-20260623-155249",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".backup-theomatrix-install-20260622-074829",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".backup-theomatrix-v31-20260622-093532",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".backup-wl-consolidation-20260621-171517",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".backup-wl-consolidation-20260621-171654",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".build",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".github",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".gitignore",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".quarantine",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".wl",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".wl-registry",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".wlmeta.json",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "00-Philosophy",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "01-Platform",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "02-Infrastructure",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "03-Applications",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "04-Documentation",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "05-Vault",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "CONSTITUTION.md",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "ChaosControllerStatus",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "DESIGN_SYSTEM.md",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "HANDOFF-PLATFORM-0-PHILOSOPHY.md",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "MANIFESTO.md",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "Makefile",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "NORTH_STAR.md",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "PLATFORM-0.0-PHILOSOPHY-RELEASE.md",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "PROJECT-INSTRUCTIONS.md",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "README.md",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "WONDERLAND.md",
+      "to": "platform.direction",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "Wonderland-v4",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "WonderlandApp",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "academy",
+      "to": "academy.understanding",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "apps",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "archive",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "assets",
+      "to": "design.assets",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "authorities",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "backup",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "bin",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "build",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "builder",
+      "to": "implementation.workspace",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "capabilities",
+      "to": "platform.capability-registry",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "concepts",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "config",
+      "to": "configuration.policy",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "controller",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "core",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "dashboard",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "data",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "design",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "docker",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "docs",
+      "to": "knowledge.documentation",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "e",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "ephemeral",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "governance",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "handoff-platform-0-reset.sh",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "images",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "implement-p0-1-philosophy-engine.sh",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "implement-platform-0-cli.sh",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "implement-platform-0-doctor.sh",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "implement-platform-0-governance.sh",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "infra",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "infrastructure",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "install-platform-0-philosophy-release.sh",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "install-platform-0.sh",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "install-theomatrix-v3.sh",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "install.sh",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "intelligence",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "intents",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "kernel",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "knowledge",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "legacy",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "lib",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "lima.REJECTED.yaml",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "logs",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "manuscript",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "olution",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "os",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "platform",
+      "to": "platform.core",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "plugins",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "policies",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "profiles",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "raycast",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "recovery",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "registries",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "registry",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "release",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "releases",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "reports",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "retire-old-models-platform-0-handoff.sh",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "runtime",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "s(slots=True)",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "scheduler",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "schemas",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "scripts",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "sdk",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "secrets",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "security",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "services",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "shared",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "source",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "state",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "tests",
+      "to": "verification.tests",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "tmp",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "tools",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "vault",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.1",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.10",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.11",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.12",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.13",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.14",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.15",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.16",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.17",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.18",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.19",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.2",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.20",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.21",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.22",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.23",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.24",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.25",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.26",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.27",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.28",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.29",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.3",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.30",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.31",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.32",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.33",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.34",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.35",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.36",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.37",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.38",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.39",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.4",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.40",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.41",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.42",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.43",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.44",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.45",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.46",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.47",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.48",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.49",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.5",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.50",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.51",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.52",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.53",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.54",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.55",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.56",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.57",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.58",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.59",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.6",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.60",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.61",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.62",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.63",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.64",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.65",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.66",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.67",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.68",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.69",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.7",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.70",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.71",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.72",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.73",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.74",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.75",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.76",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.77",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.8",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.9",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wl",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wlbuilder",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "zones",
+      "to": "review.required",
+      "relationship": "implements-or-supports"
+    }
+  ],
+  "components": [
+    {
+      "path": ".backup",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": ".backup-spin-the-city-intent-20260623-155249",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": ".backup-theomatrix-install-20260622-074829",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": ".backup-theomatrix-v31-20260622-093532",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": ".backup-wl-consolidation-20260621-171517",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": ".backup-wl-consolidation-20260621-171654",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": ".build",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": ".github",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": ".gitignore",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": ".quarantine",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": ".wl",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": ".wl-registry",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": ".wlmeta.json",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "00-Philosophy",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "01-Platform",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "02-Infrastructure",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "03-Applications",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "04-Documentation",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "05-Vault",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "CONSTITUTION.md",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "ChaosControllerStatus",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "DESIGN_SYSTEM.md",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "HANDOFF-PLATFORM-0-PHILOSOPHY.md",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "MANIFESTO.md",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "Makefile",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "NORTH_STAR.md",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "PLATFORM-0.0-PHILOSOPHY-RELEASE.md",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "PROJECT-INSTRUCTIONS.md",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "README.md",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "WONDERLAND.md",
+      "owner": "Wonderland Doctrine",
+      "capability": "platform.direction",
+      "classification": "unclassified",
+      "status": "assigned"
+    },
+    {
+      "path": "Wonderland-v4",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "WonderlandApp",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "academy",
+      "owner": "Wonderland Academy",
+      "capability": "academy.understanding",
+      "classification": "academy",
+      "status": "assigned"
+    },
+    {
+      "path": "apps",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "archive",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "assets",
+      "owner": "Design System",
+      "capability": "design.assets",
+      "classification": "asset",
+      "status": "assigned"
+    },
+    {
+      "path": "authorities",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "backup",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "bin",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "cli-command",
+      "status": "needs-review"
+    },
+    {
+      "path": "build",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "builder",
+      "owner": "Implementation Workspace",
+      "capability": "implementation.workspace",
+      "classification": "implementation",
+      "status": "assigned"
+    },
+    {
+      "path": "capabilities",
+      "owner": "Architecture Engine",
+      "capability": "platform.capability-registry",
+      "classification": "capability-registry",
+      "status": "assigned"
+    },
+    {
+      "path": "concepts",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "config",
+      "owner": "Configuration Engine",
+      "capability": "configuration.policy",
+      "classification": "configuration",
+      "status": "assigned"
+    },
+    {
+      "path": "controller",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "core",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "dashboard",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "data",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "design",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "docker",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "docs",
+      "owner": "Knowledge Engine",
+      "capability": "knowledge.documentation",
+      "classification": "documentation",
+      "status": "assigned"
+    },
+    {
+      "path": "e",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "ephemeral",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "governance",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "handoff-platform-0-reset.sh",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "images",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "implement-p0-1-philosophy-engine.sh",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "implement-platform-0-cli.sh",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "implement-platform-0-doctor.sh",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "implement-platform-0-governance.sh",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "infra",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "infrastructure",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "install-platform-0-philosophy-release.sh",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "install-platform-0.sh",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "install-theomatrix-v3.sh",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "install.sh",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "intelligence",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "intents",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "kernel",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "knowledge",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "legacy",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "lib",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "lima.REJECTED.yaml",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "logs",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "manuscript",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "olution",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "os",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "platform",
+      "owner": "Platform Engine",
+      "capability": "platform.core",
+      "classification": "platform",
+      "status": "assigned"
+    },
+    {
+      "path": "plugins",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "policies",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "profiles",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "raycast",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "recovery",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "registries",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "registry",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "release",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "releases",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "reports",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "retire-old-models-platform-0-handoff.sh",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "runtime",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "s(slots=True)",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "scheduler",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "schemas",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "scripts",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "sdk",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "secrets",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "security",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "services",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "shared",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "source",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "state",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "tests",
+      "owner": "Verification Engine",
+      "capability": "verification.tests",
+      "classification": "test",
+      "status": "assigned"
+    },
+    {
+      "path": "tmp",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "tools",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "vault",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.1",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.10",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.11",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.12",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.13",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.14",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.15",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.16",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.17",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.18",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.19",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.2",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.20",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.21",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.22",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.23",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.24",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.25",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.26",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.27",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.28",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.29",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.3",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.30",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.31",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.32",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.33",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.34",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.35",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.36",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.37",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.38",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.39",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.4",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.40",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.41",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.42",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.43",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.44",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.45",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.46",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.47",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.48",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.49",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.5",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.50",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.51",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.52",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.53",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.54",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.55",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.56",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.57",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.58",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.59",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.6",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.60",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.61",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.62",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.63",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.64",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.65",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.66",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.67",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.68",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.69",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.7",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.70",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.71",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.72",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.73",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.74",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.75",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.76",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.77",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.8",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.9",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wl",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "wlbuilder",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    },
+    {
+      "path": "zones",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "classification": "unclassified",
+      "status": "needs-review"
+    }
+  ]
+}

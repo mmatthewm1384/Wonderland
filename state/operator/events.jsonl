@@ -1,0 +1,18 @@
+{"payload": {"workspace": "full"}, "source": "operator", "timestamp": "2026-07-05T21:47:34.337806+00:00", "type": "started"}
+{"payload": {"workspace": "full"}, "source": "operator", "timestamp": "2026-07-05T21:55:41.006594+00:00", "type": "started"}
+{"payload": {"workspace": "full"}, "source": "operator", "timestamp": "2026-07-05T21:58:31.827907+00:00", "type": "started"}
+{"payload": {}, "source": "operator", "timestamp": "2026-07-05T22:02:44.800536+00:00", "type": "stopped"}
+{"payload": {"workspace": "full"}, "source": "operator", "timestamp": "2026-07-05T22:02:44.937928+00:00", "type": "started"}
+{"payload": {}, "source": "operator", "timestamp": "2026-07-05T22:09:51.889977+00:00", "type": "stopped"}
+{"payload": {"workspace": "full"}, "source": "operator", "timestamp": "2026-07-05T22:09:52.055116+00:00", "type": "started"}
+{"payload": {}, "source": "operator", "timestamp": "2026-07-05T22:09:52.167261+00:00", "type": "reloaded"}
+{"payload": {}, "source": "operator", "timestamp": "2026-07-05T22:13:14.092392+00:00", "type": "stopped"}
+{"payload": {"workspace": "full"}, "source": "operator", "timestamp": "2026-07-05T22:13:14.294803+00:00", "type": "started"}
+{"payload": {}, "source": "operator", "timestamp": "2026-07-05T22:18:21.630823+00:00", "type": "stopped"}
+{"payload": {"workspace": "full"}, "source": "operator", "timestamp": "2026-07-05T22:18:21.842853+00:00", "type": "started"}
+{"payload": {}, "source": "operator", "timestamp": "2026-07-05T22:22:31.579891+00:00", "type": "stopped"}
+{"payload": {"workspace": "full"}, "source": "operator", "timestamp": "2026-07-05T22:22:31.778536+00:00", "type": "started"}
+{"payload": {}, "source": "operator", "timestamp": "2026-07-05T23:17:41.228311+00:00", "type": "stopped"}
+{"payload": {"workspace": "full"}, "source": "operator", "timestamp": "2026-07-05T23:17:41.395384+00:00", "type": "started"}
+{"payload": {}, "source": "operator", "timestamp": "2026-07-05T23:17:54.488617+00:00", "type": "stopped"}
+{"payload": {"workspace": "full"}, "source": "operator", "timestamp": "2026-07-05T23:18:24.248576+00:00", "type": "started"}

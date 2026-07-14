@@ -1,0 +1,5 @@
+     1	#!/usr/bin/env bash
+     2	set -euo pipefail
+     3	
+     4	WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+     5	exec "$WL_HOME/bin/wl-architecture" verify "$@"

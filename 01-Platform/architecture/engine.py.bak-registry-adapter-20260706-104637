@@ -1,0 +1,417 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from collections import Counter
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+
+REQUIRED_DIRS = [
+    "00-Philosophy",
+    "01-Platform",
+    "02-Infrastructure",
+    "03-Applications",
+    "04-Documentation",
+    "05-Vault",
+]
+
+REGISTRY_FILES = {
+    "layout": "01-Platform/registry/repository-layout.json",
+    "ownership": "01-Platform/registry/repository-ownership.json",
+    "rules": "01-Platform/registry/repository-rules.json",
+    "aliases": "01-Platform/registry/repository-aliases.json",
+    "classification": "01-Platform/registry/repository-classification.json",
+}
+
+
+@dataclass(frozen=True)
+class Finding:
+    severity: str
+    code: str
+    message: str
+
+    def line(self) -> str:
+        return f"{self.severity.upper()} {self.code} {self.message}"
+
+
+@dataclass(frozen=True)
+class Classification:
+    name: str
+    type: str
+    state: str
+    target: str
+    note: str = ""
+
+    @property
+    def severity(self) -> str:
+        if self.state == "native":
+            return "pass"
+        if self.state in {"bridge", "compatibility", "managed", "retained"}:
+            return "info"
+        if self.state == "unclassified":
+            return "warn"
+        return "warn"
+
+
+def load_json(root: Path, rel: str) -> Any:
+    path = root / rel
+    with path.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def try_load_json(root: Path, rel: str) -> Any | None:
+    try:
+        return load_json(root, rel)
+    except Exception:
+        return None
+
+
+def check_exists(root: Path) -> list[Finding]:
+    findings: list[Finding] = []
+
+    for d in REQUIRED_DIRS:
+        if not (root / d).is_dir():
+            findings.append(Finding("fail", "WL-ARCH-001", f"missing constitutional directory: {d}"))
+
+    for name, rel in REGISTRY_FILES.items():
+        path = root / rel
+        if not path.is_file():
+            findings.append(Finding("fail", "WL-ARCH-002", f"missing registry file: {rel}"))
+            continue
+
+        try:
+            load_json(root, rel)
+        except Exception as exc:
+            findings.append(Finding("fail", "WL-ARCH-003", f"invalid JSON in {rel}: {exc}"))
+
+    return findings
+
+
+def check_ownership(root: Path) -> list[Finding]:
+    findings: list[Finding] = []
+    ownership = try_load_json(root, REGISTRY_FILES["ownership"])
+    if not isinstance(ownership, dict):
+        return findings
+
+    for d in REQUIRED_DIRS:
+        item = ownership.get(d)
+        if not item:
+            findings.append(Finding("fail", "WL-ARCH-004", f"missing ownership entry: {d}"))
+            continue
+        if not item.get("owner"):
+            findings.append(Finding("fail", "WL-ARCH-005", f"missing owner: {d}"))
+        if not item.get("purpose"):
+            findings.append(Finding("fail", "WL-ARCH-006", f"missing purpose: {d}"))
+
+    return findings
+
+
+def check_aliases(root: Path) -> list[Finding]:
+    findings: list[Finding] = []
+    aliases_doc = try_load_json(root, REGISTRY_FILES["aliases"])
+    if not isinstance(aliases_doc, dict):
+        return findings
+
+    aliases = aliases_doc.get("aliases", {})
+    for alias, item in aliases.items():
+        target = item.get("target")
+        status = item.get("status")
+        move_policy = item.get("move_policy")
+
+        if not target:
+            findings.append(Finding("fail", "WL-ARCH-007", f"alias missing target: {alias}"))
+            continue
+
+        target_area = target.split("/", 1)[0]
+        if target_area not in REQUIRED_DIRS:
+            findings.append(Finding("fail", "WL-ARCH-008", f"alias target outside constitutional layout: {alias} -> {target}"))
+
+        if not status:
+            findings.append(Finding("warn", "WL-ARCH-009", f"alias missing status: {alias}"))
+        if not move_policy:
+            findings.append(Finding("warn", "WL-ARCH-010", f"alias missing move_policy: {alias}"))
+
+    return findings
+
+
+def load_classifications(root: Path) -> dict[str, dict[str, str]]:
+    doc = try_load_json(root, REGISTRY_FILES["classification"])
+    if not isinstance(doc, dict):
+        return {}
+    classifications = doc.get("classifications", {})
+    return classifications if isinstance(classifications, dict) else {}
+
+
+def classify_top_level(root: Path) -> list[Classification]:
+    classifications = load_classifications(root)
+    results: list[Classification] = []
+
+    ignored = {".git", ".github", ".idea", ".vscode", "__pycache__"}
+
+    for path in sorted(root.iterdir(), key=lambda p: p.name):
+        if not path.is_dir():
+            continue
+        if path.name in ignored or path.name.startswith("."):
+            continue
+
+        item = classifications.get(path.name)
+        if item:
+            results.append(
+                Classification(
+                    name=path.name,
+                    type=item.get("type", "unknown"),
+                    state=item.get("state", "unclassified"),
+                    target=item.get("target", ""),
+                    note=item.get("note", ""),
+                )
+            )
+        else:
+            results.append(
+                Classification(
+                    name=path.name,
+                    type="unknown",
+                    state="unclassified",
+                    target="",
+                    note="no classification registry entry",
+                )
+            )
+
+    return results
+
+
+def check_unclassified(root: Path) -> list[Finding]:
+    findings: list[Finding] = []
+    for c in classify_top_level(root):
+        if c.state == "unclassified":
+            findings.append(Finding("warn", "WL-ARCH-011", f"top-level directory is unclassified: {c.name}"))
+    return findings
+
+
+def collect_findings(root: Path) -> list[Finding]:
+    findings: list[Finding] = []
+    findings.extend(check_exists(root))
+    findings.extend(check_ownership(root))
+    findings.extend(check_aliases(root))
+    findings.extend(check_unclassified(root))
+    return findings
+
+
+def summarize_findings(findings: list[Finding]) -> tuple[int, int]:
+    fails = sum(1 for f in findings if f.severity == "fail")
+    warns = sum(1 for f in findings if f.severity == "warn")
+    return fails, warns
+
+
+def classification_counts(root: Path) -> Counter:
+    return Counter(c.state for c in classify_top_level(root))
+
+
+def architecture_score(root: Path, findings: list[Finding]) -> int:
+    classifications = classify_top_level(root)
+    total = len(classifications)
+    if total == 0:
+        return 0
+
+    unclassified = sum(1 for c in classifications if c.state == "unclassified")
+    fails, warns = summarize_findings(findings)
+
+    score = 100
+    score -= fails * 20
+    score -= unclassified * 2
+    score -= max(0, warns - unclassified)
+    return max(0, min(100, score))
+
+
+def print_normalized_classification(root: Path) -> None:
+    print("## Classification")
+    print()
+
+    for c in classify_top_level(root):
+        if c.state == "native":
+            print(f"- `PASS` `{c.name}` — constitutional native")
+        elif c.state == "bridge":
+            print(f"- `INFO` `{c.name}` — compatibility bridge → `{c.target}`")
+        elif c.state == "compatibility":
+            print(f"- `INFO` `{c.name}` — compatibility alias → `{c.target}`")
+        elif c.state == "managed":
+            print(f"- `INFO` `{c.name}` — managed {c.type} → `{c.target}`")
+        elif c.state == "retained":
+            target = f" → `{c.target}`" if c.target else ""
+            print(f"- `INFO` `{c.name}` — retained {c.type}{target}")
+        else:
+            print(f"- `WARN` `{c.name}` — unclassified")
+            if c.note:
+                print(f"  - {c.note}")
+
+
+def cmd_verify(root: Path) -> int:
+    findings = collect_findings(root)
+    fails, warns = summarize_findings(findings)
+
+    for f in findings:
+        print(f.line())
+
+    if fails == 0:
+        print(f"PASS architecture engine verified ({warns} warning(s))")
+        print("RESULT PASS")
+        return 0
+
+    print(f"FAIL architecture engine verification failed ({fails} failure(s), {warns} warning(s))")
+    return 1
+
+
+def cmd_status(root: Path) -> int:
+    findings = collect_findings(root)
+    fails, warns = summarize_findings(findings)
+    counts = classification_counts(root)
+    score = architecture_score(root, findings)
+
+    print("Wonderland Architecture Status")
+    print()
+    print(f"Failures: {fails}")
+    print(f"Warnings: {warns}")
+    print(f"Score: {score}")
+    print()
+    print("Classification:")
+    for key in ["native", "bridge", "compatibility", "managed", "retained", "unclassified"]:
+        print(f"  {key}: {counts.get(key, 0)}")
+    print()
+    print("Result:", "PASS" if fails == 0 else "FAIL")
+    return 0 if fails == 0 else 1
+
+
+def cmd_report(root: Path) -> int:
+    findings = collect_findings(root)
+    fails, warns = summarize_findings(findings)
+    counts = classification_counts(root)
+    score = architecture_score(root, findings)
+
+    print("# Wonderland Architecture Report")
+    print()
+    print(f"- Failures: {fails}")
+    print(f"- Warnings: {warns}")
+    print(f"- Repository Score: {score}")
+    print()
+    print("## Migration Dashboard")
+    print()
+    for key in ["native", "bridge", "compatibility", "managed", "retained", "unclassified"]:
+        print(f"- {key.title()}: {counts.get(key, 0)}")
+    print()
+
+    print_normalized_classification(root)
+
+    print()
+    print("## Findings")
+    print()
+
+    if not findings:
+        print("- `PASS` No validation findings.")
+    else:
+        for f in findings:
+            print(f"- `{f.severity.upper()}` `{f.code}` — {f.message}")
+
+    print()
+    print("## Result")
+    print()
+    print("PASS" if fails == 0 else "FAIL")
+    return 0 if fails == 0 else 1
+
+
+def cmd_explain(root: Path, path_arg: str) -> int:
+    path = path_arg.strip("/")
+    top = path.split("/", 1)[0]
+
+    ownership = load_json(root, REGISTRY_FILES["ownership"])
+    aliases = load_json(root, REGISTRY_FILES["aliases"]).get("aliases", {})
+    classifications = load_classifications(root)
+
+    print(f"Path: {path}")
+    print()
+
+    if top in classifications:
+        c = classifications[top]
+        print(f"Classification Type: {c.get('type', 'UNKNOWN')}")
+        print(f"State: {c.get('state', 'UNKNOWN')}")
+        if c.get("target"):
+            print(f"Target: {c['target']}")
+        if c.get("note"):
+            print(f"Note: {c['note']}")
+        print()
+
+    if top in ownership:
+        item = ownership[top]
+        print(f"Constitutional Area: {top}")
+        print(f"Owner: {item.get('owner', 'UNKNOWN')}")
+        print(f"Purpose: {item.get('purpose', 'UNKNOWN')}")
+        print(f"Migration Policy: {item.get('migration_policy', 'UNKNOWN')}")
+        return 0
+
+    if top in aliases:
+        item = aliases[top]
+        target = item.get("target", "UNKNOWN")
+        area = target.split("/", 1)[0]
+
+        print(f"Legacy Path: {top}")
+        print(f"Compatibility Target: {target}")
+        print(f"Status: {item.get('status', 'UNKNOWN')}")
+        print(f"Move Policy: {item.get('move_policy', 'UNKNOWN')}")
+
+        if area in ownership:
+            owner = ownership[area]
+            print()
+            print(f"Constitutional Area: {area}")
+            print(f"Owner: {owner.get('owner', 'UNKNOWN')}")
+            print(f"Purpose: {owner.get('purpose', 'UNKNOWN')}")
+
+        return 0
+
+    print("Constitutional Area: UNKNOWN")
+    print("Owner: UNKNOWN")
+    print("Status: ORPHAN-CANDIDATE")
+    return 2
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(prog="wl-architecture-engine")
+    parser.add_argument("command", nargs="?", default="status")
+    parser.add_argument("arg", nargs="?")
+    parser.add_argument("--root", default=".")
+    args = parser.parse_args()
+
+    root = Path(args.root).resolve()
+
+    if args.command == "status":
+        return cmd_status(root)
+    if args.command in {"doctor", "verify"}:
+        return cmd_verify(root)
+    if args.command == "report":
+        return cmd_report(root)
+    if args.command == "gate":
+        findings = collect_findings(root)
+        fails, warns = summarize_findings(findings)
+        score = architecture_score(root, findings)
+        print(f"Failures: {fails}")
+        print(f"Warnings: {warns}")
+        print(f"Score: {score}")
+        if fails == 0 and warns == 0 and score >= 100:
+            print("PASS architecture certification gate passed")
+            print("RESULT PASS")
+            return 0
+        print("FAIL architecture certification gate failed")
+        return 1
+    if args.command == "explain":
+        if not args.arg:
+            print("FAIL usage: wl architecture explain <path>", file=sys.stderr)
+            return 1
+        return cmd_explain(root, args.arg)
+
+    print(f"FAIL unknown architecture command: {args.command}", file=sys.stderr)
+    return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

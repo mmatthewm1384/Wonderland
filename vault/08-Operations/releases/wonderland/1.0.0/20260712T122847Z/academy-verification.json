@@ -1,0 +1,126 @@
+{
+  "checks": [
+    {
+      "details": {
+        "commands": [
+          "certify",
+          "chapter",
+          "doctor",
+          "lesson",
+          "status",
+          "verify"
+        ],
+        "path": "bin/wl-academy"
+      },
+      "duration_ms": 50,
+      "name": "authority_launcher",
+      "status": "PASS",
+      "summary": "Academy authority launcher and CLI contract are complete"
+    },
+    {
+      "details": {},
+      "duration_ms": 115,
+      "name": "public_route",
+      "status": "PASS",
+      "summary": "wl academy route is available"
+    },
+    {
+      "details": {
+        "file_count": 1191,
+        "path": "academy"
+      },
+      "duration_ms": 9,
+      "name": "academy_root",
+      "status": "PASS",
+      "summary": "Academy root contains 1191 files"
+    },
+    {
+      "details": {
+        "chapter_count": 1,
+        "path": "academy/registry/chapters.json"
+      },
+      "duration_ms": 0,
+      "name": "chapter_registry",
+      "status": "PASS",
+      "summary": "1 chapter entries registered"
+    },
+    {
+      "details": {
+        "lesson_count": 806,
+        "mode": "registry",
+        "path": "academy/registry/lessons.json"
+      },
+      "duration_ms": 17,
+      "name": "lesson_registry",
+      "status": "PASS",
+      "summary": "806 lesson entries registered"
+    },
+    {
+      "details": {
+        "json_count": 8
+      },
+      "duration_ms": 4,
+      "name": "json_integrity",
+      "status": "PASS",
+      "summary": "8 Academy JSON files parse"
+    },
+    {
+      "details": {
+        "exemption_registry": "academy/registry/heading-exemptions.json",
+        "heading_exemption_count": 4,
+        "markdown_count": 1173
+      },
+      "duration_ms": 37,
+      "name": "markdown",
+      "status": "PASS",
+      "summary": "1173 Academy Markdown files validated; 4 explicit heading exemptions"
+    },
+    {
+      "details": {
+        "module_count": 12
+      },
+      "duration_ms": 7,
+      "name": "python_integrity",
+      "status": "PASS",
+      "summary": "12 Academy Python modules parse"
+    },
+    {
+      "details": {
+        "file_count": 806,
+        "registry_count": 806
+      },
+      "duration_ms": 21,
+      "name": "manifest_consistency",
+      "status": "PASS",
+      "summary": "lesson registry matches 806 lesson files"
+    },
+    {
+      "details": {
+        "path": "bin/wl-academy-legacy"
+      },
+      "duration_ms": 0,
+      "name": "legacy_adapter",
+      "status": "PASS",
+      "summary": "legacy Academy operations remain available"
+    },
+    {
+      "details": {},
+      "duration_ms": 0,
+      "name": "nonrecursive_contract",
+      "status": "PASS",
+      "summary": "Academy launcher is non-recursive"
+    }
+  ],
+  "duration_ms": 258,
+  "engine_version": "1.0.0",
+  "result": "PASS",
+  "root": "/Users/wonderland/Wonderland",
+  "schema_version": 1,
+  "summary": {
+    "fail": 0,
+    "idle": 0,
+    "pass": 11,
+    "skip": 0,
+    "warn": 0
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "certification_id": "platform-0.4-certified-20260706-195742",
+  "checks": {
+    "architecture_gate": {
+      "command": [
+        "python3",
+        "01-Platform/architecture/engine.py",
+        "gate",
+        "--root",
+        "/Users/wonderland/Wonderland"
+      ],
+      "exit_code": 0,
+      "output": "Failures: 0\nWarnings: 0\nScore: 100\nPASS architecture certification gate passed\nRESULT PASS\n",
+      "result": "PASS"
+    },
+    "builder_ownership": {
+      "command": [
+        "bin/wl-builder-ownership"
+      ],
+      "exit_code": 0,
+      "output": "PASS registry layout: 01-Platform/registry/repository-layout.json\nPASS registry ownership: 01-Platform/registry/repository-ownership.json\nPASS registry rules: 01-Platform/registry/repository-rules.json\nPASS registry aliases: 01-Platform/registry/repository-aliases.json\nPASS registry classification: 01-Platform/registry/repository-classification.json\nPASS registry builders: 01-Platform/registry/builder-ownership.json\nPASS unified registry service verified\nRESULT PASS\nPASS builder academy legacy path present: lib/academy\nPASS builder academy constitutional area: 03-Applications\nINFO builder academy output: 05-Vault/generated\nINFO builder academy output: vault/08-Operations/certifications\nINFO builder academy target: 03-Applications/academy\nINFO builder academy owner: Applications\nINFO builder academy state: bridge\nPASS builder wlbuilder legacy path present: builder/python/wlbuilder\nPASS builder wlbuilder constitutional area: 01-Platform\nINFO builder wlbuilder output: 05-Vault/generated\nINFO builder wlbuilder output: vault/08-Operations/certifications\nINFO builder wlbuilder target: 01-Platform/builder\nINFO builder wlbuilder owner: Platform Core\nINFO builder wlbuilder state: bridge\nPASS builder ownership registry verified through registry consumer\nRESULT PASS\n",
+      "result": "PASS"
+    },
+    "certification_preflight": {
+      "command": [
+        "bin/wl-certification-preflight"
+      ],
+      "exit_code": 0,
+      "output": "Wonderland Certification Preflight\n\nregistry: PASS\narchitecture_gate: PASS\nbuilder_ownership: PASS\nengineering_gate: PASS\nrelease_preflight: PASS\n\nManifest: 05-Vault/generated/certifications/platform-0.4-certification-preflight-20260706-195743/certification-manifest.json\nPASS certification preflight\nRESULT PASS\n",
+      "result": "PASS"
+    },
+    "engineering_gate": {
+      "command": [
+        "bin/wl-engineering-gate"
+      ],
+      "exit_code": 0,
+      "output": "Wonderland Engineering Gate\n\n== Registry Service ==\nPASS registry layout: 01-Platform/registry/repository-layout.json\nPASS registry ownership: 01-Platform/registry/repository-ownership.json\nPASS registry rules: 01-Platform/registry/repository-rules.json\nPASS registry aliases: 01-Platform/registry/repository-aliases.json\nPASS registry classification: 01-Platform/registry/repository-classification.json\nPASS registry builders: 01-Platform/registry/builder-ownership.json\nPASS unified registry service verified\nRESULT PASS\nPASS Registry Service\n\n== Architecture Gate ==\nFailures: 0\nWarnings: 0\nScore: 100\nPASS architecture certification gate passed\nRESULT PASS\nPASS Architecture Gate\n\n== Builder Ownership ==\nPASS registry layout: 01-Platform/registry/repository-layout.json\nPASS registry ownership: 01-Platform/registry/repository-ownership.json\nPASS registry rules: 01-Platform/registry/repository-rules.json\nPASS registry aliases: 01-Platform/registry/repository-aliases.json\nPASS registry classification: 01-Platform/registry/repository-classification.json\nPASS registry builders: 01-Platform/registry/builder-ownership.json\nPASS unified registry service verified\nRESULT PASS\nPASS builder academy legacy path present: lib/academy\nPASS builder academy constitutional area: 03-Applications\nINFO builder academy output: 05-Vault/generated\nINFO builder academy output: vault/08-Operations/certifications\nINFO builder academy target: 03-Applications/academy\nINFO builder academy owner: Applications\nINFO builder academy state: bridge\nPASS builder wlbuilder legacy path present: builder/python/wlbuilder\nPASS builder wlbuilder constitutional area: 01-Platform\nINFO builder wlbuilder output: 05-Vault/generated\nINFO builder wlbuilder output: vault/08-Operations/certifications\nINFO builder wlbuilder target: 01-Platform/builder\nINFO builder wlbuilder owner: Platform Core\nINFO builder wlbuilder state: bridge\nPASS builder ownership registry verified through registry consumer\nRESULT PASS\nPASS Builder Ownership\n\n== Manifest Index ==\nWonderland Manifest Index\n\nManifests: 18\nIndex: 05-Vault/generated/indexes/manifest-index.json\nNon-pass manifests: 0\nInvalid manifests: 0\nRESULT PASS\nPASS Manifest Index\n\nPASS engineering gate\nRESULT PASS\n",
+      "result": "PASS"
+    },
+    "manifest_index": {
+      "command": [
+        "bin/wl-manifest-index"
+      ],
+      "exit_code": 0,
+      "output": "Wonderland Manifest Index\n\nManifests: 21\nIndex: 05-Vault/generated/indexes/manifest-index.json\nNon-pass manifests: 0\nInvalid manifests: 0\nRESULT PASS\n",
+      "result": "PASS"
+    },
+    "platform_status": {
+      "command": [
+        "bin/wl-platform-status"
+      ],
+      "exit_code": 0,
+      "output": "Wonderland Platform Status\n\nregistry: PASS\narchitecture: PASS\nbuilder: PASS\nmanifest_index: PASS\nengineering_gate: PASS\n\nmanifests: 21\n\nPASS platform status\nRESULT PASS\n",
+      "result": "PASS"
+    },
+    "registry": {
+      "command": [
+        "bin/wl-registry",
+        "verify"
+      ],
+      "exit_code": 0,
+      "output": "PASS registry layout: 01-Platform/registry/repository-layout.json\nPASS registry ownership: 01-Platform/registry/repository-ownership.json\nPASS registry rules: 01-Platform/registry/repository-rules.json\nPASS registry aliases: 01-Platform/registry/repository-aliases.json\nPASS registry classification: 01-Platform/registry/repository-classification.json\nPASS registry builders: 01-Platform/registry/builder-ownership.json\nPASS unified registry service verified\nRESULT PASS\n",
+      "result": "PASS"
+    },
+    "release_preflight": {
+      "command": [
+        "bin/wl-release-preflight"
+      ],
+      "exit_code": 0,
+      "output": "Wonderland Release Preflight\n\n== registry ==\nPASS registry layout: 01-Platform/registry/repository-layout.json\nPASS registry ownership: 01-Platform/registry/repository-ownership.json\nPASS registry rules: 01-Platform/registry/repository-rules.json\nPASS registry aliases: 01-Platform/registry/repository-aliases.json\nPASS registry classification: 01-Platform/registry/repository-classification.json\nPASS registry builders: 01-Platform/registry/builder-ownership.json\nPASS unified registry service verified\nRESULT PASS\n\n== architecture ==\nFailures: 0\nWarnings: 0\nScore: 100\nPASS architecture certification gate passed\nRESULT PASS\n\n== builder_ownership ==\nPASS registry layout: 01-Platform/registry/repository-layout.json\nPASS registry ownership: 01-Platform/registry/repository-ownership.json\nPASS registry rules: 01-Platform/registry/repository-rules.json\nPASS registry aliases: 01-Platform/registry/repository-aliases.json\nPASS registry classification: 01-Platform/registry/repository-classification.json\nPASS registry builders: 01-Platform/registry/builder-ownership.json\nPASS unified registry service verified\nRESULT PASS\nPASS builder academy legacy path present: lib/academy\nPASS builder academy constitutional area: 03-Applications\nINFO builder academy output: 05-Vault/generated\nINFO builder academy output: vault/08-Operations/certifications\nINFO builder academy target: 03-Applications/academy\nINFO builder academy owner: Applications\nINFO builder academy state: bridge\nPASS builder wlbuilder legacy path present: builder/python/wlbuilder\nPASS builder wlbuilder constitutional area: 01-Platform\nINFO builder wlbuilder output: 05-Vault/generated\nINFO builder wlbuilder output: vault/08-Operations/certifications\nINFO builder wlbuilder target: 01-Platform/builder\nINFO builder wlbuilder owner: Platform Core\nINFO builder wlbuilder state: bridge\nPASS builder ownership registry verified through registry consumer\nRESULT PASS\n\n== engineering_gate ==\nWonderland Engineering Gate\n\n== Registry Service ==\nPASS registry layout: 01-Platform/registry/repository-layout.json\nPASS registry ownership: 01-Platform/registry/repository-ownership.json\nPASS registry rules: 01-Platform/registry/repository-rules.json\nPASS registry aliases: 01-Platform/registry/repository-aliases.json\nPASS registry classification: 01-Platform/registry/repository-classification.json\nPASS registry builders: 01-Platform/registry/builder-ownership.json\nPASS unified registry service verified\nRESULT PASS\nPASS Registry Service\n\n== Architecture Gate ==\nFailures: 0\nWarnings: 0\nScore: 100\nPASS architecture certification gate passed\nRESULT PASS\nPASS Architecture Gate\n\n== Builder Ownership ==\nPASS registry layout: 01-Platform/registry/repository-layout.json\nPASS registry ownership: 01-Platform/registry/repository-ownership.json\nPASS registry rules: 01-Platform/registry/repository-rules.json\nPASS registry aliases: 01-Platform/registry/repository-aliases.json\nPASS registry classification: 01-Platform/registry/repository-classification.json\nPASS registry builders: 01-Platform/registry/builder-ownership.json\nPASS unified registry service verified\nRESULT PASS\nPASS builder academy legacy path present: lib/academy\nPASS builder academy constitutional area: 03-Applications\nINFO builder academy output: 05-Vault/generated\nINFO builder academy output: vault/08-Operations/certifications\nINFO builder academy target: 03-Applications/academy\nINFO builder academy owner: Applications\nINFO builder academy state: bridge\nPASS builder wlbuilder legacy path present: builder/python/wlbuilder\nPASS builder wlbuilder constitutional area: 01-Platform\nINFO builder wlbuilder output: 05-Vault/generated\nINFO builder wlbuilder output: vault/08-Operations/certifications\nINFO builder wlbuilder target: 01-Platform/builder\nINFO builder wlbuilder owner: Platform Core\nINFO builder wlbuilder state: bridge\nPASS builder ownership registry verified through registry consumer\nRESULT PASS\nPASS Builder Ownership\n\n== Manifest Index ==\nWonderland Manifest Index\n\nManifests: 18\nIndex: 05-Vault/generated/indexes/manifest-index.json\nNon-pass manifests: 0\nInvalid manifests: 0\nRESULT PASS\nPASS Manifest Index\n\nPASS engineering gate\nRESULT PASS\n\nManifest: 05-Vault/generated/releases/platform-0.4-preflight-20260706-195742/release-manifest.json\nPASS release preflight\nRESULT PASS\n",
+      "result": "PASS"
+    }
+  },
+  "created_at": "2026-07-06T19:57:44.250037+00:00",
+  "destructive_changes": false,
+  "mode": "platform-certification",
+  "platform": "Wonderland",
+  "platform_version": "0.4",
+  "status": "PASS"
+}

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+
+# Platform Core 2.2 dispatch
+case "${1:-}" in
+  doctor)
+    shift
+    . "${WL_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}/lib/doctor/cli.sh"
+    wl_doctor_main "$@"
+    exit $?
+    ;;
+  registry)
+    shift
+    . "${WL_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}/lib/core/registry/command_registry_cli.sh"
+    wl_registry_main "$@"
+    exit $?
+    ;;
+esac
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+WL_BOOTSTRAP="$WL_HOME/lib/wl-bootstrap.sh"
+
+if [[ ! -f "$WL_BOOTSTRAP" ]]; then
+  echo "FAIL bootstrap missing: $WL_BOOTSTRAP"
+  echo "RESULT FAIL"
+  exit 1
+fi
+
+source "$WL_BOOTSTRAP"
+wl_dispatch "$@"

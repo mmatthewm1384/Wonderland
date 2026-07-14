@@ -1,0 +1,113 @@
+{
+  "checks": [
+    {
+      "details": {
+        "contains_vm_commands": false,
+        "path": "bin/wl-builder"
+      },
+      "duration_ms": 0,
+      "name": "authority_launcher",
+      "status": "PASS",
+      "summary": "Builder authority launcher exists and exposes verify"
+    },
+    {
+      "details": {
+        "commands": [
+          "doctor",
+          "verify",
+          "certify",
+          "status",
+          "build"
+        ]
+      },
+      "duration_ms": 15,
+      "name": "public_route",
+      "status": "PASS",
+      "summary": "wl builder command route is complete"
+    },
+    {
+      "details": {
+        "module_count": 53
+      },
+      "duration_ms": 17,
+      "name": "python_compile",
+      "status": "PASS",
+      "summary": "53 Builder Python modules compile"
+    },
+    {
+      "details": {
+        "files": 53,
+        "imports": 268
+      },
+      "duration_ms": 13,
+      "name": "ast_integrity",
+      "status": "PASS",
+      "summary": "Builder source AST is valid"
+    },
+    {
+      "details": {
+        "origin": "/Users/wonderland/Wonderland/wlbuilder/__init__.py"
+      },
+      "duration_ms": 18,
+      "name": "package_import",
+      "status": "PASS",
+      "summary": "wlbuilder package is importable"
+    },
+    {
+      "details": {
+        "stage_count": 14,
+        "stages": [
+          "base",
+          "bootloader",
+          "bootstrap",
+          "cleanup",
+          "convert",
+          "disk",
+          "identity",
+          "locale",
+          "manifest",
+          "mount",
+          "networking",
+          "packages",
+          "users",
+          "verify_image"
+        ]
+      },
+      "duration_ms": 2,
+      "name": "stage_contracts",
+      "status": "PASS",
+      "summary": "14 Builder stage modules have structural contracts"
+    },
+    {
+      "details": {
+        "config_count": 7,
+        "roots": [
+          "builder",
+          "01-Platform/builder"
+        ]
+      },
+      "duration_ms": 6,
+      "name": "configuration",
+      "status": "PASS",
+      "summary": "7 Builder configuration files inspected"
+    },
+    {
+      "details": null,
+      "duration_ms": 3,
+      "name": "noninteractive_contract",
+      "status": "PASS",
+      "summary": "Builder verifier contains no executable VM-start calls"
+    }
+  ],
+  "duration_ms": 75,
+  "package_root": "/Users/wonderland/Wonderland/builder/python/wlbuilder",
+  "result": "PASS",
+  "root": "/Users/wonderland/Wonderland",
+  "schema_version": 1,
+  "summary": {
+    "fail": 0,
+    "pass": 8,
+    "skip": 0,
+    "warn": 0
+  }
+}

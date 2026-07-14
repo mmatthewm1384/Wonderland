@@ -1,0 +1,11 @@
+{
+  "errors": 0,
+  "failures": 0,
+  "result": "PASS",
+  "schema_contracts": {
+    "registry": 1,
+    "state": 1
+  },
+  "skipped": 0,
+  "tests_run": 9
+}

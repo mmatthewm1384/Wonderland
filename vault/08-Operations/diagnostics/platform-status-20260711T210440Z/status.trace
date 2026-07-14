@@ -1,0 +1,4 @@
++ /Users/wonderland/Wonderland/bin/wl-platform-status:2:main: set -euo pipefail
++ /Users/wonderland/Wonderland/bin/wl-platform-status:4:main: WL_ROOT=/Users/wonderland/Wonderland
++ /Users/wonderland/Wonderland/bin/wl-platform-status:5:main: cd /Users/wonderland/Wonderland
++ /Users/wonderland/Wonderland/bin/wl-platform-status:7:main: exec python3 01-Platform/status/platform-status.py

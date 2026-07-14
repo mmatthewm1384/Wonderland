@@ -1,0 +1,140 @@
+version: 1
+status: draft
+
+capabilities:
+  - id: platform.direction
+    name: Platform Direction
+    owner: Wonderland Doctrine
+    purpose: Define the permanent mission, principles, and implementation direction.
+    status: active
+
+  - id: academy.understanding
+    name: Platform Understanding
+    owner: Wonderland Academy
+    purpose: Teach every capability so the operator and future learners can understand and explain it.
+    status: planned
+
+  - id: security.defensive-lab
+    name: Defensive Security Lab
+    owner: Wonderland Academy
+    purpose: Provide safe isolated environments for authorized defensive testing and learning.
+    status: planned
+
+  - id: os.reference.bookworm
+    name: Bookworm Reference Runtime
+    owner: Wonderland OS
+    purpose: Provide reproducible Linux runtime, certification baseline, Academy labs, and future OS packaging base.
+    status: planned
+
+  - id: platform.convergence
+    name: Platform Convergence
+    owner: Architecture Engine
+    purpose: Inventory, consolidate, archive, and purge excess after certified replacements exist.
+    status: planned
+  - id: cli.dispatch
+    name: CLI Dispatch
+    owner: CLI Engine
+    status: active
+    purpose: Provide the single Wonderland operator interface.
+
+  - id: platform.capability-registry
+    name: Capability Registry
+    owner: Architecture Engine
+    status: active
+    purpose: Maintain authoritative capability ownership.
+
+  - id: platform.architecture
+    name: Architecture Graph
+    owner: Architecture Engine
+    status: active
+    purpose: Model Wonderland domains, capabilities, components, implementations, and ownership.
+
+  - id: runtime.lifecycle
+    name: Runtime Lifecycle
+    owner: Runtime Engine
+    status: planned
+    purpose: Start, stop, verify, and supervise runtime services.
+
+  - id: operations.state
+    name: Operations State
+    owner: Operations Engine
+    status: active
+    purpose: Persist operational state, evidence, inventory, ownership, and certification records.
+
+  - id: security.defensive
+    name: Defensive Security
+    owner: Security Engine
+    status: planned
+    purpose: Teach and enforce defensive security, privacy, hardening, and authorized testing principles.
+
+  - id: builder.pipeline
+    name: Builder Pipeline
+    owner: Builder Engine
+    status: planned
+    purpose: Build, package, and verify Wonderland runtime artifacts.
+
+  - id: applications.consumer
+    name: Application Consumers
+    owner: Application Layer
+    status: planned
+    purpose: Provide user-facing applications that consume platform engines.
+
+  - id: infrastructure.runtime
+    name: Infrastructure Runtime
+    owner: Infrastructure Engine
+    status: planned
+    purpose: Provide rootless infrastructure foundations for Wonderland.
+
+  - id: configuration.policy
+    name: Configuration Policy
+    owner: Configuration Engine
+    status: planned
+    purpose: Own configuration schemas, profiles, and policy settings.
+
+  - id: design.assets
+    name: Design Assets
+    owner: Design System
+    status: planned
+    purpose: Own visual assets and shared design language.
+
+  - id: knowledge.documentation
+    name: Knowledge Documentation
+    owner: Knowledge Engine
+    status: planned
+    purpose: Generate and maintain Wonderland documentation and project knowledge.
+
+  - id: legacy.review
+    name: Legacy Review
+    owner: Legacy Archive
+    status: planned
+    purpose: Preserve and classify legacy material before archive or purge.
+
+  - id: artifact.backup
+    name: Backup Artifacts
+    owner: Artifact Policy
+    status: active
+    purpose: Classify backup artifacts as archive candidates with purge blocked.
+
+  - id: artifact.temporary
+    name: Temporary Artifacts
+    owner: Artifact Policy
+    status: active
+    purpose: Classify temporary artifacts as removal candidates only after certification.
+
+  - id: artifact.build
+    name: Build Artifacts
+    owner: Artifact Policy
+    status: active
+    purpose: Classify generated build outputs.
+
+  - id: artifact.quarantine
+    name: Quarantine Artifacts
+    owner: Artifact Policy
+    status: active
+    purpose: Classify quarantined items for manual review.
+
+  - id: verification.tests
+    name: Verification Tests
+    owner: Verification Engine
+    status: active
+    purpose: Own test suites and verification checks for Wonderland capabilities.

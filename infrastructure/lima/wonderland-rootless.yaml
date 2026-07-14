@@ -1,0 +1,114 @@
+arch: "aarch64"
+
+images:
+  - location: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-generic-arm64.qcow2"
+    arch: "aarch64"
+
+cpus: 4
+memory: "6GiB"
+disk: "64GiB"
+
+mounts:
+  - location: "/Users/wonderland/Wonderland"
+    mountPoint: "/Users/wonderland/Wonderland"
+    writable: true
+
+containerd:
+  system: false
+  user: true
+
+provision:
+  - mode: system
+    script: |
+      #!/usr/bin/env bash
+      set -euxo pipefail
+
+      apt-get update
+      apt-get install -y \
+        bash \
+        ca-certificates \
+        curl \
+        dbus-user-session \
+        file \
+        fuse-overlayfs \
+        git \
+        htop \
+        iproute2 \
+        jq \
+        less \
+        lsof \
+        make \
+        micro \
+        nano \
+        ncdu \
+        net-tools \
+        nmap \
+        openssh-client \
+        procps \
+        python3 \
+        ripgrep \
+        shellcheck \
+        sqlite3 \
+        strace \
+        python3-pip \
+        python3-venv \
+        rsync \
+        slirp4netns \
+        sudo \
+        tmux \
+        tree \
+        uidmap \
+        yq \
+        unzip \
+        vim \
+        wget \
+        zsh
+
+  - mode: user
+    script: |
+      #!/usr/bin/env bash
+      set -euxo pipefail
+
+      mkdir -p "$HOME/.local/bin" "$HOME/.config/wonderland" "$HOME/Wonderland-Runtime"
+
+      if ! command -v nerdctl >/dev/null 2>&1 && [ ! -x "$HOME/.local/bin/nerdctl" ]; then
+        curl -fsSL https://github.com/containerd/nerdctl/releases/download/v2.0.4/nerdctl-2.0.4-linux-arm64.tar.gz \
+          | tar -xz -C "$HOME/.local/bin" nerdctl
+      fi
+
+      if ! command -v lazygit >/dev/null 2>&1 && [ ! -x "$HOME/.local/bin/lazygit" ]; then
+        curl -fsSL https://github.com/jesseduffield/lazygit/releases/download/v0.44.1/lazygit_0.44.1_Linux_arm64.tar.gz \
+          | tar -xz -C "$HOME/.local/bin" lazygit
+      fi
+
+      if ! command -v gum >/dev/null 2>&1 && [ ! -x "$HOME/.local/bin/gum" ]; then
+        curl -fsSL https://github.com/charmbracelet/gum/releases/download/v0.14.5/gum_0.14.5_Linux_arm64.tar.gz \
+          | tar -xz -C "$HOME/.local/bin" gum
+      fi
+
+      cat > "$HOME/.config/wonderland/runtime.env" <<'EOF'
+WONDERLAND_ROLE=runtime-host
+WONDERLAND_PROFILE=development
+WONDERLAND_HOST=wonderland-rootless
+WONDERLAND_REPO=/Users/wonderland/Wonderland
+EOF
+
+      grep -q 'WONDERLAND_REPO' "$HOME/.profile" || cat >> "$HOME/.profile" <<'EOF'
+
+export PATH="$HOME/.local/bin:$PATH"
+export WONDERLAND_ROLE=runtime-host
+export WONDERLAND_PROFILE=development
+export WONDERLAND_HOST=wonderland-rootless
+export WONDERLAND_REPO=/Users/wonderland/Wonderland
+EOF
+
+probes:
+  - script: |
+      #!/usr/bin/env bash
+      test -d /Users/wonderland/Wonderland
+  - script: |
+      #!/usr/bin/env bash
+      python3 --version >/dev/null
+  - script: |
+      #!/usr/bin/env bash
+      test -x "$HOME/.local/bin/nerdctl" || command -v nerdctl >/dev/null

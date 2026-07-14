@@ -1,0 +1,146 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import json
+import subprocess
+from datetime import datetime, timezone
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[2]
+OUT = ROOT / "05-Vault/generated/stabilization/platform-0.4-rc-report.json"
+
+CORE_FILES = [
+    "01-Platform/registry/service.py",
+    "01-Platform/registry/consumer.py",
+    "01-Platform/architecture/engine.py",
+    "01-Platform/builder/ownership-check.py",
+    "01-Platform/certification/engineering-gate.sh",
+    "01-Platform/release/manifest-index.py",
+    "bin/wl-platform",
+]
+
+CHECKS = [
+    ("registry", ["bin/wl-registry", "verify"]),
+    ("architecture_gate", ["python3", "01-Platform/architecture/engine.py", "gate", "--root", str(ROOT)]),
+    ("builder_ownership", ["bin/wl-builder-ownership"]),
+    ("engineering_gate", ["bin/wl-engineering-gate"]),
+    ("manifest_index", ["bin/wl-manifest-index"]),
+    ("platform_status", ["bin/wl-platform-status"]),
+]
+
+
+def run(cmd: list[str]) -> dict[str, object]:
+    proc = subprocess.run(
+        cmd,
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    return {
+        "command": cmd,
+        "exit_code": proc.returncode,
+        "result": "PASS" if proc.returncode == 0 else "FAIL",
+        "output": proc.stdout,
+    }
+
+
+def file_inventory() -> list[dict[str, object]]:
+    return [
+        {
+            "path": rel,
+            "exists": (ROOT / rel).exists(),
+            "executable": (ROOT / rel).exists() and (ROOT / rel).stat().st_mode & 0o111 != 0,
+        }
+        for rel in CORE_FILES
+    ]
+
+
+def detect_recursive_orchestration() -> list[str]:
+    risks = []
+    files = [
+        ROOT / "01-Platform/certification/engineering-gate.sh",
+        ROOT / "01-Platform/status/platform-status.py",
+        ROOT / "01-Platform/certification/platform-certify.py",
+        ROOT / "01-Platform/certification/platform-finalize.py",
+    ]
+
+    for path in files:
+        if not path.exists():
+            continue
+        text = path.read_text(errors="ignore")
+        name = str(path.relative_to(ROOT))
+
+        # Known risky pattern: finalize/status/certify calling each other in loops.
+        if "wl-platform-finalize" in text and "platform-finalize.py" not in name:
+            risks.append(f"{name} invokes wl-platform-finalize")
+        if "wl-platform-status" in text and "platform-status.py" not in name:
+            risks.append(f"{name} invokes wl-platform-status")
+        if "wl-platform-certify" in text and "platform-certify.py" not in name:
+            risks.append(f"{name} invokes wl-platform-certify")
+
+    return risks
+
+
+def main() -> int:
+    checks = {name: run(cmd) for name, cmd in CHECKS}
+    files = file_inventory()
+    recursion_risks = detect_recursive_orchestration()
+
+    failures = 0
+    failures += sum(1 for item in checks.values() if item["exit_code"] != 0)
+    failures += sum(1 for item in files if not item["exists"])
+    failures += len(recursion_risks)
+
+    report = {
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "platform": "Wonderland",
+        "platform_version": "0.4",
+        "status": "PASS" if failures == 0 else "FAIL",
+        "mode": "rc-stabilization",
+        "destructive_changes": False,
+        "checks": checks,
+        "files": files,
+        "recursive_orchestration_risks": recursion_risks,
+    }
+
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
+
+    print("Wonderland Platform 0.4 RC Stabilization")
+    print()
+    for name, item in checks.items():
+        print(f"{name}: {item['result']}")
+
+    print()
+    missing = [item["path"] for item in files if not item["exists"]]
+    print(f"missing_core_files: {len(missing)}")
+    print(f"recursive_orchestration_risks: {len(recursion_risks)}")
+    print(f"report: {OUT.relative_to(ROOT)}")
+
+    if missing:
+        print()
+        print("Missing core files:")
+        for item in missing:
+            print(f"- {item}")
+
+    if recursion_risks:
+        print()
+        print("Recursive orchestration risks:")
+        for item in recursion_risks:
+            print(f"- {item}")
+
+    print()
+    if failures:
+        print(f"FAIL rc stabilization: {failures} issue(s)")
+        print("RESULT FAIL")
+        return 1
+
+    print("PASS rc stabilization")
+    print("RESULT PASS")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
