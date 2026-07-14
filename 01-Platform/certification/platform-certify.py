@@ -1,0 +1,105 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import json
+import subprocess
+from datetime import datetime, timezone
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[2]
+OUT_ROOT = ROOT / "05-Vault/generated/platform-certifications"
+
+
+CHECKS = [
+    ("registry", ["bin/wl-registry", "verify"]),
+    ("architecture_gate", ["python3", "01-Platform/architecture/engine.py", "gate", "--root", str(ROOT)]),
+    ("builder_ownership", ["bin/wl-builder-ownership"]),
+    ("engineering_gate", ["bin/wl-engineering-gate"]),
+    ("release_preflight", ["bin/wl-release-preflight"]),
+    ("certification_preflight", ["bin/wl-certification-preflight"]),
+    ("manifest_index", ["bin/wl-manifest-index"]),
+    ("manifest_index", ["bin/wl-manifest-index"]),
+]
+
+
+def run(cmd: list[str]) -> dict[str, object]:
+    proc = subprocess.run(
+        cmd,
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+
+    return {
+        "command": cmd,
+        "exit_code": proc.returncode,
+        "result": "PASS" if proc.returncode == 0 else "FAIL",
+        "output": proc.stdout,
+    }
+
+
+def main() -> int:
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
+    certification_id = f"platform-0.4-certified-{stamp}"
+    out_dir = OUT_ROOT / certification_id
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    checks = {}
+    failures = 0
+
+    print("Wonderland Platform Certification")
+    print()
+
+    for name, cmd in CHECKS:
+        result = run(cmd)
+        checks[name] = result
+        print(f"{name}: {result['result']}")
+        if result["exit_code"] != 0:
+            failures += 1
+
+    manifest = {
+        "certification_id": certification_id,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "status": "PASS" if failures == 0 else "FAIL",
+        "platform": "Wonderland",
+        "platform_version": "0.4",
+        "mode": "platform-certification",
+        "destructive_changes": False,
+        "checks": checks,
+    }
+
+    manifest_path = out_dir / "platform-certification-manifest.json"
+    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+
+    summary_path = ROOT / f"vault/08-Operations/certifications/{certification_id}.md"
+    summary_path.write_text(
+        "\n".join([
+            f"# Wonderland Platform 0.4 Certification",
+            "",
+            f"Certification ID: {certification_id}",
+            f"Status: {'PASS' if failures == 0 else 'FAIL'}",
+            "Destructive changes: none",
+            "",
+            f"Manifest: {manifest_path.relative_to(ROOT)}",
+            "",
+        ]) + "\n"
+    )
+
+    print()
+    print(f"Manifest: {manifest_path.relative_to(ROOT)}")
+    print(f"Summary: {summary_path.relative_to(ROOT)}")
+
+    if failures:
+        print(f"FAIL platform certification: {failures} failure(s)")
+        print("RESULT FAIL")
+        return 1
+
+    print("PASS platform certification")
+    print("RESULT PASS")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

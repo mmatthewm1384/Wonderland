@@ -1,0 +1,31 @@
+=== 🩺 Running Mandatory Wonderland System Doctor Check ===
+[OK] Found directory: bin
+[OK] Found directory: core
+[OK] Found directory: secrets
+[OK] Found directory: tools
+[OK] Found directory: logs
+[OK] Found directory: data
+[OK] Found directory: intelligence/obsidian
+[OK] Obsidian Source of Truth Connected.
+[OK] Binaries executable.
+
+=== 🧭 Governance Doctor ===
+=== 🧭 Wonderland Governance Doctor ===
+[OK] Governance.md found
+[OK] python3 available
+[OK] Registry exists: /Users/wonderland/Wonderland/.wl-registry
+[OK] Registry JSON valid
+=== GOVERNANCE HEALTHY ===
+[OK] Governance doctor passed.
+
+=== 🧾 Registry Doctor ===
+=== 🧾 Wonderland Registry Doctor ===
+[OK] Registry exists
+[OK] python3 available
+[OK] Registry JSON valid
+[OK] bin directory exists
+[OK] core directory exists
+=== REGISTRY HEALTHY ===
+[OK] Registry doctor passed.
+
+=== SYSTEM HEALTHY ===

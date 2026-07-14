@@ -1,0 +1,362 @@
+{
+  "aliases": {
+    "Wonderland-v4": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "05-Vault/legacy"
+    },
+    "WonderlandApp": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "03-Applications/control-center"
+    },
+    "academy": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "03-Applications/academy"
+    },
+    "apps": {
+      "move_policy": "defer",
+      "status": "compatibility-active",
+      "target": "03-Applications"
+    },
+    "archive": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "05-Vault/checkpoints"
+    },
+    "assets": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "04-Documentation/reference/assets"
+    },
+    "authorities": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/governance"
+    },
+    "backup": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "02-Infrastructure/backup"
+    },
+    "bin": {
+      "move_policy": "defer",
+      "status": "compatibility-active",
+      "target": "01-Platform/cli"
+    },
+    "build": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "05-Vault/generated/build"
+    },
+    "builder": {
+      "move_policy": "defer",
+      "status": "compatibility-active",
+      "target": "01-Platform/builder"
+    },
+    "concepts": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "00-Philosophy/concepts"
+    },
+    "config": {
+      "move_policy": "defer",
+      "status": "compatibility-active",
+      "target": "02-Infrastructure"
+    },
+    "controller": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "03-Applications/control-center"
+    },
+    "core": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/runtime"
+    },
+    "dashboard": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "03-Applications/control-center"
+    },
+    "data": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "05-Vault/runtime-state/data"
+    },
+    "design": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "00-Philosophy/design"
+    },
+    "docker": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "02-Infrastructure/nerdctl/compat/docker"
+    },
+    "docs": {
+      "move_policy": "defer",
+      "status": "compatibility-active",
+      "target": "04-Documentation"
+    },
+    "ephemeral": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "05-Vault/runtime-state/ephemeral"
+    },
+    "governance": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/governance"
+    },
+    "images": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "04-Documentation/reference/images"
+    },
+    "infra": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "02-Infrastructure"
+    },
+    "infrastructure": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "02-Infrastructure"
+    },
+    "intelligence": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/lib/intelligence"
+    },
+    "intents": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/registry/intents"
+    },
+    "kernel": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/runtime/kernel"
+    },
+    "knowledge": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "05-Vault/knowledge"
+    },
+    "legacy": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "05-Vault/legacy"
+    },
+    "lib": {
+      "move_policy": "defer",
+      "status": "compatibility-active",
+      "target": "01-Platform/lib"
+    },
+    "logs": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "05-Vault/audit-logs"
+    },
+    "manuscript": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "04-Documentation/reference/manuscript"
+    },
+    "plugins": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/lib/plugins"
+    },
+    "policies": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/governance/policies"
+    },
+    "profiles": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "02-Infrastructure/runtime/profiles"
+    },
+    "raycast": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "03-Applications/raycast"
+    },
+    "recovery": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "02-Infrastructure/backup/recovery"
+    },
+    "registries": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/registry"
+    },
+    "registry": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/registry"
+    },
+    "release": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/release"
+    },
+    "releases": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/release/releases"
+    },
+    "reports": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "05-Vault/generated/reports"
+    },
+    "runtime": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/runtime"
+    },
+    "scheduler": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/runtime/scheduler"
+    },
+    "schemas": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/registry/schemas"
+    },
+    "scripts": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/cli/scripts"
+    },
+    "sdk": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/lib/sdk"
+    },
+    "secrets": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "02-Infrastructure/secrets"
+    },
+    "security": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "02-Infrastructure/security"
+    },
+    "services": {
+      "move_policy": "defer",
+      "status": "compatibility-active",
+      "target": "02-Infrastructure/services"
+    },
+    "shared": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/lib/shared"
+    },
+    "source": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/lib/source"
+    },
+    "state": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "05-Vault/runtime-state"
+    },
+    "tests": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/tests"
+    },
+    "tmp": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "05-Vault/runtime-state/tmp"
+    },
+    "tools": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/cli/tools"
+    },
+    "vault": {
+      "move_policy": "defer",
+      "status": "compatibility-active",
+      "target": "05-Vault"
+    },
+    "wl": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/cli/wl"
+    },
+    "wlbuilder": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "01-Platform/builder"
+    },
+    "zones": {
+      "move_policy": "defer",
+      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
+      "status": "compatibility-active",
+      "target": "02-Infrastructure/networking/zones"
+    }
+  }
+}

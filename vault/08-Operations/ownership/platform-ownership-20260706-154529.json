@@ -1,0 +1,1501 @@
+{
+  "ownership": "wonderland-platform",
+  "status": "WARN",
+  "timestamp": "2026-07-06T22:45:29.587795+00:00",
+  "source_inventory": "/Users/wonderland/Wonderland/vault/08-Operations/state/platform-inventory-latest.json",
+  "summary": {
+    "needs-review": 177,
+    "assigned": 9
+  },
+  "entries": [
+    {
+      "path": ".backup",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": ".backup-spin-the-city-intent-20260623-155249",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": ".backup-theomatrix-install-20260622-074829",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": ".backup-theomatrix-v31-20260622-093532",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": ".backup-wl-consolidation-20260621-171517",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": ".backup-wl-consolidation-20260621-171654",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": ".build",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": ".github",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": ".gitignore",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": ".quarantine",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": ".wl",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": ".wl-registry",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": ".wlmeta.json",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "00-Philosophy",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "01-Platform",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "02-Infrastructure",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "03-Applications",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "04-Documentation",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "05-Vault",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "CONSTITUTION.md",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "ChaosControllerStatus",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "DESIGN_SYSTEM.md",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "HANDOFF-PLATFORM-0-PHILOSOPHY.md",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "MANIFESTO.md",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "Makefile",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "NORTH_STAR.md",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "PLATFORM-0.0-PHILOSOPHY-RELEASE.md",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "PROJECT-INSTRUCTIONS.md",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "README.md",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "WONDERLAND.md",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "Wonderland Doctrine",
+      "capability": "platform.direction",
+      "status": "assigned"
+    },
+    {
+      "path": "Wonderland-v4",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "WonderlandApp",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "academy",
+      "kind": "directory",
+      "classification": "academy",
+      "owner": "Wonderland Academy",
+      "capability": "academy.understanding",
+      "status": "assigned"
+    },
+    {
+      "path": "apps",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "archive",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "assets",
+      "kind": "directory",
+      "classification": "asset",
+      "owner": "Design System",
+      "capability": "design.assets",
+      "status": "assigned"
+    },
+    {
+      "path": "authorities",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "backup",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "bin",
+      "kind": "directory",
+      "classification": "cli-command",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "build",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "builder",
+      "kind": "directory",
+      "classification": "implementation",
+      "owner": "Implementation Workspace",
+      "capability": "implementation.workspace",
+      "status": "assigned"
+    },
+    {
+      "path": "capabilities",
+      "kind": "directory",
+      "classification": "capability-registry",
+      "owner": "Architecture Engine",
+      "capability": "platform.capability-registry",
+      "status": "assigned"
+    },
+    {
+      "path": "concepts",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "config",
+      "kind": "directory",
+      "classification": "configuration",
+      "owner": "Configuration Engine",
+      "capability": "configuration.policy",
+      "status": "assigned"
+    },
+    {
+      "path": "controller",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "core",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "dashboard",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "data",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "design",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "docker",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "docs",
+      "kind": "directory",
+      "classification": "documentation",
+      "owner": "Knowledge Engine",
+      "capability": "knowledge.documentation",
+      "status": "assigned"
+    },
+    {
+      "path": "e",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "ephemeral",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "governance",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "handoff-platform-0-reset.sh",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "images",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "implement-p0-1-philosophy-engine.sh",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "implement-platform-0-cli.sh",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "implement-platform-0-doctor.sh",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "implement-platform-0-governance.sh",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "infra",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "infrastructure",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "install-platform-0-philosophy-release.sh",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "install-platform-0.sh",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "install-theomatrix-v3.sh",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "install.sh",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "intelligence",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "intents",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "kernel",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "knowledge",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "legacy",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "lib",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "lima.REJECTED.yaml",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "logs",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "manuscript",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "olution",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "os",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "platform",
+      "kind": "directory",
+      "classification": "platform",
+      "owner": "Platform Engine",
+      "capability": "platform.core",
+      "status": "assigned"
+    },
+    {
+      "path": "plugins",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "policies",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "profiles",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "raycast",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "recovery",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "registries",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "registry",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "release",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "releases",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "reports",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "retire-old-models-platform-0-handoff.sh",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "runtime",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "s(slots=True)",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "scheduler",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "schemas",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "scripts",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "sdk",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "secrets",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "security",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "services",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "shared",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "source",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "state",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "tests",
+      "kind": "directory",
+      "classification": "test",
+      "owner": "Verification Engine",
+      "capability": "verification.tests",
+      "status": "assigned"
+    },
+    {
+      "path": "tmp",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "tools",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "vault",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.1",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.10",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.11",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.12",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.13",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.14",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.15",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.16",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.17",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.18",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.19",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.2",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.20",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.21",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.22",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.23",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.24",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.25",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.26",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.27",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.28",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.29",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.3",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.30",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.31",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.32",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.33",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.34",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.35",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.36",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.37",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.38",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.39",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.4",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.40",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.41",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.42",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.43",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.44",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.45",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.46",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.47",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.48",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.49",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.5",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.50",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.51",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.52",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.53",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.54",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.55",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.56",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.57",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.58",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.59",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.6",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.60",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.61",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.62",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.63",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.64",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.65",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.66",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.67",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.68",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.69",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.7",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.70",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.71",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.72",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.73",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.74",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.75",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.76",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.77",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.8",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wget-log.9",
+      "kind": "file",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wl",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "wlbuilder",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    },
+    {
+      "path": "zones",
+      "kind": "directory",
+      "classification": "unclassified",
+      "owner": "UNASSIGNED",
+      "capability": "review.required",
+      "status": "needs-review"
+    }
+  ],
+  "next_step": "Review UNASSIGNED entries, update owner rules or capabilities/registry.yaml, then rerun."
+}

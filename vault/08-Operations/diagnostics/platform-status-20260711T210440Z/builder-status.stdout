@@ -1,0 +1,64 @@
+[38;2;255;51;102mFAIL[0m unknown command: builder
+
+Wonderland CLI
+
+Usage:
+  wl <command> [args...]
+
+Commands:
+
+  Applications
+    apps         Manage Wonderland graphical app lifecycle
+    browser      Manage browser policy, profiles, and verification
+
+  Engineering
+    architecture Analyze wlcli architecture
+    architecture-verify Verify wlcli architecture import boundaries
+    certify      Run platform certification
+    checkpoint   Create or manage checkpoints
+    commands     Show command registry table
+    commands-json Show command registry as JSON
+    doctor       Verify CLI and runtime prerequisites
+    runtime-beta-bootstrap Create Runtime Engine 1.0 Beta package boundaries
+    runtime-beta-verify Verify Runtime Engine 1.0 Beta structure
+    runtime-engine-10-intent Create Runtime Engine 1.0 intent
+    runtime-engine-10-intent-verify Verify Runtime Engine 1.0 intent
+    runtime-verify-architecture Verify Runtime Engine architecture boundaries
+    runtime-verify-python Compile-check wlcli Python modules
+    self-test    Verify wlcli lifecycle routing
+    verify       Run platform verification
+
+  Interface
+    palette      Show Wonderland color palette
+
+  Knowledge
+    academy      Manage Wonderland Academy
+    knowledge    Manage Wonderland knowledge pipeline
+
+  Runtime
+    boot-report  Show the last Boot Graph report
+    boot-report-json Show the last Boot Graph report as JSON
+    events       Namespace: events show|clear
+    graph        Namespace: graph show|validate|current|logs|doctor
+    graph        Show the START Boot Graph
+    graph-clean  Remove Boot Graph state and logs
+    graph-current Show the current persisted Boot Graph summary
+    graph-current-json Show the current persisted Boot Graph summary as JSON
+    graph-doctor Run Boot Graph diagnostics
+    graph-json   Show the START Boot Graph as JSON
+    graph-logs   List Boot Graph execution logs
+    graph-open-log Print a Boot Graph stage log
+    graph-state  Print the persisted Boot Graph state
+    graph-validate Validate the START Boot Graph
+    history      Namespace: history show|failures|export
+    metrics      Namespace: metrics show|export
+    rootless     Manage Wonderland rootless runtime
+    runtime      Namespace: runtime start|stop|status|doctor
+    services     Manage Wonderland services
+    start        Alias: start Wonderland through the Boot Graph
+    status       Show runtime and service status
+    stop         Stop Wonderland through the Boot Graph
+
+  Storage
+    mirror       Manage Wonderland T7 mirror
+    storage      Manage attach/eject/storage authority

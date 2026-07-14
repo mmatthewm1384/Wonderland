@@ -1,0 +1,35 @@
+{
+  "platform": "Wonderland",
+  "platform_version": "0.4",
+  "status": "COMPLETE",
+  "completed_at": "2026-07-06T20:13:15Z",
+  "destructive_changes": false,
+  "capabilities": [
+    "unified_registry_service",
+    "registry_consumer_adapter",
+    "architecture_engine_registry_adapter",
+    "builder_registry_adapter",
+    "doctor_registry_adapter",
+    "release_registry_adapter",
+    "certification_registry_adapter",
+    "manifest_index_service",
+    "platform_status_aggregator",
+    "platform_command_adapter",
+    "root_dispatcher_bridge",
+    "platform_certification_command",
+    "platform_snapshot_command",
+    "platform_handoff_generator",
+    "final_certification_bundle"
+  ],
+  "primary_commands": [
+    "wl platform status",
+    "wl platform gate",
+    "wl platform certify",
+    "wl platform snapshot",
+    "wl platform handoff",
+    "wl platform finalize",
+    "bin/wl-platform status",
+    "bin/wl-engineering-gate",
+    "bin/wl-manifest-index"
+  ]
+}

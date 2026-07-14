@@ -1,0 +1,89 @@
+     1	#!/usr/bin/env bash
+     2	set -euo pipefail
+     3	
+     4	WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+     5	cd "$WL_HOME"
+     6	
+     7	python3 - <<'PY'
+     8	from __future__ import annotations
+     9	
+    10	import ast
+    11	import sys
+    12	from collections import defaultdict
+    13	from pathlib import Path
+    14	
+    15	ROOT = Path("builder/python/wlcli/wlcli")
+    16	FORBIDDEN_CORE_IMPORTS = (
+    17	    "wlcli.graph",
+    18	    "wlcli.report",
+    19	    "wlcli.runtime",
+    20	    "wlcli.state",
+    21	    "wlcli.ui",
+    22	)
+    23	
+    24	failed = False
+    25	edges: dict[str, set[str]] = defaultdict(set)
+    26	
+    27	
+    28	def module_name(path: Path) -> str:
+    29	    rel = path.relative_to(ROOT).with_suffix("")
+    30	    parts = rel.parts
+    31	    if parts[-1] == "__init__":
+    32	        parts = parts[:-1]
+    33	    return "wlcli" if not parts else "wlcli." + ".".join(parts)
+    34	
+    35	
+    36	def imports(path: Path) -> list[str]:
+    37	    tree = ast.parse(path.read_text(errors="replace"), filename=str(path))
+    38	    found: list[str] = []
+    39	
+    40	    for node in ast.walk(tree):
+    41	        if isinstance(node, ast.Import):
+    42	            found.extend(alias.name for alias in node.names)
+    43	        elif isinstance(node, ast.ImportFrom) and node.module:
+    44	            found.append(node.module)
+    45	
+    46	    return found
+    47	
+    48	
+    49	print("== Wonderland Architecture Verify ==")
+    50	
+    51	for path in sorted(ROOT.rglob("*.py")):
+    52	    mod = module_name(path)
+    53	
+    54	    try:
+    55	        imps = imports(path)
+    56	    except SyntaxError as e:
+    57	        print(f"FAIL syntax {path}: {e}")
+    58	        failed = True
+    59	        continue
+    60	
+    61	    for imp in imps:
+    62	        if imp.startswith("wlcli."):
+    63	            edges[mod].add(imp)
+    64	
+    65	        if "/core/" in str(path) or str(path).startswith(str(ROOT / "core")):
+    66	            if any(imp == bad or imp.startswith(bad + ".") for bad in FORBIDDEN_CORE_IMPORTS):
+    67	                print(f"FAIL core imports public shim: {path.relative_to(ROOT)} -> {imp}")
+    68	                failed = True
+    69	
+    70	            if imp == mod:
+    71	                print(f"FAIL self import: {path.relative_to(ROOT)} -> {imp}")
+    72	                failed = True
+    73	
+    74	if not failed:
+    75	    print("PASS layer boundaries")
+    76	
+    77	print()
+    78	print("Import graph edges:")
+    79	for src in sorted(edges):
+    80	    for dst in sorted(edges[src]):
+    81	        print(f"  {src} -> {dst}")
+    82	
+    83	print()
+    84	if failed:
+    85	    print("RESULT FAIL")
+    86	    sys.exit(1)
+    87	
+    88	print("RESULT PASS")
+    89	PY

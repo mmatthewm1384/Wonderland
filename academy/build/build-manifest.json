@@ -1,0 +1,37 @@
+{
+  "schema": "wonderland.academy.build.v1",
+  "generated_at": "2026-07-05T18:19:03Z",
+  "chapter_count": 1,
+  "targets": [
+    "html"
+  ],
+  "planned_targets": [
+    "pdf",
+    "epub",
+    "search",
+    "website"
+  ],
+  "chapters": [
+    {
+      "id": "001",
+      "title": "Binary \u2014 The Language of Every Computer",
+      "source": "02-lessons/day-001-030/chapter-001-binary",
+      "manifest": "02-lessons/day-001-030/chapter-001-binary/manifest.json",
+      "outputs": {
+        "html": "build/html/chapter-001/index.html"
+      },
+      "counts": {
+        "words": 932,
+        "files": 25,
+        "images": 0,
+        "diagrams": 0,
+        "labs": 0,
+        "quizzes": 0,
+        "references": 0,
+        "glossary": 0,
+        "codex": 0,
+        "handbook": 0
+      }
+    }
+  ]
+}

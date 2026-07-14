@@ -1,0 +1,21 @@
+{
+  "certificate": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-engine-certified-20260711T174925Z.json",
+  "checks": {
+    "certification_execution": true,
+    "doctor_running": true,
+    "final_stopped_state": true,
+    "first_start": true,
+    "first_stop": true,
+    "registry_digest_stable": true,
+    "repository_clean": true,
+    "rollback_certification": true,
+    "running_health": true,
+    "start_idempotency": true,
+    "stop_idempotency": true,
+    "structural_verification_after": true,
+    "structural_verification_before": true
+  },
+  "errors": [],
+  "evidence": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-certification-full-20260711T174925Z",
+  "result": "PASS"
+}

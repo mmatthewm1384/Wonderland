@@ -1,0 +1,1 @@
+7:exec python3 01-Platform/status/platform-status.py "$@"

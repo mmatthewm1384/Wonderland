@@ -1,0 +1,2872 @@
+{
+  "architecture": "wonderland",
+  "status": "PASS",
+  "timestamp": "2026-07-06T23:15:02.328560+00:00",
+  "nodes": [
+    {
+      "id": "platform.direction",
+      "type": "capability",
+      "name": "Platform Direction",
+      "owner": "Wonderland Doctrine",
+      "status": "active"
+    },
+    {
+      "id": "academy.understanding",
+      "type": "capability",
+      "name": "Platform Understanding",
+      "owner": "Wonderland Academy",
+      "status": "planned"
+    },
+    {
+      "id": "security.defensive-lab",
+      "type": "capability",
+      "name": "Defensive Security Lab",
+      "owner": "Wonderland Academy",
+      "status": "planned"
+    },
+    {
+      "id": "os.reference.bookworm",
+      "type": "capability",
+      "name": "Bookworm Reference Runtime",
+      "owner": "Wonderland OS",
+      "status": "planned"
+    },
+    {
+      "id": "platform.convergence",
+      "type": "capability",
+      "name": "Platform Convergence",
+      "owner": "Architecture Engine",
+      "status": "planned"
+    },
+    {
+      "id": "cli.dispatch",
+      "type": "capability",
+      "name": "CLI Dispatch",
+      "owner": "CLI Engine",
+      "status": "active"
+    },
+    {
+      "id": "platform.capability-registry",
+      "type": "capability",
+      "name": "Capability Registry",
+      "owner": "Architecture Engine",
+      "status": "active"
+    },
+    {
+      "id": "platform.architecture",
+      "type": "capability",
+      "name": "Architecture Graph",
+      "owner": "Architecture Engine",
+      "status": "active"
+    },
+    {
+      "id": "runtime.lifecycle",
+      "type": "capability",
+      "name": "Runtime Lifecycle",
+      "owner": "Runtime Engine",
+      "status": "planned"
+    },
+    {
+      "id": "operations.state",
+      "type": "capability",
+      "name": "Operations State",
+      "owner": "Operations Engine",
+      "status": "active"
+    },
+    {
+      "id": "security.defensive",
+      "type": "capability",
+      "name": "Defensive Security",
+      "owner": "Security Engine",
+      "status": "planned"
+    },
+    {
+      "id": "builder.pipeline",
+      "type": "capability",
+      "name": "Builder Pipeline",
+      "owner": "Builder Engine",
+      "status": "planned"
+    },
+    {
+      "id": "applications.consumer",
+      "type": "capability",
+      "name": "Application Consumers",
+      "owner": "Application Layer",
+      "status": "planned"
+    },
+    {
+      "id": "infrastructure.runtime",
+      "type": "capability",
+      "name": "Infrastructure Runtime",
+      "owner": "Infrastructure Engine",
+      "status": "planned"
+    },
+    {
+      "id": "configuration.policy",
+      "type": "capability",
+      "name": "Configuration Policy",
+      "owner": "Configuration Engine",
+      "status": "planned"
+    },
+    {
+      "id": "design.assets",
+      "type": "capability",
+      "name": "Design Assets",
+      "owner": "Design System",
+      "status": "planned"
+    },
+    {
+      "id": "knowledge.documentation",
+      "type": "capability",
+      "name": "Knowledge Documentation",
+      "owner": "Knowledge Engine",
+      "status": "planned"
+    },
+    {
+      "id": "legacy.review",
+      "type": "capability",
+      "name": "Legacy Review",
+      "owner": "Legacy Archive",
+      "status": "planned"
+    },
+    {
+      "id": "artifact.backup",
+      "type": "capability",
+      "name": "Backup Artifacts",
+      "owner": "Artifact Policy",
+      "status": "active"
+    },
+    {
+      "id": "artifact.temporary",
+      "type": "capability",
+      "name": "Temporary Artifacts",
+      "owner": "Artifact Policy",
+      "status": "active"
+    },
+    {
+      "id": "artifact.build",
+      "type": "capability",
+      "name": "Build Artifacts",
+      "owner": "Artifact Policy",
+      "status": "active"
+    },
+    {
+      "id": "artifact.quarantine",
+      "type": "capability",
+      "name": "Quarantine Artifacts",
+      "owner": "Artifact Policy",
+      "status": "active"
+    },
+    {
+      "id": "owner:Application Layer",
+      "type": "owner",
+      "name": "Application Layer",
+      "capabilities": [
+        "applications.consumer"
+      ]
+    },
+    {
+      "id": "owner:Architecture Engine",
+      "type": "owner",
+      "name": "Architecture Engine",
+      "capabilities": [
+        "platform.capability-registry"
+      ]
+    },
+    {
+      "id": "owner:Artifact Policy",
+      "type": "owner",
+      "name": "Artifact Policy",
+      "capabilities": [
+        "artifact.backup",
+        "artifact.build",
+        "artifact.quarantine",
+        "artifact.temporary"
+      ]
+    },
+    {
+      "id": "owner:Builder Engine",
+      "type": "owner",
+      "name": "Builder Engine",
+      "capabilities": [
+        "builder.pipeline"
+      ]
+    },
+    {
+      "id": "owner:CLI Engine",
+      "type": "owner",
+      "name": "CLI Engine",
+      "capabilities": [
+        "cli.dispatch"
+      ]
+    },
+    {
+      "id": "owner:Configuration Engine",
+      "type": "owner",
+      "name": "Configuration Engine",
+      "capabilities": [
+        "configuration.policy"
+      ]
+    },
+    {
+      "id": "owner:Design System",
+      "type": "owner",
+      "name": "Design System",
+      "capabilities": [
+        "design.assets"
+      ]
+    },
+    {
+      "id": "owner:Development Tooling",
+      "type": "owner",
+      "name": "Development Tooling",
+      "capabilities": [
+        "builder.pipeline"
+      ]
+    },
+    {
+      "id": "owner:Implementation Workspace",
+      "type": "owner",
+      "name": "Implementation Workspace",
+      "capabilities": [
+        "implementation.workspace"
+      ]
+    },
+    {
+      "id": "owner:Infrastructure Engine",
+      "type": "owner",
+      "name": "Infrastructure Engine",
+      "capabilities": [
+        "infrastructure.runtime"
+      ]
+    },
+    {
+      "id": "owner:Knowledge Engine",
+      "type": "owner",
+      "name": "Knowledge Engine",
+      "capabilities": [
+        "knowledge.documentation"
+      ]
+    },
+    {
+      "id": "owner:Legacy Archive",
+      "type": "owner",
+      "name": "Legacy Archive",
+      "capabilities": [
+        "legacy.review"
+      ]
+    },
+    {
+      "id": "owner:Operations Engine",
+      "type": "owner",
+      "name": "Operations Engine",
+      "capabilities": [
+        "operations.state"
+      ]
+    },
+    {
+      "id": "owner:Platform Engine",
+      "type": "owner",
+      "name": "Platform Engine",
+      "capabilities": [
+        "platform.core"
+      ]
+    },
+    {
+      "id": "owner:Registry Engine",
+      "type": "owner",
+      "name": "Registry Engine",
+      "capabilities": [
+        "platform.capability-registry"
+      ]
+    },
+    {
+      "id": "owner:Runtime Engine",
+      "type": "owner",
+      "name": "Runtime Engine",
+      "capabilities": [
+        "runtime.lifecycle"
+      ]
+    },
+    {
+      "id": "owner:Security Engine",
+      "type": "owner",
+      "name": "Security Engine",
+      "capabilities": [
+        "security.defensive"
+      ]
+    },
+    {
+      "id": "owner:Source Workspace",
+      "type": "owner",
+      "name": "Source Workspace",
+      "capabilities": [
+        "builder.pipeline"
+      ]
+    },
+    {
+      "id": "owner:Verification Engine",
+      "type": "owner",
+      "name": "Verification Engine",
+      "capabilities": [
+        "verification.tests"
+      ]
+    },
+    {
+      "id": "owner:Wonderland Academy",
+      "type": "owner",
+      "name": "Wonderland Academy",
+      "capabilities": [
+        "academy.understanding"
+      ]
+    },
+    {
+      "id": "owner:Wonderland Doctrine",
+      "type": "owner",
+      "name": "Wonderland Doctrine",
+      "capabilities": [
+        "platform.direction"
+      ]
+    },
+    {
+      "id": "owner:Wonderland OS",
+      "type": "owner",
+      "name": "Wonderland OS",
+      "capabilities": [
+        "os.reference.bookworm"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "owner:Wonderland Doctrine",
+      "to": "platform.direction",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Wonderland Academy",
+      "to": "academy.understanding",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Wonderland Academy",
+      "to": "security.defensive-lab",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Wonderland OS",
+      "to": "os.reference.bookworm",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Architecture Engine",
+      "to": "platform.convergence",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:CLI Engine",
+      "to": "cli.dispatch",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Architecture Engine",
+      "to": "platform.capability-registry",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Architecture Engine",
+      "to": "platform.architecture",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Runtime Engine",
+      "to": "runtime.lifecycle",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Operations Engine",
+      "to": "operations.state",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Security Engine",
+      "to": "security.defensive",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Builder Engine",
+      "to": "builder.pipeline",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Application Layer",
+      "to": "applications.consumer",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Infrastructure Engine",
+      "to": "infrastructure.runtime",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Configuration Engine",
+      "to": "configuration.policy",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Design System",
+      "to": "design.assets",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Knowledge Engine",
+      "to": "knowledge.documentation",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Legacy Archive",
+      "to": "legacy.review",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Artifact Policy",
+      "to": "artifact.backup",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Artifact Policy",
+      "to": "artifact.temporary",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Artifact Policy",
+      "to": "artifact.build",
+      "relationship": "owns"
+    },
+    {
+      "from": "owner:Artifact Policy",
+      "to": "artifact.quarantine",
+      "relationship": "owns"
+    },
+    {
+      "from": ".backup",
+      "to": "artifact.backup",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".backup-spin-the-city-intent-20260623-155249",
+      "to": "artifact.backup",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".backup-theomatrix-install-20260622-074829",
+      "to": "artifact.backup",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".backup-theomatrix-v31-20260622-093532",
+      "to": "artifact.backup",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".backup-wl-consolidation-20260621-171517",
+      "to": "artifact.backup",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".backup-wl-consolidation-20260621-171654",
+      "to": "artifact.backup",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".build",
+      "to": "artifact.build",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".github",
+      "to": "builder.pipeline",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".gitignore",
+      "to": "builder.pipeline",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".quarantine",
+      "to": "artifact.quarantine",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".wl",
+      "to": "operations.state",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".wl-registry",
+      "to": "platform.capability-registry",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": ".wlmeta.json",
+      "to": "platform.capability-registry",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "00-Philosophy",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "01-Platform",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "02-Infrastructure",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "03-Applications",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "04-Documentation",
+      "to": "knowledge.documentation",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "05-Vault",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "CONSTITUTION.md",
+      "to": "platform.direction",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "ChaosControllerStatus",
+      "to": "applications.consumer",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "DESIGN_SYSTEM.md",
+      "to": "design.assets",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "HANDOFF-PLATFORM-0-PHILOSOPHY.md",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "MANIFESTO.md",
+      "to": "platform.direction",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "Makefile",
+      "to": "builder.pipeline",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "NORTH_STAR.md",
+      "to": "platform.direction",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "PLATFORM-0.0-PHILOSOPHY-RELEASE.md",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "PROJECT-INSTRUCTIONS.md",
+      "to": "platform.direction",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "README.md",
+      "to": "platform.direction",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "WONDERLAND.md",
+      "to": "platform.direction",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "Wonderland-v4",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "WonderlandApp",
+      "to": "applications.consumer",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "academy",
+      "to": "academy.understanding",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "apps",
+      "to": "applications.consumer",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "archive",
+      "to": "operations.state",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "assets",
+      "to": "design.assets",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "authorities",
+      "to": "security.defensive",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "backup",
+      "to": "operations.state",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "bin",
+      "to": "cli.dispatch",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "build",
+      "to": "artifact.build",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "builder",
+      "to": "implementation.workspace",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "capabilities",
+      "to": "platform.capability-registry",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "concepts",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "config",
+      "to": "configuration.policy",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "controller",
+      "to": "runtime.lifecycle",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "core",
+      "to": "builder.pipeline",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "dashboard",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "data",
+      "to": "operations.state",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "design",
+      "to": "design.assets",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "docker",
+      "to": "infrastructure.runtime",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "docs",
+      "to": "knowledge.documentation",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "e",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "ephemeral",
+      "to": "operations.state",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "governance",
+      "to": "security.defensive",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "handoff-platform-0-reset.sh",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "images",
+      "to": "design.assets",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "implement-p0-1-philosophy-engine.sh",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "implement-platform-0-cli.sh",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "implement-platform-0-doctor.sh",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "implement-platform-0-governance.sh",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "infra",
+      "to": "infrastructure.runtime",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "infrastructure",
+      "to": "infrastructure.runtime",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "install-platform-0-philosophy-release.sh",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "install-platform-0.sh",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "install-theomatrix-v3.sh",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "install.sh",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "intelligence",
+      "to": "operations.state",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "intents",
+      "to": "operations.state",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "kernel",
+      "to": "builder.pipeline",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "knowledge",
+      "to": "knowledge.documentation",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "legacy",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "lib",
+      "to": "builder.pipeline",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "lima.REJECTED.yaml",
+      "to": "infrastructure.runtime",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "logs",
+      "to": "operations.state",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "manuscript",
+      "to": "knowledge.documentation",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "olution",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "os",
+      "to": "os.reference.bookworm",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "platform",
+      "to": "platform.core",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "plugins",
+      "to": "builder.pipeline",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "policies",
+      "to": "security.defensive",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "profiles",
+      "to": "configuration.policy",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "raycast",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "recovery",
+      "to": "operations.state",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "registries",
+      "to": "platform.capability-registry",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "registry",
+      "to": "platform.capability-registry",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "release",
+      "to": "operations.state",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "releases",
+      "to": "operations.state",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "reports",
+      "to": "operations.state",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "retire-old-models-platform-0-handoff.sh",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "runtime",
+      "to": "runtime.lifecycle",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "s(slots=True)",
+      "to": "legacy.review",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "scheduler",
+      "to": "runtime.lifecycle",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "schemas",
+      "to": "configuration.policy",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "scripts",
+      "to": "builder.pipeline",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "sdk",
+      "to": "builder.pipeline",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "secrets",
+      "to": "security.defensive",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "security",
+      "to": "security.defensive",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "services",
+      "to": "runtime.lifecycle",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "shared",
+      "to": "builder.pipeline",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "source",
+      "to": "builder.pipeline",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "state",
+      "to": "operations.state",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "tests",
+      "to": "verification.tests",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "tmp",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "tools",
+      "to": "builder.pipeline",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "vault",
+      "to": "operations.state",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.1",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.10",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.11",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.12",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.13",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.14",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.15",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.16",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.17",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.18",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.19",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.2",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.20",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.21",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.22",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.23",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.24",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.25",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.26",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.27",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.28",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.29",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.3",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.30",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.31",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.32",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.33",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.34",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.35",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.36",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.37",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.38",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.39",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.4",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.40",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.41",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.42",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.43",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.44",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.45",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.46",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.47",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.48",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.49",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.5",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.50",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.51",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.52",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.53",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.54",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.55",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.56",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.57",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.58",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.59",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.6",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.60",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.61",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.62",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.63",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.64",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.65",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.66",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.67",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.68",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.69",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.7",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.70",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.71",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.72",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.73",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.74",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.75",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.76",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.77",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.8",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wget-log.9",
+      "to": "artifact.temporary",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wl",
+      "to": "cli.dispatch",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "wlbuilder",
+      "to": "builder.pipeline",
+      "relationship": "implements-or-supports"
+    },
+    {
+      "from": "zones",
+      "to": "operations.state",
+      "relationship": "implements-or-supports"
+    }
+  ],
+  "components": [
+    {
+      "path": ".backup",
+      "owner": "Artifact Policy",
+      "capability": "artifact.backup",
+      "classification": "artifact",
+      "domain": "artifact.backup",
+      "status": "domain-assigned"
+    },
+    {
+      "path": ".backup-spin-the-city-intent-20260623-155249",
+      "owner": "Artifact Policy",
+      "capability": "artifact.backup",
+      "classification": "artifact",
+      "domain": "artifact.backup",
+      "status": "domain-assigned"
+    },
+    {
+      "path": ".backup-theomatrix-install-20260622-074829",
+      "owner": "Artifact Policy",
+      "capability": "artifact.backup",
+      "classification": "artifact",
+      "domain": "artifact.backup",
+      "status": "domain-assigned"
+    },
+    {
+      "path": ".backup-theomatrix-v31-20260622-093532",
+      "owner": "Artifact Policy",
+      "capability": "artifact.backup",
+      "classification": "artifact",
+      "domain": "artifact.backup",
+      "status": "domain-assigned"
+    },
+    {
+      "path": ".backup-wl-consolidation-20260621-171517",
+      "owner": "Artifact Policy",
+      "capability": "artifact.backup",
+      "classification": "artifact",
+      "domain": "artifact.backup",
+      "status": "domain-assigned"
+    },
+    {
+      "path": ".backup-wl-consolidation-20260621-171654",
+      "owner": "Artifact Policy",
+      "capability": "artifact.backup",
+      "classification": "artifact",
+      "domain": "artifact.backup",
+      "status": "domain-assigned"
+    },
+    {
+      "path": ".build",
+      "owner": "Artifact Policy",
+      "capability": "artifact.build",
+      "classification": "artifact",
+      "domain": "artifact.build",
+      "status": "domain-assigned"
+    },
+    {
+      "path": ".github",
+      "owner": "Development Tooling",
+      "capability": "builder.pipeline",
+      "classification": "domain-assigned",
+      "domain": "ci",
+      "status": "domain-assigned"
+    },
+    {
+      "path": ".gitignore",
+      "owner": "Development Tooling",
+      "capability": "builder.pipeline",
+      "classification": "domain-assigned",
+      "domain": "ci",
+      "status": "domain-assigned"
+    },
+    {
+      "path": ".quarantine",
+      "owner": "Artifact Policy",
+      "capability": "artifact.quarantine",
+      "classification": "artifact",
+      "domain": "artifact.quarantine",
+      "status": "domain-assigned"
+    },
+    {
+      "path": ".wl",
+      "owner": "Operations Engine",
+      "capability": "operations.state",
+      "classification": "domain-assigned",
+      "domain": "local-state",
+      "status": "domain-assigned"
+    },
+    {
+      "path": ".wl-registry",
+      "owner": "Registry Engine",
+      "capability": "platform.capability-registry",
+      "classification": "domain-assigned",
+      "domain": "registry",
+      "status": "domain-assigned"
+    },
+    {
+      "path": ".wlmeta.json",
+      "owner": "Registry Engine",
+      "capability": "platform.capability-registry",
+      "classification": "domain-assigned",
+      "domain": "registry",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "00-Philosophy",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "01-Platform",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "02-Infrastructure",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "03-Applications",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "04-Documentation",
+      "owner": "Knowledge Engine",
+      "capability": "knowledge.documentation",
+      "classification": "domain-assigned",
+      "domain": "knowledge",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "05-Vault",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "CONSTITUTION.md",
+      "owner": "Wonderland Doctrine",
+      "capability": "platform.direction",
+      "classification": "domain-assigned",
+      "domain": "doctrine",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "ChaosControllerStatus",
+      "owner": "Application Layer",
+      "capability": "applications.consumer",
+      "classification": "domain-assigned",
+      "domain": "applications",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "DESIGN_SYSTEM.md",
+      "owner": "Design System",
+      "capability": "design.assets",
+      "classification": "domain-assigned",
+      "domain": "design",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "HANDOFF-PLATFORM-0-PHILOSOPHY.md",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy-scripts",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "MANIFESTO.md",
+      "owner": "Wonderland Doctrine",
+      "capability": "platform.direction",
+      "classification": "domain-assigned",
+      "domain": "doctrine",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "Makefile",
+      "owner": "Development Tooling",
+      "capability": "builder.pipeline",
+      "classification": "domain-assigned",
+      "domain": "development",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "NORTH_STAR.md",
+      "owner": "Wonderland Doctrine",
+      "capability": "platform.direction",
+      "classification": "domain-assigned",
+      "domain": "doctrine",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "PLATFORM-0.0-PHILOSOPHY-RELEASE.md",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy-scripts",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "PROJECT-INSTRUCTIONS.md",
+      "owner": "Wonderland Doctrine",
+      "capability": "platform.direction",
+      "classification": "domain-assigned",
+      "domain": "doctrine",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "README.md",
+      "owner": "Wonderland Doctrine",
+      "capability": "platform.direction",
+      "classification": "domain-assigned",
+      "domain": "doctrine",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "WONDERLAND.md",
+      "owner": "Wonderland Doctrine",
+      "capability": "platform.direction",
+      "classification": "unclassified",
+      "domain": null,
+      "status": "assigned"
+    },
+    {
+      "path": "Wonderland-v4",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "WonderlandApp",
+      "owner": "Application Layer",
+      "capability": "applications.consumer",
+      "classification": "domain-assigned",
+      "domain": "applications",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "academy",
+      "owner": "Wonderland Academy",
+      "capability": "academy.understanding",
+      "classification": "academy",
+      "domain": null,
+      "status": "assigned"
+    },
+    {
+      "path": "apps",
+      "owner": "Application Layer",
+      "capability": "applications.consumer",
+      "classification": "domain-assigned",
+      "domain": "applications",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "archive",
+      "owner": "Operations Engine",
+      "capability": "operations.state",
+      "classification": "domain-assigned",
+      "domain": "operations",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "assets",
+      "owner": "Design System",
+      "capability": "design.assets",
+      "classification": "asset",
+      "domain": null,
+      "status": "assigned"
+    },
+    {
+      "path": "authorities",
+      "owner": "Security Engine",
+      "capability": "security.defensive",
+      "classification": "domain-assigned",
+      "domain": "security",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "backup",
+      "owner": "Operations Engine",
+      "capability": "operations.state",
+      "classification": "domain-assigned",
+      "domain": "operations",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "bin",
+      "owner": "CLI Engine",
+      "capability": "cli.dispatch",
+      "classification": "domain-assigned",
+      "domain": "cli",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "build",
+      "owner": "Artifact Policy",
+      "capability": "artifact.build",
+      "classification": "artifact",
+      "domain": "artifact.build",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "builder",
+      "owner": "Implementation Workspace",
+      "capability": "implementation.workspace",
+      "classification": "implementation",
+      "domain": null,
+      "status": "assigned"
+    },
+    {
+      "path": "capabilities",
+      "owner": "Architecture Engine",
+      "capability": "platform.capability-registry",
+      "classification": "capability-registry",
+      "domain": null,
+      "status": "assigned"
+    },
+    {
+      "path": "concepts",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "experiments",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "config",
+      "owner": "Configuration Engine",
+      "capability": "configuration.policy",
+      "classification": "configuration",
+      "domain": null,
+      "status": "assigned"
+    },
+    {
+      "path": "controller",
+      "owner": "Runtime Engine",
+      "capability": "runtime.lifecycle",
+      "classification": "domain-assigned",
+      "domain": "runtime",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "core",
+      "owner": "Source Workspace",
+      "capability": "builder.pipeline",
+      "classification": "domain-assigned",
+      "domain": "source",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "dashboard",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "experiments",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "data",
+      "owner": "Operations Engine",
+      "capability": "operations.state",
+      "classification": "domain-assigned",
+      "domain": "local-state",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "design",
+      "owner": "Design System",
+      "capability": "design.assets",
+      "classification": "domain-assigned",
+      "domain": "design",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "docker",
+      "owner": "Infrastructure Engine",
+      "capability": "infrastructure.runtime",
+      "classification": "domain-assigned",
+      "domain": "infrastructure",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "docs",
+      "owner": "Knowledge Engine",
+      "capability": "knowledge.documentation",
+      "classification": "documentation",
+      "domain": null,
+      "status": "assigned"
+    },
+    {
+      "path": "e",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "experiments",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "ephemeral",
+      "owner": "Operations Engine",
+      "capability": "operations.state",
+      "classification": "domain-assigned",
+      "domain": "local-state",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "governance",
+      "owner": "Security Engine",
+      "capability": "security.defensive",
+      "classification": "domain-assigned",
+      "domain": "security",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "handoff-platform-0-reset.sh",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy-scripts",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "images",
+      "owner": "Design System",
+      "capability": "design.assets",
+      "classification": "domain-assigned",
+      "domain": "design",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "implement-p0-1-philosophy-engine.sh",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy-scripts",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "implement-platform-0-cli.sh",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy-scripts",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "implement-platform-0-doctor.sh",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy-scripts",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "implement-platform-0-governance.sh",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy-scripts",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "infra",
+      "owner": "Infrastructure Engine",
+      "capability": "infrastructure.runtime",
+      "classification": "domain-assigned",
+      "domain": "infrastructure",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "infrastructure",
+      "owner": "Infrastructure Engine",
+      "capability": "infrastructure.runtime",
+      "classification": "domain-assigned",
+      "domain": "infrastructure",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "install-platform-0-philosophy-release.sh",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy-scripts",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "install-platform-0.sh",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy-scripts",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "install-theomatrix-v3.sh",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy-scripts",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "install.sh",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy-scripts",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "intelligence",
+      "owner": "Operations Engine",
+      "capability": "operations.state",
+      "classification": "domain-assigned",
+      "domain": "local-state",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "intents",
+      "owner": "Operations Engine",
+      "capability": "operations.state",
+      "classification": "domain-assigned",
+      "domain": "local-state",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "kernel",
+      "owner": "Source Workspace",
+      "capability": "builder.pipeline",
+      "classification": "domain-assigned",
+      "domain": "source",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "knowledge",
+      "owner": "Knowledge Engine",
+      "capability": "knowledge.documentation",
+      "classification": "domain-assigned",
+      "domain": "knowledge",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "legacy",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "lib",
+      "owner": "Development Tooling",
+      "capability": "builder.pipeline",
+      "classification": "domain-assigned",
+      "domain": "development",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "lima.REJECTED.yaml",
+      "owner": "Infrastructure Engine",
+      "capability": "infrastructure.runtime",
+      "classification": "domain-assigned",
+      "domain": "infrastructure",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "logs",
+      "owner": "Operations Engine",
+      "capability": "operations.state",
+      "classification": "domain-assigned",
+      "domain": "operations",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "manuscript",
+      "owner": "Knowledge Engine",
+      "capability": "knowledge.documentation",
+      "classification": "domain-assigned",
+      "domain": "knowledge",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "olution",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "experiments",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "os",
+      "owner": "Wonderland OS",
+      "capability": "os.reference.bookworm",
+      "classification": "domain-assigned",
+      "domain": "os",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "platform",
+      "owner": "Platform Engine",
+      "capability": "platform.core",
+      "classification": "platform",
+      "domain": null,
+      "status": "assigned"
+    },
+    {
+      "path": "plugins",
+      "owner": "Development Tooling",
+      "capability": "builder.pipeline",
+      "classification": "domain-assigned",
+      "domain": "development",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "policies",
+      "owner": "Security Engine",
+      "capability": "security.defensive",
+      "classification": "domain-assigned",
+      "domain": "security",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "profiles",
+      "owner": "Configuration Engine",
+      "capability": "configuration.policy",
+      "classification": "domain-assigned",
+      "domain": "configuration",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "raycast",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "experiments",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "recovery",
+      "owner": "Operations Engine",
+      "capability": "operations.state",
+      "classification": "domain-assigned",
+      "domain": "operations",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "registries",
+      "owner": "Registry Engine",
+      "capability": "platform.capability-registry",
+      "classification": "domain-assigned",
+      "domain": "registry",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "registry",
+      "owner": "Registry Engine",
+      "capability": "platform.capability-registry",
+      "classification": "domain-assigned",
+      "domain": "registry",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "release",
+      "owner": "Operations Engine",
+      "capability": "operations.state",
+      "classification": "domain-assigned",
+      "domain": "operations",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "releases",
+      "owner": "Operations Engine",
+      "capability": "operations.state",
+      "classification": "domain-assigned",
+      "domain": "operations",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "reports",
+      "owner": "Operations Engine",
+      "capability": "operations.state",
+      "classification": "domain-assigned",
+      "domain": "operations",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "retire-old-models-platform-0-handoff.sh",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "legacy-scripts",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "runtime",
+      "owner": "Runtime Engine",
+      "capability": "runtime.lifecycle",
+      "classification": "domain-assigned",
+      "domain": "runtime",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "s(slots=True)",
+      "owner": "Legacy Archive",
+      "capability": "legacy.review",
+      "classification": "domain-assigned",
+      "domain": "experiments",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "scheduler",
+      "owner": "Runtime Engine",
+      "capability": "runtime.lifecycle",
+      "classification": "domain-assigned",
+      "domain": "runtime",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "schemas",
+      "owner": "Configuration Engine",
+      "capability": "configuration.policy",
+      "classification": "domain-assigned",
+      "domain": "configuration",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "scripts",
+      "owner": "Development Tooling",
+      "capability": "builder.pipeline",
+      "classification": "domain-assigned",
+      "domain": "development",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "sdk",
+      "owner": "Development Tooling",
+      "capability": "builder.pipeline",
+      "classification": "domain-assigned",
+      "domain": "development",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "secrets",
+      "owner": "Security Engine",
+      "capability": "security.defensive",
+      "classification": "domain-assigned",
+      "domain": "security",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "security",
+      "owner": "Security Engine",
+      "capability": "security.defensive",
+      "classification": "domain-assigned",
+      "domain": "security",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "services",
+      "owner": "Runtime Engine",
+      "capability": "runtime.lifecycle",
+      "classification": "domain-assigned",
+      "domain": "runtime",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "shared",
+      "owner": "Source Workspace",
+      "capability": "builder.pipeline",
+      "classification": "domain-assigned",
+      "domain": "source",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "source",
+      "owner": "Source Workspace",
+      "capability": "builder.pipeline",
+      "classification": "domain-assigned",
+      "domain": "source",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "state",
+      "owner": "Operations Engine",
+      "capability": "operations.state",
+      "classification": "domain-assigned",
+      "domain": "local-state",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "tests",
+      "owner": "Verification Engine",
+      "capability": "verification.tests",
+      "classification": "test",
+      "domain": null,
+      "status": "assigned"
+    },
+    {
+      "path": "tmp",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "tools",
+      "owner": "Development Tooling",
+      "capability": "builder.pipeline",
+      "classification": "domain-assigned",
+      "domain": "development",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "vault",
+      "owner": "Operations Engine",
+      "capability": "operations.state",
+      "classification": "domain-assigned",
+      "domain": "operations",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.1",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.10",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.11",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.12",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.13",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.14",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.15",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.16",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.17",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.18",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.19",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.2",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.20",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.21",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.22",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.23",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.24",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.25",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.26",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.27",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.28",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.29",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.3",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.30",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.31",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.32",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.33",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.34",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.35",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.36",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.37",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.38",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.39",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.4",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.40",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.41",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.42",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.43",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.44",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.45",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.46",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.47",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.48",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.49",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.5",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.50",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.51",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.52",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.53",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.54",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.55",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.56",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.57",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.58",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.59",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.6",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.60",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.61",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.62",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.63",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.64",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.65",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.66",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.67",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.68",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.69",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.7",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.70",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.71",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.72",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.73",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.74",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.75",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.76",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.77",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.8",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wget-log.9",
+      "owner": "Artifact Policy",
+      "capability": "artifact.temporary",
+      "classification": "artifact",
+      "domain": "artifact.temporary",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wl",
+      "owner": "CLI Engine",
+      "capability": "cli.dispatch",
+      "classification": "domain-assigned",
+      "domain": "cli",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "wlbuilder",
+      "owner": "Builder Engine",
+      "capability": "builder.pipeline",
+      "classification": "domain-assigned",
+      "domain": "builder",
+      "status": "domain-assigned"
+    },
+    {
+      "path": "zones",
+      "owner": "Operations Engine",
+      "capability": "operations.state",
+      "classification": "domain-assigned",
+      "domain": "local-state",
+      "status": "domain-assigned"
+    }
+  ]
+}

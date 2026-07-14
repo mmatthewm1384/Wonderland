@@ -1,0 +1,266 @@
+version: 1
+
+domains:
+  - id: doctrine
+    owner: Wonderland Doctrine
+    capability: platform.direction
+    paths:
+      - WONDERLAND.md
+      - CONSTITUTION.md
+      - MANIFESTO.md
+      - NORTH_STAR.md
+      - README.md
+      - PROJECT-INSTRUCTIONS.md
+
+  - id: cli
+    owner: CLI Engine
+    capability: cli.dispatch
+    paths:
+      - bin
+      - wl
+
+  - id: academy
+    owner: Wonderland Academy
+    capability: academy.understanding
+    paths:
+      - academy
+      - lib/academy
+
+  - id: architecture
+    owner: Architecture Engine
+    capability: platform.architecture
+    paths:
+      - architecture
+      - capabilities
+      - platform
+
+  - id: builder
+    owner: Builder Engine
+    capability: builder.pipeline
+    paths:
+      - builder
+      - wlbuilder
+
+  - id: applications
+    owner: Application Layer
+    capability: applications.consumer
+    paths:
+      - apps
+      - WonderlandApp
+      - ChaosControllerStatus
+
+  - id: infrastructure
+    owner: Infrastructure Engine
+    capability: infrastructure.runtime
+    paths:
+      - infra
+      - infrastructure
+      - docker
+      - lima.REJECTED.yaml
+
+  - id: runtime
+    owner: Runtime Engine
+    capability: runtime.lifecycle
+    paths:
+      - runtime
+      - services
+      - scheduler
+      - controller
+
+  - id: knowledge
+    owner: Knowledge Engine
+    capability: knowledge.documentation
+    paths:
+      - docs
+      - knowledge
+      - 04-Documentation
+      - manuscript
+
+  - id: operations
+    owner: Operations Engine
+    capability: operations.state
+    paths:
+      - vault
+      - logs
+      - reports
+      - release
+      - releases
+      - recovery
+      - backup
+      - archive
+
+  - id: security
+    owner: Security Engine
+    capability: security.defensive
+    paths:
+      - security
+      - secrets
+      - policies
+      - governance
+      - authorities
+
+  - id: configuration
+    owner: Configuration Engine
+    capability: configuration.policy
+    paths:
+      - config
+      - profiles
+      - schemas
+
+  - id: design
+    owner: Design System
+    capability: design.assets
+    paths:
+      - assets
+      - design
+      - images
+      - DESIGN_SYSTEM.md
+
+  - id: legacy
+    owner: Legacy Archive
+    capability: legacy.review
+    paths:
+      - legacy
+      - Wonderland-v4
+      - 00-Philosophy
+      - 01-Platform
+      - 02-Infrastructure
+      - 03-Applications
+      - 05-Vault
+
+  - id: os
+    owner: Wonderland OS
+    capability: os.reference.bookworm
+    paths:
+      - os
+
+  - id: development
+    owner: Development Tooling
+    capability: builder.pipeline
+    paths:
+      - Makefile
+      - scripts
+      - tools
+      - sdk
+      - lib
+      - plugins
+
+  - id: registry
+    owner: Registry Engine
+    capability: platform.capability-registry
+    paths:
+      - registry
+      - registries
+      - .wl-registry
+      - .wlmeta.json
+
+  - id: local-state
+    owner: Operations Engine
+    capability: operations.state
+    paths:
+      - .wl
+      - state
+      - data
+      - ephemeral
+      - intents
+      - intelligence
+      - zones
+
+  - id: source
+    owner: Source Workspace
+    capability: builder.pipeline
+    paths:
+      - source
+      - shared
+      - core
+      - kernel
+
+  - id: ci
+    owner: Development Tooling
+    capability: builder.pipeline
+    paths:
+      - .github
+      - .gitignore
+
+  - id: experiments
+    owner: Legacy Archive
+    capability: legacy.review
+    paths:
+      - concepts
+      - dashboard
+      - raycast
+      - e
+      - olution
+      - s(slots=True)
+
+  - id: legacy-scripts
+    owner: Legacy Archive
+    capability: legacy.review
+    paths:
+      - install.sh
+      - install-platform-0.sh
+      - install-platform-0-philosophy-release.sh
+      - install-theomatrix-v3.sh
+      - implement-p0-1-philosophy-engine.sh
+      - implement-platform-0-cli.sh
+      - implement-platform-0-doctor.sh
+      - implement-platform-0-governance.sh
+      - handoff-platform-0-reset.sh
+      - retire-old-models-platform-0-handoff.sh
+      - HANDOFF-PLATFORM-0-PHILOSOPHY.md
+      - PLATFORM-0.0-PHILOSOPHY-RELEASE.md
+
+
+  - id: legacy-root-artifacts
+    owner: Legacy Archive
+    capability: legacy.review
+    paths:
+      - HANDOFF-PLATFORM-0-PHILOSOPHY.md
+      - PLATFORM-0.0-PHILOSOPHY-RELEASE.md
+      - handoff-platform-0-reset.sh
+      - implement-p0-1-philosophy-engine.sh
+      - implement-platform-0-cli.sh
+      - implement-platform-0-doctor.sh
+      - implement-platform-0-governance.sh
+      - install-platform-0-philosophy-release.sh
+      - install-platform-0.sh
+      - install-theomatrix-v3.sh
+      - install.sh
+      - retire-old-models-platform-0-handoff.sh
+
+  - id: verification
+    owner: Verification Engine
+    capability: verification.tests
+    paths:
+      - tests
+
+  - id: local-development
+    owner: Development Tooling
+    capability: builder.pipeline
+    paths:
+      - .venv
+
+ignore:
+  - .git
+  - .DS_Store
+  - __pycache__
+  - node_modules
+  - .pytest_cache
+  - .mypy_cache
+  - .ruff_cache
+
+artifact_patterns:
+  backup:
+    - ".backup*"
+    - "*.bak*"
+    - "*.original"
+    - "*.orig"
+  temporary:
+    - "*.tmp"
+    - "tmp"
+    - "wget-log*"
+  build:
+    - ".build"
+    - "build"
+  quarantine:
+    - ".quarantine"

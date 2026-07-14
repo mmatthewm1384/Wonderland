@@ -1,0 +1,19 @@
+{
+  "module": "browser",
+  "status": "integrated",
+  "commands": {
+    "primary": "wl browser",
+    "standalone": "wl-browser",
+    "doctor": "wl-browser-doctor",
+    "inventory": "wl-browser-inventory",
+    "certify": "wl-browser-certify",
+    "snapshot": "wl-browser-snapshot"
+  },
+  "standard": {
+    "default": "brave",
+    "fallback": "chrome",
+    "privacy_validation": "firefox",
+    "webkit_validation": "safari",
+    "deprecated": ["homebrew-chromium"]
+  }
+}

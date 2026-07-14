@@ -1,0 +1,19 @@
+{
+  "backend": "tmux",
+  "intent": "Wonderland local-first operator environment",
+  "root": "/Users/wonderland/Wonderland",
+  "session": "wonderland",
+  "theme": "/Users/wonderland/Wonderland/state/operator/operator.tmux.conf",
+  "version": "1.0",
+  "windows": [
+    "dashboard",
+    "runtime",
+    "builder",
+    "chaos",
+    "security",
+    "logs",
+    "git",
+    "scratch"
+  ],
+  "workspace": "full"
+}

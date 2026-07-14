@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+WL_BOOTSTRAP="$WL_HOME/lib/wl-bootstrap.sh"
+
+if [[ ! -f "$WL_BOOTSTRAP" ]]; then
+  echo "FAIL bootstrap missing: $WL_BOOTSTRAP"
+  echo "RESULT FAIL"
+  exit 1
+fi
+
+source "$WL_BOOTSTRAP"
+wl_dispatch "$@"

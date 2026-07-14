@@ -1,0 +1,73 @@
+{
+  "changed": false,
+  "reason": "runtime already stopped",
+  "result": "PASS",
+  "state": {
+    "engine_results": {
+      "core-services": {
+        "action": "stop",
+        "argv": [
+          "bin/wl-runtime-adapter",
+          "core-services",
+          "stop"
+        ],
+        "duration_seconds": 10.488516,
+        "error": null,
+        "finished_at": "2026-07-11T17:49:37.801597+00:00",
+        "required": true,
+        "returncode": 0,
+        "started_at": "2026-07-11T17:49:27.316421+00:00",
+        "status": "PASS",
+        "stderr": "",
+        "stdout": "\n== Stopping Wonderland Services ==\nPASS wl-vaultwarden           stopped\nPASS wl-vaultwarden-db        stopped\nPASS wl-loki                  stopped\n\nRESULT PASS\nPASS core-services stop\n"
+      },
+      "rootless-runtime": {
+        "action": "stop",
+        "argv": [
+          "bin/wl-runtime-adapter",
+          "rootless-runtime",
+          "stop"
+        ],
+        "duration_seconds": 1.655043,
+        "error": null,
+        "finished_at": "2026-07-11T17:49:39.456780+00:00",
+        "required": true,
+        "returncode": 0,
+        "started_at": "2026-07-11T17:49:37.802133+00:00",
+        "status": "PASS",
+        "stderr": "time=\"2026-07-11T10:49:37-07:00\" level=info msg=\"Sending SIGINT to hostagent process 27968\"\ntime=\"2026-07-11T10:49:37-07:00\" level=info msg=\"Waiting for the host agent and the driver processes to shut down\"\ntime=\"2026-07-11T10:49:37-07:00\" level=info msg=\"[hostagent] Received SIGINT, shutting down the host agent\"\ntime=\"2026-07-11T10:49:37-07:00\" level=info msg=\"[hostagent] Shutting down the host agent\"\ntime=\"2026-07-11T10:49:37-07:00\" level=info msg=\"[hostagent] Shutting down VZ\"\ntime=\"2026-07-11T10:49:38-07:00\" level=info msg=\"[hostagent] [VZ] - vm state change: stopped\"\ntime=\"2026-07-11T10:49:38-07:00\" level=info msg=\"Waiting for the instance to shut down\"\ntime=\"2026-07-11T10:49:39-07:00\" level=info msg=\"The instance wonderland-rootless has shut down\"\n",
+        "stdout": "PASS rootless-runtime stop\n"
+      },
+      "runtime-verification": {
+        "action": "stop",
+        "argv": [
+          "bin/wl-runtime-adapter",
+          "runtime-verification",
+          "stop"
+        ],
+        "duration_seconds": 0.006418,
+        "error": null,
+        "finished_at": "2026-07-11T17:49:27.316061+00:00",
+        "required": true,
+        "returncode": 0,
+        "started_at": "2026-07-11T17:49:27.309661+00:00",
+        "status": "PASS",
+        "stderr": "",
+        "stdout": "PASS runtime-verification stop\n"
+      }
+    },
+    "last_error": null,
+    "operation": null,
+    "operation_id": null,
+    "registry_digest": "610e45d084731cb6fe5c0350f2de1ccdafda8242b88d8073a5f813a13a8c4461",
+    "rollback": {
+      "attempted": false,
+      "completed": false,
+      "results": []
+    },
+    "schema_version": 1,
+    "started_engines": [],
+    "status": "stopped",
+    "updated_at": "2026-07-11T17:49:39.457712+00:00"
+  }
+}

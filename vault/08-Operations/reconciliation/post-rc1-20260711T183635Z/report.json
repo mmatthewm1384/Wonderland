@@ -1,0 +1,122 @@
+{
+  "branch": "feature/wke-python-engine",
+  "groups": {
+    "Academy": {
+      "count": 4,
+      "paths": [
+        "academy/README.md",
+        "bin/wl-academy",
+        "lib/academy/cli.sh",
+        "lib/doctor/academy.sh"
+      ]
+    },
+    "Architecture": {
+      "count": 1,
+      "paths": [
+        "bin/wl-architecture-verify"
+      ]
+    },
+    "Builder": {
+      "count": 12,
+      "paths": [
+        "builder/python/wlbuilder/stages/bootloader.py",
+        "builder/python/wlbuilder/stages/bootstrap.py",
+        "builder/python/wlbuilder/stages/cleanup.py",
+        "builder/python/wlbuilder/stages/convert.py",
+        "builder/python/wlbuilder/stages/disk.py",
+        "builder/python/wlbuilder/stages/identity.py",
+        "builder/python/wlbuilder/stages/locale.py",
+        "builder/python/wlbuilder/stages/mount.py",
+        "builder/python/wlbuilder/stages/networking.py",
+        "builder/python/wlbuilder/stages/packages.py",
+        "builder/python/wlbuilder/stages/users.py",
+        "builder/python/wlbuilder/stages/verify_image.py"
+      ]
+    },
+    "Builder Documentation": {
+      "count": 4,
+      "paths": [
+        "docs/builder/artifact-authority.md",
+        "docs/builder/config-reference.md",
+        "docs/builder/migration-plan.md",
+        "docs/builder/stage-migration.md"
+      ]
+    },
+    "Chaos": {
+      "count": 8,
+      "paths": [
+        "bin/wl-chaos-fingerprint",
+        "bin/wl-chaos-fingerprint-verify",
+        "bin/wl-chaos-lease",
+        "bin/wl-chaos-lease-verify",
+        "bin/wl-chaos-menubar-verify",
+        "bin/wl-chaos-schedule-run",
+        "vault/05-Registry/chaos/fingerprint.json",
+        "vault/05-Registry/chaos/lease.json"
+      ]
+    },
+    "Chaos Runtime State": {
+      "count": 7,
+      "paths": [
+        "vault/chaos/chaos-aether.json",
+        "vault/chaos/controller-chaos-audit.jsonl",
+        "vault/chaos/environment-audit.jsonl",
+        "vault/chaos/environment-state.json",
+        "vault/chaos/escalation-schedule.json",
+        "vault/chaos/foundation-model-audit.jsonl",
+        "vault/chaos/foundation-model.json"
+      ]
+    },
+    "Governance": {
+      "count": 1,
+      "paths": [
+        "bin/wl-governance"
+      ]
+    },
+    "Legacy CLI": {
+      "count": 1,
+      "paths": [
+        "bin/wl.original"
+      ]
+    },
+    "Mirror": {
+      "count": 2,
+      "paths": [
+        "bin/wl-mirror",
+        "lib/mirror/cli.sh"
+      ]
+    },
+    "Operational Logs": {
+      "count": 1,
+      "paths": [
+        "vault/ephemeral-runs.log"
+      ]
+    },
+    "Platform": {
+      "count": 2,
+      "paths": [
+        "bin/wl-platform",
+        "bin/wl-platform-status"
+      ]
+    },
+    "Registry": {
+      "count": 2,
+      "paths": [
+        "bin/wl-capability",
+        "bin/wl-registry"
+      ]
+    },
+    "Rootless": {
+      "count": 1,
+      "paths": [
+        "bin/wl-rootless"
+      ]
+    }
+  },
+  "head_commit": "786ffdd186d375961a9cd8b1d848b5e4e06e4601",
+  "modified_path_count": 46,
+  "rc1_commit": "786ffdd186d375961a9cd8b1d848b5e4e06e4601",
+  "rc1_matches_head": true,
+  "result": "PASS",
+  "schema_version": 1
+}

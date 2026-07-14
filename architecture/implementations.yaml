@@ -1,0 +1,46 @@
+version: 1
+
+implementations:
+  - id: cli.shell-wrapper
+    component: cli.dispatch
+    paths:
+      - bin/wl
+
+  - id: capability.python-engine
+    component: capability.registry
+    paths:
+      - builder/python/wlcapability
+      - bin/wl-capability
+
+  - id: architecture.python-engine
+    component: architecture.graph
+    paths:
+      - builder/python/wlarchitecture
+      - bin/wl-architecture
+      - architecture
+
+  - id: academy.markdown-curriculum
+    component: academy.curriculum
+    paths:
+      - academy
+      - academy/generated
+
+  - id: academy.security-lab
+    component: academy.security-lab
+    paths:
+      - academy/security-lab
+
+  - id: os.bookworm.reference-runtime
+    component: os.bookworm.reference
+    paths:
+      - os/bookworm
+
+  - id: operations.state-vault
+    component: operations.state
+    paths:
+      - vault/08-Operations/state
+      - vault/08-Operations/certifications
+      - vault/08-Operations/inventory
+      - vault/08-Operations/ownership
+      - vault/08-Operations/convergence
+      - vault/08-Operations/architecture

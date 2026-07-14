@@ -1,0 +1,13 @@
+Wonderland Builder Verify
+
+PASS Builder authority syntax
+PASS legacy backend syntax
+PASS build launcher syntax
+PASS architecture boundary delegated
+PASS builder VM registered status=Running
+PASS builder component    bin/wl-builder-certify
+PASS builder component    bin/wl-builder-ownership
+PASS builder component    bin/wl-builder-recreate
+PASS verification is read-only
+
+RESULT PASS

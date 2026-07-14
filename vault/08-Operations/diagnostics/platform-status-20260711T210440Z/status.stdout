@@ -1,0 +1,12 @@
+Wonderland Platform Status
+
+registry: PASS
+architecture: FAIL
+builder: FAIL
+manifest_index: PASS
+engineering_gate: FAIL
+
+manifests: 64
+
+FAIL platform status: 3 failure(s)
+RESULT FAIL

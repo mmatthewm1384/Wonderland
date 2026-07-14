@@ -1,0 +1,9 @@
+{
+  "id": "runtime-certification-index",
+  "generated_at": "2026-06-25T13:06:43Z",
+  "rootless_runtime": "",
+  "runtime_lifecycle": "",
+  "runtime_registry_recovery": "",
+  "rootless_recovery": "",
+  "registry": "/Users/wonderland/Wonderland/vault/05-Registry/runtime/rootless-runtime.json"
+}

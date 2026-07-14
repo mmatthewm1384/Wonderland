@@ -1,0 +1,14 @@
+{
+  "destination": "/Volumes/T7_Wonderland/Wonderland",
+  "destructive_operations_default": false,
+  "engine": "Wonderland Mirror Engine 2.0",
+  "health": "WARN",
+  "last_action": "verify",
+  "last_certify": "2026-07-06T15:11:52Z",
+  "last_sync": "2026-07-06T15:24:57Z",
+  "last_verify": "2026-07-06T15:27:20Z",
+  "policy": "safe-incremental-rsync",
+  "source": "/Users/wonderland/Wonderland",
+  "updated_at": "2026-07-06T15:27:20Z",
+  "version": 1
+}

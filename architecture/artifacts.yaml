@@ -1,0 +1,36 @@
+version: 1
+
+artifacts:
+  - id: artifact.backup
+    owner: Artifact Policy
+    disposition: archive-candidate
+    purge_allowed: false
+    patterns:
+      - ".backup*"
+      - "*.bak*"
+      - "*.original"
+      - "*.orig"
+
+  - id: artifact.temporary
+    owner: Artifact Policy
+    disposition: remove-candidate-after-certification
+    purge_allowed: false
+    patterns:
+      - "*.tmp"
+      - "tmp"
+      - "wget-log*"
+
+  - id: artifact.build
+    owner: Artifact Policy
+    disposition: generated-build-output
+    purge_allowed: false
+    patterns:
+      - ".build"
+      - "build"
+
+  - id: artifact.quarantine
+    owner: Artifact Policy
+    disposition: review-before-removal
+    purge_allowed: false
+    patterns:
+      - ".quarantine"

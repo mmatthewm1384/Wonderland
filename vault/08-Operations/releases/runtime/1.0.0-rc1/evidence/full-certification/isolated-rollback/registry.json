@@ -1,0 +1,61 @@
+{
+  "engines": {
+    "injected-required-failure": {
+      "commands": {
+        "start": {
+          "argv": [
+            "/usr/bin/false"
+          ],
+          "timeout_seconds": 30
+        },
+        "stop": {
+          "argv": [
+            "/usr/bin/true"
+          ],
+          "timeout_seconds": 30
+        },
+        "verify": {
+          "argv": [
+            "/usr/bin/true"
+          ],
+          "timeout_seconds": 30
+        }
+      },
+      "dependencies": [
+        "rootless-runtime"
+      ],
+      "description": "Controlled required-engine failure",
+      "required": true
+    },
+    "rootless-runtime": {
+      "commands": {
+        "start": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "rootless-runtime",
+            "start"
+          ],
+          "timeout_seconds": 300
+        },
+        "stop": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "rootless-runtime",
+            "stop"
+          ],
+          "timeout_seconds": 300
+        },
+        "verify": {
+          "argv": [
+            "/usr/bin/true"
+          ],
+          "timeout_seconds": 30
+        }
+      },
+      "dependencies": [],
+      "description": "Real rootless runtime rollback target",
+      "required": true
+    }
+  },
+  "schema_version": 1
+}

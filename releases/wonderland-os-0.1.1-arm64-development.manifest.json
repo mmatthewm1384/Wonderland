@@ -1,0 +1,36 @@
+{
+  "architecture": "arm64",
+  "config": {
+    "architecture": "arm64",
+    "hostname": "wonderland",
+    "image_size": "8G",
+    "outputs": [
+      "raw",
+      "qcow2"
+    ],
+    "packages": [
+      "linux-image-arm64",
+      "grub-efi-arm64",
+      "sudo",
+      "openssh-server",
+      "chrony",
+      "avahi-daemon",
+      "systemd-resolved",
+      "locales"
+    ],
+    "profile": "development",
+    "username": "wonderland",
+    "version": "0.1.1"
+  },
+  "efi_uuid": null,
+  "git_commit": null,
+  "git_tag": null,
+  "hostname": "wonderland",
+  "profile": "development",
+  "qcow2_image": "/home/wonderland/wonderland-os/releases/wonderland-os-0.1.1-arm64-development.qcow2",
+  "raw_image": "/home/wonderland/wonderland-os/releases/wonderland-os-0.1.1-arm64-development.raw",
+  "root_uuid": null,
+  "started_at": "2026-07-03T19:05:45.134451+00:00",
+  "username": "wonderland",
+  "version": "0.1.1"
+}

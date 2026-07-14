@@ -1,0 +1,46 @@
+{
+  "certification": {
+    "certificate": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-engine-certified-20260711T174925Z.json",
+    "checks": {
+      "certification_execution": true,
+      "doctor_running": true,
+      "final_stopped_state": true,
+      "first_start": true,
+      "first_stop": true,
+      "registry_digest_stable": true,
+      "repository_clean": true,
+      "rollback_certification": true,
+      "running_health": true,
+      "start_idempotency": true,
+      "stop_idempotency": true,
+      "structural_verification_after": true,
+      "structural_verification_before": true
+    },
+    "errors": [],
+    "evidence": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-certification-full-20260711T174925Z",
+    "result": "PASS"
+  },
+  "checks": {
+    "full_certification": true,
+    "regression": true,
+    "repository_clean": true
+  },
+  "created_at": "2026-07-11T17:49:53.176444+00:00",
+  "errors": [],
+  "evidence": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-rc1-gate-20260711T174925Z",
+  "gate": "Wonderland Runtime Engine 1.0 RC1",
+  "regression": {
+    "errors": 0,
+    "failures": 0,
+    "result": "PASS",
+    "schema_contracts": {
+      "registry": 1,
+      "state": 1
+    },
+    "skipped": 0,
+    "tests_run": 9
+  },
+  "require_clean": true,
+  "result": "PASS",
+  "schema_version": 1
+}

@@ -1,0 +1,11 @@
+{
+  "certified": true,
+  "engine": "repository",
+  "generated_digest": "d92f01342ff8f3cc685a205ed1aa03d27e23b4a17a138ff50ee5f559c00638b8",
+  "health_score": 100,
+  "policy_digest": "46f1d0ce4481142b344a9c32cfb52d3c6c08386bfba4e2fe4b50930d72407eb2",
+  "schema_version": 1,
+  "state_digest": "9602bef9239ebe005ef30d70c8f4239579ca7c23fcff49a775cc9e3c26a99b20",
+  "verification": "PASS",
+  "version": "1.2.4"
+}

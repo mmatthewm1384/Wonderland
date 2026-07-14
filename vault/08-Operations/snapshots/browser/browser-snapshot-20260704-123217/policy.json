@@ -1,0 +1,11 @@
+{
+  "wonderland_browser_policy": {
+    "default": "brave",
+    "fallback": "chrome",
+    "validation_browser": "firefox",
+    "webkit_validation": "safari",
+    "webgpu_primary": "brave",
+    "deprecated": ["homebrew-chromium"],
+    "managed_at": "20260704-123200"
+  }
+}

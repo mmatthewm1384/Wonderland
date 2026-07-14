@@ -1,0 +1,2219 @@
+{
+  "created_at": "2026-07-06T20:23:57.261026+00:00",
+  "dependency_references": [
+    {
+      "path": "bin/wl",
+      "reference_count": 24,
+      "references": [
+        "wl-apps",
+        "wl-architecture",
+        "wl-architecture-gate",
+        "wl-chaos-menubar",
+        "wl-constitution",
+        "wl-control-center",
+        "wl-craftsmanship",
+        "wl-design-system",
+        "wl-governance",
+        "wl-manifesto",
+        "wl-mirror",
+        "wl-north-star",
+        "wl-philosophy",
+        "wl-platform",
+        "wl-platform-0",
+        "wl-platform-0-doctor",
+        "wl-platform-0-status",
+        "wl-platform-0-verify",
+        "wl-repository",
+        "wl-review",
+        "wl-rootless",
+        "wl-runtime",
+        "wl-services",
+        "wl-spin-city"
+      ]
+    },
+    {
+      "path": "bin/wl-ai",
+      "reference_count": 1,
+      "references": [
+        "wl-ai-router"
+      ]
+    },
+    {
+      "path": "bin/wl-ai-dropin-rollback",
+      "reference_count": 1,
+      "references": [
+        "wl-ai-router"
+      ]
+    },
+    {
+      "path": "bin/wl-ai-local",
+      "reference_count": 1,
+      "references": [
+        "wl-ai-local"
+      ]
+    },
+    {
+      "path": "bin/wl-ai-verify",
+      "reference_count": 1,
+      "references": [
+        "wl-ai"
+      ]
+    },
+    {
+      "path": "bin/wl-anon",
+      "reference_count": 2,
+      "references": [
+        "wl-anon",
+        "wl-anon-tor"
+      ]
+    },
+    {
+      "path": "bin/wl-api",
+      "reference_count": 1,
+      "references": [
+        "wl-bootstrap"
+      ]
+    },
+    {
+      "path": "bin/wl-api-agent",
+      "reference_count": 2,
+      "references": [
+        "wl-api",
+        "wl-api-agent"
+      ]
+    },
+    {
+      "path": "bin/wl-api-v2",
+      "reference_count": 1,
+      "references": [
+        "wl-controller-v2"
+      ]
+    },
+    {
+      "path": "bin/wl-apps",
+      "reference_count": 1,
+      "references": [
+        "wl-apps"
+      ]
+    },
+    {
+      "path": "bin/wl-architecture",
+      "reference_count": 1,
+      "references": [
+        "wl-architecture"
+      ]
+    },
+    {
+      "path": "bin/wl-architecture-verify",
+      "reference_count": 1,
+      "references": [
+        "wl-architecture"
+      ]
+    },
+    {
+      "path": "bin/wl-authorities",
+      "reference_count": 1,
+      "references": [
+        "wl-authorities"
+      ]
+    },
+    {
+      "path": "bin/wl-authority",
+      "reference_count": 2,
+      "references": [
+        "wl-authority",
+        "wl-kernel"
+      ]
+    },
+    {
+      "path": "bin/wl-backup",
+      "reference_count": 1,
+      "references": [
+        "wl-backup"
+      ]
+    },
+    {
+      "path": "bin/wl-body-time",
+      "reference_count": 1,
+      "references": [
+        "wl-mind-body"
+      ]
+    },
+    {
+      "path": "bin/wl-builder",
+      "reference_count": 2,
+      "references": [
+        "wl-builder-certify",
+        "wl-builder-recreate"
+      ]
+    },
+    {
+      "path": "bin/wl-capability",
+      "reference_count": 1,
+      "references": [
+        "wl-bootstrap"
+      ]
+    },
+    {
+      "path": "bin/wl-certificates",
+      "reference_count": 1,
+      "references": [
+        "wl-audit"
+      ]
+    },
+    {
+      "path": "bin/wl-certify",
+      "reference_count": 2,
+      "references": [
+        "wl-audit-certify",
+        "wl-mirror-certify"
+      ]
+    },
+    {
+      "path": "bin/wl-certify-platform-services",
+      "reference_count": 13,
+      "references": [
+        "wl-clean-platform-metadata",
+        "wl-dns",
+        "wl-doctor-lifecycle",
+        "wl-grafana",
+        "wl-loki",
+        "wl-nats",
+        "wl-prometheus",
+        "wl-rootless",
+        "wl-rootless-services",
+        "wl-services-refresh",
+        "wl-universe",
+        "wl-vaultwarden",
+        "wl-vaultwarden-db"
+      ]
+    },
+    {
+      "path": "bin/wl-certify-rootless",
+      "reference_count": 5,
+      "references": [
+        "wl-certify-rootless",
+        "wl-rootless",
+        "wl-rootless-audit",
+        "wl-rootless-quarantine-obsolete",
+        "wl-rootless-services"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos",
+      "reference_count": 1,
+      "references": [
+        "wl-chaos-watchdog"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos-authorized-action",
+      "reference_count": 1,
+      "references": [
+        "wl-chaos-menubar-action"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos-controllers",
+      "reference_count": 1,
+      "references": [
+        "wl-chaos-controllers"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos-drill",
+      "reference_count": 6,
+      "references": [
+        "wl-chaos",
+        "wl-chaos-menubar",
+        "wl-chaos-watchdog",
+        "wl-governance-runtime-chaos",
+        "wl-runtime-chaos-doctor",
+        "wl-visual-chaos"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos-environment",
+      "reference_count": 3,
+      "references": [
+        "wl-chaos-controllers",
+        "wl-chaos-environment",
+        "wl-visual-chaos"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos-intent",
+      "reference_count": 3,
+      "references": [
+        "wl-chaos-intent",
+        "wl-chaos-model",
+        "wl-chaos-session"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos-menubar-action",
+      "reference_count": 1,
+      "references": [
+        "wl-chaos"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos-menubar-action.bak.20260629-204746",
+      "reference_count": 1,
+      "references": [
+        "wl-chaos"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos-menubar-status.bak.20260629-215700",
+      "reference_count": 1,
+      "references": [
+        "wl-chaos"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos-menubar-verify",
+      "reference_count": 3,
+      "references": [
+        "wl-chaos-authorized-action",
+        "wl-chaos-fingerprint-verify",
+        "wl-chaos-menubar"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos-model",
+      "reference_count": 6,
+      "references": [
+        "wl-chaos-environment",
+        "wl-chaos-fingerprint-verify",
+        "wl-chaos-lease",
+        "wl-chaos-lease-verify",
+        "wl-chaos-model",
+        "wl-chaos-session"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos-panic",
+      "reference_count": 1,
+      "references": [
+        "wl-chaos"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos-policy",
+      "reference_count": 1,
+      "references": [
+        "wl-chaos-policy"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos-schedule-run",
+      "reference_count": 2,
+      "references": [
+        "wl-chaos-lease",
+        "wl-chaos-schedule-eval"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos-session",
+      "reference_count": 1,
+      "references": [
+        "wl-chaos-session"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos-verify",
+      "reference_count": 1,
+      "references": [
+        "wl-chaos-menubar-verify"
+      ]
+    },
+    {
+      "path": "bin/wl-chaos-visual-cleanup-verify",
+      "reference_count": 6,
+      "references": [
+        "wl-agitate",
+        "wl-chaos-menubar",
+        "wl-chaos-menubar-verify",
+        "wl-chaos-visualization-separation",
+        "wl-matrix",
+        "wl-spin"
+      ]
+    },
+    {
+      "path": "bin/wl-chatgpt-keyless",
+      "reference_count": 3,
+      "references": [
+        "wl-chatgpt-keyless",
+        "wl-chatgpt-keyless-YYYYMMDD-HHMMSS",
+        "wl-chatgpt-keyless-data"
+      ]
+    },
+    {
+      "path": "bin/wl-chrono",
+      "reference_count": 1,
+      "references": [
+        "wl-chrono"
+      ]
+    },
+    {
+      "path": "bin/wl-chrono-v2",
+      "reference_count": 1,
+      "references": [
+        "wl-chrono-v2"
+      ]
+    },
+    {
+      "path": "bin/wl-chronosphere",
+      "reference_count": 1,
+      "references": [
+        "wl-chronosphere"
+      ]
+    },
+    {
+      "path": "bin/wl-chronosphere-app",
+      "reference_count": 1,
+      "references": [
+        "wl-chronosphere"
+      ]
+    },
+    {
+      "path": "bin/wl-chronosphere-install",
+      "reference_count": 3,
+      "references": [
+        "wl-chrono",
+        "wl-chronosphere",
+        "wl-chronosphere-app"
+      ]
+    },
+    {
+      "path": "bin/wl-chronosphere-v2",
+      "reference_count": 1,
+      "references": [
+        "wl-chrono-v2"
+      ]
+    },
+    {
+      "path": "bin/wl-chronosphere-v2-install",
+      "reference_count": 2,
+      "references": [
+        "wl-chrono-v2",
+        "wl-chronosphere-v2"
+      ]
+    },
+    {
+      "path": "bin/wl-clean-platform-metadata",
+      "reference_count": 2,
+      "references": [
+        "wl-clean-guest-metadata",
+        "wl-clean-macos-metadata"
+      ]
+    },
+    {
+      "path": "bin/wl-color-authority-asset",
+      "reference_count": 1,
+      "references": [
+        "wl-color-authority-asset"
+      ]
+    },
+    {
+      "path": "bin/wl-command",
+      "reference_count": 11,
+      "references": [
+        "wl-command",
+        "wl-command-audit-v1",
+        "wl-doctor",
+        "wl-health",
+        "wl-runtime-drift",
+        "wl-service-list",
+        "wl-service-promote",
+        "wl-service-show",
+        "wl-vault-snapshot",
+        "wl-vault-verify-snapshot",
+        "wl-verify-operations"
+      ]
+    },
+    {
+      "path": "bin/wl-context",
+      "reference_count": 1,
+      "references": [
+        "wl-bootstrap"
+      ]
+    },
+    {
+      "path": "bin/wl-control-center",
+      "reference_count": 1,
+      "references": [
+        "wl-control-center"
+      ]
+    },
+    {
+      "path": "bin/wl-control-center-package",
+      "reference_count": 1,
+      "references": [
+        "wl-control-center"
+      ]
+    },
+    {
+      "path": "bin/wl-controller",
+      "reference_count": 6,
+      "references": [
+        "wl-certify-platform-services",
+        "wl-event",
+        "wl-reconcile",
+        "wl-services-health",
+        "wl-services-recover",
+        "wl-services-refresh"
+      ]
+    },
+    {
+      "path": "bin/wl-controller-core-v2",
+      "reference_count": 1,
+      "references": [
+        "wl-controller-v2"
+      ]
+    },
+    {
+      "path": "bin/wl-disposable",
+      "reference_count": 1,
+      "references": [
+        "wl-governance"
+      ]
+    },
+    {
+      "path": "bin/wl-dns",
+      "reference_count": 1,
+      "references": [
+        "wl-dns"
+      ]
+    },
+    {
+      "path": "bin/wl-docs",
+      "reference_count": 1,
+      "references": [
+        "wl-bootstrap"
+      ]
+    },
+    {
+      "path": "bin/wl-doctor-lifecycle",
+      "reference_count": 3,
+      "references": [
+        "wl-services",
+        "wl-storage",
+        "wl-universe"
+      ]
+    },
+    {
+      "path": "bin/wl-document-cleaner",
+      "reference_count": 1,
+      "references": [
+        "wl-document-cleaner"
+      ]
+    },
+    {
+      "path": "bin/wl-encryption",
+      "reference_count": 1,
+      "references": [
+        "wl-audit"
+      ]
+    },
+    {
+      "path": "bin/wl-event",
+      "reference_count": 1,
+      "references": [
+        "wl-event"
+      ]
+    },
+    {
+      "path": "bin/wl-events",
+      "reference_count": 1,
+      "references": [
+        "wl-events"
+      ]
+    },
+    {
+      "path": "bin/wl-firefox",
+      "reference_count": 6,
+      "references": [
+        "wl-firefox",
+        "wl-firefox-backup",
+        "wl-firefox-install",
+        "wl-firefox-rollback",
+        "wl-firefox-status",
+        "wl-firefox-verify"
+      ]
+    },
+    {
+      "path": "bin/wl-firefox-verify",
+      "reference_count": 1,
+      "references": [
+        "wl-firefox"
+      ]
+    },
+    {
+      "path": "bin/wl-governance-consolidate",
+      "reference_count": 1,
+      "references": [
+        "wl-governance-consolidate"
+      ]
+    },
+    {
+      "path": "bin/wl-grafana-dashboard",
+      "reference_count": 2,
+      "references": [
+        "wl-grafana-dashboard",
+        "wl-grafana-dashboard-report-v1"
+      ]
+    },
+    {
+      "path": "bin/wl-grok-keyless",
+      "reference_count": 3,
+      "references": [
+        "wl-grok-keyless",
+        "wl-grok-keyless-TS",
+        "wl-grok-keyless-data"
+      ]
+    },
+    {
+      "path": "bin/wl-health",
+      "reference_count": 1,
+      "references": [
+        "wl-verify-recovery-drill"
+      ]
+    },
+    {
+      "path": "bin/wl-health-report",
+      "reference_count": 1,
+      "references": [
+        "wl-health"
+      ]
+    },
+    {
+      "path": "bin/wl-idea",
+      "reference_count": 2,
+      "references": [
+        "wl-ai",
+        "wl-idea"
+      ]
+    },
+    {
+      "path": "bin/wl-identity",
+      "reference_count": 1,
+      "references": [
+        "wl-audit"
+      ]
+    },
+    {
+      "path": "bin/wl-implement",
+      "reference_count": 1,
+      "references": [
+        "wl-implement"
+      ]
+    },
+    {
+      "path": "bin/wl-install-matrix-atom-destroyer",
+      "reference_count": 1,
+      "references": [
+        "wl-matrix"
+      ]
+    },
+    {
+      "path": "bin/wl-install-matrix-atom-destroyer-v2",
+      "reference_count": 2,
+      "references": [
+        "wl-matrix",
+        "wl-matrix-doctor"
+      ]
+    },
+    {
+      "path": "bin/wl-install-matrix-atom-destroyer-v3",
+      "reference_count": 4,
+      "references": [
+        "wl-install-matrix-atom-destroyer-v3",
+        "wl-matrix",
+        "wl-matrix-doctor",
+        "wl-matrix-rollback"
+      ]
+    },
+    {
+      "path": "bin/wl-install-matrix-atom-destroyer-v4",
+      "reference_count": 3,
+      "references": [
+        "wl-matrix",
+        "wl-matrix-doctor",
+        "wl-matrix-rollback"
+      ]
+    },
+    {
+      "path": "bin/wl-install-matrix-atom-destroyer-v5",
+      "reference_count": 3,
+      "references": [
+        "wl-matrix",
+        "wl-matrix-doctor",
+        "wl-matrix-rollback"
+      ]
+    },
+    {
+      "path": "bin/wl-integrity",
+      "reference_count": 1,
+      "references": [
+        "wl-audit"
+      ]
+    },
+    {
+      "path": "bin/wl-intent",
+      "reference_count": 2,
+      "references": [
+        "wl-intent",
+        "wl-kernel"
+      ]
+    },
+    {
+      "path": "bin/wl-intent-plan",
+      "reference_count": 1,
+      "references": [
+        "wl-intent-plan"
+      ]
+    },
+    {
+      "path": "bin/wl-intent-status",
+      "reference_count": 3,
+      "references": [
+        "wl-intent-status",
+        "wl-registry-refresh-intents",
+        "wl-verify-intents"
+      ]
+    },
+    {
+      "path": "bin/wl-kernel",
+      "reference_count": 2,
+      "references": [
+        "wl-audit",
+        "wl-kernel"
+      ]
+    },
+    {
+      "path": "bin/wl-know",
+      "reference_count": 1,
+      "references": [
+        "wl-knowledge"
+      ]
+    },
+    {
+      "path": "bin/wl-language",
+      "reference_count": 1,
+      "references": [
+        "wl-language"
+      ]
+    },
+    {
+      "path": "bin/wl-lifecycle",
+      "reference_count": 14,
+      "references": [
+        "wl-dns",
+        "wl-grafana",
+        "wl-lifecycle",
+        "wl-lifecycle-audit",
+        "wl-lifecycle-certify",
+        "wl-lifecycle-registry",
+        "wl-lifecycle-report",
+        "wl-loki",
+        "wl-mode",
+        "wl-nats",
+        "wl-prometheus",
+        "wl-start",
+        "wl-stop",
+        "wl-universe"
+      ]
+    },
+    {
+      "path": "bin/wl-lifecycle-audit",
+      "reference_count": 9,
+      "references": [
+        "wl-doctor-lifecycle",
+        "wl-lifecycle",
+        "wl-lifecycle-lib",
+        "wl-lifecycle-report",
+        "wl-lifecycle-services",
+        "wl-lifecycle-snapshot",
+        "wl-start",
+        "wl-status",
+        "wl-stop"
+      ]
+    },
+    {
+      "path": "bin/wl-lifecycle-capture",
+      "reference_count": 1,
+      "references": [
+        "wl-lifecycle"
+      ]
+    },
+    {
+      "path": "bin/wl-lifecycle-certify",
+      "reference_count": 4,
+      "references": [
+        "wl-doctor-lifecycle",
+        "wl-lifecycle",
+        "wl-lifecycle-audit",
+        "wl-lifecycle-doctor"
+      ]
+    },
+    {
+      "path": "bin/wl-lifecycle-registry",
+      "reference_count": 2,
+      "references": [
+        "wl-registry-refresh-intents",
+        "wl-registry-refresh-plans"
+      ]
+    },
+    {
+      "path": "bin/wl-lifecycle-report",
+      "reference_count": 1,
+      "references": [
+        "wl-bootstrap"
+      ]
+    },
+    {
+      "path": "bin/wl-lifecycle-services",
+      "reference_count": 1,
+      "references": [
+        "wl-lifecycle-services"
+      ]
+    },
+    {
+      "path": "bin/wl-lint",
+      "reference_count": 2,
+      "references": [
+        "wl-bootstrap",
+        "wl-context-validate"
+      ]
+    },
+    {
+      "path": "bin/wl-mahaney",
+      "reference_count": 2,
+      "references": [
+        "wl-mahaney",
+        "wl-mahaney-core"
+      ]
+    },
+    {
+      "path": "bin/wl-mahaney-gate",
+      "reference_count": 1,
+      "references": [
+        "wl-mahaney"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix",
+      "reference_count": 5,
+      "references": [
+        "wl-agitate",
+        "wl-matrix",
+        "wl-matrix-atom-slam",
+        "wl-matrix-emit",
+        "wl-spin-city"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-add-agitate-waves",
+      "reference_count": 2,
+      "references": [
+        "wl-agitate-waves",
+        "wl-matrix-agitate"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-add-iphone-access",
+      "reference_count": 2,
+      "references": [
+        "wl-matrix-iphone-doctor",
+        "wl-matrix-iphone-server"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-add-spin-city-iphone",
+      "reference_count": 1,
+      "references": [
+        "wl-matrix-spin-city-iphone"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-agitate",
+      "reference_count": 1,
+      "references": [
+        "wl-agitate-waves"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-apps",
+      "reference_count": 1,
+      "references": [
+        "wl-matrix-apps"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-apps-certify",
+      "reference_count": 3,
+      "references": [
+        "wl-agitate",
+        "wl-matrix",
+        "wl-spin-city"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-apps-permanent-launchers",
+      "reference_count": 5,
+      "references": [
+        "wl-agitate",
+        "wl-agitate-app",
+        "wl-matrix-native",
+        "wl-spin-city",
+        "wl-spin-city-app"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-auto-tick",
+      "reference_count": 2,
+      "references": [
+        "wl-matrix-auto-tick",
+        "wl-matrix-tick"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-doctor",
+      "reference_count": 2,
+      "references": [
+        "wl-matrix",
+        "wl-matrix-rollback"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-fix-agitate-waves-app",
+      "reference_count": 2,
+      "references": [
+        "wl-matrix-agitate-iphone",
+        "wl-matrix-iphone-server"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-fluderation",
+      "reference_count": 2,
+      "references": [
+        "wl-matrix-fluderation",
+        "wl-matrix-fluderation-pusher"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-ghosts",
+      "reference_count": 2,
+      "references": [
+        "wl-matrix-ghosts",
+        "wl-matrix-influence"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-iphone-doctor",
+      "reference_count": 1,
+      "references": [
+        "wl-matrix-iphone-server"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-native-actions-fix",
+      "reference_count": 3,
+      "references": [
+        "wl-matrix",
+        "wl-matrix-native",
+        "wl-tauri-matrix-certify"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-presence",
+      "reference_count": 2,
+      "references": [
+        "wl-matrix-influence",
+        "wl-matrix-presence"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-slam-watch",
+      "reference_count": 1,
+      "references": [
+        "wl-matrix-slam-watch"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-suite",
+      "reference_count": 10,
+      "references": [
+        "wl-agitate",
+        "wl-matrix",
+        "wl-matrix-auto-tick",
+        "wl-matrix-ghosts",
+        "wl-matrix-presence",
+        "wl-matrix-suite",
+        "wl-matrix-tick",
+        "wl-matrix-watchers",
+        "wl-spin-city",
+        "wl-the-matrix"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-tick",
+      "reference_count": 4,
+      "references": [
+        "wl-matrix-ghosts",
+        "wl-matrix-influence",
+        "wl-matrix-presence",
+        "wl-matrix-watchers"
+      ]
+    },
+    {
+      "path": "bin/wl-matrix-watchers",
+      "reference_count": 2,
+      "references": [
+        "wl-matrix-influence",
+        "wl-matrix-watchers"
+      ]
+    },
+    {
+      "path": "bin/wl-mind-body",
+      "reference_count": 2,
+      "references": [
+        "wl-mind-body",
+        "wl-mind-body-time-travel"
+      ]
+    },
+    {
+      "path": "bin/wl-mind-body-app",
+      "reference_count": 1,
+      "references": [
+        "wl-mind-body"
+      ]
+    },
+    {
+      "path": "bin/wl-mind-body-install",
+      "reference_count": 3,
+      "references": [
+        "wl-body-time",
+        "wl-mind-body",
+        "wl-mind-body-app"
+      ]
+    },
+    {
+      "path": "bin/wl-mirror-certify",
+      "reference_count": 1,
+      "references": [
+        "wl-audit"
+      ]
+    },
+    {
+      "path": "bin/wl-mirror-rollback",
+      "reference_count": 1,
+      "references": [
+        "wl-before-mirror-dispatch"
+      ]
+    },
+    {
+      "path": "bin/wl-music",
+      "reference_count": 1,
+      "references": [
+        "wl-music-manifest"
+      ]
+    },
+    {
+      "path": "bin/wl-nats",
+      "reference_count": 1,
+      "references": [
+        "wl-nats"
+      ]
+    },
+    {
+      "path": "bin/wl-nav",
+      "reference_count": 2,
+      "references": [
+        "wl-roots",
+        "wl-theomatrix"
+      ]
+    },
+    {
+      "path": "bin/wl-notifier",
+      "reference_count": 1,
+      "references": [
+        "wl-notifier"
+      ]
+    },
+    {
+      "path": "bin/wl-oath",
+      "reference_count": 1,
+      "references": [
+        "wl-oathd"
+      ]
+    },
+    {
+      "path": "bin/wl-observability",
+      "reference_count": 4,
+      "references": [
+        "wl-grafana",
+        "wl-loki",
+        "wl-observability",
+        "wl-prometheus"
+      ]
+    },
+    {
+      "path": "bin/wl-obsidian",
+      "reference_count": 1,
+      "references": [
+        "wl-obsidian"
+      ]
+    },
+    {
+      "path": "bin/wl-ops-capture",
+      "reference_count": 1,
+      "references": [
+        "wl-state-capture"
+      ]
+    },
+    {
+      "path": "bin/wl-parse-anon-blueprint",
+      "reference_count": 2,
+      "references": [
+        "wl-anon-gateway",
+        "wl-anon-scraper"
+      ]
+    },
+    {
+      "path": "bin/wl-permissions",
+      "reference_count": 1,
+      "references": [
+        "wl-permissions"
+      ]
+    },
+    {
+      "path": "bin/wl-plan-execute",
+      "reference_count": 2,
+      "references": [
+        "wl-plan-execute",
+        "wl-verify-plans"
+      ]
+    },
+    {
+      "path": "bin/wl-plan-status",
+      "reference_count": 2,
+      "references": [
+        "wl-plan-status",
+        "wl-verify-plans"
+      ]
+    },
+    {
+      "path": "bin/wl-platform",
+      "reference_count": 13,
+      "references": [
+        "wl-builder-ownership",
+        "wl-certification-preflight",
+        "wl-doctor-engineering",
+        "wl-engineering-gate",
+        "wl-manifest-index",
+        "wl-platform",
+        "wl-platform-certify",
+        "wl-platform-finalize",
+        "wl-platform-handoff",
+        "wl-platform-snapshot",
+        "wl-platform-status",
+        "wl-registry",
+        "wl-release-preflight"
+      ]
+    },
+    {
+      "path": "bin/wl-platform-freeze",
+      "reference_count": 1,
+      "references": [
+        "wl-release"
+      ]
+    },
+    {
+      "path": "bin/wl-portainer",
+      "reference_count": 3,
+      "references": [
+        "wl-portainer",
+        "wl-portainer-data",
+        "wl-portainer-status-v1"
+      ]
+    },
+    {
+      "path": "bin/wl-profile",
+      "reference_count": 1,
+      "references": [
+        "wl-bootstrap"
+      ]
+    },
+    {
+      "path": "bin/wl-promote",
+      "reference_count": 3,
+      "references": [
+        "wl-doctor",
+        "wl-service-certify",
+        "wl-snapshot"
+      ]
+    },
+    {
+      "path": "bin/wl-reconcile",
+      "reference_count": 5,
+      "references": [
+        "wl-certify-platform-services",
+        "wl-event",
+        "wl-rootless",
+        "wl-services-health",
+        "wl-services-refresh"
+      ]
+    },
+    {
+      "path": "bin/wl-recover",
+      "reference_count": 7,
+      "references": [
+        "wl-authority",
+        "wl-dns",
+        "wl-doctor",
+        "wl-nats",
+        "wl-observability",
+        "wl-service-certify",
+        "wl-torrent"
+      ]
+    },
+    {
+      "path": "bin/wl-recovery",
+      "reference_count": 4,
+      "references": [
+        "wl-recovery",
+        "wl-recovery-drill",
+        "wl-recovery-status-v1",
+        "wl-services-recovery-order"
+      ]
+    },
+    {
+      "path": "bin/wl-recovery-drill",
+      "reference_count": 2,
+      "references": [
+        "wl-vault-snapshot",
+        "wl-vault-verify-snapshot"
+      ]
+    },
+    {
+      "path": "bin/wl-registry-audit",
+      "reference_count": 2,
+      "references": [
+        "wl-registry-refresh",
+        "wl-verify-registry"
+      ]
+    },
+    {
+      "path": "bin/wl-registry-refresh",
+      "reference_count": 7,
+      "references": [
+        "wl-registry-refresh-assets",
+        "wl-registry-refresh-commands",
+        "wl-registry-refresh-documents",
+        "wl-registry-refresh-intents",
+        "wl-registry-refresh-plans",
+        "wl-registry-refresh-services",
+        "wl-services-refresh"
+      ]
+    },
+    {
+      "path": "bin/wl-registry-refresh-services",
+      "reference_count": 1,
+      "references": [
+        "wl-services-refresh"
+      ]
+    },
+    {
+      "path": "bin/wl-release-validate",
+      "reference_count": 1,
+      "references": [
+        "wl-bootstrap"
+      ]
+    },
+    {
+      "path": "bin/wl-repository",
+      "reference_count": 2,
+      "references": [
+        "wl-architecture",
+        "wl-repository"
+      ]
+    },
+    {
+      "path": "bin/wl-require-capability",
+      "reference_count": 3,
+      "references": [
+        "wl-mode",
+        "wl-require-capability",
+        "wl-storage"
+      ]
+    },
+    {
+      "path": "bin/wl-require-mode",
+      "reference_count": 3,
+      "references": [
+        "wl-mode",
+        "wl-require-mode",
+        "wl-storage"
+      ]
+    },
+    {
+      "path": "bin/wl-roam",
+      "reference_count": 1,
+      "references": [
+        "wl-roam"
+      ]
+    },
+    {
+      "path": "bin/wl-roam-audit",
+      "reference_count": 1,
+      "references": [
+        "wl-roam"
+      ]
+    },
+    {
+      "path": "bin/wl-roam-doctor",
+      "reference_count": 1,
+      "references": [
+        "wl-roam"
+      ]
+    },
+    {
+      "path": "bin/wl-roam-queue",
+      "reference_count": 1,
+      "references": [
+        "wl-roam"
+      ]
+    },
+    {
+      "path": "bin/wl-roam-recovery",
+      "reference_count": 1,
+      "references": [
+        "wl-roam"
+      ]
+    },
+    {
+      "path": "bin/wl-roam-status",
+      "reference_count": 1,
+      "references": [
+        "wl-roam"
+      ]
+    },
+    {
+      "path": "bin/wl-roam-sync",
+      "reference_count": 1,
+      "references": [
+        "wl-roam"
+      ]
+    },
+    {
+      "path": "bin/wl-root-certify",
+      "reference_count": 2,
+      "references": [
+        "wl-root-certify",
+        "wl-roots"
+      ]
+    },
+    {
+      "path": "bin/wl-root-status",
+      "reference_count": 1,
+      "references": [
+        "wl-roots"
+      ]
+    },
+    {
+      "path": "bin/wl-rootless",
+      "reference_count": 1,
+      "references": [
+        "wl-rootless"
+      ]
+    },
+    {
+      "path": "bin/wl-rootless-audit",
+      "reference_count": 3,
+      "references": [
+        "wl-certify-rootless",
+        "wl-rootless-audit",
+        "wl-rootless-quarantine-obsolete"
+      ]
+    },
+    {
+      "path": "bin/wl-rootless-services",
+      "reference_count": 8,
+      "references": [
+        "wl-dns",
+        "wl-grafana",
+        "wl-loki",
+        "wl-nats",
+        "wl-prometheus",
+        "wl-runtime-env",
+        "wl-vaultwarden",
+        "wl-vaultwarden-db"
+      ]
+    },
+    {
+      "path": "bin/wl-runtime",
+      "reference_count": 1,
+      "references": [
+        "wl-bootstrap"
+      ]
+    },
+    {
+      "path": "bin/wl-runtime-chaos-doctor",
+      "reference_count": 6,
+      "references": [
+        "wl-agitate",
+        "wl-chaos-menubar",
+        "wl-chaos-watchdog",
+        "wl-matrix",
+        "wl-phase-d2-runtime-certify",
+        "wl-spin-city"
+      ]
+    },
+    {
+      "path": "bin/wl-runtime-promote-intent",
+      "reference_count": 1,
+      "references": [
+        "wl-runtime-promote-intent"
+      ]
+    },
+    {
+      "path": "bin/wl-secrets",
+      "reference_count": 1,
+      "references": [
+        "wl-audit"
+      ]
+    },
+    {
+      "path": "bin/wl-security",
+      "reference_count": 3,
+      "references": [
+        "wl-security-certify",
+        "wl-security-dashboard",
+        "wl-security-report"
+      ]
+    },
+    {
+      "path": "bin/wl-security-certify",
+      "reference_count": 5,
+      "references": [
+        "wl-audit",
+        "wl-audit-certify",
+        "wl-identity-certify",
+        "wl-secrets-certify",
+        "wl-security-report"
+      ]
+    },
+    {
+      "path": "bin/wl-security-dashboard",
+      "reference_count": 2,
+      "references": [
+        "wl-audit",
+        "wl-security-report"
+      ]
+    },
+    {
+      "path": "bin/wl-security-report",
+      "reference_count": 1,
+      "references": [
+        "wl-mirror-report"
+      ]
+    },
+    {
+      "path": "bin/wl-service-certify",
+      "reference_count": 1,
+      "references": [
+        "wl-service-certify"
+      ]
+    },
+    {
+      "path": "bin/wl-service-endpoints",
+      "reference_count": 1,
+      "references": [
+        "wl-service-endpoints"
+      ]
+    },
+    {
+      "path": "bin/wl-services",
+      "reference_count": 1,
+      "references": [
+        "wl-bootstrap"
+      ]
+    },
+    {
+      "path": "bin/wl-services-deploy",
+      "reference_count": 6,
+      "references": [
+        "wl-certify-platform-services",
+        "wl-clean-platform-metadata",
+        "wl-event",
+        "wl-rootless",
+        "wl-services-health",
+        "wl-services-refresh"
+      ]
+    },
+    {
+      "path": "bin/wl-services-discover-runtime",
+      "reference_count": 5,
+      "references": [
+        "wl-dns",
+        "wl-grafana",
+        "wl-loki",
+        "wl-nats",
+        "wl-prometheus"
+      ]
+    },
+    {
+      "path": "bin/wl-services-graph",
+      "reference_count": 1,
+      "references": [
+        "wl-services-refresh"
+      ]
+    },
+    {
+      "path": "bin/wl-services-recover",
+      "reference_count": 5,
+      "references": [
+        "wl-certify-platform-services",
+        "wl-event",
+        "wl-rootless",
+        "wl-services-health",
+        "wl-services-refresh"
+      ]
+    },
+    {
+      "path": "bin/wl-services-recovery-order",
+      "reference_count": 1,
+      "references": [
+        "wl-services-graph"
+      ]
+    },
+    {
+      "path": "bin/wl-spin-city",
+      "reference_count": 1,
+      "references": [
+        "wl-spin-city"
+      ]
+    },
+    {
+      "path": "bin/wl-spin-the-city-intent",
+      "reference_count": 1,
+      "references": [
+        "wl-spin-the-city-intent"
+      ]
+    },
+    {
+      "path": "bin/wl-standards",
+      "reference_count": 1,
+      "references": [
+        "wl-standards"
+      ]
+    },
+    {
+      "path": "bin/wl-start-animation",
+      "reference_count": 1,
+      "references": [
+        "wl-start-animation"
+      ]
+    },
+    {
+      "path": "bin/wl-state",
+      "reference_count": 1,
+      "references": [
+        "wl-bootstrap"
+      ]
+    },
+    {
+      "path": "bin/wl-status",
+      "reference_count": 2,
+      "references": [
+        "wl-api",
+        "wl-bootstrap"
+      ]
+    },
+    {
+      "path": "bin/wl-status-v2",
+      "reference_count": 1,
+      "references": [
+        "wl-controller-v2"
+      ]
+    },
+    {
+      "path": "bin/wl-stop",
+      "reference_count": 2,
+      "references": [
+        "wl-lifecycle-lib",
+        "wl-lifecycle-report"
+      ]
+    },
+    {
+      "path": "bin/wl-storage",
+      "reference_count": 1,
+      "references": [
+        "wl-bootstrap"
+      ]
+    },
+    {
+      "path": "bin/wl-tauri-matrix-bootstrap",
+      "reference_count": 4,
+      "references": [
+        "wl-agitate",
+        "wl-matrix",
+        "wl-spin-city",
+        "wl-tauri-matrix-doctor"
+      ]
+    },
+    {
+      "path": "bin/wl-tauri-matrix-certify",
+      "reference_count": 3,
+      "references": [
+        "wl-agitate",
+        "wl-matrix",
+        "wl-spin-city"
+      ]
+    },
+    {
+      "path": "bin/wl-tauri-matrix-doctor",
+      "reference_count": 3,
+      "references": [
+        "wl-agitate",
+        "wl-matrix",
+        "wl-spin-city"
+      ]
+    },
+    {
+      "path": "bin/wl-tauri-matrix-hotkeys",
+      "reference_count": 3,
+      "references": [
+        "wl-agitate",
+        "wl-matrix",
+        "wl-spin-city"
+      ]
+    },
+    {
+      "path": "bin/wl-tauri-matrix-icons",
+      "reference_count": 3,
+      "references": [
+        "wl-agitate",
+        "wl-matrix",
+        "wl-spin-city"
+      ]
+    },
+    {
+      "path": "bin/wl-test",
+      "reference_count": 17,
+      "references": [
+        "wl-api",
+        "wl-bootstrap",
+        "wl-capability",
+        "wl-context",
+        "wl-dispatch",
+        "wl-doctor",
+        "wl-lifecycle-report",
+        "wl-lint",
+        "wl-profile",
+        "wl-release",
+        "wl-runtime",
+        "wl-services",
+        "wl-start",
+        "wl-status",
+        "wl-storage",
+        "wl-test",
+        "wl-universe"
+      ]
+    },
+    {
+      "path": "bin/wl-the-matrix",
+      "reference_count": 4,
+      "references": [
+        "wl-agitate",
+        "wl-matrix",
+        "wl-spin-city",
+        "wl-the-matrix"
+      ]
+    },
+    {
+      "path": "bin/wl-theomatrix",
+      "reference_count": 1,
+      "references": [
+        "wl-theomatrix"
+      ]
+    },
+    {
+      "path": "bin/wl-time-machine",
+      "reference_count": 3,
+      "references": [
+        "wl-time-machine",
+        "wl-time-machine-policy-v2",
+        "wl-time-machine-recovery"
+      ]
+    },
+    {
+      "path": "bin/wl-tmux-deck",
+      "reference_count": 1,
+      "references": [
+        "wl-tmux-deck"
+      ]
+    },
+    {
+      "path": "bin/wl-torrent",
+      "reference_count": 4,
+      "references": [
+        "wl-torrent",
+        "wl-torrent-client",
+        "wl-torrent-export",
+        "wl-torrent-vpn"
+      ]
+    },
+    {
+      "path": "bin/wl-torrent-export",
+      "reference_count": 1,
+      "references": [
+        "wl-torrent-client"
+      ]
+    },
+    {
+      "path": "bin/wl-universe",
+      "reference_count": 1,
+      "references": [
+        "wl-bootstrap"
+      ]
+    },
+    {
+      "path": "bin/wl-universe-dashboard",
+      "reference_count": 3,
+      "references": [
+        "wl-universe-dashboard",
+        "wl-universe-dashboard-v1",
+        "wl-universe-graph"
+      ]
+    },
+    {
+      "path": "bin/wl-universe-graph",
+      "reference_count": 1,
+      "references": [
+        "wl-universe-graph-v1"
+      ]
+    },
+    {
+      "path": "bin/wl-vault-audit",
+      "reference_count": 1,
+      "references": [
+        "wl-lifecycle"
+      ]
+    },
+    {
+      "path": "bin/wl-vault-capture-state",
+      "reference_count": 1,
+      "references": [
+        "wl-vault-state"
+      ]
+    },
+    {
+      "path": "bin/wl-vault-guard",
+      "reference_count": 1,
+      "references": [
+        "wl-vault-guard"
+      ]
+    },
+    {
+      "path": "bin/wl-vault-lock",
+      "reference_count": 1,
+      "references": [
+        "wl-vault-lock"
+      ]
+    },
+    {
+      "path": "bin/wl-vault-prune-snapshots",
+      "reference_count": 1,
+      "references": [
+        "wl-vault-prune-snapshots"
+      ]
+    },
+    {
+      "path": "bin/wl-vault-restore",
+      "reference_count": 2,
+      "references": [
+        "wl-vault-restore",
+        "wl-vault-verify-snapshot"
+      ]
+    },
+    {
+      "path": "bin/wl-vault-verify-snapshot",
+      "reference_count": 1,
+      "references": [
+        "wl-vault-verify-snapshot"
+      ]
+    },
+    {
+      "path": "bin/wl-vault-write",
+      "reference_count": 2,
+      "references": [
+        "wl-vault-guard",
+        "wl-vault-write"
+      ]
+    },
+    {
+      "path": "bin/wl-vaultwarden",
+      "reference_count": 2,
+      "references": [
+        "wl-vaultwarden",
+        "wl-vaultwarden-db"
+      ]
+    },
+    {
+      "path": "bin/wl-visual-chaos",
+      "reference_count": 1,
+      "references": [
+        "wl-visual-chaos"
+      ]
+    },
+    {
+      "path": "bin/wl-vm-ssh",
+      "reference_count": 1,
+      "references": [
+        "wl-vm-ip"
+      ]
+    },
+    {
+      "path": "bin/wl-wallpaper",
+      "reference_count": 1,
+      "references": [
+        "wl-wallpaper"
+      ]
+    },
+    {
+      "path": "bin/wl-wallpaper-source",
+      "reference_count": 1,
+      "references": [
+        "wl-wallpaper-source"
+      ]
+    },
+    {
+      "path": "bin/wl.backup-p0-1-20260706-074606",
+      "reference_count": 15,
+      "references": [
+        "wl-apps",
+        "wl-chaos-menubar",
+        "wl-constitution",
+        "wl-control-center",
+        "wl-craftsmanship",
+        "wl-design-system",
+        "wl-manifesto",
+        "wl-north-star",
+        "wl-philosophy",
+        "wl-platform-0-doctor",
+        "wl-platform-0-verify",
+        "wl-rootless",
+        "wl-runtime",
+        "wl-services",
+        "wl-spin-city"
+      ]
+    },
+    {
+      "path": "bin/wl.backup-platform-0-20260706-073812",
+      "reference_count": 7,
+      "references": [
+        "wl-apps",
+        "wl-chaos-menubar",
+        "wl-control-center",
+        "wl-rootless",
+        "wl-runtime",
+        "wl-services",
+        "wl-spin-city"
+      ]
+    },
+    {
+      "path": "bin/wl.backup-platform-0-doctor-20260706-073927",
+      "reference_count": 14,
+      "references": [
+        "wl-apps",
+        "wl-chaos-menubar",
+        "wl-constitution",
+        "wl-control-center",
+        "wl-craftsmanship",
+        "wl-design-system",
+        "wl-manifesto",
+        "wl-north-star",
+        "wl-philosophy",
+        "wl-platform-0-verify",
+        "wl-rootless",
+        "wl-runtime",
+        "wl-services",
+        "wl-spin-city"
+      ]
+    },
+    {
+      "path": "bin/wl.backup.20260619072845",
+      "reference_count": 6,
+      "references": [
+        "wl-grafana-dashboard",
+        "wl-portainer",
+        "wl-recovery",
+        "wl-storage",
+        "wl-time-machine",
+        "wl-universe"
+      ]
+    },
+    {
+      "path": "bin/wl.backup.20260621-122411",
+      "reference_count": 12,
+      "references": [
+        "wl-dns",
+        "wl-governance",
+        "wl-grafana",
+        "wl-loki",
+        "wl-nats",
+        "wl-observability",
+        "wl-prometheus",
+        "wl-rootless",
+        "wl-runtime",
+        "wl-snapshot",
+        "wl-storage",
+        "wl-universe"
+      ]
+    },
+    {
+      "path": "bin/wl.backup.20260621-184044",
+      "reference_count": 15,
+      "references": [
+        "wl-bin",
+        "wl-chaos",
+        "wl-dns",
+        "wl-ephemeral",
+        "wl-governance",
+        "wl-grafana",
+        "wl-home",
+        "wl-loki",
+        "wl-nats",
+        "wl-prometheus",
+        "wl-recovery",
+        "wl-runtime",
+        "wl-snapshot",
+        "wl-storage",
+        "wl-universe"
+      ]
+    },
+    {
+      "path": "bin/wl.backup.20260705-110053",
+      "reference_count": 3,
+      "references": [
+        "wl-academy",
+        "wl-browser",
+        "wl-mirror"
+      ]
+    },
+    {
+      "path": "bin/wl.bak.20260704-122800",
+      "reference_count": 3,
+      "references": [
+        "wl-builder",
+        "wl-rootless",
+        "wl-start"
+      ]
+    },
+    {
+      "path": "bin/wl.bak.knowledge-stage1.20260705110236",
+      "reference_count": 10,
+      "references": [
+        "wl-academy",
+        "wl-browser",
+        "wl-builder",
+        "wl-doctor",
+        "wl-rootless",
+        "wl-runtime",
+        "wl-services",
+        "wl-start",
+        "wl-stop",
+        "wl-verify"
+      ]
+    },
+    {
+      "path": "bin/wl.broken-minimal-20260621",
+      "reference_count": 8,
+      "references": [
+        "wl-ephemeral",
+        "wl-firefox",
+        "wl-governance",
+        "wl-obsidian",
+        "wl-router",
+        "wl-spin-city",
+        "wl-storage",
+        "wl-universe"
+      ]
+    },
+    {
+      "path": "bin/wl.broken.20260609-152152",
+      "reference_count": 55,
+      "references": [
+        "wl-anon",
+        "wl-anon-route",
+        "wl-audit-report",
+        "wl-drift-check",
+        "wl-intent-plan",
+        "wl-intent-status",
+        "wl-lifecycle",
+        "wl-lifecycle-capture",
+        "wl-operations-index-reports",
+        "wl-operations-inventory",
+        "wl-parse-anon-blueprint",
+        "wl-plan-execute",
+        "wl-plan-status",
+        "wl-registry-audit",
+        "wl-registry-refresh",
+        "wl-registry-refresh-commands",
+        "wl-registry-refresh-documents",
+        "wl-registry-refresh-intents",
+        "wl-registry-refresh-plans",
+        "wl-registry-refresh-services",
+        "wl-runtime",
+        "wl-runtime-inventory",
+        "wl-service-health",
+        "wl-services-discover-runtime",
+        "wl-services-graph",
+        "wl-services-recovery-order",
+        "wl-services-refresh",
+        "wl-services-status",
+        "wl-state-capture",
+        "wl-vault-audit",
+        "wl-vault-capture-state",
+        "wl-vault-guard",
+        "wl-vault-health",
+        "wl-vault-lock",
+        "wl-vault-prune-snapshots",
+        "wl-vault-restore",
+        "wl-vault-snapshot",
+        "wl-vault-state",
+        "wl-vault-verify-snapshot",
+        "wl-vault-write",
+        "wl-verify-archive",
+        "wl-verify-core",
+        "wl-verify-executions",
+        "wl-verify-intents",
+        "wl-verify-locks",
+        "wl-verify-operations",
+        "wl-verify-plans",
+        "wl-verify-policies",
+        "wl-verify-registry",
+        "wl-verify-runtime",
+        "wl-verify-schemas",
+        "wl-verify-service-docs",
+        "wl-verify-services",
+        "wl-verify-templates",
+        "wl-verify-vault"
+      ]
+    },
+    {
+      "path": "bin/wl.legacy.20260627-050249",
+      "reference_count": 34,
+      "references": [
+        "wl-api",
+        "wl-api-agent",
+        "wl-bin",
+        "wl-chaos",
+        "wl-controller",
+        "wl-controller-core",
+        "wl-dns",
+        "wl-ephemeral",
+        "wl-events",
+        "wl-governance",
+        "wl-grafana",
+        "wl-home",
+        "wl-inspect",
+        "wl-lifecycle",
+        "wl-loki",
+        "wl-nats",
+        "wl-nav",
+        "wl-obsidian",
+        "wl-platform-status",
+        "wl-prometheus",
+        "wl-reconcile",
+        "wl-recovery",
+        "wl-root-certify",
+        "wl-root-status",
+        "wl-roots",
+        "wl-secrets",
+        "wl-services",
+        "wl-snapshot",
+        "wl-state",
+        "wl-storage",
+        "wl-timeline",
+        "wl-tree",
+        "wl-universe",
+        "wl-veil"
+      ]
+    },
+    {
+      "path": "bin/wl.minimal-20260621.backup",
+      "reference_count": 3,
+      "references": [
+        "wl-obsidian",
+        "wl-router",
+        "wl-spin-city"
+      ]
+    },
+    {
+      "path": "bin/wl.original",
+      "reference_count": 3,
+      "references": [
+        "wl-builder",
+        "wl-rootless",
+        "wl-start"
+      ]
+    },
+    {
+      "path": "bin/wl.pre-mirror-wrapper.20260704-194314",
+      "reference_count": 6,
+      "references": [
+        "wl-academy-root",
+        "wl-apps-root",
+        "wl-browser",
+        "wl-docs-root",
+        "wl-root",
+        "wl-vault-root"
+      ]
+    },
+    {
+      "path": "bin/wl.real.20260621-122439",
+      "reference_count": 12,
+      "references": [
+        "wl-dns",
+        "wl-governance",
+        "wl-grafana",
+        "wl-loki",
+        "wl-nats",
+        "wl-observability",
+        "wl-prometheus",
+        "wl-rootless",
+        "wl-runtime",
+        "wl-snapshot",
+        "wl-storage",
+        "wl-universe"
+      ]
+    },
+    {
+      "path": "01-Platform/architecture/engine.py",
+      "reference_count": 1,
+      "references": [
+        "wl-architecture-engine"
+      ]
+    },
+    {
+      "path": "01-Platform/certification/engineering-gate.sh",
+      "reference_count": 3,
+      "references": [
+        "wl-builder-ownership",
+        "wl-manifest-index",
+        "wl-registry"
+      ]
+    },
+    {
+      "path": "01-Platform/certification/platform-certify.py",
+      "reference_count": 6,
+      "references": [
+        "wl-builder-ownership",
+        "wl-certification-preflight",
+        "wl-engineering-gate",
+        "wl-manifest-index",
+        "wl-registry",
+        "wl-release-preflight"
+      ]
+    },
+    {
+      "path": "01-Platform/certification/platform-finalize.py",
+      "reference_count": 6,
+      "references": [
+        "wl-builder-ownership",
+        "wl-engineering-gate",
+        "wl-manifest-index",
+        "wl-platform-handoff",
+        "wl-platform-snapshot",
+        "wl-registry"
+      ]
+    },
+    {
+      "path": "01-Platform/certification/preflight.py",
+      "reference_count": 4,
+      "references": [
+        "wl-builder-ownership",
+        "wl-engineering-gate",
+        "wl-registry",
+        "wl-release-preflight"
+      ]
+    },
+    {
+      "path": "01-Platform/doctor/engineering.py",
+      "reference_count": 3,
+      "references": [
+        "wl-builder-ownership",
+        "wl-engineering-gate",
+        "wl-registry"
+      ]
+    },
+    {
+      "path": "01-Platform/handoff/platform-handoff.py",
+      "reference_count": 4,
+      "references": [
+        "wl-engineering-gate",
+        "wl-manifest-index",
+        "wl-platform",
+        "wl-platform-status"
+      ]
+    },
+    {
+      "path": "01-Platform/registry/service.py",
+      "reference_count": 1,
+      "references": [
+        "wl-registry"
+      ]
+    },
+    {
+      "path": "01-Platform/release/preflight.py",
+      "reference_count": 3,
+      "references": [
+        "wl-builder-ownership",
+        "wl-engineering-gate",
+        "wl-registry"
+      ]
+    },
+    {
+      "path": "01-Platform/snapshot/platform-snapshot.py",
+      "reference_count": 3,
+      "references": [
+        "wl-engineering-gate",
+        "wl-manifest-index",
+        "wl-platform-status"
+      ]
+    },
+    {
+      "path": "01-Platform/stabilization/platform-rc-check.py",
+      "reference_count": 8,
+      "references": [
+        "wl-builder-ownership",
+        "wl-engineering-gate",
+        "wl-manifest-index",
+        "wl-platform",
+        "wl-platform-certify",
+        "wl-platform-finalize",
+        "wl-platform-status",
+        "wl-registry"
+      ]
+    },
+    {
+      "path": "01-Platform/status/platform-status.py",
+      "reference_count": 4,
+      "references": [
+        "wl-builder-ownership",
+        "wl-engineering-gate",
+        "wl-manifest-index",
+        "wl-registry"
+      ]
+    }
+  ],
+  "destructive_changes": false,
+  "files_scanned": 241,
+  "platform": "Wonderland",
+  "platform_version": "0.4"
+}

@@ -1,0 +1,163 @@
+{
+  "commands": {
+    "core-services:start": {
+      "argv": [
+        "bin/wl-runtime-adapter",
+        "core-services",
+        "start"
+      ],
+      "executable": true,
+      "exists": true,
+      "resolved_executable": "/Users/wonderland/Wonderland/bin/wl-runtime-adapter",
+      "status": "PASS"
+    },
+    "core-services:stop": {
+      "argv": [
+        "bin/wl-runtime-adapter",
+        "core-services",
+        "stop"
+      ],
+      "executable": true,
+      "exists": true,
+      "resolved_executable": "/Users/wonderland/Wonderland/bin/wl-runtime-adapter",
+      "status": "PASS"
+    },
+    "core-services:verify": {
+      "argv": [
+        "bin/wl-runtime-adapter",
+        "core-services",
+        "verify"
+      ],
+      "executable": true,
+      "exists": true,
+      "resolved_executable": "/Users/wonderland/Wonderland/bin/wl-runtime-adapter",
+      "status": "PASS"
+    },
+    "rootless-runtime:start": {
+      "argv": [
+        "bin/wl-runtime-adapter",
+        "rootless-runtime",
+        "start"
+      ],
+      "executable": true,
+      "exists": true,
+      "resolved_executable": "/Users/wonderland/Wonderland/bin/wl-runtime-adapter",
+      "status": "PASS"
+    },
+    "rootless-runtime:stop": {
+      "argv": [
+        "bin/wl-runtime-adapter",
+        "rootless-runtime",
+        "stop"
+      ],
+      "executable": true,
+      "exists": true,
+      "resolved_executable": "/Users/wonderland/Wonderland/bin/wl-runtime-adapter",
+      "status": "PASS"
+    },
+    "rootless-runtime:verify": {
+      "argv": [
+        "bin/wl-runtime-adapter",
+        "rootless-runtime",
+        "verify"
+      ],
+      "executable": true,
+      "exists": true,
+      "resolved_executable": "/Users/wonderland/Wonderland/bin/wl-runtime-adapter",
+      "status": "PASS"
+    },
+    "runtime-verification:start": {
+      "argv": [
+        "bin/wl-runtime-adapter",
+        "runtime-verification",
+        "start"
+      ],
+      "executable": true,
+      "exists": true,
+      "resolved_executable": "/Users/wonderland/Wonderland/bin/wl-runtime-adapter",
+      "status": "PASS"
+    },
+    "runtime-verification:stop": {
+      "argv": [
+        "bin/wl-runtime-adapter",
+        "runtime-verification",
+        "stop"
+      ],
+      "executable": true,
+      "exists": true,
+      "resolved_executable": "/Users/wonderland/Wonderland/bin/wl-runtime-adapter",
+      "status": "PASS"
+    },
+    "runtime-verification:verify": {
+      "argv": [
+        "bin/wl-runtime-adapter",
+        "runtime-verification",
+        "verify"
+      ],
+      "executable": true,
+      "exists": true,
+      "resolved_executable": "/Users/wonderland/Wonderland/bin/wl-runtime-adapter",
+      "status": "PASS"
+    }
+  },
+  "graph": {
+    "edges": [
+      {
+        "from": "rootless-runtime",
+        "to": "core-services"
+      },
+      {
+        "from": "core-services",
+        "to": "runtime-verification"
+      }
+    ],
+    "nodes": [
+      {
+        "description": "Wonderland core services",
+        "id": "core-services",
+        "required": true
+      },
+      {
+        "description": "Rootless infrastructure runtime",
+        "id": "rootless-runtime",
+        "required": true
+      },
+      {
+        "description": "Runtime post-start verification",
+        "id": "runtime-verification",
+        "required": true
+      }
+    ],
+    "schema_version": 1,
+    "start_order": [
+      "rootless-runtime",
+      "core-services",
+      "runtime-verification"
+    ],
+    "stop_order": [
+      "runtime-verification",
+      "core-services",
+      "rootless-runtime"
+    ]
+  },
+  "mode": "structural",
+  "persistent_state": {
+    "digest_matches": true,
+    "registry_digest": "610e45d084731cb6fe5c0350f2de1ccdafda8242b88d8073a5f813a13a8c4461",
+    "schema_version": 1,
+    "status": "stopped"
+  },
+  "problems": [],
+  "registry_digest": "610e45d084731cb6fe5c0350f2de1ccdafda8242b88d8073a5f813a13a8c4461",
+  "result": "PASS",
+  "start_order": [
+    "rootless-runtime",
+    "core-services",
+    "runtime-verification"
+  ],
+  "stop_order": [
+    "runtime-verification",
+    "core-services",
+    "rootless-runtime"
+  ]
+}

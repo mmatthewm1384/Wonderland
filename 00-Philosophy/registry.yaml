@@ -1,0 +1,20 @@
+ version: 1
+ 
+ constitution:
+ 
+   doctrine:
+     path: Doctrine
+ 
+   wes:
+     path: WES
+ 
+   design:
+     path: Design
+ 
+   manifestos:
+     path: Manifestos
+ 
+ purpose: >
+   The governing philosophy of Wonderland.
+ 
+ status: active

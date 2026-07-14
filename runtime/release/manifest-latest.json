@@ -1,0 +1,38 @@
+{
+  "api_version": {
+    "api": "v1",
+    "controller": "3.0.0",
+    "generated_at": 1782602625.0756962,
+    "git_revision": "a46dc23b",
+    "platform": "Wonderland",
+    "runtime": "wonderland-rootless",
+    "schema": 1,
+    "version": "3.0.0"
+  },
+  "artifacts": {
+    "bin/wl-api-v2": {
+      "path": "/Users/wonderland/Wonderland/bin/wl-api-v2",
+      "sha256": "b3901764625c937ec211e71aa3f0b8f92c8bb7ebd881891423a1a5a33025be82"
+    },
+    "bin/wl-controller-core-v2": {
+      "path": "/Users/wonderland/Wonderland/bin/wl-controller-core-v2",
+      "sha256": "1ffff2c41058dde9ea15f85d8949115923f3bbd1d70a8a9d24b298a35d7c6ac0"
+    },
+    "bin/wl-controller-v2": {
+      "path": "/Users/wonderland/Wonderland/bin/wl-controller-v2",
+      "sha256": "cd7dfcbbc296f89829456802b38e92b2000b9abacfb73bc75039562b657da08a"
+    },
+    "bin/wl-status-v2": {
+      "path": "/Users/wonderland/Wonderland/bin/wl-status-v2",
+      "sha256": "a4bec80cf66c625eb02f52412a4dac30228d2a5abe227b3e5d493ff99040edf3"
+    },
+    "certification": {
+      "path": "/Users/wonderland/Wonderland/runtime/release/certification-latest.json",
+      "sha256": "fcc17018916cb3903492ba08b8d0dc65b00d98119801f6434a9d6b5b7f0630ad"
+    }
+  },
+  "generated_at": 1782602625.0280168,
+  "git_revision": "a46dc23b",
+  "platform": "Wonderland",
+  "type": "release-manifest"
+}

@@ -1,0 +1,8 @@
+{
+  "payload": {
+    "certification": "FAIL",
+    "duration_seconds": 0.1489
+  },
+  "ts": 1783844621.2871401,
+  "type": "controller.v3.cycle.finished"
+}

@@ -1,0 +1,67 @@
+{
+  "certification": "Wonderland Runtime Engine 1.0 Beta",
+  "checks": {
+    "certification_execution": true,
+    "doctor_running": true,
+    "final_stopped_state": true,
+    "first_start": true,
+    "first_stop": true,
+    "registry_digest_stable": true,
+    "repository_clean": true,
+    "rollback_certification": true,
+    "running_health": true,
+    "start_idempotency": true,
+    "stop_idempotency": true,
+    "structural_verification_after": true,
+    "structural_verification_before": true
+  },
+  "created_at": "2026-07-11T17:49:53.139214+00:00",
+  "errors": [],
+  "evidence": {
+    "directory": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-certification-full-20260711T174925Z",
+    "doctor_running": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-certification-full-20260711T174925Z/doctor-running.json",
+    "health_running": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-certification-full-20260711T174925Z/health-running.json",
+    "rollback": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-certification-full-20260711T174925Z/rollback.json",
+    "start_first": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-certification-full-20260711T174925Z/start-first.json",
+    "start_second": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-certification-full-20260711T174925Z/start-second.json",
+    "state_after": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-certification-full-20260711T174925Z/state-after.json",
+    "state_before": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-certification-full-20260711T174925Z/state-before.json",
+    "stop_first": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-certification-full-20260711T174925Z/stop-first.json",
+    "stop_second": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-certification-full-20260711T174925Z/stop-second.json",
+    "verify_after": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-certification-full-20260711T174925Z/verify-after.json",
+    "verify_before": "/Users/wonderland/Wonderland/vault/08-Operations/certifications/runtime-certification-full-20260711T174925Z/verify-before.json"
+  },
+  "mode": "full",
+  "platform": {
+    "platform": "macOS-26.5.1-arm64-arm-64bit-Mach-O",
+    "python": "3.14.6 (main, Jun 10 2026, 10:03:53) [Clang 21.0.0 (clang-2100.0.123.102)]"
+  },
+  "repository": {
+    "branch": "feature/wke-python-engine",
+    "commit": "786ffdd186d375961a9cd8b1d848b5e4e06e4601",
+    "dirty": false,
+    "dirty_paths": [],
+    "root": "/Users/wonderland/Wonderland"
+  },
+  "result": "PASS",
+  "runtime": {
+    "final_status": "stopped",
+    "registry_digest": "610e45d084731cb6fe5c0350f2de1ccdafda8242b88d8073a5f813a13a8c4461",
+    "registry_path": "/Users/wonderland/Wonderland/config/wonderland/runtime/engines.json",
+    "registry_sha256": "9f1fd1adc2c23ae6b1a9fc81a1a65f38091e5bf2de775d06032b0cf16048dc80",
+    "start_order": [
+      "rootless-runtime",
+      "core-services",
+      "runtime-verification"
+    ],
+    "started_engines": [],
+    "state_path": "/Users/wonderland/Wonderland/vault/08-Operations/state/wl-runtime-engine.json",
+    "state_sha256": "f717617080cb40937c8e2cd38c5abd64da00d8e524b33d1847fa85703b275ba1",
+    "stop_order": [
+      "runtime-verification",
+      "core-services",
+      "rootless-runtime"
+    ]
+  },
+  "schema_version": 1
+}

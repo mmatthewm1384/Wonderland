@@ -1,0 +1,48 @@
+diff --git a/builder/python/wlrepository/wlrepository/engine.py b/builder/python/wlrepository/wlrepository/engine.py
+index 8ed2f443..edf02048 100644
+--- a/builder/python/wlrepository/wlrepository/engine.py
++++ b/builder/python/wlrepository/wlrepository/engine.py
+@@ -217,6 +217,26 @@ class RepositoryEngine:
+             self.gitignore_path.read_bytes()
+         ).hexdigest()
+ 
++    def policy_digest(self) -> str:
++        return hashlib.sha256(
++            self.policy_path.read_bytes()
++        ).hexdigest()
++
++    def health(self) -> dict[str, Any]:
++        verification = self.verify()
++
++        score = 100
++        score -= verification.errors * 25
++        score -= verification.warnings * 5
++        score = max(score, 0)
++
++        return {
++            "score": score,
++            "result": "PASS" if verification.passed else "FAIL",
++            "errors": verification.errors,
++            "warnings": verification.warnings,
++        }
++
+     def generate(self, *, check_only: bool = False) -> bool:
+         rendered = self.render_gitignore()
+ 
+@@ -433,6 +453,7 @@ class RepositoryEngine:
+     def status(self) -> dict[str, Any]:
+         document = self.load_document()
+         tracked_ignored = self.tracked_ignored()
++        verification = self.verify()
+ 
+         return {
+             "engine": document["engine"],
+@@ -442,6 +463,8 @@ class RepositoryEngine:
+             ),
+             "generated_digest": self.generated_digest(),
+             "current_digest": self.current_digest(),
++            "policy_digest": self.policy_digest(),
++            "verification": verification.as_dict(),
+             "synchronized": self.generate(check_only=True),
+             "tracked_ignored": len(tracked_ignored),
+         }

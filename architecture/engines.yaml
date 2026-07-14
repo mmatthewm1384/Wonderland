@@ -1,0 +1,113 @@
+version: 1
+
+platform:
+  id: wonderland
+  name: Wonderland Platform
+  version: "2.0"
+
+engines:
+
+  - id: registry
+    name: Registry Engine
+    owner: Wonderland Platform
+    status: active
+    purpose: Single source of truth.
+    depends: []
+
+  - id: architecture
+    name: Architecture Engine
+    owner: Wonderland Platform
+    status: active
+    purpose: Platform architecture.
+    depends:
+      - registry
+
+  - id: runtime
+    name: Runtime Engine
+    owner: Wonderland Platform
+    status: active
+    purpose: Runtime lifecycle.
+    depends:
+      - registry
+      - architecture
+
+  - id: repository
+    name: Repository Engine
+    owner: Wonderland Platform
+    status: planned
+    purpose: Repository inventory.
+    depends:
+      - registry
+
+  - id: builder
+    name: Builder Engine
+    owner: Wonderland Platform
+    status: planned
+    purpose: Build Wonderland.
+    depends:
+      - repository
+
+  - id: certification
+    name: Certification Engine
+    owner: Wonderland Platform
+    status: planned
+    purpose: Verification and certification.
+    depends:
+      - registry
+
+  - id: academy
+    name: Academy Engine
+    owner: Wonderland Platform
+    status: planned
+    purpose: Teach Wonderland.
+    depends:
+      - registry
+
+  - id: knowledge
+    name: Knowledge Engine
+    owner: Wonderland Platform
+    status: planned
+    purpose: Documentation and knowledge.
+    depends:
+      - registry
+
+  - id: security
+    name: Security Engine
+    owner: Wonderland Platform
+    status: planned
+    purpose: Defensive security.
+    depends:
+      - registry
+
+  - id: applications
+    name: Application Engine
+    owner: Wonderland Platform
+    status: planned
+    purpose: Desktop and mobile apps.
+    depends:
+      - registry
+
+  - id: cli
+    name: CLI Engine
+    owner: Wonderland Platform
+    status: active
+    purpose: Operator interface.
+    depends:
+      - registry
+
+  - id: os
+    name: Wonderland OS Engine
+    owner: Wonderland Platform
+    status: planned
+    purpose: Wonderland operating environment.
+    depends:
+      - runtime
+      - repository
+
+  - id: implementation
+    name: Implementation Engine
+    owner: Wonderland Platform
+    status: planned
+    purpose: Manage implementation projects.
+    depends:
+      - registry
