@@ -231,6 +231,8 @@ class RepositoryEngine:
         verification = self.verify(ignore_certificate=True)
         health = self.health(ignore_certificate=True)
 
+        health_score = health["score"]
+
         return {
             "schema_version": 1,
             "engine": "repository",
@@ -239,7 +241,7 @@ class RepositoryEngine:
             "generated_digest": self.generated_digest(),
             "state_digest": self.state_digest(),
             "verification": verification.as_dict()["result"],
-            "health_score": health["score"],
+            "health_score": health_score,
             "certified": verification.passed,
         }
 

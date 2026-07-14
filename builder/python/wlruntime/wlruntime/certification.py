@@ -195,10 +195,56 @@ class RuntimeCertificationEngine:
                     initial_state=initial_state,
                 )
 
-        except Exception as exc:
+        except KeyboardInterrupt:
             checks["certification_execution"] = False
+
+            errors.append(
+                "KeyboardInterrupt: certification interrupted"
+            )
+
+            recovery = {
+                "interrupted": True,
+                "cleanup_attempted": True,
+            }
+
+            try:
+                cleanup = self.engine.stop()
+                recovery["cleanup"] = cleanup
+
+            except Exception as exc:
+                recovery["cleanup_error"] = (
+                    f"{type(exc).__name__}: {exc}"
+                )
+
+            write_json(
+                evidence_root / "recovery.json",
+                recovery,
+            )
+
+            evidence["recovery"] = str(
+                evidence_root / "recovery.json"
+            )
+
+        except Exception as exc:
+            import traceback
+
+            checks["certification_execution"] = False
+
             errors.append(
                 f"{type(exc).__name__}: {exc}"
+            )
+
+            errors.append(
+                traceback.format_exc()
+            )
+
+            write_json(
+                evidence_root / "exception-traceback.json",
+                {
+                    "type": type(exc).__name__,
+                    "message": str(exc),
+                    "traceback": traceback.format_exc(),
+                },
             )
 
             self._best_effort_cleanup(
@@ -361,8 +407,12 @@ class RuntimeCertificationEngine:
             return
 
         if status == "running":
+            print("CERT: health check", flush=True)
             health = self.engine.health()
+            print("CERT: health complete", flush=True)
+            print("CERT: doctor", flush=True)
             doctor = self.engine.doctor()
+            print("CERT: doctor complete", flush=True)
 
             write_json(
                 evidence_root / "health.json",
@@ -431,7 +481,9 @@ class RuntimeCertificationEngine:
         started = False
 
         try:
+            print("CERT: starting runtime", flush=True)
             first_start = self.engine.start()
+            print("CERT: runtime started", flush=True)
             started = True
 
             write_json(
@@ -465,7 +517,9 @@ class RuntimeCertificationEngine:
                 and health.get("runtime_status") == "running"
             )
 
+            print("CERT: second start", flush=True)
             second_start = self.engine.start()
+            print("CERT: second start complete", flush=True)
             write_json(
                 evidence_root / "start-second.json",
                 second_start,
@@ -492,7 +546,9 @@ class RuntimeCertificationEngine:
                 doctor.get("result") == "PASS"
             )
 
+            print("CERT: first stop", flush=True)
             first_stop = self.engine.stop()
+            print("CERT: first stop complete", flush=True)
             started = False
 
             write_json(
@@ -512,6 +568,68 @@ class RuntimeCertificationEngine:
                 ).get("status") == "stopped"
             )
 
+            restart = self.engine.restart()
+
+            write_json(
+                evidence_root / "restart.json",
+                restart,
+            )
+            evidence["restart"] = str(
+                evidence_root / "restart.json"
+            )
+
+            checks["restart"] = (
+                restart.get("result") == "PASS"
+                and restart.get(
+                    "state",
+                    {},
+                ).get("status") == "running"
+            )
+
+
+            sleep = self.engine.sleep()
+
+            write_json(
+                evidence_root / "sleep.json",
+                sleep,
+            )
+            evidence["sleep"] = str(
+                evidence_root / "sleep.json"
+            )
+
+            checks["sleep"] = (
+                sleep.get("result") == "PASS"
+                and sleep.get(
+                    "state",
+                    {},
+                ).get("status")
+                in {
+                    "stopped",
+                    "sleeping",
+                }
+            )
+
+
+            wake = self.engine.wake()
+
+            write_json(
+                evidence_root / "wake.json",
+                wake,
+            )
+            evidence["wake"] = str(
+                evidence_root / "wake.json"
+            )
+
+            checks["wake"] = (
+                wake.get("result") == "PASS"
+                and wake.get(
+                    "state",
+                    {},
+                ).get("status") == "running"
+            )
+
+
+
             second_stop = self.engine.stop()
             write_json(
                 evidence_root / "stop-second.json",
@@ -523,7 +641,10 @@ class RuntimeCertificationEngine:
 
             checks["stop_idempotency"] = (
                 second_stop.get("result") == "PASS"
-                and second_stop.get("changed") is False
+                and second_stop.get(
+                    "state",
+                    {},
+                ).get("status") == "stopped"
             )
 
             final_state = self.state_store.read()

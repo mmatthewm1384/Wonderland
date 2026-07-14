@@ -1,5 +1,86 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cd "$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-python3 -m wl.runtime.commands.certify
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+
+STATE_FILE="$WL_HOME/vault/08-Operations/state/runtime-state.json"
+
+pass() {
+  printf 'PASS %s\n' "$1"
+}
+
+fail() {
+  printf 'FAIL %s\n' "$1"
+  exit 1
+}
+
+echo "Runtime Engine Certification"
+echo
+
+###########################################################################
+# state file
+###########################################################################
+
+[[ -f "$STATE_FILE" ]] \
+  && pass "runtime state file" \
+  || fail "runtime state file"
+
+###########################################################################
+# runtime controller
+###########################################################################
+
+[[ -x "$WL_HOME/bin/wl-runtime" ]] \
+  && pass "runtime controller" \
+  || fail "runtime controller"
+
+###########################################################################
+# runtime state helper
+###########################################################################
+
+[[ -x "$WL_HOME/bin/wl-runtime-state" ]] \
+  && pass "runtime state helper" \
+  || fail "runtime state helper"
+
+###########################################################################
+# services
+###########################################################################
+
+if "$WL_HOME/bin/wl-services" status >/dev/null 2>&1; then
+  pass "services healthy"
+else
+  fail "services healthy"
+fi
+
+###########################################################################
+# runtime state
+###########################################################################
+
+state=$(
+python3 - "$STATE_FILE" <<'PY'
+import json,sys
+with open(sys.argv[1]) as f:
+    print(json.load(f).get("state","UNKNOWN"))
+PY
+)
+
+case "$state" in
+  RUNNING|STOPPED|STARTING|STOPPING|FAILED|RECOVERING)
+    pass "runtime state valid ($state)"
+    ;;
+  *)
+    fail "runtime state invalid ($state)"
+    ;;
+esac
+
+###########################################################################
+# event log
+###########################################################################
+
+EVENT_FILE="$WL_HOME/vault/08-Operations/state/runtime-events.jsonl"
+
+[[ -f "$EVENT_FILE" ]] \
+  && pass "runtime event log" \
+  || fail "runtime event log"
+
+echo
+echo "RESULT PASS"

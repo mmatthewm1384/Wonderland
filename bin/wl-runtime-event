@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+EVENT_FILE="$WL_HOME/vault/08-Operations/state/runtime-events.jsonl"
+
+event="${1:?event required}"
+
+python3 - "$EVENT_FILE" "$event" <<'PY'
+import json
+import sys
+from datetime import datetime, timezone
+
+path=sys.argv[1]
+event=sys.argv[2]
+
+record={
+    "timestamp": datetime.now(timezone.utc).isoformat(),
+    "event": event
+}
+
+with open(path,"a") as f:
+    f.write(json.dumps(record))
+    f.write("\n")
+PY

@@ -172,6 +172,40 @@ class PersistentStateContractTests(unittest.TestCase):
             )
 
 
+    def test_interrupted_stop_recovers_state(self):
+        state = self.engine.state_store.default_state()
+
+        state.update(
+            {
+                "status": "stopping",
+                "operation": "stop",
+                "operation_id": "interrupted-test",
+                "started_engines": [],
+            }
+        )
+
+        self.engine.state_store.write(state)
+
+        recovered = (
+            self.engine.state_store.read()
+        )
+
+        recovered = (
+            self.engine._recover_stale_operation(
+                recovered
+            )
+        )
+
+        self.assertEqual(
+            recovered["status"],
+            "stopped",
+        )
+
+        self.assertIsNone(
+            recovered["operation"]
+        )
+
+
 class LifecycleContractTests(unittest.TestCase):
     def build_engine(
         self,
@@ -299,6 +333,102 @@ class LifecycleContractTests(unittest.TestCase):
                 rollback_results[0]["status"],
                 "PASS",
             )
+
+    def test_restart_restores_running_state(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+
+            _, store, engine = self.build_engine(
+                root,
+                {
+                    "alpha": noop_engine(),
+                },
+            )
+
+            engine.start()
+
+            result = engine.restart()
+
+            self.assertEqual(
+                result["result"],
+                "PASS",
+            )
+
+            state = store.read()
+
+            self.assertEqual(
+                state["status"],
+                "running",
+            )
+
+
+    def test_sleep_records_transition(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+
+            _, store, engine = self.build_engine(
+                root,
+                {
+                    "alpha": noop_engine(),
+                },
+            )
+
+            engine.start()
+
+            result = engine.sleep()
+
+            self.assertEqual(
+                result["result"],
+                "PASS",
+            )
+
+            state = store.read()
+
+            self.assertEqual(
+                state["status"],
+                "stopped",
+            )
+
+            self.assertEqual(
+                state["lifecycle"]["last_transition"],
+                "sleep",
+            )
+
+
+    def test_wake_restores_running_state(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+
+            _, store, engine = self.build_engine(
+                root,
+                {
+                    "alpha": noop_engine(),
+                },
+            )
+
+            engine.start()
+            engine.sleep()
+
+            result = engine.wake()
+
+            self.assertEqual(
+                result["result"],
+                "PASS",
+            )
+
+            state = store.read()
+
+            self.assertEqual(
+                state["status"],
+                "running",
+            )
+
+            self.assertEqual(
+                state["lifecycle"]["last_transition"],
+                "wake",
+            )
+
+
 
     def test_structural_verify_does_not_execute_health(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

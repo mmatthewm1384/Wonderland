@@ -1,11 +1,40 @@
 {
-  "schema_version": 1,
   "engine": {
     "id": "repository",
     "name": "Wonderland Repository Engine",
     "version": "1.0.0"
   },
   "policy": {
+    "must_ignore": [
+      ".wl/state/example.json",
+      ".backup/manual/example.bak",
+      "runtime/controller/state.json",
+      "runtime/chaos/session.json",
+      "state/runtime/runtime.json",
+      "vault/ephemeral-runs.log",
+      "vault/chaos/chaos-aether.json",
+      "vault/08-Operations/state/runtime.json",
+      "builder/output/image.raw",
+      "builder/python/example/__pycache__/module.pyc",
+      "__wl_probe__/src-tauri/target/debug/example",
+      "ephemeral/tests/example/.build/debug/example",
+      "releases/1.1/wonderland.qcow2",
+      ".DS_Store"
+    ],
+    "must_track": [
+      "ephemeral/README.md",
+      "ephemeral/bin/wl",
+      "ephemeral/services/wl-sandbox/wl-sandbox",
+      "releases/README.md",
+      "releases/wonderland-1.1.0.manifest.json",
+      "releases/wonderland-1.1.0.sha256",
+      "builder/python/wlbuilder/state/manifest.py",
+      "builder/python/wlcli/wlcli/core/state/history.py",
+      "config/wonderland/runtime/engines.json",
+      "academy/09-progress/reviews/releases/academy-core.md",
+      "policy/repository/policy.json",
+      ".wonderland/repository-policy.digest"
+    ],
     "principles": [
       "Track source, documentation, configuration, schemas, and durable evidence.",
       "Ignore generated state, caches, local credentials, backups, and build output.",
@@ -243,35 +272,7 @@
           ".hypothesis/"
         ]
       }
-    ],
-    "must_ignore": [
-      ".wl/state/example.json",
-      ".backup/manual/example.bak",
-      "runtime/controller/state.json",
-      "runtime/chaos/session.json",
-      "state/runtime/runtime.json",
-      "vault/ephemeral-runs.log",
-      "vault/chaos/chaos-aether.json",
-      "vault/08-Operations/state/runtime.json",
-      "builder/output/image.raw",
-      "builder/python/example/__pycache__/module.pyc",
-      "__wl_probe__/src-tauri/target/debug/example",
-      "ephemeral/tests/example/.build/debug/example",
-      "releases/1.1/wonderland.qcow2",
-      ".DS_Store"
-    ],
-    "must_track": [
-      "ephemeral/README.md",
-      "ephemeral/bin/wl",
-      "ephemeral/services/wl-sandbox/wl-sandbox",
-      "releases/README.md",
-      "releases/wonderland-1.1.0.manifest.json",
-      "releases/wonderland-1.1.0.sha256",
-      "builder/python/wlbuilder/state/manifest.py",
-      "builder/python/wlcli/wlcli/core/state/history.py",
-      "config/wonderland/runtime/engines.json",
-      "academy/09-progress/reviews/releases/academy-core.md",
-      "policy/repository/policy.json"
     ]
-  }
+  },
+  "schema_version": 1
 }

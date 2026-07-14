@@ -21,68 +21,82 @@ class DoctorEngine:
         for name, adapter in self.adapters.items():
             try:
                 systems[name] = adapter.run(self.root)
+
             except Exception as exc:
                 systems[name] = {
                     "schema_version": 1,
                     "engine": name,
                     "status": "FAIL",
                     "error": str(exc),
+                    "certified": False,
                 }
 
-        passed = [
+        certification_systems: dict[str, Any] = {}
+
+        for name, system in systems.items():
+            certificate = system.get("certificate")
+
+            if isinstance(certificate, dict):
+                certification_systems[name] = {
+                    "certified": bool(
+                        certificate.get("certified", False)
+                    ),
+                    "verification": certificate.get(
+                        "verification"
+                    ),
+                }
+            else:
+                certification_systems[name] = {
+                    "certified": bool(
+                        system.get("certified", False)
+                    ),
+                    "verification": system.get(
+                        "verification"
+                    ),
+                }
+
+        statuses = [
             item.get("status") == "PASS"
             for item in systems.values()
         ]
 
-        status = (
-            "PASS"
-            if all(passed)
-            else "FAIL"
-        )
+        status = "PASS" if all(statuses) else "FAIL"
 
         health_scores = [
             item.get("health", {}).get("score")
             for item in systems.values()
-            if isinstance(
-                item.get("health"),
-                dict,
-            )
+            if isinstance(item.get("health"), dict)
             and isinstance(
                 item["health"].get("score"),
                 int,
             )
         ]
 
-        health = (
+        health_score = (
             sum(health_scores) // len(health_scores)
             if health_scores
             else 0
         )
 
-        certification = {
-            name: {
-                "certified": item.get("certified", False),
-                "health_score": item.get(
-                    "health",
-                    {},
-                ).get(
-                    "score",
-                    0,
-                ),
-            }
-            for name, item in systems.items()
-        }
-
-        certification["overall"] = status == "PASS"
+        certified = all(
+            item.get("certified", False)
+            for item in certification_systems.values()
+        )
 
         return {
             "schema_version": 1,
             "engine": "wonderland-doctor",
-            "version": "1.2.1",
+            "version": "1.2",
             "status": status,
-            "health_score": health,
+            "health_score": health_score,
             "manifest": manifest(),
             "systems": systems,
-            "certification": certification,
-            "certified": status == "PASS",
+            "certification": {
+                "systems": certification_systems,
+                "overall": certified,
+            },
+            "certified": (
+                status == "PASS"
+                and certified
+            ),
         }

@@ -46,7 +46,13 @@ def build_parser() -> argparse.ArgumentParser:
         required=True,
     )
 
-    for name in ("start", "stop"):
+    for name in (
+        "start",
+        "stop",
+        "restart",
+        "sleep",
+        "wake",
+    ):
         command = subcommands.add_parser(name)
         command.add_argument(
             "--dry-run",
@@ -104,6 +110,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     return parser
+
+
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -211,6 +219,36 @@ def main(argv: list[str] | None = None) -> int:
 
         elif arguments.command == "stop":
             result = engine.stop(
+                dry_run=arguments.dry_run
+            )
+
+        elif arguments.command == "restart":
+            result = engine.restart(
+                dry_run=arguments.dry_run
+            )
+
+        elif arguments.command == "sleep":
+            result = engine.sleep(
+                dry_run=arguments.dry_run
+            )
+
+        elif arguments.command == "wake":
+            result = engine.wake(
+                dry_run=arguments.dry_run
+            )
+
+        elif arguments.command == "restart":
+            result = engine.restart(
+                dry_run=arguments.dry_run
+            )
+
+        elif arguments.command == "sleep":
+            result = engine.sleep(
+                dry_run=arguments.dry_run
+            )
+
+        elif arguments.command == "wake":
+            result = engine.wake(
                 dry_run=arguments.dry_run
             )
 

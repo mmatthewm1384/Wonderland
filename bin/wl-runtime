@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -uo pipefail
 
+source "$WL_HOME/lib/wl-events.sh"
 WL_HOME="${WL_HOME:-$HOME/Wonderland}"
 . "$WL_HOME/lib/wl-bootstrap.sh"
 
@@ -69,6 +70,7 @@ JSON
     wl_section "Starting Wonderland Runtime"
     wl_runtime_start
     wl_runtime_running && wl_health_pass "$WL_RUNTIME_INSTANCE" "running" || wl_health_fail "$WL_RUNTIME_INSTANCE" "not running"
+    wl_runtime_event start PASS
     wl_health_exit
     ;;
 
@@ -76,16 +78,47 @@ JSON
     wl_section "Stopping Wonderland Runtime"
     wl_runtime_stop
     wl_runtime_running && wl_health_warn "$WL_RUNTIME_INSTANCE" "still running" || wl_health_pass "$WL_RUNTIME_INSTANCE" "stopped"
+    wl_runtime_event stop PASS
+
     wl_health_exit
     ;;
 
   restart)
     "$0" stop || true
     "$0" start
+	wl_runtime_event restart PASS
+    ;;
+
+  sleep)
+    wl_section "Sleeping Wonderland Runtime"
+
+    wl_runtime_stop
+
+    wl_runtime_running \
+      && wl_health_warn "$WL_RUNTIME_INSTANCE" "still running" \
+      || wl_health_pass "$WL_RUNTIME_INSTANCE" "sleeping"
+
+    wl_runtime_event sleep PASS
+
+    wl_health_exit
+    ;;
+
+  wake)
+    wl_section "Waking Wonderland Runtime"
+
+    wl_runtime_start
+
+    wl_runtime_running \
+      && wl_health_pass "$WL_RUNTIME_INSTANCE" "awake" \
+      || wl_health_fail "$WL_RUNTIME_INSTANCE" "not running"
+
+    wl_runtime_event wake PASS
+
+    wl_health_exit
     ;;
 
   *)
-    echo "Usage: wl runtime {status [--json]|start|stop|restart}"
+	echo "Usage: wl runtime {status [--json]|start|stop|restart|sleep|wake}"
     echo "RESULT FAIL"
     exit 1
     ;;
