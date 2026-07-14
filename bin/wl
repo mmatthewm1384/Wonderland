@@ -88,7 +88,7 @@ fi
 #   wl runtime certify [...]
 if [[ "${1:-}" == "runtime" ]]; then
   case "${2:-}" in
-    start|stop|status|verify|health|doctor|recover|graph|plan|registry|self-test|release-gate)
+    start|stop|restart|sleep|wake|status|verify|health|doctor|recover|graph|plan|registry|self-test|release-gate)
       _wl_runtime_command="$2"
       shift 2
 
@@ -137,6 +137,41 @@ WL_APP_NAME="${WL_APP_NAME:-Wonderland}"
 WL_LIMA_INSTANCE="${WL_LIMA_INSTANCE:-wonderland-rootless}"
 export LIMA_INSTANCE="$WL_LIMA_INSTANCE"
 export NERDCTL_NAMESPACE="${NERDCTL_NAMESPACE:-default}"
+
+# BEGIN WL-RUNTIME-TOPLEVEL-ROUTES
+case "${1:-}" in
+
+  start)
+    shift || true
+    exec "$0" runtime start "$@"
+    ;;
+
+  stop)
+    shift || true
+    exec "$0" runtime stop "$@"
+    ;;
+
+  restart)
+    shift || true
+    exec "$0" runtime restart "$@"
+    ;;
+
+  sleep)
+    shift || true
+    exec "$0" runtime sleep "$@"
+    ;;
+
+  wake)
+    shift || true
+    exec "$0" runtime wake "$@"
+    ;;
+
+  status)
+    shift || true
+    exec "$0" runtime status "$@"
+    ;;
+esac
+# END WL-RUNTIME-TOPLEVEL-ROUTES
 
 usage() {
   wl_logo
@@ -433,6 +468,9 @@ esac
 
 
 case "$cmd" in
+  doctor)
+    exec "$WL_ROOT/bin/wl-doctor" "$@"
+    ;;
   start) start_runtime "$@" ;;
   services)
     if [[ -x "$WL_ROOT/bin/wl-services" ]]; then
@@ -452,7 +490,6 @@ case "$cmd" in
     ;;
   stop) stop_runtime "$@" ;;
   status) status_runtime "$@" ;;
-  doctor) doctor_runtime "$@" ;;
   palette) wl_palette ;;
   apps)
     exec "$WL_ROOT/bin/wl-apps" "$@"

@@ -1,5 +1,5 @@
-
 from __future__ import annotations
+
 import os
 import subprocess
 import uuid
@@ -15,48 +15,45 @@ from .state import RuntimeStateStore, utc_now
 
 class RuntimeEngine:
 
-    def _write_transaction_state(
+    def _recover_stale_operation(
         self,
-        operation,
-        phase,
-        completed=None,
-        current=None,
-        status="running",
-        error=None,
-    ):
+        state: dict | None = None,
+    ) -> dict:
         """
-        Persist lifecycle transaction state.
+        Recover interrupted lifecycle operations.
 
-        Used for deterministic recovery after interrupted
-        runtime operations.
+        Contract:
+        - Always return a valid state dictionary.
+        - Never mutate lifecycle flow by returning None.
         """
-        state = {
-            "operation": operation,
-            "phase": phase,
-            "status": status,
-            "completed_engines": completed or [],
-            "current_engine": current,
-            "recoverable": True,
-            "error": error,
-        }
 
-        if hasattr(self, "_state"):
-            self._state.update(state)
+        if state is None:
+            state = self.state_store.read()
+
+        if state.get("operation") in {
+            "start",
+            "stop",
+        }:
+            status = state.get("status")
+
+            if status in {
+                "starting",
+                "stopping",
+                "rolling-back",
+            }:
+                state["status"] = "stopped"
+                state["operation"] = None
+                state["operation_id"] = None
+                state["started_engines"] = []
+
+                state["rollback"]["attempted"] = False
+                state["rollback"]["completed"] = False
+
+                self.state_store.write(state)
 
         return state
 
 
-    def _clear_transaction_state(self):
-        """
-        Clear active lifecycle transaction.
-        """
-        if hasattr(self, "_state"):
-            self._state.update({
-                "operation": None,
-                "phase": None,
-                "recoverable": False,
-                "current_engine": None,
-            })
     def __init__(
         self,
         *,
@@ -105,240 +102,306 @@ class RuntimeEngine:
             ],
         }
 
-    def start(self, *, dry_run: bool = False) -> dict[str, Any]:
 
-        # Begin lifecycle transaction.
-        self._write_transaction_state(
-            operation="start",
-            phase="initializing",
-        )
+    def start(
+        self,
+        *,
+        dry_run: bool = False,
+    ) -> dict[str, Any]:
+        with self.state_store.lock():
+            return self._start_locked(
+                dry_run=dry_run
+            )
 
 
-        # Idempotent lifecycle guard.
-        # RuntimeEngine remains the authority for lifecycle decisions.
-        try:
-            current_health = self.health()
-        except Exception:
-            current_health = None
-
-        if isinstance(current_health, dict):
-            if current_health.get("result") == "PASS":
-                return {
-                    "result": "PASS",
-                    "changed": False,
-                    "message": "runtime already healthy",
-                    "health": current_health,
-                }
+    def _start_locked(
+        self,
+        *,
+        dry_run: bool = False,
+    ) -> dict[str, Any]:
         if dry_run:
             return self.plan("start")
 
-        with self.state_store.lock():
-            state = self.state_store.read()
+        state = self.state_store.read()
 
-            if state["status"] == "running":
-                return {
-                    "result": "PASS",
-                    "changed": False,
-                    "reason": "runtime already running",
-                    "state": state,
-                }
+        state = self._recover_stale_operation(
+            state
+        )
 
-            if state["status"] in {
-                "starting",
-                "stopping",
-                "rolling-back",
-            }:
-                raise LifecycleExecutionError(
-                    f"runtime busy: {state['status']}"
-                )
-
-            state = self.state_store.default_state()
-            state.update(
-                {
-                    "status": "starting",
-                    "operation": "start",
-                    "operation_id": str(uuid.uuid4()),
-                    "registry_digest": self.registry.digest(),
-                }
-            )
-            self.state_store.write(state)
-
-            started: list[str] = []
-
-            completed_engines = []
-
-            for engine_id in self.registry.start_order():
-                engine = self.registry.engine(engine_id)
-
-                self._write_transaction_state(
-                    operation="start",
-                    phase="starting",
-                    completed=completed_engines,
-                    current=engine_id,
-                )
-
-                result = self._execute(engine, "start")
-                state["engine_results"][engine_id] = result
-
-                if result["status"] == "PASS":
-                    completed_engines.append(engine_id)
-
-                    self._write_transaction_state(
-                        operation="start",
-                        phase="completed",
-                        completed=completed_engines,
-                        current=None,
-                    )
-
-                if result["status"] in {"PASS", "SKIP"}:
-                    started.append(engine_id)
-                    state["started_engines"] = list(started)
-                    self.state_store.write(state)
-                    continue
-
-                if not engine.required:
-                    self.state_store.write(state)
-                    continue
-
-                state["status"] = "rolling-back"
-                state["last_error"] = {
-                    "engine_id": engine_id,
-                    "action": "start",
-                    "message": result["error"],
-                    "occurred_at": utc_now(),
-                }
-                state["rollback"]["attempted"] = True
-                self.state_store.write(state)
-
-                rollback = self._rollback(started)
-                completed = all(
-                    item["status"] in {"PASS", "SKIP"}
-                    for item in rollback
-                )
-
-                state["rollback"]["results"] = rollback
-                state["rollback"]["completed"] = completed
-                state["started_engines"] = []
-                state["operation"] = None
-                state["operation_id"] = None
-                state["status"] = (
-                    "stopped"
-                    if completed
-                    else "failed"
-                )
-                self.state_store.write(state)
-
-                raise LifecycleExecutionError(
-                    f"required engine {engine_id} failed; "
-                    f"rollback "
-                    f"{'completed' if completed else 'failed'}"
-                )
-
-            state["status"] = "running"
-            state["operation"] = None
-            state["operation_id"] = None
-            self.state_store.write(state)
-
+        if state["status"] == "running":
             return {
                 "result": "PASS",
-                "changed": True,
+                "changed": False,
+                "reason": "runtime already running",
                 "state": state,
             }
 
-    def stop(self, *, dry_run: bool = False) -> dict[str, Any]:
+        if state["status"] in {
+            "starting",
+            "stopping",
+            "rolling-back",
+        }:
+            raise LifecycleExecutionError(
+                f"runtime busy: {state['status']}"
+            )
+
+        state = self.state_store.default_state()
+
+        state.update(
+            {
+                "status": "starting",
+                "operation": "start",
+                "operation_id": str(uuid.uuid4()),
+                "registry_digest": self.registry.digest(),
+            }
+        )
+
+        self.state_store.write(state)
+
+        started = []
+
+        for engine_id in self.registry.start_order():
+            engine = self.registry.engine(engine_id)
+
+            result = self._execute(
+                engine,
+                "start",
+            )
+
+            state["engine_results"][engine_id] = result
+
+            if result["status"] in {"PASS", "SKIP"}:
+                started.append(engine_id)
+                state["started_engines"] = list(started)
+                self.state_store.write(state)
+                continue
+
+            if not engine.required:
+                self.state_store.write(state)
+                continue
+
+            state["status"] = "rolling-back"
+            state["last_error"] = {
+                "engine_id": engine_id,
+                "action": "start",
+                "message": result["error"],
+                "occurred_at": utc_now(),
+            }
+
+            state["rollback"]["attempted"] = True
+
+            self.state_store.write(state)
+
+            rollback = self._rollback(started)
+
+            completed = all(
+                item["status"] in {"PASS", "SKIP"}
+                for item in rollback
+            )
+
+            state["rollback"]["results"] = rollback
+            state["rollback"]["completed"] = completed
+            state["started_engines"] = []
+            state["operation"] = None
+            state["operation_id"] = None
+            state["status"] = (
+                "stopped"
+                if completed
+                else "failed"
+            )
+
+            self.state_store.write(state)
+
+            raise LifecycleExecutionError(
+                f"required engine {engine_id} failed; "
+                f"rollback "
+                f"{'completed' if completed else 'failed'}"
+            )
+
+        state["status"] = "running"
+        state["operation"] = None
+        state["operation_id"] = None
+
+        self.state_store.write(state)
+
+        return {
+            "result": "PASS",
+            "changed": True,
+            "state": state,
+        }
+
+
+    def stop(
+        self,
+        *,
+        dry_run: bool = False,
+    ) -> dict[str, Any]:
+        with self.state_store.lock():
+            return self._stop_locked(
+                dry_run=dry_run
+            )
+
+
+    def _stop_locked(
+        self,
+        *,
+        dry_run: bool = False,
+    ) -> dict[str, Any]:
+        if dry_run:
+            return self.plan("stop")
+
+        state = self.state_store.read()
+
+        if state["status"] == "stopped":
+            return {
+                "result": "PASS",
+                "changed": False,
+                "reason": "runtime already stopped",
+                "state": state,
+            }
+
+        state["status"] = "stopping"
+        state["operation"] = "stop"
+        state["operation_id"] = str(uuid.uuid4())
+
+        self.state_store.write(state)
+
+        failures = []
+
+        for engine_id in self.registry.stop_order():
+            engine = self.registry.engine(engine_id)
+
+            result = self._execute(
+                engine,
+                "stop",
+            )
+
+            state["engine_results"][engine_id] = result
+
+            if (
+                result["status"] == "FAIL"
+                and engine.required
+            ):
+                failures.append(engine_id)
+
+            self.state_store.write(state)
+
+        state["operation"] = None
+        state["operation_id"] = None
+        state["started_engines"] = []
+
+        if failures:
+            state["status"] = "failed"
+
+            state["last_error"] = {
+                "action": "stop",
+                "engines": failures,
+                "message": "required engines failed to stop",
+                "occurred_at": utc_now(),
+            }
+
+            self.state_store.write(state)
+
+            raise LifecycleExecutionError(
+                "required engines failed to stop: "
+                + ", ".join(failures)
+            )
+
+        state["status"] = "stopped"
+        state["last_error"] = None
+
+        self.state_store.write(state)
+
+        return {
+            "result": "PASS",
+            "changed": True,
+            "state": state,
+        }
+
+
+    def restart(
+        self,
+        *,
+        dry_run: bool = False,
+    ) -> dict[str, Any]:
+        if dry_run:
+            return {
+                "result": "PASS",
+                "action": "restart",
+                "stop": self.plan("stop"),
+                "start": self.plan("start"),
+            }
+
+        with self.state_store.lock():
+            stop_result = self._stop_locked()
+            start_result = self._start_locked()
+
+            state = self.state_store.read()
+
+            return {
+                "result": "PASS",
+                "action": "restart",
+                "stop": stop_result,
+                "start": start_result,
+                "state": state,
+            }
+
+
+    def sleep(
+        self,
+        *,
+        dry_run: bool = False,
+    ) -> dict[str, Any]:
         if dry_run:
             return self.plan("stop")
 
         with self.state_store.lock():
+            result = self._stop_locked()
+
             state = self.state_store.read()
 
-            if state["status"] == "stopped":
-                return {
-                    "result": "PASS",
-                    "changed": False,
-                    "reason": "runtime already stopped",
-                    "state": state,
-                }
+            state["lifecycle"] = {
+                "last_transition": "sleep",
+                "sleep_timestamp": utc_now(),
+            }
 
-            state["status"] = "stopping"
-            state["operation"] = "stop"
-            state["operation_id"] = str(uuid.uuid4())
-            self.state_store.write(state)
-
-            failures: list[str] = []
-
-            shutdown_engines = []
-
-            state["operation"] = "stop"
-            state["operation_id"] = str(uuid.uuid4())
-            state["shutdown_engines"] = []
-            state["phase"] = "stopping"
-            self.state_store.write(state)
-
-            for engine_id in self.registry.stop_order():
-                engine = self.registry.engine(engine_id)
-
-                self._write_transaction_state(
-                    operation="stop",
-                    phase="stopping",
-                    completed=shutdown_engines,
-                    current=engine_id,
-                )
-
-                result = self._execute(engine, "stop")
-                state["engine_results"][engine_id] = result
-
-                shutdown_engines.append(
-                    {
-                        "engine": engine_id,
-                        "status": result["status"],
-                        "finished_at": result.get("finished_at"),
-                    }
-                )
-
-                state["shutdown_engines"] = shutdown_engines
-                self.state_store.write(state)
-
-                if (
-                    result["status"] == "FAIL"
-                    and engine.required
-                ):
-                    failures.append(engine_id)
-
-            state["operation"] = None
-            state["operation_id"] = None
-            state["phase"] = None
-            state["shutdown_engines"] = shutdown_engines
-            state["started_engines"] = []
-
-            if failures:
-                state["status"] = "failed"
-                state["last_error"] = {
-                    "action": "stop",
-                    "engines": failures,
-                    "message": "required engines failed to stop",
-                    "occurred_at": utc_now(),
-                }
-                self.state_store.write(state)
-
-                raise LifecycleExecutionError(
-                    "required engines failed to stop: "
-                    + ", ".join(failures)
-                )
-
-            state["status"] = "stopped"
-            state["operation"] = None
-            state["operation_id"] = None
-            state["phase"] = None
-            state["last_error"] = None
-            state["shutdown_engines"] = shutdown_engines
             self.state_store.write(state)
 
             return {
                 "result": "PASS",
-                "changed": True,
+                "action": "sleep",
+                "stop": result,
                 "state": state,
             }
+
+
+    def wake(
+        self,
+        *,
+        dry_run: bool = False,
+    ) -> dict[str, Any]:
+        if dry_run:
+            return self.plan("start")
+
+        with self.state_store.lock():
+            result = self._start_locked()
+
+            state = self.state_store.read()
+
+            state["lifecycle"] = {
+                "last_transition": "wake",
+                "sleep_timestamp": None,
+            }
+
+            self.state_store.write(state)
+
+            return {
+                "result": "PASS",
+                "action": "wake",
+                "start": result,
+                "state": state,
+            }
+
 
     def verify(self) -> dict[str, Any]:
         """Validate static runtime structure without requiring services."""
@@ -477,55 +540,8 @@ class RuntimeEngine:
             "health": health,
         }
 
-
-    def _rollback_start(self, state: dict[str, Any]) -> dict[str, Any]:
-        """
-        Roll back partially completed start operations.
-
-        Completed engines are stopped in reverse order.
-        """
-
-        completed = list(
-            state.get("completed_engines", [])
-        )
-
-        results = {}
-
-        for engine_id in reversed(completed):
-            engine = self.registry.engine(engine_id)
-
-            result = self._execute(
-                engine,
-                "stop",
-            )
-
-            results[engine_id] = result
-
-        state["operation"] = None
-        state["operation_id"] = None
-        state["completed_engines"] = []
-        state["status"] = "stopped"
-
-        self.state_store.write(state)
-
-        return {
-            "result": "PASS",
-            "rolled_back": completed,
-            "results": results,
-            "state": state,
-        }
-
-
     def recover(self) -> dict[str, Any]:
         with self.state_store.lock():
-
-            state = self.state_store.read()
-
-            if (
-                state.get("operation") == "start"
-                and state.get("completed_engines")
-            ):
-                return self._rollback_start(state)
             state = self.state_store.read()
             started = [
                 engine_id

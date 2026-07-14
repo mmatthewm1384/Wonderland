@@ -98,10 +98,31 @@ case "$ENGINE_ID:$ACTION" in
     ;;
 
   rootless-runtime:stop)
-    run_first_supported \
-      "rootless-runtime stop" \
-      "bin/wl-rootless|stop" \
-      "bin/wl|rootless|stop"
+    lima_status="$(
+      limactl list --format '{{.Name}} {{.Status}}' 2>/dev/null \
+      | awk '$1 == "wonderland-rootless" { print $2 }'
+    )"
+
+    case "$lima_status" in
+      Running)
+        run_first_supported \
+          "rootless-runtime stop" \
+          "bin/wl-rootless|stop" \
+          "bin/wl|rootless|stop"
+        ;;
+
+      Stopped)
+        printf 'PASS rootless-runtime already stopped\\n'
+        ;;
+
+      "")
+        printf 'PASS rootless-runtime unavailable (already stopped)\\n'
+        ;;
+
+      *)
+        fail "rootless-runtime unexpected external state: $lima_status"
+        ;;
+    esac
     ;;
 
   rootless-runtime:verify)

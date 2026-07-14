@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_HOME="${WL_HOME:-$HOME/Wonderland}"
+STATE_FILE="$WL_HOME/vault/08-Operations/state/runtime-state.json"
+
+mkdir -p "$(dirname "$STATE_FILE")"
+
+init_state() {
+cat > "$STATE_FILE" <<JSON
+{
+  "state": "STOPPED",
+  "runtime": "wonderland-rootless",
+  "services": [],
+  "health": "PASS",
+  "updated_at": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+}
+JSON
+}
+
+[[ -f "$STATE_FILE" ]] || init_state
+
+cmd="${1:-status}"
+
+case "$cmd" in
+
+get)
+  cat "$STATE_FILE"
+;;
+
+set)
+  state="${2:?missing state}"
+
+  python3 - "$STATE_FILE" "$state" <<'PY'
+import json
+import sys
+from datetime import datetime, timezone
+
+path=sys.argv[1]
+state=sys.argv[2]
+
+with open(path) as f:
+    data=json.load(f)
+
+data["state"]=state
+data["updated_at"]=datetime.now(timezone.utc).isoformat()
+
+with open(path,"w") as f:
+    json.dump(data,f,indent=2)
+    f.write("\n")
+PY
+;;
+
+running)
+  jq -e '.state=="RUNNING"' "$STATE_FILE" >/dev/null
+;;
+
+stopped)
+  jq -e '.state=="STOPPED"' "$STATE_FILE" >/dev/null
+;;
+
+status)
+  jq '.' "$STATE_FILE"
+;;
+
+*)
+  echo "usage: wl-runtime-state {get|set STATE|running|stopped|status}"
+  exit 1
+;;
+
+esac

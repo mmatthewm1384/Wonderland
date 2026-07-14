@@ -58,6 +58,10 @@ class RuntimeStateStore:
                 "completed": False,
                 "results": [],
             },
+            "lifecycle": {
+                "last_transition": None,
+                "sleep_timestamp": None,
+            },
             "last_error": None,
             "updated_at": utc_now(),
         }

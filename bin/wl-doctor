@@ -1,13 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WL_ROOT="$(
-  cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &&
-  pwd -P
-)"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-export WL_ROOT
+export PYTHONPATH="$ROOT/builder/python/wldoctor:$ROOT/builder/python/wlrepository${PYTHONPATH:+:$PYTHONPATH}"
 
-exec env \
-  PYTHONPATH="$WL_ROOT/builder/python/wldoctor:$WL_ROOT/builder/python/wlrepository${PYTHONPATH:+:$PYTHONPATH}" \
-  python3 -m wldoctor.cli "$@"
+exec python -m wldoctor.cli "$@"

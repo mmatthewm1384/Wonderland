@@ -31,58 +31,25 @@ def graphs(root_bin: str) -> dict[str, LifecycleGraph]:
     return {
         "START": LifecycleGraph(
             name="START",
-            description="Start Wonderland runtime.",
+            description="Start Wonderland through Runtime Engine authority.",
             stages=[
                 LifecycleStage(
-                    id="runtime",
-                    title="Rootless Runtime",
-                    command=bin_cmd("wl-rootless", "start"),
-                    health=bin_cmd("wl-rootless", "status"),
-                ),
-                LifecycleStage(
-                    id="services",
-                    title="Core Services",
-                    command=bin_cmd("wl-services", "start"),
-                    depends_on=["runtime"],
-                    health=bin_cmd("wl-services", "status"),
-                ),
-                LifecycleStage(
-                    id="apps",
-                    title="Graphical Shell",
-                    command=bin_cmd("wl-apps", "start"),
-                    depends_on=["services"],
-                    required=False,
-                    health=bin_cmd("wl-apps", "status"),
-                ),
-                LifecycleStage(
-                    id="verify",
-                    title="Runtime Verification",
-                    command=bin_cmd("wlcli", "status"),
-                    depends_on=["services"],
+                    id="runtime-engine",
+                    title="Runtime Engine Start",
+                    command=bin_cmd("wl-runtime-engine", "start"),
+                    health=bin_cmd("wl-runtime-engine", "health"),
                 ),
             ],
         ),
         "STOP": LifecycleGraph(
             name="STOP",
-            description="Stop Wonderland runtime gracefully.",
+            description="Stop Wonderland through Runtime Engine authority.",
             stages=[
                 LifecycleStage(
-                    id="apps",
-                    title="Graphical Shell",
-                    command=bin_cmd("wl-apps", "stop"),
-                    required=False,
-                ),
-                LifecycleStage(
-                    id="services",
-                    title="Core Services",
-                    command=bin_cmd("wl-services", "stop"),
-                    depends_on=["apps"],
-                ),
-                LifecycleStage(
-                    id="runtime",
-                    title="Rootless Runtime",
-                    command=bin_cmd("wl-rootless", "stop"),
-                    depends_on=["services"],
+                    id="runtime-engine",
+                    title="Runtime Engine Stop",
+                    command=bin_cmd("wl-runtime-engine", "stop"),
+                    health=bin_cmd("wl-runtime-engine", "health"),
                 ),
             ],
         ),
