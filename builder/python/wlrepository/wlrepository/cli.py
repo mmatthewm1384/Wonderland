@@ -73,6 +73,30 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("verify-certificate")
     subparsers.add_parser("tracked-ignored")
 
+    # Accept JSON output after command:
+    #   wl repo certify --json
+    #   wl repo verify --json
+    #
+    # Maintains Wonderland CLI convention.
+    for command in [
+        "status",
+        "generate",
+        "verify",
+        "doctor",
+        "health",
+        "repair",
+        "certify",
+        "verify-certificate",
+        "tracked-ignored",
+    ]:
+        parser_command = subparsers.choices[command]
+        parser_command.add_argument(
+            "--json",
+            action="store_true",
+            dest="command_json",
+            help="emit machine-readable JSON",
+        )
+
     explain = subparsers.add_parser("explain-ignore")
     explain.add_argument("path")
 
@@ -82,6 +106,13 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
+
+    # Normalize global and command-level JSON flags.
+    args.json = getattr(args, "json", False) or getattr(
+        args,
+        "command_json",
+        False,
+    )
 
     try:
         engine = RepositoryEngine(repository_root())
@@ -198,7 +229,7 @@ def main(argv: list[str] | None = None) -> int:
             return 0 if after.passed else 1
 
         if args.command == "certify":
-            payload = engine.write_certificate()
+            payload = engine.run_certification()
 
             if args.json:
                 print(
@@ -220,7 +251,7 @@ def main(argv: list[str] | None = None) -> int:
                     f"certified={payload['certified']}"
                 )
 
-            return 0 if payload["certified"] else 1
+            return 0 if payload.get("certified", False) else 1
 
         if args.command == "verify-certificate":
             payload = engine.verify_certificate()

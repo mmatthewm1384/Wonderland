@@ -245,6 +245,126 @@ class RepositoryEngine:
             "certified": verification.passed,
         }
 
+
+    def run_certification(self) -> dict[str, Any]:
+        from datetime import datetime, timezone
+
+        timestamp = (
+            datetime.now(timezone.utc)
+            .strftime("%Y%m%dT%H%M%SZ")
+        )
+
+        evidence_root = (
+            self.root
+            / "vault/08-Operations/certifications"
+            / f"repository-certification-{timestamp}"
+        )
+
+        evidence_root.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        policy_loaded = True
+        try:
+            self.load_document()
+        except RuntimeError:
+            policy_loaded = False
+
+        before_digest = self.generated_digest()
+
+        self.generate()
+
+        after_digest = self.generated_digest()
+
+        deterministic_generation = (
+            before_digest == after_digest
+        )
+
+        verify = self.verify(
+            ignore_certificate=True,
+        )
+
+        health = self.health(
+            ignore_certificate=True,
+        )
+
+        tracked = self.tracked_ignored()
+
+        repair_before = verify.as_dict()
+
+        if not self.generate(check_only=True):
+            self.generate()
+
+        repair_after = self.verify(
+            ignore_certificate=True,
+        )
+
+        checks = {
+            "policy_loading": policy_loaded,
+            "deterministic_generation": deterministic_generation,
+            "verification": verify.passed,
+            "health": health["result"] == "PASS",
+            "repair": repair_after.passed,
+            "tracked_ignored": len(tracked) == 0,
+        }
+
+        result = (
+            "PASS"
+            if all(checks.values())
+            else "FAIL"
+        )
+
+        certificate = {
+            "certification":
+                "Wonderland Repository Engine 1.1",
+            "result":
+                result,
+            "checks":
+                checks,
+            "policy_digest":
+                self.policy_digest(),
+            "generated_digest":
+                self.generated_digest(),
+            "state_digest":
+                self.state_digest(),
+            "artifact_path":
+                str(evidence_root),
+        }
+
+        artifacts = {
+            "certificate.json": certificate,
+            "verify.json": verify.as_dict(),
+            "health.json": health,
+            "tracked-ignored.json": {
+                "count": len(tracked),
+                "paths": tracked,
+            },
+            "repair.json": {
+                "before": repair_before,
+                "after": repair_after.as_dict(),
+            },
+            "policy-digest.json": {
+                "policy_digest":
+                    self.policy_digest(),
+            },
+        }
+
+        for name, payload in artifacts.items():
+            (evidence_root / name).write_text(
+                json.dumps(
+                    payload,
+                    indent=2,
+                    sort_keys=True,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+        self.write_certificate()
+
+        return certificate
+
     def current_digest(self) -> str | None:
         if not self.gitignore_path.exists():
             return None
@@ -254,6 +374,21 @@ class RepositoryEngine:
 
     def write_certificate(self) -> dict[str, Any]:
         certificate = self.certification()
+
+        # Certification contract normalization.
+        # All Wonderland engines expose:
+        # certified + verification + health_score.
+        certificate.setdefault(
+            "certified",
+            certificate.get("verification") == "PASS",
+        )
+
+        certificate.setdefault(
+            "health_score",
+            self.health(
+                ignore_certificate=True
+            )["score"],
+        )
 
         self.certificate_path.parent.mkdir(
             parents=True,

@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-open "$HOME/Workshop/apps/macos/Agitate Waves.app"
