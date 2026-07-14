@@ -1,6 +1,0 @@
-{
-  "effect" : "controller-api, command:status, risk:0, reversible:true",
-  "mode" : "calm",
-  "schema" : "wonderland.chaos.menubar.state.v1",
-  "updated_at" : "2026-06-28T21:32:28Z"
-}

@@ -1,9 +1,0 @@
-{
-  "subsystem": "wl-lifecycle",
-  "timestamp": "2026-06-24T10:57:18-07:00",
-  "audit_result": "FAIL",
-  "doctor_result": "PASS",
-  "result": "FAIL",
-  "certification_status": "PROVISIONAL",
-  "certification_file": "/Users/wonderland/Wonderland/governance/registries/lifecycle-certification.json"
-}

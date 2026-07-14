@@ -1,6 +1,0 @@
-2026-06-25T19:01:47Z PASS checkin providers=macos-auth recovery-key
-2026-06-25T19:01:47.739408+00:00 PASS chaos-action=checkin lease=d2cfa50655a9 expires=2026-06-26T03:01:47.739408+00:00
-2026-06-25T19:02:38Z PASS checkin providers=macos-auth recovery-key
-2026-06-25T19:02:38.387651+00:00 PASS chaos-action=checkin lease=653cfb982e01 expires=2026-06-26T03:02:38.387651+00:00
-2026-06-25T19:18:25Z PASS checkin providers=macos-auth recovery-key
-2026-06-25T19:18:25.435444+00:00 PASS chaos-action=checkin lease=cda00267495f expires=2026-06-26T03:18:25.435444+00:00

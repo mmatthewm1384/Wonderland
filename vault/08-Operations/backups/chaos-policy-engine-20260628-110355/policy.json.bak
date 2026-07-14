@@ -1,9 +1,0 @@
-{
-  "lease_hours": 8,
-  "required_providers": {
-    "checkin": ["macos-auth", "recovery-key"],
-    "reset": ["macos-auth", "recovery-key"],
-    "panic": ["macos-auth"]
-  },
-  "actions": ["checkin", "reset", "panic", "verify"]
-}

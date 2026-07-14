@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-ROOT="${WL_ROOT:-$HOME/Wonderland}"
-APP="$ROOT/apps/matrix/wl-matrix-slam-watch"
-
-cd "$APP"
-exec swift run wl-matrix-slam-watch

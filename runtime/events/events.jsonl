@@ -26369,3 +26369,209 @@
 {"payload": {"certification": "FAIL", "duration_seconds": 0.1656}, "ts": 1784058878.847327, "type": "controller.v3.cycle.finished"}
 {"payload": {}, "ts": 1784058909.085501, "type": "controller.v3.cycle.started"}
 {"payload": {"certification": "FAIL", "duration_seconds": 0.1577}, "ts": 1784058909.3586829, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784058939.962146, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1631}, "ts": 1784058940.235588, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784058970.853056, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1697}, "ts": 1784058971.145921, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059001.5369751, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1693}, "ts": 1784059001.8154812, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059032.4506922, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1651}, "ts": 1784059032.725015, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059063.067141, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1732}, "ts": 1784059063.352139, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059093.603128, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1717}, "ts": 1784059093.8843231, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059124.2116559, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1785}, "ts": 1784059124.497942, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059155.002302, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1664}, "ts": 1784059155.288748, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059185.9045079, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1677}, "ts": 1784059186.1828978, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059216.671326, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1752}, "ts": 1784059216.958613, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059247.524859, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.173}, "ts": 1784059247.808757, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059278.339485, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1502}, "ts": 1784059278.6351821, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059309.104109, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1732}, "ts": 1784059309.38656, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059339.890381, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1608}, "ts": 1784059340.159818, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059370.805651, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1736}, "ts": 1784059371.0930932, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059401.5907269, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1766}, "ts": 1784059401.875644, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059432.38938, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1734}, "ts": 1784059432.6704059, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059463.271725, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1769}, "ts": 1784059463.556767, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059493.956487, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.2063}, "ts": 1784059494.2789261, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059524.60536, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1771}, "ts": 1784059524.890462, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059555.2218492, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1728}, "ts": 1784059555.502141, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059585.890411, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1738}, "ts": 1784059586.179776, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059616.6902242, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1791}, "ts": 1784059616.979472, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059647.490371, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1774}, "ts": 1784059647.7766888, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059678.24666, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1747}, "ts": 1784059678.536335, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059709.00592, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1782}, "ts": 1784059709.293621, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059739.8727849, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1771}, "ts": 1784059740.1561248, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059770.559781, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1716}, "ts": 1784059770.839427, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059801.2935371, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1742}, "ts": 1784059801.581113, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059831.9086232, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1756}, "ts": 1784059832.1925929, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059862.842396, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1726}, "ts": 1784059863.122828, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059893.334071, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1771}, "ts": 1784059893.639141, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059924.126403, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.6308}, "ts": 1784059924.8805919, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059955.17574, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.6072}, "ts": 1784059955.905558, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784059985.209834, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1722}, "ts": 1784059985.494478, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060015.883071, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.15}, "ts": 1784060016.1424582, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060046.5794141, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.176}, "ts": 1784060046.872191, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060077.53317, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1767}, "ts": 1784060077.820416, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060108.2258, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1743}, "ts": 1784060108.514412, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060138.934805, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1778}, "ts": 1784060139.233108, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060169.8758981, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1759}, "ts": 1784060170.1611872, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060200.615026, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1844}, "ts": 1784060200.9249249, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060231.1762319, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1703}, "ts": 1784060231.457607, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060261.755788, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1765}, "ts": 1784060262.044336, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060292.5289652, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.2201}, "ts": 1784060292.860419, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060323.2446878, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1374}, "ts": 1784060323.5052311, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060353.845162, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1738}, "ts": 1784060354.127733, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060384.397244, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.175}, "ts": 1784060384.681042, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060415.178155, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1732}, "ts": 1784060415.465608, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060445.778723, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1566}, "ts": 1784060446.042018, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060476.510741, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1745}, "ts": 1784060476.793497, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060507.08414, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1734}, "ts": 1784060507.3679738, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060537.6453319, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1733}, "ts": 1784060537.9331782, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060568.16226, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1713}, "ts": 1784060568.44317, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060598.862259, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1671}, "ts": 1784060599.139595, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060629.4955919, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1727}, "ts": 1784060629.782146, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060659.945884, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1699}, "ts": 1784060660.2256021, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060690.613121, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1713}, "ts": 1784060690.8915892, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060721.084487, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1718}, "ts": 1784060721.3641229, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060751.878592, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1734}, "ts": 1784060752.165177, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060782.3870442, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1743}, "ts": 1784060782.6705449, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060812.906677, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1768}, "ts": 1784060813.19202, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060843.8309278, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1706}, "ts": 1784060844.116307, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060874.45734, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1691}, "ts": 1784060874.735991, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060905.2301528, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1299}, "ts": 1784060905.478205, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060935.79718, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1677}, "ts": 1784060936.078901, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060966.488203, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1485}, "ts": 1784060966.7477372, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784060997.130796, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.2064}, "ts": 1784060997.449493, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061028.0144372, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1788}, "ts": 1784061028.3090749, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061058.745134, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1955}, "ts": 1784061059.054804, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061089.550807, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1781}, "ts": 1784061089.8392022, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061120.197383, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1558}, "ts": 1784061120.4705741, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061150.824696, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1968}, "ts": 1784061151.1351402, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061181.285474, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1891}, "ts": 1784061181.5860631, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061211.936544, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1785}, "ts": 1784061212.2235892, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061242.594229, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1775}, "ts": 1784061242.882072, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061273.430374, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1756}, "ts": 1784061273.718185, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061303.984679, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1672}, "ts": 1784061304.270554, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061334.6126668, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.174}, "ts": 1784061334.8969622, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061365.446789, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1785}, "ts": 1784061365.737648, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061396.071136, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1599}, "ts": 1784061396.3379872, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061426.88238, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1748}, "ts": 1784061427.169098, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061457.616744, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1733}, "ts": 1784061457.904991, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061488.262975, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1778}, "ts": 1784061488.549441, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061518.896241, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1579}, "ts": 1784061519.174562, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061549.4634838, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.2183}, "ts": 1784061549.7954822, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061580.429836, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1745}, "ts": 1784061580.719371, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061611.21438, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.2065}, "ts": 1784061611.5307672, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061641.8460228, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1774}, "ts": 1784061642.132096, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061672.7751172, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.2034}, "ts": 1784061673.0908139, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061703.521895, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.2007}, "ts": 1784061703.837334, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061734.191469, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1724}, "ts": 1784061734.5216131, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061764.776281, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1708}, "ts": 1784061765.0580769, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061795.274664, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1693}, "ts": 1784061795.5581272, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061825.7811332, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1743}, "ts": 1784061826.0784461, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061856.5222201, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1659}, "ts": 1784061856.795521, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061887.106996, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.2053}, "ts": 1784061887.4272351, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061917.7648509, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1983}, "ts": 1784061918.075853, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061948.282042, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.179}, "ts": 1784061948.571808, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784061978.9819388, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1717}, "ts": 1784061979.270525, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784062009.656665, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1465}, "ts": 1784062009.914485, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784062040.048841, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1677}, "ts": 1784062040.3268979, "type": "controller.v3.cycle.finished"}
+{"payload": {}, "ts": 1784062070.6842282, "type": "controller.v3.cycle.started"}
+{"payload": {"certification": "FAIL", "duration_seconds": 0.1982}, "ts": 1784062070.9914172, "type": "controller.v3.cycle.finished"}

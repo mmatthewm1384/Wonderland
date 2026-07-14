@@ -72,6 +72,28 @@ if [[ "${1:-}" == "doctor" ]]; then
 fi
 # END WL-DOCTOR-PUBLIC-ROUTE
 
+# BEGIN WL-REPOSITORY-PUBLIC-ROUTE
+# Stable public route into the Wonderland Repository Engine.
+if [[ "${1:-}" == "repo" || "${1:-}" == "repository" ]]; then
+  shift
+
+  _wl_repository_root="$(
+    cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &&
+    pwd -P
+  )"
+
+  _wl_repository="${WL_ROOT:-$_wl_repository_root}/bin/wl-repository"
+
+  if [[ ! -x "$_wl_repository" ]]; then
+    printf 'FAIL Repository Engine unavailable: %s\n' \
+      "$_wl_repository" >&2
+    exit 1
+  fi
+
+  exec "$_wl_repository" "$@"
+fi
+# END WL-REPOSITORY-PUBLIC-ROUTE
+
 # BEGIN WL-RUNTIME-PUBLIC-ROUTES
 # Stable public routes into the authoritative Runtime Engine.
 #
