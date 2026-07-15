@@ -140,16 +140,27 @@ class PlatformCertificationEngine:
         return payload
 
 
-def certify(*args, **kwargs):
+def certify(controller=None, include_optional=False, **kwargs):
     """
-    Execute Wonderland Platform certification.
+    Public certification API.
 
-    Public CLI certification entry point.
+    CLI entry point delegating to
+    PlatformCertificationEngine.
     """
 
-    return {
-        "certification": "Wonderland Platform Engine 1.1",
-        "status": "initialized",
-        "certified": False,
-        "message": "Certification hook restored."
-    }
+    if controller is None:
+        raise CertificationError(
+            "Certification requires a platform controller."
+        )
+
+    try:
+        root = controller.context.root
+    except AttributeError as exc:
+        raise CertificationError(
+            "PlatformController missing context.root"
+        ) from exc
+
+    engine = PlatformCertificationEngine(Path(root))
+
+    return engine.certify()
+
