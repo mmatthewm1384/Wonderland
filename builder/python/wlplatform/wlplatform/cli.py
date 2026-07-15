@@ -152,6 +152,35 @@ def main(argv: list[str] | None = None) -> int:
         print(f"FAIL {exc}", file=sys.stderr)
         return 1
 
+    
+    if args.command == "verify":
+
+        report = controller.verify(
+            include_optional=args.include_optional,
+        )
+
+        payload = report.to_dict()
+
+        if args.json:
+            print(
+                json.dumps(
+                    payload,
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+        else:
+            _render_report(
+                report,
+                verbose=args.verbose,
+            )
+
+        return (
+            0
+            if payload["result"] == "PASS"
+            else 1
+        )
+
     if args.command == "certify":
         try:
             output = certify(
