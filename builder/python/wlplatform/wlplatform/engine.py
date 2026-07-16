@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 from datetime import datetime, timezone
+from .certification_trust import CertificationTrustEvaluator
 
 
 class PlatformCertificationEngine:
@@ -17,6 +18,7 @@ class PlatformCertificationEngine:
             / "vault"
             / "08-Operations"
             / "certifications"
+            / "reports"
         )
 
     def _certificate_paths(self) -> dict[str, Path]:
@@ -125,9 +127,97 @@ class PlatformCertificationEngine:
                 overall,
         }
 
+
         certificate["state_digest"] = (
             self.state_digest(systems)
         )
+
+        trust = CertificationTrustEvaluator(
+            self.root
+        ).evaluate()
+
+        certificate["trust"] = trust
+
+        trust = CertificationTrustEvaluator(
+            self.root
+        ).evaluate()
+
+        certificate["trust"] = trust
+
+        lineage_path = (
+            self.root
+            / "vault"
+            / "08-Operations"
+            / "certifications"
+            / "graph"
+            / "certification-lineage.json"
+        )
+
+        if lineage_path.exists():
+
+            import hashlib
+
+            lineage_digest = hashlib.sha256(
+                lineage_path.read_bytes()
+            ).hexdigest()
+
+            certificate["lineage"] = {
+                "artifact":
+                    str(
+                        lineage_path.relative_to(
+                            self.root
+                        )
+                    ),
+                "digest":
+                    lineage_digest,
+            }
+
+        else:
+
+            certificate["lineage"] = {
+                "artifact":
+                    "missing",
+                "digest":
+                    None,
+            }
+
+
+        certificate["trust_chain"] = {
+            "schema_version": 1,
+            "edges": [
+                {
+                    "source": "policy",
+                    "target": "registry",
+                    "relationship": "defines",
+                },
+                {
+                    "source": "registry",
+                    "target": "engine_evidence",
+                    "relationship": "owns",
+                },
+                {
+                    "source": "engine_evidence",
+                    "target": "lineage",
+                    "relationship": "proves",
+                },
+                {
+                    "source": "lineage",
+                    "target": "certification",
+                    "relationship": "supports",
+                },
+            ],
+        }
+
+        trust = CertificationTrustEvaluator(
+            self.root
+        ).evaluate()
+
+        certificate["trust"] = trust
+
+        certificate["graph"] = {
+            "artifact":
+                "vault/08-Operations/certifications/graph/certification-graph.json"
+        }
 
         self.certification_dir.mkdir(
             parents=True,

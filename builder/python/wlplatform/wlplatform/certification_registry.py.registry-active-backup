@@ -1,0 +1,160 @@
+
+from __future__ import annotations
+
+import hashlib
+import json
+from pathlib import Path
+
+
+class CertificationRegistry:
+
+    VERSION = 1
+
+
+    def __init__(self, root: Path):
+
+        self.root = root.resolve()
+
+        base = (
+            self.root
+            / "vault"
+            / "08-Operations"
+            / "certifications"
+        )
+
+        self.engine_dir = base / "engines"
+        self.active_dir = base / "active"
+
+
+    def digest(self, path: Path):
+
+        return (
+            "sha256:"
+            +
+            hashlib.sha256(
+                path.read_bytes()
+            ).hexdigest()
+        )
+
+
+    def normalize_engine_name(self, filename):
+
+        name = filename.lower()
+
+        mappings = {
+            "runtime": "runtime",
+            "academy": "academy",
+            "security": "security",
+            "architecture": "architecture",
+            "builder": "builder",
+            "repository": "repository",
+            "doctor": "doctor",
+            "certificate": "certificate",
+            "platform": "platform",
+        }
+
+        for key, value in mappings.items():
+
+            if key in name:
+                return value
+
+        return (
+            name
+            .replace("-certification.json", "")
+            .replace(".json", "")
+        )
+
+
+    def discover(self):
+
+        results = {}
+
+        paths = []
+
+        if self.active_dir.exists():
+            paths.extend(
+                self.active_dir.glob("*.json")
+            )
+
+        if self.engine_dir.exists():
+            paths.extend(
+                self.engine_dir.glob("*.json")
+            )
+
+
+        for path in sorted(paths):
+
+            name = self.normalize_engine_name(
+                path.name
+            )
+
+            try:
+                data = json.loads(
+                    path.read_text(
+                        encoding="utf-8"
+                    )
+                )
+
+            except Exception:
+                continue
+
+
+            if data.get("certified") is False:
+                continue
+
+
+            results[name] = {
+                "artifact":
+                    str(
+                        path.relative_to(
+                            self.root
+                        )
+                    ),
+
+                "certified":
+                    True,
+
+                "digest":
+                    self.digest(path),
+
+                "generated":
+                    data.get("timestamp"),
+
+                "dependencies":
+                    data.get(
+                        "dependencies",
+                        []
+                    ),
+            }
+
+
+        return results
+
+
+    def active(self):
+
+        discovered = self.discover()
+
+        return dict(
+            sorted(
+                discovered.items()
+            )
+        )
+
+
+    def normalize_active(self):
+
+        return self.active()
+
+
+    def load(self):
+
+        active = self.active()
+
+        return {
+            "schema_version": self.VERSION,
+            "active": active,
+            "platform": {},
+            "trust": {},
+            "graph": {},
+        }

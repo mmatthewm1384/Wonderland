@@ -1,0 +1,141 @@
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+
+ACTIVE_ENGINES = {
+    "academy",
+    "architecture",
+    "builder",
+    "doctor",
+    "repository",
+    "runtime",
+    "security",
+}
+
+
+class CertificationRegistry:
+
+    def __init__(self, root):
+        self.root = Path(root)
+
+        self.engine_dir = (
+            self.root
+            / "vault"
+            / "08-Operations"
+            / "certifications"
+            / "engines"
+        )
+
+
+
+    def active(self):
+
+        registry = {}
+
+        if not self.engine_dir.exists():
+            return registry
+
+
+        for artifact in sorted(
+            self.engine_dir.glob(
+                "*-certification.json"
+            )
+        ):
+
+            name = self.normalize_engine_name(
+                artifact.name
+            )
+
+            if not name:
+                continue
+
+
+            try:
+
+                data = json.loads(
+                    artifact.read_text()
+                )
+
+            except Exception:
+                continue
+
+
+            certified = data.get(
+                "certified",
+                data.get(
+                    "result"
+                ) == "PASS"
+            )
+
+
+            if certified:
+
+                registry[name] = {
+
+                    "artifact":
+                        str(
+                            artifact.relative_to(
+                                self.root
+                            )
+                        ),
+
+                    "certified":
+                        True,
+
+                    "digest":
+                        data.get(
+                            "digest"
+                        ),
+
+                    "generated":
+                        data.get(
+                            "generated"
+                        ),
+
+                    "dependencies":
+                        data.get(
+                            "dependencies",
+                            []
+                        ),
+                }
+
+
+        return registry
+
+    def load(self):
+        return self.active()
+
+
+CertificationRegistryAdapter = CertificationRegistry
+
+
+    def normalize_engine_name(self, filename):
+
+        name = filename.replace(
+            "-certification.json",
+            ""
+        )
+
+        aliases = {
+            "runtime-engine": "runtime",
+            "runtime": "runtime",
+            "academy-certify": "academy",
+            "academy": "academy",
+            "repository": "repository",
+            "doctor": "doctor",
+            "builder-certify": "builder",
+            "builder": "builder",
+            "security-certify": "security",
+            "security": "security",
+            "architecture-certify": "architecture",
+            "architecture": "architecture",
+        }
+
+        for key, value in aliases.items():
+
+            if name.startswith(key):
+                return value
+
+        return None
