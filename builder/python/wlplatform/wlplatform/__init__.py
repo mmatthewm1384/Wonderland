@@ -1,7 +1,5 @@
 """
-Wonderland Platform Engine.
-
-Canonical platform verification and certification authority.
+Wonderland Platform Engine
 """
 
-__version__ = "1.1"
+__version__ = "1.1.0"

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import argparse
 import json
 import sys
@@ -9,9 +11,11 @@ from .certification import (
     CertificationError,
     certify,
 )
-from .context import PlatformContextError
+from .context import PlatformContext, PlatformContextError
 from .controller import PlatformController
 from .result import PlatformReport
+from .engine import PlatformCertificationEngine
+from .certification_state import CertificationState
 
 
 def _render_report(
@@ -62,10 +66,156 @@ def _render_report(
                 for line in check.stderr.splitlines():
                     print(f"    {line}")
 
+    try:
+        state = CertificationState(
+            Path("/Users/wonderland/Wonderland")
+        ).collect()
+
+        print()
+
+        print("Certification")
+
+        platform = state.get(
+            "platform",
+            {}
+        )
+
+        trust = state.get(
+            "trust",
+            {}
+        )
+
+        graph = state.get(
+            "graph",
+            {}
+        )
+
+        print(
+            f"  platform : {platform.get('state', 'UNKNOWN')}"
+        )
+
+        print(
+            f"  certified: {platform.get('certified', False)}"
+        )
+
+        print(
+            f"  trust    : {trust.get('trust', 'UNKNOWN')}"
+        )
+
+        print(
+            f"  graph    : {graph.get('certified', False)}"
+        )
+
+    except Exception as exc:
+        print()
+        print(
+            f"Certification: ERROR ({exc})"
+        )
+
+
     print()
     print(f"duration_ms: {report.duration_ms}")
     print()
     print(f"RESULT {report.result.value}")
+
+
+
+def build_runtime_parser(subparsers):
+
+    runtime = subparsers.add_parser(
+        "runtime",
+        help="Runtime Engine lifecycle",
+    )
+
+    runtime_sub = runtime.add_subparsers(
+        dest="runtime_action"
+    )
+
+    for action in (
+        "start",
+        "stop",
+        "status",
+        "verify",
+        "health",
+        "doctor",
+        "recover",
+        "certify",
+    ):
+        runtime_sub.add_parser(action)
+
+    return runtime
+
+
+def build_lifecycle_commands(subparsers):
+
+    for action in (
+        "start",
+        "stop",
+        "restart",
+        "sleep",
+        "wake",
+    ):
+        subparsers.add_parser(action)
+
+
+
+
+ENGINE_COMMANDS = {
+    "architecture",
+    "builder",
+    "governance",
+    "mirror",
+    "academy",
+    "registry",
+}
+
+
+def route_engine_command(argv):
+
+    if not argv:
+        return argv
+
+    if argv[0] not in ENGINE_COMMANDS:
+        return argv
+
+    engine = argv[0]
+    remaining = argv[1:]
+
+    return [
+        "engine",
+        engine,
+        *remaining,
+    ]
+
+
+
+
+ENGINE_COMMANDS = {
+    "architecture",
+    "builder",
+    "governance",
+    "mirror",
+    "academy",
+    "registry",
+    "security",
+}
+
+
+def route_engine_argv(argv: list[str]) -> list[str]:
+
+    if not argv:
+        return argv
+
+    command = argv[0]
+
+    if command in ENGINE_COMMANDS:
+        return [
+            "engine",
+            command,
+            *argv[1:]
+        ]
+
+    return argv
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -81,6 +231,45 @@ def build_parser() -> argparse.ArgumentParser:
 
     subparsers = parser.add_subparsers(
         dest="command",
+    )
+
+    engine_parser = subparsers.add_parser(
+        "engine",
+        help="Engine command router",
+    )
+
+    engine_sub = engine_parser.add_subparsers(
+        dest="engine_name",
+    )
+
+    for engine_name in (
+        "architecture",
+        "builder",
+        "governance",
+        "mirror",
+        "academy",
+        "registry",
+    ):
+        ep = engine_sub.add_parser(engine_name)
+
+        ep.add_argument(
+            "action",
+            nargs="?",
+            default="verify",
+        )
+
+        ep.add_argument(
+            "--json",
+            action="store_true",
+        )
+
+
+    build_lifecycle_commands(
+        subparsers
+    )
+
+    build_runtime_parser(
+        subparsers
     )
 
     for name in ("verify", "status", "doctor"):
@@ -102,6 +291,55 @@ def build_parser() -> argparse.ArgumentParser:
     certify_parser = subparsers.add_parser(
         "certify"
     )
+
+    certify_sub = certify_parser.add_subparsers(
+        dest="certify_action"
+    )
+
+    certify_sub.add_parser(
+        "status"
+    )
+
+    certify_explain = certify_sub.add_parser(
+        "explain"
+    )
+
+    certify_explain.add_argument(
+        "engine"
+    )
+
+    certify_migrate = certify_sub.add_parser(
+        "migrate"
+    )
+
+    certify_migrate.add_argument(
+        "--apply",
+        action="store_true",
+        help="perform migration instead of dry-run",
+    )
+
+    certify_sub.add_parser(
+        "lineage"
+    )
+
+    certify_sub.add_parser(
+        "trust"
+    )
+
+
+    certify_graph = certify_sub.add_parser(
+        "graph",
+        help="Certification graph operations",
+    )
+
+    certify_graph.add_argument(
+        "graph_action",
+        choices=[
+            "rebuild",
+            "status",
+        ],
+    )
+
     certify_parser.add_argument(
         "--json",
         action="store_true",
@@ -110,6 +348,17 @@ def build_parser() -> argparse.ArgumentParser:
         "--include-optional",
         action="store_true",
     )
+
+    commands_json = subparsers.add_parser(
+        "commands-json",
+        help="Public command registry projection",
+    )
+
+    commands_json.add_argument(
+        "--json",
+        action="store_true",
+    )
+
 
     subparsers.add_parser("help")
 
@@ -136,32 +385,145 @@ def normalize_argv(
 
 
 def main(argv: list[str] | None = None) -> int:
-    argv = normalize_argv(
-        list(sys.argv[1:] if argv is None else argv)
+    argv = list(
+        sys.argv[1:] if argv is None else argv
     )
+
+    argv = route_engine_argv(argv)
+    
+    argv = normalize_argv(argv)
     parser = build_parser()
     args = parser.parse_args(argv)
+    
+    root = Path(
+        "/Users/wonderland/Wonderland"
+    ).resolve()
+    
+    try:
+        from .platform_state import (
+            PlatformStateStore,
+        )
+    
+        state = PlatformStateStore(root)
+    
+        if args.command == "start":
+            state.transition("STARTING")
+    
+        elif args.command == "stop":
+            state.transition("STOPPING")
+    
+        elif args.command == "restart":
+            state.transition("RESTARTING")
+    
+        elif args.command == "sleep":
+            state.transition("SLEEPING")
+    
+        elif args.command == "wake":
+            state.transition("STARTING")
+    
+    except Exception:
+        pass
 
     if args.command == "help":
         parser.print_help()
         return 0
 
     try:
-        controller = PlatformController()
+        context = PlatformContext(
+            root=root
+        )
+
+        controller = PlatformController(
+            context=context
+        )
+
+
+        if args.command == "engine":
+
+            engine = args.engine_name
+            action = args.action
+
+            if not engine:
+                parser.print_help()
+                return 2
+
+
+            from .engine_router import EngineRouter
+
+
+            router = EngineRouter(
+                root=root
+            )
+
+
+            result = router.execute(
+                engine,
+                action,
+                json=args.json,
+            )
+
+
+            if args.json:
+                print(
+                    json.dumps(
+                        result,
+                        indent=2,
+                    )
+                )
+            else:
+                print(result)
+
+
+            return 0
     except PlatformContextError as exc:
         print(f"FAIL {exc}", file=sys.stderr)
         return 1
 
     
+    if args.command == "commands-json":
+
+        payload = {
+            "schema_version": 1,
+            "commands": [
+                "architecture",
+                "builder",
+                "governance",
+                "mirror",
+                "academy",
+                "registry",
+                "runtime",
+                "security",
+                "start",
+                "stop",
+                "restart",
+                "sleep",
+                "wake",
+                "verify",
+                "status",
+                "doctor",
+                "certify",
+            ],
+        }
+
+        print(
+            json.dumps(
+                payload,
+                indent=2,
+            )
+        )
+
+        return 0
+
+
     if args.command == "verify":
 
         report = controller.verify(
-            include_optional=args.include_optional,
+            include_optional=getattr(args, 'include_optional', False),
         )
 
         payload = report.to_dict()
 
-        if args.json:
+        if getattr(args, 'json', False):
             print(
                 json.dumps(
                     payload,
@@ -172,7 +534,7 @@ def main(argv: list[str] | None = None) -> int:
         else:
             _render_report(
                 report,
-                verbose=args.verbose,
+                verbose=getattr(args, 'verbose', False),
             )
 
         return (
@@ -182,10 +544,157 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     if args.command == "certify":
+
+        if getattr(
+            args,
+            "certify_action",
+            None
+        ) == "status":
+
+            state = CertificationState(
+                root
+            ).collect()
+
+            print(
+                json.dumps(
+                    state,
+                    indent=2,
+                )
+            )
+
+            return
+
+
+        if getattr(
+            args,
+            "certify_action",
+            None
+        ) == "explain":
+
+            state = CertificationState(
+                root
+            ).collect()
+
+            engine = (
+                state
+                .get("engines", {})
+                .get(args.engine)
+            )
+
+            print(engine)
+
+            return
+
+
+        if getattr(
+            args,
+            "certify_action",
+            None
+        ) == "migrate":
+
+            from .certification_migration import (
+                CertificationMigration,
+            )
+
+            report = CertificationMigration(
+                root
+            ).migrate(
+                dry_run=not args.apply
+            )
+
+            print(
+                json.dumps(
+                    report,
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+
+            return
+
+
+        if getattr(
+            args,
+            "certify_action",
+            None
+        ) == "lineage":
+
+            from .certification_lineage import (
+                CertificationLineage,
+            )
+
+            report = CertificationLineage(
+                root
+            ).build()
+
+            print(
+                json.dumps(
+                    report,
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+
+            return
+
+
+        if getattr(
+            args,
+            "certify_action",
+            None
+        ) == "trust":
+
+            from .certification_trust import (
+                CertificationTrustEvaluator,
+            )
+
+            report = CertificationTrustEvaluator(
+                root
+            ).evaluate()
+
+            print(
+                json.dumps(
+                    report,
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+
+            return
+
+        if getattr(
+            args,
+            "certify_action",
+            None
+        ) == "graph":
+
+            from .certification_graph import (
+                CertificationGraph,
+            )
+
+            graph = CertificationGraph(
+                root
+            )
+
+            if args.graph_action == "rebuild":
+                report = graph.rebuild()
+            else:
+                report = graph.status()
+
+            print(
+                json.dumps(
+                    report,
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+
+            return
+
         try:
             output = certify(
                 controller,
-                include_optional=args.include_optional,
+                include_optional=getattr(args, 'include_optional', False),
             )
         except CertificationError as exc:
             payload = {
@@ -194,7 +703,7 @@ def main(argv: list[str] | None = None) -> int:
                 "error": str(exc),
             }
 
-            if args.json:
+            if getattr(args, 'json', False):
                 print(
                     json.dumps(
                         payload,
@@ -217,7 +726,7 @@ def main(argv: list[str] | None = None) -> int:
             "certification": str(output),
         }
 
-        if args.json:
+        if getattr(args, 'json', False):
             print(
                 json.dumps(
                     payload,
@@ -235,10 +744,10 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     report = controller.verify(
-        include_optional=args.include_optional,
+        include_optional=getattr(args, 'include_optional', False),
     )
 
-    if args.json:
+    if getattr(args, 'json', False):
         print(
             json.dumps(
                 report.to_dict(),
@@ -249,7 +758,7 @@ def main(argv: list[str] | None = None) -> int:
     else:
         _render_report(
             report,
-            verbose=args.verbose,
+            verbose=getattr(args, 'verbose', False),
         )
 
     return report.exit_code
@@ -257,3 +766,8 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+def certification_status(root):
+    import json
+

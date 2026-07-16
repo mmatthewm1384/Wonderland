@@ -1,0 +1,23 @@
+[build-system]
+requires = [
+    "setuptools>=68",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "wlplatform"
+version = "1.1.0"
+description = "Wonderland Platform Engine"
+requires-python = ">=3.11"
+
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+    "wlplatform*"
+]
