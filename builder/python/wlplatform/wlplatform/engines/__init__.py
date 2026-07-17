@@ -1,57 +1,25 @@
-from ..engine_contract import EngineContract
+from __future__ import annotations
 
+from .factory import get_engine
+from .catalog import ENGINE_CATALOG
+from .graph import graph
+
+from .architecture import ArchitectureEngine
+from .builder import BuilderEngine
+from .governance import GovernanceEngine
+from .mirror import MirrorEngine
+from .academy import AcademyEngine
 from .registry import RegistryEngine
 
 
-class ArchitectureEngine(EngineContract):
-    name = "architecture"
-
-
-class BuilderEngine(EngineContract):
-    name = "builder"
-
-
-class GovernanceEngine(EngineContract):
-    name = "governance"
-
-
-class MirrorEngine(EngineContract):
-    name = "mirror"
-
-
-class AcademyEngine(EngineContract):
-    name = "academy"
-
-
-
-_ENGINE_MAP = {
-    "architecture": ArchitectureEngine,
-    "builder": BuilderEngine,
-    "governance": GovernanceEngine,
-    "mirror": MirrorEngine,
-    "academy": AcademyEngine,
-    "registry": RegistryEngine,
-}
-
-
-def get_engine(name, root):
-
-    engine_class = _ENGINE_MAP.get(name)
-
-    if engine_class is None:
-        raise ValueError(
-            f"Unknown engine: {name}"
-        )
-
-    return engine_class(root)
-
-
 __all__ = [
+    "get_engine",
+    "ENGINE_CATALOG",
+    "graph",
     "ArchitectureEngine",
     "BuilderEngine",
     "GovernanceEngine",
     "MirrorEngine",
     "AcademyEngine",
     "RegistryEngine",
-    "get_engine",
 ]

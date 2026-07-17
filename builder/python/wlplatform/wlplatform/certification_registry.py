@@ -20,8 +20,7 @@ class CertificationRegistry:
         )
 
         self.engine_dir = base / "engines"
-        self.active_dir = base / "active"
-
+        self.active_dir = base / "normalized"
 
     def digest(self, path: Path):
 
@@ -35,8 +34,10 @@ class CertificationRegistry:
             ).hexdigest()
         )
 
-
-    def normalize_engine_name(self, filename: str):
+    def normalize_engine_name(
+        self,
+        filename: str,
+    ):
 
         name = filename.lower()
 
@@ -52,6 +53,7 @@ class CertificationRegistry:
             "platform": "platform",
             "governance": "governance",
             "mirror": "mirror",
+            "registry": "registry",
         }
 
         for key, value in mappings.items():
@@ -61,16 +63,8 @@ class CertificationRegistry:
 
         return (
             name
-            .replace(
-                "-certification.json",
-                ""
-            )
-            .replace(
-                ".json",
-                ""
-            )
+            .replace(".json", "")
         )
-
 
     def discover(self):
 
@@ -83,82 +77,85 @@ class CertificationRegistry:
             self.active_dir.glob("*.json")
         ):
 
-            name = self.normalize_engine_name(
+            engine = self.normalize_engine_name(
                 path.name
             )
 
-            results[name] = {
-                "_engine": name,
-                "artifact": str(
-                    path.relative_to(
-                        self.root
-                    )
-                ),
-                "certified": True,
-                "digest": self.digest(path),
-                "generated": None,
-                "dependencies": [],
+            import json
 
-            }
+            try:
+                data = json.loads(
+                    path.read_text()
+                )
+            except Exception:
+                data = {}
+
+            results[engine] = self.normalize_status(
+                {
+                    "engine": engine,
+                    "artifact": str(
+                        path.relative_to(
+                            self.root
+                        )
+                    ),
+                    "status": data.get(
+                        "status"
+                    ),
+                    "certified": data.get(
+                        "certified",
+                        False,
+                    ),
+                    "digest": self.digest(path),
+                }
+            )
 
         return results
 
-
     def normalize_active(self):
 
-        discovered = self.discover()
+        active = self.discover()
 
-        priority = {}
-
-        for item in discovered.values():
-
-            engine = item.pop(
-                "_engine",
-                None
+        return {
+            name: self.normalize_status(
+                dict(entry)
             )
-
-            if engine is None:
-                engine = self.normalize_engine_name(
-                    item.get("path", "")
-                )
-
-            priority.setdefault(
-                engine,
-                []
-            ).append(item)
-
-
-        normalized = {}
-
-        for engine, items in priority.items():
-
-            chosen = sorted(
-                items,
-                key=lambda x: x["artifact"]
-            )[0]
-
-            normalized[engine] = chosen
-
-        return dict(
-            sorted(
-                normalized.items()
-            )
-        )
-
+            for name, entry in active.items()
+        }
 
     def active(self):
 
         return self.normalize_active()
 
-
     def load(self):
-
-        active = self.active()
 
         return {
             "schema_version": self.VERSION,
-            "active": active,
+            "active": self.active(),
             "platform": {},
             "trust": {},
             "graph": {},
         }
+
+
+    def normalize_status(self, entry: dict) -> dict:
+        """
+        Normalize certification artifact state.
+        """
+
+        status = entry.get("status")
+        certified = entry.get(
+            "certified",
+            False,
+        )
+
+        if certified and not status:
+            status = "PASS"
+
+        if status == "PASS":
+            certified = True
+
+        entry["status"] = status or "UNKNOWN"
+        entry["certified"] = certified
+
+        return entry
+

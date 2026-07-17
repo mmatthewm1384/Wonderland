@@ -56,7 +56,7 @@ class EngineContract:
         return (
             self.root
             /
-            "vault/08-Operations/certifications/engines"
+            "vault/08-Operations/certifications/normalized"
             /
             f"{self.name}-certification.json"
         )
@@ -90,3 +90,26 @@ class EngineContract:
         )
 
         return path
+
+
+    def metadata(self):
+
+        return {
+            "engine": self.name,
+            "version": getattr(
+                self,
+                "version",
+                "1.0.0"
+            ),
+            "owner": getattr(
+                self,
+                "owner",
+                f"platform.{self.name}"
+            ),
+            "capabilities": getattr(
+                self,
+                "capabilities",
+                []
+            )
+        }
+

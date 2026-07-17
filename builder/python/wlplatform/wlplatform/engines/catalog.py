@@ -1,0 +1,77 @@
+from __future__ import annotations
+
+
+ENGINE_CATALOG = {
+
+    "architecture": {
+        "class": "ArchitectureEngine",
+        "module": ".",
+        "capabilities": [
+            "architecture.verify",
+            "graph.analysis",
+        ],
+        "depends_on": [],
+    },
+
+    "builder": {
+        "class": "BuilderEngine",
+        "module": ".",
+        "capabilities": [
+            "image.build",
+            "artifact.create",
+        ],
+        "depends_on": [
+            "architecture",
+        ],
+    },
+
+    "governance": {
+        "class": "GovernanceEngine",
+        "module": ".",
+        "capabilities": [
+            "policy.validation",
+            "compliance.verify",
+        ],
+        "depends_on": [
+            "architecture",
+        ],
+    },
+
+    "mirror": {
+        "class": "MirrorEngine",
+        "module": ".",
+        "capabilities": [
+            "snapshot",
+            "restore",
+        ],
+        "depends_on": [
+            "registry",
+        ],
+    },
+
+    "academy": {
+        "class": "AcademyEngine",
+        "module": ".",
+        "capabilities": [
+            "learning",
+            "documentation",
+        ],
+        "depends_on": [
+            "registry",
+        ],
+    },
+
+    "registry": {
+        "class": "RegistryEngine",
+        "module": ".registry",
+        "capabilities": [
+            "engine.discovery",
+            "capability.discovery",
+            "dependency.graph",
+        ],
+        "depends_on": [
+            "architecture",
+        ],
+    },
+
+}

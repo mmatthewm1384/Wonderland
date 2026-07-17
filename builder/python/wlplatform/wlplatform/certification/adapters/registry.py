@@ -1,84 +1,115 @@
+from pathlib import Path
+
 from .base import EngineAdapter
 
 
-class GenericAdapter(EngineAdapter):
+class ArtifactAdapter(EngineAdapter):
 
-    def __init__(self, name, package):
-
+    def __init__(self, name):
         self.name = name
-        self.package = package
 
 
     def verify(self):
-
         return self.certify()
 
 
     def certify(self):
 
-        return self._result()
-
-
-    def _result(self):
-
         from ..contract import CertificationResult
+
+        root = Path.cwd()
+
+        artifact = (
+            root
+            /
+            "vault"
+            /
+            "08-Operations"
+            /
+            "certifications"
+            /
+            "normalized"
+            /
+            f"{self.name}.json"
+        )
+
+        if not artifact.exists():
+
+            return CertificationResult(
+                engine=self.name,
+                status="FAIL",
+                evidence=[
+                    {
+                        "missing":
+                            str(artifact)
+                    }
+                ],
+                details={
+                    "adapter":
+                        "artifact-validation"
+                }
+            )
+
+
+        import json
+
+        data = json.loads(
+            artifact.read_text()
+        )
+
+
+        status = data.get(
+            "status",
+            "FAIL"
+        )
+
+
+        certified = data.get(
+            "certified",
+            False
+        )
+
 
         return CertificationResult(
             engine=self.name,
-            status="PASS",
+            status=status
+                if certified
+                else "FAIL",
+
             evidence=[
                 {
-                    "package":self.package
+                    "artifact":
+                        str(artifact),
+
+                    "digest":
+                        data.get("digest")
                 }
             ],
+
             details={
                 "adapter":
-                    "package-discovery"
+                    "artifact-validation"
             }
         )
 
 
 ADAPTERS = [
 
-    GenericAdapter(
-        "architecture",
-        "wlarchitecture"
-    ),
+    ArtifactAdapter("architecture"),
 
-    GenericAdapter(
-        "builder",
-        "wlbuilder"
-    ),
+    ArtifactAdapter("builder"),
 
-    GenericAdapter(
-        "governance",
-        "wlgovernance"
-    ),
+    ArtifactAdapter("governance"),
 
-    GenericAdapter(
-        "mirror",
-        "wlmirror"
-    ),
+    ArtifactAdapter("mirror"),
 
-    GenericAdapter(
-        "academy",
-        "wlacademy"
-    ),
+    ArtifactAdapter("academy"),
 
-    GenericAdapter(
-        "registry",
-        "wlregistry"
-    ),
+    ArtifactAdapter("registry"),
 
-    GenericAdapter(
-        "repository",
-        "wlrepository"
-    ),
+    ArtifactAdapter("repository"),
 
-    GenericAdapter(
-        "runtime",
-        "wlruntime"
-    )
+    ArtifactAdapter("runtime")
 ]
 
 
