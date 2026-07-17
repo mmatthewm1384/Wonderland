@@ -208,6 +208,14 @@ def route_engine_argv(argv: list[str]) -> list[str]:
 
     command = argv[0]
 
+    # Certification commands must preserve nested arguments.
+    # Example:
+    # wl platform certify graph status
+    # wl platform certify trust
+
+    if command == "certify":
+        return argv
+
     if command in ENGINE_COMMANDS:
         return [
             "engine",
@@ -770,4 +778,12 @@ if __name__ == "__main__":
 
 def certification_status(root):
     import json
+
+
+
+# Registry v1.4 capability support
+
+from .engines.capabilities import (
+    list_capabilities,
+)
 

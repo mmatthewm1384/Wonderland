@@ -3,22 +3,18 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
-from .certification import (
-    PlatformCertificationEngine,
-)
+from .engine import PlatformCertificationEngine
+
+from .certification_state import CertificationState
 
 
 class PlatformVerificationEngine:
 
-    def __init__(
-        self,
-        root: Path,
-    ) -> None:
+    def __init__(self, root: Path):
         self.root = root.resolve()
 
-    def repository_clean(
-        self,
-    ) -> bool:
+
+    def repository_clean(self) -> bool:
 
         result = subprocess.run(
             [
@@ -36,60 +32,66 @@ class PlatformVerificationEngine:
             and not result.stdout.strip()
         )
 
+
     def verify(self) -> dict:
 
-        graph = (
-            PlatformCertificationEngine(
-                self.root
-            )
-            .graph()
+        certification = PlatformCertificationEngine(
+            self.root
+        ).certify()
+
+
+        engines = certification.get(
+            "engines",
+            {}
         )
 
-        checks: dict[str, bool] = {
+
+        checks = {
             "repository_clean":
                 self.repository_clean(),
         }
 
-        for engine, state in graph.items():
+
+        for name, status in engines.items():
 
             checks[
-                f"{engine}_certified"
-            ] = bool(
-                state.get(
-                    "certified",
-                    False,
-                )
+                f"{name}_certified"
+            ] = (
+                status == "PASS"
             )
 
-        checks[
-            "platform_graph_complete"
-        ] = all(
-            item.get("status")
-            != "MISSING"
-            for item in graph.values()
-        )
+
+        certification_checks = {
+            key: value
+            for key, value in checks.items()
+            if key != "repository_clean"
+        }
 
         passed = all(
-            checks.values()
+            certification_checks.values()
         )
 
+
         score = (
-            sum(
-                1
-                for value in checks.values()
-                if value
-            )
+            sum(checks.values())
             * 100
-            // len(checks)
+            //
+            len(checks)
         )
+
 
         return {
             "schema_version": 1,
             "engine": "platform",
             "version": "1.1",
-            "certification":
-                "Wonderland Platform Verification",
             "checks": checks,
+            "workspace": {
+                "repository_clean":
+                    checks.get(
+                        "repository_clean",
+                        False,
+                    )
+            },
             "health_score": score,
             "result":
                 "PASS"

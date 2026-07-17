@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="/Users/wonderland/Wonderland"
+
+export PYTHONPATH="$ROOT/builder/python"
+
+cd "$ROOT"
+
+exec python3 -m wlplatform.cli "$@"

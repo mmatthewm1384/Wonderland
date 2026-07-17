@@ -52,7 +52,15 @@ class EngineRouter:
         if action == "certify":
             instance.write_artifact(result)
 
-        return result.to_dict()
+        if hasattr(result, "to_dict"):
+            return result.to_dict()
+
+        if isinstance(result, dict):
+            return result
+
+        raise TypeError(
+            f"engine result does not implement to_dict: {type(result)!r}"
+        )
 
 
     def _result(

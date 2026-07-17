@@ -25,7 +25,7 @@ class CertificationState:
 
         platform_cert = (
             self.root
-            / "vault/08-Operations/certifications/engines/platform-certification.json"
+            / "vault/08-Operations/certifications/normalized/platform-certification.json"
         )
 
         if platform_cert.exists():
@@ -64,15 +64,20 @@ class CertificationState:
             )
 
 
+        required_engines = [
+            "architecture",
+            "builder",
+            "governance",
+            "registry",
+            "repository",
+            "runtime",
+            "academy",
+            "mirror",
+        ]
+
         missing = [
             x
-            for x in [
-                "academy",
-                "architecture",
-                "builder",
-                "runtime",
-                "security",
-            ]
+            for x in required_engines
             if x not in active
         ]
 
@@ -102,7 +107,20 @@ class CertificationState:
         return {
             "schema_version": self.VERSION,
             "platform": platform,
-            "engines": active,
+            "engines": {
+                name: {
+                    **data,
+                    "status": (
+                        data.get("status")
+                        or (
+                            "PASS"
+                            if data.get("certified")
+                            else "FAIL"
+                        )
+                    ),
+                }
+                for name, data in active.items()
+            },
             "trust": trust,
             "graph": graph,
         }

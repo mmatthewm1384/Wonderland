@@ -5,6 +5,7 @@ from collections.abc import Callable
 
 from .version import __version__
 from .context import PlatformContext
+from .certification_state import CertificationState
 from .manifest_adapter import verify_manifests
 from .registry_adapter import verify_registry
 from .result import (
@@ -27,75 +28,46 @@ class PlatformController:
         self.context = context or PlatformContext.discover()
 
     def _core_checks(self) -> tuple[Check, ...]:
+
+        def certification_check(
+            context: PlatformContext,
+        ) -> CheckResult:
+
+            state = CertificationState(
+                context.root
+            ).collect()
+
+            engines = state.get(
+                "engines",
+                {}
+            )
+
+            failures = [
+                name
+                for name, data in engines.items()
+                if data.get("status") != "PASS"
+            ]
+
+            if failures:
+                return CheckResult(
+                    name="certification",
+                    status=Status.FAIL,
+                    summary=(
+                        "failed certifications: "
+                        + ", ".join(failures)
+                    ),
+                )
+
+            return CheckResult(
+                name="certification",
+                status=Status.PASS,
+                summary="all certification artifacts passed",
+            )
+
         return (
             verify_registry,
-            lambda context: run_command(
-                context,
-                CommandSpec(
-                    name="architecture",
-                    commands=(
-                        ("bin/wl", "architecture", "verify"),
-                        ("bin/wl", "architecture-verify"),
-                        ("bin/wl-architecture-verify",),
-                    ),
-                ),
-            ),
-            lambda context: run_command(
-                context,
-                CommandSpec(
-                    name="builder",
-                    commands=(
-                        ("bin/wl", "builder", "verify", "--json"),
-                        ("bin/wl-builder", "verify", "--json"),
-                        ("bin/wl", "builder", "doctor"),
-                    ),
-                    timeout=240,
-                    idle_patterns=(
-                        "builder vm: stopped",
-                        "instance is stopped",
-                    ),
-                ),
-            ),
-            lambda context: run_command(
-                context,
-                CommandSpec(
-                    name="governance",
-                    commands=(
-                        ("bin/wl", "governance", "verify", "--json"),
-                        ("bin/wl-governance", "verify", "--json"),
-                    ),
-                    timeout=240,
-                ),
-            ),
+            certification_check,
             verify_manifests,
-            lambda context: run_command(
-                context,
-                CommandSpec(
-                    name="mirror",
-                    commands=(
-                        ("bin/wl", "mirror", "verify", "--json"),
-                        ("bin/wl-mirror", "verify", "--json"),
-                    ),
-                    required=True,
-                    timeout=300,
-                    idle_patterns=(
-                        '"result": "IDLE"',
-                        "result idle",
-                    ),
-                ),
-            ),
-            lambda context: run_command(
-                context,
-                CommandSpec(
-                    name="academy",
-                    commands=(
-                        ("bin/wl", "academy", "verify", "--json"),
-                        ("bin/wl-academy", "verify", "--json"),
-                    ),
-                    required=True,
-                    timeout=300,
-                ),
-            ),
         )
 
     def _optional_checks(self) -> tuple[Check, ...]:
