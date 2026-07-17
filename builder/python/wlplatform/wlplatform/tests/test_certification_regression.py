@@ -89,3 +89,21 @@ def test_platform_summary_matches_verification():
     )
 
     assert summary["trust"] == "COMPLETE"
+
+
+def test_no_certified_engine_without_pass():
+    registry = CertificationRegistry(ROOT)
+
+    active = registry.normalize_active()
+
+    failures = [
+        name
+        for name, engine in active.items()
+        if engine.get("certified") is True
+        and engine.get("status") != "PASS"
+    ]
+
+    assert not failures, (
+        "certified engines without PASS status: "
+        + ", ".join(failures)
+    )
