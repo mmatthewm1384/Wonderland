@@ -68,7 +68,8 @@
     "runtime-verification": {
       "description": "Runtime post-start verification",
       "dependencies": [
-        "core-services"
+        "core-services",
+        "wonderland-os-builder"
       ],
       "required": true,
       "commands": {
@@ -95,6 +96,72 @@
             "verify"
           ],
           "timeout_seconds": 180
+        }
+      }
+    },
+    "wonderland-os-builder": {
+      "description": "Debian Lima VM OS build environment",
+      "dependencies": [
+        "rootless-runtime"
+      ],
+      "required": true,
+      "commands": {
+        "start": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "wonderland-os-builder",
+            "start"
+          ],
+          "timeout_seconds": 600
+        },
+        "stop": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "wonderland-os-builder",
+            "stop"
+          ],
+          "timeout_seconds": 600
+        },
+        "verify": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "wonderland-os-builder",
+            "verify"
+          ],
+          "timeout_seconds": 180
+        }
+      }
+    },
+    "os-builder": {
+      "description": "Wonderland OS Builder environment",
+      "dependencies": [
+        "rootless-runtime"
+      ],
+      "required": true,
+      "commands": {
+        "start": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "os-builder",
+            "start"
+          ],
+          "timeout_seconds": 300
+        },
+        "stop": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "os-builder",
+            "stop"
+          ],
+          "timeout_seconds": 300
+        },
+        "verify": {
+          "argv": [
+            "bin/wl-runtime-adapter",
+            "os-builder",
+            "verify"
+          ],
+          "timeout_seconds": 120
         }
       }
     }

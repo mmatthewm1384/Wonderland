@@ -1,3 +1,4 @@
+from wlplatform.certificates import publish_certificate_pointer
 from __future__ import annotations
 
 import hashlib
@@ -8,6 +9,7 @@ import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Sequence
+from datetime import datetime
 
 
 GENERATED_HEADER = """\
@@ -851,6 +853,113 @@ class RepositoryEngine:
             "certificate": certificate,
             "health": self.health(),
         }
+
+    def drift(self) -> dict[str, Any]:
+        checks: dict[str, str] = {}
+
+        checks["policy"] = (
+            "PASS"
+            if self.stored_policy_digest()
+            == self.policy_digest()
+            else "FAIL"
+        )
+
+        checks["generated_file"] = (
+            "PASS"
+            if self.generate(check_only=True)
+            else "FAIL"
+        )
+
+        certificate = self.load_certificate()
+
+        checks["certificate"] = (
+            "PASS"
+            if certificate
+            and certificate.get("state_digest")
+            == self.state_digest()
+            else "FAIL"
+        )
+
+        checks["tracked_ignored"] = (
+            "PASS"
+            if not self.tracked_ignored()
+            else "FAIL"
+        )
+
+        return {
+            "schema_version": 1,
+            "engine": "repository",
+            "drift": any(
+                value == "FAIL"
+                for value in checks.values()
+            ),
+            "checks": checks,
+        }
+
+    def snapshot(self) -> dict[str, Any]:
+        snapshot_dir = (
+            self.root /
+            "vault/08-Operations/repository/snapshots"
+        )
+
+        snapshot_dir.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        try:
+            head = self._run_git(
+                ["rev-parse", "HEAD"]
+            ).stdout.strip()
+        except Exception:
+            head = None
+
+        payload = {
+            "schema_version": 1,
+            "engine": "repository",
+            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "policy_digest": self.policy_digest(),
+            "generated_digest": self.generated_digest(),
+            "state_digest": self.state_digest(),
+            "git_head": head,
+            "tracked_ignored": self.tracked_ignored(),
+        }
+
+        filename = (
+            "repository-snapshot-"
+            + datetime.utcnow()
+            .strftime("%Y%m%dT%H%M%SZ")
+            + ".json"
+        )
+
+        path = snapshot_dir / filename
+
+        path.write_text(
+            json.dumps(
+                payload,
+                indent=2,
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+
+        payload["path"] = str(path.relative_to(self.root))
+
+        
+
+        try:
+            publish_certificate_pointer(
+                self.root,
+                "repository",
+                Path(payload["artifact_path"]),
+                payload,
+            )
+        except Exception:
+            pass
+
+return payload
+
 
     def status(self) -> dict[str, Any]:
         document = self.load_document()

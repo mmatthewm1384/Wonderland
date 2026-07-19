@@ -1,0 +1,144 @@
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Any
+
+from .adapters.repository import RepositoryAdapter
+from .evidence import CertificationEvidence
+from .manifest import manifest
+
+
+class DoctorEngine:
+    def __init__(self, root: Path) -> None:
+        self.root = root.resolve()
+
+        self.adapters = {
+            "repository": RepositoryAdapter(),
+        }
+
+
+    def certification_graph(self) -> dict:
+        return CertificationEvidence(self.root).discover()
+
+
+    def graph(self) -> dict[str, Any]:
+        systems: dict[str, Any] = {}
+
+        for name, adapter in self.adapters.items():
+            try:
+                systems[name] = adapter.run(self.root)
+
+            except Exception as exc:
+                systems[name] = {
+                    "schema_version": 1,
+                    "engine": name,
+                    "status": "FAIL",
+                    "error": str(exc),
+                    "certified": False,
+                }
+
+        failed = [
+            name
+            for name, system in systems.items()
+            if system.get("status") != "PASS"
+        ]
+
+        return {
+            "schema_version": 1,
+            "engine": "wonderland-doctor-graph",
+            "version": "1.2",
+            "status": (
+                "PASS"
+                if not failed
+                else "FAIL"
+            ),
+            "systems": systems,
+            "failed": failed,
+        }
+
+
+    def doctor(self) -> dict[str, Any]:
+        systems: dict[str, Any] = {}
+
+        for name, adapter in self.adapters.items():
+            try:
+                systems[name] = adapter.run(self.root)
+
+            except Exception as exc:
+                systems[name] = {
+                    "schema_version": 1,
+                    "engine": name,
+                    "status": "FAIL",
+                    "error": str(exc),
+                    "certified": False,
+                }
+
+        certification_systems: dict[str, Any] = {}
+
+        for name, system in systems.items():
+            certificate = system.get("certificate")
+
+            if isinstance(certificate, dict):
+                certification_systems[name] = {
+                    "certified": bool(
+                        certificate.get("certified", False)
+                    ),
+                    "verification": certificate.get(
+                        "verification"
+                    ),
+                }
+            else:
+                certification_systems[name] = {
+                    "certified": bool(
+                        system.get("certified", False)
+                    ),
+                    "verification": system.get(
+                        "verification"
+                    ),
+                }
+
+        statuses = [
+            item.get("status") == "PASS"
+            for item in systems.values()
+        ]
+
+        status = "PASS" if all(statuses) else "FAIL"
+
+        health_scores = [
+            item.get("health", {}).get("score")
+            for item in systems.values()
+            if isinstance(item.get("health"), dict)
+            and isinstance(
+                item["health"].get("score"),
+                int,
+            )
+        ]
+
+        health_score = (
+            sum(health_scores) // len(health_scores)
+            if health_scores
+            else 0
+        )
+
+        certified = all(
+            item.get("certified", False)
+            for item in certification_systems.values()
+        )
+
+        return {
+            "schema_version": 1,
+            "engine": "wonderland-doctor",
+            "version": "1.2",
+            "status": status,
+            "health_score": health_score,
+            "manifest": manifest(),
+            "systems": systems,
+            "certification": {
+                "systems": certification_systems,
+                "overall": certified,
+            },
+            "certified": (
+                status == "PASS"
+                and certified
+            ),
+        }

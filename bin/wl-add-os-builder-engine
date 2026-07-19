@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+
+echo "== Wonderland OS Builder Engine Drop-In =="
+
+fail() {
+  echo "FAIL $1"
+  exit 1
+}
+
+pass() {
+  echo "PASS $1"
+}
+
+cd "$WL_ROOT"
+
+
+echo "1. Verify Lima instance"
+
+if ! limactl list --format '{{.Name}}' 2>/dev/null \
+  | grep -qx "wonderland-os-builder"
+then
+  fail "missing Lima instance: wonderland-os-builder"
+fi
+
+pass "Lima instance detected"
+
+
+echo "2. Verify runtime adapter"
+
+ADAPTER="$WL_ROOT/bin/wl-runtime-adapter"
+
+[[ -f "$ADAPTER" ]] || fail "missing runtime adapter"
+
+
+grep -q "wonderland-os-builder:start" "$ADAPTER" \
+  || fail "adapter missing start lifecycle"
+
+grep -q "wonderland-os-builder:stop" "$ADAPTER" \
+  || fail "adapter missing stop lifecycle"
+
+grep -q "wonderland-os-builder:verify" "$ADAPTER" \
+  || fail "adapter missing verify lifecycle"
+
+pass "runtime adapter lifecycle"
+
+
+echo "3. Verify engine registry"
+
+REGISTRY="$WL_ROOT/config/wonderland/runtime/engines.json"
+
+[[ -f "$REGISTRY" ]] || fail "missing runtime engine registry"
+
+
+python3 - <<'PY'
+import json
+from pathlib import Path
+
+p=Path("config/wonderland/runtime/engines.json")
+
+data=json.loads(p.read_text())
+
+if "wonderland-os-builder" not in data["engines"]:
+    raise SystemExit("missing wonderland-os-builder engine")
+
+print("PASS engine registry")
+PY
+
+
+echo "4. Verify certification policy"
+
+POLICY="$WL_ROOT/policy/certification/required-engines.json"
+
+[[ -f "$POLICY" ]] || fail "missing certification policy"
+
+
+python3 - <<'PY'
+import json
+from pathlib import Path
+
+p=Path("policy/certification/required-engines.json")
+
+data=json.loads(p.read_text())
+
+if "runtime" not in data["required_engines"]:
+    raise SystemExit("runtime certification missing")
+
+print("PASS certification policy")
+PY
+
+
+echo "5. Lifecycle verification"
+
+"$WL_ROOT/bin/wl-runtime-adapter" \
+  wonderland-os-builder verify
+
+pass "wonderland-os-builder verification"
+
+
+echo
+echo "== DROP-IN COMPLETE =="

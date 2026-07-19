@@ -30,26 +30,81 @@ def repository_root() -> Path:
     return Path(result.stdout.strip()).resolve()
 
 
-def main(argv: list[str] | None = None) -> int:
+def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="wl doctor",
+        description="Wonderland Doctor Engine",
     )
 
-    parser.add_argument(
+    sub = parser.add_subparsers(
+        dest="command"
+    )
+
+    base = sub.add_parser(
+        "status"
+    )
+    base.add_argument(
         "--json",
         action="store_true",
     )
 
+    graph = sub.add_parser(
+        "graph"
+    )
+    graph.add_argument(
+        "--json",
+        action="store_true",
+    )
+
+    certify = sub.add_parser(
+        "certify"
+    )
+    certify.add_argument(
+        "--json",
+        action="store_true",
+    )
+
+    verify = sub.add_parser(
+        "verify-certificate"
+    )
+    verify.add_argument(
+        "--json",
+        action="store_true",
+    )
+
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = build_parser()
     args = parser.parse_args(argv)
 
-    report = DoctorEngine(
-        repository_root()
-    ).doctor()
+    root = repository_root()
+    engine = DoctorEngine(root)
 
-    if args.json:
+    command = args.command or "status"
+
+    if command == "status":
+        payload = engine.doctor()
+
+    elif command == "graph":
+        payload = engine.certification_graph()
+
+    elif command == "certify":
+        payload = engine.write_certificate()
+
+    elif command == "verify-certificate":
+        payload = engine.verify_certificate()
+
+    else:
+        parser.error(
+            f"unknown command: {command}"
+        )
+
+    if getattr(args, "json", False):
         print(
             json.dumps(
-                report,
+                payload,
                 indent=2,
                 sort_keys=True,
             )
@@ -58,20 +113,20 @@ def main(argv: list[str] | None = None) -> int:
         print(
             "Wonderland Doctor"
         )
-        print(
-            f"status={report['status']}"
-        )
 
-        for name, system in report["systems"].items():
-            print(
-                f"{name}={system['status']}"
-            )
+        for key, value in payload.items():
+            if isinstance(value, (str, int, bool)):
+                print(
+                    f"{key}={value}"
+                )
 
-    return (
-        0
-        if report["status"] == "PASS"
-        else 1
-    )
+    if payload.get("certified") is False:
+        return 1
+
+    if payload.get("result") == "FAIL":
+        return 1
+
+    return 0
 
 
 if __name__ == "__main__":

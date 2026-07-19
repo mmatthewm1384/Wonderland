@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "capability": "reality.engine",
+  "name": "Deconstruction of Reality Engine",
+  "version": "0.1.0",
+  "owner": "academy.matrix",
+  "purpose": "Decompose, model, simulate, and explain systems",
+  "status": "experimental"
+}

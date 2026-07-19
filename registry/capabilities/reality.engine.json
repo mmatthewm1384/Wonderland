@@ -1,0 +1,12 @@
+{
+  "capability": "reality.engine",
+  "version": "0.1.0",
+  "owner": "academy.matrix",
+  "status": "experimental",
+  "certification": [
+    "schema",
+    "tests",
+    "documentation",
+    "reproducibility"
+  ]
+}

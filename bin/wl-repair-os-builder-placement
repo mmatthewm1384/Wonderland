@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+ADAPTER="$WL_ROOT/bin/wl-runtime-adapter"
+
+BACKUP="$ADAPTER.bak.$(date +%Y%m%d-%H%M%S)"
+cp "$ADAPTER" "$BACKUP"
+
+python3 <<PY
+from pathlib import Path
+
+path = Path("$ADAPTER")
+text = path.read_text()
+
+start = text.index("  wonderland-os-builder:start)")
+end = text.index("  rootless-runtime:verify)")
+
+block = text[start:end]
+
+text = text[:start] + text[end:]
+
+insert = text.index("  rootless-runtime:verify)")
+
+text = (
+    text[:insert]
+    + block
+    + "\n"
+    + text[insert:]
+)
+
+path.write_text(text)
+
+print("PASS moved wonderland-os-builder routes")
+PY
+
+bash -n "$ADAPTER"
+
+echo "PASS syntax"
+echo "BACKUP $BACKUP"

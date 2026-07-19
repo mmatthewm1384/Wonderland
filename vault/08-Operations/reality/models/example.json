@@ -1,0 +1,10 @@
+{
+  "nodes": [
+    {
+      "id": "atom",
+      "category": "primitive",
+      "description": "basic unit"
+    }
+  ],
+  "relations": []
+}

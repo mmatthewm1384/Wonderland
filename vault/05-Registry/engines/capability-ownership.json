@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "engine_registry": "v1.4",
+  "capabilities": [
+    {
+      "capability": "runtime.start",
+      "owner": "runtime"
+    },
+    {
+      "capability": "runtime.stop",
+      "owner": "runtime"
+    },
+    {
+      "capability": "runtime.status",
+      "owner": "runtime"
+    },
+    {
+      "capability": "architecture.verify",
+      "owner": "architecture"
+    },
+    {
+      "capability": "builder.verify",
+      "owner": "builder"
+    },
+    {
+      "capability": "governance.verify",
+      "owner": "governance"
+    },
+    {
+      "capability": "registry.verify",
+      "owner": "registry"
+    },
+    {
+      "capability": "mirror.verify",
+      "owner": "mirror"
+    },
+    {
+      "capability": "academy.verify",
+      "owner": "academy"
+    }
+  ]
+}

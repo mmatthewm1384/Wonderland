@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "certification_policy": "Wonderland Platform Certification",
+  "required_engines": [
+    "runtime",
+    "repository",
+    "builder",
+    "academy",
+    "security",
+    "architecture",
+    "os-builder"
+  ],
+  "optional_engines": [
+    "applications",
+    "cli",
+    "knowledge",
+    "implementation",
+    "os"
+  ]
+}

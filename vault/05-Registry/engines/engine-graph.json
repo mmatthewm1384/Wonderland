@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.2",
+  "graph_type": "engine-capability-ownership",
+
+  "nodes": [
+    {
+      "id": "architecture",
+      "type": "engine",
+      "owner": "wlarchitecture"
+    },
+    {
+      "id": "builder",
+      "type": "engine",
+      "owner": "wlbuilder"
+    },
+    {
+      "id": "governance",
+      "type": "engine",
+      "owner": "wlgovernance"
+    },
+    {
+      "id": "registry",
+      "type": "engine",
+      "owner": "wlplatform"
+    },
+    {
+      "id": "mirror",
+      "type": "engine",
+      "owner": "wlmirror"
+    },
+    {
+      "id": "academy",
+      "type": "engine",
+      "owner": "wlacademy"
+    }
+  ],
+
+  "edges": [
+    {
+      "from": "registry",
+      "to": "architecture",
+      "relationship": "discovers"
+    },
+    {
+      "from": "registry",
+      "to": "builder",
+      "relationship": "discovers"
+    },
+    {
+      "from": "registry",
+      "to": "governance",
+      "relationship": "discovers"
+    },
+    {
+      "from": "registry",
+      "to": "mirror",
+      "relationship": "discovers"
+    },
+    {
+      "from": "registry",
+      "to": "academy",
+      "relationship": "discovers"
+    }
+  ]
+}

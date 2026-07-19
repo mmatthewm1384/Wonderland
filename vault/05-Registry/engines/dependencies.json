@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "dependencies": {
+    "registry": [],
+    "runtime": ["registry"],
+    "builder": ["registry"],
+    "academy": ["registry"],
+    "governance": ["registry"],
+    "mirror": ["runtime"]
+  }
+}

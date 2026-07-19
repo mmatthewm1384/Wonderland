@@ -70,6 +70,13 @@ def discover(root: Path) -> list[Command]:
             "Manage Wonderland Platform Engine verification and certification",
             target="wl-platform",
         ),
+
+        Command(
+            "registry",
+            "Engineering",
+            "Show Wonderland public command registry and ownership projection",
+            target="wl-platform",
+        ),
     ]
 
     candidates = {
