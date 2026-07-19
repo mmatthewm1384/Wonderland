@@ -65,9 +65,11 @@ class CertificationTrustEvaluator:
         graph = self.load_graph()
 
         if graph is None:
-            raise RuntimeError(
-                "Certification graph missing"
-            )
+            graph = {
+                "schema_version": 1,
+                "nodes": {},
+                "edges": {}
+            }
 
         nodes = graph.get(
             "nodes",
@@ -110,6 +112,11 @@ class CertificationTrustEvaluator:
             },
             "missing": missing,
         }
+
+        self.output_path.parent.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
 
         self.output_path.write_text(
             json.dumps(

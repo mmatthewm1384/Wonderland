@@ -4,6 +4,14 @@ from dataclasses import dataclass, asdict
 from pathlib import Path
 from datetime import datetime, timezone
 
+from .certification_lineage import (
+    create_lineage,
+)
+
+from .certification_ledger import (
+    CertificationLedger,
+)
+
 
 @dataclass
 class EngineResult:
@@ -76,6 +84,11 @@ class EngineContract:
 
         payload = result.to_dict()
 
+        payload["lineage"] = create_lineage(
+            engine=self.name,
+            artifact=payload,
+        )
+
         payload["timestamp"] = (
             datetime.now(timezone.utc)
             .isoformat()
@@ -87,6 +100,12 @@ class EngineContract:
                 payload,
                 indent=2,
             )
+        )
+
+        CertificationLedger(
+            self.root
+        ).append(
+            payload
         )
 
         return path

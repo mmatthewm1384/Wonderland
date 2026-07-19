@@ -1,8 +1,12 @@
+from .errors import CertificationError
+
 """
 Wonderland Certification Engine
 
 Public certification API.
 """
+
+from pathlib import Path
 
 from .errors import (
     CertificationError,
@@ -27,74 +31,35 @@ from .certifier import (
     certify as _engine_certify,
 )
 
+from ..engine import (
+    PlatformCertificationEngine,
+)
 
 
 def certify(controller=None, include_optional=False, **kwargs):
     """
-    Public certification API compatibility wrapper.
+    Public certification API compatibility boundary.
     """
 
-    from pathlib import Path
+    root = kwargs.get("root")
 
-    def resolve_root():
-        candidates = []
+    if controller is not None:
+        context = getattr(controller, "context", None)
 
-        # Explicit caller root
-        if kwargs.get("root"):
-            candidates.append(Path(kwargs["root"]))
+        if context is not None:
+            root = getattr(context, "root", None)
 
-        # Controller root
-        if controller is not None:
-            value = getattr(controller, "root", None)
-            if value:
-                candidates.append(Path(value))
+        if root is None:
+            root = getattr(controller, "root", None)
 
-        # Current directory and parents
-        cwd = Path.cwd()
-
-        candidates.append(cwd)
-
-        candidates.extend(cwd.parents)
-
-        # Module location fallback
-        here = Path(__file__).resolve()
-
-        candidates.extend(here.parents)
-
-        for candidate in candidates:
-            candidate = candidate.resolve()
-
-            if (
-                (candidate / "vault").exists()
-                and
-                (candidate / "builder").exists()
-            ):
-                return candidate
-
-        raise RuntimeError(
-            "Unable to resolve Wonderland repository root"
+    if root is None:
+        raise CertificationError(
+            "Certification root required"
         )
 
-    root = resolve_root()
-
-    print(
-        root,
-        flush=True,
-    )
+    root = Path(root).expanduser().resolve()
 
     return _engine_certify(
-        root,
+        root=root,
         include_optional=include_optional,
     )
-
-
-__all__ = [
-    "CertificationError",
-    "CertificationArtifactError",
-    "CertificationValidationError",
-    "CertificationContract",
-    "CertificationResult",
-    "OWNERSHIP",
-    "platform_certify",
-    "certify",
-]

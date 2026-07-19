@@ -74,4 +74,29 @@ ENGINE_CATALOG = {
         ],
     },
 
+
+    "repository": {
+        "class": "RepositoryEngine",
+        "module": ".",
+        "capabilities": [
+            "repository.verify",
+            "repository.health",
+        ],
+        "depends_on": [
+            "registry",
+        ],
+    },
+
+    "runtime": {
+        "class": "RuntimeEngine",
+        "module": ".",
+        "capabilities": [
+            "runtime.verify",
+            "runtime.lifecycle",
+        ],
+        "depends_on": [
+            "registry",
+        ],
+    },
+
 }

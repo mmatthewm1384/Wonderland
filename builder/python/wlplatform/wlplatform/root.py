@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 def discover_root() -> Path:
-    current = Path.cwd().resolve()
+    current = Path(root).resolve() if root else Path.cwd().resolve()
 
     for candidate in (current, *current.parents):
         if (candidate / "vault").exists():

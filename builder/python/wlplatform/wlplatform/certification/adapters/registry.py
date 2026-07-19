@@ -5,8 +5,9 @@ from .base import EngineAdapter
 
 class ArtifactAdapter(EngineAdapter):
 
-    def __init__(self, name):
+    def __init__(self, name, root=None):
         self.name = name
+        self.root = root
 
 
     def verify(self):
@@ -17,7 +18,7 @@ class ArtifactAdapter(EngineAdapter):
 
         from ..contract import CertificationResult
 
-        root = Path.cwd()
+        root = self.root.resolve()
 
         artifact = (
             root
@@ -93,6 +94,11 @@ class ArtifactAdapter(EngineAdapter):
         )
 
 
+def configure_adapters(root):
+    for adapter in ADAPTERS:
+        adapter.set_root(root)
+
+
 ADAPTERS = [
 
     ArtifactAdapter("architecture"),
@@ -113,6 +119,12 @@ ADAPTERS = [
 ]
 
 
-def adapters():
+def adapters(root=None):
 
-    return ADAPTERS
+    return [
+        ArtifactAdapter(
+            adapter.name,
+            root=root,
+        )
+        for adapter in ADAPTERS
+    ]

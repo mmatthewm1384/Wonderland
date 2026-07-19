@@ -1,6 +1,11 @@
 from __future__ import annotations
 
-def certify(controller=None, include_optional=False, **kwargs):
+
+from .certification.errors import CertificationError
+def certify(
+controller=None, include_optional=False, **kwargs):
+    if controller is None and root is None:
+        raise CertificationError('controller required')
     """
     Public certification API.
 
@@ -17,7 +22,7 @@ def certify(controller=None, include_optional=False, **kwargs):
         root = kwargs.get("root")
 
     if root is None:
-        root = Path.cwd()
+        root = Path(root).resolve() if root else Path.cwd()
 
     return _certify_platform(root)
 
@@ -46,7 +51,9 @@ class CertificationError(Exception):
 
 
 
-def certify(controller=None, include_optional=False, **kwargs):
+
+def certify(
+controller=None, include_optional=False, **kwargs):
     """
     Compatibility wrapper.
 
@@ -61,7 +68,7 @@ def certify(controller=None, include_optional=False, **kwargs):
         getattr(
             controller,
             "root",
-            Path.cwd(),
+            Path(root).resolve() if root else Path.cwd(),
         ),
     )
 

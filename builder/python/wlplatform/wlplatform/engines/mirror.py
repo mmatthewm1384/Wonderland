@@ -1,23 +1,25 @@
 from __future__ import annotations
 
-from ..result import CheckResult, Status
+from ..engine_contract import (
+    EngineContract,
+    EngineResult,
+)
 
 
-class MirrorEngine:
+class MirrorEngine(EngineContract):
 
     name = "mirror"
 
 
-    def __init__(self, root):
-        self.root = root
-
-
     def verify(self):
 
-        return CheckResult(
-            name=self.name,
-            status=Status.PASS,
-            summary="mirror verification passed",
+        return EngineResult(
+            engine=self.name,
+            action="verify",
+            status="PASS",
+            details={
+                "mirror": "active",
+            },
         )
 
 
