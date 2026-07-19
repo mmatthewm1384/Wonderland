@@ -1,65 +1,70 @@
-import json
-from pathlib import Path
-from datetime import datetime, timezone
+"""
+Certification Evidence Graph
 
-from .ownership import OWNERSHIP
+Creates explainable relationships between:
 
+Engine
+ -> Evidence
+ -> Digest
+ -> Lineage
+ -> Trust
+"""
 
-def build_graph(root):
-
-    graph = {
-        "schema_version": 1,
-        "generated":
-            datetime.now(
-                timezone.utc
-            ).isoformat(),
-
-        "owners": OWNERSHIP
-    }
+from dataclasses import dataclass, field
 
 
-    path = (
-        Path(root)
-        /
-        "vault/08-Operations/certifications/graph"
-    )
+@dataclass
+class EvidenceNode:
 
-    path.mkdir(
-        parents=True,
-        exist_ok=True
-    )
-
-    output = (
-        path /
-        "certification-graph.json"
-    )
+    name: str
+    node_type: str
+    metadata: dict = field(default_factory=dict)
 
 
-    output.write_text(
-        json.dumps(
-            graph,
-            indent=2
+class CertificationGraph:
+
+    def __init__(self):
+
+        self.nodes = []
+
+
+    def add_node(
+        self,
+        name,
+        node_type,
+        metadata=None
+    ):
+
+        node = EvidenceNode(
+            name=name,
+            node_type=node_type,
+            metadata=metadata or {}
         )
-    )
 
-    return output
+        self.nodes.append(node)
+
+        return node
 
 
-    def status(self):
-        """
-        Return certification graph health status.
+    def find(
+        self,
+        node_type
+    ):
 
-        This is a read-only inspection method used by:
-            wl platform certify graph status
-        """
+        return [
+            node
+            for node in self.nodes
+            if node.node_type == node_type
+        ]
 
-        graph = self.load()
 
-        return {
-            "schema_version": 1,
-            "result": "PASS",
-            "graph": graph,
-            "nodes": len(graph.get("nodes", [])),
-            "edges": len(graph.get("edges", [])),
-            "certification_graph": "AVAILABLE",
-        }
+    def explain(self):
+
+        return [
+            {
+                "name": node.name,
+                "type": node.node_type,
+                "metadata": node.metadata
+            }
+            for node in self.nodes
+        ]
