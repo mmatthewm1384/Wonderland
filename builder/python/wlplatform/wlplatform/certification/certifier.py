@@ -3,9 +3,15 @@ from pathlib import Path
 from datetime import datetime, timezone
 
 from .adapters.registry import adapters
+from .errors import CertificationError
 
 
-def certify(controller=None, include_optional=False, **kwargs):
+
+def certify(
+    controller=None,
+    include_optional=False,
+    **kwargs,
+):
     """
     Public certification API compatibility boundary.
     """
@@ -13,17 +19,46 @@ def certify(controller=None, include_optional=False, **kwargs):
     root = kwargs.get("root")
 
     if root is None and controller is not None:
-        context = getattr(controller, "context", None)
+        context = getattr(
+            controller,
+            "context",
+            None,
+        )
 
         if context is not None:
-            root = getattr(context, "root", None)
+            root = getattr(
+                context,
+                "root",
+                None,
+            )
+
+        if root is None:
+            root = getattr(
+                controller,
+                "root",
+                None,
+            )
 
     if root is None:
-        root = Path.cwd()
+        raise CertificationError(
+            "Certification root required"
+        )
 
     root = Path(root).expanduser().resolve()
 
-    return _certify_platform(root)
+    result = _certify_platform(root)
+
+    artifact = (
+        root
+        / "vault"
+        / "08-Operations"
+        / "certifications"
+        / "platform-certification.json"
+    )
+
+    result["artifact"] = str(artifact)
+
+    return result
 
 
 def _certify_platform(root):
@@ -32,14 +67,19 @@ def _certify_platform(root):
 
     print(f"CERTIFICATION ROOT: {root}")
 
-    if not (root / "vault").exists():
-        raise RuntimeError(
+    if root == Path("/"):
+        raise CertificationError(
             f"Invalid certification root: {root}"
         )
 
+    (root / "vault").mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
     results = []
 
-    for engine in adapters():
+    for engine in adapters(root):
 
         result = engine.certify()
 

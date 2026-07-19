@@ -15,9 +15,81 @@ from .result import (
     aggregate_status,
 )
 from .subprocess_adapter import CommandSpec, run_command
+from .engine_router import EngineRouter
 
 
 Check = Callable[[PlatformContext], CheckResult]
+
+
+
+
+def _verify_certification(context):
+
+    state = CertificationState(
+        context.root
+    ).collect()
+
+    platform = state.get(
+        "platform",
+        {}
+    )
+
+    certified = (
+        platform.get("certified") is True
+        and platform.get("state") == "PASS"
+    )
+
+    return CheckResult(
+        name="certification",
+        status=(
+            Status.PASS
+            if certified
+            else Status.FAIL
+        ),
+        summary=(
+            "certification state PASS"
+            if certified
+            else "certification state FAIL"
+        ),
+        details=state,
+    )
+
+
+
+def verify_certification(context):
+
+    state = CertificationState(
+        context.root
+    ).collect()
+
+    platform = state.get(
+        "platform",
+        {}
+    )
+
+    certified = (
+        platform.get("certified") is True
+        and platform.get("state") == "PASS"
+    )
+
+    return CheckResult(
+        name="certification",
+        status=(
+            Status.PASS
+            if certified
+            else Status.FAIL
+        ),
+        summary=(
+            "platform certification PASS"
+            if certified
+            else "platform certification FAIL"
+        ),
+        details={
+            "platform": platform,
+            "trust": state.get("trust", {}),
+        },
+    )
+
 
 
 class PlatformController:

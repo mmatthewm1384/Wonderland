@@ -3,113 +3,152 @@ from __future__ import annotations
 import hashlib
 import json
 from datetime import datetime, timezone
-from pathlib import Path
-from .certification_registry import CertificationRegistry
+
+
+def artifact_digest(payload: dict) -> str:
+    data = json.dumps(
+        payload,
+        sort_keys=True,
+    ).encode()
+
+    return (
+        "sha256:"
+        + hashlib.sha256(data)
+        .hexdigest()
+    )
+
+
+def create_lineage(
+    *,
+    engine: str,
+    version: str = "1.0.0",
+    artifact: dict,
+    previous_digest: str | None = None,
+):
+    return {
+        "engine": engine,
+        "engine_version": version,
+        "generated_at": (
+            datetime.now(
+                timezone.utc
+            )
+            .isoformat()
+        ),
+        "artifact_digest": (
+            artifact_digest(artifact)
+        ),
+        "previous_digest": previous_digest,
+    }
+
 
 
 class CertificationLineage:
+    """Compatibility wrapper for CLI certification lineage commands."""
 
-    VERSION = 1
-
-    def __init__(self, root: Path):
-        self.root = root.resolve()
-
-        self.engine_dir = (
-            self.root
-            / "vault"
-            / "08-Operations"
-            / "certifications"
-            / "engines"
-        )
-
-        self.graph_dir = (
-            self.root
-            / "vault"
-            / "08-Operations"
-            / "certifications"
-            / "graph"
-        )
+    def __init__(
+        self,
+        root,
+    ):
+        self.root = root
 
 
-    def digest(self, path: Path) -> str:
-        return hashlib.sha256(
-            path.read_bytes()
-        ).hexdigest()
+    def build(self):
+        from pathlib import Path
+        import json
 
-
-    def build(self) -> dict:
-
-
-        nodes = {}
-
-        registry = CertificationRegistry(
+        root = Path(
             self.root
         )
 
-        engines = registry.snapshot()
+        cert_root = (
+            root
+            /
+            "vault/08-Operations/certifications/normalized"
+        )
 
-        for name, item in engines.items():
+        records = []
 
-            artifact = item.get(
-                "artifact"
-            )
+        if cert_root.exists():
 
-            digest = item.get(
-                "digest"
-            )
-
-            certified = item.get(
-                "certified",
-                False,
-            )
-
-            if (
-                not artifact
-                or not digest
-                or not certified
+            for artifact in sorted(
+                cert_root.glob(
+                    "*-certification.json"
+                )
             ):
-                continue
 
-            nodes[name] = {
-                "artifact": artifact,
-                "digest": digest,
-                "generated":
-                    item.get(
-                        "generated"
-                    ),
-                "certified": True,
-                "dependencies": [],
-            }
+                payload = json.loads(
+                    artifact.read_text()
+                )
+
+                records.append(
+                    create_lineage(
+                        artifact=payload,
+                        engine=payload.get(
+                            "engine",
+                            artifact.stem.replace(
+                                "-certification",
+                                "",
+                            ),
+                        ),
+                    )
+                )
 
 
-
-        graph = {
+        return {
             "schema_version": 1,
-            "lineage_version": self.VERSION,
-            "generated":
-                datetime.now(
-                    timezone.utc
-                ).isoformat(),
-            "nodes": nodes,
+            "lineage_count": len(records),
+            "lineage": records,
         }
 
-        self.graph_dir.mkdir(
-            parents=True,
-            exist_ok=True,
+
+def persist_lineage(root):
+
+    from pathlib import Path
+    import json
+
+    root = Path(root)
+
+    cert_root = (
+        root
+        /
+        "vault/08-Operations/certifications/normalized"
+    )
+
+    updated = []
+
+    for artifact in sorted(cert_root.glob("*.json")):
+
+        payload = json.loads(
+            artifact.read_text()
         )
 
-        output = (
-            self.graph_dir
-            / "certification-lineage.json"
+        engine = payload.get(
+            "engine",
+            artifact.stem.replace(
+                "-certification",
+                "",
+            ),
         )
 
-        output.write_text(
+        payload["lineage"] = create_lineage(
+            engine=engine,
+            artifact=payload,
+        )
+
+        artifact.write_text(
             json.dumps(
-                graph,
+                payload,
                 indent=2,
                 sort_keys=True,
-            ),
-            encoding="utf-8",
+            )
+            + "\n"
         )
 
-        return graph
+        updated.append(engine)
+
+    return {
+        "command": "persist-lineage",
+        "updated": updated,
+        "count": len(updated),
+        "result": "PASS",
+    }

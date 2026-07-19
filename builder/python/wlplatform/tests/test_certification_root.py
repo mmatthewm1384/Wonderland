@@ -1,7 +1,7 @@
 from pathlib import Path
 import tempfile
 
-from wlplatform.certification import certify
+from wlplatform.certification import certify, CertificationError
 
 
 def test_certification_writes_under_root():
@@ -31,7 +31,7 @@ def test_certification_rejects_invalid_root():
 
     try:
         certify(root=Path("/"))
-    except RuntimeError:
+    except CertificationError:
         return
 
     raise AssertionError(

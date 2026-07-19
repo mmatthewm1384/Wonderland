@@ -10,6 +10,8 @@ from .governance import GovernanceEngine
 from .mirror import MirrorEngine
 from .academy import AcademyEngine
 from .registry import RegistryEngine
+from .repository import RepositoryEngine
+from .runtime import RuntimeEngine
 
 
 __all__ = [
@@ -22,4 +24,6 @@ __all__ = [
     "MirrorEngine",
     "AcademyEngine",
     "RegistryEngine",
+    "RepositoryEngine",
+    "RuntimeEngine",
 ]

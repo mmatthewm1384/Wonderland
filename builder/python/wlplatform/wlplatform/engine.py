@@ -11,7 +11,12 @@ class PlatformCertificationEngine:
     VERSION = "1.0"
 
     def __init__(self, root: Path):
-        self.root = root.resolve()
+        if root is None:
+            raise ValueError(
+                "Certification root required"
+            )
+
+        self.root = Path(root).resolve()
 
         self.certification_dir = (
             self.root
@@ -218,6 +223,30 @@ class PlatformCertificationEngine:
             "artifact":
                 "vault/08-Operations/certifications/graph/certification-graph.json"
         }
+
+        artifact = (
+            self.root
+            / "vault"
+            / "08-Operations"
+            / "certifications"
+            / "platform-certification.json"
+        )
+
+        artifact.parent.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        artifact.write_text(
+            json.dumps(
+                certificate,
+                indent=2,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+
+        certificate["artifact"] = str(artifact)
 
         self.certification_dir.mkdir(
             parents=True,

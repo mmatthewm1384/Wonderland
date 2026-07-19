@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from .certification_command import certification_gate
+
 import argparse
 import json
 import sys
@@ -257,6 +259,7 @@ def build_parser() -> argparse.ArgumentParser:
         "mirror",
         "academy",
         "registry",
+        "runtime",
     ):
         ep = engine_sub.add_parser(engine_name)
 
@@ -297,6 +300,7 @@ def build_parser() -> argparse.ArgumentParser:
         )
 
     certify_parser = subparsers.add_parser(
+
         "certify"
     )
 
@@ -332,6 +336,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     certify_sub.add_parser(
         "trust"
+    )
+
+    certify_sub.add_parser(
+        "gate"
     )
 
 
@@ -551,6 +559,29 @@ def main(argv: list[str] | None = None) -> int:
             else 1
         )
 
+
+    if (
+        args.command == "certification"
+        and
+        args.certification_command == "gate"
+    ):
+
+        result = certification_gate(
+            ROOT
+        )
+
+        if args.json:
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+        else:
+            print(result)
+
+        return 0
+
     if args.command == "certify":
 
         if getattr(
@@ -625,6 +656,56 @@ def main(argv: list[str] | None = None) -> int:
             args,
             "certify_action",
             None
+        ) == "migrate":
+
+            from .certification_migrate import (
+                migrate_certifications,
+            )
+
+            report = migrate_certifications(
+                root
+            )
+
+            print(
+                json.dumps(
+                    report,
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+
+            return
+
+
+        if getattr(
+            args,
+            "certify_action",
+            None
+        ) == "persist-lineage":
+
+            from .certification_lineage_persist import (
+                persist_lineage,
+            )
+
+            report = persist_lineage(
+                root
+            )
+
+            print(
+                json.dumps(
+                    report,
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+
+            return
+
+
+        if getattr(
+            args,
+            "certify_action",
+            None
         ) == "lineage":
 
             from .certification_lineage import (
@@ -644,6 +725,58 @@ def main(argv: list[str] | None = None) -> int:
             )
 
             return
+
+
+        if getattr(
+            args,
+            "certify_action",
+            None
+        ) == "gate":
+
+            from .certification_command import (
+                certification_gate,
+            )
+
+            report = certification_gate(
+                root
+            )
+
+            print(
+                json.dumps(
+                    report,
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+
+            return
+
+
+
+        if getattr(
+            args,
+            "certify_action",
+            None
+        ) == "gate":
+
+            from .certification_command import (
+                certification_gate,
+            )
+
+            report = certification_gate(
+                root
+            )
+
+            print(
+                json.dumps(
+                    report,
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+
+            return
+
 
 
         if getattr(
