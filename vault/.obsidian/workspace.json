@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "certifications/secrets-certified-20260624.md",
+                "file": "02-Governance/design/WEL-001-wonderland-escalation-language.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "secrets-certified-20260624"
+              "title": "WEL-001-wonderland-escalation-language"
             }
           }
         ]
@@ -183,8 +183,11 @@
       "bases:Create new base": false
     }
   },
-  "active": "474e21fd0f4d721c",
+  "active": "3c0f6f96aa94d091",
   "lastOpenFiles": [
+    "certifications/secrets-certified-20260624.md",
+    "09-Timeline/1784346288920-controller-v3-cycle-finished.json",
+    "09-Timeline/1784346288611-controller-v3-cycle-started.json",
     "08-Operations/reports/lifecycle-stop-20260627-023940.json",
     "chaos/chaos-aether.json",
     "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/backups/ChaosMenubarApp.swift.before-phase5-notifications-20260626-132447",
@@ -193,9 +196,6 @@
     "08-Operations/reports/rootless-certification-20260626-132042.txt",
     "08-Operations/reports/lifecycle-start-20260626-132030.json",
     "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/certification.txt",
-    "08-Operations/reports/wl-chaos-menubar-v1.0-20260626-131942.txt",
-    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/backups/v2-20260624-141954/Sources.before/wl-chaos-menubar/main.swift.bak.20260623-122301",
-    "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/backups/v2-20260624-141954/Sources.before/wl-chaos-menubar/main.swift",
     "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/Resources/Icons/icon-idle.svg",
     "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/Resources/Icons/icon-idle.png",
     "08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/wl-chaos-menubar/Resources/Icons/icon-error.svg",

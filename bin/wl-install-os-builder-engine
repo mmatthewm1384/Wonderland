@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+ADAPTER="$WL_ROOT/bin/wl-runtime-adapter"
+
+if [[ ! -f "$ADAPTER" ]]; then
+    echo "FAIL missing adapter: $ADAPTER"
+    exit 1
+fi
+
+BACKUP="$ADAPTER.bak.$(date +%Y%m%d-%H%M%S)"
+cp "$ADAPTER" "$BACKUP"
+
+python3 <<PY
+from pathlib import Path
+
+path = Path("$ADAPTER")
+text = path.read_text()
+
+if "wonderland-os-builder:start)" in text:
+    print("PASS wonderland-os-builder adapter already installed")
+    raise SystemExit(0)
+
+block = r'''
+  wonderland-os-builder:start)
+    limactl start wonderland-os-builder
+    printf 'PASS wonderland-os-builder start\n'
+    ;;
+
+  wonderland-os-builder:stop)
+    limactl stop wonderland-os-builder || true
+    printf 'PASS wonderland-os-builder stop\n'
+    ;;
+
+  wonderland-os-builder:verify)
+    status=$(limactl list --json | python3 -c '
+import json,sys
+
+for line in sys.stdin:
+    line=line.strip()
+    if not line:
+        continue
+
+    vm=json.loads(line)
+
+    if vm.get("name")=="wonderland-os-builder":
+        print(vm.get("status",""))
+        break
+')
+
+    if [[ "${status:-}" == "Running" ]]; then
+        printf 'PASS wonderland-os-builder health\n'
+    else
+        printf 'FAIL wonderland-os-builder not running\n'
+        exit 1
+    fi
+    ;;
+'''
+
+# Find the active final case terminator
+lines = text.splitlines()
+
+case_start = None
+case_end = None
+
+for i,line in enumerate(lines):
+    if line.startswith("case "):
+        case_start = i
+
+if case_start is None:
+    raise SystemExit("FAIL no case statement found")
+
+for i in range(len(lines)-1, case_start, -1):
+    if lines[i].strip() == "esac":
+        case_end = i
+        break
+
+if case_end is None:
+    raise SystemExit("FAIL no esac found")
+
+lines.insert(case_end, block)
+
+path.write_text("\n".join(lines) + "\n")
+
+print("PASS adapter updated")
+PY
+
+bash -n "$ADAPTER"
+
+echo "PASS syntax verified"
+echo "BACKUP $BACKUP"

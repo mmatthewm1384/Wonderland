@@ -1,26 +1,10 @@
 #!/usr/bin/env bash
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/core/bootstrap.sh"
+set -euo pipefail
 
-wl_certify_main "$@"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-echo
-echo "## Mirror"
-bin/wl-mirror-certify
+export PYTHONPATH="$ROOT/builder/python/wlplatform:${PYTHONPATH:-}"
 
+cd "$ROOT"
 
-echo
-echo "## Mirror Certification"
-if [[ -x "bin/wl-mirror-certify" ]]; then
-  bin/wl-mirror-certify
-else
-  echo "WARN: bin/wl-mirror-certify not found"
-fi
-
-echo
-echo "## Audit Certification"
-if [[ -x "bin/wl-audit-certify" ]]; then
-  bin/wl-audit-certify
-else
-  echo "WARN: bin/wl-audit-certify not found"
-fi
-
+exec python3 -m wlplatform.cli certify "$@"

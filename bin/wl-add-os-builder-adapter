@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+ADAPTER="$WL_ROOT/bin/wl-runtime-adapter"
+
+if [[ ! -f "$ADAPTER" ]]; then
+    echo "FAIL missing adapter: $ADAPTER" >&2
+    exit 1
+fi
+
+BACKUP="${ADAPTER}.bak.$(date +%Y%m%d-%H%M%S)"
+cp "$ADAPTER" "$BACKUP"
+
+python3 <<PY
+from pathlib import Path
+
+adapter = Path("$ADAPTER")
+
+text = adapter.read_text()
+
+if "wonderland-os-builder:start)" in text:
+    print("PASS wonderland-os-builder adapter already installed")
+    raise SystemExit(0)
+
+marker = "  rootless-runtime:start)"
+
+if marker not in text:
+    raise SystemExit("FAIL adapter insertion point not found")
+
+block = r'''
+  wonderland-os-builder:start)
+    if limactl list --json | grep -q '"wonderland-os-builder"'; then
+      limactl start wonderland-os-builder
+      printf 'PASS wonderland-os-builder start\n'
+    else
+      fail "wonderland-os-builder Lima instance missing"
+    fi
+    ;;
+
+  wonderland-os-builder:stop)
+    if limactl list --json | grep -q '"wonderland-os-builder"'; then
+      limactl stop wonderland-os-builder || true
+      printf 'PASS wonderland-os-builder stop\n'
+    else
+      printf 'PASS wonderland-os-builder unavailable\n'
+    fi
+    ;;
+
+  wonderland-os-builder:verify)
+    status=$(limactl list --json | python3 -c '
+import json,sys
+for line in sys.stdin:
+    if not line.strip():
+        continue
+    vm=json.loads(line)
+    if vm["name"]=="wonderland-os-builder":
+        print(vm["status"])
+        break
+')
+
+    if [[ "$status" == "Running" ]]; then
+      printf 'PASS wonderland-os-builder health\n'
+    else
+      fail "wonderland-os-builder is not Running"
+    fi
+    ;;
+'''
+
+text = text.replace(marker, block + "\n" + marker, 1)
+
+adapter.write_text(text)
+
+print("PASS wonderland-os-builder adapter installed")
+PY
+
+chmod +x "$ADAPTER"
+
+if ! bash -n "$ADAPTER"; then
+    echo "FAIL adapter syntax validation"
+    cp "$BACKUP" "$ADAPTER"
+    exit 1
+fi
+
+echo "PASS adapter syntax validation"
+echo "BACKUP $BACKUP"

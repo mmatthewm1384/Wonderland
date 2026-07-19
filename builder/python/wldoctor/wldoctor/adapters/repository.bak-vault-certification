@@ -1,0 +1,124 @@
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Any
+
+
+class RepositoryAdapter:
+    name = "repository"
+
+    def run(self, root: Path) -> dict[str, Any]:
+        result: dict[str, Any]
+
+        try:
+            from wlrepository.engine import RepositoryEngine
+
+            result = RepositoryEngine(root).doctor()
+
+        except Exception as exc:
+            result = {
+                "schema_version": 1,
+                "engine": "repository",
+                "status": "FAIL",
+                "error": str(exc),
+            }
+
+        certificate_paths = [
+            (
+                root
+                / ".state"
+                / "repository"
+                / "certificate.json"
+            ),
+        ]
+
+        certificate: dict[str, Any] | None = None
+
+        for certificate_path in certificate_paths:
+            if certificate_path.exists():
+                try:
+                    certificate = json.loads(
+                        certificate_path.read_text(
+                            encoding="utf-8"
+                        )
+                    )
+                    break
+
+                except Exception:
+                    certificate = None
+
+        certification = self._normalize_certificate(
+            certificate
+        )
+
+        result["certification"] = certification
+
+        # Preserve existing public contract
+        result["certified"] = certification["certified"]
+
+        if certificate is not None:
+            result["certificate"] = certificate
+
+        return result
+
+    @staticmethod
+    def _normalize_certificate(
+        certificate: dict[str, Any] | None,
+    ) -> dict[str, Any]:
+        if certificate is None:
+            return {
+                "engine": "repository",
+                "certified": False,
+                "status": "MISSING",
+                "checks": {},
+            }
+
+        checks = certificate.get(
+            "checks",
+            {},
+        )
+
+        result = certificate.get(
+            "result"
+        )
+
+        verification = certificate.get(
+            "verification"
+        )
+
+        certified = False
+
+        if isinstance(result, str):
+            certified = result.upper() == "PASS"
+
+        elif isinstance(verification, str):
+            certified = verification.upper() == "PASS"
+
+        else:
+            certified = bool(
+                certificate.get(
+                    "certified",
+                    False,
+                )
+            )
+
+        return {
+            "engine": "repository",
+            "certified": certified,
+            "status": (
+                "PASS"
+                if certified
+                else "FAIL"
+            ),
+            "checks": checks,
+            "policy_digest": certificate.get(
+                "policy_digest"
+            ),
+            "generated_digest": certificate.get(
+                "generated_digest"
+            ),
+            "state_digest": certificate.get(
+                "state_digest"
+            ),
+        }

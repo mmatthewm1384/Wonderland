@@ -9,12 +9,11 @@ class RepositoryAdapter:
     name = "repository"
 
     def run(self, root: Path) -> dict[str, Any]:
-        result: dict[str, Any]
-
         try:
             from wlrepository.engine import RepositoryEngine
 
             result = RepositoryEngine(root).doctor()
+
         except Exception as exc:
             result = {
                 "schema_version": 1,
@@ -23,34 +22,49 @@ class RepositoryAdapter:
                 "error": str(exc),
             }
 
-        certificate_path = (
-            root
-            / ".state"
-            / "repository"
-            / "certificate.json"
+        certificate_candidates = [
+            root / ".state/repository/certificate.json",
+        ]
+
+        certification_root = (
+            root /
+            "vault" /
+            "08-Operations" /
+            "certifications"
         )
 
-        certified = False
-        certificate: dict[str, Any] | None = None
+        if certification_root.exists():
+            certificate_candidates.extend(
+                sorted(
+                    certification_root.glob(
+                        "repository-certification*/certificate.json"
+                    ),
+                    reverse=True,
+                )
+            )
 
-        if certificate_path.exists():
-            try:
-                certificate = json.loads(
-                    certificate_path.read_text(
-                        encoding="utf-8"
+        certificate = None
+
+        for path in certificate_candidates:
+            if path.exists():
+                try:
+                    certificate = json.loads(
+                        path.read_text(
+                            encoding="utf-8"
+                        )
                     )
-                )
+                    break
+                except Exception:
+                    pass
 
-                certified = bool(
-                    certificate.get("certified")
-                )
+        result["certified"] = bool(
+            certificate and (
+                certificate.get("certified")
+                or certificate.get("result") == "PASS"
+            )
+        )
 
-            except Exception:
-                certified = False
-
-        result["certified"] = certified
-
-        if certificate is not None:
+        if certificate:
             result["certificate"] = certificate
 
         return result

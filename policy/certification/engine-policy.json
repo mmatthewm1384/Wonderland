@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "required_engines": [
+    "runtime",
+    "repository",
+    "builder",
+    "academy",
+    "security",
+    "architecture"
+  ],
+  "optional_engines": [
+    "applications",
+    "cli",
+    "knowledge",
+    "implementation",
+    "os"
+  ],
+  "ignored_artifacts": [
+    "platform",
+    "doctor"
+  ]
+}

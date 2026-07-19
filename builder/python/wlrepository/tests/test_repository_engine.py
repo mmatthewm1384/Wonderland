@@ -188,3 +188,45 @@ class RepositoryEngineTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+    def test_snapshot_creates_repository_evidence(self) -> None:
+        self.engine.generate()
+
+        snapshot = self.engine.snapshot()
+
+        self.assertEqual(
+            snapshot["engine"],
+            "repository",
+        )
+
+        self.assertEqual(
+            snapshot["schema_version"],
+            1,
+        )
+
+        self.assertEqual(
+            len(snapshot["policy_digest"]),
+            64,
+        )
+
+        self.assertEqual(
+            len(snapshot["generated_digest"]),
+            64,
+        )
+
+
+    def test_drift_returns_contract(self) -> None:
+        self.engine.generate()
+
+        drift = self.engine.drift()
+
+        self.assertIn(
+            "result",
+            drift,
+        )
+
+        self.assertIn(
+            "changes",
+            drift,
+        )

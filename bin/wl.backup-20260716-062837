@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+export PYTHONPATH="$ROOT/builder/python/wlplatform:${PYTHONPATH:-}"
+
+cd "$ROOT"
+
+ARGS=("$@")
+
+case "${ARGS[0]:-}" in
+    platform)
+        shift
+        exec python3 -m wlplatform.cli "$@"
+        ;;
+
+    architecture|builder|governance|mirror|academy|registry)
+        ENGINE="${ARGS[0]}"
+        shift
+
+        case "$ENGINE" in
+            registry)
+                # registry compatibility command
+                exec python3 -m wlplatform.cli certify status "$@"
+                ;;
+
+            *)
+                # Preserve legacy engine command surface
+                exec python3 -m wlplatform.cli engine "$ENGINE" "$@"
+                ;;
+        esac
+        ;;
+
+    *)
+        exec python3 -m wlplatform.cli "$@"
+        ;;
+esac

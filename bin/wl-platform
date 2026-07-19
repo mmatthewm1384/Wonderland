@@ -1,38 +1,36 @@
-#!/usr/bin/env bash
-set -Eeuo pipefail
+#!/usr/bin/env python3
 
-ROOT="${WL_HOME:-${WONDERLAND_ROOT:-}}"
+from __future__ import annotations
 
-if [[ -z "$ROOT" ]]; then
-  ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
-fi
+import os
+import sys
+from pathlib import Path
 
-export WL_HOME="$ROOT"
-export WONDERLAND_ROOT="$ROOT"
 
-python_paths=(
-  "$ROOT/builder/python/wlplatform"
-  "$ROOT/builder/python/wlcli"
-  "$ROOT/builder/python"
-  "$ROOT"
-)
+def root() -> Path:
+    return Path(
+        os.environ.get(
+            "WL_ROOT",
+            Path(__file__).resolve().parents[1],
+        )
+    ).resolve()
 
-combined=""
 
-for path in "${python_paths[@]}"; do
-  [[ -d "$path" ]] || continue
+def main() -> int:
 
-  if [[ -z "$combined" ]]; then
-    combined="$path"
-  else
-    combined="$combined:$path"
-  fi
-done
+    root_path = root()
 
-if [[ -n "${PYTHONPATH:-}" ]]; then
-  combined="$combined:$PYTHONPATH"
-fi
+    sys.path.insert(
+        0,
+        str(root_path / "builder/python/wlplatform"),
+    )
 
-export PYTHONPATH="$combined"
+    from wlplatform.cli import main as platform_main
 
-exec python3 -m wlplatform "$@"
+    argv = sys.argv[1:]
+
+    return platform_main(argv)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

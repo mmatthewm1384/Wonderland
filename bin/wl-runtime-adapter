@@ -112,11 +112,11 @@ case "$ENGINE_ID:$ACTION" in
         ;;
 
       Stopped)
-        printf 'PASS rootless-runtime already stopped\\n'
+        printf 'PASS rootless-runtime already stopped\n'
         ;;
 
       "")
-        printf 'PASS rootless-runtime unavailable (already stopped)\\n'
+        printf 'PASS rootless-runtime unavailable (already stopped)\n'
         ;;
 
       *)
@@ -124,6 +124,31 @@ case "$ENGINE_ID:$ACTION" in
         ;;
     esac
     ;;
+
+  os-builder:start|wonderland-os-builder:start)
+    limactl start wonderland-os-builder
+    printf 'PASS wonderland-os-builder start\n'
+    ;;
+
+  os-builder:stop|wonderland-os-builder:stop)
+    limactl stop wonderland-os-builder || true
+    printf 'PASS wonderland-os-builder stop\n'
+    ;;
+
+  os-builder:verify|wonderland-os-builder:verify)
+    status="$(
+      limactl list --format '{{.Name}} {{.Status}}' 2>/dev/null \
+      | awk '$1 == "wonderland-os-builder" { print $2 }'
+    )"
+
+    if [[ "$status" == "Running" ]]; then
+      printf 'PASS wonderland-os-builder health\n'
+    else
+      printf 'FAIL wonderland-os-builder not running\n'
+      exit 1
+    fi
+    ;;
+
 
   rootless-runtime:verify)
     rootless_output="$(

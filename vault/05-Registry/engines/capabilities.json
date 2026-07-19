@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "capabilities": {
+    "runtime.start": {
+      "owner": "runtime",
+      "engine": "runtime"
+    },
+    "runtime.stop": {
+      "owner": "runtime",
+      "engine": "runtime"
+    },
+    "runtime.status": {
+      "owner": "runtime",
+      "engine": "runtime"
+    },
+    "registry.verify": {
+      "owner": "registry",
+      "engine": "registry"
+    },
+    "registry.certify": {
+      "owner": "registry",
+      "engine": "registry"
+    },
+    "architecture.verify": {
+      "owner": "architecture",
+      "engine": "architecture"
+    },
+    "builder.verify": {
+      "owner": "builder",
+      "engine": "builder"
+    },
+    "governance.verify": {
+      "owner": "governance",
+      "engine": "governance"
+    },
+    "mirror.verify": {
+      "owner": "mirror",
+      "engine": "mirror"
+    },
+    "academy.verify": {
+      "owner": "academy",
+      "engine": "academy"
+    }
+  }
+}

@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+ADAPTER="$WL_ROOT/bin/wl-runtime-adapter"
+
+cp "$ADAPTER" "$ADAPTER.bak.$(date +%Y%m%d-%H%M%S)"
+
+python3 <<'PY'
+from pathlib import Path
+
+path = Path.home() / "Wonderland/bin/wl-runtime-adapter"
+
+text = path.read_text()
+
+start = text.find("  wonderland-os-builder:start)")
+end = text.find("  wonderland-os-builder:verify)")
+
+if start != -1:
+    # remove old misplaced block
+    marker = text.find("    ;;", end)
+    old_end = text.find("\n", marker) + 1
+    text = text[:start] + text[old_end:]
+
+block = r'''
+  wonderland-os-builder:start)
+    limactl start wonderland-os-builder
+    printf 'PASS wonderland-os-builder start\n'
+    ;;
+
+  wonderland-os-builder:stop)
+    limactl stop wonderland-os-builder || true
+    printf 'PASS wonderland-os-builder stop\n'
+    ;;
+
+  wonderland-os-builder:verify)
+    status=$(limactl list --json | python3 -c '
+import json,sys
+for line in sys.stdin:
+    if line.strip():
+        vm=json.loads(line)
+        if vm.get("name")=="wonderland-os-builder":
+            print(vm.get("status"))
+            break
+')
+
+    if [ "${status:-}" = "Running" ]; then
+        printf 'PASS wonderland-os-builder health\n'
+    else
+        printf 'FAIL wonderland-os-builder not running\n'
+        exit 1
+    fi
+    ;;
+'''
+
+# Find the lifecycle case containing rootless-runtime
+case_pos = text.find("rootless-runtime:start)")
+
+if case_pos == -1:
+    raise SystemExit("FAIL lifecycle case not found")
+
+insert = text.find("esac", case_pos)
+
+if insert == -1:
+    raise SystemExit("FAIL lifecycle esac not found")
+
+text = text[:insert] + block + "\n" + text[insert:]
+
+path.write_text(text)
+
+print("PASS lifecycle route repaired")
+PY
+
+bash -n "$ADAPTER"
+
+echo "PASS syntax"

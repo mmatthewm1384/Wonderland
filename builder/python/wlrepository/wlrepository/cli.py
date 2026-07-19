@@ -63,21 +63,6 @@ def build_parser() -> argparse.ArgumentParser:
 
     subparsers = parser.add_subparsers(dest="command")
 
-    subparsers.add_parser("status")
-    subparsers.add_parser("generate")
-    subparsers.add_parser("verify")
-    subparsers.add_parser("doctor")
-    subparsers.add_parser("health")
-    subparsers.add_parser("repair")
-    subparsers.add_parser("certify")
-    subparsers.add_parser("verify-certificate")
-    subparsers.add_parser("tracked-ignored")
-
-    # Accept JSON output after command:
-    #   wl repo certify --json
-    #   wl repo verify --json
-    #
-    # Maintains Wonderland CLI convention.
     for command in [
         "status",
         "generate",
@@ -88,14 +73,17 @@ def build_parser() -> argparse.ArgumentParser:
         "certify",
         "verify-certificate",
         "tracked-ignored",
+        "drift",
+        "snapshot",
     ]:
-        parser_command = subparsers.choices[command]
-        parser_command.add_argument(
+        command_parser = subparsers.add_parser(command)
+        command_parser.add_argument(
             "--json",
             action="store_true",
-            dest="command_json",
+            dest="json",
             help="emit machine-readable JSON",
         )
+
 
     explain = subparsers.add_parser("explain-ignore")
     explain.add_argument("path")
@@ -187,6 +175,48 @@ def main(argv: list[str] | None = None) -> int:
                 else 1
             )
 
+        if args.command == "drift":
+            payload = engine.drift()
+
+            if args.json:
+                print(
+                    json.dumps(
+                        payload,
+                        indent=2,
+                        sort_keys=True,
+                    )
+                )
+            else:
+                print(
+                    f"drift={payload['drift']}"
+                )
+                for key, value in payload["checks"].items():
+                    print(f"{key}={value}")
+
+            return 1 if payload["drift"] else 0
+
+        if args.command == "snapshot":
+            payload = engine.snapshot()
+
+            if args.json:
+                print(
+                    json.dumps(
+                        payload,
+                        indent=2,
+                        sort_keys=True,
+                    )
+                )
+            else:
+                print(
+                    "PASS repository snapshot created"
+                )
+                print(
+                    payload["path"]
+                )
+
+            return 0
+
+
         if args.command == "health":
             payload = engine.health()
 
@@ -229,7 +259,22 @@ def main(argv: list[str] | None = None) -> int:
             return 0 if after.passed else 1
 
         if args.command == "certify":
-            payload = engine.run_certification()
+            payload = engine.write_certificate()
+
+            # Repository Engine 1.2 certification contract
+            if "result" in payload:
+                passed = payload["result"] == "PASS"
+
+            # Compatibility with 1.0/1.1 certificate schema
+            else:
+                passed = bool(payload.get("certified", False))
+
+                if "result" not in payload:
+                    payload["result"] = (
+                        "PASS"
+                        if passed
+                        else "FAIL"
+                    )
 
             if args.json:
                 print(
@@ -242,16 +287,17 @@ def main(argv: list[str] | None = None) -> int:
             else:
                 print("Wonderland Repository Certification")
                 print(
-                    f"verification={payload['verification']}"
-                )
-                print(
-                    f"health_score={payload['health_score']}"
-                )
-                print(
-                    f"certified={payload['certified']}"
+                    f"result={payload['result']}"
                 )
 
-            return 0 if payload.get("certified", False) else 1
+                if "checks" in payload:
+                    for name, value in payload["checks"].items():
+                        print(
+                            f"{name}={str(value).lower()}"
+                        )
+
+            return 0 if passed else 1
+
 
         if args.command == "verify-certificate":
             payload = engine.verify_certificate()
