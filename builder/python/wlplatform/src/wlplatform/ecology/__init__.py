@@ -1,7 +1,7 @@
-from .states import RuntimeEcologyState
+from .states import EcologyState
 from .controller import EcologyController
 
 __all__ = [
-    "RuntimeEcologyState",
-    "EcologyController"
+    "EcologyState",
+    "EcologyController",
 ]
