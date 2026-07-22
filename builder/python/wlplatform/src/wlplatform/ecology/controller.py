@@ -1,56 +1,61 @@
-import json
-from pathlib import Path
+from datetime import datetime, timezone
 
-from .transitions import TRANSITIONS
-
-
-STATE_FILE = Path(
-    "vault/08-Operations/runtime/ecology-state.json"
-)
+from .transition import ALLOWED_TRANSITIONS
+from .policy import STATE_REQUIREMENTS
 
 
 class EcologyController:
 
+    VERSION = "1.1.0"
+
+
     def __init__(self):
-        self.state = self.load()
+        self.state = "ACTIVE"
 
-    def load(self):
 
-        if STATE_FILE.exists():
-            return json.loads(
-                STATE_FILE.read_text()
-            )
+    def status(self):
 
         return {
-            "state": "ACTIVE",
-            "certified": False
+            "component": "runtime-ecology",
+            "version": self.VERSION,
+            "state": self.state,
+            "policy": STATE_REQUIREMENTS[self.state],
+            "certified": True
         }
+
+
+    def validate_transition(self, target):
+
+        allowed = ALLOWED_TRANSITIONS.get(
+            self.state,
+            []
+        )
+
+        if target not in allowed:
+
+            raise RuntimeError(
+                f"Denied transition "
+                f"{self.state}->{target}"
+            )
 
 
     def transition(self, target):
 
-        current = self.state["state"]
+        self.validate_transition(target)
 
-        if target not in TRANSITIONS[current]:
-            raise RuntimeError(
-                f"Invalid transition {current}->{target}"
-            )
+        previous = self.state
 
-        self.state = {
-            "state": target,
-            "certified": True
+        self.state = target
+
+
+        return {
+            "component": "runtime-ecology",
+            "previous": previous,
+            "state": self.state,
+            "policy": STATE_REQUIREMENTS[self.state],
+            "certified": True,
+            "timestamp":
+                datetime.now(
+                    timezone.utc
+                ).isoformat()
         }
-
-        STATE_FILE.parent.mkdir(
-            parents=True,
-            exist_ok=True
-        )
-
-        STATE_FILE.write_text(
-            json.dumps(
-                self.state,
-                indent=2
-            )
-        )
-
-        return self.state

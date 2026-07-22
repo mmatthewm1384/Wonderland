@@ -1,0 +1,22 @@
+from enum import Enum
+
+
+class LifecycleState(Enum):
+
+    UNKNOWN = "UNKNOWN"
+
+    INITIALIZING = "INITIALIZING"
+
+    READY = "READY"
+
+    RUNNING = "RUNNING"
+
+    SLEEPING = "SLEEPING"
+
+    STOPPING = "STOPPING"
+
+    STOPPED = "STOPPED"
+
+    RECOVERY_REQUIRED = "RECOVERY_REQUIRED"
+
+    RECOVERING = "RECOVERING"

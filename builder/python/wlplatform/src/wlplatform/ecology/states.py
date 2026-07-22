@@ -1,8 +1,7 @@
 from enum import Enum
 
 
-class RuntimeEcologyState(Enum):
-
+class EcologyState(str, Enum):
     ACTIVE = "ACTIVE"
     FLOW = "FLOW"
     RESTING = "RESTING"
