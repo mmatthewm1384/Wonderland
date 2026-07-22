@@ -1,3 +1,0 @@
-"""
-Wonderland Recovery Certification Adapter
-"""
