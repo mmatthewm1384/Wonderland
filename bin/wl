@@ -4,11 +4,19 @@ set -euo pipefail
 ROOT="/Users/wonderland/Wonderland"
 
 case "${1:-}" in
+
     platform)
         shift
         exec "$ROOT/bin/wl-platform" "$@"
         ;;
+
+    drop)
+        shift
+        exec "$ROOT/scripts/auto-drop/wl-drop" "$@"
+        ;;
+
     *)
         exec "$ROOT/bin/wl-platform" "$@"
         ;;
+
 esac
