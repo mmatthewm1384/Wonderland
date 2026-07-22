@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "required": [
+    "certified",
+    "engine"
+  ],
+  "properties": {
+    "certified": {
+      "type": "boolean"
+    },
+    "engine": {
+      "type": "string"
+    }
+  }
+}
