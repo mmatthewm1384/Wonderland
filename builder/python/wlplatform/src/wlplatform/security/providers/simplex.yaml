@@ -1,0 +1,16 @@
+provider:
+  name: simplex
+  type: communication
+  trust_level: privacy-sensitive
+
+identity:
+  model: anonymous-queue
+
+capabilities:
+  - private_messaging
+  - metadata_minimization
+  - decentralized_identity
+
+registry:
+  provider_id: simplex
+  enabled: true
