@@ -1,0 +1,31 @@
+id: auto-drop-core
+
+name: Wonderland Auto-Drop Core
+
+version: 1.0.0
+
+type: foundation
+
+category: auto-drop
+
+description: >
+  Shared auto-drop lifecycle foundation providing canonical
+  repository root resolution and shared package infrastructure.
+
+capabilities:
+  - root-resolution
+  - lifecycle-support
+  - artifact-governance
+
+owner:
+  system: Wonderland
+  domain: Operations
+
+certification:
+  required: true
+
+rollback:
+  supported: true
+
+status:
+  maturity: certified

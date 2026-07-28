@@ -1,0 +1,20 @@
+id: transaction-staging-engine
+
+name: Wonderland Auto-Drop Transaction Staging Engine
+
+version: 1.0.0
+
+type: auto-drop-core-extension
+
+description: >
+  Adds artifact staging support to the auto-drop transaction lifecycle.
+
+capabilities:
+  - artifact-materialization
+  - workspace-staging
+
+certification:
+  required: true
+
+rollback:
+  supported: true
