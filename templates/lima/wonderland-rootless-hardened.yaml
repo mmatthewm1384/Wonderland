@@ -1,0 +1,39 @@
+# Wonderland Rootless Hardened Lima Baseline
+# Version: 1.0
+# Certified: 2026-07-29
+
+vmType: "vz"
+
+cpus: 4
+memory: "8GiB"
+disk: "100GiB"
+
+mounts:
+  - location: "~/Wonderland/Shared"
+    mountPoint: "/mnt/shared"
+    writable: true
+
+mountType: "virtiofs"
+
+ssh:
+  localPort: 0
+  loadDotSSHPubKeys: false
+  forwardAgent: false
+  forwardX11: false
+
+upgradePackages: false
+
+containerd:
+  system: false
+  user: true
+
+networks:
+  - lima: "user-v2"
+
+portForwards: []
+
+# Security policy:
+# - No home directory mount
+# - No bridged networking
+# - Rootless containers only
+# - Manual package upgrades
