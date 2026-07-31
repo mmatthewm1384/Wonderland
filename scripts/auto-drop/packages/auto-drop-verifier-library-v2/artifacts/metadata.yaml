@@ -1,0 +1,5 @@
+name: auto-drop-verifier-library-v2
+version: 2.0.0
+type: verifier-library
+trust: certified
+purpose: canonical package contract verification

@@ -1,0 +1,12 @@
+{
+  "name": "auto-drop-verifier-library-v2",
+  "version": "2.0.0",
+  "category": "capability",
+  "description": "Canonical auto-drop package verification library",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  },
+  "dependencies": []
+}
