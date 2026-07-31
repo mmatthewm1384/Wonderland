@@ -1,0 +1,235 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-/Users/wonderland/Wonderland}"
+DROP_ROOT="$WL_ROOT/scripts/auto-drop"
+
+load_lib() {
+    local lib="$1"
+
+    if [[ -f "$DROP_ROOT/lib/$lib" ]]; then
+        source "$DROP_ROOT/lib/$lib"
+    fi
+}
+
+load_lib registry.sh
+load_lib validator.sh
+load_lib executor.sh
+load_lib evidence.sh
+load_lib verifier.sh
+load_lib certification.sh
+load_lib attestation.sh
+load_lib ledger.sh
+load_lib recovery.sh
+load_lib events.sh
+load_lib timeline.sh
+load_lib metrics.sh
+load_lib observability.sh
+load_lib policy.sh
+load_lib trust.sh
+load_lib governance.sh
+load_lib registry-engine.sh
+load_lib registry-certification.sh
+load_lib governance-engine.sh
+load_lib audit-ledger-engine.sh
+load_lib ledger-certification.sh
+load_lib recovery-engine.sh
+load_lib workspace.sh
+load_lib registry-gate.sh
+load_lib transaction.sh
+load_lib checkpoint.sh
+load_lib manifest.sh
+
+
+COMMAND="${1:-}"
+
+
+case "$COMMAND" in
+
+
+list)
+
+    echo "Registered Artifacts"
+    find "$DROP_ROOT/packages" -mindepth 1 -maxdepth 1 -type d 2>/dev/null
+
+;;
+
+
+install)
+
+    ARTIFACT="${2:-}"
+
+    resolve_artifact "$ARTIFACT"
+
+    manifest_load
+    manifest_validate
+
+    evaluate_policy "$ARTIFACT"
+    evaluate_trust "$ARTIFACT"
+    check_governance "$ARTIFACT"
+
+    validate_artifact
+
+    emit_event "$ARTIFACT" "transaction_started"
+
+    begin_transaction "$ARTIFACT"
+
+
+    if execute_install; then
+
+        if command -v execute_verify >/dev/null 2>&1; then
+
+            execute_verify
+
+        fi
+
+
+        write_evidence "$ARTIFACT" "verified"
+
+        certify_artifact "$ARTIFACT"
+
+        create_attestation "$ARTIFACT"
+
+        write_ledger "$ARTIFACT"
+
+        emit_event "$ARTIFACT" "transaction_committed"
+
+        update_state "$ARTIFACT"
+
+        commit_transaction "$ARTIFACT"
+
+    else
+
+        abort_transaction "$ARTIFACT"
+        recover_artifact "$ARTIFACT"
+        exit 1
+
+    fi
+
+;;
+
+
+verify)
+
+    ARTIFACT="${2:-}"
+
+    if [[ -z "$ARTIFACT" ]]; then
+        echo "ERROR: package required"
+        exit 1
+    fi
+
+
+    PACKAGE_NAME="$ARTIFACT"
+
+
+    VERIFIER_LIBRARY="$DROP_ROOT/packages/auto-drop-verifier-library-v2/verifier.sh"
+
+
+    if [[ ! -f "$VERIFIER_LIBRARY" ]]; then
+        echo "ERROR: verifier library missing"
+        exit 1
+    fi
+
+
+    source "$VERIFIER_LIBRARY"
+
+
+    PACKAGE="$PACKAGE_NAME" \
+    run_package_verifier
+
+;;
+
+
+rollback)
+
+    ARTIFACT="${2:-}"
+
+    resolve_artifact "$ARTIFACT"
+
+    execute_rollback
+
+;;
+
+
+status)
+
+    cat "$WL_ROOT/vault/08-Operations/state/auto-drop/latest.json" 2>/dev/null || true
+
+;;
+
+
+metrics)
+
+    cat "$WL_ROOT/vault/08-Operations/state/auto-drop/metrics.json" 2>/dev/null || true
+
+;;
+
+
+timeline)
+
+    tail -50 "$WL_ROOT/vault/08-Operations/state/auto-drop/timeline.jsonl" 2>/dev/null || true
+
+;;
+
+
+events)
+
+    tail -50 "$WL_ROOT/vault/08-Operations/state/auto-drop/events.jsonl" 2>/dev/null || true
+
+;;
+
+
+registry)
+
+    ACTION="${2:-list}"
+
+    case "$ACTION" in
+
+        list)
+            list_registry
+            ;;
+
+        validate)
+            validate_registry
+            ;;
+
+        certify)
+            verify_registry
+            certify_registry
+            attest_registry
+            digest_registry
+            ;;
+
+        health)
+            registry_health
+            ;;
+
+    esac
+
+;;
+
+
+policy)
+
+    ARTIFACT="${2:-}"
+
+    resolve_artifact "$ARTIFACT"
+
+    evaluate_policy "$ARTIFACT"
+    evaluate_trust "$ARTIFACT"
+    check_governance "$ARTIFACT"
+
+;;
+
+
+*)
+
+echo "Usage:"
+echo "  wl-drop list"
+echo "  wl-drop install <package>"
+echo "  wl-drop verify <package>"
+echo "  wl-drop rollback <package>"
+
+;;
+
+esac
