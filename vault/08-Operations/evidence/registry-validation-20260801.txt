@@ -1,0 +1,6 @@
+{
+    "passed": true,
+    "malformed_manifests": [],
+    "duplicate_package_ids": [],
+    "missing_manifests": []
+}
