@@ -1,0 +1,13 @@
+academy/build/build-manifest.json
+academy/build/html/chapter-001/index.html
+builder/python/wlplatform/__init__.py
+builder/python/wlplatform/src/wlplatform/certification_registry.py.backup-20260716T052740Z
+builder/python/wlplatform/src/wlplatform/cli.py.bak-20260714-161220
+knowledge/generated/model.json
+scripts/build/build-book.sh
+scripts/build/wl-archive-era-final-pair-only.sh
+scripts/build/wl-final-pdf-build.sh
+scripts/scripts/auto-dropins/migrate-registry-engine-module.sh
+source/apps/macos/wl-chaos-menubar/build/wl-chaos-menubar
+vault/08-Operations/releases/wl-chaos-menubar-v1.0-20260626-131942/source/build/wl-chaos-menubar
+vault/90-Operator/operations/08-operations/reports/t7-music-migration-status.json
