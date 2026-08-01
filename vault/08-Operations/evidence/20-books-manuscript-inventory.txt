@@ -1,0 +1,14 @@
+vault/20-books/if-you-have-forgotten/manuscript/00-cover.md
+vault/20-books/if-you-have-forgotten/manuscript/01-certification.md
+vault/20-books/if-you-have-forgotten/manuscript/02-dedication.md
+vault/20-books/if-you-have-forgotten/manuscript/10-chapter-01-the-girl-before-the-myth.md
+vault/20-books/if-you-have-forgotten/manuscript/11-chapter-02-building-taylor-swift.md
+vault/20-books/if-you-have-forgotten/manuscript/12-chapter-03-the-storms-you-survived.md
+vault/20-books/if-you-have-forgotten/manuscript/13-chapter-04-the-people-the-music-and-the-meaning.md
+vault/20-books/if-you-have-forgotten/manuscript/14-chapter-05-the-woman-beyond-the-name.md
+vault/20-books/if-you-have-forgotten/manuscript/20-recovery-notes-appendix.md
+vault/20-books/if-you-have-forgotten/manuscript/21-identity-graphs.md
+vault/20-books/if-you-have-forgotten/manuscript/22-core-values-matrix.md
+vault/20-books/if-you-have-forgotten/manuscript/23-known-truths-appendix.md
+vault/20-books/if-you-have-forgotten/manuscript/24-album-era-timeline.md
+vault/20-books/if-you-have-forgotten/manuscript/25-identity-recovery-verification.md
