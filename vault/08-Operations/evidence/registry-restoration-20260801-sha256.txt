@@ -1,0 +1,4 @@
+5e23944823bf92a55db86ec2d6851cfcc7a23a2eab9d4d4df44ec6abb1cdd320  vault/08-Operations/evidence/registry-certification-20260801.md
+5e1f9cdd64a316c78246ee63d3d29832067d5dea8a2f24f39f01c266d39a5053  vault/08-Operations/evidence/registry-graph-20260801.txt
+25878705e0ad56d569529911660b3bc43da1b36532841c68555c5cc7208ca950  vault/08-Operations/evidence/registry-restoration-certification-20260801.md
+6dc0f91e683265f0ce051e446892b0354f2b9df988334ec38a574590b1728292  vault/08-Operations/evidence/registry-validation-20260801.txt
