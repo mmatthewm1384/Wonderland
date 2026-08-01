@@ -1,4 +1,5 @@
 from __future__ import annotations
+from wlplatform.certification.doctor import certify_doctors
 
 import subprocess
 from pathlib import Path
@@ -62,9 +63,10 @@ class PlatformVerificationEngine:
 
 
         certification_checks = {
-            key: value
-            for key, value in checks.items()
-            if key != "repository_clean"
+            "platform": certify_platform,
+            "runtime": certify_runtime,
+            "registry": certify_registry,
+            "doctor": certify_doctors,
         }
 
         passed = all(

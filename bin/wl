@@ -1,22 +1,9 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 
-ROOT="/Users/wonderland/Wonderland"
+export WL_ROOT="${WL_ROOT:-$(pwd)}"
 
-case "${1:-}" in
-
-    platform)
-        shift
-        exec "$ROOT/bin/wl-platform" "$@"
-        ;;
-
-    drop)
-        shift
-        exec "$ROOT/scripts/auto-drop/wl-drop" "$@"
-        ;;
-
-    *)
-        exec "$ROOT/bin/wl-platform" "$@"
-        ;;
-
-esac
+exec python3 \
+"$WL_ROOT/builder/python/wlplatform/src/wlplatform/cli/dispatcher.py" \
+"$@"
