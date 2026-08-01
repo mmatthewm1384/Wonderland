@@ -1,0 +1,14 @@
+754ad748e4b71d9aa9f9f6f4480a46a5ce55eb361ca07564bddf0c2061073c2b  vault/20-books/if-you-have-forgotten/manuscript/00-cover.md
+affcdef768986b6bbdd10c335507cccb656edf1fc2cea591f8ea2d1263aab615  vault/20-books/if-you-have-forgotten/manuscript/01-certification.md
+fa246a3cae80f812397d48096c3e9af3b3440ed16ceda0396796eccdf039f32e  vault/20-books/if-you-have-forgotten/manuscript/02-dedication.md
+be487f93f3327f9343b0457e2a07b4f9e1374d6923e1ce3de3aed8262fe785be  vault/20-books/if-you-have-forgotten/manuscript/10-chapter-01-the-girl-before-the-myth.md
+659266b7381e944da345c19eca46ef903c81a70d96a85803a52bae3533039baf  vault/20-books/if-you-have-forgotten/manuscript/11-chapter-02-building-taylor-swift.md
+b691939fc3803efc874b02bd705b6afec76585b61663a14f0621e5660caddf67  vault/20-books/if-you-have-forgotten/manuscript/12-chapter-03-the-storms-you-survived.md
+c03103c34aaf1d3b521d3f1b5912421e277e38d59e11247514f35a9f1e88ada1  vault/20-books/if-you-have-forgotten/manuscript/13-chapter-04-the-people-the-music-and-the-meaning.md
+0d7b9725769da784cd2b2c1f9e1c39fe83172b10e0e272f2e136aba801e3dc46  vault/20-books/if-you-have-forgotten/manuscript/14-chapter-05-the-woman-beyond-the-name.md
+7632ba811be2fd2175f397e715ea0cd007d2dd9728ed63b7abcc8015edd6764e  vault/20-books/if-you-have-forgotten/manuscript/20-recovery-notes-appendix.md
+2f6f59c24a2ad65a719267634b90427a899957a8f870651eae4d94ce52b9b788  vault/20-books/if-you-have-forgotten/manuscript/21-identity-graphs.md
+e94063b34c0936730e2ad6ce9a6729943924e297f8193b0b03210955b515697d  vault/20-books/if-you-have-forgotten/manuscript/22-core-values-matrix.md
+5326e50652198f38edd8d5f2abbe0c61f9134da99b9b87212a197ad4e145b8da  vault/20-books/if-you-have-forgotten/manuscript/23-known-truths-appendix.md
+251b4c55dd9188903fcf6b618b11e09e815cdbfcfc50be4c2a48d041f4b2b600  vault/20-books/if-you-have-forgotten/manuscript/24-album-era-timeline.md
+562d7ad437561f4bdd0a97154b812a179b939c7f75edf33c9d91cce160a512b2  vault/20-books/if-you-have-forgotten/manuscript/25-identity-recovery-verification.md

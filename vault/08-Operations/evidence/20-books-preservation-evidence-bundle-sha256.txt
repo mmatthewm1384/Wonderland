@@ -1,0 +1,3 @@
+8f786d6fe2d18d7dc66abf8ba3973b50ce4b03d61dbc9ba2275d9137d0ec628e  vault/08-Operations/evidence/20-books-manuscript-inventory.txt
+693b7c9caa78be0b796855c0fcdf864657e30f81ae84e9c6526215d637acb652  vault/08-Operations/evidence/20-books-manuscript-sha256.txt
+72034b9eb2ab54eab9ba562c73bc5555ad501a37fad031ed89de3e382f92952f  vault/08-Operations/evidence/20-books-preservation-certification-20260801.md
