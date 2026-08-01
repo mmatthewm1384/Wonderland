@@ -13,14 +13,16 @@ load_lib() {
 }
 
 load_lib registry.sh
+load_lib lifecycle-contract.sh
 load_lib validator.sh
 load_lib executor.sh
+load_lib verify-executor.sh
 load_lib evidence.sh
-load_lib verifier.sh
 load_lib certification.sh
 load_lib attestation.sh
 load_lib ledger.sh
 load_lib recovery.sh
+load_lib rollback-executor.sh
 load_lib events.sh
 load_lib timeline.sh
 load_lib metrics.sh
@@ -39,6 +41,7 @@ load_lib registry-gate.sh
 load_lib transaction.sh
 load_lib checkpoint.sh
 load_lib manifest.sh
+load_lib capability-resolver.sh
 
 
 COMMAND="${1:-}"
@@ -74,14 +77,16 @@ install)
 
     begin_transaction "$ARTIFACT"
 
+if execute_install; then
 
-    if execute_install; then
-
-        if command -v execute_verify >/dev/null 2>&1; then
-
-            execute_verify
-
+        if ! command -v execute_verify >/dev/null 2>&1; then
+            echo "ERROR: execute_verify unavailable"
+            abort_transaction "$ARTIFACT"
+            recover_artifact "$ARTIFACT"
+            exit 1
         fi
+
+        execute_verify
 
 
         write_evidence "$ARTIFACT" "verified"
@@ -108,6 +113,40 @@ install)
 
 ;;
 
+create-package)
+
+PACKAGE_NAME="${2:-}"
+
+if [[ -z "$PACKAGE_NAME" ]]; then
+    echo "ERROR: package name required"
+    exit 1
+fi
+
+GENERATOR="$(resolve_capability_provider package-contract-generator)"
+
+if [[ ! -x "$GENERATOR" ]]; then
+    echo "ERROR: package generator missing"
+    echo "$GENERATOR"
+    exit 1
+fi
+
+echo "PACKAGE GENERATION"
+echo "------------------"
+echo "NAME: $PACKAGE_NAME"
+echo
+
+"$GENERATOR" "$PACKAGE_NAME"
+
+echo
+echo "VERIFYING GENERATED PACKAGE"
+echo
+
+source "$DROP_ROOT/packages/auto-drop-verifier-library-v2/verifier.sh"
+
+PACKAGE="$PACKAGE_NAME" \
+run_package_verifier
+
+;;
 
 verify)
 
@@ -118,6 +157,8 @@ verify)
         exit 1
     fi
 
+
+    unset PACKAGE
 
     PACKAGE_NAME="$ARTIFACT"
 

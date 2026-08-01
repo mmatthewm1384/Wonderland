@@ -13,6 +13,8 @@ from .certification import (
     CertificationError,
     certify,
 )
+
+from wlplatform.paths import repository_root
 from .context import PlatformContext, PlatformContextError
 from .controller import PlatformController
 from .result import PlatformReport
@@ -187,6 +189,7 @@ def build_lifecycle_commands(subparsers):
         "restart",
         "sleep",
         "wake",
+        "status",
     ):
         subparsers.add_parser(action)
 
@@ -319,11 +322,45 @@ def route_engine_argv(argv: list[str]) -> list[str]:
     return argv
 
 
+def build_doctor_parser(subparsers):
+    doctor = subparsers.add_parser(
+        "doctor",
+        help="Platform diagnostics",
+    )
+
+    doctor_sub = doctor.add_subparsers(
+        dest="doctor_action",
+        required=True,
+    )
+
+    doctor_sub.add_parser(
+        "python-runtime",
+        help="Validate Wonderland Python runtime",
+    )
+
+    doctor_sub.add_parser(
+        "list",
+        help="List available doctor capabilities",
+    )
+
+    doctor_sub.add_parser(
+        "status",
+        help="Show doctor engine status",
+    )
+
+    doctor_sub.add_parser(
+        "evidence",
+        help="Validate doctor evidence",
+    )
+
+    return doctor
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="wl platform",
         description="Wonderland Platform Engine",
     )
+        
     parser.add_argument(
         "--version",
         action="version",
@@ -332,6 +369,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     subparsers = parser.add_subparsers(
         dest="command",
+    )
+
+    build_doctor_parser(
+        subparsers
     )
 
     engine_parser = subparsers.add_parser(
@@ -374,7 +415,10 @@ def build_parser() -> argparse.ArgumentParser:
         subparsers
     )
 
-    for name in ("verify", "status", "doctor"):
+    for name in (
+        "verify",
+        "status",
+    ):
         command = subparsers.add_parser(name)
         command.add_argument(
             "--json",
@@ -507,34 +551,10 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     
-    root = Path(
-        "/Users/wonderland/Wonderland"
-    ).resolve()
+    from wlplatform.runtime.context import get_context
+
+    root = get_context().root
     
-    try:
-        from .platform_state import (
-            PlatformStateStore,
-        )
-    
-        state = PlatformStateStore(root)
-    
-        if args.command == "start":
-            state.transition("STARTING")
-    
-        elif args.command == "stop":
-            state.transition("STOPPING")
-    
-        elif args.command == "restart":
-            state.transition("RESTARTING")
-    
-        elif args.command == "sleep":
-            state.transition("SLEEPING")
-    
-        elif args.command == "wake":
-            state.transition("STARTING")
-    
-    except Exception:
-        pass
 
     if args.command == "help":
         parser.print_help()
@@ -677,6 +697,57 @@ def main(argv: list[str] | None = None) -> int:
             print(result)
 
         return 0
+
+    
+    if args.command == "doctor":
+
+        if args.doctor_action:
+
+            from wlplatform.doctor.router import run_doctor
+            from wlplatform.doctor.cli import handle_doctor_command
+
+            if args.doctor_action in (
+                "list",
+                "status",
+            ):
+                return handle_doctor_command(
+                    args.doctor_action
+                )
+
+            result = run_doctor(
+                args.doctor_action,
+                repository_root(),
+            )
+
+            print("PYTHON RUNTIME DOCTOR")
+            print("=====================")
+            print()
+
+            print(
+                f"Capability : {result['name']}"
+            )
+            print(
+                f"Status     : {result['status']}"
+            )
+            print()
+
+            for name, passed in result["checks"].items():
+                state = "PASS" if passed else "FAIL"
+                print(
+                    f"{name:<15} {state}"
+                )
+
+            if "evidence" in result:
+                print()
+                print(
+                    f"Evidence   : {result['evidence']['status']}"
+                )
+
+            return (
+                0
+                if result["status"] == "PASS"
+                else 1
+            )
 
     if args.command == "certify":
 

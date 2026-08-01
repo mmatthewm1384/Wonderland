@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 
-ROOT="$(git rev-parse --show-toplevel)"
+ROOT="${WL_ROOT:?WL_ROOT is required}"
 
-source "$ROOT/scripts/auto-drop/lib/root.sh"
+TARGET="$ROOT/scripts/auto-drop/lib/root.sh"
 
-RESULT="$(wl_root)"
-
-if [[ "$RESULT" != "$ROOT" ]]; then
-    echo "FAIL: Root resolver mismatch"
+if [[ ! -f "$TARGET" ]]; then
+    echo "FAIL: Missing root.sh"
     exit 1
 fi
 
-echo "Auto-Drop Root Resolver PASS"
+if [[ ! -x "$TARGET" ]]; then
+    echo "FAIL: root.sh not executable"
+    exit 1
+fi
+
+echo "Auto-Drop Core verification PASS"

@@ -1,28 +1,21 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 
-ROOT="$(git rev-parse --show-toplevel)"
+ROOT="${WL_ROOT:?WL_ROOT is required}"
 
-mkdir -p "$ROOT/scripts/auto-drop/lib"
+SOURCE="payload/scripts/auto-drop/lib/root.sh"
+TARGET="$ROOT/scripts/auto-drop/lib/root.sh"
 
-cp \
-payload/scripts/auto-drop/lib/root.sh \
-"$ROOT/scripts/auto-drop/lib/root.sh"
+if [[ ! -f "$SOURCE" ]]; then
+    echo "ERROR: Missing payload root.sh"
+    exit 1
+fi
 
-chmod +x \
-"$ROOT/scripts/auto-drop/lib/root.sh"
+mkdir -p "$(dirname "$TARGET")"
 
-mkdir -p "$ROOT/vault/08-Operations/evidence/auto-drop-core"
+cp "$SOURCE" "$TARGET"
 
-cat > "$ROOT/vault/08-Operations/evidence/auto-drop-core/latest.json" <<EOF
-{
-  "package": "auto-drop-core",
-  "version": "1.0.0",
-  "status": "INSTALLED",
-  "checks": {
-    "root-library": "PASS"
-  }
-}
-EOF
+chmod +x "$TARGET"
 
 echo "Auto-Drop Core installed"
