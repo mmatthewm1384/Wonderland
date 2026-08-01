@@ -1,0 +1,4 @@
+72034b9eb2ab54eab9ba562c73bc5555ad501a37fad031ed89de3e382f92952f  vault/08-Operations/evidence/20-books-preservation-certification-20260801.md
+e5af37d7c056b6c759d8b9456681dafde786cfaa519a49b1dd8a156d320f87ad  vault/08-Operations/evidence/lima-certification-20260801.md
+5e23944823bf92a55db86ec2d6851cfcc7a23a2eab9d4d4df44ec6abb1cdd320  vault/08-Operations/evidence/registry-certification-20260801.md
+4f59101f4618f272c9a449ce82e946765c940e039fbefa4b222ca9dcc7d3c523  vault/08-Operations/evidence/runtime-certification-20260801.md
