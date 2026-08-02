@@ -1,0 +1,25 @@
+{
+  "name": "runtime-execution-record",
+  "version": "1.0.0",
+
+  "required": [
+    "execution_id",
+    "runtime_id",
+    "command",
+    "target",
+    "adapter",
+    "transaction_id",
+    "state_reference",
+    "certificate_reference",
+    "result"
+  ],
+
+  "commands": [
+    "start",
+    "stop",
+    "restart",
+    "sleep",
+    "wake",
+    "status"
+  ]
+}

@@ -1,0 +1,38 @@
+schema_version: 1
+
+artifact:
+  name: runtime-health-observability-v1
+  version: 1.0.0
+  category: runtime
+
+description: >
+  Establish runtime health observability boundaries by adding
+  governed health checks for Lima and nerdctl runtime state.
+
+ownership:
+  services:
+    - RuntimeService
+
+architecture:
+  runtime:
+    responsibility:
+      - health_checks
+      - runtime_observation
+      - evidence_generation
+
+components:
+  - builder/python/wlplatform/src/wlplatform/runtime/health/__init__.py
+  - builder/python/wlplatform/src/wlplatform/runtime/health/lima_health.py
+  - builder/python/wlplatform/src/wlplatform/runtime/health/nerdctl_health.py
+  - builder/python/wlplatform/src/wlplatform/runtime/health/evidence.py
+
+verification:
+  checks:
+    - health_imports
+    - lima_health
+    - nerdctl_health
+    - evidence_write
+
+certification:
+  evidence_required: true
+  issue_certificate: true

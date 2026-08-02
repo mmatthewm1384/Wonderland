@@ -1,0 +1,37 @@
+package:
+  id: runtime-lifecycle-governance-v1
+  version: "1.0.0"
+  category: runtime
+  name: Runtime Lifecycle Governance
+
+description:
+  summary: Governed runtime lifecycle controller
+  purpose: >
+    Coordinates runtime lifecycle operations through
+    validated adapters and evidence generation.
+
+governance:
+  classification: platform
+  approval_required: true
+
+capability:
+  domain: runtime
+  type: lifecycle-governance
+
+dependencies:
+  - runtime-target-resolver-v1
+  - runtime-target-validation-v1
+  - runtime-adapter-lima-v1
+  - runtime-observability-evidence-v1
+
+lifecycle:
+  install: scripts/install.sh
+  verify: scripts/verify.sh
+  rollback: scripts/rollback.sh
+
+certification:
+  required: true
+  evidence:
+    - manifest.json
+    - metadata.yaml
+    - lifecycle-contract.yaml

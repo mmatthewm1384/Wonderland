@@ -1,0 +1,12 @@
+{
+  "name": "runtime-lima-subprocess-timeout-v1",
+  "version": "1.0.0",
+  "type": "package",
+  "category": "capability",
+  "description": "Adds bounded subprocess execution controls for Lima runtime operations.",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  }
+}

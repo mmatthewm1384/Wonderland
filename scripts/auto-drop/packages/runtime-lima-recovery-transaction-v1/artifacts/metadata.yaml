@@ -1,0 +1,3 @@
+name: runtime-lima-recovery-transaction-v1
+generated_by: auto-drop-package-contract-generator-v2.1
+capability: runtime-recovery

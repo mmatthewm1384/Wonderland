@@ -1,0 +1,24 @@
+{
+  "name": "runtime-lifecycle-controller",
+  "version": "1.0.0",
+
+  "required": [
+    "runtime_id",
+    "operation",
+    "transaction_id",
+    "previous_state",
+    "target_state",
+    "execution_result",
+    "verification_result",
+    "evidence_reference"
+  ],
+
+  "operations": [
+    "start",
+    "stop",
+    "restart",
+    "sleep",
+    "wake",
+    "status"
+  ]
+}

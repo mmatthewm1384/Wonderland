@@ -1,0 +1,19 @@
+name: runtime-transaction-engine-v1
+version: 1.0.0
+
+component: runtime
+category: transaction-management
+
+description: >
+  Governed runtime transaction engine providing lifecycle execution
+  boundaries, commit verification, and rollback coordination.
+
+governance:
+  classification: restricted
+  approval_required: true
+
+controls:
+  atomic_execution: true
+  evidence_required: true
+  rollback_required: true
+  certification_required: true

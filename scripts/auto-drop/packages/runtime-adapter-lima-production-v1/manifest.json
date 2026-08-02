@@ -1,0 +1,13 @@
+{
+  ".schema": "wonderland.artifact.manifest.v1",
+  "name": "runtime-adapter-lima-production-v1",
+  "version": "1.0.0",
+  "category": "runtime",
+  "description": "Production Lima runtime adapter for Wonderland rootless execution.",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh",
+    "certify": "scripts/certify.sh"
+  }
+}

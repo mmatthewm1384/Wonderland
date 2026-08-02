@@ -1,0 +1,16 @@
+{
+  "store": "runtime-state-store-v1",
+  "record": {
+    "runtime_id": "string",
+    "current_state": "string",
+    "previous_state": "string",
+    "transition_timestamp": "datetime",
+    "evidence_reference": "artifact",
+    "rollback_reference": "artifact"
+  },
+  "operations": [
+    "read",
+    "write",
+    "recover"
+  ]
+}

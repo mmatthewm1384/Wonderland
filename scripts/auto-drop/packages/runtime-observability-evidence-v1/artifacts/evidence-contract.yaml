@@ -1,0 +1,16 @@
+evidence:
+  id: runtime-observability
+  version: "1.0.0"
+
+captures:
+  - target
+  - adapter
+  - instance
+  - lima_status
+  - container_runtime
+
+output:
+  format: json
+
+location:
+  runtime: vault/08-Operations/evidence/runtime

@@ -1,0 +1,8 @@
+{
+  "package": "runtime-lima-subprocess-timeout-v1",
+  "verification": "PASS",
+  "rollback": "PASS",
+  "runtime": {
+    "timeout_supported": true
+  }
+}

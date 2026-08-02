@@ -1,0 +1,8 @@
+targets:
+  wonderland-rootless:
+    adapter: lima
+    instance: wonderland-rootless
+    capabilities:
+      - containers
+      - nerdctl
+      - rootless

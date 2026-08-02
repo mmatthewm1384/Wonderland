@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "package": "runtime-lima-idempotent-start-v1",
+  "category": "capability",
+  "certification": {
+    "required": true,
+    "checks": [
+      {
+        "name": "manifest_contract",
+        "required": true
+      },
+      {
+        "name": "lifecycle_contract",
+        "required": true
+      },
+      {
+        "name": "runtime_patch_present",
+        "required": true
+      },
+      {
+        "name": "rollback_available",
+        "required": true
+      }
+    ]
+  }
+}

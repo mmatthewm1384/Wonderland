@@ -1,0 +1,11 @@
+{
+  "name": "wonderland-debian-runtime-capability-v1",
+  "version": "1.0.0",
+  "type": "capability",
+  "description": "Governed Debian runtime capability backed by Lima",
+  "owner": "Wonderland Runtime",
+  "certification_required": true,
+  "install": "scripts/install.sh",
+  "verify": "scripts/verify.sh",
+  "rollback": "scripts/rollback.sh"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "runtime-lima-adapter-discovery-v1",
+  "version": "1.0.0",
+  "type": "package",
+  "category": "capability",
+  "description": "Discovers and records active Wonderland Lima runtime adapters before lifecycle mutation.",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  }
+}

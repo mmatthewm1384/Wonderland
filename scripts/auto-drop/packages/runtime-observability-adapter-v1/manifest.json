@@ -1,0 +1,22 @@
+{
+  "package": "runtime-observability-adapter-v1",
+  "version": "1.0.0",
+  "component": "runtime",
+  "type": "capability",
+  "description": "Runtime observability adapter capability",
+  "artifacts": [
+    "artifacts/metadata.yaml"
+  ],
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  },
+  "dependencies": [
+    "runtime-service-adapter-wiring-v1"
+  ],
+  "governance": {
+    "classification": "controlled",
+    "approval_required": true
+  }
+}

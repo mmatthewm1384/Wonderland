@@ -1,0 +1,27 @@
+{
+  "controller": "runtime-lifecycle-controller-v1",
+
+  "lifecycle_flow": [
+    "receive_command",
+    "create_transaction",
+    "capture_state",
+    "execute_adapter",
+    "verify_runtime",
+    "commit_transaction",
+    "emit_certificate"
+  ],
+
+  "failure_flow": [
+    "detect_failure",
+    "invoke_recovery",
+    "restore_previous_state",
+    "emit_failure_evidence"
+  ],
+
+  "dependencies": [
+    "runtime-transaction-engine-v1",
+    "runtime-recovery-engine-v1",
+    "runtime-state-store-v1",
+    "runtime-service-adapter-wiring-v1"
+  ]
+}

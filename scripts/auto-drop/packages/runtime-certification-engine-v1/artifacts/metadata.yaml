@@ -1,0 +1,39 @@
+package:
+  id: runtime-certification-engine-v1
+  version: "1.0.0"
+  category: runtime
+  name: Runtime Certification Engine
+
+description:
+  summary: Runtime certification capability
+  purpose: >
+    Produces certification evidence for the complete
+    runtime execution stack.
+
+governance:
+  classification: platform
+  approval_required: true
+
+capability:
+  domain: runtime
+  type: certification
+
+dependencies:
+  - runtime-target-registry-v1
+  - runtime-target-resolver-v1
+  - runtime-target-validation-v1
+  - runtime-adapter-lima-v1
+  - runtime-observability-evidence-v1
+  - runtime-lifecycle-governance-v1
+
+lifecycle:
+  install: scripts/install.sh
+  verify: scripts/verify.sh
+  rollback: scripts/rollback.sh
+
+certification:
+  required: true
+  evidence:
+    - manifest.json
+    - metadata.yaml
+    - certification-contract.yaml

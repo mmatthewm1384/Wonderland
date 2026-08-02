@@ -1,0 +1,32 @@
+{
+  "name": "runtime-transaction-engine",
+  "version": "1.0.0",
+
+  "required": [
+    "transaction_id",
+    "runtime_id",
+    "operation",
+    "initial_state",
+    "target_state",
+    "commit_status",
+    "verification_status",
+    "rollback_reference",
+    "evidence_reference"
+  ],
+
+  "operations": [
+    "prepare",
+    "execute",
+    "commit",
+    "verify",
+    "rollback"
+  ],
+
+  "lifecycle_operations": [
+    "start",
+    "stop",
+    "restart",
+    "sleep",
+    "wake"
+  ]
+}

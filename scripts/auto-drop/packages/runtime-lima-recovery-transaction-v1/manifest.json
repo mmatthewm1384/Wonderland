@@ -1,0 +1,12 @@
+{
+  "name": "runtime-lima-recovery-transaction-v1",
+  "version": "1.0.0",
+  "type": "package",
+  "category": "capability",
+  "description": "Adds transaction recovery evidence, rollback verification, and lifecycle failure recovery contracts.",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  }
+}

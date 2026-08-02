@@ -1,0 +1,12 @@
+{
+  "name": "runtime-lima-idempotent-start-v1",
+  "version": "1.0.0",
+  "type": "package",
+  "category": "capability",
+  "description": "Adds idempotent Lima runtime startup behavior to Wonderland lifecycle ceremonies.",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  }
+}

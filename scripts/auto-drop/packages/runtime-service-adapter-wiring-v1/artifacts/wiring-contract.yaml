@@ -1,0 +1,19 @@
+wiring:
+  id: runtime-service-adapter-wiring
+  version: "1.0.0"
+
+architecture:
+  RuntimeService:
+    delegates_to:
+      - RuntimeIntegration
+
+resolution:
+  default_target:
+    wonderland-rootless
+
+compatibility:
+  preserve_methods:
+    - status
+    - start
+    - stop
+    - restart

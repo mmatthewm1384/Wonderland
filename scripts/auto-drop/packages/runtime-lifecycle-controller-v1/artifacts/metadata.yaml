@@ -1,0 +1,20 @@
+name: runtime-lifecycle-controller-v1
+version: 1.0.0
+
+component: runtime
+category: lifecycle-control
+
+description: >
+  Governed runtime lifecycle controller coordinating lifecycle
+  commands through transactions, state management, recovery,
+  and evidence generation.
+
+governance:
+  classification: restricted
+  approval_required: true
+
+controls:
+  transaction_boundary: required
+  state_tracking: required
+  recovery_enabled: true
+  evidence_required: true

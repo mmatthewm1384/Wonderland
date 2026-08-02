@@ -1,0 +1,12 @@
+validation:
+  id: runtime-target-validation
+  version: "1.0.0"
+
+checks:
+  - target_exists
+  - adapter_supported
+  - instance_defined
+  - capabilities_present
+
+failure:
+  behavior: fail_before_execution

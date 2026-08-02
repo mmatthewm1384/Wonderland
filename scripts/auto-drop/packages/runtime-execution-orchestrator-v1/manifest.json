@@ -1,0 +1,35 @@
+{
+  "package": "runtime-execution-orchestrator-v1",
+  "version": "1.0.0",
+
+  "component": "runtime",
+  "type": "capability",
+
+  "description": "Runtime execution orchestration layer",
+
+  "dependencies": [
+    "runtime-lifecycle-controller-v1",
+    "runtime-transaction-engine-v1",
+    "runtime-target-resolver-v1",
+    "runtime-adapter-lima-v1",
+    "runtime-state-store-v1",
+    "runtime-evidence-certificate-v1"
+  ],
+
+  "artifacts": [
+    "artifacts/metadata.yaml",
+    "certification/schema.json",
+    "certification/orchestration-contract.json"
+  ],
+
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  },
+
+  "governance": {
+    "classification": "restricted",
+    "approval_required": true
+  }
+}

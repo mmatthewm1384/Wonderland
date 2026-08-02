@@ -1,0 +1,13 @@
+{
+  "name": "runtime-governance-policy",
+  "version": "1.0.0",
+
+  "required": [
+    "policy_id",
+    "component",
+    "classification",
+    "approval_required",
+    "evidence_required",
+    "rollback_required"
+  ]
+}

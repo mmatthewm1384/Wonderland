@@ -1,0 +1,19 @@
+name: runtime-recovery-engine-v1
+version: 1.0.0
+
+component: runtime
+category: recovery
+
+description: >
+  Governed runtime recovery engine providing state restoration,
+  rollback resolution, and recovery evidence generation.
+
+governance:
+  classification: restricted
+  approval_required: true
+
+controls:
+  state_validation_required: true
+  rollback_required: true
+  evidence_required: true
+  certification_required: true

@@ -1,0 +1,20 @@
+adapter:
+  id: lima
+  version: "1.0.0"
+
+runtime:
+  provider: lima
+  target:
+    default: wonderland-rootless
+
+operations:
+  - status
+  - start
+  - stop
+  - restart
+
+commands:
+  list:
+    executable: limactl
+  inspect:
+    executable: limactl

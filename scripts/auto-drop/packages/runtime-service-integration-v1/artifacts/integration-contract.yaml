@@ -1,0 +1,16 @@
+integration:
+  id: runtime-service-integration
+  version: "1.0.0"
+
+flow:
+  - RuntimeService
+  - RuntimeTargetResolver
+  - RuntimeAdapter
+
+default_target:
+  name: wonderland-rootless
+
+supported_actions:
+  - status
+  - start
+  - stop

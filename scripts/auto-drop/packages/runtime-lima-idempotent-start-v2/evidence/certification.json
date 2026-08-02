@@ -1,0 +1,5 @@
+{
+  "package": "runtime-lima-idempotent-start-v2",
+  "idempotent": true,
+  "recovery_required": true
+}

@@ -1,0 +1,11 @@
+name: wonderland-debian-runtime-capability-v1
+version: 1.0.0
+category: runtime
+
+runtime:
+  adapter: lima
+  instance: wonderland-debian-rootless-v1
+
+governance:
+  certification_required: true
+  evidence_required: true

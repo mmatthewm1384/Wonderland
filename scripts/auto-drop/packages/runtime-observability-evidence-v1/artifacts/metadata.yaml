@@ -1,0 +1,36 @@
+package:
+  id: runtime-observability-evidence-v1
+  version: "1.0.0"
+  category: runtime
+  name: Runtime Observability Evidence
+
+description:
+  summary: Runtime evidence generation layer
+  purpose: >
+    Produces auditable runtime state evidence.
+
+governance:
+  classification: platform
+  approval_required: true
+
+capability:
+  domain: runtime
+  type: observability
+
+dependencies:
+  - runtime-target-registry-v1
+  - runtime-target-resolver-v1
+  - runtime-target-validation-v1
+  - runtime-adapter-lima-v1
+
+lifecycle:
+  install: scripts/install.sh
+  verify: scripts/verify.sh
+  rollback: scripts/rollback.sh
+
+certification:
+  required: true
+  evidence:
+    - manifest.json
+    - metadata.yaml
+    - evidence-contract.yaml

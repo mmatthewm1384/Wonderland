@@ -1,0 +1,25 @@
+{
+  "engine": "runtime-transaction-engine-v1",
+
+  "transaction_flow": [
+    "create_transaction",
+    "capture_previous_state",
+    "execute_operation",
+    "verify_result",
+    "commit_transaction",
+    "generate_certificate"
+  ],
+
+  "failure_flow": [
+    "detect_failure",
+    "abort_commit",
+    "invoke_recovery",
+    "restore_previous_state",
+    "generate_failure_evidence"
+  ],
+
+  "dependencies": [
+    "runtime-state-store-v1",
+    "runtime-recovery-engine-v1"
+  ]
+}

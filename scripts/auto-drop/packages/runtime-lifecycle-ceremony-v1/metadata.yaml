@@ -1,0 +1,45 @@
+schema_version: 1
+
+artifact:
+  name: runtime-lifecycle-ceremony-v1
+  version: 1.0.0
+  category: runtime
+
+description: >
+  Establish governed runtime lifecycle ceremonies for Wonderland
+  start, stop, restart, sleep, and wake operations.
+
+ownership:
+  services:
+    - RuntimeService
+    - PlatformService
+
+architecture:
+  lifecycle:
+    responsibility:
+      - start
+      - stop
+      - restart
+      - sleep
+      - wake
+
+  runtime:
+    responsibility:
+      - adapter_execution
+      - health_validation
+      - evidence_generation
+
+components:
+  - builder/python/wlplatform/src/wlplatform/services/runtime_service.py
+  - builder/python/wlplatform/src/wlplatform/services/platform_service.py
+
+verification:
+  checks:
+    - lifecycle_methods
+    - adapter_binding
+    - health_validation
+    - evidence_generation
+
+certification:
+  evidence_required: true
+  issue_certificate: true

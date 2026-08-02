@@ -1,0 +1,17 @@
+{
+  "engine": "runtime-recovery-engine-v1",
+
+  "flow": [
+    "detect_failure",
+    "load_state",
+    "resolve_checkpoint",
+    "execute_restore",
+    "verify_runtime",
+    "generate_certificate"
+  ],
+
+  "dependencies": [
+    "runtime-state-store-v1",
+    "runtime-evidence-certificate-v1"
+  ]
+}

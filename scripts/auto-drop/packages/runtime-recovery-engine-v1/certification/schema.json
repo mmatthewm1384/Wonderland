@@ -1,0 +1,28 @@
+{
+  "name": "runtime-recovery-engine",
+  "version": "1.0.0",
+
+  "required": [
+    "runtime_id",
+    "failed_state",
+    "restore_target",
+    "rollback_reference",
+    "verification_result",
+    "evidence_reference"
+  ],
+
+  "operations": [
+    "detect",
+    "resolve",
+    "restore",
+    "verify"
+  ],
+
+  "recovery_states": [
+    "CREATE",
+    "FOCUS",
+    "REST",
+    "DREAM",
+    "PRESERVE"
+  ]
+}

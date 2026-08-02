@@ -1,0 +1,12 @@
+{
+  "name": "runtime-lima-health-probe-v1",
+  "version": "1.0.0",
+  "type": "package",
+  "category": "capability",
+  "description": "Adds Lima runtime health verification and evidence generation before lifecycle activation.",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  }
+}

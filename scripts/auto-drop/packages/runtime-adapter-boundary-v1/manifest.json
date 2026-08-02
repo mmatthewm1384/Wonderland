@@ -1,0 +1,13 @@
+{
+  ".schema": "wonderland.artifact.manifest.v1",
+  "name": "runtime-adapter-boundary-v1",
+  "version": "1.0.0",
+  "category": "runtime",
+  "description": "Create runtime adapter ownership boundary between RuntimeService and execution backends.",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh",
+    "certify": "scripts/certify.sh"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "runtime-service-adapter-wiring-v1",
+  "version": "1.0.0",
+  "type": "capability",
+  "classification": "runtime",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  },
+  "certification": {
+    "schema": "certification/schema.json"
+  }
+}

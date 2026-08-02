@@ -1,0 +1,12 @@
+{
+  "name": "runtime-lima-readiness-certification-v1",
+  "version": "1.0.0",
+  "type": "package",
+  "category": "capability",
+  "description": "Certifies Wonderland Lima runtime readiness including VM state, kernel identity, and rootless container runtime availability.",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  }
+}
