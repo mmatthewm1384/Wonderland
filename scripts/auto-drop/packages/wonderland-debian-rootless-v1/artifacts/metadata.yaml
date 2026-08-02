@@ -1,0 +1,18 @@
+name: wonderland-debian-rootless-v1
+version: "1.0.0"
+
+artifact:
+  type: lima-runtime-template
+  path: images/wonderland-debian/artifacts/wonderland-debian-rootless-v1.tar.gz
+
+runtime:
+  platform: debian
+  architecture: aarch64
+  rootless: true
+  container_runtime: nerdctl
+
+certification:
+  required: true
+  evidence:
+    - vault/08-Operations/certifications/wonderland-debian-rootless-v1-20260802.yaml
+    - vault/08-Operations/evidence/runtime/wonderland-debian-rootless-v1

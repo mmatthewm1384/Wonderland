@@ -1,0 +1,93 @@
+=== SYSTEM ===
+Linux lima-wonderland-debian-rootless-v1 6.1.0-51-cloud-arm64 #1 SMP Debian 6.1.177-1 (2026-07-16) aarch64 GNU/Linux
+
+=== OS ===
+PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+NAME="Debian GNU/Linux"
+VERSION_ID="12"
+VERSION="12 (bookworm)"
+VERSION_CODENAME=bookworm
+ID=debian
+HOME_URL="https://www.debian.org/"
+SUPPORT_URL="https://www.debian.org/support"
+BUG_REPORT_URL="https://bugs.debian.org/"
+
+=== IDENTITY ===
+uid=501(wonderland) gid=1000(wonderland) groups=1000(wonderland),999(systemd-journal)
+wonderland
+wonderland systemd-journal
+
+=== NETWORK ===
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 52:55:55:ff:3d:d8 brd ff:ff:ff:ff:ff:ff
+    altname enp0s1
+    inet 192.168.5.15/24 metric 200 brd 192.168.5.255 scope global dynamic eth0
+       valid_lft 2027sec preferred_lft 2027sec
+    inet6 fe80::5055:55ff:feff:3dd8/64 scope link 
+       valid_lft forever preferred_lft forever
+default via 192.168.5.2 dev eth0 proto dhcp src 192.168.5.15 metric 200 
+192.168.5.0/24 dev eth0 proto kernel scope link src 192.168.5.15 metric 200 
+192.168.5.2 dev eth0 proto dhcp scope link src 192.168.5.15 metric 200 
+
+=== NERDCTL ===
+Client:
+ Namespace:	default
+ Debug Mode:	false
+
+Server:
+ Server Version: v2.3.2
+ Storage Driver: overlayfs
+ Logging Driver: json-file
+ Cgroup Driver: systemd
+ Cgroup Version: 2
+ Plugins:
+  Log:     fluentd journald json-file none syslog
+  Storage: native overlayfs fuse-overlayfs stargz
+ Security Options:
+  apparmor
+  seccomp
+   Profile: builtin
+  cgroupns
+  rootless
+ Kernel Version:   6.1.0-51-cloud-arm64
+ Operating System: Debian GNU/Linux 12 (bookworm)
+ OSType:           linux
+ Architecture:     aarch64
+ CPUs:             4
+ Total Memory:     7.76GiB
+ Name:             lima-wonderland-debian-rootless-v1
+ ID:               af3a79e6-bedc-4169-9eb2-0e868a43c506
+
+
+=== CONTAINERS ===
+CONTAINER ID    IMAGE    COMMAND    CREATED    STATUS    PORTS    NAMES
+
+=== CONTAINERD ===
+● containerd.service - containerd (Rootless)
+     Loaded: loaded (/home/wonderland.guest/.config/systemd/user/containerd.service; enabled; preset: enabled)
+     Active: active (running) since Sun 2026-08-02 09:37:56 PDT; 55min ago
+   Main PID: 6063 (rootlesskit)
+      Tasks: 31
+     Memory: 54.2M
+        CPU: 10.682s
+     CGroup: /user.slice/user-501.slice/user@501.service/app.slice/containerd.service
+             ├─6063 rootlesskit --state-dir=/run/user/501/containerd-rootless --net=gvisor-tap-vsock --mtu=65520 --slirp4netns-sandbox=auto --slirp4netns-seccomp=auto --disable-host-loopback --port-driver=builtin --copy-up=/etc --copy-up=/run --copy-up=/var/lib --propagation=rslave --detach-netns /usr/local/bin/containerd-rootless.sh
+             ├─6077 /proc/self/exe --state-dir=/run/user/501/containerd-rootless --net=gvisor-tap-vsock --mtu=65520 --slirp4netns-sandbox=auto --slirp4netns-seccomp=auto --disable-host-loopback --port-driver=builtin --copy-up=/etc --copy-up=/run --copy-up=/var/lib --propagation=rslave --detach-netns /usr/local/bin/containerd-rootless.sh
+             └─6113 containerd
+
+Aug 02 09:47:45 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T09:47:45.686822486-07:00" level=info msg="cleaning up after shim disconnected" id=155a8fd16c7eb54e6bb1368ee5cc744295f8bcee192bc2bfd5b8d01e9bafba42 namespace=default
+Aug 02 09:47:45 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T09:47:45.686838488-07:00" level=info msg="cleaning up dead shim" id=155a8fd16c7eb54e6bb1368ee5cc744295f8bcee192bc2bfd5b8d01e9bafba42 namespace=default
+Aug 02 10:00:16 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T10:00:16.342072098-07:00" level=info msg="connecting to shim e737b35ede1a40a4d3db97f9b6b710dfb417f65db85db8d4b62666cdc579d84a" address="unix:///run/containerd/s/1147d68a0a24918080c45f60a5d4a7f9d0ac4d89031623d81c415886ba1a1718" namespace=default protocol=ttrpc version=3
+Aug 02 10:00:16 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T10:00:16.601560437-07:00" level=info msg="shim disconnected" id=e737b35ede1a40a4d3db97f9b6b710dfb417f65db85db8d4b62666cdc579d84a namespace=default
+Aug 02 10:00:16 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T10:00:16.601597197-07:00" level=info msg="cleaning up after shim disconnected" id=e737b35ede1a40a4d3db97f9b6b710dfb417f65db85db8d4b62666cdc579d84a namespace=default
+Aug 02 10:00:16 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T10:00:16.601601490-07:00" level=info msg="cleaning up dead shim" id=e737b35ede1a40a4d3db97f9b6b710dfb417f65db85db8d4b62666cdc579d84a namespace=default
+Aug 02 10:32:41 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T10:32:41.082424932-07:00" level=info msg="connecting to shim c8086c89457d179b6794a973c43c25bf523249f6d637c402a37b67669e78c25b" address="unix:///run/containerd/s/15ef24fb7894aa7ac9a90ac3020c27c156fbe38c775e114c8de64e0770c79b64" namespace=default protocol=ttrpc version=3
+Aug 02 10:32:41 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T10:32:41.331281362-07:00" level=info msg="shim disconnected" id=c8086c89457d179b6794a973c43c25bf523249f6d637c402a37b67669e78c25b namespace=default
+Aug 02 10:32:41 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T10:32:41.331397681-07:00" level=info msg="cleaning up after shim disconnected" id=c8086c89457d179b6794a973c43c25bf523249f6d637c402a37b67669e78c25b namespace=default
+Aug 02 10:32:41 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T10:32:41.331405882-07:00" level=info msg="cleaning up dead shim" id=c8086c89457d179b6794a973c43c25bf523249f6d637c402a37b67669e78c25b namespace=default
