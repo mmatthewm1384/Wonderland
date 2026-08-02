@@ -1,0 +1,54 @@
+# Wonderland Debian Rootless Runtime v1
+
+vmType: vz
+
+arch: aarch64
+
+user:
+  name: wonderland
+  uid: 1000
+
+cpus: 4
+
+memory: "8GiB"
+
+disk: "50GiB"
+
+images:
+  - location: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-arm64.qcow2"
+    arch: "aarch64"
+
+mounts:
+  - location: "~/Wonderland/Shared"
+    mountPoint: "/mnt/shared"
+    writable: true
+    9p:
+      securityModel: mapped-xattr
+
+  - location: "~/Wonderland"
+    mountPoint: "/mnt/wonderland"
+    writable: true
+
+containerd:
+  system: false
+  user: true
+
+ssh:
+  loadDotSSHPubKeys: false
+
+provision:
+  - mode: system
+    script: |
+      apt-get update
+      apt-get install -y \
+        curl \
+        git \
+        jq \
+        tmux \
+        uidmap \
+        slirp4netns \
+        fuse-overlayfs
+
+  - mode: user
+    script: |
+      echo "Wonderland runtime initialized"

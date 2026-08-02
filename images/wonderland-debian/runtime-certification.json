@@ -1,0 +1,28 @@
+{
+  "runtime": "wonderland-debian-rootless-v1",
+  "version": "1.0.0",
+  "platform": "lima-vz",
+  "architecture": "aarch64",
+  "distribution": "debian-12-bookworm",
+  "virtualization": "vz",
+  "resources": {
+    "cpus": 4,
+    "memory": "8GiB",
+    "disk": "50GiB"
+  },
+  "identity": {
+    "user": "wonderland",
+    "uid": 501,
+    "gid": 1000
+  },
+  "container_runtime": {
+    "engine": "containerd",
+    "mode": "rootless",
+    "cli": "nerdctl"
+  },
+  "artifact": {
+    "file": "wonderland-debian-rootless-v1.tar.gz",
+    "sha256": "322b4df9506dc95ac0f849287001f4bab93efe9fcaa522da584d4ea71d66f32e"
+  },
+  "status": "CERTIFIED_PENDING"
+}

@@ -1,0 +1,75 @@
+=== SYSTEM ===
+Linux lima-wonderland-debian-rootless-v1 6.1.0-51-cloud-arm64 #1 SMP Debian 6.1.177-1 (2026-07-16) aarch64 GNU/Linux
+
+=== OS ===
+PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+NAME="Debian GNU/Linux"
+VERSION_ID="12"
+VERSION="12 (bookworm)"
+VERSION_CODENAME=bookworm
+ID=debian
+HOME_URL="https://www.debian.org/"
+SUPPORT_URL="https://www.debian.org/support"
+BUG_REPORT_URL="https://bugs.debian.org/"
+
+=== IDENTITY ===
+uid=501(wonderland) gid=1000(wonderland) groups=1000(wonderland),999(systemd-journal)
+wonderland
+wonderland systemd-journal
+
+=== CONTAINER RUNTIME ===
+Client:
+ Namespace:	default
+ Debug Mode:	false
+
+Server:
+ Server Version: v2.3.2
+ Storage Driver: overlayfs
+ Logging Driver: json-file
+ Cgroup Driver: systemd
+ Cgroup Version: 2
+ Plugins:
+  Log:     fluentd journald json-file none syslog
+  Storage: native overlayfs fuse-overlayfs stargz
+ Security Options:
+  apparmor
+  seccomp
+   Profile: builtin
+  cgroupns
+  rootless
+ Kernel Version:   6.1.0-51-cloud-arm64
+ Operating System: Debian GNU/Linux 12 (bookworm)
+ OSType:           linux
+ Architecture:     aarch64
+ CPUs:             4
+ Total Memory:     7.76GiB
+ Name:             lima-wonderland-debian-rootless-v1
+ ID:               af3a79e6-bedc-4169-9eb2-0e868a43c506
+
+
+=== CONTAINERS ===
+CONTAINER ID    IMAGE    COMMAND    CREATED    STATUS    PORTS    NAMES
+
+=== CONTAINERD ===
+● containerd.service - containerd (Rootless)
+     Loaded: loaded (/home/wonderland.guest/.config/systemd/user/containerd.service; enabled; preset: enabled)
+     Active: active (running) since Sun 2026-08-02 09:37:56 PDT; 17min ago
+   Main PID: 6063 (rootlesskit)
+      Tasks: 31
+     Memory: 50.1M
+        CPU: 2.477s
+     CGroup: /user.slice/user-501.slice/user@501.service/app.slice/containerd.service
+             ├─6063 rootlesskit --state-dir=/run/user/501/containerd-rootless --net=gvisor-tap-vsock --mtu=65520 --slirp4netns-sandbox=auto --slirp4netns-seccomp=auto --disable-host-loopback --port-driver=builtin --copy-up=/etc --copy-up=/run --copy-up=/var/lib --propagation=rslave --detach-netns /usr/local/bin/containerd-rootless.sh
+             ├─6077 /proc/self/exe --state-dir=/run/user/501/containerd-rootless --net=gvisor-tap-vsock --mtu=65520 --slirp4netns-sandbox=auto --slirp4netns-seccomp=auto --disable-host-loopback --port-driver=builtin --copy-up=/etc --copy-up=/run --copy-up=/var/lib --propagation=rslave --detach-netns /usr/local/bin/containerd-rootless.sh
+             └─6113 containerd
+
+Aug 02 09:37:56 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T09:37:56.452347509-07:00" level=info msg="loading plugin" id=io.containerd.server.v1.debug type=io.containerd.server.v1
+Aug 02 09:37:56 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T09:37:56.452370229-07:00" level=info msg="skip loading plugin" error="skip plugin" id=io.containerd.server.v1.debug type=io.containerd.server.v1
+Aug 02 09:37:56 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T09:37:56.452419463-07:00" level=info msg=serving... address=/run/containerd/containerd.sock.ttrpc
+Aug 02 09:37:56 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T09:37:56.452452021-07:00" level=info msg="starting GRPC server" address=/run/containerd/containerd.sock gid=0 uid=0
+Aug 02 09:37:56 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T09:37:56.452559910-07:00" level=info msg=serving... address=/run/containerd/containerd.sock
+Aug 02 09:37:56 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T09:37:56.452611478-07:00" level=info msg="containerd successfully booted in 0.018735s"
+Aug 02 09:47:45 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T09:47:45.375465605-07:00" level=info msg="connecting to shim 155a8fd16c7eb54e6bb1368ee5cc744295f8bcee192bc2bfd5b8d01e9bafba42" address="unix:///run/containerd/s/f6dd100eef01051623ee4daf46a076172ad503b55de2558f7e385823b07ef170" namespace=default protocol=ttrpc version=3
+Aug 02 09:47:45 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T09:47:45.686801762-07:00" level=info msg="shim disconnected" id=155a8fd16c7eb54e6bb1368ee5cc744295f8bcee192bc2bfd5b8d01e9bafba42 namespace=default
+Aug 02 09:47:45 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T09:47:45.686822486-07:00" level=info msg="cleaning up after shim disconnected" id=155a8fd16c7eb54e6bb1368ee5cc744295f8bcee192bc2bfd5b8d01e9bafba42 namespace=default
+Aug 02 09:47:45 lima-wonderland-debian-rootless-v1 containerd-rootless.sh[6113]: time="2026-08-02T09:47:45.686838488-07:00" level=info msg="cleaning up dead shim" id=155a8fd16c7eb54e6bb1368ee5cc744295f8bcee192bc2bfd5b8d01e9bafba42 namespace=default

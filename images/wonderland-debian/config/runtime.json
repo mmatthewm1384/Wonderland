@@ -1,0 +1,12 @@
+{
+  "name": "wonderland-debian-rootless",
+  "version": "1.0.0",
+  "base": "debian",
+  "architecture": "aarch64",
+  "virtualization": "apple-vz",
+  "purpose": "Wonderland runtime foundation",
+  "security": {
+    "rootless": true,
+    "ssh_local_only": true
+  }
+}

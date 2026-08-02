@@ -1,0 +1,15 @@
+runtime:
+  engine: containerd
+
+  mode:
+    rootless: true
+
+  tools:
+    cli: nerdctl
+
+  services:
+    containerd:
+      system: false
+
+  storage:
+    driver: overlayfs
