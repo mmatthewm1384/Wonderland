@@ -1,0 +1,22 @@
+{
+  "artifact": "wonderland-debian-rootless-v1",
+  "version": "1.0.0",
+  "architecture": "aarch64",
+  "base": "debian",
+  "virtualization": "apple-vz",
+  "runtime": {
+    "container_engine": "containerd",
+    "cli": "nerdctl",
+    "mode": "rootless"
+  },
+  "configuration": {
+    "packages": "config/packages.txt",
+    "users": "config/users.yaml",
+    "security": "config/security.yaml",
+    "container_runtime": "config/container-runtime.yaml"
+  },
+  "certification": {
+    "required": true,
+    "evidence": true
+  }
+}

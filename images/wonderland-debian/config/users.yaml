@@ -1,0 +1,14 @@
+users:
+  - name: wonderland
+    uid: 501
+    groups:
+      - sudo
+      - systemd-journal
+      - video
+      - audio
+
+    shell: /bin/bash
+
+    sudo:
+      enabled: true
+      nopasswd: true

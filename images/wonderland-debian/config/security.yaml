@@ -1,0 +1,19 @@
+security:
+
+  ssh:
+    root_login: false
+    password_authentication: false
+    localhost_only: true
+
+  firewall:
+    enabled: false
+    managed_by: host
+
+  users:
+    root_login: disabled
+
+  packages:
+    unattended_updates: true
+
+  logging:
+    journald: true
