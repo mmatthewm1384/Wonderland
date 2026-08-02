@@ -1,0 +1,11 @@
+{
+  "name": "wonderland-debian-security-apparmor-v1",
+  "version": "1.0.0",
+  "type": "capability",
+  "category": "security",
+  "description": "AppArmor security capability for Wonderland Debian rootless runtimes",
+  "install": "scripts/install.sh",
+  "verify": "scripts/verify.sh",
+  "rollback": "scripts/rollback.sh",
+  "certification_required": true
+}

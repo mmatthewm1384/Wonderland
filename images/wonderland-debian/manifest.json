@@ -18,5 +18,9 @@
   "certification": {
     "required": true,
     "evidence": true
+  },
+  "network_policy": {
+    "path": "config/network/policy.yaml",
+    "version": "1.0"
   }
 }

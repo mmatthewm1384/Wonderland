@@ -1,0 +1,19 @@
+certification:
+  artifact: wonderland-debian-rootless-v1
+  version: '1.0'
+  timestamp: '2026-08-02T17:35:21.151443+00:00'
+  status: CERTIFIED
+runtime:
+  provider: Lima
+  vm: wonderland-debian-rootless-v1
+  os: Debian 12
+  architecture: aarch64
+  rootless: true
+container_runtime:
+  runtime: nerdctl
+  containerd: true
+  storage: overlayfs
+  cgroup: systemd
+networking:
+  policy: config/network/policy.yaml
+  controlled: true

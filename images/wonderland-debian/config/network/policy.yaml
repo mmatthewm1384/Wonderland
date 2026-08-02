@@ -1,0 +1,29 @@
+version: "1.0"
+
+network_policy:
+  mode: controlled
+
+  inbound:
+    enabled: false
+
+  outbound:
+    enabled: true
+
+  host_loopback:
+    enabled: false
+
+  forwarded_ports:
+    enabled: true
+    ranges:
+      - "8000-8999"
+
+  dns:
+    enabled: true
+
+  ipv6:
+    enabled: false
+
+  rationale:
+    - "No unsolicited inbound access"
+    - "Explicit application port exposure only"
+    - "Rootless runtime isolation preserved"

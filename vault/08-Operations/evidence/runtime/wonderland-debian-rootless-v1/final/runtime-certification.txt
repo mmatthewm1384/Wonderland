@@ -1,0 +1,39 @@
+=== IDENTITY ===
+uid=501(wonderland) gid=1000(wonderland) groups=1000(wonderland),999(systemd-journal)
+
+=== CONTAINER RUNTIME ===
+Client:
+ Namespace:	default
+ Debug Mode:	false
+
+Server:
+ Server Version: v2.3.2
+ Storage Driver: overlayfs
+ Logging Driver: json-file
+ Cgroup Driver: systemd
+ Cgroup Version: 2
+ Plugins:
+  Log:     fluentd journald json-file none syslog
+  Storage: native overlayfs stargz fuse-overlayfs
+ Security Options:
+  apparmor
+  seccomp
+   Profile: builtin
+  cgroupns
+  rootless
+ Kernel Version:   6.1.0-51-cloud-arm64
+ Operating System: Debian GNU/Linux 12 (bookworm)
+ OSType:           linux
+ Architecture:     aarch64
+ CPUs:             4
+ Total Memory:     7.76GiB
+ Name:             lima-wonderland-debian-rootless-v1
+ ID:               af3a79e6-bedc-4169-9eb2-0e868a43c506
+
+
+=== SECURITY ===
+apparmor module is loaded.
+apparmor status unavailable
+
+=== CONTAINERD ===
+active

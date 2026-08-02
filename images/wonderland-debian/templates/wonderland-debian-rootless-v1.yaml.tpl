@@ -1,0 +1,82 @@
+# Wonderland Debian Rootless Runtime Template v1.0
+# Purpose:
+#   Certified rootless Lima runtime foundation.
+#
+# Design goals:
+#   - rootless container runtime
+#   - controlled networking
+#   - localhost-only service exposure
+#   - minimal host integration
+#   - reproducible VM lifecycle
+
+vmType: vz
+
+arch: aarch64
+
+images:
+  - location: "file://${IMAGE_ARTIFACT}"
+    arch: aarch64
+
+cpus: 4
+memory: 8GiB
+disk: 50GiB
+
+# Controlled user-mode networking
+networks:
+  - lima: user-v2
+
+# Only shared workspace exposed to guest
+mounts:
+  - location: "~/Wonderland/Shared"
+    mountPoint: "/mnt/shared"
+    writable: true
+
+# Local-only service exposure
+# Add ports here only when governed by service policy.
+portForwards:
+  - guestPort: 8000
+    hostPort: 8000
+    hostIP: 127.0.0.1
+
+  - guestPort: 8999
+    hostPort: 8999
+    hostIP: 127.0.0.1
+
+# Rootless container runtime
+containerd:
+  system: false
+  user: true
+
+# Guest provisioning
+provision:
+  - mode: system
+    script: |
+      set -euo pipefail
+
+      mkdir -p /etc/wonderland
+
+      cat >/etc/wonderland/network-policy.yaml <<'EOF'
+      version: "1.0"
+      policy:
+        mode: controlled
+        inbound:
+          default: deny
+        outbound:
+          default: allow
+        localhost_only: true
+      EOF
+
+  - mode: user
+    script: |
+      set -euo pipefail
+
+      mkdir -p "$HOME/.config/wonderland"
+
+      cat >"$HOME/.config/wonderland/runtime-policy.yaml" <<'EOF'
+      version: "1.0"
+      runtime:
+        rootless: true
+        containerd: true
+      network:
+        controlled: true
+      EOF

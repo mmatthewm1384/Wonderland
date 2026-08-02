@@ -1,0 +1,12 @@
+{
+  "name": "wonderland-debian-security-apparmor-v1",
+  "version": "1.0.0",
+  "checks": [
+    "package_manifest",
+    "install_script",
+    "verify_script",
+    "rollback_script",
+    "apparmor_available",
+    "runtime_security_evidence"
+  ]
+}

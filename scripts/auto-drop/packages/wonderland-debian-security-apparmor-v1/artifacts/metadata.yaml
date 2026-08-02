@@ -1,0 +1,29 @@
+name: wonderland-debian-security-apparmor-v1
+version: "1.0.0"
+
+artifact:
+  type: security-capability
+  platform: debian
+  component: apparmor
+
+purpose:
+  description: >
+    Provides AppArmor security capability support for Wonderland Debian
+    rootless runtime environments.
+
+runtime:
+  security:
+    apparmor:
+      enabled: true
+      required: false
+      profile: nerdctl-default
+
+integration:
+  target:
+    - wonderland-debian-rootless-v1
+
+certification:
+  required: true
+  evidence:
+    - apparmor-status
+    - nerdctl-security-options

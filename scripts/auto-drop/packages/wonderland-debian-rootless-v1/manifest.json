@@ -1,0 +1,15 @@
+{
+  "name": "wonderland-debian-rootless-v1",
+  "version": "1.0.0",
+  "type": "capability",
+  "category": "runtime",
+  "description": "Wonderland Debian rootless Lima runtime capability",
+  "dependencies": [
+    "wonderland-debian-security-apparmor-v1"
+  ],
+  "install": "scripts/install.sh",
+  "verify": "scripts/verify.sh",
+  "rollback": "scripts/rollback.sh",
+  "certification_required": true,
+  "evidence_required": true
+}

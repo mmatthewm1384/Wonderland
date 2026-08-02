@@ -1,0 +1,18 @@
+runtime:
+  networking:
+    backend: lima-user
+
+    isolation:
+      enabled: true
+
+    forwarding:
+      enabled: true
+
+      allowed_ranges:
+        - 8000-8999
+
+    discovery:
+      enabled: false
+
+    dns:
+      enabled: true

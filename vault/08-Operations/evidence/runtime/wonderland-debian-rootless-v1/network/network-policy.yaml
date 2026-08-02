@@ -1,0 +1,28 @@
+version: "1.0"
+
+network:
+  mode: controlled
+
+  inbound:
+    default: deny
+    allowed_ports:
+      - range: "8000-8999"
+        owner: wonderland-services
+
+  outbound:
+    default: allow
+
+  container:
+    host_loopback_access: false
+    rootless_only: true
+
+  dns:
+    enabled: true
+
+  ipv4:
+    forwarding:
+      enabled: true
+
+  audit:
+    enabled: true
+    evidence: true
