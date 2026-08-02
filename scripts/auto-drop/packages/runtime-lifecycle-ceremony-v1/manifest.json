@@ -1,0 +1,26 @@
+{
+  "name": "runtime-lifecycle-ceremony-v1",
+  "version": "1.0.0",
+  "type": "package",
+  "category": "runtime",
+
+  "description": "Governed runtime lifecycle ceremony boundary.",
+
+  "components": [
+    "builder/python/wlplatform/src/wlplatform/services/runtime_service.py",
+    "builder/python/wlplatform/src/wlplatform/services/platform_service.py"
+  ],
+
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh",
+    "certify": "scripts/certify.sh"
+  },
+
+  "governance": {
+    "verification_required": true,
+    "certification_required": true,
+    "rollback_required": true
+  }
+}

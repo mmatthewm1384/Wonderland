@@ -1,0 +1,7 @@
+name: runtime-target-registry-v1
+version: 1.0.0
+category: runtime
+status: generated
+governance:
+  approval_required: true
+  evidence_required: true

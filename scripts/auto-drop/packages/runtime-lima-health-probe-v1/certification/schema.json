@@ -1,0 +1,10 @@
+{
+  "schema": "runtime-lima-health-certification-v1",
+  "required": [
+    "instance",
+    "status",
+    "kernel",
+    "container_runtime",
+    "evidence"
+  ]
+}

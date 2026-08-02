@@ -1,0 +1,9 @@
+{
+  "schema": "runtime-lima-start-certification-v2",
+  "required": [
+    "adapter_detected",
+    "startup_idempotent",
+    "rollback_verified",
+    "evidence_generated"
+  ]
+}

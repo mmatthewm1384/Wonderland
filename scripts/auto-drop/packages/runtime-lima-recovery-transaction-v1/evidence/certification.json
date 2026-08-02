@@ -1,0 +1,5 @@
+{
+  "package": "runtime-lima-recovery-transaction-v1",
+  "rollback_available": true,
+  "recovery_supported": true
+}

@@ -1,0 +1,40 @@
+schema_version: 1
+
+artifact:
+  name: runtime-adapter-boundary-v1
+  version: 1.0.0
+  category: runtime
+
+description: >
+  Establish RuntimeAdapter ownership boundary between RuntimeService
+  lifecycle orchestration and runtime execution backends.
+
+ownership:
+  RuntimeService:
+    owns:
+      - lifecycle
+      - orchestration
+      - state transitions
+
+  RuntimeAdapter:
+    owns:
+      - backend execution
+      - runtime integration
+      - environment commands
+
+components:
+  - builder/python/wlplatform/src/wlplatform/runtime/__init__.py
+  - builder/python/wlplatform/src/wlplatform/runtime/adapters/__init__.py
+  - builder/python/wlplatform/src/wlplatform/runtime/adapters/base.py
+  - builder/python/wlplatform/src/wlplatform/runtime/adapters/lima.py
+  - builder/python/wlplatform/src/wlplatform/runtime/adapters/nerdctl.py
+
+verification:
+  checks:
+    - adapter_imports
+    - runtime_service_binding
+    - lifecycle_contract
+
+certification:
+  evidence_required: true
+  issue_certificate: true

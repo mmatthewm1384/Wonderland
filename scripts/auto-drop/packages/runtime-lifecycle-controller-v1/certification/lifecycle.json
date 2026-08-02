@@ -1,0 +1,30 @@
+{
+  "controller": "runtime-lifecycle-controller-v1",
+
+  "states": {
+    "CREATE": {
+      "action": "initialize"
+    },
+
+    "FOCUS": {
+      "action": "activate"
+    },
+
+    "REST": {
+      "action": "suspend"
+    },
+
+    "DREAM": {
+      "action": "hibernate"
+    },
+
+    "PRESERVE": {
+      "action": "snapshot"
+    }
+  },
+
+  "transition_rules": {
+    "approval_required": true,
+    "evidence_required": true
+  }
+}

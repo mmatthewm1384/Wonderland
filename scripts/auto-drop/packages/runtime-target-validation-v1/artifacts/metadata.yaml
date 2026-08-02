@@ -1,0 +1,34 @@
+package:
+  id: runtime-target-validation-v1
+  version: "1.0.0"
+  category: runtime
+  name: Runtime Target Validation
+
+description:
+  summary: Runtime target preflight validation
+  purpose: >
+    Validates runtime targets before adapter execution.
+
+governance:
+  classification: platform
+  approval_required: true
+
+capability:
+  domain: runtime
+  type: validation
+
+dependencies:
+  - runtime-target-registry-v1
+  - runtime-target-resolver-v1
+
+lifecycle:
+  install: scripts/install.sh
+  verify: scripts/verify.sh
+  rollback: scripts/rollback.sh
+
+certification:
+  required: true
+  evidence:
+    - manifest.json
+    - metadata.yaml
+    - validation-contract.yaml

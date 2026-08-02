@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "runtime-lima-subprocess-timeout-v1 certification",
+  "type": "object",
+  "required": [
+    "package",
+    "verification",
+    "rollback",
+    "runtime"
+  ],
+  "properties": {
+    "package": {
+      "type": "string"
+    },
+    "verification": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "rollback": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "runtime": {
+      "type": "object",
+      "required": [
+        "timeout_supported"
+      ],
+      "properties": {
+        "timeout_supported": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

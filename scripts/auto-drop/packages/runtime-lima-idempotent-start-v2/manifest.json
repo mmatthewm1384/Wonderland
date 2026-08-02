@@ -1,0 +1,12 @@
+{
+  "name": "runtime-lima-idempotent-start-v2",
+  "version": "2.0.0",
+  "type": "package",
+  "category": "capability",
+  "description": "Hardens Lima runtime startup with idempotent lifecycle checks and safe adapter mutation.",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  }
+}

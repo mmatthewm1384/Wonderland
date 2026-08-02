@@ -1,0 +1,23 @@
+{
+  "name": "runtime-evidence-certificate",
+  "version": "1.0.0",
+
+  "required": [
+    "certificate_id",
+    "runtime_id",
+    "transaction_id",
+    "operation",
+    "timestamp",
+    "initial_state",
+    "final_state",
+    "adapter",
+    "verification",
+    "result"
+  ],
+
+  "result_values": [
+    "success",
+    "failure",
+    "recovered"
+  ]
+}

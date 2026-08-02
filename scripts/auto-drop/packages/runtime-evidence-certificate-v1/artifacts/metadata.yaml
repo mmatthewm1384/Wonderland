@@ -1,0 +1,20 @@
+name: runtime-evidence-certificate-v1
+version: 1.0.0
+
+component: runtime
+category: governance-evidence
+
+description: >
+  Evidence certificate generator for governed runtime lifecycle
+  operations including state transitions, adapter execution,
+  verification results, and recovery outcomes.
+
+governance:
+  classification: restricted
+  approval_required: true
+
+controls:
+  evidence_generation: required
+  lifecycle_trace: required
+  transaction_reference: required
+  verification_reference: required

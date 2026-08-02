@@ -1,0 +1,9 @@
+{
+  "name": "wonderland-debian-runtime-certification",
+  "version": "1.0.0",
+  "checks": [
+    "manifest",
+    "metadata",
+    "lima_instance"
+  ]
+}

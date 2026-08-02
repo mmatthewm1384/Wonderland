@@ -1,0 +1,9 @@
+{
+  "schema": "runtime-recovery-certification-v1",
+  "required": [
+    "transaction_id",
+    "failure_reason",
+    "rollback_available",
+    "evidence_path"
+  ]
+}

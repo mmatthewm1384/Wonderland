@@ -1,0 +1,32 @@
+{
+  "package": "runtime-transaction-engine-v1",
+  "version": "1.0.0",
+
+  "component": "runtime",
+  "type": "capability",
+
+  "description": "Governed runtime lifecycle transaction engine",
+
+  "dependencies": [
+    "runtime-state-store-v1",
+    "runtime-recovery-engine-v1",
+    "runtime-evidence-certificate-v1"
+  ],
+
+  "artifacts": [
+    "artifacts/metadata.yaml",
+    "certification/schema.json",
+    "certification/transaction-contract.json"
+  ],
+
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  },
+
+  "governance": {
+    "classification": "restricted",
+    "approval_required": true
+  }
+}

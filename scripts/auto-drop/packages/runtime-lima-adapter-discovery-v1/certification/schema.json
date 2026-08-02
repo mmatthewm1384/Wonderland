@@ -1,0 +1,9 @@
+{
+  "schema": "runtime-adapter-discovery-certification-v1",
+  "required": [
+    "adapter_path",
+    "adapter_class",
+    "discovery_status",
+    "evidence_file"
+  ]
+}

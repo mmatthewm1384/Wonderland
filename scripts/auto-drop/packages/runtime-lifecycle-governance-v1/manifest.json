@@ -1,0 +1,24 @@
+{
+  "package": "runtime-lifecycle-governance-v1",
+  "version": "1.0.0",
+  "category": "runtime",
+  "description": "Governed runtime lifecycle orchestration",
+  "dependencies": [
+    "runtime-target-resolver-v1",
+    "runtime-target-validation-v1",
+    "runtime-adapter-lima-v1",
+    "runtime-observability-evidence-v1"
+  ],
+  "governance": {
+    "classification": "platform",
+    "approval_required": true
+  },
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  },
+  "artifacts": [
+    "lifecycle-contract.yaml"
+  ]
+}

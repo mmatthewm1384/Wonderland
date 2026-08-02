@@ -1,0 +1,4 @@
+name: runtime-lima-idempotent-start-v2
+generated_by: auto-drop-package-contract-generator-v2.1
+capability: runtime-lima-start
+strategy: idempotent

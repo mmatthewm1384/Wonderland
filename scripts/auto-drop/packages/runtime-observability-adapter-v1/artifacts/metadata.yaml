@@ -1,0 +1,19 @@
+name: runtime-observability-adapter-v1
+version: 1.0.0
+
+component: runtime
+category: observability
+
+description: >
+  Runtime observability adapter providing evidence generation,
+  lifecycle visibility, and certification support.
+
+governance:
+  classification: controlled
+  approval_required: true
+
+certification:
+  required:
+    - manifest
+    - lifecycle
+    - evidence_contract

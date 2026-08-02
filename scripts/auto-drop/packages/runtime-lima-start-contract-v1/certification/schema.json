@@ -1,0 +1,9 @@
+{
+  "schema": "runtime-lima-start-certification-v1",
+  "required": [
+    "adapter_discovered",
+    "instance_defined",
+    "startup_policy_present",
+    "evidence_created"
+  ]
+}

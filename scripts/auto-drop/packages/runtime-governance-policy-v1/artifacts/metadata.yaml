@@ -1,0 +1,18 @@
+name: runtime-governance-policy-v1
+version: 1.0.0
+
+component: runtime
+category: governance
+
+description: >
+  Governance policy layer for runtime capabilities,
+  certification, approval, and lifecycle enforcement.
+
+governance:
+  classification: restricted
+  approval_required: true
+
+policy:
+  evidence_required: true
+  certification_required: true
+  rollback_required: true

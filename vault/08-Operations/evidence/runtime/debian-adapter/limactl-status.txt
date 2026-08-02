@@ -1,0 +1,3 @@
+NAME                             STATUS     SSH                VMTYPE    ARCH       CPUS    MEMORY    DISK      DIR
+wonderland-debian-rootless-v1    Running    127.0.0.1:60377    vz        aarch64    4       8GiB      50GiB     ~/.lima/wonderland-debian-rootless-v1
+wonderland-rootless              Stopped    127.0.0.1:54073    vz        aarch64    4       8GiB      100GiB    ~/.lima/wonderland-rootless

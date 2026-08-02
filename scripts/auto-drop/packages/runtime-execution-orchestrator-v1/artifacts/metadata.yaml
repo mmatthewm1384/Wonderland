@@ -1,0 +1,20 @@
+name: runtime-execution-orchestrator-v1
+version: 1.0.0
+
+component: runtime
+category: execution-control
+
+description: >
+  Governed runtime execution orchestrator responsible for
+  coordinating lifecycle commands, adapters, transactions,
+  state persistence, and evidence generation.
+
+governance:
+  classification: restricted
+  approval_required: true
+
+controls:
+  adapter_resolution: required
+  transaction_execution: required
+  state_capture: required
+  evidence_generation: required

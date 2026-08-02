@@ -1,0 +1,10 @@
+{
+  "id": "wonderland-debian-rootless-v1",
+  "type": "lima",
+  "distribution": "debian",
+  "instance": "wonderland-debian-rootless-v1",
+  "purpose": "isolated development runtime",
+  "certified": true,
+  "network_policy": "controlled",
+  "rootless": true
+}

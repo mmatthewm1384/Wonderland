@@ -1,0 +1,45 @@
+schema_version: 1
+
+artifact:
+  name: runtime-adapter-lima-production-v1
+  version: 1.0.0
+  category: runtime
+
+description: >
+  Replace RuntimeAdapter Lima stub with production Lima and
+  rootless nerdctl execution boundary.
+
+ownership:
+
+  RuntimeService:
+    owns:
+      - lifecycle
+      - orchestration
+      - state
+
+  LimaAdapter:
+    owns:
+      - limactl execution
+      - instance lifecycle
+      - runtime health checks
+
+runtime:
+  instance:
+    default: wonderland-rootless
+
+  backend:
+    container_runtime: nerdctl
+    isolation: rootless
+
+components:
+  - builder/python/wlplatform/src/wlplatform/runtime/adapters/lima.py
+
+verification:
+  checks:
+    - lima_adapter_import
+    - instance_detection
+    - command_execution_contract
+
+certification:
+  evidence_required: true
+  issue_certificate: true

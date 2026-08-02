@@ -1,0 +1,17 @@
+name: runtime-lima-readiness-certification-v1
+generated_by: auto-drop-package-contract-generator-v2.1
+
+capability:
+  domain: runtime
+  service: lima
+  feature: readiness-certification
+
+dependencies:
+  - runtime-lima-subprocess-timeout-v1
+  - runtime-lima-recovery-transaction-v1
+  - runtime-lima-idempotent-start-v2
+
+governance:
+  verification_required: true
+  certification_required: true
+  rollback_required: true

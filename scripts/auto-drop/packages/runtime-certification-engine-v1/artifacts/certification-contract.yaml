@@ -1,0 +1,17 @@
+certification:
+  id: runtime-certification-engine
+  version: "1.0.0"
+
+checks:
+  - registry_available
+  - resolver_available
+  - validator_available
+  - adapter_available
+  - lifecycle_available
+  - evidence_available
+
+output:
+  format: json
+
+artifact:
+  type: runtime-certification

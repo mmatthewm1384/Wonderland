@@ -1,0 +1,12 @@
+{
+  "name": "runtime-lima-readiness-hardening-v1",
+  "version": "1.0.0",
+  "type": "package",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  },
+  "category": "capability",
+  "description": "Hardens Wonderland Lima runtime lifecycle with readiness verification and idempotent runtime startup."
+}

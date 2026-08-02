@@ -1,0 +1,30 @@
+{
+  "package": "runtime-governance-policy-v1",
+  "version": "1.0.0",
+
+  "component": "runtime",
+  "type": "governance",
+
+  "description": "Runtime governance and approval policy boundary",
+
+  "artifacts": [
+    "artifacts/metadata.yaml",
+    "certification/schema.json",
+    "certification/runtime-policy.json"
+  ],
+
+  "dependencies": [
+    "runtime-evidence-certificate-v1"
+  ],
+
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  },
+
+  "governance": {
+    "classification": "restricted",
+    "approval_required": true
+  }
+}

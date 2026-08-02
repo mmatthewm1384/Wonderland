@@ -1,0 +1,16 @@
+{
+  "policy": "runtime-state-management-v1",
+
+  "requirements": [
+    "capture_before_operation",
+    "capture_after_operation",
+    "preserve_failed_state",
+    "support_recovery_lookup"
+  ],
+
+  "storage": {
+    "format": "json",
+    "append_only": true,
+    "audit": true
+  }
+}

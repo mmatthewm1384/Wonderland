@@ -1,0 +1,19 @@
+resolver:
+  id: runtime-target-resolver
+  version: "1.0.0"
+
+resolution:
+  input:
+    target: string
+
+  output:
+    adapter: string
+    configuration: object
+
+default_target:
+  name: wonderland-rootless
+
+rules:
+  - target_required: false
+  - fallback_allowed: true
+  - unknown_target: fail

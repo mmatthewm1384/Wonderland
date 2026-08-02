@@ -1,0 +1,4 @@
+name: runtime-lima-idempotent-start-v1
+version: 1.0.0
+category: capability
+generated_by: auto-drop-package-contract-generator-v2.1

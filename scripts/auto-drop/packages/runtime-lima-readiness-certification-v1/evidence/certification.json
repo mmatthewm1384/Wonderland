@@ -1,0 +1,6 @@
+{
+  "package": "runtime-lima-readiness-certification-v1",
+  "lima_running": true,
+  "kernel_verified": true,
+  "nerdctl_available": true
+}

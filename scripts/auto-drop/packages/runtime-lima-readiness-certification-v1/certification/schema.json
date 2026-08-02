@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "runtime-lima-readiness-certification-v1",
+  "type": "object",
+  "required": [
+    "package",
+    "lima_running",
+    "kernel_verified",
+    "nerdctl_available"
+  ],
+  "properties": {
+    "package": {
+      "type": "string"
+    },
+    "lima_running": {
+      "type": "boolean"
+    },
+    "kernel_verified": {
+      "type": "boolean"
+    },
+    "nerdctl_available": {
+      "type": "boolean"
+    }
+  }
+}

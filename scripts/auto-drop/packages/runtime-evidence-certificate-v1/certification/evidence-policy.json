@@ -1,0 +1,17 @@
+{
+  "policy": "runtime-evidence-generation-v1",
+
+  "required_events": [
+    "command_received",
+    "transaction_created",
+    "adapter_selected",
+    "execution_completed",
+    "verification_completed",
+    "certificate_emitted"
+  ],
+
+  "retention": {
+    "classification": "operational",
+    "preserve": true
+  }
+}

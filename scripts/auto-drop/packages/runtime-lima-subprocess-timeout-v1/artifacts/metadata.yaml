@@ -1,0 +1,12 @@
+name: runtime-lima-subprocess-timeout-v1
+generated_by: auto-drop-package-contract-generator-v2.1
+
+capability:
+  domain: runtime
+  service: lima
+  feature: subprocess-timeout
+
+governance:
+  verification_required: true
+  certification_required: true
+  rollback_required: true
