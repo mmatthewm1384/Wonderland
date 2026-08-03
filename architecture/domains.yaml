@@ -121,12 +121,7 @@ domains:
     capability: legacy.review
     paths:
       - legacy
-      - Wonderland-v4
       - 00-Philosophy
-      - 01-Platform
-      - 02-Infrastructure
-      - 03-Applications
-      - 05-Vault
 
   - id: os
     owner: Wonderland OS

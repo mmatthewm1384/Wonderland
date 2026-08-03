@@ -349,7 +349,7 @@
 			<key>ASCII Ligatures</key>
 			<true/>
 			<key>AWDS Pane Directory</key>
-			<string>/Volumes/T7_Wonderland/Wonderland-v4</string>
+			<string>/Volumes/T7_Wonderland</string>
 			<key>AWDS Pane Option</key>
 			<string>Yes</string>
 			<key>AWDS Tab Directory</key>
@@ -357,7 +357,7 @@
 			<key>AWDS Tab Option</key>
 			<string>Yes</string>
 			<key>AWDS Window Directory</key>
-			<string>/Volumes/T7_Wonderland/Wonderland-v4</string>
+			<string>/Volumes/T7_Wonderland</string>
 			<key>AWDS Window Option</key>
 			<string>Yes</string>
 			<key>Ambiguous Double Width</key>
@@ -960,7 +960,7 @@
 				<real>0.029999999999999999</real>
 			</dict>
 			<key>Background Image Location</key>
-			<string>/Volumes/T7_Wonderland/Wonderland-v4/assets/wallpapers/iterm2/wonderland-iterm2-background.png</string>
+			<string>/Volumes/T7_Wonderland/assets/wallpapers/iterm2/wonderland-iterm2-background.png</string>
 			<key>Background Image Mode</key>
 			<integer>0</integer>
 			<key>Badge Color</key>
@@ -1464,7 +1464,7 @@
 			<key>Window Type</key>
 			<integer>2</integer>
 			<key>Working Directory</key>
-			<string>/Users/wonderland/Wonderland-v4</string>
+			<string>/Users/wonderland/Wonderland</string>
 		</dict>
 		<dict>
 			<key>ASCII Anti Aliased</key>
@@ -1472,7 +1472,7 @@
 			<key>ASCII Ligatures</key>
 			<true/>
 			<key>AWDS Pane Directory</key>
-			<string>/Volumes/T7_Wonderland/Wonderland-v4</string>
+			<string>/Volumes/T7_Wonderland</string>
 			<key>AWDS Pane Option</key>
 			<string>Yes</string>
 			<key>AWDS Tab Directory</key>
@@ -1480,7 +1480,7 @@
 			<key>AWDS Tab Option</key>
 			<string>Yes</string>
 			<key>AWDS Window Directory</key>
-			<string>/Volumes/T7_Wonderland/Wonderland-v4</string>
+			<string>/Volumes/T7_Wonderland</string>
 			<key>AWDS Window Option</key>
 			<string>Yes</string>
 			<key>Ambiguous Double Width</key>
