@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
-export PATH="$HOME/Wonderland/Wonderland-v4/ephemeral/bin:$PATH"
+export WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+export PATH="$WL_ROOT/bin:$PATH"
 
 wl chaos checkin

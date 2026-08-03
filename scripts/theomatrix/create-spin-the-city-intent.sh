@@ -2,11 +2,10 @@
 set -euo pipefail
 
 WL_HOME="${WL_HOME:-$HOME/Wonderland}"
-WL_V4="${WL_V4:-$WL_HOME/Wonderland-v4}"
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
 
-INTENTS_DIR="$WL_V4/intents"
-DOCS_DIR="$WL_V4/docs/theomatrix"
-BIN_DIR="$WL_HOME/bin"
+INTENTS_DIR="$WL_ROOT/intents"
+DOCS_DIR="$WL_ROOT/docs/theomatrix"
 
 INTENT_FILE="$INTENTS_DIR/spin-the-city-eye-time-space.intent.json"
 DOC_FILE="$DOCS_DIR/spin-the-city-eye-time-space.md"
@@ -16,7 +15,7 @@ BACKUP_DIR="$WL_HOME/.backup-spin-the-city-intent-$(date +%Y%m%d-%H%M%S)"
 
 echo "== spin-the-city intent installer =="
 echo "WL_HOME=$WL_HOME"
-echo "WL_V4=$WL_V4"
+echo "WL_ROOT=$WL_ROOT"
 echo "BACKUP=$BACKUP_DIR"
 echo
 
@@ -86,7 +85,6 @@ cat > "$INTENT_FILE" <<'JSON'
     "input": "eye movement",
     "tracked_subjects": [
       "Matthew",
-      "Taylor Swift"
     ],
     "selection_principle": "The eye does not directly choose a menu item. The eye traces a route through a rotating temporal coordinate system.",
     "state_derivation": {
@@ -320,8 +318,8 @@ Rollback by restoring prior DISABLED-Spin City visual behavior and removing this
 
 Created files:
 
-Wonderland-v4/intents/spin-the-city-eye-time-space.intent.json
-Wonderland-v4/docs/theomatrix/spin-the-city-eye-time-space.md
+intents/spin-the-city-eye-time-space.intent.json
+docs/theomatrix/spin-the-city-eye-time-space.md
 bin/wl-spin-the-city-intent
 
 MD
@@ -331,10 +329,10 @@ cat > "$CMD_FILE" <<'SH'
 set -euo pipefail
 
 WL_HOME="${WL_HOME:-$HOME/Wonderland}"
-WL_V4="${WL_V4:-$WL_HOME/Wonderland-v4}"
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
 
-INTENT_FILE="$WL_V4/intents/spin-the-city-eye-time-space.intent.json"
-DOC_FILE="$WL_V4/docs/theomatrix/spin-the-city-eye-time-space.md"
+INTENT_FILE="$WL_ROOT/intents/spin-the-city-eye-time-space.intent.json"
+DOC_FILE="$WL_ROOT/docs/theomatrix/spin-the-city-eye-time-space.md"
 
 case "${1:-show}" in
 show)

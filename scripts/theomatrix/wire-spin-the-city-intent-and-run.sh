@@ -2,10 +2,10 @@
 set -euo pipefail
 
 WL_HOME="${WL_HOME:-$HOME/Wonderland}"
-WL_V4="$WL_HOME/Wonderland-v4"
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
 APP="$WL_HOME/apps/tauri/wl-spin-city"
-REG="$WL_V4/intents/theomatrix-intent-registry.json"
-INTENT="$WL_V4/intents/spin-the-city-eye-time-space.intent.json"
+REG="$WL_ROOT/intents/theomatrix-intent-registry.json"
+INTENT="$WL_ROOT/intents/spin-the-city-eye-time-space.intent.json"
 
 echo "== wire spin-the-city intent =="
 

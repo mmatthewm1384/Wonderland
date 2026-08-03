@@ -30,12 +30,12 @@
       "target": "05-Vault",
       "type": "constitutional"
     },
-    "Wonderland-v4": {
-      "note": "historic Wonderland project tree retained intentionally",
-      "state": "retained",
-      "target": "05-Vault/legacy",
-      "type": "historic"
-    },
+	"Legacy-Wonderland-v4": {
+	  "note": "historic Wonderland project tree retired and archived",
+	  "state": "retired",
+	  "target": "05-Vault/legacy",
+	  "type": "historic"
+	}
     "WonderlandApp": {
       "state": "compatibility",
       "target": "03-Applications/control-center",

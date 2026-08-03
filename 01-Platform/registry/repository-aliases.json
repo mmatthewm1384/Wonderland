@@ -1,11 +1,11 @@
 {
   "aliases": {
-    "Wonderland-v4": {
-      "move_policy": "defer",
-      "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
-      "status": "compatibility-active",
-      "target": "05-Vault/legacy"
-    },
+	"legacy-wonderland-v4": {
+	  "move_policy": "complete",
+	  "reason": "retired legacy top-level path registered during Platform 0.3 architecture inventory",
+	  "status": "retired",
+	  "target": "05-Vault/legacy"
+	}
     "WonderlandApp": {
       "move_policy": "defer",
       "reason": "legacy top-level path registered during Platform 0.3 architecture inventory",
