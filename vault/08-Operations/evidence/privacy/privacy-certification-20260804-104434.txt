@@ -1,0 +1,9 @@
+================================
+macOS Privacy Baseline v1
+================================
+
+Date: Tue Aug  4 10:44:34 PDT 2026
+Host: Matthews-MacBook-Air.local
+
+---- Camera Permissions ----
+PASS  Camera permissions denied

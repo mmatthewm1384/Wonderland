@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "artifacts": {
+    "runtime-ecology/architecture": {
+      "name": "runtime-ecology/architecture",
+      "type": "unknown",
+      "trust": "CERTIFIED",
+      "policy": "default"
+    }
+  }
+}

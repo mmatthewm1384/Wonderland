@@ -1,0 +1,4 @@
+Resolved package:
+/Users/wonderland/Wonderland/scripts/auto-drop/packages/registry-repair-v1
+ERROR: Manifest missing field:
+.category

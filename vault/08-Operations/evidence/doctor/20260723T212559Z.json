@@ -1,0 +1,13 @@
+{
+  "type": "doctor-evidence",
+  "timestamp": "20260723T212559Z",
+  "result": {
+    "name": "python-runtime",
+    "status": "PASS",
+    "checks": {
+      "src_layout": true,
+      "venv": true,
+      "cli_import": true
+    }
+  }
+}

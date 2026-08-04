@@ -1,0 +1,13 @@
+{
+  "type": "doctor-evidence",
+  "timestamp": "20260723T212804Z",
+  "result": {
+    "name": "doctor-evidence",
+    "status": "PASS",
+    "checks": {
+      "directory": true,
+      "files": true,
+      "schema": true
+    }
+  }
+}

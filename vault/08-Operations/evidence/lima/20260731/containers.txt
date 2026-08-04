@@ -1,0 +1,2 @@
+CONTAINER ID    IMAGE                           COMMAND                   CREATED        STATUS    PORTS                     NAMES
+dd734643ff25    docker.io/grafana/loki:2.9.8    "/usr/bin/loki -conf…"    3 weeks ago    Up        0.0.0.0:3100->3100/tcp    wl-loki

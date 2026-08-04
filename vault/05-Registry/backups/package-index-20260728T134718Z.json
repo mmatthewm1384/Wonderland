@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "generated": true,
+  "packages": {
+    "auto-drop-contract-validator-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "governance",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-contract-validator-v1"
+    },
+    "auto-drop-package-generator-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-package-generator-v1"
+    },
+    "auto-drop-registry-index-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "infrastructure",
+      "dependencies": [
+        "auto-drop-contract-validator-v1",
+        "auto-drop-transaction-engine-v2"
+      ],
+      "path": "scripts/auto-drop/packages/auto-drop-registry-index-v1"
+    },
+    "auto-drop-transaction-engine-v2": {
+      "version": "2.0.0",
+      "type": "package",
+      "category": "platform",
+      "dependencies": [
+        "auto-drop-contract-validator-v1"
+      ],
+      "path": "scripts/auto-drop/packages/auto-drop-transaction-engine-v2"
+    },
+    "bin-wl-service-dispatch-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/bin-wl-service-dispatch-v1"
+    },
+    "capabilities-oblivion": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/capabilities-oblivion"
+    },
+    "cli-dispatch-boundary-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/cli-dispatch-boundary-v1"
+    },
+    "platform-cli-boundary-v2": {
+      "version": "2.0.0",
+      "type": null,
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/platform-cli-boundary-v2"
+    },
+    "platform-cli-routing-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/platform-cli-routing-v1"
+    },
+    "platform-lifecycle-boundary-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/platform-lifecycle-boundary-v1"
+    },
+    "runtime-adapter-boundary-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-adapter-boundary-v1"
+    },
+    "runtime-adapter-lima-production-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-adapter-lima-production-v1"
+    },
+    "runtime-health-observability-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-health-observability-v1"
+    },
+    "runtime-lifecycle-ceremony-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-lifecycle-ceremony-v1"
+    },
+    "service-layer-boundary-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/service-layer-boundary-v1"
+    },
+    "wl-entrypoint-boundary-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/wl-entrypoint-boundary-v1"
+    }
+  }
+}

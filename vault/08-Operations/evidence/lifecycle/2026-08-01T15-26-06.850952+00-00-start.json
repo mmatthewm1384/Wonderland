@@ -1,0 +1,23 @@
+{
+  "schema_version": 2,
+  "artifact": "lifecycle-event",
+  "certificate_version": 1,
+  "timestamp": "2026-08-01T15:26:06.850952+00:00",
+  "ceremony": "START",
+  "phases": [
+    "SYSTEM",
+    "RUNTIME",
+    "PLATFORM",
+    "ECOLOGY",
+    "PRESERVATION"
+  ],
+  "runtime": {
+    "service": "runtime",
+    "action": "start",
+    "adapter": "lima",
+    "exit_code": null
+  },
+  "registry_hash": null,
+  "platform_state": "START",
+  "evidence_hash": "5eaf528e91b463c3ac9185b07d98fae5aeaafdfca394bfca35a1ca3321183d1b"
+}

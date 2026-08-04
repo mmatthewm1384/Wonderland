@@ -1,0 +1,9 @@
+{
+  "artifact": "service-layer-boundary-cleanup",
+  "status": "PASS",
+  "checks": {
+    "duplicate_services_removed": true,
+    "router_import": true,
+    "service_contract": true
+  }
+}

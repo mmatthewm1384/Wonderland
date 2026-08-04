@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "ui": {
+    "family": "Inter",
+    "weights": [400,500,600,700]
+  },
+  "documentation": {
+    "family": "Source Sans 3"
+  },
+  "code": {
+    "family": "JetBrains Mono"
+  },
+  "display": {
+    "family": "Space Grotesk"
+  }
+}

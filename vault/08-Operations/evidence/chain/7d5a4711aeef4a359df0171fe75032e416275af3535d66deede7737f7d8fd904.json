@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "timestamp": "2026-07-28T13:53:03.920016+00:00",
+  "previous_hash": null,
+  "event": {
+    "type": "transaction_created",
+    "transaction_id": "ae417333a94d41738b9783b908e80500",
+    "artifact": "auto-drop-registry",
+    "operation": "restore"
+  },
+  "hash": "7d5a4711aeef4a359df0171fe75032e416275af3535d66deede7737f7d8fd904"
+}

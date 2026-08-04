@@ -1,0 +1,12 @@
+{
+  "component": "runtime",
+  "actions": [
+    "start",
+    "stop",
+    "restart",
+    "sleep",
+    "wake"
+  ],
+  "governed": true,
+  "certified": true
+}

@@ -1,0 +1,33 @@
+{
+  "version": "1.0",
+  "registry": "prismx-streams",
+  "streams": [
+    {
+      "id": "studio-camera",
+      "name": "Studio Camera",
+      "protocol": "rtsp",
+      "source": "rtsp://camera.local/live",
+      "enabled": true,
+      "identity": {
+        "owner": "wonderland",
+        "origin": "local-network",
+        "type": "camera"
+      },
+      "capabilities": {
+        "live": true,
+        "record": false,
+        "hardware_decode": true
+      },
+      "security": {
+        "trust_required": true,
+        "permissions": [
+          "stream.read"
+        ]
+      },
+      "metadata": {
+        "location": "studio",
+        "description": "Primary PRISMX live camera feed"
+      }
+    }
+  ]
+}

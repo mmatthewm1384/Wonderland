@@ -1,0 +1,79 @@
+{
+  "checks": [
+    {
+      "command": [],
+      "details": {
+        "internal_command_count": 25,
+        "internal_source": "attribute:COMMANDS",
+        "mode": "hybrid",
+        "public_command_count": 19,
+        "public_source": "commands-json",
+        "required_public_commands": [
+          "architecture",
+          "builder",
+          "governance",
+          "runtime"
+        ]
+      },
+      "duration_ms": 88,
+      "exit_code": null,
+      "name": "registry",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "",
+      "summary": "25 internal and 19 public commands registered"
+    },
+    {
+      "command": [],
+      "details": {},
+      "duration_ms": 0,
+      "exit_code": null,
+      "name": "certification",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "",
+      "summary": "all certification artifacts passed"
+    },
+    {
+      "command": [],
+      "details": {
+        "manifest_count": 165,
+        "roots": [
+          "vault/05-Registry",
+          "01-Platform/registry",
+          "vault/08-Operations/releases"
+        ]
+      },
+      "duration_ms": 30,
+      "exit_code": null,
+      "name": "manifest_index",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "",
+      "summary": "165 manifests validated"
+    },
+    {
+      "command": [],
+      "details": {},
+      "duration_ms": 0,
+      "exit_code": null,
+      "name": "engineering_gate",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "",
+      "summary": "all Platform engineering dependencies passed"
+    }
+  ],
+  "duration_ms": 120,
+  "engine_version": "1.0.0",
+  "result": "PASS",
+  "root": "/Users/wonderland/Wonderland",
+  "schema_version": 1,
+  "summary": {
+    "fail": 0,
+    "idle": 0,
+    "pass": 4,
+    "skip": 0,
+    "warn": 0
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "governance": "certification",
+  "version": "1.1",
+
+  "policy": {
+    "name": "certification-policy",
+    "version": "1.1"
+  },
+
+  "ownership": {
+    "authority": "Certification Engine"
+  },
+
+  "approval": {
+    "status": "APPROVED"
+  },
+
+  "history": [
+    {
+      "version": "1.1",
+      "action": "created"
+    }
+  ]
+}

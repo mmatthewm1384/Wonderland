@@ -1,0 +1,9 @@
+{
+  "artifact_id": "f8470b52dfebc472e7cf094becdb78a25b4a07a2380508b20309f3a694d88283",
+  "digest": "sha256:f8470b52dfebc472e7cf094becdb78a25b4a07a2380508b20309f3a694d88283",
+  "type": "engine_event",
+  "engine": "wlplatform",
+  "source_event": "phase16.12.3-test",
+  "trust": "TRUSTED",
+  "certification": "CERTIFIED"
+}

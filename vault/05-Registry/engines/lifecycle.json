@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "lifecycle": {
+
+    "start": {
+      "capability": "runtime.start",
+      "owner": "runtime",
+      "engine": "runtime"
+    },
+
+    "stop": {
+      "capability": "runtime.stop",
+      "owner": "runtime",
+      "engine": "runtime"
+    },
+
+    "restart": {
+      "capability": "runtime.restart",
+      "owner": "runtime",
+      "engine": "runtime"
+    },
+
+    "sleep": {
+      "capability": "runtime.sleep",
+      "owner": "runtime",
+      "engine": "runtime"
+    },
+
+    "wake": {
+      "capability": "runtime.wake",
+      "owner": "runtime",
+      "engine": "runtime"
+    },
+
+    "status": {
+      "capability": "runtime.status",
+      "owner": "runtime",
+      "engine": "runtime"
+    }
+
+  }
+}

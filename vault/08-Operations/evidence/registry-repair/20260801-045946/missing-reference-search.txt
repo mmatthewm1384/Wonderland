@@ -1,0 +1,151 @@
+===== auto-drop-core =====
+scripts/auto-drop/artifacts/auto-drop/transaction-staging-engine/metadata.yaml:type: auto-drop-core-extension
+scripts/auto-drop/packages/auto-drop-core/scripts/verify.sh:export PACKAGE="${PACKAGE:-auto-drop-core}"
+scripts/auto-drop/packages/auto-drop-core/scripts/verify.sh:export WORKSPACE="${WORKSPACE:-/Users/wonderland/Wonderland/scripts/auto-drop/packages/auto-drop-core}"
+scripts/auto-drop/artifacts/auto-drop-core/rollback.sh:"$ROOT/vault/08-Operations/evidence/auto-drop-core" \
+scripts/auto-drop/artifacts/auto-drop-core/rollback.sh:"$ROOT/vault/08-Operations/certifications/auto-drop-core"
+scripts/auto-drop/packages/storage-certification-v1.1/manifest.json:    "auto-drop-core"
+scripts/auto-drop/artifacts/auto-drop-core/metadata.yaml:id: auto-drop-core
+scripts/auto-drop/artifacts/auto-drop-core/certify.sh:CERT_DIR="$ROOT/vault/08-Operations/certifications/auto-drop-core"
+scripts/auto-drop/artifacts/auto-drop-core/certify.sh:  "package": "auto-drop-core",
+scripts/auto-drop/packages/storage-certification-v1/manifest.json:    "auto-drop-core"
+scripts/auto-drop/artifacts/auto-drop-library-safety-v2/metadata.yaml:  - auto-drop-core
+===== prismx =====
+vault/05-Registry/prismx/streams.json:  "registry": "prismx-streams",
+scripts/auto-drop/registry.yaml:    prismx:
+scripts/auto-drop/registry.yaml:          path: artifacts/prismx/cli-integration
+builder/python/wlplatform/src/wlplatform/prismx/certification/compat.py:            "prismx",
+builder/python/wlplatform/src/wlplatform/prismx/service/service.py:from wlplatform.prismx.library import (
+builder/python/wlplatform/src/wlplatform/prismx/service/service.py:                "prismx://studio.live"
+builder/python/wlplatform/src/wlplatform/prismx/service/service.py:                "prismx://archive.main"
+builder/python/wlplatform/src/wlplatform/prismx/service/service.py:            "service": "prismx",
+builder/python/wlplatform/src/wlplatform/prismx/cli_adapter.py:def prismx_command():
+builder/python/wlplatform/src/wlplatform/cli.py:    if argv and argv[0] == "prismx":
+builder/python/wlplatform/src/wlplatform/cli.py:        from .prismx.cli.commands import (
+builder/python/wlplatform/src/wlplatform/cli.py:            "prismx_action",
+scripts/auto-drop/prism/manifest.json:    ".prismx"
+builder/python/wlplatform/src/wlplatform/prismx/cli_router.py:def build_prismx_parser(
+builder/python/wlplatform/src/wlplatform/prismx/cli_router.py:    prismx = subparsers.add_parser(
+builder/python/wlplatform/src/wlplatform/prismx/cli_router.py:        "prismx",
+builder/python/wlplatform/src/wlplatform/prismx/cli_router.py:    prismx_sub = prismx.add_subparsers(
+builder/python/wlplatform/src/wlplatform/prismx/cli_router.py:        dest="prismx_action"
+builder/python/wlplatform/src/wlplatform/prismx/cli_router.py:    prismx_sub.add_parser(
+builder/python/wlplatform/src/wlplatform/prismx/cli_router.py:    prismx_sub.add_parser(
+builder/python/wlplatform/src/wlplatform/prismx/cli_router.py:    play = prismx_sub.add_parser(
+builder/python/wlplatform/src/wlplatform/prismx/cli_router.py:    prismx_sub.add_parser(
+builder/python/wlplatform/src/wlplatform/prismx/cli_router.py:    prismx_sub.add_parser(
+builder/python/wlplatform/src/wlplatform/prismx/cli_router.py:    return prismx
+scripts/auto-drop/prism/certify.sh:    ".prismx"
+builder/python/wlplatform/src/wlplatform/prismx/api/status.py:        "service": "prismx",
+scripts/auto-drop/prism/evidence/prism-certification.json:    ".prismx"
+builder/python/wlplatform/src/wlplatform/prismx/api/service.py:from wlplatform.prismx.app import PrismXController
+builder/python/wlplatform/src/wlplatform/prismx/api/service.py:from wlplatform.prismx.library import (
+builder/python/wlplatform/src/wlplatform/prismx/api/service.py:                "prismx://studio.live"
+builder/python/wlplatform/src/wlplatform/prismx/api/service.py:                "prismx://archive.main"
+builder/python/wlplatform/src/wlplatform/prismx/api/service.py:            "service": "prismx",
+scripts/auto-drop/prism/artifacts/architecture/Wonderland_PRISM_Architecture_v1.0.md:- .prismx - secure media artifacts
+scripts/auto-drop/artifacts/prismx/cli-router-removal-v1/rollback.sh:BACKUP=$(ls -t "${TARGET}.backup.prismx-router-removal-"* | head -1)
+scripts/auto-drop/artifacts/prismx/cli-router-removal-v1/manifest.json:  "artifact": "prismx/cli-router-removal-v1",
+builder/python/wlplatform/src/wlplatform/prismx/cli/commands.py:        "vault/05-Registry/prismx/streams.json"
+builder/python/wlplatform/src/wlplatform/prismx/cli/commands.py:        "component": "prismx",
+builder/python/wlplatform/src/wlplatform/prismx/cli/commands.py:        "prismx",
+builder/python/wlplatform/src/wlplatform/prismx/cli/commands.py:        "prismx"
+builder/python/wlplatform/src/wlplatform/prismx/cli/main.py:        prog="wl prismx"
+scripts/auto-drop/artifacts/prismx/cli-router-removal-v1/verify.sh:if grep -q 'args.command == "prismx"' "$TARGET"; then
+scripts/auto-drop/artifacts/prismx/cli-router-removal-v1/install.sh:BACKUP="${TARGET}.backup.prismx-router-removal-$(date +%Y%m%d%H%M%S)"
+scripts/auto-drop/artifacts/prismx/cli-router-removal-v1/install.sh:    if 'if args.command == "prismx":' in line:
+scripts/auto-drop/artifacts/prismx/cli-router-removal-v1/metadata.yaml:id: prismx/cli-router-removal-v1
+scripts/auto-drop/artifacts/prismx/cli-router-fix-v2/rollback.sh:BACKUP=$(ls -t "${TARGET}.backup.prismx-router-v2-"* 2>/dev/null | head -1)
+scripts/auto-drop/artifacts/prismx/cli-router-fix-v2/verify.sh:if grep -q 'args.command == "prismx"' "$TARGET"; then
+builder/python/wlplatform/wlplatform/prismx/service/service.py:from wlplatform.prismx.library import (
+builder/python/wlplatform/wlplatform/prismx/service/service.py:                "prismx://studio.live"
+builder/python/wlplatform/wlplatform/prismx/service/service.py:                "prismx://archive.main"
+builder/python/wlplatform/wlplatform/prismx/service/service.py:            "service": "prismx",
+builder/python/wlplatform/wlplatform/prismx/api/status.py:        "service": "prismx",
+builder/python/wlplatform/wlplatform/prismx/api/service.py:from wlplatform.prismx.app import PrismXController
+builder/python/wlplatform/wlplatform/prismx/api/service.py:from wlplatform.prismx.library import (
+builder/python/wlplatform/wlplatform/prismx/api/service.py:                "prismx://studio.live"
+builder/python/wlplatform/wlplatform/prismx/api/service.py:                "prismx://archive.main"
+builder/python/wlplatform/wlplatform/prismx/api/service.py:            "service": "prismx",
+scripts/auto-drop/artifacts/prismx/cli-router-fix-v2/install.sh:BACKUP="${TARGET}.backup.prismx-router-v2-$(date +%Y%m%d%H%M%S)"
+scripts/auto-drop/artifacts/prismx/cli-router-fix-v2/install.sh:    if 'if args.command == "prismx":' in line:
+builder/python/wlplatform/wlplatform/prismx/bridge/service.py:from wlplatform.prismx.service import PrismXService
+builder/python/wlplatform/src/wlplatform/prismx/bridge/service.py:from wlplatform.prismx.service import PrismXService
+scripts/auto-drop/artifacts/prismx/cli-router-fix-v2/metadata.yaml:id: prismx/cli-router-fix-v2
+scripts/auto-drop/artifacts/prismx/cli-router-fix-v3/rollback.sh:BACKUP=$(ls -t "${TARGET}.backup.prismx-router-v3-"* 2>/dev/null | head -1)
+scripts/auto-drop/artifacts/prismx/cli-router-fix-v3/manifest.json:  "artifact": "prismx/cli-router-fix-v3",
+scripts/auto-drop/artifacts/prismx/cli-router-fix-v3/verify.sh:if grep -q 'args.command == "prismx"' "$TARGET"; then
+scripts/auto-drop/artifacts/prismx/cli-router-fix-v3/install.sh:BACKUP="${TARGET}.backup.prismx-router-v3-$(date +%Y%m%d%H%M%S)"
+scripts/auto-drop/artifacts/prismx/cli-router-fix-v3/install.sh:    if 'if args.command == "prismx":' in line:
+scripts/auto-drop/artifacts/prismx/cli-router-fix-v3/metadata.yaml:id: prismx/cli-router-fix-v3
+builder/python/wlplatform/src/wlplatform/prismx/bin/server.py:from wlplatform.prismx.core.service import PRISMXService
+scripts/auto-drop/artifacts/prismx/cli-integration/manifest.json:  "artifact": "prismx/cli-integration",
+builder/python/wlplatform/wlplatform/prismx/bin/server.py:from wlplatform.prismx.core.service import PRISMXService
+builder/python/wlplatform/tests/governance/oblivion/test_registry.py:def test_prismx_detection():
+builder/python/wlplatform/tests/governance/oblivion/test_registry.py:            Path("archive.prismx")
+builder/python/wlplatform/wlplatform/prismx/core/service.py:from wlplatform.prismx.resolver.resolver import ArtifactResolver
+scripts/auto-drop/artifacts/prismx/cli-router-fix/rollback.sh:"${TARGET}.backup.prismx-router-"* \
+scripts/auto-drop/artifacts/prismx/cli-router-fix/manifest.json:  "artifact": "prismx/cli-router-fix",
+scripts/auto-drop/artifacts/prismx/cli-router-fix/install.sh:BACKUP="$TARGET.backup.prismx-router-$(date +%Y%m%d%H%M%S)"
+scripts/auto-drop/artifacts/prismx/cli-router-fix/install.sh:bad = '''    if args.command == "prismx":
+scripts/auto-drop/artifacts/prismx/cli-router-fix/metadata.yaml:id: prismx/cli-router-fix
+builder/python/wlplatform/src/wlplatform/prismx/core/service.py:from wlplatform.prismx.api.status import get_status
+scripts/auto-drop/artifacts/prism/prism-foundation/manifest.json:    ".prismx"
+scripts/auto-drop/artifacts/prism/prism-foundation/payload/PRISM_FOUNDATION.md:.prismx
+builder/python/wlplatform/src/wlplatform/prism/media/prismx.py:    artifact_type = "prismx"
+scripts/auto-drop/artifacts/prism/prism-foundation/metadata.yaml:  Provides .prism and .prismx artifact standards.
+scripts/auto-drop/artifacts/prism/prism-foundation/metadata.yaml:  - .prismx
+builder/python/wlplatform/src/wlplatform/prism/__init__.py:- .prismx encrypted media artifacts
+builder/python/wlplatform/src/wlplatform/prism/__init__.py:from .media.prismx import PrismXArtifact
+builder/python/wlplatform/src/wlplatform/governance/oblivion/models.py:    PRISMX = "prismx"
+builder/python/wlplatform/src/wlplatform/governance/oblivion/models.py:    PRISMX_DESTROY = "prismx_destroy"
+builder/python/wlplatform/src/wlplatform/governance/oblivion/analyzer.py:            "prismx",
+builder/python/wlplatform/src/wlplatform/governance/oblivion/multi_planner.py:            "prismx":
+builder/python/wlplatform/src/wlplatform/governance/oblivion/artifact_registry.py:    ".prismx": ArtifactType.PRISMX,
+builder/python/wlplatform/src/wlplatform/governance/oblivion/strategies/prismx.py:    name = "prismx"
+builder/python/wlplatform/src/wlplatform/governance/oblivion/registry.py:    ".prismx": ArtifactType.PRISMX,
+builder/python/wlplatform/src/wlplatform/governance/oblivion/strategies/__init__.py:from .prismx import PrismXDestroyStrategy
+builder/python/wlplatform/src/wlplatform/governance/oblivion/strategies/__init__.py:    "prismx_destroy": PrismXStrategy(),
+builder/python/wlplatform/src/wlplatform/governance/oblivion/artifact_analyzer.py:    ".prismx": "prismx",
+builder/python/wlplatform/src/wlplatform/governance/oblivion/router.py:        "prismx_destroy": "prismx_destroy",
+builder/python/wlplatform/src/wlplatform/governance/oblivion/router.py:            "prismx": "prismx_destroy",
+builder/python/wlplatform/src/wlplatform/governance/oblivion/capabilities.py:                id="prismx_destroy",
+builder/python/wlplatform/src/wlplatform/governance/oblivion/capabilities.py:                strategy="prismx",
+builder/python/wlplatform/src/wlplatform/governance/oblivion/capabilities.py:    "prismx_destroy",
+builder/python/wlplatform/src/wlplatform/governance/oblivion/adapters/prismx.py:                "format": "prismx",
+builder/python/wlplatform/src/wlplatform/governance/oblivion/capability_resolver.py:            "prismx_destroy",
+builder/python/wlplatform/src/wlplatform/governance/oblivion/adapters/registry.py:from .prismx import PrismXAdapter
+builder/python/wlplatform/src/wlplatform/governance/oblivion/adapters/registry.py:            "prismx": PrismXAdapter(),
+builder/python/wlplatform/src/wlplatform/governance/oblivion/adapters/media.py:    "prismx",
+scripts/auto-drop/packages/prismx/scripts/verify.sh:export PACKAGE="${PACKAGE:-prismx}"
+scripts/auto-drop/packages/prismx/scripts/verify.sh:export WORKSPACE="${WORKSPACE:-/Users/wonderland/Wonderland/scripts/auto-drop/packages/prismx}"
+scripts/auto-drop/packages/prismx/payload/cli/rollback.sh:"$ROOT/builder/python/wlplatform/cli_plugins/prismx.py"
+scripts/auto-drop/packages/prismx/payload/cli/prismx.py:        name="prismx",
+scripts/auto-drop/packages/prismx/payload/cli/prismx.py:        "engine": "prismx",
+scripts/auto-drop/packages/prismx/payload/cli/metadata.json:scripts/auto-drop/packages/prismx/metadata.json
+scripts/auto-drop/packages/prismx/payload/cli/metadata.json:  "id": "prismx-cli-integration",
+scripts/auto-drop/packages/prismx/payload/cli/metadata.json:  "engine": "prismx",
+scripts/auto-drop/packages/prismx/payload/cli/metadata.json:  "owner": "prismx",
+scripts/auto-drop/packages/prismx/payload/cli/metadata.json:    "payload/cli/prismx.py"
+scripts/auto-drop/packages/prismx/payload/cli/verify.sh:"$ROOT/builder/python/wlplatform/cli_plugins/prismx.py"
+scripts/auto-drop/packages/prismx/payload/cli/verify.sh:from wlplatform.cli_plugins import prismx
+scripts/auto-drop/packages/prismx/payload/cli/verify.sh:assert prismx.main([])["engine"] == "prismx"
+scripts/auto-drop/packages/prismx/payload/cli/install.sh:scripts/auto-drop/packages/prismx/payload/cli/prismx.py \
+scripts/auto-drop/packages/prismx/payload/cli/install.sh:"$TARGET/prismx.py"
+scripts/auto-drop/packages/prismx/payload/cli/install.sh:python3 -m py_compile "$TARGET/prismx.py"
+scripts/auto-drop/packages/prismx/cli-integration/metadata.json:  "id": "prismx-cli-integration",
+scripts/auto-drop/packages/prismx/cli-integration/metadata.json:  "engine": "prismx",
+scripts/auto-drop/packages/prismx/cli-integration/metadata.json:    "prismx-core"
+===== service-layer-boundary-v1.1 =====
+scripts/auto-drop/packages/service-layer-boundary-v1.1/scripts/verify.sh:export PACKAGE="${PACKAGE:-service-layer-boundary-v1.1}"
+scripts/auto-drop/packages/service-layer-boundary-v1.1/scripts/verify.sh:export WORKSPACE="${WORKSPACE:-/Users/wonderland/Wonderland/scripts/auto-drop/packages/service-layer-boundary-v1.1}"
+scripts/auto-drop/packages/service-layer-boundary-v1.1/metadata.yaml:  name: service-layer-boundary-v1.1
+===== typography-engine =====
+scripts/auto-drop/artifacts/visual-identity/typography-engine/manifest.json:  "name": "typography-engine",
+scripts/auto-drop/artifacts/visual-identity/typography-engine/install.sh:"$ROOT/scripts/auto-drop/artifacts/visual-identity/typography-engine/payload/typography-registry.json" \
+scripts/auto-drop/artifacts/visual-identity/typography-engine/metadata.yaml:name: typography-engine
+scripts/auto-drop/typography-engine/metadata.json:  "id": "typography-engine",
+scripts/auto-drop/packages/typography-engine/metadata/capability.json:  "id": "typography-engine",
+scripts/auto-drop/packages/typography-engine/scripts/verify.sh:export PACKAGE="${PACKAGE:-typography-engine}"
+scripts/auto-drop/packages/typography-engine/scripts/verify.sh:export WORKSPACE="${WORKSPACE:-/Users/wonderland/Wonderland/scripts/auto-drop/packages/typography-engine}"
+scripts/auto-drop/packages/typography-engine/metadata.json:  "id": "typography-engine",

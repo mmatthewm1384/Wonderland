@@ -1,0 +1,36 @@
+wonderland        1311   0.0  0.0 435305920   2688   ??  Ss   10:54AM   0:00.09 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/AUCrashHandlerService.xpc/Contents/MacOS/AUCrashHandlerService
+wonderland        1310   0.0  0.1 435386720   8640   ??  Ss   10:54AM   0:00.04 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+wonderland        1305   0.0  0.0 435386384   7920   ??  Ss   10:54AM   0:00.04 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+wonderland        1303   0.0  0.0 435387216   7840   ??  Ss   10:54AM   0:00.04 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+wonderland        1302   0.0  0.0 435386512   7840   ??  Ss   10:54AM   0:00.04 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+wonderland        1294   0.0  0.0 435386784   7808   ??  Ss   10:54AM   0:00.05 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+wonderland        1299   0.0  0.0 435386384   7808   ??  Ss   10:54AM   0:00.04 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+wonderland        1289   0.0  0.0 435387152   7872   ??  Ss   10:54AM   0:00.03 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+wonderland        1206   0.0  0.1 435386976   8896   ??  Ss   10:54AM   0:00.02 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+_accessoryupdater  1146   0.0  0.0 435356064   4768   ??  Ss   10:53AM   0:00.04 /System/Library/PrivateFrameworks/MobileAccessoryUpdater.framework/XPCServices/UARPUpdaterServiceLegacyAudio.xpc/Contents/MacOS/UARPUpdaterServiceLegacyAudio
+wonderland        1062   0.0  0.0 435386304   7920   ??  Ss   10:53AM   0:00.02 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+wonderland        1016   0.0  0.0 435386448   7808   ??  Ss   10:53AM   0:00.04 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+wonderland        1015   0.0  0.1 435387120   8704   ??  Ss   10:53AM   0:00.02 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+wonderland         990   0.0  0.1 435386896   8464   ??  Ss   10:53AM   0:00.03 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+wonderland         989   0.0  0.1 435386208   8416   ??  Ss   10:53AM   0:00.02 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+wonderland         957   0.0  0.0 435386464   8096   ??  Ss   10:53AM   0:00.02 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+wonderland         954   0.0  0.0 435386832   8288   ??  Ss   10:53AM   0:00.02 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+wonderland         953   0.0  0.0 435390576   8192   ??  Ss   10:53AM   0:00.02 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+wonderland         950   0.0  0.0 435323328   3072   ??  Ss   10:53AM   0:00.03 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/AudioConverterService.xpc/Contents/MacOS/AudioConverterService
+wonderland         951   0.0  0.0 435386480   7936   ??  Ss   10:53AM   0:00.03 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+wonderland         949   0.0  0.0 435324016   3184   ??  Ss   10:53AM   0:00.04 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/AudioConverterHardenedService.xpc/Contents/MacOS/AudioConverterHardenedService
+wonderland         681   0.0  0.1 435356560   9568   ??  S    10:53AM   0:00.08 /System/Library/Frameworks/AudioToolbox.framework/AudioComponentRegistrar
+wonderland         621   0.0  0.2 435364816  30528   ??  S    10:53AM   0:02.38 /System/Library/CoreServices/audioaccessoryd
+root               553   0.0  0.1 435359136  10160   ??  Ss   10:53AM   0:00.32 /usr/libexec/audioanalyticsd
+_audiomxd          546   0.0  0.0 435321200   2256   ??  S    10:53AM   0:00.23 /usr/sbin/distnoted agent
+_coreaudiod        517   0.0  0.0 435356784   4512   ??  Ss   10:53AM   0:00.01 /System/Library/PrivateFrameworks/AppleDeviceQuerySupport.framework/Versions/A/XPCServices/AppleDeviceQueryService.xpc/Contents/MacOS/AppleDeviceQueryService
+root               504   0.0  0.0 435306384   3728   ??  Ss   10:53AM   0:04.81 /usr/libexec/audioclocksyncd
+_coreaudiod        497   0.0  0.0 435386368   7984   ??  Ss   10:53AM   0:00.02 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+_coreaudiod        432   0.0  0.0 435321776   2144   ??  S    10:53AM   0:00.27 /usr/sbin/distnoted agent
+root               479   0.0  0.0 435321360   5056   ??  Ss   10:53AM   0:00.06 /System/Library/Frameworks/AudioToolbox.framework/AudioComponentRegistrar -daemon
+_audiomxd          454   0.0  0.1 435357600  15888   ??  Ss   10:53AM   0:00.60 /usr/libexec/audiomxd
+_coreaudiod        447   0.0  0.0 435387216   2672   ??  Ss   10:53AM   0:00.01 /System/Library/Frameworks/CoreAudio.framework/Versions/A/XPCServices/com.apple.audio.DriverHelper.xpc/Contents/MacOS/com.apple.audio.DriverHelper
+_coreaudiod        446   0.0  0.1 435387936   8432   ??  Ss   10:53AM   0:00.01 Core Audio Driver (ParrotAudioPlugin.driver)
+wonderland       40007   0.0  0.0 435299952   1152 s000  R+    3:12PM   0:00.00 tee /Users/wonderland/Wonderland/vault/08-Operations/evidence/privacy/2026-08-04/audio-processes.txt
+_coreaudiod        408   0.0  0.3 435401072  56704   ??  Ss   10:53AM   0:04.99 /usr/sbin/coreaudiod
+root             28793   0.0  0.1 435387136  12688   ??  Ss    1:33PM   0:00.06 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper

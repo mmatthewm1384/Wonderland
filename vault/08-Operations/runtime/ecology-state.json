@@ -1,0 +1,11 @@
+{
+  "state": "ACTIVE",
+  "energy_profile": "NORMAL",
+  "activity_level": "FULL",
+  "certification": {
+    "status": "CERTIFIED"
+  },
+  "recovery": {
+    "available": true
+  }
+}

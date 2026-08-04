@@ -1,0 +1,13 @@
+wonderland         944   0.0  0.1 435330544  14416   ??  S    10:53AM   0:00.21 /usr/libexec/avconferenced
+_cmiodalassistants   564   0.0  0.0 435356288   4176   ??  S    10:53AM   0:00.05 /usr/libexec/containermanagerd --runmode=agent --user-container-mode=current --bundle-container-mode=proxy --system-container-mode=none
+_cmiodalassistants   561   0.0  0.0 435358544   6992   ??  S    10:53AM   0:00.05 /usr/libexec/trustd --agent
+_cmiodalassistants   556   0.0  0.0 435322240   3312   ??  S    10:53AM   0:00.04 /usr/sbin/cfprefsd agent
+_cmiodalassistants   554   0.0  0.0 435367440   6944   ??  S    10:53AM   0:00.05 /usr/libexec/secinitd
+_cmiodalassistants   552   0.0  0.1 435359664  14352   ??  S    10:53AM   0:00.10 /System/Library/PrivateFrameworks/GeoServices.framework/Versions/A/XPCServices/com.apple.geod.xpc/Contents/MacOS/com.apple.geod
+_cmiodalassistants   536   0.0  0.0 435328112   3952   ??  Ss   10:53AM   0:00.04 /usr/sbin/appleh16camerad
+_cmiodalassistants   533   0.0  0.0 435357680   8080   ??  Ss   10:53AM   0:00.09 /System/Library/Frameworks/CoreMediaIO.framework/Versions/A/Resources/UVCAssistant.systemextension/Contents/MacOS/UVCAssistant
+_cmiodalassistants   532   0.0  0.1 435357968  12704   ??  Ss   10:53AM   0:00.61 /usr/libexec/cameracaptured
+_cmiodalassistants   530   0.0  0.0 435357920   7200   ??  Ss   10:53AM   0:00.05 /usr/libexec/com.apple.cmio.videodriverkithostextension.systemextension/Contents/MacOS/com.apple.cmio.videodriverkithostextension
+_cmiodalassistants   514   0.0  0.0 435321360   2320   ??  S    10:53AM   0:00.24 /usr/sbin/distnoted agent
+wonderland       40003   0.0  0.0 435299488   1184 s000  S+    3:12PM   0:00.00 tee /Users/wonderland/Wonderland/vault/08-Operations/evidence/privacy/2026-08-04/camera-processes.txt
+root               395   0.0  0.2 435357168  25696   ??  Ss   10:53AM   0:00.34 /System/Library/Frameworks/CoreMediaIO.framework/Versions/A/Resources/com.apple.cmio.registerassistantservice

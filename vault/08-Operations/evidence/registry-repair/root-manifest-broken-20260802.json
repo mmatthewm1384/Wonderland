@@ -1,0 +1,10 @@
+cat > scripts/auto-drop/artifacts/communication/cli-parser-attach-fix/manifest.json <<'EOF'
+{
+  "name": "communication/cli-parser-attach-fix",
+  "version": "1.0.0",
+  "type": "capability",
+  "description": "Attach communication parser to Wonderland CLI",
+  "install": "install.sh",
+  "certification_required": true
+}
+EOF

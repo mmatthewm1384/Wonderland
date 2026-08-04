@@ -1,0 +1,5 @@
+total 0
+drwx------@   5 wonderland  staff   160 Jun  6 12:29 _config
+drwx------@   4 wonderland  staff   128 Jul 25 10:51 .
+drwx------@ 175 wonderland  staff  5600 Jul 30 07:44 ..
+drwx------@  19 wonderland  staff   608 Jul 31 16:43 wonderland-rootless

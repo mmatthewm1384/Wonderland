@@ -1,0 +1,11 @@
+{
+  "component": "runtime-ecology-cli",
+  "version": "1.0.0",
+  "commands": [
+    "wl ecology",
+    "wl rest",
+    "wl dream",
+    "wl sanctuary"
+  ],
+  "status": "CERTIFIED"
+}

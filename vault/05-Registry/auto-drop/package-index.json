@@ -1,0 +1,897 @@
+{
+  "schema_version": 1,
+  "generated": true,
+  "packages": {
+    "auto-drop-capability-resolver-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-capability-resolver-v1"
+    },
+    "auto-drop-contract-audit-report-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "governance",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-contract-audit-report-v1"
+    },
+    "auto-drop-contract-validator-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "governance",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-contract-validator-v1"
+    },
+    "auto-drop-lifecycle-execution-contract-v1": {
+      "version": "1.0.0",
+      "type": "framework",
+      "category": "auto-drop",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-lifecycle-execution-contract-v1"
+    },
+    "auto-drop-lifecycle-installation-contract-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-lifecycle-installation-contract-v1"
+    },
+    "auto-drop-lifecycle-runtime-contract-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-lifecycle-runtime-contract-v1"
+    },
+    "auto-drop-package-contract-generator-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": "auto-drop",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-package-contract-generator-v1"
+    },
+    "auto-drop-package-contract-generator-v2": {
+      "version": "2.0.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-package-contract-generator-v2"
+    },
+    "auto-drop-package-contract-generator-v2.1": {
+      "version": "2.1.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-package-contract-generator-v2.1"
+    },
+    "auto-drop-package-contract-migration-v2": {
+      "version": "2.0.0",
+      "type": null,
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-package-contract-migration-v2"
+    },
+    "auto-drop-package-contract-normalization-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-package-contract-normalization-v1"
+    },
+    "auto-drop-package-contract-normalizer-v2": {
+      "version": "2.0.0",
+      "type": null,
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-package-contract-normalizer-v2"
+    },
+    "auto-drop-package-contract-repair-controller-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "governance",
+      "dependencies": [
+        "auto-drop-contract-audit-report-v1"
+      ],
+      "path": "scripts/auto-drop/packages/auto-drop-package-contract-repair-controller-v1"
+    },
+    "auto-drop-package-contract-repair-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-package-contract-repair-v1"
+    },
+    "auto-drop-package-generator-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-package-generator-v1"
+    },
+    "auto-drop-python-patch-validation-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "governance",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-python-patch-validation-v1"
+    },
+    "auto-drop-registry-index-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "infrastructure",
+      "dependencies": [
+        "auto-drop-contract-validator-v1",
+        "auto-drop-transaction-engine-v2"
+      ],
+      "path": "scripts/auto-drop/packages/auto-drop-registry-index-v1"
+    },
+    "auto-drop-transaction-engine-v2": {
+      "version": "2.0.0",
+      "type": "package",
+      "category": "platform",
+      "dependencies": [
+        "auto-drop-contract-validator-v1"
+      ],
+      "path": "scripts/auto-drop/packages/auto-drop-transaction-engine-v2"
+    },
+    "auto-drop-verifier-dispatch-fix-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "repair",
+      "dependencies": [
+        "auto-drop-verifier-library-v2"
+      ],
+      "path": "scripts/auto-drop/packages/auto-drop-verifier-dispatch-fix-v1"
+    },
+    "auto-drop-verifier-library-v2": {
+      "version": "2.0.0",
+      "type": null,
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-verifier-library-v2"
+    },
+    "auto-drop-verifier-workspace-contract-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/auto-drop-verifier-workspace-contract-v1"
+    },
+    "bin-wl-service-dispatch-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/bin-wl-service-dispatch-v1"
+    },
+    "capabilities-oblivion": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/capabilities-oblivion"
+    },
+    "certification-core-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "governance",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/certification-core-v1"
+    },
+    "certification-schema-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "governance",
+      "dependencies": [
+        "certification-core-v1"
+      ],
+      "path": "scripts/auto-drop/packages/certification-schema-v1"
+    },
+    "certification-service-schema-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "governance",
+      "dependencies": [
+        "certification-core-v1"
+      ],
+      "path": "scripts/auto-drop/packages/certification-service-schema-v1"
+    },
+    "cli-dispatch-boundary-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/cli-dispatch-boundary-v1"
+    },
+    "identity-foundation-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/identity-foundation-v1"
+    },
+    "lima-certification-adapter-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "governance",
+      "dependencies": [
+        "certification-core-v1"
+      ],
+      "path": "scripts/auto-drop/packages/lima-certification-adapter-v1"
+    },
+    "lima-certification-contract-hardening": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "governance",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/lima-certification-contract-hardening"
+    },
+    "lima-certification-schema-fix": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "repair",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/lima-certification-schema-fix"
+    },
+    "lima-runtime-image-contract-fix-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/lima-runtime-image-contract-fix-v1"
+    },
+    "maintenance-engine-approval-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "governance",
+      "dependencies": [
+        "maintenance-engine-v1"
+      ],
+      "path": "scripts/auto-drop/packages/maintenance-engine-approval-v1"
+    },
+    "maintenance-engine-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/maintenance-engine-v1"
+    },
+    "platform-cli-boundary-v2": {
+      "version": "2.0.0",
+      "type": null,
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/platform-cli-boundary-v2"
+    },
+    "platform-cli-routing-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/platform-cli-routing-v1"
+    },
+    "platform-lifecycle-boundary-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/platform-lifecycle-boundary-v1"
+    },
+    "privacy-foundation-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "security",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/privacy-foundation-v1"
+    },
+    "registry-repair-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/registry-repair-v1"
+    },
+    "registry-test-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": null,
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/registry-test-v1"
+    },
+    "registry-test-v2": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": null,
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/registry-test-v2"
+    },
+    "runtime-adapter-boundary-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-adapter-boundary-v1"
+    },
+    "runtime-adapter-certification-binding-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-adapter-certification-binding-v1"
+    },
+    "runtime-adapter-lima-production-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-adapter-lima-production-v1"
+    },
+    "runtime-adapter-lima-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-adapter-lima-v1"
+    },
+    "runtime-adapter-resolution-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-adapter-resolution-v1"
+    },
+    "runtime-adapter-result-normalizer-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-adapter-result-normalizer-v1"
+    },
+    "runtime-certification-adapter-wiring-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-certification-adapter-wiring-v1"
+    },
+    "runtime-certification-artifact-binding-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-certification-artifact-binding-v1"
+    },
+    "runtime-certification-engine-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [
+        "runtime-target-registry-v1",
+        "runtime-target-resolver-v1",
+        "runtime-target-validation-v1",
+        "runtime-adapter-lima-v1",
+        "runtime-observability-evidence-v1",
+        "runtime-lifecycle-governance-v1"
+      ],
+      "path": "scripts/auto-drop/packages/runtime-certification-engine-v1"
+    },
+    "runtime-certification-ledger-binding-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-certification-ledger-binding-v1"
+    },
+    "runtime-certification-reconciliation-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-certification-reconciliation-v1"
+    },
+    "runtime-certification-registry-wiring-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-certification-registry-wiring-v1"
+    },
+    "runtime-certification-registry-wiring-v2": {
+      "version": "2.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-certification-registry-wiring-v2"
+    },
+    "runtime-certification-resolver-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-certification-resolver-v1"
+    },
+    "runtime-certification-schema-fix-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-certification-schema-fix-v1"
+    },
+    "runtime-contract-certification-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-contract-certification-v1"
+    },
+    "runtime-evidence-binding-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-evidence-binding-v1"
+    },
+    "runtime-evidence-binding-v2": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-evidence-binding-v2"
+    },
+    "runtime-evidence-certificate-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": null,
+      "dependencies": [
+        "runtime-state-store-v1"
+      ],
+      "path": "scripts/auto-drop/packages/runtime-evidence-certificate-v1"
+    },
+    "runtime-evidence-writer-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-evidence-writer-v1"
+    },
+    "runtime-execution-orchestrator-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": null,
+      "dependencies": [
+        "runtime-lifecycle-controller-v1",
+        "runtime-transaction-engine-v1",
+        "runtime-target-resolver-v1",
+        "runtime-adapter-lima-v1",
+        "runtime-state-store-v1",
+        "runtime-evidence-certificate-v1"
+      ],
+      "path": "scripts/auto-drop/packages/runtime-execution-orchestrator-v1"
+    },
+    "runtime-executor-foundation-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-executor-foundation-v1"
+    },
+    "runtime-foundation-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": null,
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-foundation-v1"
+    },
+    "runtime-governance-policy-v1": {
+      "version": "1.0.0",
+      "type": "governance",
+      "category": null,
+      "dependencies": [
+        "runtime-evidence-certificate-v1"
+      ],
+      "path": "scripts/auto-drop/packages/runtime-governance-policy-v1"
+    },
+    "runtime-health-observability-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-health-observability-v1"
+    },
+    "runtime-inventory-certification-resolution-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-inventory-certification-resolution-v1"
+    },
+    "runtime-lifecycle-actions-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-lifecycle-actions-v1"
+    },
+    "runtime-lifecycle-ceremony-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-lifecycle-ceremony-v1"
+    },
+    "runtime-lifecycle-controller-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": null,
+      "dependencies": [
+        "runtime-transaction-engine-v1",
+        "runtime-state-store-v1",
+        "runtime-service-adapter-wiring-v1"
+      ],
+      "path": "scripts/auto-drop/packages/runtime-lifecycle-controller-v1"
+    },
+    "runtime-lifecycle-evidence-transaction-v1": {
+      "version": "1.0.2",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-lifecycle-evidence-transaction-v1"
+    },
+    "runtime-lifecycle-governance-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [
+        "runtime-target-resolver-v1",
+        "runtime-target-validation-v1",
+        "runtime-adapter-lima-v1",
+        "runtime-observability-evidence-v1"
+      ],
+      "path": "scripts/auto-drop/packages/runtime-lifecycle-governance-v1"
+    },
+    "runtime-lima-adapter-discovery-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-lima-adapter-discovery-v1"
+    },
+    "runtime-lima-health-probe-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-lima-health-probe-v1"
+    },
+    "runtime-lima-idempotent-start-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-lima-idempotent-start-v1"
+    },
+    "runtime-lima-idempotent-start-v2": {
+      "version": "2.0.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-lima-idempotent-start-v2"
+    },
+    "runtime-lima-readiness-certification-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-lima-readiness-certification-v1"
+    },
+    "runtime-lima-readiness-hardening-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-lima-readiness-hardening-v1"
+    },
+    "runtime-lima-recovery-transaction-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-lima-recovery-transaction-v1"
+    },
+    "runtime-lima-start-contract-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-lima-start-contract-v1"
+    },
+    "runtime-lima-subprocess-timeout-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-lima-subprocess-timeout-v1"
+    },
+    "runtime-observability-adapter-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": null,
+      "dependencies": [
+        "runtime-service-adapter-wiring-v1"
+      ],
+      "path": "scripts/auto-drop/packages/runtime-observability-adapter-v1"
+    },
+    "runtime-observability-evidence-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [
+        "runtime-target-registry-v1",
+        "runtime-target-resolver-v1",
+        "runtime-target-validation-v1",
+        "runtime-adapter-lima-v1"
+      ],
+      "path": "scripts/auto-drop/packages/runtime-observability-evidence-v1"
+    },
+    "runtime-primary-certification-registration-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-primary-certification-registration-v1"
+    },
+    "runtime-primary-certification-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-primary-certification-v1"
+    },
+    "runtime-recovery-checkpoint-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-recovery-checkpoint-v1"
+    },
+    "runtime-recovery-engine-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": null,
+      "dependencies": [
+        "runtime-state-store-v1"
+      ],
+      "path": "scripts/auto-drop/packages/runtime-recovery-engine-v1"
+    },
+    "runtime-recovery-policy-v1": {
+      "version": "1.1.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-recovery-policy-v1"
+    },
+    "runtime-service-adapter-wiring-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": null,
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-service-adapter-wiring-v1"
+    },
+    "runtime-service-adapter-wiring-v2": {
+      "version": "2.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-service-adapter-wiring-v2"
+    },
+    "runtime-service-integration-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [
+        "runtime-target-registry-v1",
+        "runtime-target-resolver-v1",
+        "runtime-adapter-lima-v1"
+      ],
+      "path": "scripts/auto-drop/packages/runtime-service-integration-v1"
+    },
+    "runtime-start-stop-transaction-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-start-stop-transaction-v1"
+    },
+    "runtime-state-import-guard-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-state-import-guard-v1"
+    },
+    "runtime-state-module-migration-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-state-module-migration-v1"
+    },
+    "runtime-state-package-fix-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-state-package-fix-v1"
+    },
+    "runtime-state-store-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-state-store-v1"
+    },
+    "runtime-state-store-wiring-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-state-store-wiring-v1"
+    },
+    "runtime-target-certification-provider-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-target-certification-provider-v1"
+    },
+    "runtime-target-certification-resolution-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-target-certification-resolution-v1"
+    },
+    "runtime-target-registry-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": null,
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-target-registry-v1"
+    },
+    "runtime-target-resolver-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": null,
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/runtime-target-resolver-v1"
+    },
+    "runtime-target-validation-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "runtime",
+      "dependencies": [
+        "runtime-target-registry-v1",
+        "runtime-target-resolver-v1"
+      ],
+      "path": "scripts/auto-drop/packages/runtime-target-validation-v1"
+    },
+    "runtime-transaction-engine-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": null,
+      "dependencies": [
+        "runtime-state-store-v1",
+        "runtime-recovery-engine-v1"
+      ],
+      "path": "scripts/auto-drop/packages/runtime-transaction-engine-v1"
+    },
+    "service-layer-boundary-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/service-layer-boundary-v1"
+    },
+    "storage-certification-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/storage-certification-v1"
+    },
+    "storage-certification-v1.0.1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": null,
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/storage-certification-v1.0.1"
+    },
+    "storage-certification-v1.1": {
+      "version": "1.1.0",
+      "type": null,
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/storage-certification-v1.1"
+    },
+    "test-contract-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": null,
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/test-contract-v1"
+    },
+    "test-contract-v2": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": null,
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/test-contract-v2"
+    },
+    "test-contract-v21": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": null,
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/test-contract-v21"
+    },
+    "test-generated-package": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": null,
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/test-generated-package"
+    },
+    "test-lifecycle-generation-v1": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": null,
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/test-lifecycle-generation-v1"
+    },
+    "test-lifecycle-generation-v2": {
+      "version": "1.0.0",
+      "type": "package",
+      "category": null,
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/test-lifecycle-generation-v2"
+    },
+    "wl-entrypoint-boundary-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "platform",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/wl-entrypoint-boundary-v1"
+    },
+    "wonderland-debian-rootless-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": "runtime",
+      "dependencies": [
+        "wonderland-debian-security-apparmor-v1"
+      ],
+      "path": "scripts/auto-drop/packages/wonderland-debian-rootless-v1"
+    },
+    "wonderland-debian-runtime-capability-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": null,
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/wonderland-debian-runtime-capability-v1"
+    },
+    "wonderland-debian-security-apparmor-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": "security",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/wonderland-debian-security-apparmor-v1"
+    },
+    "wonderland-identity-foundation-v1": {
+      "version": "1.0.0",
+      "type": null,
+      "category": "capability",
+      "dependencies": [],
+      "path": "scripts/auto-drop/packages/wonderland-identity-foundation-v1"
+    }
+  }
+}

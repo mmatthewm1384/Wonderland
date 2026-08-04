@@ -1,0 +1,57 @@
+{
+  "schema": "wonderland/maintenance/status/v1",
+  "generated_at": "2026-07-25T05:30:42Z",
+  "engine": {
+    "id": "maintenance",
+    "version": "1.0.0"
+  },
+  "provider": {
+    "id": "homebrew",
+    "version": "4.6.8",
+    "prefix": "/opt/homebrew",
+    "installed": true,
+    "healthy": true
+  },
+  "summary": {
+    "result": "PASS",
+    "warnings": 0,
+    "errors": 0
+  },
+  "packages": {
+    "installed": 214,
+    "outdated": 3
+  },
+  "checks": [
+    {
+      "id": "brew-installed",
+      "description": "Homebrew executable found",
+      "result": "PASS"
+    },
+    {
+      "id": "brew-version",
+      "description": "Homebrew version detected",
+      "result": "PASS"
+    },
+    {
+      "id": "package-inventory",
+      "description": "Installed package inventory available",
+      "result": "PASS",
+      "count": 214
+    },
+    {
+      "id": "outdated-inventory",
+      "description": "Outdated package inventory available",
+      "result": "PASS",
+      "count": 3
+    }
+  ],
+  "timing": {
+    "started_at": "2026-07-25T05:30:41Z",
+    "completed_at": "2026-07-25T05:30:42Z",
+    "duration_ms": 181
+  },
+  "evidence": {
+    "generated": true,
+    "certificate": null
+  }
+}

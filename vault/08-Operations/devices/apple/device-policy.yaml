@@ -1,0 +1,18 @@
+devices:
+  iphone-16-pro:
+    role: production
+    backup:
+      encrypted_local: true
+      icloud_backup: true
+    beta_track: public-beta-optional
+
+  apple-watch:
+    role: production
+    beta_track: stable-preferred
+
+policy:
+  priority:
+    - reliability
+    - recoverability
+    - security
+    - experimentation

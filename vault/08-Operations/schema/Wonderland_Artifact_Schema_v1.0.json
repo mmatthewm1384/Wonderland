@@ -1,0 +1,42 @@
+{
+  "artifact_schema": {
+    "name": "Wonderland Artifact Schema",
+    "version": "1.0",
+
+    "required_sections": [
+      "artifact",
+      "identity",
+      "provenance",
+      "verification",
+      "trust",
+      "certification"
+    ],
+
+    "sections": {
+
+      "artifact": {
+        "purpose": "Defines artifact identity"
+      },
+
+      "identity": {
+        "purpose": "Provides unique identifiers"
+      },
+
+      "provenance": {
+        "purpose": "Tracks origin and lifecycle"
+      },
+
+      "verification": {
+        "purpose": "Stores validation results"
+      },
+
+      "trust": {
+        "purpose": "Stores trust assertions"
+      },
+
+      "certification": {
+        "purpose": "Stores certification state"
+      }
+    }
+  }
+}
