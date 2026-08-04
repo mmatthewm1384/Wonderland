@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "artifact": "registry-snapshot",
+  "timestamp": "2026-07-28T13:57:00.779195+00:00",
+  "registry_hash": "5ff534f13f9b0074ae0c9a6556d018820af4d833029887f310d91c1e5106decf",
+  "packages": 16,
+  "previous_snapshot_hash": null,
+  "snapshot_hash": "6760da39a657fbb5a2c9c9b07341cc6cc2443ddd5b12a1b973eae4cca5d0c9d8"
+}

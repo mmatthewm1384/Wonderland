@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "transaction_id": "ec70f41d94a640b092e69a93e068a996",
+  "artifact": "auto-drop-registry",
+  "operation": "restore",
+  "timestamp": "2026-07-28T13:49:04.465869+00:00",
+  "status": "COMPLETE",
+  "payload": {
+    "snapshot": "/Users/wonderland/Wonderland/vault/05-Registry/snapshots/11b4488a7a136fb8ab62a2c6b2e88cd99f40dd06de885cb1b07783d3b0d82f43.json",
+    "registry_hash": "11b4488a7a136fb8ab62a2c6b2e88cd99f40dd06de885cb1b07783d3b0d82f43"
+  },
+  "result": {
+    "status": "PASS",
+    "registry_hash": "11b4488a7a136fb8ab62a2c6b2e88cd99f40dd06de885cb1b07783d3b0d82f43"
+  }
+}

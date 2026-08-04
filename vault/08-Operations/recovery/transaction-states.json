@@ -1,0 +1,16 @@
+{
+  "engine": "recovery-transaction-safety",
+  "version": "1.0",
+  "states": [
+    "CREATED",
+    "STAGING",
+    "VALIDATING",
+    "CHECKPOINTED",
+    "COMMITTING",
+    "VERIFIED",
+    "COMMITTED",
+    "FAILED",
+    "ROLLBACK_REQUIRED",
+    "ROLLED_BACK"
+  ]
+}

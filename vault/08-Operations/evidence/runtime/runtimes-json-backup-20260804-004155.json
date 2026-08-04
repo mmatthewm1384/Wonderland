@@ -1,0 +1,18 @@
+{
+  "runtimes": [
+    {
+      "id": "host",
+      "type": "lima",
+      "instance": "wonderland-rootless",
+      "role": "primary",
+      "certified": true
+    },
+    {
+      "id": "debian",
+      "type": "lima",
+      "instance": "wonderland-debian-rootless-v1",
+      "role": "managed",
+      "certified": true
+    }
+  ]
+}

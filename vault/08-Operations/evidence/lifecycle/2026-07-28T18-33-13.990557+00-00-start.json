@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "artifact": "lifecycle-event",
+  "timestamp": "2026-07-28T18:33:13.990557+00:00",
+  "ceremony": "START",
+  "phases": [
+    "SYSTEM",
+    "RUNTIME",
+    "PLATFORM",
+    "ECOLOGY",
+    "PRESERVATION"
+  ],
+  "payload": {
+    "service": "platform",
+    "ceremony": "START",
+    "phases": [
+      "SYSTEM",
+      "RUNTIME",
+      "PLATFORM",
+      "ECOLOGY",
+      "PRESERVATION"
+    ],
+    "runtime": {
+      "service": "runtime",
+      "action": "start",
+      "timestamp": "2026-07-28T18:33:13.990429+00:00",
+      "adapter": {
+        "command": [
+          "limactl",
+          "start",
+          "wonderland-rootless"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "time=\"2026-07-28T11:33:13-07:00\" level=info msg=\"Using the existing instance `wonderland-rootless`\"\ntime=\"2026-07-28T11:33:13-07:00\" level=info msg=\"The instance `wonderland-rootless` is already running. Run `limactl shell wonderland-rootless` to open the shell.\""
+      }
+    }
+  },
+  "evidence_hash": "623bbb3251d9354978d588cc55f8a923b6fc75f8eec1b4f1f9a3343d54a6da4b"
+}

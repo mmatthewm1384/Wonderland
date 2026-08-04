@@ -1,0 +1,11 @@
+{
+  "service": "prismx",
+  "version": "0.1.0",
+  "state": "ready",
+  "timestamp": "2026-07-23T21:59:50.969522Z",
+  "components": {
+    "session_manager": "initialized",
+    "registry": "initialized",
+    "vlc_adapter": "pending"
+  }
+}

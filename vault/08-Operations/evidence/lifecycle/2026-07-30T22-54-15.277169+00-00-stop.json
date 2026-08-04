@@ -1,0 +1,23 @@
+{
+  "schema_version": 2,
+  "artifact": "lifecycle-event",
+  "certificate_version": 1,
+  "timestamp": "2026-07-30T22:54:15.277169+00:00",
+  "ceremony": "STOP",
+  "phases": [
+    "PRESERVATION",
+    "ECOLOGY",
+    "PLATFORM",
+    "RUNTIME",
+    "SYSTEM"
+  ],
+  "runtime": {
+    "service": "runtime",
+    "action": "stop",
+    "adapter": "limactl",
+    "exit_code": 0
+  },
+  "registry_hash": null,
+  "platform_state": "STOP",
+  "evidence_hash": "0007308042dc6f3ab51a9972dad8d552de4377c777ab14b4d785d52d85788e81"
+}

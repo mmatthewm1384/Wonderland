@@ -1,0 +1,31 @@
+================================
+macOS Privacy Baseline v3
+================================
+
+Date: Tue Aug  4 11:33:03 PDT 2026
+Host: Matthews-MacBook-Air.local
+
+---- Camera ----
+PASS  Camera permissions denied
+INFO  Apple camera framework available
+PASS  No active camera capture session detected
+
+---- Microphone ----
+PASS  Microphone permissions denied
+INFO  CoreAudio subsystem available
+PASS  No active microphone capture session detected
+
+---- Security ----
+PASS  System Integrity Protection enabled
+PASS  FileVault enabled
+PASS  Firewall enabled
+
+---- Evidence ----
+PASS  Evidence generated
+
+PASS COUNT: 8
+WARN COUNT: 0
+STATUS: CERTIFIED
+
+Evidence:
+/Users/wonderland/Wonderland/vault/08-Operations/evidence/privacy/2026-08-04

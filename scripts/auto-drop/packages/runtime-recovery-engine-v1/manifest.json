@@ -1,30 +1,22 @@
 {
   "package": "runtime-recovery-engine-v1",
   "version": "1.0.0",
-
   "component": "runtime",
   "type": "capability",
-
   "description": "Governed runtime recovery and rollback engine",
-
   "dependencies": [
-    "runtime-state-store-v1",
-    "runtime-lifecycle-controller-v1",
-    "runtime-evidence-certificate-v1"
+    "runtime-state-store-v1"
   ],
-
   "artifacts": [
     "artifacts/metadata.yaml",
     "certification/schema.json",
     "certification/recovery-contract.json"
   ],
-
   "lifecycle": {
     "install": "scripts/install.sh",
     "verify": "scripts/verify.sh",
     "rollback": "scripts/rollback.sh"
   },
-
   "governance": {
     "classification": "restricted",
     "approval_required": true

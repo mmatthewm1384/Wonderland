@@ -1,0 +1,27 @@
+{
+  "policy": "certification-policy",
+  "version": "1.1",
+
+  "requirements": [
+    {
+      "id": "evidence-present",
+      "type": "evidence",
+      "required": true
+    },
+    {
+      "id": "digest-valid",
+      "type": "integrity",
+      "required": true
+    },
+    {
+      "id": "lineage-present",
+      "type": "lineage",
+      "required": true
+    }
+  ],
+
+  "result": {
+    "success": "CERTIFIED",
+    "failure": "FAILED"
+  }
+}

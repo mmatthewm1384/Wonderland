@@ -1,0 +1,11 @@
+{
+    "timestamp": "2026-07-30T20:16:05.228290+00:00",
+    "vm": "wonderland-rootless",
+    "checks": {
+        "vm_state": true,
+        "mount_policy": true,
+        "rootless_runtime": true,
+        "apparmor": true
+    },
+    "certified": true
+}

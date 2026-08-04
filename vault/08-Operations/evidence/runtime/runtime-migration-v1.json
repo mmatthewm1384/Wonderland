@@ -1,0 +1,8 @@
+{
+  "service": "runtime",
+  "action": "migration",
+  "version": "1.0",
+  "from": "wonderland-rootless",
+  "to": "wonderland-debian-rootless-v1",
+  "status": "prepared"
+}

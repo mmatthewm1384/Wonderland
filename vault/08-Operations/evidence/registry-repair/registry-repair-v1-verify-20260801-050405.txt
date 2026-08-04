@@ -1,0 +1,32 @@
+
+========== VERIFIER ==========
+VERSION    : 2.0.0
+PACKAGE    : registry-repair-v1
+WORKSPACE  : /Users/wonderland/Wonderland/scripts/auto-drop/packages/registry-repair-v1
+WL_ROOT    : /Users/wonderland/Wonderland
+
+
+PACKAGE CONTRACT
+----------------
+PASS: artifact_exists:/Users/wonderland/Wonderland/scripts/auto-drop/packages/registry-repair-v1/manifest.json
+PASS: artifact_exists:/Users/wonderland/Wonderland/scripts/auto-drop/packages/registry-repair-v1/artifacts/metadata.yaml
+PASS: executable:scripts/install.sh
+PASS: executable:scripts/verify.sh
+PASS: executable:scripts/rollback.sh
+
+METADATA
+--------
+PASS: metadata_available
+
+INSTALL STATE
+-------------
+PASS: install_success
+
+EVIDENCE
+--------
+PASS: evidence_available
+
+Certification Engine
+--------------------
+
+CERTIFICATION: CERTIFIED

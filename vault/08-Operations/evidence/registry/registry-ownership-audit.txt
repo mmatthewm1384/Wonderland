@@ -1,0 +1,11 @@
+Wonderland Registry Ownership Audit
+
+/Users/wonderland/Wonderland/tests/registry/test_registry_ownership.sh:9:VIOLATIONS=$(git grep -n "package-index.json" \
+/Users/wonderland/Wonderland/scripts/auto-drop/packages/auto-drop-registry-index-v1/scripts/install.sh:9:cat > "$ROOT/vault/05-Registry/auto-drop/package-index.json" <<JSON
+/Users/wonderland/Wonderland/scripts/auto-drop/packages/auto-drop-registry-index-v1/scripts/verify.sh:8:"$ROOT/vault/05-Registry/auto-drop/package-index.json"
+/Users/wonderland/Wonderland/scripts/auto-drop/packages/auto-drop-registry-index-v1/scripts/rollback.sh:8:"$ROOT/vault/05-Registry/auto-drop/package-index.json"
+/Users/wonderland/Wonderland/builder/python/wlplatform/src/wlplatform/registry/ownership.py:5:    "vault/05-Registry/auto-drop/package-index.json"
+/Users/wonderland/Wonderland/builder/python/wlplatform/src/wlplatform/registry/certification.py:18:            "package-index.json"
+/Users/wonderland/Wonderland/builder/python/wlplatform/src/wlplatform/registry/drift.py:5:persisted package-index.json.
+/Users/wonderland/Wonderland/builder/python/wlplatform/src/wlplatform/registry/drift.py:77:                errors=["package-index.json not found"],
+/Users/wonderland/Wonderland/builder/python/wlplatform/src/wlplatform/registry/rebuild.py:22:            "package-index.json"

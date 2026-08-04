@@ -1,0 +1,7 @@
+Camera:
+
+    MacBook Air Camera:
+
+      Model ID: MacBook Air Camera
+      Unique ID: 6C707041-05AC-0010-000C-000000000001
+

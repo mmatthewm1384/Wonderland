@@ -1,0 +1,5 @@
+{
+    "phase": "start",
+    "timestamp": "2026-07-31T05:00:38.546345+00:00",
+    "result": "{'timestamp': '2026-07-31T05:00:38.546189+00:00', 'vm': 'wonderland-rootless', 'checks': {'vm_state': True, 'mount_policy': True, 'rootless_runtime': True, 'apparmor': True}, 'certified': True}"
+}

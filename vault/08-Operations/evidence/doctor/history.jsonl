@@ -1,0 +1,1 @@
+{"timestamp": "20260723T213353Z", "type": "doctor-ledger-entry", "result": {"name": "python-runtime", "status": "PASS", "checks": {"src_layout": true, "venv": true, "cli_import": true}, "evidence": {"status": "PASS", "path": "/Users/wonderland/Wonderland/vault/08-Operations/evidence/doctor/20260723T213353Z.json"}}}

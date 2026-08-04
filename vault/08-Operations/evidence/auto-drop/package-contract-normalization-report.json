@@ -1,0 +1,777 @@
+{
+  "component": "auto-drop-package-contract-normalizer-v2",
+  "packages_scanned": 82,
+  "results": [
+    {
+      "package": "auto-drop-contract-validator-v1",
+      "status": "migration_required",
+      "missing": [
+        "artifacts/metadata.yaml"
+      ]
+    },
+    {
+      "package": "auto-drop-core",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "auto-drop-package-contract-normalization-v1",
+      "status": "certified",
+      "missing": []
+    },
+    {
+      "package": "auto-drop-package-contract-normalizer-v2",
+      "status": "certified",
+      "missing": []
+    },
+    {
+      "package": "auto-drop-package-contract-repair-v1",
+      "status": "certified",
+      "missing": []
+    },
+    {
+      "package": "auto-drop-package-generator-v1",
+      "status": "migration_required",
+      "missing": [
+        "artifacts/metadata.yaml"
+      ]
+    },
+    {
+      "package": "auto-drop-registry-index-v1",
+      "status": "migration_required",
+      "missing": [
+        "artifacts/metadata.yaml"
+      ]
+    },
+    {
+      "package": "auto-drop-transaction-engine-v2",
+      "status": "certified",
+      "missing": []
+    },
+    {
+      "package": "auto-drop-verifier-workspace-contract-v1",
+      "status": "certified",
+      "missing": []
+    },
+    {
+      "package": "bin-wl-service-dispatch-v1",
+      "status": "migration_required",
+      "missing": [
+        "artifacts/metadata.yaml"
+      ]
+    },
+    {
+      "package": "capabilities-oblivion",
+      "status": "certified",
+      "missing": []
+    },
+    {
+      "package": "certification-core-v1",
+      "status": "certified",
+      "missing": []
+    },
+    {
+      "package": "certification-schema-v1",
+      "status": "certified",
+      "missing": []
+    },
+    {
+      "package": "certification-service",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "certification-service-repair",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "certification-service-schema-v1",
+      "status": "certified",
+      "missing": []
+    },
+    {
+      "package": "cli-dispatch-boundary-v1",
+      "status": "migration_required",
+      "missing": [
+        "artifacts/metadata.yaml"
+      ]
+    },
+    {
+      "package": "lima-apparmor-autoload",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-certification-adapter-v1",
+      "status": "certified",
+      "missing": []
+    },
+    {
+      "package": "lima-certification-artifact-contract",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-certification-contract-hardening",
+      "status": "migration_required",
+      "missing": [
+        "artifacts/metadata.yaml"
+      ]
+    },
+    {
+      "package": "lima-certification-generator-rewire",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-certification-generator-schema-fix",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-certification-generator-schema-repair",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-certification-indent-repair",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-certification-json-boundary-fix",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-certification-json-normalization",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-certification-method-indent-repair",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-certification-normalize",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-certification-repair-v2",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-certification-route",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-certification-schema-fix",
+      "status": "migration_required",
+      "missing": [
+        "artifacts/metadata.yaml"
+      ]
+    },
+    {
+      "package": "lima-certification-service-register",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-certification-service-schema-fix",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-certification-verifier",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-certify-command",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-cli-json-normalizer",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-cli-package-fix",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-dispatcher-final-json-fix",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-dispatcher-indent-repair",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-doctor-dispatch",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-doctor-dispatch-fix",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-doctor-dispatch-repair",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-doctor-evidence",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-doctor-evidence-context-fix",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-doctor-evidence-fix",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-doctor-evidence-output-clean",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-doctor-integration",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-doctor-output-clean",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-doctor-output-repair",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-doctor-return-contract",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-doctor-route",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-doctor-route-clean",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-doctor-route-output-fix",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-doctor-service-contract-fix",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-doctor-start-mode",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-json-output-hard-fix",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-lifecycle-certification",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-lifecycle-certification-artifact",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-lifecycle-certification-repair",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-lifecycle-certification-v2",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-lifecycle-evidence-hook",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-lifecycle-normalize",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-lifecycle-policy-repair",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-platform-lifecycle-cleanup",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-platform-lifecycle-gate",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-platform-lifecycle-gate-repair",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-result-normalization-boundary",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-service-inspect",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "lima-service-rebuild",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "platform-cli-boundary-v2",
+      "status": "certified",
+      "missing": []
+    },
+    {
+      "package": "platform-cli-routing-v1",
+      "status": "migration_required",
+      "missing": [
+        "artifacts/metadata.yaml"
+      ]
+    },
+    {
+      "package": "platform-lifecycle-boundary-v1",
+      "status": "migration_required",
+      "missing": [
+        "artifacts/metadata.yaml"
+      ]
+    },
+    {
+      "package": "prismx",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "runtime-adapter-boundary-v1",
+      "status": "migration_required",
+      "missing": [
+        "artifacts/metadata.yaml"
+      ]
+    },
+    {
+      "package": "runtime-adapter-lima-production-v1",
+      "status": "migration_required",
+      "missing": [
+        "artifacts/metadata.yaml"
+      ]
+    },
+    {
+      "package": "runtime-health-observability-v1",
+      "status": "migration_required",
+      "missing": [
+        "artifacts/metadata.yaml"
+      ]
+    },
+    {
+      "package": "runtime-lifecycle-ceremony-v1",
+      "status": "migration_required",
+      "missing": [
+        "artifacts/metadata.yaml"
+      ]
+    },
+    {
+      "package": "service-layer-boundary-v1",
+      "status": "certified",
+      "missing": []
+    },
+    {
+      "package": "service-layer-boundary-v1.1",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "typography-engine",
+      "status": "migration_required",
+      "missing": [
+        "manifest.json",
+        "artifacts/metadata.yaml",
+        "scripts/install.sh",
+        "scripts/verify.sh",
+        "scripts/rollback.sh"
+      ]
+    },
+    {
+      "package": "wl-entrypoint-boundary-v1",
+      "status": "certified",
+      "missing": []
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+Client:
+ Namespace:	default
+ Debug Mode:	false
+
+Server:
+ Server Version: v2.3.2
+ Storage Driver: overlayfs
+ Logging Driver: json-file
+ Cgroup Driver: systemd
+ Cgroup Version: 2
+ Plugins:
+  Log:     fluentd journald json-file none syslog
+  Storage: native overlayfs fuse-overlayfs stargz
+ Security Options:
+  apparmor
+  seccomp
+   Profile: builtin
+  cgroupns
+  rootless
+ Kernel Version:   7.0.0-28-generic
+ Operating System: Ubuntu 26.04 LTS
+ OSType:           linux
+ Architecture:     aarch64
+ CPUs:             4
+ Total Memory:     7.728GiB
+ Name:             lima-wonderland-rootless
+ ID:               cb06734d-5a8c-42e8-94a0-ab97e1df4d7e
+

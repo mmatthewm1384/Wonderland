@@ -1,0 +1,25 @@
+{
+  "allowed_events": [
+    "ENGINE_INSTALL_STARTED",
+    "ENGINE_FILES_CHANGED",
+    "ENGINE_PACKAGE_VERIFIED",
+    "ENGINE_TESTS_COMPLETED",
+    "ENGINE_CERTIFICATION_COMPLETED",
+    "ENGINE_INSTALL_COMPLETED",
+    "ENGINE_INSTALL_FAILED",
+    "ENGINE_ROLLBACK_STARTED",
+    "ENGINE_ROLLBACK_COMPLETED"
+  ],
+
+  "blocked_events": [
+    "ENGINE_FORCE_OVERRIDE",
+    "ENGINE_UNVERIFIED_INSTALL"
+  ],
+
+  "required_fields": [
+    "event_id",
+    "event_type",
+    "engine",
+    "timestamp"
+  ]
+}

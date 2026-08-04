@@ -1,0 +1,28 @@
+certification:
+  component: lima-runtime
+  instance: wonderland-rootless
+  date: 2026-07-31
+
+status:
+  result: PASS
+
+environment:
+  virtualization: vz
+  architecture: aarch64
+  cpu: 4
+  memory: 8GiB
+  disk: 100GiB
+
+runtime:
+  container_engine: nerdctl
+  rootless: true
+
+validation:
+  vm_boot: pass
+  ssh_access: pass
+  container_runtime: pass
+  wonderland_status: pass
+
+backup:
+  time_machine:
+    managed_by_wonderland: false

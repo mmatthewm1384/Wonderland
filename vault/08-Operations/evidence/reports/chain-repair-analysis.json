@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "artifact": "evidence-chain-repair-analysis",
+  "timestamp": "2026-07-28T13:55:51.995397+00:00",
+  "dry_run": true,
+  "analysis": {
+    "status": "PASS",
+    "entries": 2,
+    "issues": []
+  }
+}

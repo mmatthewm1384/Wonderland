@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "artifact": "registry-restore-transaction",
+  "transaction_id": "cc0f8a4ea3a64bbb8a3fe28d9c90d570",
+  "timestamp": "2026-07-28T13:48:14.311526+00:00",
+  "status": "PASS",
+  "snapshot": "/Users/wonderland/Wonderland/vault/05-Registry/snapshots/11b4488a7a136fb8ab62a2c6b2e88cd99f40dd06de885cb1b07783d3b0d82f43.json",
+  "registry_hash": "11b4488a7a136fb8ab62a2c6b2e88cd99f40dd06de885cb1b07783d3b0d82f43",
+  "operation": "restore"
+}

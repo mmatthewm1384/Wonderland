@@ -1,0 +1,32 @@
+{
+  "package": "runtime-evidence-certificate-v1",
+  "version": "1.0.0",
+
+  "component": "runtime",
+  "type": "capability",
+
+  "description": "Runtime lifecycle evidence certificate generator",
+
+  "dependencies": [
+    "runtime-lifecycle-controller-v1",
+    "runtime-transaction-engine-v1",
+    "runtime-state-store-v1"
+  ],
+
+  "artifacts": [
+    "artifacts/metadata.yaml",
+    "certification/schema.json",
+    "certification/evidence-policy.json"
+  ],
+
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  },
+
+  "governance": {
+    "classification": "restricted",
+    "approval_required": true
+  }
+}

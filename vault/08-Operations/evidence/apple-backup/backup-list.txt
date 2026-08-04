@@ -1,0 +1,4 @@
+total 0
+drwxr-xr-x    3 wonderland  staff    96 Jul 28 06:40 .
+drwxr-xr-x    3 wonderland  staff    96 Jul 28 06:34 ..
+drwxr-xr-x  262 wonderland  staff  8384 Jul 28 07:00 00008140-000448883CDB001C

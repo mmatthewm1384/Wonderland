@@ -1,0 +1,2 @@
+NAME                   STATUS     SSH                VMTYPE    ARCH       CPUS    MEMORY    DISK      DIR
+wonderland-rootless    Running    127.0.0.1:54113    vz        aarch64    4       4GiB      100GiB    ~/.lima/wonderland-rootless

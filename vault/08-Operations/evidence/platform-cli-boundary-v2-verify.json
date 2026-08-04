@@ -1,0 +1,11 @@
+[1;36mWONDERLAND PLATFORM OPERATIONAL HARNESS (wl v4.5)[0m
+Usage: wl <domain> <command> [options]
+
+[1;32mDOMAINS & COMMANDS:[0m
+  platform    start | stop | restart | sleep | wake | status | snapshot | diff
+  security    ram-lock | mem-audit | purge <path> | panic | custody
+  cipher      append <file> <text> | verify <file> | shard <file>
+  cert        generate | list | verify
+  telemetry   [--json | --stream]
+  ui          Launch native Wonderland.app operational control center
+  help        Show command matrix

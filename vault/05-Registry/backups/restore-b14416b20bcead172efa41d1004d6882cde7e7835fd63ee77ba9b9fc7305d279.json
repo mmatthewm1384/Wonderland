@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "artifact": "registry-restore",
+  "timestamp": "2026-07-28T14:02:40.468389+00:00",
+  "snapshot": "b14416b20bcead172efa41d1004d6882cde7e7835fd63ee77ba9b9fc7305d279",
+  "registry_hash": "5ff534f13f9b0074ae0c9a6556d018820af4d833029887f310d91c1e5106decf",
+  "backup": "vault/05-Registry/backups/package-index-2026-07-28T14:02:40.467180+00:00.json"
+}

@@ -1,0 +1,39 @@
+Audio:
+
+    Devices:
+
+        AirPods Pro 2:
+
+          Input Channels: 1
+          Manufacturer: Apple Inc.
+          Current SampleRate: 24000
+          Transport: Bluetooth
+          Input Source: Default
+
+        AirPods Pro 2:
+
+          Manufacturer: Apple Inc.
+          Output Channels: 2
+          Current SampleRate: 48000
+          Transport: Bluetooth
+          Output Source: Default
+
+        MacBook Air Microphone:
+
+          Default Input Device: Yes
+          Input Channels: 1
+          Manufacturer: Apple Inc.
+          Current SampleRate: 48000
+          Transport: Built-in
+          Input Source: MacBook Air Microphone
+
+        MacBook Air Speakers:
+
+          Default Output Device: Yes
+          Default System Output Device: Yes
+          Manufacturer: Apple Inc.
+          Output Channels: 2
+          Current SampleRate: 48000
+          Transport: Built-in
+          Output Source: MacBook Air Speakers
+

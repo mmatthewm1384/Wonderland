@@ -1,0 +1,779 @@
+{
+  "artifact": "runtime-ecology/architecture",
+  "event": "certified",
+  "timestamp": "2026-07-19T09:00:45Z"
+}
+{
+  "artifact": "runtime-ecology/architecture",
+  "event": "certified",
+  "timestamp": "2026-07-19T09:02:25Z"
+}
+{
+  "artifact": "runtime-ecology/architecture",
+  "event": "certified",
+  "timestamp": "2026-07-19T09:04:05Z"
+}
+{
+  "artifact": "runtime-ecology/architecture",
+  "event": "certified",
+  "timestamp": "2026-07-19T09:06:15Z"
+}
+{
+  "artifact": "runtime-ecology/architecture",
+  "event": "certified",
+  "timestamp": "2026-07-19T12:40:00Z"
+}
+{
+  "artifact": "runtime-ecology/architecture",
+  "event": "certified",
+  "timestamp": "2026-07-19T12:43:02Z"
+}
+{"event":"capability-installed","component":"runtime-ecology","version":"1.0.0","status":"CERTIFIED","timestamp":"2026-07-19T22:05:21Z"}
+{"event":"capability-upgrade","component":"runtime-ecology","version":"1.1.0","status":"CERTIFIED","timestamp":"2026-07-19T22:13:01Z"}
+{"event":"capability-installed","component":"runtime-ecology-state-registry","version":"1.0.0","status":"CERTIFIED"}
+{"event":"capability-installed","component":"runtime-ecology-state-registry","version":"1.0.0","status":"CERTIFIED"}
+{
+  "artifact": "runtime-ecology/cli-parser",
+  "event": "certified",
+  "timestamp": "2026-07-20T21:44:11Z"
+}
+{
+  "artifact": "runtime-ecology/cli-repair",
+  "event": "certified",
+  "timestamp": "2026-07-20T22:17:40Z"
+}
+{
+  "artifact": "runtime-ecology/cli",
+  "event": "certified",
+  "timestamp": "2026-07-20T22:25:56Z"
+}
+{
+  "artifact": "runtime-ecology/cli-registration-fix",
+  "event": "certified",
+  "timestamp": "2026-07-21T01:41:35Z"
+}
+{
+  "artifact": "runtime-ecology/runtime-cli-integration",
+  "event": "certified",
+  "timestamp": "2026-07-21T01:53:11Z"
+}
+{
+  "artifact": "communication/session",
+  "event": "certified",
+  "timestamp": "2026-07-21T03:06:31Z"
+}
+{
+  "artifact": "auto-drop/artifact-permission-hardening",
+  "event": "certified",
+  "timestamp": "2026-07-21T03:07:36Z"
+}
+{
+  "artifact": "communication/cli-registration",
+  "event": "certified",
+  "timestamp": "2026-07-21T03:29:57Z"
+}
+{
+  "artifact": "communication/cli-parser-attach-fix",
+  "event": "certified",
+  "timestamp": "2026-07-21T03:32:27Z"
+}
+{
+  "artifact": "cleanup/communication-removal",
+  "event": "certified",
+  "timestamp": "2026-07-21T03:59:02Z"
+}
+{
+  "artifact": "cleanup/session-registry-reference-removal",
+  "event": "certified",
+  "timestamp": "2026-07-21T04:01:12Z"
+}
+{
+  "artifact": "security/simplex-communication-foundation",
+  "event": "certified",
+  "timestamp": "2026-07-21T04:29:16Z"
+}
+{
+  "artifact": "security/simplex-provider",
+  "event": "certified",
+  "timestamp": "2026-07-21T04:35:19Z"
+}
+{
+  "artifact": "security/communication-provider-registry-cli",
+  "event": "certified",
+  "timestamp": "2026-07-21T04:36:39Z"
+}
+{
+  "artifact": "security/communication-cli-router",
+  "event": "certified",
+  "timestamp": "2026-07-21T16:59:58Z"
+}
+{
+  "artifact": "security/communication-dispatcher",
+  "event": "certified",
+  "timestamp": "2026-07-21T17:02:06Z"
+}
+{
+  "artifact": "auto-drop/registry-validation-engine",
+  "event": "certified",
+  "timestamp": "2026-07-21T17:28:34Z"
+}
+{
+  "artifact": "auto-drop/transaction-registry-gate",
+  "event": "certified",
+  "timestamp": "2026-07-21T17:30:27Z"
+}
+{
+  "artifact": "auto-drop/evidence-collector",
+  "event": "certified",
+  "timestamp": "2026-07-21T17:31:38Z"
+}
+{
+  "artifact": "auto-drop/evidence-collector",
+  "event": "certified",
+  "timestamp": "2026-07-21T17:32:45Z"
+}
+{
+  "artifact": "prism/prism-foundation",
+  "event": "certified",
+  "timestamp": "2026-07-21T19:08:49Z"
+}
+{
+  "artifact": "cleanup/cli-syntax-repair",
+  "event": "certified",
+  "timestamp": "2026-07-22T02:09:35Z"
+}
+{
+  "artifact": "prismx/cli-router-fix",
+  "event": "certified",
+  "timestamp": "2026-07-22T02:12:45Z"
+}
+{
+  "artifact": "prismx/cli-router-removal-v1",
+  "event": "certified",
+  "timestamp": "2026-07-22T02:31:07Z"
+}
+{
+  "artifact": "external-tools/simplex",
+  "event": "certified",
+  "timestamp": "2026-07-22T09:31:22Z"
+}
+{
+  "artifact": "maintenance/artifact-scaffold",
+  "event": "certified",
+  "timestamp": "2026-07-22T09:35:15Z"
+}
+{
+  "artifact": "auto-drop/transaction-staging-engine",
+  "event": "certified",
+  "timestamp": "2026-07-22T19:57:43Z"
+}
+{
+  "artifact": "auto-drop/transaction-staging-engine",
+  "event": "certified",
+  "timestamp": "2026-07-22T20:04:48Z"
+}
+{
+  "artifact": "auto-drop/transaction-staging-engine",
+  "event": "certified",
+  "timestamp": "2026-07-22T20:07:24Z"
+}
+{
+  "artifact": "auto-drop-core",
+  "event": "certified",
+  "timestamp": "2026-07-23T04:07:44Z"
+}
+{
+  "artifact": "auto-drop-core",
+  "event": "certified",
+  "timestamp": "2026-07-23T04:09:31Z"
+}
+{
+  "artifact": "auto-drop-core",
+  "event": "certified",
+  "timestamp": "2026-07-23T04:19:53Z"
+}
+{
+  "artifact": "auto-drop-core",
+  "event": "certified",
+  "timestamp": "2026-07-23T04:35:17Z"
+}
+{
+  "artifact": "auto-drop-core",
+  "event": "certified",
+  "timestamp": "2026-07-23T04:36:57Z"
+}
+{
+  "artifact": "auto-drop-core",
+  "event": "certified",
+  "timestamp": "2026-07-23T04:44:01Z"
+}
+{
+  "artifact": "auto-drop-core",
+  "event": "certified",
+  "timestamp": "2026-07-23T05:00:11Z"
+}
+{
+  "artifact": "auto-drop-core",
+  "event": "certified",
+  "timestamp": "2026-07-23T05:05:14Z"
+}
+{
+  "artifact": "auto-drop-core",
+  "event": "certified",
+  "timestamp": "2026-07-23T05:07:10Z"
+}
+{
+  "artifact": "auto-drop-library-safety",
+  "event": "certified",
+  "timestamp": "2026-07-23T05:11:09Z"
+}
+{
+  "artifact": "auto-drop-library-safety",
+  "event": "certified",
+  "timestamp": "2026-07-23T05:17:02Z"
+}
+{
+  "artifact": "auto-drop-library-safety",
+  "event": "certified",
+  "timestamp": "2026-07-23T05:21:09Z"
+}
+{
+  "artifact": "auto-drop-library-safety-v2",
+  "event": "certified",
+  "timestamp": "2026-07-23T05:49:18Z"
+}
+{
+  "artifact": "auto-drop-verification-integrity",
+  "event": "certified",
+  "timestamp": "2026-07-23T14:12:50Z"
+}
+{
+  "artifact": "auto-drop-verification-integrity",
+  "event": "certified",
+  "timestamp": "2026-07-23T14:18:46Z"
+}
+{
+  "artifact": "auto-drop-verification-integrity",
+  "event": "certified",
+  "timestamp": "2026-07-23T14:30:40Z"
+}
+{
+  "artifact": "python-runtime-doctor-router",
+  "event": "certified",
+  "timestamp": "2026-07-23T18:38:21Z"
+}
+{
+  "artifact": "python-runtime-doctor-router",
+  "event": "certified",
+  "timestamp": "2026-07-23T18:41:41Z"
+}
+{
+  "artifact": "python-runtime-doctor-router",
+  "event": "certified",
+  "timestamp": "2026-07-23T18:49:18Z"
+}
+{
+  "artifact": "python-runtime-doctor-router",
+  "event": "certified",
+  "timestamp": "2026-07-23T18:50:22Z"
+}
+{
+  "artifact": "python-runtime-doctor-router",
+  "event": "certified",
+  "timestamp": "2026-07-23T20:57:53Z"
+}
+{
+  "artifact": "python-runtime-doctor-router",
+  "event": "certified",
+  "timestamp": "2026-07-23T20:59:09Z"
+}
+{
+  "artifact": "python-runtime-doctor-router",
+  "event": "certified",
+  "timestamp": "2026-07-23T20:59:58Z"
+}
+{
+  "artifact": "doctor-engine",
+  "event": "certified",
+  "timestamp": "2026-07-23T21:19:33Z"
+}
+{
+  "artifact": "doctor-engine",
+  "event": "certified",
+  "timestamp": "2026-07-23T21:21:04Z"
+}
+{
+  "artifact": "capabilities-oblivion",
+  "event": "certified",
+  "timestamp": "2026-07-27T20:06:00Z"
+}
+{
+  "artifact": "capabilities-oblivion",
+  "event": "certified",
+  "timestamp": "2026-07-27T20:09:51Z"
+}
+{
+  "artifact": "capabilities-oblivion",
+  "event": "certified",
+  "timestamp": "2026-07-27T20:18:17Z"
+}
+{
+  "artifact": "capabilities-oblivion",
+  "event": "certified",
+  "timestamp": "2026-07-27T20:20:20Z"
+}
+{
+  "artifact": "capabilities-oblivion",
+  "event": "certified",
+  "timestamp": "2026-07-27T20:33:48Z"
+}
+{
+  "artifact": "capabilities-oblivion",
+  "event": "certified",
+  "timestamp": "2026-07-27T20:35:30Z"
+}
+{
+  "artifact": "platform-cli-boundary-v2",
+  "event": "certified",
+  "timestamp": "2026-07-27T21:17:29Z"
+}
+{
+  "artifact": "platform-cli-boundary-v2",
+  "event": "certified",
+  "timestamp": "2026-07-27T21:18:26Z"
+}
+{
+  "artifact": "wl-entrypoint-boundary-v1",
+  "event": "certified",
+  "timestamp": "2026-07-27T21:24:02Z"
+}
+{
+  "artifact": "service-layer-boundary-v1",
+  "event": "certified",
+  "timestamp": "2026-07-27T21:53:05Z"
+}
+{
+  "artifact": "service-layer-boundary-v1",
+  "event": "certified",
+  "timestamp": "2026-07-27T21:55:23Z"
+}
+{
+  "artifact": "service-layer-boundary-v1",
+  "event": "certified",
+  "timestamp": "2026-07-27T21:56:26Z"
+}
+{
+  "artifact": "service-layer-boundary-v1",
+  "event": "certified",
+  "timestamp": "2026-07-27T21:56:46Z"
+}
+{
+  "artifact": "service-layer-boundary-v1",
+  "event": "certified",
+  "timestamp": "2026-07-27T22:00:11Z"
+}
+{
+  "artifact": "service-layer-boundary-v1",
+  "event": "certified",
+  "timestamp": "2026-07-27T22:04:03Z"
+}
+{
+  "artifact": "auto-drop-transaction-engine-v2",
+  "event": "certified",
+  "timestamp": "2026-07-28T03:07:22Z"
+}
+{
+  "artifact": "auto-drop-transaction-engine-v2",
+  "event": "certified",
+  "timestamp": "2026-07-28T03:09:05Z"
+}
+{
+  "artifact": "auto-drop-transaction-engine-v2",
+  "event": "certified",
+  "timestamp": "2026-07-28T03:09:50Z"
+}
+{
+  "artifact": "auto-drop-transaction-engine-v2",
+  "event": "certified",
+  "timestamp": "2026-07-28T03:10:39Z"
+}
+{
+  "artifact": "auto-drop-transaction-engine-v2",
+  "event": "certified",
+  "timestamp": "2026-07-28T03:11:29Z"
+}
+{
+  "artifact": "auto-drop-transaction-engine-v2",
+  "event": "certified",
+  "timestamp": "2026-07-28T03:12:13Z"
+}
+{
+  "artifact": "auto-drop-transaction-engine-v2",
+  "event": "certified",
+  "timestamp": "2026-07-28T03:12:43Z"
+}
+{
+  "artifact": "auto-drop-transaction-engine-v2",
+  "event": "certified",
+  "timestamp": "2026-07-28T03:13:34Z"
+}
+{
+  "artifact": "certification-core-v1",
+  "event": "certified",
+  "timestamp": "2026-07-31T17:09:25Z"
+}
+{
+  "artifact": "certification-core-v1",
+  "event": "certified",
+  "timestamp": "2026-07-31T17:51:46Z"
+}
+{
+  "artifact": "certification-core-v1",
+  "event": "certified",
+  "timestamp": "2026-07-31T17:53:41Z"
+}
+{
+  "artifact": "lima-certification-adapter-v1",
+  "event": "certified",
+  "timestamp": "2026-07-31T18:02:59Z"
+}
+{
+  "artifact": "certification-service-schema-v1",
+  "event": "certified",
+  "timestamp": "2026-07-31T18:08:09Z"
+}
+{
+  "artifact": "certification-schema-v1",
+  "event": "certified",
+  "timestamp": "2026-07-31T18:12:44Z"
+}
+{
+  "artifact": "certification-schema-v1",
+  "event": "certified",
+  "timestamp": "2026-07-31T18:13:26Z"
+}
+{
+  "artifact": "auto-drop-package-contract-normalizer-v2",
+  "event": "certified",
+  "timestamp": "2026-07-31T18:26:07Z"
+}
+{
+  "artifact": "auto-drop-verifier-library-v2",
+  "event": "certified",
+  "timestamp": "2026-07-31T21:36:42Z"
+}
+{
+  "artifact": "auto-drop-verifier-library-v2",
+  "event": "certified",
+  "timestamp": "2026-07-31T21:39:23Z"
+}
+{
+  "artifact": "auto-drop-contract-audit-report-v1",
+  "event": "certified",
+  "timestamp": "2026-07-31T21:41:41Z"
+}
+{
+  "artifact": "auto-drop-package-contract-repair-controller-v1",
+  "event": "certified",
+  "timestamp": "2026-07-31T21:43:25Z"
+}
+{
+  "artifact": "auto-drop-package-contract-generator-v1",
+  "event": "certified",
+  "timestamp": "2026-07-31T21:49:58Z"
+}
+{
+  "artifact": "auto-drop-capability-resolver-v1",
+  "event": "certified",
+  "timestamp": "2026-07-31T22:19:59Z"
+}
+{
+  "artifact": "auto-drop-lifecycle-execution-contract-v1",
+  "event": "certified",
+  "timestamp": "2026-07-31T22:21:06Z"
+}
+{
+  "artifact": "auto-drop-lifecycle-installation-contract-v1",
+  "event": "certified",
+  "timestamp": "2026-07-31T22:21:57Z"
+}
+{
+  "artifact": "auto-drop-lifecycle-runtime-contract-v1",
+  "event": "certified",
+  "timestamp": "2026-07-31T22:23:08Z"
+}
+{
+  "artifact": "auto-drop-lifecycle-execution-contract-v1",
+  "event": "certified",
+  "timestamp": "2026-08-01T02:04:01Z"
+}
+{
+  "artifact": "auto-drop-lifecycle-execution-contract-v1",
+  "event": "certified",
+  "timestamp": "2026-08-01T02:04:32Z"
+}
+{
+  "artifact": "storage-certification-v1",
+  "event": "certified",
+  "timestamp": "2026-08-01T04:29:53Z"
+}
+{
+  "artifact": "storage-certification-v1.1",
+  "event": "certified",
+  "timestamp": "2026-08-01T04:43:30Z"
+}
+{
+  "artifact": "runtime-lima-idempotent-start-v1",
+  "event": "certified",
+  "timestamp": "2026-08-01T13:43:44Z"
+}
+{
+  "artifact": "runtime-lima-idempotent-start-v1",
+  "event": "certified",
+  "timestamp": "2026-08-01T13:45:01Z"
+}
+{
+  "artifact": "runtime-lima-subprocess-timeout-v1",
+  "event": "certified",
+  "timestamp": "2026-08-01T13:47:49Z"
+}
+{
+  "artifact": "runtime-lima-recovery-transaction-v1",
+  "event": "certified",
+  "timestamp": "2026-08-01T13:49:09Z"
+}
+{
+  "artifact": "runtime-lima-recovery-transaction-v1",
+  "event": "certified",
+  "timestamp": "2026-08-01T13:50:15Z"
+}
+{
+  "artifact": "runtime-lima-idempotent-start-v2",
+  "event": "certified",
+  "timestamp": "2026-08-01T13:52:13Z"
+}
+{
+  "artifact": "runtime-lima-readiness-certification-v1",
+  "event": "certified",
+  "timestamp": "2026-08-01T13:53:32Z"
+}
+{
+  "artifact": "runtime-lima-readiness-certification-v1",
+  "event": "certified",
+  "timestamp": "2026-08-01T13:55:06Z"
+}
+{
+  "artifact": "runtime-lima-idempotent-start-v2",
+  "event": "certified",
+  "timestamp": "2026-08-01T13:56:58Z"
+}
+{
+  "artifact": "runtime-lima-adapter-discovery-v1",
+  "event": "certified",
+  "timestamp": "2026-08-01T13:58:05Z"
+}
+{
+  "artifact": "runtime-lima-start-contract-v1",
+  "event": "certified",
+  "timestamp": "2026-08-01T13:59:18Z"
+}
+{
+  "artifact": "runtime-lima-health-probe-v1",
+  "event": "certified",
+  "timestamp": "2026-08-01T14:00:28Z"
+}
+{
+  "artifact": "wonderland-identity-foundation-v1",
+  "event": "certified",
+  "timestamp": "2026-08-01T19:39:26Z"
+}
+{
+  "artifact": "runtime-certification-reconciliation-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T21:44:57Z"
+}
+{
+  "artifact": "runtime-certification-adapter-wiring-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T21:45:57Z"
+}
+{
+  "artifact": "runtime-certification-registry-wiring-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T21:48:02Z"
+}
+{
+  "artifact": "auto-drop-python-patch-validation-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T21:49:37Z"
+}
+{
+  "artifact": "runtime-certification-registry-wiring-v2",
+  "event": "certified",
+  "timestamp": "2026-08-02T21:50:58Z"
+}
+{
+  "artifact": "runtime-lifecycle-actions-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T21:51:54Z"
+}
+{
+  "artifact": "runtime-adapter-lima-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T21:53:24Z"
+}
+{
+  "artifact": "runtime-service-adapter-wiring-v2",
+  "event": "certified",
+  "timestamp": "2026-08-02T21:54:31Z"
+}
+{
+  "artifact": "runtime-adapter-resolution-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T21:55:30Z"
+}
+{
+  "artifact": "runtime-state-store-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T21:56:39Z"
+}
+{
+  "artifact": "runtime-state-store-wiring-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T21:57:37Z"
+}
+{
+  "artifact": "runtime-recovery-checkpoint-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:02:42Z"
+}
+{
+  "artifact": "runtime-recovery-checkpoint-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:02:51Z"
+}
+{
+  "artifact": "runtime-certification-resolver-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:05:24Z"
+}
+{
+  "artifact": "runtime-certification-resolver-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:06:43Z"
+}
+{
+  "artifact": "runtime-target-certification-provider-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:15:12Z"
+}
+{
+  "artifact": "runtime-primary-certification-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:16:48Z"
+}
+{
+  "artifact": "runtime-primary-certification-registration-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:18:50Z"
+}
+{
+  "artifact": "runtime-inventory-certification-resolution-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:20:33Z"
+}
+{
+  "artifact": "runtime-lifecycle-evidence-transaction-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:30:54Z"
+}
+{
+  "artifact": "runtime-lifecycle-evidence-transaction-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:31:57Z"
+}
+{
+  "artifact": "runtime-evidence-writer-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:37:26Z"
+}
+{
+  "artifact": "runtime-evidence-writer-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:38:22Z"
+}
+{
+  "artifact": "runtime-evidence-binding-v2",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:40:24Z"
+}
+{
+  "artifact": "runtime-evidence-binding-v2",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:40:30Z"
+}
+{
+  "artifact": "runtime-target-certification-resolution-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:41:21Z"
+}
+{
+  "artifact": "runtime-certification-artifact-binding-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:42:43Z"
+}
+{
+  "artifact": "runtime-certification-ledger-binding-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:51:35Z"
+}
+{
+  "artifact": "runtime-certification-ledger-binding-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:52:23Z"
+}
+{
+  "artifact": "runtime-start-stop-transaction-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:53:29Z"
+}
+{
+  "artifact": "runtime-recovery-policy-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:56:14Z"
+}
+{
+  "artifact": "runtime-recovery-policy-v1",
+  "event": "certified",
+  "timestamp": "2026-08-02T22:58:02Z"
+}
+{
+  "artifact": "runtime-executor-foundation-v1",
+  "event": "certified",
+  "timestamp": "2026-08-03T02:05:54Z"
+}
+{
+  "artifact": "runtime-executor-foundation-v1",
+  "event": "certified",
+  "timestamp": "2026-08-03T02:06:59Z"
+}
+{
+  "artifact": "wonderland-identity-foundation-v1",
+  "event": "certified",
+  "timestamp": "2026-08-03T12:38:27Z"
+}
+{
+  "artifact": "wonderland-identity-foundation-v1",
+  "event": "certified",
+  "timestamp": "2026-08-03T12:39:12Z"
+}
+{
+  "artifact": "wonderland-identity-foundation-v1",
+  "event": "certified",
+  "timestamp": "2026-08-03T12:39:32Z"
+}
+{
+  "artifact": "runtime-contract-certification-v1",
+  "event": "certified",
+  "timestamp": "2026-08-03T17:45:27Z"
+}
