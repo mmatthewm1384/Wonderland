@@ -1,8 +1,10 @@
 {
   "schema_version": "1.0",
-  "required": [
-    "name",
-    "version",
-    "certification"
+  "component": "runtime",
+  "stores": [
+    "action",
+    "target",
+    "timestamp",
+    "result"
   ]
 }

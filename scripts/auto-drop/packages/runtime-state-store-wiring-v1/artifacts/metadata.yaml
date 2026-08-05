@@ -1,0 +1,4 @@
+name: runtime-state-store-wiring-v1
+version: 1.0.0
+component: runtime
+purpose: runtime lifecycle evidence persistence

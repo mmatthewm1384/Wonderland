@@ -1,0 +1,5 @@
+{
+  "schema_version": "1.0",
+  "component": "runtime",
+  "migration": "state-module-to-package"
+}

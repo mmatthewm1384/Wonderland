@@ -1,0 +1,16 @@
+--- a/builder/python/wlplatform/src/wlplatform/services/runtime_service.py
++++ b/builder/python/wlplatform/src/wlplatform/services/runtime_service.py
+@@ -600,10 +600,7 @@
+         adapter = self._adapter_for(target)
+
+         inspection = adapter.inspect()
+
+-        state = runtime.get(
+-            "state",
+-            "unknown"
+-        )
++        state = adapter.state()
+
+         certification = {
+             "service": "runtime",
+             "certification": True,

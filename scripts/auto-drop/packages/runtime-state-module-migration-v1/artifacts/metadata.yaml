@@ -1,0 +1,4 @@
+name: runtime-state-module-migration-v1
+version: 1.0.0
+component: runtime
+purpose: resolve state module/package collision

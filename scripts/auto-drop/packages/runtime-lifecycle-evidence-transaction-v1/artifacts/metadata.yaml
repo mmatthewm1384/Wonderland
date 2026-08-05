@@ -1,0 +1,4 @@
+name: runtime-lifecycle-evidence-transaction-v1
+version: 1.0.2
+component: runtime
+classification: governed

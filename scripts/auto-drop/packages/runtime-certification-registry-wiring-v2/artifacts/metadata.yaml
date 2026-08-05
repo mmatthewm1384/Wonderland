@@ -1,0 +1,4 @@
+name: runtime-certification-registry-wiring-v2
+version: 2.0.0
+component: runtime
+purpose: connect certification evidence to runtime registry

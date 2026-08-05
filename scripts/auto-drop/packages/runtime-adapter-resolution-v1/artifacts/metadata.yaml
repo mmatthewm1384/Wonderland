@@ -1,0 +1,4 @@
+name: runtime-adapter-resolution-v1
+version: 1.0.0
+component: runtime
+purpose: resolve runtime adapters

@@ -1,0 +1,11 @@
+{
+  "name": "runtime-state-import-guard-v1",
+  "version": "1.0.0",
+  "category": "runtime",
+  "description": "Prevent runtime state import from blocking CLI bootstrap",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  }
+}

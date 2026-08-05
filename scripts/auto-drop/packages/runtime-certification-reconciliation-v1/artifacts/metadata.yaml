@@ -1,0 +1,10 @@
+name: runtime-certification-reconciliation-v1
+version: 1.0.0
+component: runtime
+purpose: certify runtime targets
+certification:
+  schema: v1
+  required:
+    - runtime_target
+    - adapter
+    - evidence

@@ -1,0 +1,11 @@
+{
+  "name": "runtime-primary-certification-v1",
+  "version": "1.0.0",
+  "category": "runtime",
+  "description": "Certify primary Wonderland runtime target",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  }
+}

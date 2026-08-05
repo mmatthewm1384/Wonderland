@@ -1,0 +1,57 @@
+version: "1.0"
+
+runtime_contract:
+  name: wonderland-runtime-contract
+  version: "1.0"
+
+  architecture:
+    model: platform-runtime
+    provider: lima
+    isolation: vm
+    container_runtime: containerd
+    rootless: true
+
+  targets:
+
+    host:
+      role: primary
+      instance: wonderland-debian-rootless-v1
+
+      lifecycle:
+        state: certified
+        ownership: canonical
+
+      requirements:
+        vm:
+          driver: vz
+          architecture: aarch64
+          cpus: 4
+          memory: 8GiB
+          disk: 50GiB
+
+        runtime:
+          containerd:
+            mode: user
+          nerdctl:
+            required: true
+
+        networking:
+          inbound: deny
+          outbound: allow
+          localhost_only: true
+
+      certification:
+        required: true
+        evidence_path: vault/08-Operations/evidence/runtime
+
+
+  legacy:
+
+    - instance: wonderland-rootless
+      status: retained
+      purpose: migration
+      removal:
+        blocked_until:
+          - data_review_complete
+          - service_migration_complete
+          - rollback_verified

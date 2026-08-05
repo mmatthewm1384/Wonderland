@@ -1,8 +1,9 @@
 {
   "schema_version": "1.0",
-  "required": [
-    "name",
-    "version",
-    "certification"
+  "adapter": "lima",
+  "operations": [
+    "start",
+    "stop",
+    "status"
   ]
 }

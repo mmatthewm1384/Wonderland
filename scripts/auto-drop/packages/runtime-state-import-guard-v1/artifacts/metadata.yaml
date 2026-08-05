@@ -1,0 +1,4 @@
+name: runtime-state-import-guard-v1
+version: 1.0.0
+component: runtime
+purpose: bootstrap recovery

@@ -1,0 +1,4 @@
+name: runtime-adapter-certification-binding-v1
+version: 1.0.0
+component: runtime
+purpose: adapter certification binding

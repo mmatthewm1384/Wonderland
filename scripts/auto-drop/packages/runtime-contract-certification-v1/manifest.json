@@ -1,0 +1,14 @@
+{
+  "name": "runtime-contract-certification-v1",
+  "version": "1.0.0",
+  "category": "runtime",
+  "description": "Wonderland Debian Runtime Contract Certification",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  },
+  "artifacts": [
+    "artifacts/metadata.yaml"
+  ]
+}

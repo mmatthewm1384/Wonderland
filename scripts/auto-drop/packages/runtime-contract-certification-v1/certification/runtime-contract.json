@@ -1,0 +1,27 @@
+{
+  "contract": "wonderland-runtime-contract-v1",
+  "runtime": {
+    "name": "wonderland-debian-rootless-v1",
+    "type": "vm",
+    "isolation": "rootless"
+  },
+
+  "identity": {
+    "required": true,
+    "source": "identity-genome"
+  },
+
+  "capabilities": {
+    "container_runtime": "nerdctl",
+    "orchestrator": "containerd"
+  },
+
+  "security": {
+    "root_login": false,
+    "ssh_forwarding": "localhost-only"
+  },
+
+  "evidence": {
+    "required": true
+  }
+}

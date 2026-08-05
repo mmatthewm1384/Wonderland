@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wonderland Runtime Certification",
+  "type": "object",
+  "required": [
+    "component",
+    "version",
+    "timestamp",
+    "certification",
+    "runtime",
+    "checks"
+  ],
+  "properties": {
+    "component": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "certification": {
+      "type": "string",
+      "enum": [
+        "CERTIFIED",
+        "FAILED"
+      ]
+    },
+    "runtime": {
+      "type": "object",
+      "required": [
+        "provider",
+        "instance"
+      ]
+    },
+    "checks": {
+      "type": "object"
+    }
+  }
+}

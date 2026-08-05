@@ -1,0 +1,10 @@
+{
+  "name": "runtime-certification-artifact-binding-v1",
+  "version": "1.0.0",
+  "category": "runtime",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  }
+}

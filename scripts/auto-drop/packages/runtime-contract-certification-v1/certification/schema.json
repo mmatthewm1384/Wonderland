@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "type": "runtime-certification",
+  "required": [
+    "package",
+    "runtime",
+    "verification",
+    "evidence"
+  ]
+}

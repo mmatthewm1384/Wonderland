@@ -1,0 +1,4 @@
+name: runtime-start-stop-transaction-v1
+version: 1.0.0
+component: runtime-lifecycle
+classification: governed
