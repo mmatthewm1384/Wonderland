@@ -206,8 +206,8 @@
     },
     "identity-foundation-v1": {
       "version": "1.0.0",
-      "type": null,
-      "category": "capability",
+      "type": "capability",
+      "category": "security",
       "dependencies": [],
       "path": "scripts/auto-drop/packages/identity-foundation-v1"
     },
@@ -257,6 +257,17 @@
       "dependencies": [],
       "path": "scripts/auto-drop/packages/maintenance-engine-v1"
     },
+    "oblivion-foundation-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": "governance",
+      "dependencies": [
+        "identity-foundation-v1",
+        "privacy-foundation-v1",
+        "runtime-evidence-certificate-v1"
+      ],
+      "path": "scripts/auto-drop/packages/oblivion-foundation-v1"
+    },
     "platform-cli-boundary-v2": {
       "version": "2.0.0",
       "type": null,
@@ -278,11 +289,23 @@
       "dependencies": [],
       "path": "scripts/auto-drop/packages/platform-lifecycle-boundary-v1"
     },
+    "prismx-foundation-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": "artifact",
+      "dependencies": [
+        "oblivion-foundation-v1",
+        "runtime-evidence-certificate-v1"
+      ],
+      "path": "scripts/auto-drop/packages/prismx-foundation-v1"
+    },
     "privacy-foundation-v1": {
       "version": "1.0.0",
-      "type": null,
+      "type": "capability",
       "category": "security",
-      "dependencies": [],
+      "dependencies": [
+        "identity-foundation-v1"
+      ],
       "path": "scripts/auto-drop/packages/privacy-foundation-v1"
     },
     "registry-repair-v1": {
@@ -444,6 +467,7 @@
       "type": "capability",
       "category": null,
       "dependencies": [
+        "privacy-foundation-v1",
         "runtime-state-store-v1"
       ],
       "path": "scripts/auto-drop/packages/runtime-evidence-certificate-v1"
@@ -855,6 +879,17 @@
       "category": null,
       "dependencies": [],
       "path": "scripts/auto-drop/packages/test-lifecycle-generation-v2"
+    },
+    "vee-foundation-v1": {
+      "version": "1.0.0",
+      "type": "capability",
+      "category": "experience",
+      "dependencies": [
+        "prismx-foundation-v1",
+        "oblivion-foundation-v1",
+        "runtime-evidence-certificate-v1"
+      ],
+      "path": "scripts/auto-drop/packages/vee-foundation-v1"
     },
     "wl-entrypoint-boundary-v1": {
       "version": "1.0.0",

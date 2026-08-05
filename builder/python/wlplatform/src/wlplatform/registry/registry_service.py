@@ -133,21 +133,6 @@ class RegistryService:
                     )
                 }
 
-                packages[name] = {
-                    "version": data.get("version"),
-                    "type": data.get("type"),
-                    "category": data.get("category"),
-                    "dependencies": data.get(
-                        "dependencies",
-                        []
-                    ),
-                    "path": str(
-                        package_dir.relative_to(
-                            self.root
-                        )
-                    )
-                }
-
 
         registry = {
             "schema_version": 1,

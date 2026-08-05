@@ -5,6 +5,7 @@
   "type": "capability",
   "description": "Runtime lifecycle evidence certificate generator",
   "dependencies": [
+    "privacy-foundation-v1",
     "runtime-state-store-v1"
   ],
   "artifacts": [
