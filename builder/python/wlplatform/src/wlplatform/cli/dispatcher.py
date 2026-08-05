@@ -19,17 +19,23 @@ if str(PYTHON_ROOT) not in sys.path:
         str(PYTHON_ROOT)
     )
 
+from wlplatform.service_router import ServiceRouter
+
 from wlplatform.runtime.context import get_context
 from wlplatform.registry.registry_command import execute as registry_execute
+from wlplatform.privacy.privacy_command import execute as privacy_execute
+from wlplatform.identity.identity_command import execute as identity_execute
 from wlplatform.services.lima_service import LimaService
 from wlplatform.services.certification_service import CertificationService
 from wlplatform.runtime.serialization import normalize
-from wlplatform.services.lima_service import LimaService
-from wlplatform.services.certification_service import CertificationService
 
 def dispatch(args):
 
     context = get_context()
+
+    router = ServiceRouter(
+        context.root
+    )
 
 
     if len(args) < 1:
@@ -157,6 +163,37 @@ def dispatch(args):
         )
 
 
+    # RUNTIME COMMANDS
+    if service == "runtime":
+
+        # Normalize nested runtime commands
+        # wl runtime policy check <target>
+        if (
+            len(args) >= 3
+            and args[1] == "policy"
+            and args[2] == "check"
+        ):
+            args = [
+                "runtime",
+                "policy_check",
+                *args[3:]
+            ]
+
+
+        if len(args) < 2:
+            raise SystemExit(
+                "usage: wl runtime <action>"
+            )
+
+        return router.execute(
+            "runtime",
+            args[1],
+            *args[2:]
+        )
+
+
+
+
     # PLATFORM LIFECYCLE COMMANDS
     if service in (
         "start",
@@ -181,6 +218,27 @@ def dispatch(args):
         return handler()
 
 
+    # ROUTED SERVICES
+    if service in (
+        "platform",
+        "governance",
+        "telemetry",
+    ):
+
+        router = ServiceRouter(
+            context.root
+        )
+
+        if len(args) < 2:
+            raise SystemExit(
+                f"usage: wl {service} <command>"
+            )
+
+        return router.execute(
+            service,
+            args[1],
+        )
+
     if service == "registry":
 
         if len(args) < 2:
@@ -188,13 +246,11 @@ def dispatch(args):
                 "usage: wl registry <command> [package]"
             )
 
-
         package = (
             args[2]
             if len(args) > 2
             else None
         )
-
 
         return registry_execute(
             context.root,
@@ -203,10 +259,35 @@ def dispatch(args):
         )
 
 
+    if service == "privacy":
+
+        if len(args) < 2:
+            raise SystemExit(
+                "usage: wl privacy <command>"
+            )
+
+        return privacy_execute(
+            context.root,
+            args[1],
+        )
+
+
+    if service == "identity":
+
+        if len(args) < 2:
+            raise SystemExit(
+                "usage: wl identity <command>"
+            )
+
+        return identity_execute(
+            context.root,
+            args[1],
+        )
+
+
     raise SystemExit(
         f"unsupported service: {service}"
     )
-
 
 
 def main():
