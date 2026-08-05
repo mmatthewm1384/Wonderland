@@ -1,31 +1,24 @@
 {
   "package": "runtime-lifecycle-controller-v1",
   "version": "1.0.0",
-
   "component": "runtime",
   "type": "capability",
-
   "description": "Runtime lifecycle orchestration controller",
-
   "dependencies": [
     "runtime-transaction-engine-v1",
-    "runtime-recovery-engine-v1",
     "runtime-state-store-v1",
     "runtime-service-adapter-wiring-v1"
   ],
-
   "artifacts": [
     "artifacts/metadata.yaml",
     "certification/schema.json",
     "certification/lifecycle-contract.json"
   ],
-
   "lifecycle": {
     "install": "scripts/install.sh",
     "verify": "scripts/verify.sh",
     "rollback": "scripts/rollback.sh"
   },
-
   "governance": {
     "classification": "restricted",
     "approval_required": true
