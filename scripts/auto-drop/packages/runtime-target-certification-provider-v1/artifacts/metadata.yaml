@@ -1,0 +1,4 @@
+name: runtime-target-certification-provider-v1
+version: 1.0.0
+component: runtime-targets
+purpose: runtime certification resolution

@@ -1,0 +1,32 @@
+version: "1.0"
+
+runtime_registry:
+
+  active:
+
+    host:
+      instance: wonderland-debian-rootless-v1
+      role: primary
+      provider: lima
+
+      lifecycle:
+        state: certified
+        migration:
+          previous: wonderland-rootless
+          migrated: true
+
+
+  retained:
+
+    - instance: wonderland-rootless
+      role: legacy-primary
+      status: retained
+
+      restrictions:
+        start_policy: manual
+        deletion: blocked
+
+        removal_requirements:
+          - runtime_validation_complete
+          - service_inventory_complete
+          - rollback_test_complete

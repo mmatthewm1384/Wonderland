@@ -1,14 +1,11 @@
 {
   "name": "runtime-adapter-lima-v1",
   "version": "1.0.0",
-  "type": "capability",
-  "classification": "runtime",
+  "category": "runtime",
+  "description": "Lima runtime adapter implementation",
   "lifecycle": {
     "install": "scripts/install.sh",
     "verify": "scripts/verify.sh",
     "rollback": "scripts/rollback.sh"
-  },
-  "certification": {
-    "schema": "certification/schema.json"
   }
 }

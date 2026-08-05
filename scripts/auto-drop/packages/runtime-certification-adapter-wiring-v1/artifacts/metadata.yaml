@@ -1,0 +1,6 @@
+name: runtime-certification-adapter-wiring-v1
+version: 1.0.0
+component: runtime
+purpose: connect certification evidence to runtime registry
+certification:
+  schema: v1

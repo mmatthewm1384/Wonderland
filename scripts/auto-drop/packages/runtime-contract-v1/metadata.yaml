@@ -1,0 +1,20 @@
+name: runtime-contract-v1
+version: "1.0"
+category: runtime
+description: >
+  Defines the canonical Wonderland Runtime Contract v1.
+  Establishes host runtime identity, lifecycle state,
+  certification requirements, and legacy retention.
+
+lifecycle:
+  install: install.sh
+
+artifacts:
+  - runtime-contract-v1.yaml
+
+certification:
+  required:
+    - runtime_registry
+    - adapter_available
+    - runtime_state
+    - evidence_generated

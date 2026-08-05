@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "component": "runtime",
+  "certification": "runtime-certification-adapter-wiring-v1",
+  "required_fields": [
+    "target",
+    "adapter",
+    "certified",
+    "evidence"
+  ]
+}

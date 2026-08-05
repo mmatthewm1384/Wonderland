@@ -1,0 +1,10 @@
+{
+  "schema": "wonderland.certification.runtime-executor",
+  "version": "1.0.0",
+  "required": [
+    "component",
+    "version",
+    "timestamp",
+    "certification"
+  ]
+}

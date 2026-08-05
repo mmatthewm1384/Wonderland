@@ -1,0 +1,4 @@
+name: runtime-recovery-checkpoint-v1
+version: 1.0.0
+component: runtime
+purpose: recovery evidence checkpoint

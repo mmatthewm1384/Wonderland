@@ -1,0 +1,6 @@
+name: runtime-certification-registry-wiring-v1
+version: 1.0.0
+component: runtime
+purpose: runtime registry certification resolution
+certification:
+  schema: v1

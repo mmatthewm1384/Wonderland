@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "component": "runtime",
+  "certification": "runtime-certification-registry-wiring-v1",
+  "required_fields": [
+    "loader",
+    "resolver",
+    "rollback"
+  ]
+}

@@ -1,0 +1,4 @@
+name: runtime-service-adapter-wiring-v2
+version: 2.0.0
+component: runtime
+purpose: service adapter binding

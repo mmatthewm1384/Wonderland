@@ -1,0 +1,15 @@
+{
+  "name": "runtime-executor-foundation-v1",
+  "version": "1.0.0",
+  "category": "runtime",
+  "description": "Wonderland Runtime execution boundary foundation",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  },
+  "artifacts": [
+    "artifacts/metadata.yaml",
+    "certification/schema.json"
+  ]
+}

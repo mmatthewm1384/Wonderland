@@ -1,0 +1,11 @@
+{
+  "name": "runtime-adapter-certification-binding-v1",
+  "version": "1.0.0",
+  "category": "runtime",
+  "description": "Bind runtime certification resolver to adapters",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "component": "runtime",
+  "actions": [
+    "start",
+    "stop",
+    "restart",
+    "sleep",
+    "wake"
+  ]
+}

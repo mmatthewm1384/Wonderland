@@ -1,0 +1,11 @@
+{
+  "name": "runtime-state-store-wiring-v1",
+  "version": "1.0.0",
+  "category": "runtime",
+  "description": "Wire RuntimeService lifecycle events into state store",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  }
+}

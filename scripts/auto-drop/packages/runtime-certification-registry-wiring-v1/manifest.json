@@ -1,0 +1,15 @@
+{
+  "name": "runtime-certification-registry-wiring-v1",
+  "version": "1.0.0",
+  "category": "runtime",
+  "description": "Connect runtime certification evidence to target registry",
+  "governance": {
+    "classification": "operational",
+    "approval_required": true
+  },
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  }
+}

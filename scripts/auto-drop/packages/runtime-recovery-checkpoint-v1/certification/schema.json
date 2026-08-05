@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "component": "runtime",
+  "evidence": [
+    "python_import",
+    "git_state",
+    "runtime_status"
+  ]
+}

@@ -1,0 +1,15 @@
+name: runtime-certify-state-fix-v1
+version: "1.0"
+category: runtime
+description: >
+  Fix runtime certification state reporting by using
+  adapter.state() instead of stale registry state.
+
+lifecycle:
+  install: install.sh
+
+certification:
+  schema: certification/schema.json
+
+targets:
+  - wlplatform

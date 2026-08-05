@@ -1,7 +1,4 @@
 name: runtime-state-store-v1
 version: 1.0.0
-category: runtime
-status: generated
-governance:
-  approval_required: true
-  evidence_required: true
+component: runtime
+purpose: lifecycle state persistence

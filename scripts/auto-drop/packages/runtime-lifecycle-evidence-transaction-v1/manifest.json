@@ -1,0 +1,11 @@
+{
+  "name": "runtime-lifecycle-evidence-transaction-v1",
+  "version": "1.0.2",
+  "category": "runtime",
+  "description": "Adds runtime lifecycle evidence recording",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh"
+  }
+}

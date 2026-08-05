@@ -1,0 +1,15 @@
+package:
+  name: runtime-executor-foundation-v1
+  version: 1.0.0
+  category: runtime
+
+purpose:
+  - provide runtime execution abstraction
+  - isolate runtime provider implementation
+  - prepare wl runtime commands
+
+provider:
+  current: lima
+  future:
+    - vm
+    - hardware-runtime

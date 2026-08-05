@@ -1,0 +1,19 @@
+name: runtime-registry-migration-v1
+version: "1.0"
+category: runtime
+description: >
+  Migrates the canonical Wonderland host runtime identity
+  to wonderland-debian-rootless-v1.
+
+lifecycle:
+  install: install.sh
+
+depends_on:
+  - runtime-contract-v1
+
+certification:
+  required:
+    - runtime_contract_present
+    - target_runtime_available
+    - adapter_validation
+    - evidence_capture

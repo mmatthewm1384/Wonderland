@@ -1,0 +1,15 @@
+package:
+  name: runtime-contract-certification-v1
+  version: 1.0.0
+  category: runtime
+  description: Wonderland Debian runtime contract certification
+
+contract:
+  type: certification
+
+requirements:
+  - /mnt/wonderland
+  - /mnt/shared
+  - /mnt/runtime
+  - rootless-subuid
+  - rootless-subgid

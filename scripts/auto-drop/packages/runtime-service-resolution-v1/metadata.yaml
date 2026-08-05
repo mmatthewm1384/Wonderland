@@ -1,0 +1,19 @@
+name: runtime-service-resolution-v1
+version: "1.0"
+category: runtime
+description: >
+  Enables runtime service resolution from the canonical runtime registry.
+
+lifecycle:
+  install: install.sh
+
+depends_on:
+  - runtime-contract-v1
+  - runtime-registry-migration-v1
+
+certification:
+  required:
+    - registry_available
+    - host_resolution
+    - adapter_resolution
+    - verification_pass

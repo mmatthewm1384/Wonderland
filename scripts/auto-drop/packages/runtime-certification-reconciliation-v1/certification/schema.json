@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "component": "runtime",
+  "certification": "runtime-certification-reconciliation-v1",
+  "required_fields": [
+    "runtime_target",
+    "adapter",
+    "evidence",
+    "timestamp",
+    "status"
+  ]
+}

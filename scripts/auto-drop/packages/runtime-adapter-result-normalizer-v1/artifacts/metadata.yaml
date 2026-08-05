@@ -1,0 +1,4 @@
+name: runtime-adapter-result-normalizer-v1
+version: 1.0.0
+component: runtime
+classification: governed
