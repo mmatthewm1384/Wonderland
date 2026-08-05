@@ -1,3 +1,5 @@
+from wlplatform.certification.model import certified_state
+
 #!/usr/bin/env python3
 
 from pathlib import Path
@@ -102,7 +104,7 @@ class RegistryValidationEngine:
 
 
         return {
-            "certified": True,
+            **certified_state().export(),
             "root": str(self.root),
             "registry": str(self.registry),
             "artifact_count": len(artifacts),
