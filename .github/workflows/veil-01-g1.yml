@@ -1,0 +1,31 @@
+name: Veil-01 G1 Architecture Verification
+
+on:
+  push:
+    paths:
+      - 'vault/architecture/veil-01/**'
+      - 'scripts/veil-01-verify.py'
+      - '.github/workflows/veil-01-g1.yml'
+  pull_request:
+    paths:
+      - 'vault/architecture/veil-01/**'
+      - 'scripts/veil-01-verify.py'
+      - '.github/workflows/veil-01-g1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install verifier dependency
+        run: python -m pip install --disable-pip-version-check pyyaml
+      - name: Run Veil-01 G1 verifier
+        run: python scripts/veil-01-verify.py
