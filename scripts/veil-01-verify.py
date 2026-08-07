@@ -92,7 +92,7 @@ def main() -> int:
         if source not in modes or target not in modes:
             fail(errors, f"V04: transition {transition!r} references unknown mode")
 
-    # V05: each critical system must have at least one failure behavior and recovery path.
+    # V05: each failure definition must provide detection, response, and recovery.
     failures = docs["failures"].get("failure_modes", [])
     if not failures:
         fail(errors, "V05: no failure modes defined")
@@ -107,17 +107,21 @@ def main() -> int:
     recovery = docs["systems"].get("recovery", {})
     if recovery.get("strategy") != "isolate_restore_verify_reintegrate":
         fail(errors, "V06: recovery strategy must be isolate_restore_verify_reintegrate")
-    required = set(recovery.get("reintegrate_requires", []))
+    # Canonical schema uses the noun phrase `reintegration_requires`.
+    required = set(recovery.get("reintegration_requires", []))
     for item in ("component_health", "configuration_integrity", "dependency_health", "functional_test", "evidence_record"):
         if item not in required:
             fail(errors, f"V06: recovery reintegration missing {item}")
 
     # V07: critical habitation path cannot depend on communications/WAN.
     sanctuary = systems.get("sanctuary", {})
-    forbidden = {"communications"}
-    if forbidden & set(sanctuary.get("depends_on", [])):
+    if "communications" in set(sanctuary.get("depends_on", [])):
         fail(errors, "V07: sanctuary directly depends on communications")
-    if any(systems.get(x, {}).get("tier") == "critical" and "communications" in systems.get(x, {}).get("depends_on", []) for x in systems):
+    if any(
+        systems.get(x, {}).get("tier") == "critical"
+        and "communications" in systems.get(x, {}).get("depends_on", [])
+        for x in systems
+    ):
         fail(errors, "V07: a critical system directly depends on communications")
 
     # V08: evidence must be an explicit interface and local observability must exist.
