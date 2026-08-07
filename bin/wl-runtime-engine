@@ -31,6 +31,13 @@ if [[ "${1:-}" == "verify" ]]; then
     esac
   done
 
+  # Bash with `set -u` can reject an empty array expansion. Build the optional
+  # argument vector explicitly so `verify` with no forwarded arguments is safe.
+  core_args=(verify)
+  if ((${#forwarded[@]})); then
+    core_args+=("${forwarded[@]}")
+  fi
+
   if [[ "$json" == true ]]; then
     stdout_file="$(mktemp)"
     stderr_file="$(mktemp)"
@@ -42,7 +49,7 @@ if [[ "${1:-}" == "verify" ]]; then
     trap cleanup EXIT
 
     set +e
-    "$CORE" verify "${forwarded[@]}" \
+    "$CORE" "${core_args[@]}" \
       > "$stdout_file" \
       2> "$stderr_file"
     rc=$?
@@ -90,7 +97,7 @@ PY
     exit "$rc"
   fi
 
-  exec "$CORE" verify "${forwarded[@]}"
+  exec "$CORE" "${core_args[@]}"
 fi
 
 exec "$CORE" "$@"
