@@ -1,0 +1,69 @@
+schema: wonderland.veil.capability-contract
+schema_version: 1
+veil: veil-01
+
+capabilities:
+  - id: veil.energy.read
+    domain: energy
+    effect: read
+  - id: veil.energy.control
+    domain: energy
+    effect: control
+    requires: [identity, policy, audit]
+  - id: veil.water.read
+    domain: water
+    effect: read
+  - id: veil.water.control
+    domain: water
+    effect: control
+    requires: [identity, policy, audit]
+  - id: veil.air.read
+    domain: air
+    effect: read
+  - id: veil.air.control
+    domain: air
+    effect: control
+    requires: [identity, policy, audit]
+  - id: veil.access.read
+    domain: physical_access
+    effect: read
+  - id: veil.access.control
+    domain: physical_access
+    effect: control
+    requires: [identity, policy, audit]
+  - id: veil.mode.read
+    domain: operating_mode
+    effect: read
+  - id: veil.mode.transition
+    domain: operating_mode
+    effect: transition
+    requires: [identity, policy, evidence]
+  - id: veil.fabrication.control
+    domain: fabrication
+    effect: control
+    requires: [identity, policy, audit]
+  - id: veil.evidence.read
+    domain: evidence
+    effect: read
+  - id: veil.evidence.append
+    domain: evidence
+    effect: append
+    requires: [authenticated_runtime]
+
+default_policy:
+  deny_by_default: true
+  physical_actuation: explicit_capability_only
+  emergency_override: life_safety_only
+  external_remote_control: disabled_by_default
+  local_control: permitted_when_authenticated_and_authorized
+  evidence: append_before_or_atomically_with_state_change
+
+boundary_rules:
+  - capability_scope_must_match_target_domain
+  - caller_identity_must_be_authenticated
+  - authorization_must_be_current
+  - requested_operation_must_be_compatible_with_operating_mode
+  - destructive_or_irreversible_operations_require_explicit_confirmation
+  - every_control_operation_must_produce_an_audit_event
+  - loss_of_network_must_not_create_new_authority
+  - loss_of_policy_service_must_fail_closed_except_defined_life_safety_paths
