@@ -6,6 +6,5 @@
   "governance": true,
   "recovery": true,
   "override": true,
-  "status": "active",
-  "generated": "'"$(date -u +%FT%TZ)"'"
+  "status": "active"
 }
