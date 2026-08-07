@@ -1,0 +1,68 @@
+schema: wonderland.veil.verification
+schema_version: 1
+veil: veil-01
+version: 0.2.0
+status: architecture-verification-plan
+
+checks:
+  - id: V01
+    target: system-model
+    assertion: every_system_has_explicit_dependencies_and_degraded_behavior
+    method: static_review
+    evidence: architecture-review
+  - id: V02
+    target: trust-boundaries
+    assertion: critical_domains_do_not_share_implicit_authority
+    method: boundary_review
+    evidence: trust-boundary-review
+  - id: V03
+    target: capability-contract
+    assertion: physical_actuation_is_deny_by_default
+    method: policy_review
+    evidence: capability-policy-review
+  - id: V04
+    target: operating-modes
+    assertion: each_mode_has_entry_exit_and_safety_constraints
+    method: state-machine_review
+    evidence: mode-model-review
+  - id: V05
+    target: failure-modes
+    assertion: each_critical_failure_has_detection_response_and_recovery
+    method: failure-analysis
+    evidence: failure-analysis-record
+  - id: V06
+    target: recovery
+    assertion: reintegration_requires_verification
+    method: recovery-procedure-review
+    evidence: recovery-review
+  - id: V07
+    target: local-operation
+    assertion: core_habitation_does_not_require_internet
+    method: dependency-analysis
+    evidence: dependency-review
+  - id: V08
+    target: observability
+    assertion: state_changes_and_failures_produce_local_evidence
+    method: evidence-flow-review
+    evidence: evidence-review
+
+implementation_gates:
+  G1:
+    name: architecture_complete
+    requires: [V01, V02, V03, V04, V05]
+  G2:
+    name: engineering_ready
+    requires: [G1, site_data, code_review, professional_engineering_inputs]
+  G3:
+    name: commissioning_ready
+    requires: [G2, installed_systems, test_procedures, safety_review]
+  G4:
+    name: certified_operation
+    requires: [G3, passed_commissioning_tests, evidence_complete, recovery_test]
+
+prohibited_claims:
+  - structurally_safe_without_engineering
+  - fire_code_compliant_without_authority_review
+  - cyber_secure_without_threat_testing
+  - anonymous_by_default
+  - self_sufficient_indefinitely
