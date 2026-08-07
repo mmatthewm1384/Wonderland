@@ -1,0 +1,61 @@
+schema: wonderland.veil.failure-modes
+schema_version: 1
+veil: veil-01
+
+failure_modes:
+  - id: grid-loss
+    triggers: [utility_power_unavailable]
+    detection: energy
+    response: isolated
+    preserve: [air, water, life_safety, computing, communications]
+    shed: [fabrication, nonessential_comfort]
+    recovery: verify_grid_before_reintegration
+
+  - id: smoke-event
+    triggers: [external_air_quality_degraded]
+    detection: air
+    response: isolated
+    actions: [close_external_air_paths, increase_filtration, reduce_unnecessary_infiltration]
+    preserve: [habitation, life_safety]
+    recovery: verify_external_air_quality
+
+  - id: water-source-loss
+    triggers: [source_unavailable, treatment_unavailable]
+    detection: water
+    response: conservation
+    actions: [switch_to_reserve, prioritize_potable_and_life_safety, suspend_nonessential_use]
+    recovery: restore_source_or_treatment_then_test
+
+  - id: communications-loss
+    triggers: [wan_unavailable, upstream_network_unavailable]
+    detection: communications
+    response: local_only
+    actions: [retain_local_network, retain_local_control, queue_deferred_sync]
+    recovery: authenticated_reconnection_and_sync_verification
+
+  - id: computing-degradation
+    triggers: [control_service_failure]
+    detection: computing
+    response: emergency
+    actions: [preserve_life_safety_controls, preserve_local_evidence, disable_noncritical_automation]
+    recovery: restore_from_known_good_configuration
+
+  - id: enclosure-compromise
+    triggers: [fire_damage, water_intrusion, structural_alarm]
+    detection: envelope
+    response: emergency
+    actions: [isolate_zone, protect_egress, consolidate_to_safe_zone]
+    recovery: structural_and_environmental_assessment
+
+  - id: multi-system-event
+    triggers: [multiple_critical_failures]
+    detection: observability
+    response: emergency
+    actions: [manual_authority, life_safety_priority, controlled_shutdown_of_noncritical_systems]
+    recovery: dependency_ordered_reconstruction
+
+safety_rules:
+  - never_trade_life_safety_for_service_availability
+  - never_restore_failed_system_without_verification
+  - never_reintegrate_external_dependencies_without_authenticated_state
+  - preserve evidence across failure and recovery
