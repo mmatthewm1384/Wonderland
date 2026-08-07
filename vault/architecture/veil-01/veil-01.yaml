@@ -1,0 +1,263 @@
+schema: wonderland.veil
+schema_version: 1
+id: veil-01
+name: Veil-01
+status: architecture-baseline
+version: 0.1.0
+purpose: >-
+  Define a resilient private habitat architecture that preserves human life,
+  autonomy, privacy, capability, and quality of life across prolonged
+  disruption while remaining a normal, beautiful home during ordinary operation.
+
+principles:
+  - graceful_degradation
+  - no_single_point_of_failure_for_critical_services
+  - local_first_operation
+  - serviceable_without_destroying_primary_spaces
+  - observable_and_auditable
+  - compartmentalized_trust_boundaries
+  - recoverable_by_design
+  - multi_hazard_resilience
+  - privacy_by_architecture
+  - quality_of_life_is_a_first_class_requirement
+
+threat_model:
+  scope:
+    - wildfire
+    - ember_intrusion
+    - earthquake
+    - prolonged_grid_outage
+    - communications_loss
+    - water_service_loss
+    - severe_weather
+    - smoke_and_air_quality_events
+    - supply_chain_disruption
+    - equipment_failure
+  non_goals:
+    - invulnerability
+    - guaranteed_anonymity
+    - military_defense
+    - indefinite_resource_independence
+
+architecture:
+  spatial_layers:
+    - id: landscape
+      role: ecological_buffer_and_site_resilience
+    - id: site
+      role: defensible_and_observable_site
+    - id: envelope
+      role: weather_fire_moisture_and_intrusion_resistance
+    - id: service
+      role: utilities_distribution_maintenance_and_instrumentation
+    - id: environmental
+      role: air_water_temperature_humidity_and_pressure_control
+    - id: sanctuary
+      role: primary_habitation_and_quality_of_life
+  zones:
+    - id: arrival
+      class: controlled_transition
+    - id: service
+      class: infrastructure
+    - id: fabrication
+      class: technical_capability
+    - id: storage
+      class: inventory_and_recovery
+    - id: utility
+      class: energy_water_air_comms
+    - id: sanctuary
+      class: living
+    - id: courtyard
+      class: protected_nature_interface
+
+systems:
+  energy:
+    required: true
+    architecture: generation_to_storage_to_distribution
+    critical_property: islandable
+    critical_loads:
+      - life_safety
+      - environmental_control
+      - water
+      - communications
+      - computing
+      - security_monitoring
+  water:
+    required: true
+    architecture: source_to_raw_storage_to_treatment_to_potable_storage_to_distribution
+    separation:
+      - potable
+      - domestic
+      - irrigation
+      - emergency_fire_reserve
+    critical_property: local_reserve
+  air:
+    required: true
+    capabilities:
+      - ventilation
+      - filtration
+      - humidity_control
+      - smoke_management
+      - radon_management
+      - pressure_control
+    critical_property: controlled_air_path
+  communications:
+    required: true
+    architecture: local_first
+    degraded_mode: local_operation_without_internet
+  computing:
+    required: true
+    architecture: edge_first
+    capabilities:
+      - local_services
+      - local_storage
+      - local_ai
+      - telemetry
+      - automation
+      - evidence
+  fabrication:
+    required: false
+    capabilities:
+      - electronics
+      - precision_repair
+      - additive_manufacturing
+      - small_scale_machining
+      - metrology
+      - embedded_systems
+  storage:
+    required: true
+    capabilities:
+      - critical_spares
+      - tools
+      - consumables
+      - food
+      - water
+      - emergency_equipment
+
+trust_model:
+  rule: no_critical_system_trusts_everything_else
+  domains:
+    - life_safety
+    - energy
+    - water
+    - air
+    - physical_access
+    - computing
+    - communications
+    - fabrication
+    - evidence
+  requirements:
+    - explicit_interfaces
+    - least_privilege_control
+    - local_fallback
+    - immutable_or_append_only_evidence_where_required
+    - manual_override_for_life_safety
+
+operating_modes:
+  - id: normal
+    description: Full residential operation with ordinary external dependencies permitted.
+  - id: conservation
+    description: Reduced resource consumption while preserving normal habitation.
+  - id: isolated
+    description: External infrastructure unavailable; critical systems operate locally.
+  - id: emergency
+    description: Life-safety and preservation loads take priority over comfort loads.
+  - id: recovery
+    description: Controlled restoration, verification, evidence capture, and return to normal.
+
+mode_transition:
+  allowed:
+    - normal->conservation
+    - normal->isolated
+    - normal->emergency
+    - conservation->isolated
+    - conservation->emergency
+    - isolated->emergency
+    - isolated->recovery
+    - emergency->recovery
+    - recovery->normal
+  requirements:
+    - transition_reason
+    - timestamp
+    - initiating_system_or_operator
+    - verification
+    - evidence_record
+
+failure_strategy:
+  priority_order:
+    - life_safety
+    - environmental_stability
+    - water
+    - energy
+    - communications
+    - computing
+    - security_monitoring
+    - fabrication
+    - comfort
+  rule: degrade_noncritical_capabilities_before_critical_capabilities
+
+observability:
+  requirements:
+    - system_health
+    - energy_state
+    - water_state
+    - air_quality
+    - environmental_state
+    - communications_state
+    - storage_state
+    - security_state
+    - mode_state
+    - maintenance_state
+  evidence:
+    - configuration
+    - state_transitions
+    - alerts
+    - maintenance
+    - incidents
+    - recovery_verification
+
+lifecycle:
+  stages:
+    - concept
+    - site_validation
+    - schematic_design
+    - engineering
+    - construction
+    - commissioning
+    - certified_operation
+    - maintenance
+    - renewal
+    - retirement
+  rule: no_stage_is_complete_without_evidence
+
+interfaces:
+  wonderland:
+    direction: digital_control_and_governance
+    integration_points:
+      - identity
+      - trust
+      - capability_registry
+      - evidence
+      - transaction_engine
+      - oblivion
+  physical_world:
+    direction: monitored_controlled_interface
+    rule: physical_actuation_requires_explicit_capability_boundary
+
+security_posture:
+  privacy: architectural_requirement
+  anonymity: not_guaranteed
+  security_goal: compartmentalized_resilience_and_recoverability
+  physical_security: layered
+  cyber_security: local_first_zero_trust_inspired
+  human_override: required_for_life_safety
+
+acceptance_criteria:
+  - canonical_architecture_artifact_exists
+  - every_critical_system_has_defined_degraded_behavior
+  - critical_domains_have_explicit_trust_boundaries
+  - operating_modes_are_defined
+  - mode_transitions_are_auditable
+  - observability_requirements_are_defined
+  - lifecycle_requires_evidence
+  - external_connectivity_is_not_required_for_core_habitation
+  - architecture_can_be_implemented_incrementally
