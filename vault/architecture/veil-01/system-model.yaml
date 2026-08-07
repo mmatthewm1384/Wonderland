@@ -1,0 +1,185 @@
+schema: wonderland.veil.system-model
+schema_version: 1
+veil: veil-01
+version: 0.2.0
+status: system-model
+
+systems:
+  site:
+    tier: critical
+    depends_on: []
+    provides: [site_state, environmental_context]
+    failure_behavior: degraded_observation
+  envelope:
+    tier: critical
+    depends_on: [site]
+    provides: [weather_resistance, wildfire_resistance, physical_protection]
+    failure_behavior: isolate_affected_zone
+  energy:
+    tier: critical
+    depends_on: [site]
+    provides: [power]
+    interfaces: [generation, storage, distribution]
+    failure_behavior: shed_noncritical_loads
+  water:
+    tier: critical
+    depends_on: [site, energy]
+    provides: [potable_water, domestic_water, fire_reserve]
+    interfaces: [source, raw_storage, treatment, potable_storage, distribution]
+    failure_behavior: ration_and_prioritize
+  air:
+    tier: critical
+    depends_on: [envelope, energy]
+    provides: [ventilation, filtration, humidity_control, smoke_control, radon_control]
+    failure_behavior: isolate_air_zone_and_reduce_load
+  communications:
+    tier: important
+    depends_on: [energy, computing]
+    provides: [local_network, external_connectivity]
+    failure_behavior: local_only
+  computing:
+    tier: critical
+    depends_on: [energy]
+    provides: [local_services, telemetry, automation, evidence]
+    failure_behavior: preserve_control_and_evidence_services
+  physical_access:
+    tier: critical
+    depends_on: [energy, computing]
+    provides: [access_control, egress_state]
+    failure_behavior: fail_safe_life_safety_and_manual_override
+  observability:
+    tier: critical
+    depends_on: [energy, computing]
+    provides: [health_state, alarms, telemetry, audit_events]
+    failure_behavior: local_recording_with_deferred_sync
+  storage:
+    tier: important
+    depends_on: [envelope]
+    provides: [spares, consumables, emergency_reserves]
+    failure_behavior: inventory_lockdown_and_priority_allocation
+  fabrication:
+    tier: optional
+    depends_on: [energy, computing, storage]
+    provides: [repair, prototyping, small_scale_manufacturing]
+    failure_behavior: shutdown_and_preserve_tools
+  sanctuary:
+    tier: critical
+    depends_on: [envelope, energy, water, air]
+    provides: [habitation]
+    failure_behavior: consolidate_to_safe_habitable_zone
+
+trust_boundaries:
+  - id: life-safety
+    members: [energy, water, air, physical_access]
+    control: explicit_capabilities
+    external_dependency: none_required
+  - id: infrastructure
+    members: [energy, water, air, computing, observability]
+    control: least_privilege
+    external_dependency: none_required
+  - id: digital
+    members: [computing, communications, observability]
+    control: authenticated_local_interfaces
+    external_dependency: none_required
+  - id: habitation
+    members: [sanctuary]
+    control: policy_and_mode_state
+    external_dependency: none_required
+  - id: technical
+    members: [fabrication, storage]
+    control: explicit_operator_or_capability
+    external_dependency: none_required
+
+interfaces:
+  - id: power-distribution
+    producer: energy
+    consumers: [water, air, computing, physical_access, observability, sanctuary, fabrication]
+    criticality: high
+  - id: local-network
+    producer: communications
+    consumers: [computing, observability, physical_access, sanctuary]
+    criticality: high
+  - id: environmental-telemetry
+    producer: observability
+    consumers: [computing]
+    criticality: high
+  - id: mode-control
+    producer: computing
+    consumers: [energy, water, air, communications, physical_access, fabrication, sanctuary]
+    criticality: high
+  - id: evidence
+    producer: computing
+    consumers: [observability]
+    destination: wonderland_evidence_system
+    criticality: high
+
+failure_classes:
+  - id: single_component
+    response: isolate_replace_verify
+  - id: subsystem
+    response: invoke_degraded_mode
+  - id: shared_dependency
+    response: preserve_life_safety_then_shed_dependents
+  - id: external_infrastructure
+    response: enter_isolated_mode
+  - id: multi_system_event
+    response: emergency_mode_and_manual_authority
+
+capability_contract:
+  physical_actuation:
+    requires:
+      - authenticated_identity
+      - explicit_capability
+      - policy_authorization
+      - current_mode_compatibility
+      - audit_event
+    denies_by_default: true
+  emergency_override:
+    requires:
+      - life_safety_condition
+      - local_authority
+      - evidence_record
+    scope: life_safety_only
+
+verification:
+  required_for_each_system:
+    - owner
+    - inputs
+    - outputs
+    - dependencies
+    - degraded_behavior
+    - recovery_procedure
+    - telemetry
+    - evidence
+    - manual_override
+  required_for_each_interface:
+    - authentication
+    - authorization
+    - timeout_behavior
+    - failure_behavior
+    - audit_event
+  required_for_each_operating_mode:
+    - entry_conditions
+    - exit_conditions
+    - load_policy
+    - safety_constraints
+    - evidence
+
+recovery:
+  strategy: isolate_restore_verify_reintegrate
+  ordering:
+    - life_safety
+    - air
+    - water
+    - energy
+    - communications
+    - computing
+    - observability
+    - habitation
+    - technical_capability
+  reintegration_requires:
+    - component_health
+    - configuration_integrity
+    - dependency_health
+    - functional_test
+    - evidence_record
