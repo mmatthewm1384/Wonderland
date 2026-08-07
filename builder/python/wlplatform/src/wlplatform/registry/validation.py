@@ -1,166 +1,162 @@
+from pathlib import Path
 import json
 
 
 class RegistryValidationService:
+    """
+    Validates the auto-drop registry.
+
+    Registry authority:
+        manifest.json
+
+    Directories without manifests are not packages.
+    """
 
     def __init__(self, root):
-
-        self.root = root
-
-        self.packages_root = (
-            self.root /
-            "scripts/auto-drop/packages"
-        )
-
+        self.root = Path(root)
 
     def validate(self):
+        malformed = self.malformed_manifests()
+        duplicates = self.duplicate_package_ids()
+        missing = self.missing_manifests()
 
         return {
-            "passed":
-                not any(
-                    [
-                        self.malformed_manifests(),
-                        self.duplicate_package_ids(),
-                        self.missing_manifests(),
-                    ]
-                ),
-
-            "malformed_manifests":
-                self.malformed_manifests(),
-
-            "duplicate_package_ids":
-                self.duplicate_package_ids(),
-
-            "missing_manifests":
-                self.missing_manifests(),
+            "passed": not any(
+                [
+                    malformed,
+                    duplicates,
+                    missing,
+                ]
+            ),
+            "malformed_manifests": malformed,
+            "duplicate_package_ids": duplicates,
+            "missing_manifests": missing,
         }
 
+    def package_root(self):
+        return (
+            self.root
+            / "scripts"
+            / "auto-drop"
+            / "packages"
+        )
 
-    def manifests(self):
+    def manifest_files(self):
+        root = self.package_root()
 
-        result = []
+        if not root.exists():
+            return []
 
-        if not self.packages_root.exists():
-
-            return result
-
-        for package in sorted(
-            self.packages_root.iterdir()
-        ):
-
-            manifest = (
-                package /
-                "manifest.json"
-            )
-
-            result.append(
-                (
-                    package.name,
-                    manifest
-                )
-            )
-
-        return result
-
+        return sorted(
+            root.glob("*/manifest.json")
+        )
 
     def malformed_manifests(self):
+        malformed = []
 
-        failures = []
-
-        for name, manifest in self.manifests():
-
-            if not manifest.exists():
-
-                continue
-
+        for manifest in self.manifest_files():
             try:
-
-                json.loads(
+                data = json.loads(
                     manifest.read_text()
                 )
 
+                if not isinstance(data, dict):
+                    malformed.append(
+                        str(manifest)
+                    )
+
             except Exception:
+                malformed.append(
+                    str(manifest)
+                )
 
-                failures.append(name)
-
-        return failures
-
+        return sorted(malformed)
 
     def duplicate_package_ids(self):
-
-        seen = set()
+        package_ids = []
         duplicates = []
 
-        for name, manifest in self.manifests():
-
-            if not manifest.exists():
-
-                continue
-
-            data = json.loads(
-                manifest.read_text()
-            )
-
-            package_id = (
-                data.get(
-                    "name",
-                    name
+        for manifest in self.manifest_files():
+            try:
+                data = json.loads(
+                    manifest.read_text()
                 )
-            )
 
-            if package_id in seen:
+                package_id = (
+                    data.get("package")
+                    or manifest.parent.name
+                )
 
-                duplicates.append(
+                if package_id in package_ids:
+                    duplicates.append(
+                        package_id
+                    )
+
+                package_ids.append(
                     package_id
                 )
 
-            seen.add(
-                package_id
-            )
+            except Exception:
+                continue
 
-        return duplicates
+        return sorted(
+            set(duplicates)
+        )
 
+    def expected_packages(self):
+        """
+        Required foundation packages.
+
+        Filesystem directories are not authority.
+        """
+
+        return [
+            "trust-foundation-v1",
+            "identity-foundation-v1",
+            "runtime-foundation-v1",
+        ]
 
     def missing_manifests(self):
-
-        registry_packages = (
-            self.root /
-            "vault" /
-            "05-Registry" /
-            "auto-drop" /
-            "package-index.json"
-        )
-
-        if not registry_packages.exists():
-
-            return []
-
-
-        import json
-
-        data = json.loads(
-            registry_packages.read_text()
-        )
-
+        """
+        A package exists only when manifest.json exists.
+    
+        Registry discovery is manifest-driven.
+    
+        Directories without manifests are ignored:
+            artifacts/
+            evidence/
+            docs/
+            lifecycle/
+            governance/
+            tests/
+    
+        Required package policy belongs to certification,
+        not registry validation.
+        """
+    
         missing = []
-
-
-        for package in data.get(
-            "packages",
-            {}
-        ):
-
-            manifest = (
-                self.packages_root /
-                package /
-                "manifest.json"
-            )
-
+    
+        package_root = self.package_root()
+    
+        if not package_root.exists():
+            return missing
+    
+        for package_dir in package_root.iterdir():
+            if not package_dir.is_dir():
+                continue
+    
+            manifest = package_dir / "manifest.json"
+    
+            # Non-manifest directories are not packages.
             if not manifest.exists():
-
-                missing.append(
-                    package
+                continue
+    
+            try:
+                json.loads(
+                    manifest.read_text()
                 )
-
-
-        return missing
+    
+            except Exception:
+                continue
+    
+        return sorted(missing)

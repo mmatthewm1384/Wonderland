@@ -255,7 +255,8 @@ def dispatch(args):
         return registry_execute(
             context.root,
             args[1],
-            package,
+            args[2] if len(args) > 2 else None,
+            args[3:],
         )
 
 

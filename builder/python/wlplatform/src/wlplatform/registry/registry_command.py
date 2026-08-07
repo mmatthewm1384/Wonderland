@@ -1,59 +1,40 @@
 from wlplatform.registry.registry_service import RegistryService
 
 
-def execute(root, command, package=None):
+def execute(
+    root,
+    action,
+    package=None,
+    args=None,
+):
+    registry = RegistryService(root)
 
-    registry = RegistryService(
-        root
-    )
+    args = args or []
 
-    if command == "verify-dependencies":
-
-        return registry.verify_dependencies(
-            package
-        )
-
-
-    if command == "rebuild":
-
-        return registry.rebuild()
-
-
-    if command == "inspect":
-
-        return registry.inspect(
-            package
-        )
-
-
-    if command == "certify":
-
+    if action == "certify":
         return registry.certify()
 
-    if command == "verify-graph":
+    if action == "verify":
+        return registry.verify()
 
-        return registry.verify_graph()
-
-    if command == "validate":
-
+    if action == "validate":
         return registry.validate()
 
+    if action == "capability":
 
-    if command == "verify-chain":
+        if not package or not args:
+            raise RuntimeError(
+                "Usage: wl registry capability <package> <capability>"
+            )
 
-        return registry.verify_chain()
+        return registry.capability_request(
+            package,
+            args[0],
+        )
 
+    if action == "capability-verify":
+        return registry.capability_verify()
 
-    if command == "verify-hash":
-
-        return registry.verify_hash()
-
-
-    if command == "snapshot":
-
-        return registry.snapshot()
-
-
-    raise SystemExit(
-        f"unsupported registry command: {command}"
+    raise RuntimeError(
+        f"Unknown registry action: {action}"
     )
