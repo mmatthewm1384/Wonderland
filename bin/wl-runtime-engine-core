@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-readonly WL_ROOT="/Users/wonderland/Wonderland"
+WL_ROOT="${WL_ROOT:-${WL_HOME:-${WONDERLAND_ROOT:-}}}"
+
+if [[ -z "$WL_ROOT" ]]; then
+  WL_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
+fi
+
+readonly WL_ROOT
 readonly PACKAGE_ROOT="$WL_ROOT/builder/python/wlruntime"
 
 fail() {
