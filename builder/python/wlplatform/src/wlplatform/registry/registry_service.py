@@ -1,6 +1,18 @@
 from pathlib import Path
 import json
 
+from wlplatform.registry.capability_verification import (
+    CapabilityAttestationVerifier,
+)
+from wlplatform.registry.capability_graph_validation import (
+    CapabilityGraphValidator,
+)
+from wlplatform.registry.capability_admission import (
+    CapabilityAdmission
+)
+
+from wlplatform.registry.admission import RegistryAdmission
+from wlplatform.registry.attestation import RegistryAttestation
 from .package_index import PackageIndex
 from .dependency_graph import DependencyGraph
 from .certification import RegistryCertification
@@ -77,6 +89,41 @@ class RegistryService:
             "package": package,
             "dependencies": self.dependencies(package),
         }
+
+    def capabilities(self):
+
+        return (
+            CapabilityGraphValidator(
+                self.root
+            )
+            .graph()
+        )
+
+    def capability_request(
+        self,
+        package,
+        capability,
+    ):
+        from wlplatform.registry.capability_admission import (
+            CapabilityAdmission
+        )
+    
+        return CapabilityAdmission(
+            self.root
+        ).request(
+            package,
+            capability,
+        )
+    
+
+    def capability_verify(self):
+    
+        return (
+            CapabilityAttestationVerifier(
+                self.root
+            )
+            .verify()
+        )
 
 
     def installed(self, package):
@@ -242,6 +289,12 @@ class RegistryService:
         ).verify()
 
 
+    def attest(self):
+
+        return RegistryAttestation(
+            self.root
+        ).generate()
+
 
     def snapshot(self):
 
@@ -249,6 +302,12 @@ class RegistryService:
             self.root
         ).create()
 
+
+    def admit(self, package):
+
+        return RegistryAdmission(
+            self.root
+        ).admit(package)
 
 
     def restore(self, snapshot):
@@ -277,7 +336,121 @@ class RegistryService:
             self.root
         ).certify()
 
+    
+    def verify(self):
+        """
+        Verify current registry certification state.
 
+        Verification is read-only.
+
+        Checks:
+            - certification evidence exists
+            - certificate status is CERTIFIED
+            - registry validation passes
+            - certificate digest matches
+        """
+
+        import json
+        import hashlib
+
+        evidence_dir = (
+            self.root
+            / "vault"
+            / "08-Operations"
+            / "evidence"
+            / "registry-certification"
+        )
+
+        certificate_path = (
+            evidence_dir
+            / "latest.json"
+        )
+
+        if not certificate_path.exists():
+            raise RuntimeError(
+                "Registry certification evidence missing"
+            )
+
+        certificate = json.loads(
+            certificate_path.read_text()
+        )
+
+        if certificate.get("status") != "CERTIFIED":
+            raise RuntimeError(
+                "Registry certificate is not CERTIFIED"
+            )
+
+        validation = self.validate()
+
+        if not validation["passed"]:
+            raise RuntimeError(
+                json.dumps(
+                    {
+                        "error":
+                            "Registry validation failed",
+                        "details":
+                            validation,
+                    },
+                    indent=2,
+                )
+            )
+
+        digest_path = (
+            evidence_dir
+            / "latest.sha256"
+        )
+
+        if digest_path.exists():
+
+            expected = (
+                digest_path
+                .read_text()
+                .strip()
+                .split()[0]
+            )
+
+            actual_hash = hashlib.sha256(
+                certificate_path.read_bytes()
+            ).hexdigest()
+
+            actual = (
+                f"sha256:{actual_hash}"
+            )
+
+            if expected != actual:
+                raise RuntimeError(
+                    json.dumps(
+                        {
+                            "error":
+                                "Certificate digest mismatch",
+                            "expected":
+                                expected,
+                            "actual":
+                                actual,
+                        },
+                        indent=2,
+                    )
+                )
+
+        return {
+            "status": "VERIFIED",
+            "registry": "valid",
+            "certificate":
+                str(
+                    certificate_path
+                    .relative_to(self.root)
+                ),
+            "packages":
+                certificate.get(
+                    "packages",
+                    0,
+                ),
+            "foundations":
+                certificate.get(
+                    "foundations",
+                    [],
+                ),
+        }
 
 
     def graph(self):

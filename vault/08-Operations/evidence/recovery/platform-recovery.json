@@ -1,0 +1,13 @@
+{
+  "component": "platform-recovery-v1",
+  "timestamp": "2026-08-06T15:32:00.051081+00:00",
+  "status": "RESTORED",
+  "checks": [
+    "runtime.context",
+    "runtime.adapters",
+    "runtime.inventory",
+    "services",
+    "privacy.command",
+    "identity.command"
+  ]
+}

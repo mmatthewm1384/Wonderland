@@ -1,0 +1,15 @@
+{
+  "type": "registry-attestation",
+  "schema_version": 1,
+  "registry_certificate": "vault/08-Operations/evidence/registry-certification/latest.json",
+  "registry_certificate_sha256": "sha256:e0dd553d221026ea19c84dd9c42db42d6135f2f25096f73e41aad4240eee0630",
+  "registry_index_sha256": "sha256:e077a5894f7da9a1c21eee7c9d0dd8fae95f68741ccc1dbeb7f66946dfa93997",
+  "manifest_tree_sha256": "sha256:ece1ab52860a7d3273dc0a70d74aa411ca7fc7fc62ef72e3f4e021a1df03765f",
+  "package_count": 71,
+  "foundations": [
+    "trust-foundation-v1",
+    "identity-foundation-v1",
+    "runtime-foundation-v1"
+  ],
+  "generated": "2026-08-07T11:49:17.104344+00:00"
+}
