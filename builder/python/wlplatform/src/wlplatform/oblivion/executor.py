@@ -1,29 +1,5 @@
 """
 Oblivion Execution Executor v1.
-
-Orchestrates the already-authorized execution lifecycle:
-
-    Method Route
-        |
-        v
-    ExecutionTransaction.create()
-        |
-        v
-      PREPARED
-        |
-        v
-       RUNNING
-        |
-        +------------------+
-        |                  |
-        v                  v
-    ProviderExecutor   provider error
-        |                  |
-        v                  v
-    SUCCEEDED            FAILED
-
-This module coordinates lifecycle boundaries. It does not authorize
-capabilities, select methods, or implement provider behavior.
 """
 
 from __future__ import annotations
@@ -31,12 +7,8 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import Any
 
-from .execution_transaction import (
-    ExecutionTransaction,
-)
-from .provider import (
-    ProviderExecutor,
-)
+from .execution_transaction import ExecutionTransaction
+from .provider import ProviderExecutor, RegistryProvider
 
 
 class ExecutionExecutorError(RuntimeError):
@@ -45,205 +17,252 @@ class ExecutionExecutorError(RuntimeError):
 
 class ExecutionExecutor:
     """
-    Orchestrate one complete Oblivion execution.
+    Injectable execution boundary.
 
-    ExecutionTransaction intentionally exposes a canonical serialized
-    mapping through create(). The executor therefore uses the class-level
-    transaction API rather than assuming an instance object.
+    Supports:
+
+        MethodRoute
+            -> ExecutionTransaction
+            -> ProviderExecutor
+            -> completed transaction
+
+    and:
+
+        ExecutionTransaction
+            -> ProviderExecutor
+            -> execution envelope
     """
 
     TYPE = "oblivion-execution"
     SCHEMA_VERSION = 1
 
-    def __init__(
-        self,
-        provider_executor: ProviderExecutor,
-    ) -> None:
-        if not isinstance(
-            provider_executor,
-            ProviderExecutor,
+    ROUTE_TYPE = "oblivion-method-route"
+    TRANSACTION_TYPE = "oblivion-execution-transaction"
+
+    PENDING = "PENDING"
+    RUNNING = "RUNNING"
+    SUCCEEDED = "SUCCEEDED"
+    FAILED = "FAILED"
+
+    def __init__(self, provider_executor):
+        if provider_executor is None:
+            raise ExecutionExecutorError(
+                "Provider executor is required"
+            )
+
+        if not callable(
+            getattr(provider_executor, "execute", None)
         ):
             raise ExecutionExecutorError(
-                "provider_executor must be a ProviderExecutor"
+                "Provider executor must provide execute()"
             )
 
         self.provider_executor = provider_executor
 
+    def run(
+        self,
+        value: dict[str, Any],
+    ) -> dict[str, Any]:
+        """Execute a route or transaction."""
+
+        if not isinstance(value, dict):
+            raise ExecutionExecutorError(
+                "Execution input must be an object"
+            )
+
+        input_type = value.get("type")
+
+        if input_type == self.ROUTE_TYPE:
+            return self._execute_route(value)
+
+        if input_type == self.TRANSACTION_TYPE:
+            return self._execute_transaction(value)
+
+        raise ExecutionExecutorError(
+            "Invalid execution input type"
+        )
+
     def execute(
+        self,
+        value: dict[str, Any],
+    ) -> dict[str, Any]:
+        """
+        Backward-compatible execution entry point.
+
+        MethodRoute input returns the completed transaction.
+        ExecutionTransaction input returns the completed transaction.
+        """
+
+        result = self.run(value)
+
+        if isinstance(result, dict) and "transaction" in result:
+            return deepcopy(result["transaction"])
+
+        return result
+
+    def _execute_route(
         self,
         route: dict[str, Any],
     ) -> dict[str, Any]:
         """
-        Execute a routed transaction.
+        Compatibility path:
 
-        Lifecycle:
-
-            create
-              ↓
-            PREPARED
-              ↓
-            RUNNING
-              ↓
-            provider
-              ↓
-            SUCCEEDED / FAILED
-
-        Returns the final canonical transaction on success.
-
-        Provider failures are persisted into the transaction as FAILED
-        and then re-raised to the caller.
+            MethodRoute -> completed transaction
         """
 
-        self._validate_route(route)
-
-        transaction = ExecutionTransaction.create(
-            deepcopy(route)
-        )
-
-        transaction = ExecutionTransaction.transition(
-            transaction,
-            "PREPARED",
-        )
-
-        transaction = ExecutionTransaction.transition(
-            transaction,
-            "RUNNING",
-        )
+        working_route = deepcopy(route)
 
         try:
-            execution = (
-                self.provider_executor.execute(
-                    transaction
-                )
+            transaction = ExecutionTransaction.create(
+                working_route
             )
-
-            provider_result = execution.get(
-                "result"
-            )
-
-            if not isinstance(
-                provider_result,
-                dict,
-            ):
-                raise ExecutionExecutorError(
-                    "Provider execution returned no result object"
-                )
-
-            transaction = (
-                ExecutionTransaction.transition(
-                    transaction,
-                    "SUCCEEDED",
-                    provider_result,
-                )
-            )
-
-            return transaction
-
         except Exception as exc:
-            reason = str(exc).strip()
+            raise ExecutionExecutorError(
+                str(exc)
+            ) from exc
 
-            if not reason:
-                reason = (
-                    exc.__class__.__name__
+        execution = self._execute_transaction(
+            transaction
+        )
+
+        return deepcopy(
+            execution["transaction"]
+        )
+
+    def _execute_transaction(
+        self,
+        transaction: dict[str, Any],
+    ) -> dict[str, Any]:
+        """Canonical transaction execution path."""
+
+        if not isinstance(transaction, dict):
+            raise ExecutionExecutorError(
+                "Execution transaction must be an object"
+            )
+
+        working = deepcopy(transaction)
+
+        if working.get("type") != self.TRANSACTION_TYPE:
+            raise ExecutionExecutorError(
+                "Invalid execution transaction type"
+            )
+
+        state = working.get("state")
+
+        if not isinstance(state, dict):
+            raise ExecutionExecutorError(
+                "Execution transaction state is required"
+            )
+
+        if state.get("status") != self.PENDING:
+            raise ExecutionExecutorError(
+                f"Transaction cannot execute from state {state}"
+            )
+
+        working["state"] = {
+            "status": self.RUNNING
+        }
+
+        try:
+            provider_execution = (
+                self.provider_executor.execute(
+                    working
                 )
-
-            try:
-                transaction = (
-                    ExecutionTransaction.transition(
-                        transaction,
-                        "FAILED",
-                        reason,
-                    )
-                )
-            except RuntimeError as transition_error:
-                raise ExecutionExecutorError(
-                    "Execution failed and transaction "
-                    "could not enter FAILED state: "
-                    f"{transition_error}"
-                ) from exc
-
+            )
+        except Exception:
+            working["state"] = {
+                "status": self.FAILED
+            }
             raise
 
-    @staticmethod
-    def _validate_route(
-        route: dict[str, Any],
-    ) -> None:
         if not isinstance(
-            route,
+            provider_execution,
             dict,
         ):
             raise ExecutionExecutorError(
-                "Execution route must be an object"
+                "Provider execution result must be an object"
             )
 
-        if route.get("type") != (
-            "oblivion-method-route"
-        ):
+        if provider_execution.get(
+            "type"
+        ) != "oblivion-provider-execution":
             raise ExecutionExecutorError(
-                "Invalid method route type"
+                "Invalid provider execution type"
             )
 
-        if route.get(
-            "schema_version"
-        ) != 1:
-            raise ExecutionExecutorError(
-                "Unsupported method route schema"
-            )
-
-        subject = route.get(
-            "subject"
+        provider_result = provider_execution.get(
+            "result"
         )
 
         if not isinstance(
-            subject,
+            provider_result,
             dict,
         ):
             raise ExecutionExecutorError(
-                "Execution route subject is required"
+                "Provider execution result record is required"
             )
 
-        authorization = route.get(
-            "authorization"
+        working["state"] = {
+            "status": self.SUCCEEDED
+        }
+
+        # The transaction's canonical result is the provider
+        # result record, not the complete provider execution
+        # envelope.
+        working["result"] = deepcopy(
+            provider_result
         )
 
-        if not isinstance(
-            authorization,
-            dict,
-        ):
-            raise ExecutionExecutorError(
-                "Execution route authorization is required"
-            )
+        working["error"] = None
 
-        if authorization.get(
-            "status"
-        ) != "GRANTED":
-            raise ExecutionExecutorError(
-                "Execution route is not authorized"
-            )
+        return {
+            "type": self.TYPE,
+            "schema_version": self.SCHEMA_VERSION,
+            "transaction": working,
+            "provider_execution": deepcopy(
+                provider_execution
+            ),
+        }
 
-        method = route.get(
-            "method"
+
+class Executor:
+    """
+    Public compatibility facade.
+
+    Existing lifecycle callers use:
+
+        Executor.execute(transaction)
+
+    The default lifecycle provider registry contains the canonical
+    registry provider. Injectable callers should use ExecutionExecutor
+    directly with an explicit ProviderExecutor.
+    """
+
+    @classmethod
+    def execute(
+        cls,
+        value: dict[str, Any],
+    ) -> dict[str, Any]:
+        """
+        Execute using the canonical default ProviderExecutor.
+
+        The lifecycle currently binds the `registry` provider explicitly.
+        No provider discovery or implicit provider selection occurs inside
+        ProviderExecutor itself.
+        """
+
+        provider_executor = ProviderExecutor(
+            {
+                "registry": RegistryProvider(
+                    records={
+                        "identity.read": {
+                            "identity": "resolved",
+                        },
+                    }
+                ),
+            }
         )
 
-        if not isinstance(
-            method,
-            dict,
-        ):
-            raise ExecutionExecutorError(
-                "Execution route method is required"
-            )
-
-        for field in (
-            "id",
-            "provider",
-            "strategy",
-        ):
-            value = method.get(field)
-
-            if not isinstance(
-                value,
-                str,
-            ) or not value:
-                raise ExecutionExecutorError(
-                    f"Execution route method {field} is required"
-                )
+        return ExecutionExecutor(
+            provider_executor
+        ).run(value)
