@@ -260,6 +260,21 @@ def dispatch(args):
         )
 
 
+    if service == "oblivion":
+        from wlplatform.oblivion.oblivion_command import (
+            execute as oblivion_execute,
+        )
+
+        return oblivion_execute(
+            context.root,
+            args[1],
+            args[2:],
+        )
+
+    raise RuntimeError(
+        f"unsupported service: {service}"
+    )
+
     if service == "privacy":
 
         if len(args) < 2:
