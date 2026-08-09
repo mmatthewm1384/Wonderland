@@ -1,0 +1,37 @@
+schema: crystal.mesh.v1
+
+trust:
+  discovery_implies_trust: false
+  default_membership: UNKNOWN
+  privileged_state: TRUSTED
+  quarantine_state: SUSPENDED
+  terminal_state: REVOKED
+
+network:
+  default_policy: deny
+  unauthenticated_control: deny
+  authenticated_channels: required
+  external_transport: explicit-policy-only
+
+privacy:
+  minimize_peer_disclosure: true
+  human_names_authoritative: false
+
+lifecycle:
+  states:
+    - UNKNOWN
+    - OBSERVED
+    - ATTESTED
+    - TRUSTED
+    - SUSPENDED
+    - REVOKED
+
+registration:
+  required:
+    - identity
+    - node
+    - protocol
+    - capabilities
+    - trust_state
+    - revocation_status
+    - evidence
