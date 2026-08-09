@@ -1,0 +1,23 @@
+# Spark Alpine v1 validation profile
+
+arch: aarch64
+
+vmType: vz
+
+cpus: 2
+
+memory: 2GiB
+
+disk: 10GiB
+
+images:
+  - location: "file://{{.Dir}}/Crystal/us/sparks/images/alpine-spark-v1/artifacts/alpine-spark-v1-aarch64.img"
+
+ssh:
+  loadDotSSHPubKeys: true
+
+mounts: []
+
+containerd:
+  system: false
+  user: true

@@ -1,0 +1,15 @@
+{
+  "apiVersion": "spark.wonderland/v1",
+  "kind": "SparkRegistry",
+  "schemaVersion": 1,
+  "sparks": [
+    {
+      "id": "spark-matthew-001",
+      "version": 1,
+      "certificateId": "cert-953e76ec8b2ff16d",
+      "status": "CERTIFIED",
+      "path": "sparks/generated/spark-matthew-001",
+      "registered": "2026-08-07T02:28:42.244301+00:00"
+    }
+  ]
+}

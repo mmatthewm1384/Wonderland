@@ -1,0 +1,8 @@
+spark:
+  id: spark-taylor-001
+
+template:
+  alpine-spark-v1
+
+state:
+  created: Thu Aug  6 02:33:55 UTC 2026

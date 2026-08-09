@@ -1,0 +1,22 @@
+arch: aarch64
+
+vmType: vz
+
+cpus: ${CPUS}
+memory: ${MEMORY}
+disk: ${DISK}
+
+images:
+  - location: "file://${IMAGE_PATH}"
+
+mounts:
+  - location: "${WL_ROOT}"
+    mountPoint: /mnt/shared
+    writable: true
+
+ssh:
+  loadDotSSHPubKeys: false
+
+containerd:
+  system: false
+  user: true

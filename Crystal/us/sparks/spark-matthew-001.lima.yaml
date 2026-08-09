@@ -1,0 +1,29 @@
+# Wonderland Spark VM Profile
+
+arch: aarch64
+
+vmType: vz
+
+cpus: 2
+
+memory: 2GiB
+
+disk: 10GiB
+
+images:
+  - location: file://{{.Dir}}/images/spark-matthew-001/spark-matthew-001.vm.img
+
+mounts: []
+
+provision:
+  - mode: system
+    script: |
+      mkdir -p /opt/wonderland/spark
+      echo "Spark VM provisioned" > /opt/wonderland/spark/state
+
+ssh:
+  loadDotSSHPubKeys: true
+
+containerd:
+  system: false
+  user: true

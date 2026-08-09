@@ -1,0 +1,15 @@
+spark_mesh:
+  id: crystal-us-001
+
+encryption:
+  enabled: true
+
+nodes:
+  - spark-matthew-001
+  - spark-taylor-001
+
+shared:
+  crystal_path: workspace/shared
+
+lifecycle:
+  state: experimental

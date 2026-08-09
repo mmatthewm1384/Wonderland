@@ -1,0 +1,20 @@
+schema: wonderland.spark-registry/v1
+version: 1
+registry:
+  policy: certification-gated
+  discovery: declarative
+  ui_ownership: spark
+sparks: []
+
+# Certification contract: every discovered Spark must provide identity,
+# manifest, capabilities, evidence, UI metadata, and a valid certification record.
+certification_contract:
+  required:
+    - identity
+    - manifest
+    - capabilities
+    - evidence
+    - ui
+    - certification
+  discovery_requires: certification
+  uncertified_visibility: hidden

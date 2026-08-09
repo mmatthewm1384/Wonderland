@@ -1,0 +1,15 @@
+crystal:
+  id: crystal-us-001
+
+security:
+  encryption: enabled
+
+storage:
+  root: /Users/wonderland/Wonderland/Crystal/us
+
+shared:
+  mount:
+    path: shared
+
+lifecycle:
+  state: active

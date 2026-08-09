@@ -1,0 +1,14 @@
+{
+  "package": "spark-mesh-foundation-v1",
+  "version": "0.1.0",
+  "category": "runtime",
+  "description": "Encrypted shared workspace with dual Alpine Spark VM definitions",
+  "capabilities": [
+    "encrypted-workspace",
+    "vm-registry",
+    "shared-crystal-layer"
+  ],
+  "certification": {
+    "required": true
+  }
+}

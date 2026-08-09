@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$SCRIPT_ROOT/lib/path-resolver.sh"
+
+
+###############################################################################
+# Wonderland Spark Composer
+# Generates Spark Manifest + Runtime Artifacts
+###############################################################################
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SPARK_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+WL_ROOT="$(cd "$SPARK_ROOT/../../.." && pwd)"
+
+SPARK_NAME="${1:?usage: compose.sh <spark-name>}"
+
+GENERATED="$SPARK_ROOT/generated/$SPARK_NAME"
+IMAGE="$SPARK_ROOT/images/$SPARK_NAME/$SPARK_NAME.vm.img"
+
+mkdir -p "$GENERATED"
+
+echo "=== Wonderland Spark Composer ==="
+echo "Spark: $SPARK_NAME"
+echo "Root:  $WL_ROOT"
+
+###############################################################################
+# Validate Image
+###############################################################################
+
+if [[ ! -f "$IMAGE" ]]; then
+    echo "[FAIL] Missing Spark image:"
+    echo "$IMAGE"
+    exit 1
+fi
+
+###############################################################################
+# Generate Manifest
+###############################################################################
+
+cat > "$GENERATED/manifest.yaml" <<EOF
+apiVersion: spark.wonderland/v1
+
+kind: Spark
+
+metadata:
+  id: $SPARK_NAME
+  version: 1
+
+spec:
+  runtime:
+    provider: lima
+    vmType: vz
+    arch: aarch64
+
+    resources:
+      cpus: 2
+      memory: 2GiB
+      disk: 10GiB
+
+	resolver: WL_ROOT
+	
+  image:
+    path: Crystal/us/sparks/images/spark-matthew-001/spark-matthew-001.vm.img
+
+  mounts:
+    - host: $WL_ROOT
+      guest: /mnt/shared
+      writable: true
+
+  capabilities:
+    - ssh
+    - containerd
+    - lima-guestagent
+
+status:
+  state: created
+EOF
+
+###############################################################################
+# Generate Lima Runtime
+###############################################################################
+
+cat > "$GENERATED/lima.yaml" <<EOF
+# Generated from manifest.yaml
+# Do not edit
+
+arch: aarch64
+
+vmType: vz
+
+cpus: 2
+memory: 2GiB
+disk: 10GiB
+
+images:
+
+- location: file://$IMAGE
+
+mounts:
+
+- location: $WL_ROOT
+  mountPoint: /mnt/shared
+  writable: true
+
+ssh:
+  loadDotSSHPubKeys: false
+
+containerd:
+  system: false
+  user: true
+EOF
+
+
+###############################################################################
+# Generate Metadata
+###############################################################################
+
+cat > "$GENERATED/metadata.json" <<EOF
+{
+  "spark": "$SPARK_NAME",
+  "manifest": "manifest.yaml",
+  "runtime": "lima.yaml",
+  "image": "$IMAGE"
+}
+EOF
+
+
+echo
+echo "[PASS] Spark manifest generated"
+echo
+find "$GENERATED" -maxdepth 1 -type f -print

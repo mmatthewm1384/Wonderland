@@ -1,0 +1,13 @@
+# Generated artifacts
+images/
+generated/
+runtime/
+registry-history/
+
+# Python tooling
+validator/.venv/
+__pycache__/
+*.pyc
+
+# Backups
+.backup-*/

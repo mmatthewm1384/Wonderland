@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SPARK_NAME="${1:?Usage: $0 <spark-name>}"
+
+WL_ROOT="${WL_ROOT:-$HOME/Wonderland}"
+
+SPARK_DIR="$WL_ROOT/Crystal/us/sparks"
+
+RUNTIME_DISK="$SPARK_DIR/runtime/${SPARK_NAME}-disk.img"
+
+OUTPUT="$SPARK_DIR/${SPARK_NAME}.lima.yaml"
+
+if [[ ! -f "$RUNTIME_DISK" ]]; then
+    echo "[FAIL] Missing Spark runtime disk:"
+    echo "$RUNTIME_DISK"
+    echo
+    echo "Run:"
+    echo "Crystal/us/sparks/runtime-builder/build-runtime.sh $SPARK_NAME"
+    exit 1
+fi
+
+cat > "${OUTPUT}" <<EOF
+# Wonderland Spark VM Profile
+
+arch: aarch64
+
+vmType: vz
+
+cpus: 2
+
+memory: 2GiB
+
+disk: 10GiB
+
+images:
+  - location: "${WL_ROOT}/Crystal/us/sparks/runtime/spark-matthew-001-disk.img"
+
+mounts: []
+
+provision:
+  - mode: system
+    script: |
+      mkdir -p /opt/wonderland/spark
+      echo "Spark VM provisioned" > /opt/wonderland/spark/state
+
+ssh:
+  loadDotSSHPubKeys: true
+
+containerd:
+  system: false
+  user: true
+EOF
+
+
+echo
+echo "[PASS] Spark profile generated"
+echo
+cat "${OUTPUT}"

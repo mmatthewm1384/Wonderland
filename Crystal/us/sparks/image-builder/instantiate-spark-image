@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)}"
+
+SPARK="${1:-}"
+BASE="$WL_ROOT/Crystal/us/sparks/images/alpine-spark-v1/alpine-spark-v1-aarch64.img"
+
+if [[ -z "$SPARK" ]]; then
+    echo "usage: instantiate-spark-image <spark-id>"
+    exit 1
+fi
+
+case "$SPARK" in
+    spark-*)
+        ;;
+    *)
+        echo "[FAIL] Invalid Spark ID: $SPARK"
+        exit 1
+        ;;
+esac
+
+TARGET_DIR="$WL_ROOT/Crystal/us/sparks/images/$SPARK"
+TARGET="$TARGET_DIR/$SPARK.vm.img"
+
+echo "=== Spark Image Instantiator ==="
+echo "Spark: $SPARK"
+echo "Base:  $BASE"
+echo "Target: $TARGET"
+echo
+
+if [[ ! -f "$BASE" ]]; then
+    echo "[FAIL] Canonical base image missing:"
+    echo "       $BASE"
+    exit 1
+fi
+
+if [[ -e "$TARGET" ]]; then
+    echo "[FAIL] Target image already exists:"
+    echo "       $TARGET"
+    echo
+    echo "Refusing to overwrite existing Spark state."
+    exit 1
+fi
+
+mkdir -p "$TARGET_DIR"
+
+echo "[INFO] Instantiating Spark image..."
+
+cp "$BASE" "$TARGET"
+
+chmod 600 "$TARGET"
+
+BASE_SHA256="$(shasum -a 256 "$BASE" | awk '{print $1}')"
+IMAGE_SHA256="$(shasum -a 256 "$TARGET" | awk '{print $1}')"
+IMAGE_BYTES="$(stat -f '%z' "$TARGET")"
+
+cat > "$TARGET_DIR/source.json" <<EOF
+{
+  "apiVersion": "spark.wonderland/v1",
+  "kind": "SparkImageSource",
+  "spark": "$SPARK",
+  "base": {
+    "artifact": "alpine-spark-v1-aarch64.img",
+    "version": "alpine-spark-v1",
+    "sha256": "$BASE_SHA256"
+  },
+  "image": {
+    "artifact": "$SPARK.vm.img",
+    "sha256": "$IMAGE_SHA256",
+    "bytes": $IMAGE_BYTES
+  }
+}
+EOF
+
+echo
+echo "[PASS] Spark image instantiated"
+echo
+echo "Image:"
+echo "  $TARGET"
+echo
+echo "Source record:"
+echo "  $TARGET_DIR/source.json"
+echo
+echo "[PASS] Image ready for certification"

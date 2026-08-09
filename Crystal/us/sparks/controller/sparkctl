@@ -1,0 +1,241 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || realpath "${BASH_SOURCE[0]}")"
+
+SCRIPT_DIR="$(cd "$(dirname "$SCRIPT_PATH")" && pwd)"
+
+#!/usr/bin/env bash
+set -euo pipefail
+
+
+resolve_wl_root()
+{
+    # 1. Explicit environment override
+    if [[ -n "${WL_ROOT:-}" ]]; then
+        echo "$WL_ROOT"
+        return
+    fi
+
+
+    # 2. Git repository discovery
+    if command -v git >/dev/null 2>&1; then
+        local ROOT
+
+        ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+
+        if [[ -n "$ROOT" ]]; then
+            echo "$ROOT"
+            return
+        fi
+    fi
+
+
+    # 3. Executable-relative fallback
+    local SCRIPT_PATH
+
+    SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || realpath "${BASH_SOURCE[0]}")"
+
+    echo "$(cd "$(dirname "$SCRIPT_PATH")/../../.." && pwd)"
+}
+
+
+WL_ROOT="$(resolve_wl_root)"
+
+export WL_ROOT
+
+    
+debug()
+{
+    echo "=== Spark Environment ==="
+    echo "WL_ROOT=$WL_ROOT"
+    echo "SPARK_ROOT=$SPARK_ROOT"
+    echo "REGISTRY=$REGISTRY"
+    echo
+    echo "Generated:"
+    echo "$GENERATED"
+}
+
+
+
+SPARK_ROOT="$WL_ROOT/Crystal/us/sparks"
+
+REGISTRY="$SPARK_ROOT/registry.json"
+
+GENERATED="$SPARK_ROOT/generated"
+
+REGISTRY="$SPARK_ROOT/registry.json"
+GENERATED="$SPARK_ROOT/generated"
+
+COMMAND="${1:-}"
+SPARK_ID="${2:-}"
+
+require_spark()
+{
+    if [[ -z "$SPARK_ID" ]]; then
+        echo "[FAIL] spark id required"
+        exit 1
+    fi
+}
+
+
+spark_path()
+{
+    echo "$GENERATED/$SPARK_ID"
+}
+
+
+spark_manifest()
+{
+    echo "$(spark_path)/manifest.yaml"
+}
+
+
+verify()
+{
+    require_spark
+
+    CERT="$(spark_path)/certification.json"
+
+    if [[ ! -f "$CERT" ]]; then
+        echo "[FAIL] missing certification"
+        exit 1
+    fi
+
+    STATUS=$(python3 - "$CERT" <<'PY'
+import json,sys
+print(json.load(open(sys.argv[1]))["status"])
+PY
+)
+
+    if [[ "$STATUS" != "CERTIFIED" ]]; then
+        echo "[FAIL] Spark not certified"
+        exit 1
+    fi
+
+    echo "[PASS] Spark certified"
+}
+
+
+lima_name()
+{
+    echo "$SPARK_ID"
+}
+
+
+start()
+{
+    require_spark
+
+    verify
+
+    echo "[+] Starting $SPARK_ID"
+
+    limactl start \
+    "$SPARK_ID"
+
+}
+
+
+stop()
+{
+    require_spark
+
+    echo "[+] Stopping $SPARK_ID"
+
+    limactl stop \
+    "$SPARK_ID"
+}
+
+
+status()
+{
+    require_spark
+
+    limactl list | grep "$SPARK_ID" || true
+}
+
+
+list()
+{
+python3 - "$REGISTRY" <<'PY'
+import json,sys
+
+r=json.load(open(sys.argv[1]))
+
+print("=== Wonderland Sparks ===")
+print()
+
+for s in r.get("sparks",[]):
+    print(
+        f"{s['id']:<25}"
+        f"{s['status']:<12}"
+        f"v{s['version']}"
+    )
+PY
+}
+
+
+inspect()
+{
+    require_spark
+
+    cat "$(spark_manifest)"
+}
+
+
+case "$COMMAND" in
+
+
+debug)
+    debug
+    exit 0
+    ;;
+
+
+
+list)
+    list
+;;
+
+inspect)
+    inspect
+;;
+
+verify)
+    verify
+;;
+
+start)
+    start
+;;
+
+stop)
+    stop
+;;
+
+status)
+    status
+;;
+
+*)
+echo "
+Wonderland Spark Controller
+
+Usage:
+
+ sparkctl list
+
+ sparkctl inspect <spark>
+
+ sparkctl verify <spark>
+
+ sparkctl start <spark>
+
+ sparkctl stop <spark>
+
+ sparkctl status <spark>
+"
+;;
+
+esac

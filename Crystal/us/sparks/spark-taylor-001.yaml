@@ -1,0 +1,31 @@
+images:
+  - location: https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-arm64.img
+
+vmType: vz
+
+cpus: 2
+memory: 2GiB
+disk: 10GiB
+
+mounts:
+  - location: ~/Wonderland/Crystal/us/workspace/shared
+    mountPoint: /mnt/shared
+    writable: true
+
+  - location: ~/Wonderland/Crystal/us/workspace/taylor
+    mountPoint: /mnt/user
+    writable: true
+
+containerd:
+  system: false
+  user: true
+
+env:
+  WL_SPARK_ID: spark-taylor-001
+  WL_OWNER: taylor
+
+provision:
+  - mode: system
+    script: |
+      apt-get update
+      apt-get install -y curl git jq nerdctl containerd

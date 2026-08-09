@@ -1,0 +1,21 @@
+# Alpine Spark Base Template
+
+arch: aarch64
+
+cpus: 2
+
+memory: 4GiB
+
+disk: 20GiB
+
+mounts:
+  - location: ~/Wonderland/Crystal/us/shared
+    mountPoint: /workspace/shared
+    writable: true
+
+containerd:
+  system: false
+  user: true
+
+ssh:
+  loadDotSSHPubKeys: true

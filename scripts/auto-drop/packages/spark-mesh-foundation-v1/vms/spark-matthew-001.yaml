@@ -1,0 +1,18 @@
+name: spark-matthew-001
+
+os:
+  distribution: alpine
+
+role:
+  - architecture
+  - engineering
+  - governance
+
+resources:
+  cpu: 2
+  memory: 4096
+  disk: 20G
+
+mounts:
+  - source: crystal-us-001/shared
+    target: /workspace/shared
