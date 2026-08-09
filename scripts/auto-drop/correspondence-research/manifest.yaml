@@ -1,0 +1,19 @@
+name: correspondence-research
+version: 0.1.0
+type: research-subsystem
+status: experimental
+description: >
+  Falsifiable framework for cross-scale comparison of polarity reversal,
+  symmetry breaking, and transformation dynamics.
+install:
+  mode: source
+  root: research/correspondence
+verify:
+  - python -m pytest research/correspondence/tests
+rollback:
+  strategy: remove subsystem files and manifest
+evidence:
+  required:
+    - source-hash
+    - test-output
+    - experiment-definition
