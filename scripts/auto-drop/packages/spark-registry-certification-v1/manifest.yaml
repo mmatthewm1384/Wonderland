@@ -1,0 +1,16 @@
+schema: wonderland.auto-drop/package/v1
+package: spark-registry-certification-v1
+version: 1.0.0
+purpose: certification-gated Spark discovery and registry validation
+lifecycle:
+  install: install.sh
+  verify: verify.sh
+  rollback: rollback.sh
+contracts:
+  registry_schema: wonderland.spark-registry/v1
+  certification_policy: certification-gated
+  ui_ownership: spark
+  discovery: declarative
+safety:
+  destructive: false
+  preserves_existing_spark_state: true
