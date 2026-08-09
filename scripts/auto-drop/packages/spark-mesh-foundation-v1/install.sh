@@ -67,7 +67,7 @@ printf 'package: spark-mesh-foundation-v1\nversion: 1.0.0\ninstalled_at: %s\n' "
 
 say
 say "== Verification =="
-"$PACKAGE_DIR/verify.sh"
+bash "$PACKAGE_DIR/verify.sh"
 
 say
 say "PASS: Spark Mesh Foundation v1 installed"
