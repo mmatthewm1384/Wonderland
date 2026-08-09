@@ -1,0 +1,38 @@
+schema: wonderland.auto-drop/v1
+package:
+  id: spark-mesh-foundation-v1
+  version: 1.0.0
+  name: Spark Mesh Foundation
+  description: Establish the minimal Crystal Mesh and Spark Mesh filesystem contracts without overwriting existing state.
+  lifecycle: install-verify-rollback
+  reversible: true
+
+contract:
+  crystal_root: Crystal/us
+  spark_root: sparks
+  registry: sparks/registry.yaml
+  crystal_workspace: Crystal/us/workspace.yaml
+
+paths:
+  create:
+    - Crystal/us/identity
+    - Crystal/us/trust
+    - Crystal/us/registry
+    - Crystal/us/evidence
+    - Crystal/us/certification
+    - sparks/spark-matthew-001/capabilities
+    - sparks/spark-matthew-001/ui
+    - sparks/spark-matthew-001/evidence
+    - sparks/spark-taylor-001/capabilities
+    - sparks/spark-taylor-001/ui
+    - sparks/spark-taylor-001/evidence
+
+invariants:
+  - Existing workspace and Spark state files are never overwritten.
+  - Registry entries are declarative and certification-gated.
+  - Spark UI is owned by the Spark, not the central dashboard.
+  - A Spark becomes discoverable only after certification state is valid.
+  - Installation is idempotent.
+
+verification:
+  command: ./verify.sh
