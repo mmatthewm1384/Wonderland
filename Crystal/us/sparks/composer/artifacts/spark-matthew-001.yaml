@@ -1,0 +1,29 @@
+# Wonderland Spark VM Profile
+
+arch: aarch64
+
+vmType: vz
+
+cpus: 2
+
+memory: 2GiB
+
+disk: 10GiB
+
+images:
+  - location: "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/aarch64/alpine-virt-3.20.3-aarch64.iso"
+
+mounts: []
+
+provision:
+  - mode: system
+    script: |
+      mkdir -p /opt/wonderland/spark
+      echo "Spark VM provisioned" > /opt/wonderland/spark/state
+
+ssh:
+  loadDotSSHPubKeys: true
+
+containerd:
+  system: false
+  user: true

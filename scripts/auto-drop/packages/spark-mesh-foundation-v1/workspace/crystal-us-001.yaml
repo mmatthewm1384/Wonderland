@@ -1,0 +1,12 @@
+workspace:
+  id: crystal-us-001
+
+encryption:
+  enabled: true
+
+storage:
+  shared:
+    path: workspace/shared
+
+lifecycle:
+  state: experimental

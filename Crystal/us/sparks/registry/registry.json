@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+
+  "sparks": [
+    {
+      "id": "spark-matthew-001",
+      "profile": "spark-matthew-001",
+      "state": "stopped",
+      "image": "images/spark-matthew-001/spark-matthew-001.vm.img",
+      "generated": "generated/spark-matthew-001/lima.yaml",
+      "trust": "certified"
+    }
+  ]
+}

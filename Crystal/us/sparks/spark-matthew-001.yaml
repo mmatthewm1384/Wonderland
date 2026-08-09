@@ -1,0 +1,22 @@
+arch: aarch64
+
+vmType: vz
+
+cpus: 2
+memory: 2GiB
+disk: 10GiB
+
+images:
+  - location: ./images/spark-matthew-001/spark-matthew-001.vm.img
+
+mounts:
+  - location: ~/Wonderland
+    mountPoint: /mnt/shared
+    writable: true
+
+ssh:
+  loadDotSSHPubKeys: false
+
+containerd:
+  system: false
+  user: true

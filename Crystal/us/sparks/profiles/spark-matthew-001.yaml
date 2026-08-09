@@ -1,0 +1,36 @@
+apiVersion: spark.wonderland/v1
+kind: SparkProfile
+
+metadata:
+  id: spark-matthew-001
+  version: 1
+  owner: matthew
+
+spec:
+  runtime:
+    provider: lima
+    vmType: vz
+    arch: aarch64
+
+  resources:
+    cpus: 2
+    memory: 2GiB
+    disk: 10GiB
+
+  image:
+    artifact: spark-matthew-001.vm.img
+    type: spark-image
+
+  mounts:
+    - source: workspace
+      guest: /mnt/shared
+      writable: true
+
+  capabilities:
+    - ssh
+    - containerd
+    - lima-guestagent
+
+  bootstrap:
+    hostname: spark-matthew-001
+    nodeType: spark

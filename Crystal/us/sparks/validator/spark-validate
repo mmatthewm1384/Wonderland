@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+resolve_wl_root()
+{
+    if [[ -n "${WL_ROOT:-}" ]]; then
+        echo "$WL_ROOT"
+        return
+    fi
+
+    if command -v git >/dev/null 2>&1; then
+        local ROOT
+        ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+        if [[ -n "$ROOT" ]]; then
+            echo "$ROOT"
+            return
+        fi
+    fi
+
+    local SCRIPT_PATH
+    SCRIPT_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    echo "$(cd "$SCRIPT_PATH/../../.." && pwd)"
+}
+
+WL_ROOT="$(resolve_wl_root)"
+export WL_ROOT
+
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+VENV="$SCRIPT_DIR/.venv"
+
+if [[ ! -d "$VENV" ]]; then
+    echo "[FAIL] Spark validator environment missing"
+    echo "Run:"
+    echo "python3 -m venv $VENV"
+    echo "source $VENV/bin/activate"
+    echo "pip install pyyaml"
+    exit 1
+fi
+
+exec "$VENV/bin/python" \
+"$SCRIPT_DIR/validate-manifest.py" "$@"

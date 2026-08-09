@@ -1,0 +1,680 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../../.." && pwd)}"
+SPARK_ROOT="$WL_ROOT/Crystal/us/sparks"
+GENERATED="$SPARK_ROOT/generated"
+CERTIFIER="$SPARK_ROOT/certifier/spark-certify"
+
+die() {
+    echo "[FAIL] $*" >&2
+    exit 1
+}
+
+info() {
+    echo "[INFO] $*"
+}
+
+pass() {
+    echo "[PASS] $*"
+}
+
+warn() {
+    echo "[WARN] $*"
+}
+
+usage() {
+    cat <<'EOF'
+Wonderland Spark Control
+
+Usage:
+  sparkctl status <spark>
+  sparkctl verify <spark>
+  sparkctl reconcile <spark>
+  sparkctl start <spark>
+  sparkctl stop <spark>
+  sparkctl recover <spark>
+  sparkctl debug <spark>
+EOF
+}
+
+require_spark() {
+    [[ $# -eq 1 ]] || die "spark id required"
+    SPARK="$1"
+
+    GENERATED_DIR="$GENERATED/$SPARK"
+    MANIFEST="$GENERATED_DIR/manifest.yaml"
+    LIMA="$GENERATED_DIR/lima.yaml"
+    CERT="$GENERATED_DIR/certification.json"
+    IMAGE="$SPARK_ROOT/images/$SPARK/$SPARK.vm.img"
+
+    [[ -d "$GENERATED_DIR" ]] ||
+        die "generated Spark not found: $GENERATED_DIR"
+}
+
+certified() {
+    [[ -f "$CERT" ]] || return 1
+
+    python3 - "$CERT" <<'PY'
+import json
+import sys
+
+with open(sys.argv[1], encoding="utf-8") as f:
+    data = json.load(f)
+
+if data.get("status") != "CERTIFIED":
+    raise SystemExit(1)
+PY
+}
+
+require_certified() {
+    local cert_path
+    local cert_status
+
+    cert_path="$GENERATED/$SPARK/certification.json"
+
+    if [[ ! -f "$cert_path" ]]; then
+        echo "[FAIL] Certification missing"
+        echo "Expected:"
+        echo "  $cert_path"
+        return 1
+    fi
+
+    cert_status="$(
+        python3 - "$cert_path" <<'PY_CERT'
+import json
+import sys
+
+path = sys.argv[1]
+
+try:
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+except Exception as exc:
+    print(f"ERROR:{exc}")
+    raise SystemExit(2)
+
+print(data.get("status", "UNKNOWN"))
+PY_CERT
+    )"
+
+    if [[ "$cert_status" != "CERTIFIED" ]]; then
+        echo "[FAIL] Certification: $cert_status"
+        echo
+        echo "Refusing runtime operation."
+        return 1
+    fi
+
+    echo "[PASS] Certification: CERTIFIED"
+}
+
+
+lima_dir() {
+    printf '%s\\n' "$HOME/.lima/$SPARK"
+}
+
+lima_dir() {
+    printf '%s\n' "$HOME/.lima/$SPARK"
+}
+
+lima_exists() {
+    [[ -d "$(lima_dir)" ]]
+}
+
+lima_status() {
+    local status
+
+    # First use Lima's authoritative instance listing.
+    status="$(
+        limactl list 2>/dev/null |
+        awk -v spark="$SPARK" '$1 == spark {print $2; exit}'
+    )"
+
+    if [[ -n "$status" ]]; then
+        printf '%s\n' "$status"
+        return 0
+    fi
+
+    # A Lima instance directory may remain after a failed/stale
+    # hostagent lifecycle. Preserve that distinction.
+    if lima_exists; then
+        printf '%s\n' "UNKNOWN"
+        return 0
+    fi
+
+    printf '%s\n' "NOT_CREATED"
+}
+
+lima_port() {
+    local port
+
+    port="$(
+        limactl list "$SPARK" 2>/dev/null |
+        awk -v spark="$SPARK" '
+            NR > 1 && $1 == spark {
+                print $3
+                exit
+            }
+        ' |
+        sed 's/.*://'
+    )"
+
+    printf '%s\n' "$port"
+}
+
+hostagent_pid() {
+    local pidfile="$HOME/.lima/$SPARK/ha.pid"
+
+    [[ -f "$pidfile" ]] || return 1
+
+    cat "$pidfile"
+}
+
+guest_probe() {
+    limactl shell "$SPARK" -- true >/dev/null 2>&1
+}
+
+guest_identity() {
+    limactl shell "$SPARK" -- sh -c '
+        printf "hostname=%s\n" "$(hostname)"
+        printf "user=%s\n" "$(id -un)"
+        printf "arch=%s\n" "$(uname -m)"
+    '
+}
+
+runtime_ready() {
+    lima_exists || return 1
+
+    [[ "$(lima_status)" == "Running" ]] || return 1
+
+    guest_probe
+}
+
+cmd_status() {
+    require_spark "$1"
+
+    echo "=== Spark Status ==="
+    echo "ID:       $SPARK"
+    echo "Root:     $WL_ROOT"
+    echo
+
+    echo "Trust:"
+    if certified; then
+        pass "Certification: CERTIFIED"
+    else
+        warn "Certification: UNCERTIFIED"
+    fi
+
+    echo
+    echo "Runtime:"
+
+    if ! lima_exists; then
+        info "Runtime: NOT CREATED"
+        return 0
+    fi
+
+    local state
+    state="$(lima_status || true)"
+
+    echo "Lima:    ${state:-UNKNOWN}"
+
+    if [[ "$state" != "Running" ]]; then
+        info "Runtime: NOT READY"
+        return 0
+    fi
+
+    if guest_probe; then
+        pass "Guest: SSH READY"
+        pass "Runtime: READY"
+    else
+        warn "Guest: SSH UNREACHABLE"
+        warn "Runtime: NOT READY"
+    fi
+}
+
+cmd_verify() {
+    require_spark "$1"
+
+    echo "=== Spark Verification ==="
+    echo "Spark: $SPARK"
+    echo
+
+    require_certified
+
+    [[ -f "$IMAGE" ]] ||
+        die "Image artifact missing: $IMAGE"
+
+    pass "Image: $IMAGE"
+    pass "Certification: CERTIFIED"
+
+    [[ -f "$LIMA" ]] ||
+        die "Generated runtime profile missing: $LIMA"
+
+    pass "Generated runtime profile exists"
+
+    if ! lima_exists; then
+        info "Lima instance: NOT CREATED"
+        return 0
+    fi
+
+    local state
+    state="$(lima_status || true)"
+
+    echo
+    echo "Lima state: ${state:-UNKNOWN}"
+
+    if [[ "$state" != "Running" ]]; then
+        warn "Runtime is not running"
+        return 0
+    fi
+
+    if guest_probe; then
+        pass "Guest SSH reachable"
+        pass "Spark runtime boundary verified"
+    else
+        echo "[FAIL] Guest SSH unreachable"
+        echo
+        echo "The VM is reported Running, but the guest is not Ready."
+        return 1
+    fi
+}
+
+cmd_start() {
+    local LIMA="$SPARK_GENERATED/lima.yaml"
+
+    require_certified
+
+    echo "=== Spark Runtime Start ==="
+    echo "Spark: $SPARK"
+    echo
+
+    local status
+    status="$(lima_status)"
+
+    case "$status" in
+        Running)
+            echo "[INFO] Lima instance already running"
+            ;;
+
+        Stopped)
+            echo "[INFO] Starting existing Lima instance"
+            limactl start "$SPARK" >/tmp/sparkctl-start-"$SPARK".log 2>&1 &
+            local lima_pid=$!
+
+            local elapsed=0
+            local timeout=60
+
+            while kill -0 "$lima_pid" 2>/dev/null; do
+                if (( elapsed >= timeout )); then
+                    echo "[FAIL] Lima start timed out after ${timeout}s"
+                    echo
+                    echo "=== Lima Start Log ==="
+                    tail -80 "/tmp/sparkctl-start-$SPARK.log" 2>/dev/null || true
+                    echo
+                    echo "=== Lima State ==="
+                    limactl list "$SPARK" 2>/dev/null || true
+                    return 1
+                fi
+
+                sleep 2
+                elapsed=$((elapsed + 2))
+            done
+
+            wait "$lima_pid"
+            local rc=$?
+
+            if (( rc != 0 )); then
+                echo "[FAIL] Lima start failed (exit $rc)"
+                echo
+                echo "=== Lima Start Log ==="
+                tail -80 "/tmp/sparkctl-start-$SPARK.log" 2>/dev/null || true
+                return "$rc"
+            fi
+            ;;
+
+        NOT_CREATED)
+            echo "[INFO] Creating Lima instance from generated profile"
+
+            if [[ ! -f "$LIMA" ]]; then
+                echo "[FAIL] Generated Lima profile missing:"
+                echo "  $LIMA"
+                return 1
+            fi
+
+            limactl start --name="$SPARK" "$LIMA"
+            ;;
+
+        UNKNOWN)
+            echo "[FAIL] Lima instance is in an UNKNOWN state"
+            echo
+            echo "Inspect:"
+            echo "  limactl list $SPARK"
+            echo "  ls -lah ~/.lima/$SPARK"
+            return 1
+            ;;
+
+        *)
+            echo "[FAIL] Unknown Lima state: $status"
+            return 1
+            ;;
+    esac
+
+    echo
+    echo "=== Lima Readiness ==="
+
+    local elapsed=0
+    local timeout=60
+    local port=""
+
+    while (( elapsed < timeout )); do
+        status="$(lima_status)"
+
+        if [[ "$status" != "Running" ]]; then
+            echo "[FAIL] Lima transitioned to: $status"
+            return 1
+        fi
+
+        port="$(lima_port)"
+
+        if [[ -n "$port" ]] &&
+           nc -z 127.0.0.1 "$port" >/dev/null 2>&1; then
+            echo "[PASS] Lima SSH port reachable: 127.0.0.1:$port"
+            break
+        fi
+
+        sleep 2
+        elapsed=$((elapsed + 2))
+    done
+
+    if [[ -z "$port" ]] ||
+       ! nc -z 127.0.0.1 "$port" >/dev/null 2>&1; then
+        echo "[FAIL] Guest SSH did not become reachable within ${timeout}s"
+        echo
+        echo "=== Runtime State ==="
+        limactl list "$SPARK" 2>/dev/null || true
+        echo
+        echo "=== SSH Configuration ==="
+        if [[ -f "$HOME/.lima/$SPARK/ssh.config" ]]; then
+            cat "$HOME/.lima/$SPARK/ssh.config"
+        fi
+        echo
+        echo "=== Hostagent Log ==="
+        tail -80 "$HOME/.lima/$SPARK/ha.stderr.log" 2>/dev/null || true
+        return 1
+    fi
+
+    echo
+    echo "=== Guest Readiness ==="
+
+    if ! limactl shell "$SPARK" -- true >/dev/null 2>&1; then
+        echo "[FAIL] Lima SSH port is reachable but guest shell is unavailable"
+        return 1
+    fi
+
+    echo "[PASS] Guest shell reachable"
+
+    echo
+    echo "[PASS] Spark runtime READY"
+}
+
+cmd_stop() {
+    require_spark "$1"
+
+    echo "=== Spark Stop ==="
+    echo "Spark: $SPARK"
+    echo
+
+    if ! lima_exists; then
+        info "Runtime not created"
+        return 0
+    fi
+
+    local state
+    state="$(lima_status || true)"
+
+    if [[ "$state" != "Running" ]]; then
+        info "Runtime already stopped"
+        return 0
+    fi
+
+    limactl stop "$SPARK"
+}
+
+cmd_recover() {
+    require_spark "$1"
+
+    echo "=== Spark Runtime Recovery ==="
+    echo "Spark: $SPARK"
+    echo
+
+    require_certified
+
+    if ! lima_exists; then
+        info "No Lima instance exists"
+        return 0
+    fi
+
+    local state pid
+    state="$(lima_status || true)"
+
+    echo "Current state: ${state:-UNKNOWN}"
+
+    if [[ "$state" != "Running" ]]; then
+        info "Runtime is not running; no hostagent recovery required"
+        return 0
+    fi
+
+    if guest_probe; then
+        pass "Guest is reachable; recovery unnecessary"
+        return 0
+    fi
+
+    warn "Lima reports Running but guest SSH is unreachable"
+
+    pid="$(hostagent_pid || true)"
+
+    if [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null; then
+        info "Hostagent PID: $pid"
+        info "Attempting graceful hostagent termination"
+
+        kill -TERM "$pid" 2>/dev/null || true
+
+        for _ in {1..10}; do
+            if ! kill -0 "$pid" 2>/dev/null; then
+                break
+            fi
+            sleep 1
+        done
+
+        if kill -0 "$pid" 2>/dev/null; then
+            warn "Hostagent did not terminate gracefully"
+            warn "Sending SIGKILL to wedged hostagent"
+            kill -KILL "$pid" 2>/dev/null || true
+        fi
+    else
+        info "Hostagent process not active"
+    fi
+
+    sleep 2
+
+    echo
+    echo "=== Post-Recovery State ==="
+
+    limactl list "$SPARK" || true
+
+    echo
+    info "Spark disk was NOT deleted"
+    info "Spark image was NOT modified"
+
+    pass "Host runtime recovery completed"
+    echo
+    echo "Next:"
+    echo "  sparkctl debug $SPARK"
+}
+
+cmd_debug() {
+    require_spark "$1"
+
+    echo "=== Spark Runtime Debug ==="
+    echo "Spark: $SPARK"
+    echo "Root:  $WL_ROOT"
+    echo
+
+    echo "=== Lima ==="
+    limactl list "$SPARK" || true
+
+    echo
+    echo "=== Hostagent ==="
+
+    local pid
+    pid="$(hostagent_pid || true)"
+
+    if [[ -n "$pid" ]]; then
+        ps -p "$pid" -o pid,ppid,stat,etime,command || true
+    else
+        info "No hostagent PID file"
+    fi
+
+    echo
+    echo "=== Instance Processes ==="
+    pgrep -alf "$SPARK" || true
+
+    echo
+    echo "=== SSH ==="
+
+    local port
+    port="$(lima_port || true)"
+
+    if [[ -n "$port" ]]; then
+        echo "Forwarded port: $port"
+        nc -vz 127.0.0.1 "$port" 2>&1 || true
+    else
+        info "No forwarded SSH port"
+    fi
+
+    echo
+    echo "=== Guest Probe ==="
+    if guest_probe; then
+        pass "Guest shell reachable"
+        guest_identity
+    else
+        echo "[FAIL] Guest shell unreachable"
+    fi
+
+    echo
+    echo "=== Hostagent STDERR ==="
+    if [[ -f "$HOME/.lima/$SPARK/ha.stderr.log" ]]; then
+        tail -80 "$HOME/.lima/$SPARK/ha.stderr.log"
+    else
+        info "No hostagent stderr log"
+    fi
+
+    echo
+    echo "=== Serial Logs ==="
+    for log in "$HOME/.lima/$SPARK"/serial*.log; do
+        [[ -f "$log" ]] || continue
+        echo "--- $log ---"
+        wc -c "$log"
+        tail -40 "$log"
+    done
+}
+
+cmd_reconcile() {
+    require_spark "$1"
+
+    echo "=== Spark Runtime Reconciliation ==="
+    echo "Spark:   $SPARK"
+    echo "Desired: $LIMA"
+    echo
+
+    require_certified
+
+    echo "=== Existing Runtime ==="
+
+    if ! lima_exists; then
+        info "Runtime does not exist"
+        echo
+        echo "Use:"
+        echo "  sparkctl start $SPARK"
+        return 0
+    fi
+
+    limactl list "$SPARK"
+
+    echo
+    echo "=== Runtime Boundary ==="
+
+    if [[ "$(lima_status)" != "Running" ]]; then
+        info "Runtime exists but is stopped"
+        echo
+        echo "Use:"
+        echo "  sparkctl start $SPARK"
+        return 0
+    fi
+
+    if guest_probe; then
+        pass "Guest SSH reachable"
+        echo
+        echo "=== Guest Identity ==="
+        guest_identity
+        echo
+        pass "Runtime READY"
+    else
+        echo "[FAIL] Runtime reports Running but guest is unreachable"
+        echo
+        echo "This runtime is NOT READY."
+        echo
+        echo "Run:"
+        echo "  sparkctl debug $SPARK"
+        echo "  sparkctl recover $SPARK"
+        return 1
+    fi
+}
+
+main() {
+    # Canonical Spark identifier for all lifecycle functions.
+    SPARK="${2:-}"
+
+    [[ $# -ge 2 ]] || {
+        usage
+        exit 1
+    }
+
+    local command="$1"
+    shift
+
+    SPARK="${1:-}"
+    export SPARK
+
+    SPARK_GENERATED="$GENERATED/$SPARK"
+    export SPARK_GENERATED
+
+    case "$command" in
+        status)
+            cmd_status "$@"
+            ;;
+        verify)
+            cmd_verify "$@"
+            ;;
+        start)
+            cmd_start "$@"
+            ;;
+        stop)
+            cmd_stop "$@"
+            ;;
+        recover)
+            cmd_recover "$@"
+            ;;
+        debug)
+            cmd_debug "$@"
+            ;;
+        reconcile)
+            cmd_reconcile "$@"
+            ;;
+        *)
+            die "unknown command: $command"
+            ;;
+    esac
+}
+
+main "$@"

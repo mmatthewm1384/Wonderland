@@ -1,0 +1,40 @@
+#cloud-config
+# vim:syntax=yaml
+
+growpart:
+  mode: auto
+  devices: ['/']
+timezone: America/Los_Angeles
+
+users:
+  - name: "wonderland"
+    # nuageinit does not support specifying the UID.
+    # The UID is fixed up in boot.essential.FreeBSD/00-freebsd-user-group.sh
+    uid: "501"
+    gecos: "Matthew Mahaney"
+    homedir: "/home/wonderland.guest"
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: true
+    ssh-authorized-keys:
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG3zHVBOw0rQ7T9vWD89MmyWNXkS2X+xXf6/79VBHK5C lima"
+bootcmd:
+- |
+  # Work around the NIC rename race on Ubuntu 26.04 first boot (LP: #2136392):
+  # cloud-init cannot rename an already-up NIC, leaving it unconfigured.
+  # Re-attempt the rename (requires link down), then wait for the slirp NIC
+  # to be configured. No-op when interfaces already have their expected names.
+  for pair in 52:55:55:43:29:49=eth0; do
+    mac="${pair%=*}"; want="${pair#*=}"
+    [ -e "/sys/class/net/$want" ] && continue
+    cur=$(grep -lix "$mac" /sys/class/net/*/address 2>/dev/null | awk -F/ 'NR==1{print $(NF-1)}')
+    [ -n "$cur" ] || continue
+    for i in 1 2 3; do
+      ip link set "$cur" down && ip link set "$cur" name "$want" && ip link set "$want" up && break
+      sleep 1
+    done
+  done
+  i=0
+  until ip -4 addr show dev eth0 2>/dev/null | grep -q inet || [ $((i += 1)) -gt 30 ]; do
+    sleep 1
+  done

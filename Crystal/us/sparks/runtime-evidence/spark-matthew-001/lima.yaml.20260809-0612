@@ -1,0 +1,34 @@
+# GENERATED FILE -- DO NOT EDIT
+# Source: profiles/spark-matthew-001.yaml
+
+arch: aarch64
+
+vmType: vz
+
+cpus: 2
+memory: 2GiB
+disk: 10GiB
+
+images:
+  - location: "/Users/wonderland/Wonderland/Crystal/us/sparks/images/spark-matthew-001/spark-matthew-001.vm.img"
+
+mounts:
+  - location: "/Users/wonderland/Wonderland/Crystal/us/workspace/shared"
+    mountPoint: /mnt/shared
+    writable: true
+
+ssh:
+  loadDotSSHPubKeys: true
+
+containerd:
+  system: false
+  user: true
+
+provision:
+  - mode: system
+    script: |
+      set -eu
+      mkdir -p /etc/wonderland
+      printf '%s\n' 'spark-matthew-001' > /etc/wonderland/hostname
+      printf '%s\n' 'spark' > /etc/wonderland/node-type
+      hostname 'spark-matthew-001'

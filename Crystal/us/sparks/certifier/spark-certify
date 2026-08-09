@@ -1,0 +1,174 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WL_ROOT="${WL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)}"
+
+SPARK_ROOT="$WL_ROOT/Crystal/us/sparks"
+GENERATED_ROOT="$SPARK_ROOT/generated"
+
+SPARK_ID="${1:?usage: spark-certify <spark-id>}"
+
+SPARK_DIR="$GENERATED_ROOT/$SPARK_ID"
+
+MANIFEST="$SPARK_DIR/manifest.yaml"
+METADATA="$SPARK_DIR/metadata.json"
+LIMA="$SPARK_DIR/lima.yaml"
+CERT="$SPARK_DIR/certification.json"
+
+echo "=== Wonderland Spark Certifier ==="
+echo "Spark: $SPARK_ID"
+echo "Root:  $WL_ROOT"
+echo
+
+FAIL=0
+
+check_file() {
+    local label="$1"
+    local path="$2"
+
+    if [[ -f "$path" ]]; then
+        echo "[PASS] $label"
+    else
+        echo "[FAIL] $label"
+        echo "       $path"
+        FAIL=1
+    fi
+}
+
+check_file "manifest" "$MANIFEST"
+check_file "metadata" "$METADATA"
+check_file "Lima profile" "$LIMA"
+
+if [[ "$FAIL" -ne 0 ]]; then
+    echo
+    echo "[FAIL] Required generated artifacts missing"
+    exit 1
+fi
+
+# ------------------------------------------------------------
+# Verify canonical artifacts contain no host-specific paths.
+# ------------------------------------------------------------
+
+echo
+echo "=== Portability ==="
+
+if grep -Eq \
+    '/Users/|/Volumes/|/private/|file:///Users/|file:///Volumes/|file:///private/' \
+    "$MANIFEST" "$METADATA"
+then
+    echo "[FAIL] Host-specific path leakage detected"
+    grep -nE \
+        '/Users/|/Volumes/|/private/|file:///Users/|file:///Volumes/|file:///private/' \
+        "$MANIFEST" "$METADATA" || true
+    FAIL=1
+else
+    echo "[PASS] Canonical artifacts portable"
+fi
+
+# ------------------------------------------------------------
+# Resolve image from manifest.
+# ------------------------------------------------------------
+
+IMAGE_ARTIFACT="$(
+    sed -n '/^  image:/,/^  mounts:/p' "$MANIFEST" |
+    sed -n 's/^    artifact:[[:space:]]*//p' |
+    tr -d '"'
+)"
+
+if [[ -z "$IMAGE_ARTIFACT" ]]; then
+    echo "[FAIL] Manifest has no image artifact"
+    FAIL=1
+else
+    echo "[PASS] Image artifact: $IMAGE_ARTIFACT"
+fi
+
+IMAGE="$SPARK_ROOT/images/$SPARK_ID/$IMAGE_ARTIFACT"
+
+if [[ ! -f "$IMAGE" ]]; then
+    FALLBACK="$SPARK_ROOT/images/$SPARK_ID/$SPARK_ID.vm.img"
+
+    if [[ -f "$FALLBACK" ]]; then
+        IMAGE="$FALLBACK"
+    else
+        echo "[FAIL] Image artifact missing"
+        echo "       $IMAGE"
+        FAIL=1
+    fi
+fi
+
+if [[ -f "$IMAGE" ]]; then
+    echo "[PASS] Image exists"
+    IMAGE_SIZE="$(stat -f '%z' "$IMAGE" 2>/dev/null || stat -c '%s' "$IMAGE")"
+else
+    IMAGE_SIZE=0
+fi
+
+# ------------------------------------------------------------
+# Calculate artifact hashes.
+# ------------------------------------------------------------
+
+sha256() {
+    shasum -a 256 "$1" | awk '{print $1}'
+}
+
+MANIFEST_SHA="$(sha256 "$MANIFEST")"
+METADATA_SHA="$(sha256 "$METADATA")"
+LIMA_SHA="$(sha256 "$LIMA")"
+
+if [[ -f "$IMAGE" ]]; then
+    IMAGE_SHA="$(sha256 "$IMAGE")"
+else
+    IMAGE_SHA=""
+fi
+
+if [[ "$FAIL" -ne 0 ]]; then
+    echo
+    echo "[FAIL] Spark certification failed"
+    exit 1
+fi
+
+# ------------------------------------------------------------
+# Certificate.
+# ------------------------------------------------------------
+
+TIMESTAMP="$(date -u +"%Y-%m-%dT%H:%M:%S%z")"
+
+cat > "$CERT" <<JSON
+{
+  "apiVersion": "spark.wonderland/v1",
+  "kind": "SparkCertificate",
+  "spark": {
+    "id": "$SPARK_ID",
+    "version": 1
+  },
+  "checks": {
+    "manifest": "PASS",
+    "metadata": "PASS",
+    "lima_profile": "PASS",
+    "image_exists": "PASS",
+    "portable_artifacts": "PASS"
+  },
+  "artifacts": {
+    "manifest_sha256": "$MANIFEST_SHA",
+    "metadata_sha256": "$METADATA_SHA",
+    "lima_sha256": "$LIMA_SHA",
+    "image_sha256": "$IMAGE_SHA",
+    "image_bytes": $IMAGE_SIZE
+  },
+  "verified": {
+    "timestamp": "$TIMESTAMP",
+    "tool": "spark-certifier-v2"
+  },
+  "status": "CERTIFIED"
+}
+JSON
+
+echo
+echo "=== Certification ==="
+cat "$CERT"
+
+echo
+echo "[PASS] Spark CERTIFIED"
+echo
+echo "Certificate:"
+echo "$CERT"

@@ -1,0 +1,21 @@
+#cloud-config
+
+users:
+  - name: wonderland
+    gecos: Wonderland Spark User
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups:
+      - wheel
+      - docker
+    shell: /bin/sh
+    ssh_authorized_keys:
+      - ${SSH_PUBLIC_KEY}
+
+ssh_pwauth: false
+
+package_update: false
+
+runcmd:
+  - mkdir -p /home/wonderland/.ssh
+  - chown -R wonderland:wonderland /home/wonderland/.ssh
+  - chmod 700 /home/wonderland/.ssh
