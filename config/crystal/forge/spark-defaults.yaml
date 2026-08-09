@@ -1,0 +1,49 @@
+version: "1"
+
+identity:
+  namespace: spark
+  class: capability
+
+lifecycle:
+  initial_state: DRAFT
+  terminal_states:
+    - ARCHIVED
+    - OBLIVION
+
+security:
+  trust_boundary: veil.spark
+  network_default: deny
+  encryption_default: required
+  least_privilege: required
+  evidence_required: true
+
+experience:
+  owner: spark
+  dashboard_integration: manifest
+  ui_namespace: spark.ui
+
+verification:
+  required:
+    - schema
+    - paths
+    - identity
+    - capabilities
+    - policy
+    - experience
+    - lifecycle
+    - evidence
+
+packaging:
+  format: directory
+  generated_files:
+    - spark.yaml
+    - identity.yaml
+    - capabilities.yaml
+    - policy.yaml
+    - runtime.yaml
+    - experience.yaml
+    - lifecycle.yaml
+    - evidence.yaml
+    - README.md
+    - tests/contract_test.py
+    - ui/manifest.yaml
