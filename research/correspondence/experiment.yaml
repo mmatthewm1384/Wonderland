@@ -1,0 +1,31 @@
+schema: correspondence-experiment-v0.1
+hypothesis:
+  id: H1
+  statement: >
+    Physically distinct systems may exhibit statistically significant similarity
+    in normalized transformation signatures during polarity reversal.
+null:
+  id: H0
+  statement: >
+    Apparent cross-system similarity is no greater than expected from randomized
+    or phase-scrambled trajectories.
+targets:
+  - geomagnetic_reversal
+  - rikitake_dynamo
+  - ising_model
+  - bistable_oscillator
+metrics:
+  - normalized_polarity_rmse
+  - transition_duration_ratio
+  - complexity_profile_distance
+  - symmetry_state_distance
+controls:
+  - temporal_permutation
+  - phase_scrambling
+  - parameter_permutation
+requirements:
+  - preserve_source_provenance
+  - version_every_transformation
+  - record_random_seeds
+  - retain_raw_inputs
+  - produce_reproducible_evidence
