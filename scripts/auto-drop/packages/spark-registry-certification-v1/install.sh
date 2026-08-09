@@ -3,13 +3,21 @@ set -euo pipefail
 ROOT="${WL_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
 cd "$ROOT"
 PACKAGE_DIR="$(cd "$(dirname "$0")" && pwd)"
+FOUNDATION_VERIFY="$ROOT/scripts/auto-drop/packages/spark-mesh-foundation-v1/verify.sh"
 REGISTRY="$ROOT/sparks/registry.yaml"
 BACKUP="$ROOT/.wonderland/registry-certification-v1.preinstall.yaml"
 MARKER="$ROOT/.wonderland/spark-registry-certification-v1.installed"
 fail(){ printf 'ERROR: %s\n' "$*" >&2; exit 1; }
 pass(){ printf 'PASS: %s\n' "$*"; }
+
 [ -d "$ROOT/.git" ] || fail "not a Wonderland git repository"
-[ -f "$ROOT/sparks/registry.yaml" ] || fail "Spark Mesh Foundation must be installed first"
+[ -f "$FOUNDATION_VERIFY" ] || fail "Spark Mesh Foundation package is missing"
+
+printf '%s\n' '== Spark Mesh Foundation dependency ==' 
+bash "$FOUNDATION_VERIFY" >/dev/null || fail "Spark Mesh Foundation verification failed; install or repair the foundation first"
+pass "Spark Mesh Foundation verified"
+
+[ -f "$REGISTRY" ] || fail "Spark Mesh Foundation registry contract is missing"
 mkdir -p "$ROOT/.wonderland"
 if [ ! -e "$BACKUP" ]; then cp "$REGISTRY" "$BACKUP"; fi
 python3 - "$REGISTRY" <<'PY'
