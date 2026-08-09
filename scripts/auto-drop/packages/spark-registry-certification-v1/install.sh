@@ -28,23 +28,11 @@ required=(
 missing=[x for x in required if x not in s]
 if missing:
     raise SystemExit('registry contract missing: '+', '.join(missing))
+block='''# Certification contract: every discovered Spark must provide identity,\n# manifest, capabilities, evidence, UI metadata, and a valid certification record.\ncertification_contract:\n  required:\n    - identity\n    - manifest\n    - capabilities\n    - evidence\n    - ui\n    - certification\n  discovery_requires: certification\n  uncertified_visibility: hidden\n'''
+if 'certification_contract:' not in s:
+    p.write_text(s.rstrip()+'\n\n'+block, encoding='utf-8')
 PY
-cat >> "$REGISTRY" <<'EOF'
-
-# Certification contract: every discovered Spark must provide identity, manifest,
-# capabilities, evidence, UI metadata, and a valid certification record.
-certification_contract:
-  required:
-    - identity
-    - manifest
-    - capabilities
-    - evidence
-    - ui
-    - certification
-  discovery_requires: certification
-  uncertified_visibility: hidden
-EOF
 printf 'package: spark-registry-certification-v1\nversion: 1.0.0\ninstalled_at: %s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" > "$MARKER"
-printf '%s\n' '== Spark Registry Certification v1 ==' '== Verification ==' 
+printf '%s\n' '== Spark Registry Certification v1 ==' '== Verification =='
 bash "$PACKAGE_DIR/verify.sh"
 printf '%s\n' 'PASS: Spark Registry Certification v1 installed'
