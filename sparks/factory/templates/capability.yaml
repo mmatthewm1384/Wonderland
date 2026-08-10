@@ -1,0 +1,13 @@
+version: 1
+
+capability:
+  id: ""
+  name: ""
+  description: ""
+
+security:
+  trust_required: true
+  evidence_required: true
+
+lifecycle:
+  state: proposed

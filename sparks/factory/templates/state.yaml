@@ -1,0 +1,13 @@
+version: 1
+
+spark:
+  id: ""
+
+state:
+  lifecycle: proposed
+  certification: uncertified
+  availability: offline
+
+timestamps:
+  created: ""
+  updated: ""

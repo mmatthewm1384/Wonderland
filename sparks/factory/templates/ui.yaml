@@ -1,0 +1,14 @@
+version: 1
+
+ui:
+  spark_id: ""
+
+presentation:
+  title: ""
+  description: ""
+
+views: []
+
+actions: []
+
+telemetry: []
