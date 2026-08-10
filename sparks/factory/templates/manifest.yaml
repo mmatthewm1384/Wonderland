@@ -1,0 +1,24 @@
+version: 1
+
+spark:
+  id: ""
+  name: ""
+  purpose: ""
+  owner: ""
+  description: ""
+
+identity:
+  class: spark
+
+capabilities: []
+
+interfaces: []
+
+security:
+  trust_class: ""
+  privacy_class: ""
+  encryption: ""
+  evidence_required: true
+
+lifecycle:
+  state: proposed

@@ -1,0 +1,26 @@
+version: 1
+
+spark:
+  id: spark-example-001
+  name: Example Spark
+  purpose: ""
+  owner: ""
+  description: ""
+
+design:
+  identity: ""
+  capabilities: []
+  interfaces: []
+
+security:
+  trust_class: ""
+  privacy_class: ""
+  encryption: ""
+  evidence_required: true
+
+ui:
+  enabled: true
+  presentation: ""
+
+lifecycle:
+  state: proposed
