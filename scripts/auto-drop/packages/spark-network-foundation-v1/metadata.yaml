@@ -1,0 +1,16 @@
+schema: wonderland.auto-drop.v1
+id: spark-network-foundation-v1
+version: 1.0.0
+name: Spark Network Foundation
+category: spark
+description: Canonical Alpine guest networking and deterministic Lima deployment foundation.
+artifacts:
+  - guest-network-configuration
+  - lima-profile
+  - deployment-evidence
+contract:
+  guest_interface: eth0
+  addressing: dhcp
+  transport: lima
+  host_ssh: localhost
+  factory_vm: wonderland-debian-rootless-v1

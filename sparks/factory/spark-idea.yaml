@@ -3,24 +3,24 @@ version: 1
 spark:
   id: spark-example-001
   name: Example Spark
-  purpose: ""
-  owner: ""
-  description: ""
+  purpose: Demonstrate deterministic Spark document generation
+  owner: Wonderland
+  description: Reference Spark used to verify the Spark Document Factory.
 
 design:
-  identity: ""
+  identity: reference
   capabilities: []
   interfaces: []
 
 security:
-  trust_class: ""
-  privacy_class: ""
-  encryption: ""
+  trust_class: foundational
+  privacy_class: private
+  encryption: required
   evidence_required: true
 
 ui:
   enabled: true
-  presentation: ""
+  presentation: Example Spark reference interface
 
 lifecycle:
   state: proposed

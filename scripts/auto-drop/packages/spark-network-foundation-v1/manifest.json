@@ -1,0 +1,15 @@
+{
+  "name": "spark-network-foundation-v1",
+  "version": "1.0.0",
+  "category": "spark",
+  "description": "Canonical Spark guest networking and Lima deployment foundation for Alpine-based Wonderland Sparks.",
+  "governance": {
+    "classification": "protected",
+    "approval_required": true
+  },
+  "lifecycle": {
+    "install": "install.sh",
+    "verify": "verify.sh",
+    "rollback": "rollback.sh"
+  }
+}

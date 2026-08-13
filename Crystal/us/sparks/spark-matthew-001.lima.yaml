@@ -1,29 +1,34 @@
-# Wonderland Spark VM Profile
+# Wonderland Spark Runtime
+# spark-matthew-001
 
-arch: aarch64
+vmType: "vz"
 
-vmType: vz
+arch: "aarch64"
 
 cpus: 2
 
-memory: 2GiB
+memory: "2GiB"
 
-disk: 10GiB
+disk: "10GiB"
 
 images:
-  - location: file://{{.Dir}}/images/spark-matthew-001/spark-matthew-001.vm.img
+  - location: "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/aarch64/alpine-virt-3.20.3-aarch64.iso"
 
-mounts: []
+mounts:
+  - location: "/Users/wonderland/Wonderland/Crystal/us/workspace/shared"
+    mountPoint: "/mnt/shared"
+    writable: true
 
-provision:
-  - mode: system
-    script: |
-      mkdir -p /opt/wonderland/spark
-      echo "Spark VM provisioned" > /opt/wonderland/spark/state
+  - location: "/Users/wonderland/Wonderland/Crystal/us/workspace/matthew"
+    mountPoint: "/mnt/user"
+    writable: true
 
-ssh:
-  loadDotSSHPubKeys: true
 
 containerd:
   system: false
   user: true
+
+
+env:
+  WL_SPARK_ID: "spark-matthew-001"
+  WL_OWNER: "matthew"

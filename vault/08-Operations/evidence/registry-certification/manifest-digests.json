@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-07T18:31:06.285333+00:00",
+  "generated": "2026-08-13T16:08:55.965365+00:00",
   "manifests": {
     "auto-drop-verifier-library-v2": "sha256:d1fff5e97d309580b9b52e1c1903fc669fc5744c915a6b45f9a2f8ba7ada4001",
     "identity-foundation-v1": "sha256:8eb95aaea3ca869119150068a9e2f84149a4fe0e94baf55baeb7016a1232a9f3",
@@ -27,7 +27,7 @@
     "runtime-evidence-writer-v1": "sha256:ead6dbc104f3baacfa58fb638dd0bc010393e2a100045ec408d1106fa96c65a7",
     "runtime-execution-orchestrator-v1": "sha256:3a9a326a04ac05d0be2ecc6d78d95c0b5aa0fa9d662d5fc9dcdf5ebe0350743c",
     "runtime-executor-foundation-v1": "sha256:c08874ac92c652d9e27ac7a52d66b33d2714eec596c130481575acac38f6725c",
-    "runtime-foundation-v1": "sha256:2f00028160f57d15639d6bd99f50413b7f4319f3250bb872da9752798476f1db",
+    "runtime-foundation-v1": "sha256:98202ac217aa615d71f619b3d96a40365dee98eb5b33bb0e3f0f91992e0fb46e",
     "runtime-governance-policy-v1": "sha256:9ae05853401c5ade8572f8c1fd67e7b1c805f140fc1cbae0c31bcb88e455300f",
     "runtime-health-observability-v1": "sha256:4a28f9ff5afb7f8fad66a257885828488f4fda5a4ff220d4014f3fb755395c68",
     "runtime-inventory-certification-resolution-v1": "sha256:19c3f32864b245f6e9d7cfa860c25c7f1e4001b0951b5c2270d9cbc110a1748a",
@@ -68,6 +68,8 @@
     "runtime-target-validation-v1": "sha256:491ab180d6777aa44459fadc70d82c3622d427a5f29ba5845de4e30f47d878d2",
     "runtime-transaction-engine-v1": "sha256:3d2f3cf3a52254b356bafc27d3f0ea322791bd9bd5fc837980458de27e04cdfe",
     "spark-mesh-foundation-v1": "sha256:a3f13994fef0247639960e8d97563711c619c625ce58be784c50b1c735e90413",
+    "spark-network-foundation-v1": "sha256:c6aaf56408f7c1c2513c1566e36695bca40de756a9d14ff3403017af92d7926f",
+    "spark-vm-boot-evidence-v1": "sha256:e86e7de9967bb0ca71ebab64f4aab9877840c04c4af68d1ca5971a62fd36e360",
     "trust-foundation-v1": "sha256:bb76a4a43c000cfd2b36dd4ff35e25836d9c384368070e2cdfe65ca8a491defd",
     "wonderland-debian-rootless-v1": "sha256:3535d98d830a1649f0e5ff2d842aa7c8b983a5545a93fd79d8dd17d6cd77f581",
     "wonderland-debian-runtime-capability-v1": "sha256:9931566f1f2d2b01039bed5dddf943d010e5cdaeac217a148d0839d3d9a1a7fa",

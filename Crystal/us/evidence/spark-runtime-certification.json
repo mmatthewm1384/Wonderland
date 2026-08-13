@@ -1,20 +1,20 @@
 {
   "component": "spark-runtime-foundation",
   "version": "0.1",
-  "timestamp": "2026-08-06T15:35:15.980810+00:00",
+  "timestamp": "2026-08-10T21:35:12.585029+00:00",
   "sparks": [
     {
       "spark": "spark-matthew-001",
       "owner": "matthew",
       "profile": "/Users/wonderland/Wonderland/Crystal/us/sparks/spark-matthew-001.lima.yaml",
-      "timestamp": "2026-08-06T15:35:15.980456+00:00",
+      "timestamp": "2026-08-10T21:35:12.584400+00:00",
       "status": "READY"
     },
     {
       "spark": "spark-taylor-001",
       "owner": "taylor",
       "profile": "/Users/wonderland/Wonderland/Crystal/us/sparks/spark-taylor-001.lima.yaml",
-      "timestamp": "2026-08-06T15:35:15.980806+00:00",
+      "timestamp": "2026-08-10T21:35:12.585023+00:00",
       "status": "READY"
     }
   ],

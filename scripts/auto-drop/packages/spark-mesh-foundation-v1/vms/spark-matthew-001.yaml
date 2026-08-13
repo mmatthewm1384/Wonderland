@@ -9,10 +9,9 @@ role:
   - governance
 
 resources:
-  cpu: 2
-  memory: 4096
-  disk: 20G
-
+cpus: 2
+memory: 2GiB
+disk: 10GiB
 mounts:
   - source: crystal-us-001/shared
     target: /workspace/shared
