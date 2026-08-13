@@ -33,12 +33,24 @@ if [[ "$(uname)" == "Darwin" ]]; then
     echo "[+] macOS detected"
     echo "[+] Delegating verification to Spark factory VM"
 
+    [[ "$IMAGE" == "$HOME/Wonderland/"* ]] || {
+        echo "[FAIL] image must be inside WL_ROOT"
+        exit 1
+    }
+
     IMAGE_VM="/mnt/wonderland/${IMAGE#$HOME/Wonderland/}"
 
-    limactl shell wonderland-debian-rootless-v1 -- bash -lc "
-        cd /mnt/wonderland
-        sudo Crystal/us/sparks/image-builder/verify-spark-linux.sh '$IMAGE_VM'
-    "
+    SSH_CONFIG="$HOME/.lima/wonderland-debian-rootless-v1/ssh.config"
+    SSH_HOST="lima-wonderland-debian-rootless-v1"
+
+    [[ -f "$SSH_CONFIG" ]] || {
+        echo "[FAIL] Lima SSH config not found: $SSH_CONFIG"
+        exit 1
+    }
+
+    ssh -F "$SSH_CONFIG" \
+        "$SSH_HOST" \
+        "cd /mnt/wonderland && sudo Crystal/us/sparks/image-builder/verify-spark-linux.sh '$IMAGE_VM'"
 
     exit $?
 fi
