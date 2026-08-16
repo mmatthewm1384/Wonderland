@@ -3,16 +3,17 @@ import Foundation
 
 @MainActor
 final class ClipboardMonitor {
-    private let store: ClipboardStore
+    private let store: NexilStore
     private var timer: Timer?
     private var changeCount: Int
 
-    init(store: ClipboardStore) {
+    init(store: NexilStore) {
         self.store = store
         self.changeCount = NSPasteboard.general.changeCount
     }
 
     func start() {
+        guard timer == nil else { return }
         timer = Timer.scheduledTimer(withTimeInterval: 0.35, repeats: true) { [weak self] _ in
             guard let self else { return }
             let pasteboard = NSPasteboard.general
@@ -20,7 +21,9 @@ final class ClipboardMonitor {
             self.changeCount = pasteboard.changeCount
             self.store.capture(pasteboard: pasteboard)
         }
-        RunLoop.main.add(timer!, forMode: .common)
+        if let timer {
+            RunLoop.main.add(timer, forMode: .common)
+        }
     }
 
     func stop() {
