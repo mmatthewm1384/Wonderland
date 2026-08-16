@@ -15,25 +15,37 @@ struct NexilApp {
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let store = NexilStore()
     private var monitor: ClipboardMonitor!
+    private var retentionTimer: Timer?
     private var statusItem: NSStatusItem!
     private var popover: NSPopover!
     private var popoverController: NSHostingController<NexilView>!
-    private weak var previousApplication: NSRunningApplication?
+    private var previousApplication: NSRunningApplication?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         monitor = ClipboardMonitor(store: store)
         monitor.start()
+        retentionTimer = Timer.scheduledTimer(withTimeInterval: 15 * 60, repeats: true) { [weak self] _ in
+            self?.store.purgeExpired()
+        }
+        if let retentionTimer {
+            RunLoop.main.add(retentionTimer, forMode: .common)
+        }
+
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         if let button = statusItem.button {
             button.image = NSImage(systemSymbolName: "square.stack.3d.up", accessibilityDescription: "Nexil")
             button.action = #selector(togglePopover)
             button.target = self
         }
+
         popover = NSPopover()
         popover.behavior = .transient
         popover.contentSize = NSSize(width: 430, height: 560)
-        popoverController = NSHostingController(rootView: NexilView(store: store, paste: { [weak self] object in self?.paste(object) }))
+        popoverController = NSHostingController(
+            rootView: NexilView(store: store, paste: { [weak self] object in self?.paste(object) })
+        )
         popover.contentViewController = popoverController
+
         HotKeyManager.shared.onPress = { [weak self] in self?.toggleRecall() }
         HotKeyManager.shared.register()
     }
@@ -41,7 +53,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func togglePopover() { toggleRecall() }
 
     private func toggleRecall() {
-        if popover.isShown { popover.performClose(nil) } else { showPopover() }
+        if popover.isShown {
+            popover.performClose(nil)
+        } else {
+            showPopover()
+        }
     }
 
     private func showPopover() {
@@ -63,8 +79,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         } else if object.kind == .richText, let payload = object.payload {
             pasteboard.setData(payload, forType: .rtf)
             if let text = object.text { pasteboard.setString(text, forType: .string) }
-        } else if let payload = object.payload {
-            pasteboard.setData(payload, forType: .string)
         } else if let text = object.text {
             pasteboard.setString(text, forType: .string)
         }
@@ -75,13 +89,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let source = CGEventSource(stateID: .combinedSessionState)
             let down = CGEvent(keyboardEventSource: source, virtualKey: 0x09, keyDown: true)
             let up = CGEvent(keyboardEventSource: source, virtualKey: 0x09, keyDown: false)
-            down?.flags = .maskCommand; up?.flags = .maskCommand
-            down?.post(tap: .cgAnnotatedSessionEventTap); up?.post(tap: .cgAnnotatedSessionEventTap)
+            down?.flags = .maskCommand
+            up?.flags = .maskCommand
+            down?.post(tap: .cgAnnotatedSessionEventTap)
+            up?.post(tap: .cgAnnotatedSessionEventTap)
         }
     }
 
     func applicationWillTerminate(_ notification: Notification) {
-        monitor.stop(); HotKeyManager.shared.unregister()
+        monitor.stop()
+        retentionTimer?.invalidate()
+        HotKeyManager.shared.unregister()
     }
 }
 
@@ -97,24 +115,42 @@ struct NexilView: View {
             HStack {
                 Image(systemName: "square.stack.3d.up.fill").foregroundStyle(.cyan)
                 Text("Nexil").font(.headline)
-                Spacer(); Text("⌥Space").font(.caption2.monospaced()).foregroundStyle(.secondary)
-            }.padding(.horizontal, 16).padding(.top, 14).padding(.bottom, 10)
+                Spacer()
+                Text("⌥Space").font(.caption2.monospaced()).foregroundStyle(.secondary)
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 14)
+            .padding(.bottom, 10)
 
             HStack {
                 Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
                 TextField("Search clipboard…", text: $query).textFieldStyle(.plain)
-            }.padding(9).background(.quaternary, in: RoundedRectangle(cornerRadius: 9)).padding(.horizontal, 12).padding(.bottom, 10)
+            }
+            .padding(9)
+            .background(.quaternary, in: RoundedRectangle(cornerRadius: 9))
+            .padding(.horizontal, 12)
+            .padding(.bottom, 10)
 
             Divider()
             if filtered.isEmpty {
-                ContentUnavailableView("No clips", systemImage: "square.stack", description: Text("Copy something and Nexil will remember it."))
+                ContentUnavailableView(
+                    "No clips",
+                    systemImage: "square.stack",
+                    description: Text("Copy something and Nexil will remember it.")
+                )
             } else {
                 ScrollView {
                     LazyVStack(spacing: 6) {
                         ForEach(filtered) { object in
-                            ClipRow(object: object, paste: paste, pin: { store.togglePin(object) }, delete: { store.delete(object) })
+                            ClipRow(
+                                object: object,
+                                paste: paste,
+                                pin: { store.togglePin(object) },
+                                delete: { store.delete(object) }
+                            )
                         }
-                    }.padding(10)
+                    }
+                    .padding(10)
                 }
             }
             Divider()
@@ -122,8 +158,13 @@ struct NexilView: View {
                 Label("\(store.objects.count) stored", systemImage: "clock")
                 Spacer()
                 Button("Clear Unpinned") { store.clearUnpinned() }.buttonStyle(.link)
-            }.font(.caption).foregroundStyle(.secondary).padding(10)
-        }.frame(width: 430, height: 560)
+                Button("Quit") { NSApplication.shared.terminate(nil) }.buttonStyle(.link)
+            }
+            .font(.caption)
+            .foregroundStyle(.secondary)
+            .padding(10)
+        }
+        .frame(width: 430, height: 560)
     }
 }
 
@@ -138,22 +179,33 @@ struct ClipRow: View {
             Image(systemName: icon).frame(width: 24, height: 24).foregroundStyle(.cyan)
             VStack(alignment: .leading, spacing: 5) {
                 Text(object.previewText.replacingOccurrences(of: "\n", with: " "))
-                    .lineLimit(3).font(.system(.body, design: object.kind == .code ? .monospaced : .default))
+                    .lineLimit(3)
+                    .font(.system(.body, design: object.kind == .code ? .monospaced : .default))
                 HStack(spacing: 8) {
-                    Text(object.kind.rawValue); Text(object.createdAt, style: .relative)
+                    Text(object.kind.rawValue)
+                    Text(object.createdAt, style: .relative)
                     if let source = object.sourceApplicationName { Text(source).lineLimit(1) }
-                }.font(.caption2).foregroundStyle(.secondary)
+                }
+                .font(.caption2)
+                .foregroundStyle(.secondary)
             }
             Spacer()
             Menu {
                 Button("Paste") { paste(object) }
                 Button(object.pinned ? "Unpin" : "Pin") { pin() }
-                Divider(); Button("Delete", role: .destructive) { delete() }
-            } label: { Image(systemName: object.pinned ? "pin.fill" : "ellipsis").foregroundStyle(.secondary) }
+                Divider()
+                Button("Delete", role: .destructive) { delete() }
+            } label: {
+                Image(systemName: object.pinned ? "pin.fill" : "ellipsis")
+                    .foregroundStyle(.secondary)
+            }
             .menuStyle(.borderlessButton)
-        }.padding(10).background(.background, in: RoundedRectangle(cornerRadius: 10))
-         .overlay(RoundedRectangle(cornerRadius: 10).stroke(.quaternary))
-         .contentShape(Rectangle()).onTapGesture { paste(object) }
+        }
+        .padding(10)
+        .background(.background, in: RoundedRectangle(cornerRadius: 10))
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke(.quaternary))
+        .contentShape(Rectangle())
+        .onTapGesture { paste(object) }
     }
 
     private var icon: String {
