@@ -1,4 +1,5 @@
 import AppKit
+import Combine
 import Foundation
 
 struct Clip: Identifiable, Codable, Hashable {
@@ -27,7 +28,7 @@ final class ClipboardStore: ObservableObject {
 
     func capture(pasteboard: NSPasteboard) {
         guard let text = pasteboard.string(forType: .string), !text.isEmpty else { return }
-        let normalized = text.replacingOccurrences(of: "\\r\\n", with: "\\n")
+        let normalized = text.replacingOccurrences(of: "\r\n", with: "\n")
         guard !normalized.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
         guard clips.first?.text != normalized else { return }
 
@@ -68,7 +69,7 @@ final class ClipboardStore: ObservableObject {
 
     private func classify(_ text: String) -> String {
         if text.hasPrefix("http://") || text.hasPrefix("https://") { return "URL" }
-        if text.contains("\\n") && (text.contains("{") || text.contains(";") || text.contains("func ") || text.contains("#!/")) { return "Code" }
+        if text.contains("\n") && (text.contains("{") || text.contains(";") || text.contains("func ") || text.contains("#!/")) { return "Code" }
         return "Text"
     }
 
