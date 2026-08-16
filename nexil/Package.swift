@@ -9,7 +9,11 @@ let package = Package(
         .executableTarget(
             name: "Nexil",
             path: "Sources/Nexil",
-            linkerSettings: [.linkedFramework("AppKit"), .linkedFramework("Carbon")]
+            linkerSettings: [
+                .linkedFramework("AppKit"),
+                .linkedFramework("Carbon"),
+                .linkedFramework("Security")
+            ]
         )
     ],
     swiftLanguageModes: [.v5]
