@@ -11,5 +11,6 @@ let package = Package(
             path: "Sources/Nexil",
             linkerSettings: [.linkedFramework("AppKit"), .linkedFramework("Carbon")]
         )
-    ]
+    ],
+    swiftLanguageModes: [.v5]
 )
