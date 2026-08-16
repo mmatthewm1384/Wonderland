@@ -109,6 +109,8 @@ struct NexilView: View {
     @ObservedObject var store: NexilStore
     let paste: (ClipboardObject) -> Void
     @State private var query = ""
+    @State private var selectedIndex = 0
+    @FocusState private var searchFocused: Bool
 
     private var filtered: [ClipboardObject] { store.search(query) }
 
@@ -126,7 +128,10 @@ struct NexilView: View {
 
             HStack {
                 Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
-                TextField("Search clipboard…", text: $query).textFieldStyle(.plain)
+                TextField("Search clipboard…", text: $query)
+                    .textFieldStyle(.plain)
+                    .focused($searchFocused)
+                    .onSubmit { pasteSelected() }
             }
             .padding(9)
             .background(.quaternary, in: RoundedRectangle(cornerRadius: 9))
@@ -141,24 +146,39 @@ struct NexilView: View {
                     description: Text("Copy something and Nexil will remember it.")
                 )
             } else {
-                ScrollView {
-                    LazyVStack(spacing: 6) {
-                        ForEach(filtered) { object in
-                            ClipRow(
-                                object: object,
-                                paste: paste,
-                                pin: { store.togglePin(object) },
-                                delete: { store.delete(object) }
-                            )
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        LazyVStack(spacing: 6) {
+                            ForEach(Array(filtered.enumerated()), id: \.element.id) { index, object in
+                                ClipRow(
+                                    object: object,
+                                    selected: index == selectedIndex,
+                                    paste: paste,
+                                    pin: { store.togglePin(object) },
+                                    delete: { store.delete(object) }
+                                )
+                                .id(object.id)
+                                .onTapGesture {
+                                    selectedIndex = index
+                                    paste(object)
+                                }
+                            }
                         }
+                        .padding(10)
                     }
-                    .padding(10)
+                    .onChange(of: selectedIndex) { _, index in
+                        guard filtered.indices.contains(index) else { return }
+                        proxy.scrollTo(filtered[index].id, anchor: .center)
+                    }
                 }
             }
             Divider()
             HStack {
                 Label("\(store.objects.count) stored", systemImage: "clock")
                 Spacer()
+                Text("↑↓ navigate  Return paste  Esc close")
+                    .font(.caption2.monospaced())
+                    .foregroundStyle(.secondary)
                 Button("Clear Unpinned") { store.clearUnpinned() }.buttonStyle(.link)
                 Button("Quit") { NSApplication.shared.terminate(nil) }.buttonStyle(.link)
             }
@@ -167,11 +187,45 @@ struct NexilView: View {
             .padding(10)
         }
         .frame(width: 430, height: 560)
+        .onAppear {
+            selectedIndex = 0
+            searchFocused = true
+        }
+        .onChange(of: query) { _, _ in
+            selectedIndex = 0
+        }
+        .onChange(of: filtered.count) { _, count in
+            if count == 0 {
+                selectedIndex = 0
+            } else if selectedIndex >= count {
+                selectedIndex = count - 1
+            }
+        }
+        .onMoveCommand { direction in
+            guard !filtered.isEmpty else { return }
+            switch direction {
+            case .down:
+                selectedIndex = min(selectedIndex + 1, filtered.count - 1)
+            case .up:
+                selectedIndex = max(selectedIndex - 1, 0)
+            default:
+                break
+            }
+        }
+        .onExitCommand {
+            NSApplication.shared.keyWindow?.performClose(nil)
+        }
+    }
+
+    private func pasteSelected() {
+        guard filtered.indices.contains(selectedIndex) else { return }
+        paste(filtered[selectedIndex])
     }
 }
 
 struct ClipRow: View {
     let object: ClipboardObject
+    let selected: Bool
     let paste: (ClipboardObject) -> Void
     let pin: () -> Void
     let delete: () -> Void
@@ -204,8 +258,8 @@ struct ClipRow: View {
             .menuStyle(.borderlessButton)
         }
         .padding(10)
-        .background(.background, in: RoundedRectangle(cornerRadius: 10))
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke(.quaternary))
+        .background(selected ? Color.accentColor.opacity(0.12) : Color.clear, in: RoundedRectangle(cornerRadius: 10))
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke(selected ? Color.accentColor.opacity(0.55) : Color.clear))
         .contentShape(Rectangle())
         .onTapGesture { paste(object) }
     }
