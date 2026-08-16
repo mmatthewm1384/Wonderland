@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import argparse
-import os
+from ..paths import repository_root
 
 from .models import Spark
 from .registry import SparkRegistry
@@ -25,10 +25,7 @@ def main():
 
     args = parser.parse_args()
 
-    root = os.environ.get(
-        "WL_ROOT",
-        ".",
-    )
+    root = repository_root()
 
     registry = SparkRegistry(root)
 

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import os
-import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -28,7 +27,7 @@ class PlatformContext:
             if (candidate / ".git").exists():
                 return cls(root=candidate)
 
-        candidate = Path(__file__).resolve().parents[4]
+        candidate = Path(__file__).resolve().parents[5]
 
         if (candidate / ".git").exists():
             return cls(root=candidate)
@@ -40,10 +39,18 @@ class PlatformContext:
 
     def environment(self) -> dict[str, str]:
         env = os.environ.copy()
+
+        # Canonical root authority.
+        env["WL_ROOT"] = str(self.root)
+
+        # Compatibility aliases. These are outputs of the canonical
+        # root resolution, never independent root authorities.
         env["WL_HOME"] = str(self.root)
         env["WONDERLAND_ROOT"] = str(self.root)
+
         env["WL_PLATFORM_ENGINE"] = "1"
         env["WL_PLATFORM_AGGREGATED"] = "1"
         env["WL_NONINTERACTIVE"] = "1"
         env["CI"] = env.get("CI", "1")
+
         return env

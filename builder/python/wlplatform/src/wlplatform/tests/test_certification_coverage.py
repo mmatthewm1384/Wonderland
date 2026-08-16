@@ -1,13 +1,13 @@
-from pathlib import Path
+from wlplatform.paths import repository_root
+
+from wlplatform.paths import repository_root
 
 from wlplatform.certification_coverage import (
     certification_coverage,
 )
 
 
-ROOT = Path(
-    "/Users/wonderland/Wonderland"
-)
+ROOT = repository_root()
 
 
 def test_certification_coverage():

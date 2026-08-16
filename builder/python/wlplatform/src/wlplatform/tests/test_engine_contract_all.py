@@ -1,14 +1,11 @@
-import sys
-print("\nPYTHON PATH:")
-print("\n".join(sys.path))
-from pathlib import Path
+from wlplatform.paths import repository_root
 
 from wlplatform.engine_contract import EngineResult
 from wlplatform.engines import get_engine
 from wlplatform.engines.catalog import ENGINE_CATALOG
 
 
-ROOT = Path.cwd().resolve()
+ROOT = repository_root()
 
 def test_all_registered_engines_return_engine_results():
 
