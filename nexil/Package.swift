@@ -4,7 +4,9 @@ import PackageDescription
 let package = Package(
     name: "Nexil",
     platforms: [.macOS(.v14)],
-    products: [.executable(name: "Nexil", targets: ["Nexil"])],
+    products: [
+        .executable(name: "Nexil", targets: ["Nexil"])
+    ],
     targets: [
         .executableTarget(
             name: "Nexil",
@@ -14,6 +16,11 @@ let package = Package(
                 .linkedFramework("Carbon"),
                 .linkedFramework("Security")
             ]
+        ),
+        .testTarget(
+            name: "NexilTests",
+            dependencies: ["Nexil"],
+            path: "Tests/NexilTests"
         )
     ],
     swiftLanguageModes: [.v5]
