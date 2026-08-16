@@ -2,17 +2,18 @@ import AppKit
 import Combine
 import CryptoKit
 import Foundation
+import Security
 
 @MainActor
 final class NexilStore: ObservableObject {
     @Published private(set) var objects: [ClipboardObject] = []
 
-    private let limit = 1000
+    private let retention = RetentionPolicy()
     private let fileURL: URL
-    private let keyURL: URL
+    private let keyAccount = "com.wonderland.nexil.store-key.v1"
     private let secretPolicy = SecretPolicy()
-    private let jsonEncoder = JSONEncoder()
-    private let jsonDecoder = JSONDecoder()
+    private let encoder = JSONEncoder()
+    private let decoder = JSONDecoder()
     private let key: SymmetricKey
 
     init() {
@@ -20,30 +21,31 @@ final class NexilStore: ObservableObject {
             .appendingPathComponent("Wonderland/Nexil", isDirectory: true)
         try? FileManager.default.createDirectory(at: base, withIntermediateDirectories: true)
         try? FileManager.default.setAttributes([.protectionKey: FileProtectionType.complete], ofItemAtPath: base.path)
-        fileURL = base.appendingPathComponent("objects.nexil", isDirectory: false)
-        keyURL = base.appendingPathComponent("store.key", isDirectory: false)
-        key = Self.loadOrCreateKey(at: keyURL)
+        fileURL = base.appendingPathComponent("objects.nexil")
+        key = Self.loadOrCreateKey(account: keyAccount)
         load()
+        purgeExpired()
     }
 
     func capture(pasteboard: NSPasteboard) {
-        guard let text = pasteboard.string(forType: .string), !text.isEmpty else { return }
-        let normalized = text.replacingOccurrences(of: "\r\n", with: "\n")
-        guard !normalized.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-        guard secretPolicy.evaluate(normalized) == .store else { return }
-        guard objects.first?.text != normalized else { return }
+        let source = NSWorkspace.shared.frontmostApplication
+        let sourceBundleID = source?.bundleIdentifier
+        guard !ExclusionPolicy().isExcluded(bundleID: sourceBundleID) else { return }
 
-        let bytes = Data(normalized.utf8)
-        let object = ClipboardObject(
-            id: UUID(), createdAt: Date(), kind: classify(normalized), text: normalized,
-            sourceBundleID: NSWorkspace.shared.frontmostApplication?.bundleIdentifier,
-            byteCount: bytes.count,
-            sha256: SHA256.hash(data: bytes).map { String(format: "%02x", $0) }.joined(),
-            pinned: false
-        )
-        objects.insert(object, at: 0)
-        enforceLimit()
-        save()
+        if let text = pasteboard.string(forType: .string) {
+            captureText(text, pasteboard: pasteboard, source: source)
+            return
+        }
+
+        if let image = pasteboard.data(forType: .png) ?? pasteboard.data(forType: .tiff) {
+            captureBinary(kind: .image, payload: image, text: nil, uti: NSPasteboard.PasteboardType.png.rawValue, pasteboard: pasteboard, source: source)
+            return
+        }
+
+        if let urls = pasteboard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL], !urls.isEmpty {
+            let paths = urls.map(\.path)
+            captureBinary(kind: .file, payload: nil, text: paths.joined(separator: "\n"), uti: NSPasteboard.PasteboardType.fileURL.rawValue, fileURLs: paths, pasteboard: pasteboard, source: source)
+        }
     }
 
     func delete(_ object: ClipboardObject) {
@@ -65,23 +67,55 @@ final class NexilStore: ObservableObject {
     func search(_ query: String) -> [ClipboardObject] {
         let q = query.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         guard !q.isEmpty else { return objects }
-        return objects.filter {
-            $0.searchableText.lowercased().contains(q) ||
-            $0.kind.rawValue.contains(q) ||
-            ($0.sourceBundleID?.lowercased().contains(q) ?? false)
+        return objects.filter { object in
+            object.searchableText.lowercased().contains(q) || object.kind.rawValue.lowercased().contains(q)
         }
+    }
+
+    func purgeExpired() {
+        let before = objects.count
+        objects.removeAll { retention.expired($0) }
+        enforceLimit()
+        if objects.count != before { save() }
+    }
+
+    private func captureText(_ rawText: String, pasteboard: NSPasteboard, source: NSRunningApplication?) {
+        let normalized = rawText.replacingOccurrences(of: "\r\n", with: "\n")
+        guard !normalized.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+        guard secretPolicy.evaluate(normalized) == .store else { return }
+
+        let hasRTF = pasteboard.data(forType: .rtf) != nil
+        let kind: ClipboardObject.Kind = hasRTF ? .richText : classify(normalized)
+        let payload = hasRTF ? pasteboard.data(forType: .rtf) : Data(normalized.utf8)
+        captureBinary(kind: kind, payload: payload, text: normalized, uti: hasRTF ? NSPasteboard.PasteboardType.rtf.rawValue : NSPasteboard.PasteboardType.string.rawValue, pasteboard: pasteboard, source: source)
+    }
+
+    private func captureBinary(kind: ClipboardObject.Kind, payload: Data?, text: String?, uti: String?, fileURLs: [String] = [], pasteboard: NSPasteboard, source: NSRunningApplication?) {
+        let hashInput = payload ?? Data((text ?? fileURLs.joined(separator: "\n")).utf8)
+        let digest = SHA256.hash(data: hashInput)
+        let sha = digest.map { String(format: "%02x", $0) }.joined()
+        guard objects.first?.sha256 != sha else { return }
+
+        let object = ClipboardObject(
+            id: UUID(), createdAt: .now, kind: kind, text: text, payload: payload,
+            sourceBundleID: source?.bundleIdentifier, sourceApplicationName: source?.localizedName,
+            byteCount: hashInput.count, sha256: sha, uti: uti, fileURLs: fileURLs, pinned: false
+        )
+        objects.insert(object, at: 0)
+        enforceLimit()
+        save()
     }
 
     private func classify(_ text: String) -> ClipboardObject.Kind {
         if URL(string: text)?.scheme != nil { return .url }
-        if text.contains("\n") && (text.contains("{") || text.contains(";") || text.contains("func ") || text.contains("#!/")) { return .code }
+        if text.contains("\n") && (text.contains("{") || text.contains(";") || text.contains("func ") || text.contains("#!/") || text.contains("import ")) { return .code }
         return .text
     }
 
     private func enforceLimit() {
-        guard objects.count > limit else { return }
+        guard objects.count > retention.maximumObjects else { return }
         let pinned = objects.filter(\.pinned)
-        let unpinned = objects.filter { !$0.pinned }.prefix(max(0, limit - pinned.count))
+        let unpinned = objects.filter { !$0.pinned }.prefix(max(0, retention.maximumObjects - pinned.count))
         objects = Array(pinned) + Array(unpinned)
         sort()
     }
@@ -96,23 +130,41 @@ final class NexilStore: ObservableObject {
     private func load() {
         guard let sealed = try? Data(contentsOf: fileURL),
               let plaintext = try? AES.GCM.open(AES.GCM.SealedBox(combined: sealed), using: key),
-              let decoded = try? jsonDecoder.decode([ClipboardObject].self, from: plaintext) else { return }
+              let decoded = try? decoder.decode([ClipboardObject].self, from: plaintext) else { return }
         objects = decoded
-        sort(); enforceLimit()
+        sort()
+        enforceLimit()
     }
 
     private func save() {
-        guard let plaintext = try? jsonEncoder.encode(objects),
+        guard let plaintext = try? encoder.encode(objects),
               let sealed = try? AES.GCM.seal(plaintext, using: key).combined else { return }
         try? sealed.write(to: fileURL, options: [.atomic, .completeFileProtection])
     }
 
-    private static func loadOrCreateKey(at url: URL) -> SymmetricKey {
-        if let data = try? Data(contentsOf: url), data.count == 32 { return SymmetricKey(data: data) }
-        let key = SymmetricKey(size: .bits256)
-        let data = key.withUnsafeBytes { Data($0) }
-        try? data.write(to: url, options: [.atomic, .completeFileProtection])
-        try? FileManager.default.setAttributes([.protectionKey: FileProtectionType.complete], ofItemAtPath: url.path)
-        return key
+    private static func loadOrCreateKey(account: String) -> SymmetricKey {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: "Wonderland.Nexil",
+            kSecAttrAccount as String: account,
+            kSecReturnData as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne
+        ]
+        var result: CFTypeRef?
+        if SecItemCopyMatching(query as CFDictionary, &result) == errSecSuccess,
+           let data = result as? Data, data.count == 32 {
+            return SymmetricKey(data: data)
+        }
+
+        let data = Data(SymmetricKey(size: .bits256).withUnsafeBytes { Data($0) })
+        let add: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: "Wonderland.Nexil",
+            kSecAttrAccount as String: account,
+            kSecValueData as String: data,
+            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+        ]
+        _ = SecItemAdd(add as CFDictionary, nil)
+        return SymmetricKey(data: data)
     }
 }
