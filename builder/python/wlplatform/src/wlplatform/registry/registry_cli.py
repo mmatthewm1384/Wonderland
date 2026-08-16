@@ -1,8 +1,10 @@
 from pathlib import Path
 import sys
 
+from wlplatform.paths import repository_root
 
-ROOT = Path("/Users/wonderland/Wonderland")
+
+ROOT = repository_root()
 
 SOURCE_ROOT = (
     ROOT /

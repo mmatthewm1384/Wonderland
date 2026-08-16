@@ -72,7 +72,7 @@ def _render_report(
 
     try:
         state = CertificationState(
-            Path("/Users/wonderland/Wonderland")
+            repository_root()
         ).collect()
 
         print()

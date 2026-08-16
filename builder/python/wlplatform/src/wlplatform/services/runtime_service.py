@@ -10,6 +10,7 @@ from pathlib import Path
 
 from ..runtime.adapters import LimaAdapter
 from ..runtime.inventory import RuntimeInventory
+from ..paths import repository_root
 
 class RuntimeService:
 
@@ -25,7 +26,7 @@ class RuntimeService:
         self.root = (
             Path(root)
             if root
-            else Path("/Users/wonderland/Wonderland")
+            else repository_root()
         )
 
         from wlplatform.runtime.targets.loader import (

@@ -18,6 +18,8 @@ import warnings
 from pathlib import Path
 import sys
 
+from ..paths import repository_root
+
 
 warnings.warn(
     "wlplatform.registry.check_dependencies is deprecated. "
@@ -27,7 +29,7 @@ warnings.warn(
 )
 
 
-ROOT = Path("/Users/wonderland/Wonderland")
+ROOT = repository_root()
 
 sys.path.insert(
     0,

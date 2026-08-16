@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "date": "2026-08-16",
+  "contract": "production-root-migration-v1",
+  "canonical_root": "/mnt/wonderland",
+  "verification": {
+    "hostile_pwd": "PASS",
+    "repository_root_consistency": "PASS",
+    "runtime_service_fallback": "PASS",
+    "registry_wrapper_fallback": "PASS",
+    "cli_root_resolution": "PASS"
+  },
+  "deferred": [
+    "wlplatform.root — no live consumers",
+    "certification.py — separate pre-existing defect",
+    "test fixtures — separate migration"
+  ]
+}
