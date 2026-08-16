@@ -20,6 +20,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var popover: NSPopover!
     private var popoverController: NSHostingController<NexilView>!
     private var previousApplication: NSRunningApplication?
+    private var keyboardMonitor: Any?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         monitor = ClipboardMonitor(store: store)
@@ -47,6 +48,30 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             rootView: NexilView(store: store, paste: { [weak self] object in self?.paste(object) })
         )
         popover.contentViewController = popoverController
+
+        keyboardMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            guard let self else { return event }
+            guard self.popover.isShown else { return event }
+
+            switch event.keyCode {
+            case 125: // Down Arrow
+                NotificationCenter.default.post(
+                    name: .nexilMoveSelection,
+                    object: 1
+                )
+                return nil
+
+            case 126: // Up Arrow
+                NotificationCenter.default.post(
+                    name: .nexilMoveSelection,
+                    object: -1
+                )
+                return nil
+
+            default:
+                return event
+            }
+        }
 
         HotKeyManager.shared.onPress = { [weak self] in self?.toggleRecall() }
         HotKeyManager.shared.register()
@@ -101,8 +126,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ notification: Notification) {
         monitor.stop()
         retentionTimer?.invalidate()
+
+        if let keyboardMonitor {
+            NSEvent.removeMonitor(keyboardMonitor)
+            self.keyboardMonitor = nil
+        }
+
         HotKeyManager.shared.unregister()
     }
+}
+
+extension Notification.Name {
+    static let nexilMoveSelection = Notification.Name("NexilMoveSelection")
 }
 
 struct NexilView: View {
@@ -201,15 +236,16 @@ struct NexilView: View {
                 selectedIndex = count - 1
             }
         }
-        .onMoveCommand { direction in
+        .onReceive(
+            NotificationCenter.default.publisher(for: .nexilMoveSelection)
+        ) { notification in
+            guard let delta = notification.object as? Int else { return }
             guard !filtered.isEmpty else { return }
-            switch direction {
-            case .down:
+
+            if delta > 0 {
                 selectedIndex = min(selectedIndex + 1, filtered.count - 1)
-            case .up:
+            } else {
                 selectedIndex = max(selectedIndex - 1, 0)
-            default:
-                break
             }
         }
         .onExitCommand {
