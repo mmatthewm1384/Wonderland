@@ -52,9 +52,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func paste(_ object: ClipboardObject) {
-        guard let text = object.text else { return }
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(text, forType: .string)
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+
+        if !object.fileURLs.isEmpty {
+            let urls = object.fileURLs.map { URL(fileURLWithPath: $0) }
+            pasteboard.writeObjects(urls as [NSURL])
+        } else if object.kind == .image, let payload = object.payload {
+            pasteboard.setData(payload, forType: .png)
+        } else if object.kind == .richText, let payload = object.payload {
+            pasteboard.setData(payload, forType: .rtf)
+            if let text = object.text { pasteboard.setString(text, forType: .string) }
+        } else if let payload = object.payload {
+            pasteboard.setData(payload, forType: .string)
+        } else if let text = object.text {
+            pasteboard.setString(text, forType: .string)
+        }
+
         popover.performClose(nil)
         previousApplication?.activate(options: [.activateIgnoringOtherApps])
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
@@ -85,10 +99,12 @@ struct NexilView: View {
                 Text("Nexil").font(.headline)
                 Spacer(); Text("⌥Space").font(.caption2.monospaced()).foregroundStyle(.secondary)
             }.padding(.horizontal, 16).padding(.top, 14).padding(.bottom, 10)
+
             HStack {
                 Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
                 TextField("Search clipboard…", text: $query).textFieldStyle(.plain)
             }.padding(9).background(.quaternary, in: RoundedRectangle(cornerRadius: 9)).padding(.horizontal, 12).padding(.bottom, 10)
+
             Divider()
             if filtered.isEmpty {
                 ContentUnavailableView("No clips", systemImage: "square.stack", description: Text("Copy something and Nexil will remember it."))
@@ -104,7 +120,8 @@ struct NexilView: View {
             Divider()
             HStack {
                 Label("\(store.objects.count) stored", systemImage: "clock")
-                Spacer(); Button("Clear Unpinned") { store.clearUnpinned() }.buttonStyle(.link)
+                Spacer()
+                Button("Clear Unpinned") { store.clearUnpinned() }.buttonStyle(.link)
             }.font(.caption).foregroundStyle(.secondary).padding(10)
         }.frame(width: 430, height: 560)
     }
@@ -120,11 +137,11 @@ struct ClipRow: View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: icon).frame(width: 24, height: 24).foregroundStyle(.cyan)
             VStack(alignment: .leading, spacing: 5) {
-                Text((object.text ?? "").replacingOccurrences(of: "\n", with: " "))
+                Text(object.previewText.replacingOccurrences(of: "\n", with: " "))
                     .lineLimit(3).font(.system(.body, design: object.kind == .code ? .monospaced : .default))
                 HStack(spacing: 8) {
                     Text(object.kind.rawValue); Text(object.createdAt, style: .relative)
-                    if let source = object.sourceBundleID { Text(source).lineLimit(1) }
+                    if let source = object.sourceApplicationName { Text(source).lineLimit(1) }
                 }.font(.caption2).foregroundStyle(.secondary)
             }
             Spacer()
@@ -140,6 +157,13 @@ struct ClipRow: View {
     }
 
     private var icon: String {
-        switch object.kind { case .url: "link"; case .code: "chevron.left.forwardslash.chevron.right"; case .image: "photo"; case .file: "doc"; case .text: "text.alignleft" }
+        switch object.kind {
+        case .url: "link"
+        case .code: "chevron.left.forwardslash.chevron.right"
+        case .image: "photo"
+        case .file: "doc"
+        case .richText: "textformat"
+        case .text: "text.alignleft"
+        }
     }
 }
