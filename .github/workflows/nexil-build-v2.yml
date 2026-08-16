@@ -1,0 +1,33 @@
+name: Nexil Build v2
+
+on:
+  push:
+    paths:
+      - 'nexil/**'
+      - '.github/workflows/nexil-build-v2.yml'
+  pull_request:
+    paths:
+      - 'nexil/**'
+      - '.github/workflows/nexil-build-v2.yml'
+
+jobs:
+  build-test:
+    runs-on: macos-14
+    defaults:
+      run:
+        working-directory: nexil
+    steps:
+      - uses: actions/checkout@v4
+      - name: Swift version
+        run: swift --version
+      - name: Build
+        run: swift build -c release
+      - name: Test
+        run: swift test
+      - name: Bundle
+        run: sh build-app.sh
+      - name: Bundle assertions
+        run: |
+          test -x build/Nexil.app/Contents/MacOS/Nexil
+          /usr/libexec/PlistBuddy -c 'Print :LSUIElement' build/Nexil.app/Contents/Info.plist | grep -q true
+          /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' build/Nexil.app/Contents/Info.plist | grep -q 'com.wonderland.nexil'
