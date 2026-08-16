@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "contract": "root-contract",
+  "component": "wlplatform.cli.dispatcher",
+  "date": "2026-08-16",
+  "repository_root": "/mnt/wonderland",
+  "root_authority": "wlplatform.runtime.context.get_context",
+  "independent_root_resolution": false,
+  "pythonpath_bootstrap": "retained",
+  "hostile_pwd": "/",
+  "verified_root": "/mnt/wonderland",
+  "status": "PASS"
+}

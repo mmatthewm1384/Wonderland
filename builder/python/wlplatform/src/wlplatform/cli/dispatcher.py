@@ -1,17 +1,9 @@
 #!/usr/bin/env python3
 
-import os
 import sys
 from pathlib import Path
 
-WL_ROOT = Path(
-    os.environ.get(
-        "WL_ROOT",
-        Path(__file__).resolve().parents[4]
-    )
-).resolve()
-
-PYTHON_ROOT = WL_ROOT / "builder/python/wlplatform/src"
+PYTHON_ROOT = Path(__file__).resolve().parents[4] / "builder/python/wlplatform/src"
 
 if str(PYTHON_ROOT) not in sys.path:
     sys.path.insert(
