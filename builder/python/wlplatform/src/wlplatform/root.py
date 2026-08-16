@@ -1,20 +1,14 @@
-# builder/python/wlplatform/wlplatform/root.py
+"""
+Compatibility wrapper.
 
-from pathlib import Path
+Canonical repository root resolution lives in:
+    wlplatform.paths.repository_root
+
+This module remains for backward compatibility only.
+"""
+
+from .paths import repository_root
 
 
-def discover_root() -> Path:
-    current = Path(root).resolve() if root else Path.cwd().resolve()
-
-    for candidate in (current, *current.parents):
-        if (candidate / "vault").exists():
-            return candidate
-
-    canonical = Path("/Users/wonderland/Wonderland")
-
-    if (canonical / "vault").exists():
-        return canonical
-
-    raise RuntimeError(
-        "Unable to locate Wonderland root"
-    )
+def discover_root():
+    return repository_root()

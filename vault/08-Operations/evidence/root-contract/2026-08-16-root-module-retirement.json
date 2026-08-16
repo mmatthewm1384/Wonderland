@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "date": "2026-08-16",
+  "contract": "root-module-retirement-v1",
+  "module": "wlplatform.root",
+  "action": "compatibility-shim",
+  "canonical_provider": "wlplatform.paths.repository_root",
+  "verification": {
+    "active_consumers": "NONE",
+    "legacy_cwd_resolution_removed": "PASS",
+    "hardcoded_root_removed": "PASS",
+    "compatibility_preserved": "PASS"
+  }
+}
