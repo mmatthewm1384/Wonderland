@@ -12,7 +12,7 @@ final class HotKeyManager {
     func register() {
         guard hotKeyRef == nil else { return }
 
-        var hotKeyID = EventHotKeyID(signature: OSType(0x4E584C31), id: 1) // NXL1
+        let hotKeyID = EventHotKeyID(signature: OSType(0x4E584C31), id: 1) // NXL1
         let modifiers = UInt32(optionKey)
         RegisterEventHotKey(
             UInt32(kVK_Space),
