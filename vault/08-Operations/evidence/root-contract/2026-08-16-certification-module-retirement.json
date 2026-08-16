@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "date": "2026-08-16",
+  "contract": "certification-module-retirement-v1",
+  "legacy_module": "builder/python/wlplatform/src/wlplatform/certification.py",
+  "archive": "vault/08-Operations/archive/legacy-modules/wlplatform/certification.py.legacy",
+  "canonical_module": "builder/python/wlplatform/src/wlplatform/certification/__init__.py",
+  "verification": {
+    "canonical_import": "PASS",
+    "hostile_pwd": "PASS",
+    "certify_export": "PASS",
+    "CertificationError_export": "PASS",
+    "legacy_source_absent": "PASS"
+  }
+}
