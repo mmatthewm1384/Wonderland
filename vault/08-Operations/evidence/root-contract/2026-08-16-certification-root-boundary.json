@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "date": "2026-08-16",
+  "contract": "certification-root-boundary-v1",
+  "canonical_module": "builder/python/wlplatform/src/wlplatform/certification/__init__.py",
+  "implementation": "builder/python/wlplatform/src/wlplatform/certification/certifier.py",
+  "root_policy": {
+    "explicit_root_required": true,
+    "cwd_fallback": false,
+    "hardcoded_repository_path": false,
+    "filesystem_root_rejected": true,
+    "path_normalization": "Path.expanduser().resolve()"
+  },
+  "verification": {
+    "hostile_pwd": "PASS",
+    "canonical_import": "PASS",
+    "real_certification": "PASS",
+    "certified": true,
+    "architecture": "PASS",
+    "builder": "PASS",
+    "governance": "PASS",
+    "mirror": "PASS",
+    "academy": "PASS",
+    "registry": "PASS",
+    "repository": "PASS",
+    "runtime": "PASS"
+  }
+}
