@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "date": "2026-08-16",
+  "contract": "legacy-path-migration-v1",
+  "canonical_root": "/mnt/wonderland",
+  "hostile_pwd": "/tmp",
+  "migrated": [
+    "wlplatform.auto_drop.registry_gate",
+    "wlplatform.genesis.cli"
+  ],
+  "verification": {
+    "hostile_pwd": "PASS",
+    "repository_root_consistency": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "deferred": [
+    "wlplatform.certification — pre-existing malformed compatibility layer",
+    "wlplatform.root — no live consumers",
+    "test_engine_contract_all.py — test-local cwd semantics"
+  ]
+}

@@ -1,7 +1,7 @@
 import argparse
-import os
 import json
 
+from ..paths import repository_root
 from .executor import GenesisExecutor
 from .validator import GenesisValidator
 from .evidence import EvidenceWriter
@@ -30,10 +30,7 @@ def main():
 
     args = parser.parse_args()
 
-    root = os.environ.get(
-        "WL_ROOT",
-        os.getcwd()
-    )
+    root = repository_root()
 
     result = None
 

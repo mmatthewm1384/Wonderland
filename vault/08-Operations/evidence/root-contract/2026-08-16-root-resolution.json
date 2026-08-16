@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "date": "2026-08-16",
+  "contract": "root-resolution-v1",
+  "canonical_root": "/mnt/wonderland",
+  "hostile_pwd": "/tmp",
+  "checks": {
+    "WL_ROOT": "PASS",
+    "PlatformContext": "PASS",
+    "paths.repository_root": "PASS",
+    "hostile_pwd_regression": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "changes": [
+    "PlatformContext.discover uses WL_ROOT",
+    "PWD-dependent git root fallback removed",
+    "paths.repository_root delegates to PlatformContext"
+  ]
+}

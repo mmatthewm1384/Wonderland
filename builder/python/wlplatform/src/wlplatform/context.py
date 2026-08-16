@@ -17,7 +17,8 @@ class PlatformContext:
     @classmethod
     def discover(cls) -> "PlatformContext":
         configured = (
-            os.environ.get("WL_HOME")
+            os.environ.get("WL_ROOT")
+            or os.environ.get("WL_HOME")
             or os.environ.get("WONDERLAND_ROOT")
         )
 
@@ -32,22 +33,7 @@ class PlatformContext:
         if (candidate / ".git").exists():
             return cls(root=candidate)
 
-        completed = subprocess.run(
-            ["git", "rev-parse", "--show-toplevel"],
-            text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL,
-            check=False,
-        )
-
-        if completed.returncode == 0 and completed.stdout.strip():
-            candidate = Path(
-                completed.stdout.strip()
-            ).resolve()
-
-            if (candidate / ".git").exists():
-                return cls(root=candidate)
-
+        # Repository identity must never depend on PWD.
         raise PlatformContextError(
             "unable to locate Wonderland repository root"
         )

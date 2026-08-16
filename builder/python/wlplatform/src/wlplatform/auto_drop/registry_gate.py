@@ -1,4 +1,4 @@
-from pathlib import Path
+from ..paths import repository_root
 
 
 class RegistryGateError(Exception):
@@ -8,7 +8,7 @@ class RegistryGateError(Exception):
 def validate_before_transaction(root=None):
 
     if root is None:
-        root = Path.cwd()
+        root = repository_root()
 
     validator = (
         root /
