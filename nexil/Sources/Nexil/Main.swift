@@ -25,7 +25,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         monitor = ClipboardMonitor(store: store)
         monitor.start()
         retentionTimer = Timer.scheduledTimer(withTimeInterval: 15 * 60, repeats: true) { [weak self] _ in
-            self?.store.purgeExpired()
+            Task { @MainActor [weak self] in
+                self?.store.purgeExpired()
+            }
         }
         if let retentionTimer {
             RunLoop.main.add(retentionTimer, forMode: .common)
@@ -84,7 +86,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         popover.performClose(nil)
-        previousApplication?.activate(options: [.activateIgnoringOtherApps])
+        previousApplication?.activate(options: [])
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
             let source = CGEventSource(stateID: .combinedSessionState)
             let down = CGEvent(keyboardEventSource: source, virtualKey: 0x09, keyDown: true)
