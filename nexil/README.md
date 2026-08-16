@@ -1,40 +1,82 @@
 # Nexil
 
-**Nexil** is Wonderland's native macOS clipboard memory: a quiet menu-bar application that captures clipboard history locally and makes recall immediate.
+Nexil is Wonderland's native macOS clipboard memory.
 
-> Copy once. Remember it. Recall instantly.
+> Copy once. Remember everything. Paste anything.
 
-## v0.1 foundation
+## Architecture
 
-- Native AppKit + SwiftUI application
-- Menu-bar-only presence
-- Global `⌥Space` recall shortcut
-- Automatic text clipboard capture
-- Up to 1,000 local entries
-- URL / code / text classification
-- Full-text filtering
-- Pin / delete / clear-unpinned
-- Direct paste back into the previous application
-- Source application bundle metadata
-- Local persistence under `~/Library/Application Support/Wonderland/Nexil/`
-- No network dependency
+Nexil is local-first clipboard memory. It is intentionally separate from Crystal durable memory. Clipboard content is never promoted to Crystal implicitly.
 
-## Security boundary
+```text
+macOS Pasteboard
+      |
+      v
+ ClipboardMonitor
+      |
+      v
+  Policy + Capture
+      |
+      v
+ Encrypted Nexil Store
+      |
+      +--> Search / Recall
+      +--> Paste
+      +--> Lifecycle
+      +--> Explicit Crystal promotion (future)
+```
 
-Nexil is intentionally **not Crystal**. Clipboard history is short-lived local memory. Promotion into Crystal will be an explicit future action rather than automatic ingestion.
+Nexil uses `NSPasteboard.general`, Apple's pasteboard interface for ordinary copy/paste operations. See Apple's `NSPasteboard` documentation for the system pasteboard model and access behavior.
 
-The current prototype stores encoded history locally to establish the application boundary. Encryption-at-rest, secret detection, application exclusion policies, lifecycle retention, structured object storage, and evidence are subsequent gates before production use.
+## Current capabilities
+
+- Native AppKit + SwiftUI menu-bar application
+- Global `Option-Space` recall
+- Text, URL, code, rich-text, image, and file capture
+- Local encrypted persistence using CryptoKit AES-GCM
+- Per-install encryption key stored in Keychain
+- SHA-256 content identity/deduplication
+- Search
+- Pinning
+- Delete and clear-unpinned
+- Retention policy
+- Secret capture policy
+- Application exclusion policy
+- Direct paste to the previous foreground application
 
 ## Build
 
-```bash
+```sh
 cd nexil
-swift build -c release
-.build/release/Nexil
+make build
+make app
+open .build/Nexil.app
 ```
 
-For direct paste, macOS may require Accessibility permission for Nexil under **System Settings → Privacy & Security → Accessibility**.
+For development:
 
-## Design target
+```sh
+cd nexil
+make run
+```
 
-Nexil should remain keyboard-first, local-first, private, fast, and small. The menu bar is the persistent anchor; the recall surface is the primary interaction.
+The app is built as a menu-bar-only `.app` bundle. The bundle metadata sets `LSUIElement`, so Nexil does not create a normal Dock application presence.
+
+## Security boundary
+
+Nexil's clipboard database is encrypted at rest. The encryption key is not stored beside the clipboard database; it is held in the macOS Keychain.
+
+Nexil does not use a cloud service, account, telemetry pipeline, or network dependency for clipboard memory.
+
+## Verification gates
+
+1. Native release build
+2. App bundle launch
+3. Pasteboard capture
+4. Deduplication and persistence
+5. Encryption/recovery test
+6. Secret/exclusion policy tests
+7. Paste verification
+8. Lifecycle verification
+9. Evidence/conformance bundle
+10. Crystal promotion boundary
