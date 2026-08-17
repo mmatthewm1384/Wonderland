@@ -1,0 +1,55 @@
+schema_version: 1
+
+artifact:
+  name: mesh-relationship-v1
+  version: 1.0.0
+  category: mesh
+
+description: >
+  Establish the canonical Crystal Mesh relationship primitive. A relationship
+  is an authenticated association between participants established by an
+  explicit one-time capability; it is not a global identity.
+
+ownership:
+  Crystal Mesh:
+    owns:
+      - relationship semantics
+      - capability lifecycle
+      - relationship state machine
+      - relationship evidence
+
+  Transport adapters:
+    owns:
+      - network transport
+      - relay queues
+      - session establishment
+
+  Crystal:
+    owns:
+      - durable relationship state
+      - durable message state
+
+boundaries:
+  - no global identity registry
+  - no network transport in the reference implementation
+  - no cryptographic session protocol in the reference implementation
+  - no chat-specific persistence model
+
+components:
+  - builder/python/wlplatform/src/wlplatform/mesh/__init__.py
+  - builder/python/wlplatform/src/wlplatform/mesh/relationship.py
+  - schema/mesh.relationship.v1.json
+  - builder/python/wlplatform/tests/test_mesh_relationship.py
+
+verification:
+  checks:
+    - capability_round_trip
+    - capability_single_use
+    - capability_expiry
+    - self_acceptance_rejected
+    - relationship_state_machine
+    - canonical_serialization_shape
+
+certification:
+  evidence_required: true
+  issue_certificate: true
