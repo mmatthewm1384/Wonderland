@@ -7,6 +7,16 @@ from .capability import (
     create_signed_capability,
     generate_keypair,
 )
+from .crystal_projection import (
+    CRYSTAL_OBJECT_TYPE,
+    CRYSTAL_PROJECTION_PROTOCOL,
+    CrystalProjectionError,
+    CrystalRelationshipObject,
+    project_relationship,
+    recover_relationship,
+    serialize_projection,
+    verify_projection,
+)
 from .relationship import (
     CapabilityError,
     CapabilityGrant,
@@ -24,20 +34,11 @@ from .relationship_store import (
 )
 
 __all__ = [
-    "CapabilityAlreadyConsumed",
-    "CapabilityError",
-    "CapabilityFormatError",
-    "CapabilityGrant",
-    "CapabilitySignatureError",
-    "Relationship",
-    "RelationshipError",
-    "RelationshipNotFound",
-    "RelationshipState",
-    "RelationshipStore",
-    "RelationshipStoreError",
-    "SignedCapability",
-    "accept_capability",
-    "create_capability",
-    "create_signed_capability",
-    "generate_keypair",
+    "CapabilityAlreadyConsumed", "CapabilityError", "CapabilityFormatError", "CapabilityGrant",
+    "CapabilitySignatureError", "CRYSTAL_OBJECT_TYPE", "CRYSTAL_PROJECTION_PROTOCOL",
+    "CrystalProjectionError", "CrystalRelationshipObject", "Relationship", "RelationshipError",
+    "RelationshipNotFound", "RelationshipState", "RelationshipStore", "RelationshipStoreError",
+    "SignedCapability", "accept_capability", "create_capability", "create_signed_capability",
+    "generate_keypair", "project_relationship", "recover_relationship", "serialize_projection",
+    "verify_projection",
 ]
