@@ -1,6 +1,6 @@
+import json
 import unittest
 from datetime import datetime, timezone
-import json
 
 from wlplatform.mesh.crystal_projection import (
     CrystalProjectionError,
@@ -9,13 +9,24 @@ from wlplatform.mesh.crystal_projection import (
     serialize_projection,
     verify_projection,
 )
-from wlplatform.mesh.relationship import RelationshipState, accept_capability, create_capability
+from wlplatform.mesh.relationship import (
+    RelationshipState,
+    accept_capability,
+    create_capability,
+)
+from wlplatform.mesh.capability import generate_keypair
 
 
 class CrystalProjectionTests(unittest.TestCase):
     def setUp(self):
         self.now = datetime(2026, 8, 16, 20, 0, tzinfo=timezone.utc)
-        grant = create_capability("participant:alice", ["message.send"], now=self.now)
+        private_key, _ = generate_keypair()
+        grant = create_capability(
+            "participant:alice",
+            ["message.send"],
+            private_key,
+            now=self.now,
+        )
         self.relationship = accept_capability(
             grant.token,
             "participant:bob",
@@ -63,11 +74,8 @@ class CrystalProjectionTests(unittest.TestCase):
         projected = project_relationship(self.relationship)
         raw = serialize_projection(projected)
         parsed = json.loads(raw.decode("utf-8"))
-        self.assertEqual(raw, serialize_projection(recover_projection(parsed)))
-
-
-def recover_projection(value):
-    return project_relationship(recover_relationship(value))
+        recovered_projection = project_relationship(recover_relationship(parsed))
+        self.assertEqual(raw, serialize_projection(recovered_projection))
 
 
 if __name__ == "__main__":
