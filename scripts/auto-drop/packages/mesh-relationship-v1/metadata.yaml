@@ -6,9 +6,10 @@ artifact:
   category: mesh
 
 description: >
-  Establish the canonical Crystal Mesh relationship primitive and its local
-  persistent operational store. SQLite is operational state only; Crystal
-  remains the canonical durable memory layer.
+  Establish the canonical Crystal Mesh relationship primitive, its local
+  persistent operational store, and the Crystal projection/recovery boundary.
+  SQLite is operational state only; Crystal remains the canonical durable
+  memory layer.
 
 ownership:
   Crystal Mesh:
@@ -26,6 +27,13 @@ ownership:
       - transactional lifecycle persistence
       - SQLite integrity checks
 
+  Crystal Projection:
+    owns:
+      - canonical relationship object envelope
+      - deterministic serialization
+      - payload integrity digest
+      - recovery validation
+
   Transport adapters:
     owns:
       - network transport
@@ -36,11 +44,15 @@ ownership:
     owns:
       - canonical durable relationship state
       - canonical durable message state
-      - provenance and recovery projection
+      - physical encryption
+      - object addressing
+      - final persistence and recovery
 
 boundaries:
   - SQLite is not canonical memory
   - private cryptographic keys are never stored by the relationship store
+  - projection does not encrypt Crystal objects
+  - projection does not replace the Crystal object writer
   - no global identity registry
   - no network transport in the reference implementation
   - no cryptographic session protocol in the reference implementation
@@ -51,9 +63,12 @@ components:
   - builder/python/wlplatform/src/wlplatform/mesh/capability.py
   - builder/python/wlplatform/src/wlplatform/mesh/relationship.py
   - builder/python/wlplatform/src/wlplatform/mesh/relationship_store.py
+  - builder/python/wlplatform/src/wlplatform/mesh/crystal_projection.py
   - schema/mesh.relationship.v1.json
+  - schema/crystal.mesh.relationship.v1.json
   - builder/python/wlplatform/tests/test_mesh_relationship.py
   - builder/python/wlplatform/tests/test_relationship_store.py
+  - builder/python/wlplatform/tests/test_crystal_projection.py
 
 verification:
   checks:
@@ -68,6 +83,10 @@ verification:
     - store_transaction_rollback
     - store_state_persistence
     - store_integrity_check
+    - crystal_projection_determinism
+    - crystal_projection_round_trip
+    - crystal_projection_tamper_detection
+    - crystal_projection_object_binding
 
 certification:
   evidence_required: true
