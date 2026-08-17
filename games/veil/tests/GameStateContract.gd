@@ -13,7 +13,7 @@ static func run() -> void:
     game.trigger_static()
     assert(game.state.flags.static_encountered)
     assert(game.state.stats.clarity == 88)
-    var before := game.state.stats.clarity
+    var before: int = game.state.stats.clarity
     game.choose_response("verify")
     assert(game.state.stats.clarity > before)
     game.record_evidence("observation", "test")
