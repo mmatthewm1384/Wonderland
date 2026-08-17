@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
-"""Canonical Wonderland Music Library operations.
-
-Import is transactional: source files are hashed and copied into a private
-transaction directory first. The canonical library is changed only after all
-sources have passed verification. Staging sources are removed only after the
-canonical objects have been independently verified.
-"""
-
+"""Canonical Wonderland Music domain with transactional promotion."""
 from __future__ import annotations
 
 import hashlib
@@ -71,39 +64,35 @@ def init(root: Path) -> dict:
 
 def status(root: Path) -> dict:
     p = _paths(root)
-    files = list(p["objects"].rglob("*") ) if p["objects"].exists() else []
-    tracks = sum(1 for x in files if x.is_file())
+    tracks = sum(1 for x in p["objects"].rglob("*") if x.is_file()) if p["objects"].exists() else 0
     staging = sum(1 for x in p["staging"].rglob("*") if x.is_file()) if p["staging"].exists() else 0
     return {"status": "PASS", "tracks": tracks, "staging_files": staging, "library": str(p["library"])}
 
 
 def verify(root: Path) -> dict:
     p = _paths(root)
-    if not p["objects"].exists():
-        return {"status": "PASS", "tracks": 0}
     count = 0
-    for f in p["objects"].rglob("*"):
-        if f.is_file():
-            digest = _sha256(f)
-            expected = f.name.split("--", 1)[0]
-            if len(expected) == 64 and digest != expected:
-                raise RuntimeError(f"library integrity failure: {f}")
-            count += 1
+    if p["objects"].exists():
+        for f in p["objects"].rglob("*"):
+            if f.is_file():
+                expected = f.name.split("--", 1)[0]
+                if len(expected) == 64 and _sha256(f) != expected:
+                    raise RuntimeError(f"library integrity failure: {f}")
+                count += 1
     return {"status": "PASS", "tracks": count}
 
 
 def _record(root: Path, txid: str, records: list[dict], source: Path) -> None:
     p = _paths(root)
-    evidence = {
+    out = p["evidence"] / f"{txid}.json"
+    out.write_text(json.dumps({
         "protocol": "wonderland.music.import/1.0",
         "transaction": txid,
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "source": str(source),
         "records": records,
         "status": "COMMITTED",
-    }
-    out = p["evidence"] / f"{txid}.json"
-    out.write_text(json.dumps(evidence, indent=2) + "\n")
+    }, indent=2) + "\n")
 
 
 def import_path(root: Path, source: Path, cleanup: bool = True) -> dict:
@@ -120,7 +109,7 @@ def import_path(root: Path, source: Path, cleanup: bool = True) -> dict:
     committed: list[Path] = []
 
     try:
-        # Phase 1: acquire into private transaction staging and verify every copy.
+        # PREPARE: copy and independently verify every source into private staging.
         for src in files:
             rel = _safe_relative(src, source if source.is_dir() else src.parent)
             digest = _sha256(src)
@@ -131,8 +120,8 @@ def import_path(root: Path, source: Path, cleanup: bool = True) -> dict:
                 raise RuntimeError(f"staging verification failed: {src}")
             records.append({"source": str(src), "relative": str(rel), "sha256": digest, "size": src.stat().st_size})
 
-        # Phase 2: reserve canonical names and atomically install each object.
-        # Content-addressed names make retries idempotent and collisions explicit.
+        # COMMIT: each newly-created object is installed atomically. If any later
+        # operation fails, all objects created by this transaction are rolled back.
         for rec in records:
             src = tx / rec["relative"]
             target = p["objects"] / f'{rec["sha256"]}--{Path(rec["relative"]).name}'
@@ -148,7 +137,7 @@ def import_path(root: Path, source: Path, cleanup: bool = True) -> dict:
             os.replace(tmp, target)
             committed.append(target)
 
-        # Phase 3: independent post-commit verification before deleting staging.
+        # VERIFY: the canonical commit must be sound before source cleanup.
         for target in committed:
             if not target.exists() or _sha256(target) != target.name.split("--", 1)[0]:
                 raise RuntimeError(f"post-commit verification failed: {target}")
@@ -156,7 +145,6 @@ def import_path(root: Path, source: Path, cleanup: bool = True) -> dict:
         _record(root, txid, records, source)
 
         if cleanup:
-            # Only remove the transaction staging after the canonical verification.
             shutil.rmtree(tx)
             if tx.exists():
                 raise RuntimeError("staging cleanup verification failed")
@@ -164,16 +152,21 @@ def import_path(root: Path, source: Path, cleanup: bool = True) -> dict:
         return {"status": "PASS", "transaction": txid, "imported": len(records), "cleanup_verified": not tx.exists()}
 
     except Exception:
-        # Never delete the transaction on failure. This preserves recovery material.
+        # ROLLBACK: remove only objects created by this transaction. Existing
+        # content-addressed objects are never touched. Keep staging for recovery.
+        for target in reversed(committed):
+            target.unlink(missing_ok=True)
         raise
 
 
 def import_downloads(root: Path, cleanup: bool = True) -> dict:
-    return import_path(root, _paths(root)["base"].parent.parent.parent / "vault" / "data" / "torrents" / "downloads", cleanup)
+    return import_path(root, root / "vault" / "data" / "torrents" / "downloads", cleanup)
 
 
 def list_tracks(root: Path) -> list[str]:
     p = _paths(root)
+    if not p["objects"].exists():
+        return []
     return [str(f.relative_to(p["objects"])) for f in sorted(p["objects"].rglob("*")) if f.is_file()]
 
 
@@ -182,25 +175,25 @@ def export_vlc(root: Path, destination: Path | None = None) -> dict:
     destination = destination or (root / "Shared" / "VLC" / "Music")
     destination.mkdir(parents=True, exist_ok=True)
     exported = 0
-    for obj in sorted(p["objects"].rglob("*")) if p["objects"].exists() else []:
-        if not obj.is_file():
-            continue
-        name = obj.name.split("--", 1)[-1]
-        target = destination / name
-        if target.exists() and _sha256(target) == _sha256(obj):
-            continue
-        tmp = destination / f".{name}.partial"
-        shutil.copy2(obj, tmp)
-        if _sha256(tmp) != _sha256(obj):
-            tmp.unlink(missing_ok=True)
-            raise RuntimeError(f"VLC export verification failed: {target}")
-        os.replace(tmp, target)
-        exported += 1
+    if p["objects"].exists():
+        for obj in sorted(p["objects"].rglob("*")):
+            if not obj.is_file():
+                continue
+            name = obj.name.split("--", 1)[-1]
+            target = destination / name
+            if target.exists() and _sha256(target) == _sha256(obj):
+                continue
+            tmp = destination / f".{name}.partial"
+            shutil.copy2(obj, tmp)
+            if _sha256(tmp) != _sha256(obj):
+                tmp.unlink(missing_ok=True)
+                raise RuntimeError(f"VLC export verification failed: {target}")
+            os.replace(tmp, target)
+            exported += 1
     return {"status": "PASS", "export": "vlc", "destination": str(destination), "exported": exported}
 
 
 def doctor(root: Path) -> dict:
-    p = _paths(root)
     result = init(root)
     result["verify"] = verify(root)
     result["status"] = "PASS"
@@ -225,8 +218,8 @@ def execute(root: Path, command: str, args: list[str]) -> dict | list[str]:
     if command == "import-downloads":
         return import_downloads(root)
     if command == "export":
-        target = Path(args[1]).expanduser() if len(args) > 1 and args[0] == "vlc" else None
         if not args or args[0] != "vlc":
             raise SystemExit("usage: wl music export vlc [destination]")
+        target = Path(args[1]).expanduser() if len(args) > 1 else None
         return export_vlc(root, target)
     raise SystemExit(f"unsupported music command: {command}")
