@@ -61,12 +61,12 @@ func _interact() -> void:
 func _evaluate_world() -> void:
     var p := Vector2(game.state.position.x, game.state.position.y)
     if p.x > 470.0 and p.x < 900.0:
-        var was_static := game.state.flags.static_encountered
+        var was_static: bool = game.state.flags.static_encountered
         game.trigger_static()
         if not was_static:
             _set_message("STATIC DETECTED — 1 VERIFY  2 DISTANCE  3 REST  4 LEAVE")
     if p.x >= 1050.0:
-        var was_sanctuary := game.state.flags.river_sanctuary_reached
+        var was_sanctuary: bool = game.state.flags.river_sanctuary_reached
         game.reach_sanctuary()
         if not was_sanctuary:
             _set_message("RIVER SANCTUARY REACHED — MISSION COMPLETE" if game.state.flags.mission_complete else "RIVER SANCTUARY REACHED — find Taylor")
