@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wonderland://schema/mesh.capability.v1",
+  "title": "Wonderland Crystal Mesh Capability v1",
+  "type": "object",
+  "required": ["protocol", "issuer", "public_key", "capabilities", "issued_at", "expires_at", "nonce"],
+  "properties": {
+    "protocol": { "const": "mesh.capability/1.0" },
+    "issuer": { "type": "string", "minLength": 1 },
+    "public_key": { "type": "string", "minLength": 43, "maxLength": 43 },
+    "capabilities": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1, "uniqueItems": true },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "nonce": { "type": "string", "minLength": 32 }
+  },
+  "additionalProperties": false
+}

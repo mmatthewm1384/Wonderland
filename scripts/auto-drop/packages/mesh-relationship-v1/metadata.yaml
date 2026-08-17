@@ -1,0 +1,93 @@
+schema_version: 1
+
+artifact:
+  name: mesh-relationship-v1
+  version: 1.0.0
+  category: mesh
+
+description: >
+  Establish the canonical Crystal Mesh relationship primitive, its local
+  persistent operational store, and the Crystal projection/recovery boundary.
+  SQLite is operational state only; Crystal remains the canonical durable
+  memory layer.
+
+ownership:
+  Crystal Mesh:
+    owns:
+      - relationship semantics
+      - capability lifecycle
+      - relationship state machine
+      - relationship evidence
+      - local replay protection
+
+  Relationship Store:
+    owns:
+      - local relationship records
+      - consumed capability ledger
+      - transactional lifecycle persistence
+      - SQLite integrity checks
+
+  Crystal Projection:
+    owns:
+      - canonical relationship object envelope
+      - deterministic serialization
+      - payload integrity digest
+      - recovery validation
+
+  Transport adapters:
+    owns:
+      - network transport
+      - relay queues
+      - session establishment
+
+  Crystal:
+    owns:
+      - canonical durable relationship state
+      - canonical durable message state
+      - physical encryption
+      - object addressing
+      - final persistence and recovery
+
+boundaries:
+  - SQLite is not canonical memory
+  - private cryptographic keys are never stored by the relationship store
+  - projection does not encrypt Crystal objects
+  - projection does not replace the Crystal object writer
+  - no global identity registry
+  - no network transport in the reference implementation
+  - no cryptographic session protocol in the reference implementation
+  - no chat-specific persistence model
+
+components:
+  - builder/python/wlplatform/src/wlplatform/mesh/__init__.py
+  - builder/python/wlplatform/src/wlplatform/mesh/capability.py
+  - builder/python/wlplatform/src/wlplatform/mesh/relationship.py
+  - builder/python/wlplatform/src/wlplatform/mesh/relationship_store.py
+  - builder/python/wlplatform/src/wlplatform/mesh/crystal_projection.py
+  - schema/mesh.relationship.v1.json
+  - schema/crystal.mesh.relationship.v1.json
+  - builder/python/wlplatform/tests/test_mesh_relationship.py
+  - builder/python/wlplatform/tests/test_relationship_store.py
+  - builder/python/wlplatform/tests/test_crystal_projection.py
+
+verification:
+  checks:
+    - capability_round_trip
+    - capability_single_use
+    - capability_expiry
+    - self_acceptance_rejected
+    - relationship_state_machine
+    - canonical_serialization_shape
+    - store_restart_recovery
+    - store_atomic_capability_consumption
+    - store_transaction_rollback
+    - store_state_persistence
+    - store_integrity_check
+    - crystal_projection_determinism
+    - crystal_projection_round_trip
+    - crystal_projection_tamper_detection
+    - crystal_projection_object_binding
+
+certification:
+  evidence_required: true
+  issue_certificate: true

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wonderland://schema/mesh.relationship.v1",
+  "title": "Wonderland Crystal Mesh Relationship v1",
+  "type": "object",
+  "required": ["protocol", "relationship_id", "initiator", "acceptor", "capabilities", "state", "created_at", "updated_at", "capability_digest", "issuer_key_fingerprint", "evidence"],
+  "properties": {
+    "protocol": { "const": "mesh.relationship/1.0" },
+    "relationship_id": { "type": "string", "format": "uuid" },
+    "initiator": { "type": "string", "minLength": 1 },
+    "acceptor": { "type": "string", "minLength": 1 },
+    "capabilities": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1, "uniqueItems": true },
+    "state": { "enum": ["pending", "active", "suspended", "revoked", "expired", "rejected"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "capability_digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "issuer_key_fingerprint": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "evidence": { "type": "array", "items": { "type": "object" } }
+  },
+  "additionalProperties": false
+}

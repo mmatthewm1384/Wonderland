@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wonderland://schema/crystal.mesh.relationship.v1",
+  "title": "Wonderland Crystal Mesh Relationship Projection v1",
+  "type": "object",
+  "required": ["object_id", "object_type", "protocol", "payload", "payload_sha256"],
+  "properties": {
+    "object_id": {
+      "type": "string",
+      "pattern": "^relationship:[0-9a-fA-F-]{36}$"
+    },
+    "object_type": { "const": "mesh.relationship" },
+    "protocol": { "const": "crystal.mesh.relationship/1.0" },
+    "payload": {
+      "$ref": "wonderland://schema/mesh.relationship.v1"
+    },
+    "payload_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

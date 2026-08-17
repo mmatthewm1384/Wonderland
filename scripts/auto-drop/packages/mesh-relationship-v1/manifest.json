@@ -1,0 +1,13 @@
+{
+  ".schema": "wonderland.artifact.manifest.v1",
+  "name": "mesh-relationship-v1",
+  "version": "1.0.0",
+  "category": "mesh",
+  "description": "Canonical Crystal Mesh relationship and one-time capability reference implementation.",
+  "lifecycle": {
+    "install": "scripts/install.sh",
+    "verify": "scripts/verify.sh",
+    "rollback": "scripts/rollback.sh",
+    "certify": "scripts/certify.sh"
+  }
+}
