@@ -1,4 +1,5 @@
 import AppKit
+import ApplicationServices
 import SwiftUI
 
 @main
@@ -14,6 +15,9 @@ struct NexilApp {
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let store = NexilStore()
+	private let accessibility = AccessibilityAuthorization()
+    private let pasteInjector = PasteInjector()
+	private let writeGuard = ClipboardWriteGuard()
     private var monitor: ClipboardMonitor!
     private var retentionTimer: Timer?
     private var statusItem: NSStatusItem!
@@ -23,7 +27,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var keyboardMonitor: Any?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        monitor = ClipboardMonitor(store: store)
+		monitor = ClipboardMonitor(
+		    store: store,
+		    writeGuard: writeGuard
+		)
         monitor.start()
         retentionTimer = Timer.scheduledTimer(withTimeInterval: 15 * 60, repeats: true) { [weak self] _ in
             Task { @MainActor [weak self] in
@@ -94,34 +101,48 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         popover.contentViewController?.view.window?.makeKey()
     }
 
-    private func paste(_ object: ClipboardObject) {
-        let pasteboard = NSPasteboard.general
-        pasteboard.clearContents()
+	private func paste(_ object: ClipboardObject) {
+	    guard accessibility.isTrusted else {
+	        accessibility.request()
+	        return
+	    }
 
-        if !object.fileURLs.isEmpty {
-            let urls = object.fileURLs.map { URL(fileURLWithPath: $0) }
-            pasteboard.writeObjects(urls as [NSURL])
-        } else if object.kind == .image, let payload = object.payload {
-            pasteboard.setData(payload, forType: .png)
-        } else if object.kind == .richText, let payload = object.payload {
-            pasteboard.setData(payload, forType: .rtf)
-            if let text = object.text { pasteboard.setString(text, forType: .string) }
-        } else if let text = object.text {
-            pasteboard.setString(text, forType: .string)
-        }
+	    let pasteboard = NSPasteboard.general
+	    pasteboard.clearContents()
 
-        popover.performClose(nil)
-        previousApplication?.activate(options: [])
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
-            let source = CGEventSource(stateID: .combinedSessionState)
-            let down = CGEvent(keyboardEventSource: source, virtualKey: 0x09, keyDown: true)
-            let up = CGEvent(keyboardEventSource: source, virtualKey: 0x09, keyDown: false)
-            down?.flags = .maskCommand
-            up?.flags = .maskCommand
-            down?.post(tap: .cgAnnotatedSessionEventTap)
-            up?.post(tap: .cgAnnotatedSessionEventTap)
-        }
-    }
+	    let wrote: Bool
+
+	    if !object.fileURLs.isEmpty {
+	        let urls = object.fileURLs.map { URL(fileURLWithPath: $0) }
+	        wrote = pasteboard.writeObjects(urls as [NSURL])
+	    } else if object.kind == .image, let payload = object.payload {
+	        wrote = pasteboard.setData(payload, forType: .png)
+	    } else if object.kind == .richText, let payload = object.payload {
+	        wrote = pasteboard.setData(payload, forType: .rtf)
+
+	        if let text = object.text {
+	            pasteboard.setString(text, forType: .string)
+	        }
+	    } else if let text = object.text {
+	        wrote = pasteboard.setString(text, forType: .string)
+	    } else {
+	        wrote = false
+	    }
+
+	    guard wrote else {
+	        NSLog("Nexil: failed to write selected clipboard object")
+	        return
+	    }
+
+	    writeGuard.mark(changeCount: pasteboard.changeCount)
+
+	    popover.performClose(nil)
+	    previousApplication?.activate(options: [])
+
+	    DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) { [weak self] in
+	        _ = self?.pasteInjector.paste()
+	    }
+	}
 
     func applicationWillTerminate(_ notification: Notification) {
         monitor.stop()

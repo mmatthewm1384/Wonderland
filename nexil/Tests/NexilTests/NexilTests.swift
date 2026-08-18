@@ -63,3 +63,36 @@ func clipboardObjectPreview() {
     )
     #expect(file.previewText == "/tmp/example.txt")
 }
+
+@Test("clipboard write guard suppresses Nexil's intentional change")
+@MainActor
+func clipboardWriteGuardSuppressesIntentionalChange() {
+    let guardObject = ClipboardWriteGuard()
+
+    guardObject.mark(changeCount: 42)
+
+    #expect(guardObject.shouldSuppress(changeCount: 42))
+    #expect(!guardObject.shouldSuppress(changeCount: 42))
+}
+
+@Test("clipboard write guard preserves a subsequent external change")
+@MainActor
+func clipboardWriteGuardPreservesSubsequentExternalChange() {
+    let guardObject = ClipboardWriteGuard()
+
+    guardObject.mark(changeCount: 42)
+
+    #expect(!guardObject.shouldSuppress(changeCount: 43))
+    #expect(!guardObject.shouldSuppress(changeCount: 44))
+}
+
+@Test("clipboard write guard can be reset")
+@MainActor
+func clipboardWriteGuardReset() {
+    let guardObject = ClipboardWriteGuard()
+
+    guardObject.mark(changeCount: 42)
+    guardObject.reset()
+
+    #expect(!guardObject.shouldSuppress(changeCount: 42))
+}
