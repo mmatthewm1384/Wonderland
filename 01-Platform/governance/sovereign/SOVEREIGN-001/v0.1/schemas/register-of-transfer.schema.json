@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wonderland.local/schemas/register-of-transfer.schema.json",
+  "title": "SOVEREIGN-001 Register of Transfer",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["transfer_id", "object_id", "transferor", "transferee", "transfer_type", "registrar", "register_entry_status", "instrument_status", "authority_status", "determination"],
+  "properties": {
+    "transfer_id": {"type": "string", "minLength": 1},
+    "object_id": {"type": "string", "minLength": 1},
+    "transferor": {"$ref": "#/$defs/party"},
+    "transferee": {"$ref": "#/$defs/party"},
+    "transfer_type": {"type": "string", "enum": ["SALE", "PURCHASE", "TRANSFER", "CESSION", "ASSIGNMENT", "CONVEYANCE", "EXCHANGE", "GIFT", "SUCCESSION", "MERGER", "OTHER"]},
+    "instrument": {"$ref": "#/$defs/instrument"},
+    "authority": {"$ref": "#/$defs/authority"},
+    "execution": {"type": ["object", "null"]},
+    "effective_date": {"type": ["string", "null"], "format": "date"},
+    "consideration": {"$ref": "#/$defs/consideration"},
+    "registrar": {"$ref": "registrar.schema.json"},
+    "register": {"$ref": "#/$defs/register"},
+    "register_entry": {"$ref": "#/$defs/registerEntry"},
+    "register_entry_status": {"type": "string", "enum": ["ENTRY_FOUND", "ENTRY_NOT_FOUND", "REGISTER_NOT_FOUND", "REGISTER_INACCESSIBLE", "UNKNOWN"]},
+    "instrument_status": {"type": "string", "enum": ["IDENTIFIED", "NOT_FOUND", "UNKNOWN"]},
+    "authority_status": {"type": "string", "enum": ["ESTABLISHED", "UNESTABLISHED", "UNKNOWN"]},
+    "evidence_root": {"type": ["string", "null"]},
+    "determination": {"type": "string", "enum": ["ESTABLISHED", "SUPPORTED", "UNESTABLISHED", "CONTRADICTED", "CONFLICTING", "INCOMPLETE", "UNKNOWN"]}
+  },
+  "$defs": {
+    "party": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "identity": {"type": ["string", "null"]},
+        "legal_capacity": {"type": ["string", "null"]},
+        "authority": {"type": ["string", "null"]},
+        "status": {"type": "string", "enum": ["IDENTIFIED", "UNESTABLISHED", "UNKNOWN"]}
+      }
+    },
+    "instrument": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "instrument_id": {"type": ["string", "null"]},
+        "type": {"type": ["string", "null"]},
+        "title": {"type": ["string", "null"]},
+        "issuer": {"type": ["string", "null"]},
+        "date": {"type": ["string", "null"], "format": "date"},
+        "execution_date": {"type": ["string", "null"], "format": "date"},
+        "effective_date": {"type": ["string", "null"], "format": "date"},
+        "repository": {"type": ["string", "null"]},
+        "original_reference": {"type": ["string", "null"]},
+        "content_hash": {"type": ["string", "null"]},
+        "authenticity_status": {"type": ["string", "null"]}
+      }
+    },
+    "authority": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "authority_id": {"type": ["string", "null"]},
+        "authority_holder": {"type": ["string", "null"]},
+        "authority_type": {"type": ["string", "null"]},
+        "source": {"type": ["string", "null"]},
+        "scope": {"type": ["string", "null"]},
+        "limitations": {"type": ["string", "null"]},
+        "verification_status": {"type": ["string", "null"]}
+      }
+    },
+    "consideration": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "required": {"type": ["boolean", "null"]},
+        "type": {"type": ["string", "null"]},
+        "amount": {"type": ["number", "string", "null"]},
+        "currency": {"type": ["string", "null"]},
+        "payer": {"type": ["string", "null"]},
+        "recipient": {"type": ["string", "null"]},
+        "payment_date": {"type": ["string", "null"], "format": "date"},
+        "payment_instrument": {"type": ["string", "null"]},
+        "evidence": {"type": ["string", "null"]}
+      }
+    },
+    "register": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "register_id": {"type": ["string", "null"]},
+        "name": {"type": ["string", "null"]},
+        "registrar_id": {"type": ["string", "null"]},
+        "jurisdiction": {"type": ["string", "null"]},
+        "register_type": {"type": ["string", "null"]},
+        "repository": {"type": ["string", "null"]},
+        "access_method": {"type": ["string", "null"]}
+      }
+    },
+    "registerEntry": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "entry_id": {"type": ["string", "null"]},
+        "entry_number": {"type": ["string", "null"]},
+        "registration_date": {"type": ["string", "null"], "format": "date"},
+        "recorded_parties": {"type": "array", "items": {"type": "string"}},
+        "recorded_object": {"type": ["string", "null"]},
+        "recorded_instrument": {"type": ["string", "null"]},
+        "source": {"type": ["string", "null"]},
+        "content_hash": {"type": ["string", "null"]},
+        "authenticity_status": {"type": ["string", "null"]}
+      }
+    }
+  }
+}
