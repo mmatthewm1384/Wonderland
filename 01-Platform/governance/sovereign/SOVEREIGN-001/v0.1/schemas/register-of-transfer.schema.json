@@ -22,25 +22,12 @@
     "status": {
       "type": "string",
       "enum": [
-        "CLAIMED",
-        "OBJECT_IDENTIFIED",
-        "PARTIES_IDENTIFIED",
-        "INSTRUMENT_IDENTIFIED",
-        "AUTHORITY_IDENTIFIED",
-        "EXECUTION_VERIFIED",
-        "EFFECTIVE_EVENT_VERIFIED",
-        "REGISTRATION_LOCATED",
-        "REGISTRATION_VERIFIED",
-        "ESTABLISHED_TRANSFER",
-        "REGISTRATION_NOT_FOUND",
-        "UNESTABLISHED_TRANSFER",
-        "NO_REGISTERED_TRANSFER",
-        "NO_REGISTER_ENTRY_FOUND",
-        "REGISTRAR_UNESTABLISHED",
-        "INSTRUMENT_NOT_FOUND",
-        "AUTHORITY_UNESTABLISHED",
-        "PARTY_UNESTABLISHED",
-        "EVIDENCE_INSUFFICIENT",
+        "CLAIMED", "OBJECT_IDENTIFIED", "PARTIES_IDENTIFIED", "INSTRUMENT_IDENTIFIED",
+        "AUTHORITY_IDENTIFIED", "EXECUTION_VERIFIED", "EFFECTIVE_EVENT_VERIFIED",
+        "REGISTRATION_LOCATED", "REGISTRATION_VERIFIED", "ESTABLISHED_TRANSFER",
+        "REGISTRATION_NOT_FOUND", "UNESTABLISHED_TRANSFER", "NO_REGISTERED_TRANSFER",
+        "NO_REGISTER_ENTRY_FOUND", "REGISTRAR_UNESTABLISHED", "INSTRUMENT_NOT_FOUND",
+        "AUTHORITY_UNESTABLISHED", "PARTY_UNESTABLISHED", "EVIDENCE_INSUFFICIENT",
         "CONFLICTING_EVIDENCE"
       ]
     },
@@ -57,6 +44,22 @@
   "required": ["transfer_id", "object_id", "transferor", "transferee", "transfer_type", "status"],
   "allOf": [
     {
+      "if": { "properties": { "status": { "const": "INSTRUMENT_IDENTIFIED" } } },
+      "then": { "required": ["instrument"], "properties": { "instrument": { "properties": { "status": { "const": "IDENTIFIED" } } } } }
+    },
+    {
+      "if": { "properties": { "status": { "const": "AUTHORITY_IDENTIFIED" } } },
+      "then": { "required": ["authority"], "properties": { "authority": { "properties": { "verification_status": { "enum": ["VERIFIED", "UNVERIFIED"] } }, "required": ["verification_status"] } } }
+    },
+    {
+      "if": { "properties": { "status": { "const": "REGISTRATION_LOCATED" } } },
+      "then": { "required": ["registrar", "register", "register_entry"], "properties": { "register_entry": { "properties": { "status": { "const": "FOUND" } } } } }
+    },
+    {
+      "if": { "properties": { "status": { "const": "REGISTRATION_VERIFIED" } } },
+      "then": { "required": ["registrar", "register", "register_entry"], "properties": { "registrar": { "properties": { "status": { "const": "ESTABLISHED" } } }, "register_entry": { "properties": { "status": { "const": "FOUND" } } } } }
+    },
+    {
       "if": { "properties": { "status": { "const": "ESTABLISHED_TRANSFER" } } },
       "then": {
         "required": ["instrument", "authority", "execution", "effective_date", "registrar", "register", "register_entry", "evidence_root", "determination"],
@@ -70,25 +73,20 @@
       }
     },
     {
-      "if": { "properties": { "status": { "const": "REGISTRATION_VERIFIED" } } },
-      "then": {
-        "required": ["registrar", "register", "register_entry"],
-        "properties": { "register_entry": { "properties": { "status": { "const": "FOUND" } } } }
-      }
-    },
-    {
       "if": { "properties": { "status": { "const": "REGISTRATION_NOT_FOUND" } } },
-      "then": {
-        "required": ["register_entry"],
-        "properties": { "register_entry": { "properties": { "status": { "const": "NOT_FOUND" } } } }
-      }
+      "then": { "required": ["register_entry"], "properties": { "register_entry": { "properties": { "status": { "const": "NOT_FOUND" } } } } }
     },
     {
       "if": { "properties": { "status": { "const": "REGISTRAR_UNESTABLISHED" } } },
-      "then": {
-        "required": ["registrar"],
-        "properties": { "registrar": { "properties": { "status": { "const": "UNESTABLISHED" } } } }
-      }
+      "then": { "required": ["registrar"], "properties": { "registrar": { "properties": { "status": { "const": "UNESTABLISHED" } } } } }
+    },
+    {
+      "if": { "properties": { "status": { "const": "INSTRUMENT_NOT_FOUND" } } },
+      "then": { "required": ["instrument"], "properties": { "instrument": { "properties": { "status": { "const": "NOT_FOUND" } } } } }
+    },
+    {
+      "if": { "properties": { "status": { "const": "AUTHORITY_UNESTABLISHED" } } },
+      "then": { "required": ["authority"], "properties": { "authority": { "properties": { "verification_status": { "const": "UNESTABLISHED" } } } } }
     }
   ],
   "additionalProperties": false
