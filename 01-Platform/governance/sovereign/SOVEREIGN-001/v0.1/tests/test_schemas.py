@@ -21,9 +21,7 @@ OBJECT = {
     "class": "JURISDICTION",
 }
 
-REGISTRAR_UNESTABLISHED = {
-    "status": "UNESTABLISHED"
-}
+REGISTRAR_UNESTABLISHED = {"status": "UNESTABLISHED"}
 
 TRANSFER = {
     "transfer_id": "379-944079",
@@ -38,6 +36,9 @@ SEARCH = {
     "search_id": "search-379-944079-001",
     "object_id": "379-944079",
     "transfer_id": "379-944079",
+    "repositories": ["https://example.invalid/register"],
+    "search_terms": ["379-944079", "State of Oregon"],
+    "search_parameters": {"scope": "transfer-register", "exact_match": True},
     "performed_at": "2026-10-04T00:00:00Z",
     "performed_by": "WONDERLAND.STATESOVEREIGN",
     "result": "REGISTRAR_NOT_IDENTIFIED",
@@ -140,6 +141,11 @@ class SchemaTests(unittest.TestCase):
     def test_register_search_result_is_canonical(self):
         invalid = dict(SEARCH)
         invalid["result"] = "TRANSFER_DID_NOT_HAPPEN"
+        self.assertInvalid("register-search.schema.json", invalid)
+
+    def test_register_search_requires_reproducible_inputs(self):
+        invalid = dict(SEARCH)
+        invalid.pop("search_terms")
         self.assertInvalid("register-search.schema.json", invalid)
 
     def test_hash_must_be_sha256_hex(self):
