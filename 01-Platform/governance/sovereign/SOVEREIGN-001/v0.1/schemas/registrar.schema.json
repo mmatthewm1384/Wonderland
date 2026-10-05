@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wonderland.local/schemas/SOVEREIGN-001/v0.1/registrar.schema.json",
+  "title": "REGISTRAR",
+  "description": "Identifies the authority or system responsible for maintaining a relevant register. The implementation must not invent a registrar.",
+  "type": "object",
+  "properties": {
+    "registrar_id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "jurisdiction": { "type": "string", "minLength": 1 },
+    "authority_type": { "type": "string", "minLength": 1 },
+    "register_type": { "type": "string", "minLength": 1 },
+    "authority_source": { "type": "string", "minLength": 1 },
+    "repository": { "$ref": "./common.schema.json#/$defs/uri" },
+    "identity": { "type": "string", "minLength": 1 },
+    "authentication": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["ESTABLISHED", "UNESTABLISHED", "UNKNOWN"] }
+  },
+  "required": ["status"],
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "ESTABLISHED" } } },
+      "then": { "required": ["registrar_id", "name", "authority_source"] }
+    },
+    {
+      "if": { "properties": { "status": { "const": "UNESTABLISHED" } } },
+      "then": { "not": { "required": ["registrar_id", "authority_source"] } }
+    }
+  ],
+  "additionalProperties": false
+}
