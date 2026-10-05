@@ -10,7 +10,7 @@ import unittest
 from datetime import datetime
 from pathlib import Path
 
-from jsonschema import Draft202012Validator, FormatChecker, RefResolver
+from jsonschema import Draft202012Validator, FormatChecker
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,11 +24,7 @@ def load(name):
 
 def validator(name):
     schema = load(name)
-    resolver = RefResolver(
-        base_uri=(SCHEMA_DIR.as_uri() + "/"),
-        referrer=schema,
-    )
-    return Draft202012Validator(schema, resolver=resolver, format_checker=FormatChecker())
+    return Draft202012Validator(schema, format_checker=FormatChecker())
 
 
 OBJECT = {
@@ -127,6 +123,21 @@ class Sovereign001SchemaTests(unittest.TestCase):
     def test_transfer_rejects_unrecognized_transfer_type(self):
         invalid = dict(TRANSFER)
         invalid["transfer_type"] = "OWNERSHIP_CLAIM"
+        self.assertInvalid("register-of-transfer.schema.json", invalid)
+
+    def test_transfer_found_entry_requires_entry_record(self):
+        invalid = dict(TRANSFER)
+        invalid["register_entry_status"] = "ENTRY_FOUND"
+        self.assertInvalid("register-of-transfer.schema.json", invalid)
+
+    def test_transfer_entry_not_found_rejects_entry_record(self):
+        invalid = dict(TRANSFER)
+        invalid["register_entry"] = {}
+        self.assertInvalid("register-of-transfer.schema.json", invalid)
+
+    def test_established_transfer_requires_verified_chain(self):
+        invalid = dict(TRANSFER)
+        invalid["determination"] = "ESTABLISHED"
         self.assertInvalid("register-of-transfer.schema.json", invalid)
 
     def test_transfer_can_record_found_entry(self):
