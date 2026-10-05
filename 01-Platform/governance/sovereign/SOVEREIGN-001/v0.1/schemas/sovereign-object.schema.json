@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wonderland.local/schemas/sovereign-object.schema.json",
+  "title": "SOVEREIGN-001 Sovereign Object",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["object_id", "name", "class"],
+  "properties": {
+    "object_id": {"type": "string", "minLength": 1},
+    "name": {"type": "string", "minLength": 1},
+    "class": {
+      "type": "string",
+      "enum": ["PROPERTY", "PARCEL", "TITLE", "JURISDICTION", "SOVEREIGNTY", "GOVERNMENTAL_AUTHORITY", "CONTRACTUAL_RIGHT", "ORGANIZATION", "OTHER"]
+    },
+    "jurisdiction": {"type": ["string", "null"]},
+    "boundary": {"type": ["object", "string", "null"]},
+    "description": {"type": ["string", "null"]},
+    "source_references": {"type": "array", "items": {"type": "string"}}
+  }
+}
