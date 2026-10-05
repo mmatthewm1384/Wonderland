@@ -16,7 +16,7 @@
     "execution": {"type": ["object", "null"]},
     "effective_date": {"type": ["string", "null"], "format": "date"},
     "consideration": {"$ref": "#/$defs/consideration"},
-    "registrar": {"$ref": "registrar.schema.json"},
+    "registrar": {"$ref": "#/$defs/registrar"},
     "register": {"$ref": "#/$defs/register"},
     "register_entry": {"$ref": "#/$defs/registerEntry"},
     "register_entry_status": {"type": "string", "enum": ["ENTRY_FOUND", "ENTRY_NOT_FOUND", "REGISTER_NOT_FOUND", "REGISTER_INACCESSIBLE", "UNKNOWN"]},
@@ -25,7 +25,69 @@
     "evidence_root": {"type": ["string", "null"]},
     "determination": {"type": "string", "enum": ["ESTABLISHED", "SUPPORTED", "UNESTABLISHED", "CONTRADICTED", "CONFLICTING", "INCOMPLETE", "UNKNOWN"]}
   },
+  "allOf": [
+    {
+      "if": {"properties": {"register_entry_status": {"const": "ENTRY_FOUND"}}},
+      "then": {
+        "required": ["register", "register_entry"],
+        "properties": {
+          "register": {"type": "object"},
+          "register_entry": {"type": "object"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"register_entry_status": {"const": "ENTRY_NOT_FOUND"}}},
+      "then": {
+        "properties": {
+          "register_entry": {"type": "null"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"determination": {"const": "ESTABLISHED"}}},
+      "then": {
+        "properties": {
+          "register_entry_status": {"const": "ENTRY_FOUND"},
+          "instrument_status": {"const": "IDENTIFIED"},
+          "authority_status": {"const": "ESTABLISHED"}
+        }
+      }
+    }
+  ],
   "$defs": {
+    "registrar": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["registrar_id", "status"],
+      "properties": {
+        "registrar_id": {"type": ["string", "null"]},
+        "name": {"type": ["string", "null"]},
+        "jurisdiction": {"type": ["string", "null"]},
+        "authority_type": {"type": ["string", "null"]},
+        "register_type": {"type": ["string", "null"]},
+        "authority_source": {"type": ["string", "null"]},
+        "repository": {"type": ["string", "null"]},
+        "identity": {"type": ["object", "string", "null"]},
+        "authentication": {"type": ["object", "string", "null"]},
+        "status": {"type": "string", "enum": ["ESTABLISHED", "UNESTABLISHED"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "ESTABLISHED"}}},
+          "then": {
+            "required": ["registrar_id", "name", "jurisdiction", "register_type", "authority_source"],
+            "properties": {
+              "registrar_id": {"type": "string", "minLength": 1},
+              "name": {"type": "string", "minLength": 1},
+              "jurisdiction": {"type": "string", "minLength": 1},
+              "register_type": {"type": "string", "minLength": 1},
+              "authority_source": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      ]
+    },
     "party": {
       "type": "object",
       "additionalProperties": false,
