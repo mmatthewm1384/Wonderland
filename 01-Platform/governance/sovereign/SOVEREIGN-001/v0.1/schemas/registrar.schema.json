@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wonderland.local/schemas/registrar.schema.json",
+  "title": "SOVEREIGN-001 Registrar",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["registrar_id", "status"],
+  "properties": {
+    "registrar_id": {"type": ["string", "null"]},
+    "name": {"type": ["string", "null"]},
+    "jurisdiction": {"type": ["string", "null"]},
+    "authority_type": {"type": ["string", "null"]},
+    "register_type": {"type": ["string", "null"]},
+    "authority_source": {"type": ["string", "null"]},
+    "repository": {"type": ["string", "null"]},
+    "identity": {"type": ["object", "string", "null"]},
+    "authentication": {"type": ["object", "string", "null"]},
+    "status": {"type": "string", "enum": ["ESTABLISHED", "UNESTABLISHED"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "ESTABLISHED"}}},
+      "then": {
+        "required": ["registrar_id", "name", "jurisdiction", "register_type", "authority_source"],
+        "properties": {
+          "registrar_id": {"type": "string", "minLength": 1},
+          "name": {"type": "string", "minLength": 1},
+          "jurisdiction": {"type": "string", "minLength": 1},
+          "register_type": {"type": "string", "minLength": 1},
+          "authority_source": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  ]
+}
