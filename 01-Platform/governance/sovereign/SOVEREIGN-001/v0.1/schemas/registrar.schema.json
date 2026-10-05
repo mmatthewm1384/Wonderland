@@ -24,7 +24,14 @@
     },
     {
       "if": { "properties": { "status": { "const": "UNESTABLISHED" } } },
-      "then": { "not": { "required": ["registrar_id", "authority_source"] } }
+      "then": {
+        "not": {
+          "anyOf": [
+            { "required": ["registrar_id"] },
+            { "required": ["authority_source"] }
+          ]
+        }
+      }
     }
   ],
   "additionalProperties": false
