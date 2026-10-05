@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wonderland.local/schemas/SOVEREIGN-001/v0.1/register-of-transfer.schema.json",
+  "title": "REGISTER_OF_TRANSFER",
+  "description": "Represents an actual registration or attempted identification of a transfer. Registration of a proposition does not establish ownership or sovereignty.",
+  "type": "object",
+  "properties": {
+    "transfer_id": { "type": "string", "minLength": 1 },
+    "object_id": { "type": "string", "minLength": 1 },
+    "transferor": { "$ref": "./common.schema.json#/$defs/party" },
+    "transferee": { "$ref": "./common.schema.json#/$defs/party" },
+    "transfer_type": { "$ref": "./common.schema.json#/$defs/transferType" },
+    "instrument": { "$ref": "./common.schema.json#/$defs/instrument" },
+    "authority": { "$ref": "./common.schema.json#/$defs/authority" },
+    "execution": { "$ref": "./common.schema.json#/$defs/execution" },
+    "effective_date": { "$ref": "./common.schema.json#/$defs/dateRecord" },
+    "consideration": { "$ref": "./common.schema.json#/$defs/consideration" },
+    "registrar": { "$ref": "./registrar.schema.json" },
+    "register": { "$ref": "./common.schema.json#/$defs/register" },
+    "register_entry": { "$ref": "./common.schema.json#/$defs/registerEntryReference" },
+    "evidence_root": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": [
+        "CLAIMED",
+        "OBJECT_IDENTIFIED",
+        "PARTIES_IDENTIFIED",
+        "INSTRUMENT_IDENTIFIED",
+        "AUTHORITY_IDENTIFIED",
+        "EXECUTION_VERIFIED",
+        "EFFECTIVE_EVENT_VERIFIED",
+        "REGISTRATION_LOCATED",
+        "REGISTRATION_VERIFIED",
+        "ESTABLISHED_TRANSFER",
+        "REGISTRATION_NOT_FOUND",
+        "UNESTABLISHED_TRANSFER",
+        "NO_REGISTERED_TRANSFER",
+        "NO_REGISTER_ENTRY_FOUND",
+        "REGISTRAR_UNESTABLISHED",
+        "INSTRUMENT_NOT_FOUND",
+        "AUTHORITY_UNESTABLISHED",
+        "PARTY_UNESTABLISHED",
+        "EVIDENCE_INSUFFICIENT",
+        "CONFLICTING_EVIDENCE"
+      ]
+    },
+    "claimant": {
+      "type": "object",
+      "properties": { "identity": { "type": "string", "minLength": 1 } },
+      "required": ["identity"],
+      "additionalProperties": false
+    },
+    "determination": { "$ref": "./common.schema.json#/$defs/determination" },
+    "contradictions": { "type": "array", "items": { "$ref": "./common.schema.json#/$defs/contradiction" } },
+    "events": { "type": "array", "items": { "$ref": "./common.schema.json#/$defs/event" }, "minItems": 1 }
+  },
+  "required": ["transfer_id", "object_id", "transferor", "transferee", "transfer_type", "status"],
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "ESTABLISHED_TRANSFER" } } },
+      "then": {
+        "required": ["instrument", "authority", "execution", "effective_date", "registrar", "register", "register_entry", "evidence_root", "determination"],
+        "properties": {
+          "instrument": { "required": ["instrument_id", "status"], "properties": { "status": { "const": "IDENTIFIED" } } },
+          "authority": { "properties": { "verification_status": { "const": "VERIFIED" } }, "required": ["verification_status"] },
+          "registrar": { "properties": { "status": { "const": "ESTABLISHED" } } },
+          "register_entry": { "properties": { "status": { "const": "FOUND" } } },
+          "determination": { "properties": { "status": { "const": "ESTABLISHED" } } }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "REGISTRATION_VERIFIED" } } },
+      "then": {
+        "required": ["registrar", "register", "register_entry"],
+        "properties": { "register_entry": { "properties": { "status": { "const": "FOUND" } } } }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "REGISTRATION_NOT_FOUND" } } },
+      "then": {
+        "required": ["register_entry"],
+        "properties": { "register_entry": { "properties": { "status": { "const": "NOT_FOUND" } } } }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "REGISTRAR_UNESTABLISHED" } } },
+      "then": {
+        "required": ["registrar"],
+        "properties": { "registrar": { "properties": { "status": { "const": "UNESTABLISHED" } } } }
+      }
+    }
+  ],
+  "additionalProperties": false
+}
