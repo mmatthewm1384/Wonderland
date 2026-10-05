@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wonderland.local/schemas/SOVEREIGN-001/v0.1/register-search.schema.json",
+  "title": "REGISTER_SEARCH",
+  "description": "A reproducible record of a search for a qualifying transfer registration.",
+  "type": "object",
+  "properties": {
+    "search_id": { "type": "string", "minLength": 1 },
+    "object_id": { "type": "string", "minLength": 1 },
+    "transfer_id": { "type": "string", "minLength": 1 },
+    "registrar": { "$ref": "./registrar.schema.json" },
+    "register": { "$ref": "./common.schema.json#/$defs/register" },
+    "repositories": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "search_terms": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "search_parameters": { "type": "object" },
+    "performed_at": { "type": "string", "format": "date-time" },
+    "performed_by": { "type": "string", "minLength": 1 },
+    "records_returned": { "type": "integer", "minimum": 0 },
+    "records_examined": { "type": "integer", "minimum": 0 },
+    "result": { "type": "string", "enum": ["ENTRY_FOUND", "ENTRY_NOT_FOUND", "REGISTER_NOT_FOUND", "REGISTRAR_NOT_IDENTIFIED", "ACCESS_DENIED", "INCOMPLETE", "CONFLICTING_RECORDS"] },
+    "limitations": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "evidence": { "type": "array", "items": { "$ref": "./common.schema.json#/$defs/evidence" } }
+  },
+  "required": ["search_id", "object_id", "transfer_id", "performed_at", "performed_by", "result"],
+  "additionalProperties": false
+}
