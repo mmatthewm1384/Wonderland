@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wonderland.local/schemas/SOVEREIGN-001/v0.1/sovereign-object.schema.json",
+  "title": "SOVEREIGN_OBJECT",
+  "description": "Identifies the object about which a transfer proposition is made; it does not establish ownership or sovereignty.",
+  "type": "object",
+  "properties": {
+    "object_id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "class": { "$ref": "./common.schema.json#/$defs/objectClass" },
+    "jurisdiction": { "type": "string", "minLength": 1 },
+    "boundary": {},
+    "description": { "type": "string" },
+    "source_references": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+  },
+  "required": ["object_id", "name", "class"],
+  "additionalProperties": false
+}
