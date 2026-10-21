@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wonderland.dev/schemas/personal-zone.schema.json",
+  "title": "Wonderland Personal Zone",
+  "description": "Declarative identity and governance contract for a personal zone spanning physical and non-physical environments.",
+  "type": "object",
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": {
+      "const": "wonderland.dev/v1"
+    },
+    "kind": {
+      "const": "PersonalZone"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{1,127}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "maxLength": 256
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "spec": {
+      "type": "object",
+      "required": ["identity", "scope", "discovery", "enrollment", "authorization", "environmentKinds", "memory", "execution", "evidence"],
+      "properties": {
+        "identity": {
+          "type": "object",
+          "required": ["subject"],
+          "properties": {
+            "subject": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Stable identity reference; not a display name or inferred identity."
+            }
+          },
+          "additionalProperties": false
+        },
+        "scope": {
+          "type": "object",
+          "required": ["model"],
+          "properties": {
+            "model": {
+              "const": "universal"
+            },
+            "includeRealityAndNonReality": {
+              "const": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "environmentKinds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["physical", "virtual", "simulated", "imagined", "abstract", "hybrid", "computational"]
+          }
+        },
+        "discovery": {
+          "type": "object",
+          "required": ["mode", "autoEnroll", "sources"],
+          "properties": {
+            "mode": {
+              "const": "automatic"
+            },
+            "autoEnroll": {
+              "const": false,
+              "description": "Discovery must never create membership or access grants."
+            },
+            "sources": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["id", "kind", "enabled"],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9._-]{1,127}$"
+                  },
+                  "kind": {
+                    "enum": ["user-declaration", "device-registry", "local-manifest", "authorized-connector", "mesh-announcement", "simulation-registry", "filesystem"]
+                  },
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "configurationRef": {
+                    "type": "string",
+                    "description": "Reference to separately governed configuration; never embed secrets here."
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "enrollment": {
+          "type": "object",
+          "required": ["mode", "approvalRequired"],
+          "properties": {
+            "mode": {
+              "const": "explicit"
+            },
+            "approvalRequired": {
+              "const": true
+            },
+            "approverRef": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "authorization": {
+          "type": "object",
+          "required": ["mode", "defaultDecision", "grantScope", "recheckAtUse"],
+          "properties": {
+            "mode": {
+              "const": "explicit"
+            },
+            "defaultDecision": {
+              "const": "deny"
+            },
+            "grantScope": {
+              "const": "least-privilege"
+            },
+            "recheckAtUse": {
+              "const": true
+            },
+            "expiryRequired": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "memory": {
+          "type": "object",
+          "required": ["system", "executionLifetimeCoupled"],
+          "properties": {
+            "system": {
+              "const": "crystal"
+            },
+            "executionLifetimeCoupled": {
+              "const": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "execution": {
+          "type": "object",
+          "required": ["compute", "isolationBoundary"],
+          "properties": {
+            "compute": {
+              "const": "spark"
+            },
+            "isolationBoundary": {
+              "const": "veil"
+            },
+            "executionRequiresAuthorization": {
+              "const": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "mesh": {
+          "type": "object",
+          "properties": {
+            "fabric": {
+              "const": "crystal-mesh"
+            },
+            "relationshipsRequireEvidence": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "evidence": {
+          "type": "object",
+          "required": ["requiredForTransitions", "appendOnly", "recordSecrets"],
+          "properties": {
+            "requiredForTransitions": {
+              "type": "boolean"
+            },
+            "appendOnly": {
+              "type": "boolean"
+            },
+            "recordSecrets": {
+              "const": false
+            },
+            "crystalRef": {
+              "type": "string",
+              "description": "Optional reference to the governed Crystal evidence destination."
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
