@@ -53,12 +53,25 @@ class ZoneDiscoveryTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertEqual([c["id"] for c in first["candidates"]], ["a", "z"])
 
-    def test_duplicate_identity_is_reported_not_silently_merged(self):
+    def test_duplicate_identity_excludes_all_conflicting_candidates(self):
         self.write_candidate("one.json", self.manifest("same"))
         self.write_candidate("two.json", self.manifest("same"))
         result = discover(self.root, Path("config/wonderland/environments/candidates"))
-        self.assertEqual(result["candidate_count"], 1)
-        self.assertIn("identity_collision", [d["code"] for d in result["diagnostics"]])
+        self.assertEqual(result["candidate_count"], 0)
+        collisions = [d for d in result["diagnostics"] if d["code"] == "identity_collision"]
+        self.assertEqual(len(collisions), 2)
+        self.assertEqual({d["source"] for d in collisions}, {
+            "config/wonderland/environments/candidates/one.json",
+            "config/wonderland/environments/candidates/two.json",
+        })
+
+    def test_three_way_identity_collision_excludes_every_candidate(self):
+        for filename in ("one.json", "two.json", "three.json"):
+            self.write_candidate(filename, self.manifest("same"))
+        result = discover(self.root, Path("config/wonderland/environments/candidates"))
+        self.assertEqual(result["candidate_count"], 0)
+        collisions = [d for d in result["diagnostics"] if d["code"] == "identity_collision"]
+        self.assertEqual(len(collisions), 3)
 
     def test_missing_id_gets_provisional_candidate_identity(self):
         self.write_candidate("one.json", self.manifest(None))
