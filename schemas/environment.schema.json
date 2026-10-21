@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wonderland.dev/schemas/environment.schema.json",
+  "title": "Wonderland Environment",
+  "description": "A first-class, addressable environment in physical or non-physical reality. Discovery never implies enrollment or authorization.",
+  "type": "object",
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": { "const": "wonderland.dev/v1" },
+    "kind": { "const": "Environment" },
+    "metadata": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{1,127}$", "description": "Optional stable declared identity; missing IDs receive provisional candidate IDs during discovery." },
+        "name": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "labels": { "type": "object", "additionalProperties": { "type": "string", "maxLength": 256 } }
+      },
+      "additionalProperties": false
+    },
+    "spec": {
+      "type": "object",
+      "required": ["environmentKind"],
+      "properties": {
+        "environmentKind": { "enum": ["physical", "virtual", "simulated", "imagined", "abstract", "hybrid", "computational"] },
+        "persistence": { "enum": ["ephemeral", "session", "persistent", "recoverable", "unknown"] },
+        "rulesRef": { "type": "string", "maxLength": 512 },
+        "topologyRef": { "type": "string", "maxLength": 512 },
+        "parentEnvironmentRef": { "type": "string", "maxLength": 512 },
+        "provenanceRef": { "type": "string", "maxLength": 512 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
