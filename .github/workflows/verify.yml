@@ -67,6 +67,9 @@ jobs:
           print(f"PASS compiled {len(files)} Python files")
           PY
 
+      - name: Run Mattie's Room zone discovery tests
+        run: python3 -m unittest tests.unit.test_zone_discovery -v
+
       - name: Run Platform Engine tests
         run: |
           python3 -m unittest discover \
