@@ -5,8 +5,12 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 from typing import Any
+
+ENVIRONMENT_KINDS = {"physical", "virtual", "simulated", "imagined", "abstract", "hybrid", "computational"}
+IDENTIFIER_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{1,127}$")
 
 
 def canonical_json(value: Any) -> str:
@@ -22,6 +26,53 @@ def candidate_id(path: Path, payload: dict[str, Any], root: Path) -> tuple[str, 
     digest = hashlib.sha256((source + "\0" + canonical_json(payload)).encode("utf-8")).hexdigest()[:24]
     return "candidate-" + digest, "provisional"
 
+
+def validate_environment(payload: Any) -> list[str]:
+    """Validate the supported Environment v1 contract without third-party dependencies."""
+    if not isinstance(payload, dict):
+        return ["manifest root must be a JSON object"]
+    errors: list[str] = []
+    if payload.get("apiVersion") != "wonderland.dev/v1":
+        errors.append("apiVersion must be wonderland.dev/v1")
+    if payload.get("kind") != "Environment":
+        errors.append("kind must be Environment")
+    metadata = payload.get("metadata")
+    if not isinstance(metadata, dict):
+        errors.append("metadata must be a JSON object")
+    else:
+        name = metadata.get("name")
+        if not isinstance(name, str) or not name.strip() or len(name) > 160:
+            errors.append("metadata.name must be a non-empty string of at most 160 characters")
+        declared_id = metadata.get("id")
+        if declared_id is not None and (not isinstance(declared_id, str) or not IDENTIFIER_RE.fullmatch(declared_id)):
+            errors.append("metadata.id has an invalid format")
+        if set(metadata) - {"id", "name", "description", "labels"}:
+            errors.append("metadata contains unsupported properties")
+        description = metadata.get("description")
+        if description is not None and (not isinstance(description, str) or len(description) > 2000):
+            errors.append("metadata.description must be a string of at most 2000 characters")
+        labels = metadata.get("labels")
+        if labels is not None and (not isinstance(labels, dict) or any(not isinstance(k, str) or not isinstance(val, str) or len(val) > 256 for k, val in labels.items())):
+            errors.append("metadata.labels must map strings to strings of at most 256 characters")
+    spec = payload.get("spec")
+    if not isinstance(spec, dict):
+        errors.append("spec must be a JSON object")
+    else:
+        env_kind = spec.get("environmentKind")
+        if not isinstance(env_kind, str) or env_kind not in ENVIRONMENT_KINDS:
+            errors.append("spec.environmentKind must be one of the supported environment kinds")
+        persistence = spec.get("persistence")
+        if persistence is not None and (not isinstance(persistence, str) or persistence not in {"ephemeral", "session", "persistent", "recoverable", "unknown"}):
+            errors.append("spec.persistence must be a supported persistence value")
+        for key in ("rulesRef", "topologyRef", "parentEnvironmentRef", "provenanceRef"):
+            value = spec.get(key)
+            if value is not None and (not isinstance(value, str) or len(value) > 512):
+                errors.append("spec." + key + " must be a string of at most 512 characters")
+        if set(spec) - {"environmentKind", "persistence", "rulesRef", "topologyRef", "parentEnvironmentRef", "provenanceRef"}:
+            errors.append("spec contains unsupported properties")
+    if set(payload) - {"apiVersion", "kind", "metadata", "spec"}:
+        errors.append("manifest contains unsupported top-level properties")
+    return errors
 
 def discover(root: Path, candidate_dir: Path) -> dict[str, Any]:
     """Read JSON files below candidate_dir; never mutates files or enrollment state."""
@@ -64,22 +115,13 @@ def discover(root: Path, candidate_dir: Path) -> dict[str, Any]:
                                 "source": path.relative_to(root).as_posix(),
                                 "message": type(exc).__name__})
             continue
-        if not isinstance(payload, dict) or payload.get("kind") != "Environment":
-            diagnostics.append({"severity": "warning", "code": "unsupported_manifest",
-                                "source": path.relative_to(root).as_posix(),
-                                "message": "Expected a JSON object with kind=Environment; candidate was skipped."})
-            continue
-
-        metadata = payload.get("metadata", {})
-        spec = payload.get("spec", {})
-        if not isinstance(metadata, dict) or not isinstance(spec, dict):
-            diagnostics.append({"severity": "error", "code": "invalid_shape",
-                                "source": path.relative_to(root).as_posix(),
-                                "message": "metadata and spec must be JSON objects."})
+        errors = validate_environment(payload)
+        if errors:
+            diagnostics.append({"severity": "error", "code": "invalid_environment_manifest",
+                                "source": relative_source, "message": "; ".join(errors)})
             continue
 
         identity, identity_status = candidate_id(path, payload, root)
-        relative_source = path.relative_to(root).as_posix()
         if identity in seen_ids:
             diagnostics.append({"severity": "error", "code": "identity_collision",
                                 "source": relative_source,
@@ -87,18 +129,14 @@ def discover(root: Path, candidate_dir: Path) -> dict[str, Any]:
             continue
         seen_ids[identity] = relative_source
 
-        env_kind = spec.get("environmentKind", "unknown")
-        if env_kind not in {"physical", "virtual", "simulated", "imagined", "abstract", "hybrid", "computational"}:
-            diagnostics.append({"severity": "warning", "code": "unknown_environment_kind",
-                                "source": relative_source,
-                                "message": "Environment kind is missing or unrecognized."})
-            env_kind = "unknown"
-
+        metadata = payload["metadata"]
+        spec = payload["spec"]
         candidates.append({
             "id": identity,
             "identity_status": identity_status,
-            "name": str(metadata.get("name") or identity),
-            "environment_kind": env_kind,
+            "name": metadata["name"].strip(),
+            "environment_kind": spec["environmentKind"],
+            "persistence": spec.get("persistence", "unknown"),
             "source": relative_source,
             "source_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
             "discovery_state": "discovered",
