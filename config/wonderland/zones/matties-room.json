@@ -1,0 +1,98 @@
+{
+  "apiVersion": "wonderland.dev/v1",
+  "kind": "PersonalZone",
+  "metadata": {
+    "id": "matties-room",
+    "name": "Mattie's Room",
+    "description": "A persistent personal zone and control point spanning physical, virtual, simulated, imagined, abstract, hybrid, and computational environments.",
+    "labels": {
+      "wonderland.dev/domain": "personal-zone",
+      "wonderland.dev/maturity": "declarative-foundation"
+    }
+  },
+  "spec": {
+    "identity": {
+      "subject": "self"
+    },
+    "scope": {
+      "model": "universal",
+      "includeRealityAndNonReality": true
+    },
+    "environmentKinds": [
+      "physical",
+      "virtual",
+      "simulated",
+      "imagined",
+      "abstract",
+      "hybrid",
+      "computational"
+    ],
+    "discovery": {
+      "mode": "automatic",
+      "autoEnroll": false,
+      "sources": [
+        {
+          "id": "user-declarations",
+          "kind": "user-declaration",
+          "enabled": true
+        },
+        {
+          "id": "local-manifests",
+          "kind": "local-manifest",
+          "enabled": true
+        },
+        {
+          "id": "registered-devices",
+          "kind": "device-registry",
+          "enabled": true
+        },
+        {
+          "id": "authorized-connectors",
+          "kind": "authorized-connector",
+          "enabled": true
+        },
+        {
+          "id": "mesh-announcements",
+          "kind": "mesh-announcement",
+          "enabled": false
+        },
+        {
+          "id": "simulation-registry",
+          "kind": "simulation-registry",
+          "enabled": true
+        }
+      ]
+    },
+    "enrollment": {
+      "mode": "explicit",
+      "approvalRequired": true,
+      "approverRef": "self"
+    },
+    "authorization": {
+      "mode": "explicit",
+      "defaultDecision": "deny",
+      "grantScope": "least-privilege",
+      "recheckAtUse": true,
+      "expiryRequired": true
+    },
+    "memory": {
+      "system": "crystal",
+      "executionLifetimeCoupled": false
+    },
+    "execution": {
+      "compute": "spark",
+      "isolationBoundary": "veil",
+      "executionRequiresAuthorization": true
+    },
+    "mesh": {
+      "fabric": "crystal-mesh",
+      "relationshipsRequireEvidence": true
+    },
+    "evidence": {
+      "requiredForTransitions": true,
+      "appendOnly": true,
+      "recordSecrets": false,
+      "crystalRef": "pending:crystal-evidence-binding"
+    }
+  }
+}
