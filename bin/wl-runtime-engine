@@ -19,6 +19,7 @@ if [[ "${1:-}" == "verify" ]]; then
 
   json=false
   forwarded=()
+  forwarded_count=0
 
   for argument in "$@"; do
     case "$argument" in
@@ -27,6 +28,7 @@ if [[ "${1:-}" == "verify" ]]; then
         ;;
       *)
         forwarded+=("$argument")
+        forwarded_count=$((forwarded_count + 1))
         ;;
     esac
   done
@@ -42,9 +44,15 @@ if [[ "${1:-}" == "verify" ]]; then
     trap cleanup EXIT
 
     set +e
-    "$CORE" verify "${forwarded[@]}" \
-      > "$stdout_file" \
-      2> "$stderr_file"
+    if [[ "$forwarded_count" -gt 0 ]]; then
+      "$CORE" verify "${forwarded[@]}" \
+        > "$stdout_file" \
+        2> "$stderr_file"
+    else
+      "$CORE" verify \
+        > "$stdout_file" \
+        2> "$stderr_file"
+    fi
     rc=$?
     set -e
 
@@ -90,7 +98,11 @@ PY
     exit "$rc"
   fi
 
-  exec "$CORE" verify "${forwarded[@]}"
+  if [[ "$forwarded_count" -gt 0 ]]; then
+    exec "$CORE" verify "${forwarded[@]}"
+  else
+    exec "$CORE" verify
+  fi
 fi
 
 exec "$CORE" "$@"
