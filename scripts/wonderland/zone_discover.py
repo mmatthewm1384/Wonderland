@@ -103,13 +103,15 @@ def discover(root: Path, candidate_dir: Path) -> dict[str, Any]:
     seen_ids: dict[str, str] = {}
 
     for path in sorted(directory.glob("*.json"), key=lambda p: p.name):
+        relative_source = path.relative_to(root).as_posix()
         if path.is_symlink() or not path.is_file():
             diagnostics.append({"severity": "warning", "code": "non_regular_candidate",
                                 "source": path.relative_to(root).as_posix(),
                                 "message": "Candidate was skipped because it is not a regular file."})
             continue
         try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
+            raw = path.read_bytes()
+            payload = json.loads(raw.decode("utf-8"))
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             diagnostics.append({"severity": "error", "code": "invalid_json",
                                 "source": path.relative_to(root).as_posix(),
@@ -138,7 +140,7 @@ def discover(root: Path, candidate_dir: Path) -> dict[str, Any]:
             "environment_kind": spec["environmentKind"],
             "persistence": spec.get("persistence", "unknown"),
             "source": relative_source,
-            "source_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "source_sha256": hashlib.sha256(raw).hexdigest(),
             "discovery_state": "discovered",
             "enrolled": False,
             "authorized": False,
