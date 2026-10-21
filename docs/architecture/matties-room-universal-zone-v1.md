@@ -137,3 +137,10 @@ python3 -m unittest tests.unit.test_zone_discovery -v
 ```
 
 This is a bounded local-manifest provider, not yet a general discovery framework. The dedicated candidate directory is intentionally separate from the zone declaration directory. CI has been triggered for the branch; results must be inspected before treating the implementation as verified.
+
+
+## Canonical Environment manifest
+
+The first-class environment declaration contract is `schemas/environment.schema.json`. It defines the supported environment kinds, optional persistence classification, and references to rules, topology, parent environments, and provenance. The read-only discovery implementation validates the same v1 field constraints using the Python standard library, so candidate discovery does not require third-party packages. The JSON Schema remains the canonical machine-readable contract; keep runtime validation and schema changes aligned.
+
+A missing declared ID produces a deterministic provisional candidate ID based on relative source path and canonical manifest content. This is an observation handle only: it is not a trusted global identity and must not be used as an enrollment or authorization principal. Duplicate IDs are reported as collisions rather than silently merged.
