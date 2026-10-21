@@ -101,6 +101,7 @@ def discover(root: Path, candidate_dir: Path) -> dict[str, Any]:
     candidates: list[dict[str, Any]] = []
     diagnostics: list[dict[str, str]] = []
     seen_ids: dict[str, str] = {}
+    collided_ids: set[str] = set()
 
     for path in sorted(directory.glob("*.json"), key=lambda p: p.name):
         relative_source = path.relative_to(root).as_posix()
@@ -124,10 +125,21 @@ def discover(root: Path, candidate_dir: Path) -> dict[str, Any]:
             continue
 
         identity, identity_status = candidate_id(path, payload, root)
-        if identity in seen_ids:
+        if identity in collided_ids:
             diagnostics.append({"severity": "error", "code": "identity_collision",
                                 "source": relative_source,
-                                "message": "Candidate identity duplicates " + seen_ids[identity] + "; neither candidate is enrolled."})
+                                "message": "Candidate identity is ambiguous because it appears in multiple manifests; all candidates with this identity are excluded."})
+            continue
+        if identity in seen_ids:
+            first_source = seen_ids.pop(identity)
+            candidates = [candidate for candidate in candidates if candidate["id"] != identity]
+            collided_ids.add(identity)
+            diagnostics.append({"severity": "error", "code": "identity_collision",
+                                "source": first_source,
+                                "message": "Candidate identity is duplicated by " + relative_source + "; all candidates with this identity are excluded."})
+            diagnostics.append({"severity": "error", "code": "identity_collision",
+                                "source": relative_source,
+                                "message": "Candidate identity duplicates " + first_source + "; all candidates with this identity are excluded."})
             continue
         seen_ids[identity] = relative_source
 
