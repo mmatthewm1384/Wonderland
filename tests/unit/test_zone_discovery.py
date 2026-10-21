@@ -67,6 +67,20 @@ class ZoneDiscoveryTests(unittest.TestCase):
         self.assertEqual(result["candidates"][0]["identity_status"], "provisional")
         self.assertTrue(result["candidates"][0]["id"].startswith("candidate-"))
 
+    def test_all_environment_kinds_are_supported(self):
+        kinds = ["physical", "virtual", "simulated", "imagined", "abstract", "hybrid", "computational"]
+        for index, kind in enumerate(kinds):
+            self.write_candidate(str(index) + ".json", self.manifest("env-" + str(index), kind=kind))
+        result = discover(self.root, Path("config/wonderland/environments/candidates"))
+        self.assertEqual(result["candidate_count"], len(kinds))
+        self.assertEqual({c["environment_kind"] for c in result["candidates"]}, set(kinds))
+
+    def test_non_string_environment_kind_is_rejected_without_crashing(self):
+        self.write_candidate("bad-kind.json", self.manifest("bad-kind", kind=["imagined"]))
+        result = discover(self.root, Path("config/wonderland/environments/candidates"))
+        self.assertEqual(result["candidate_count"], 0)
+        self.assertIn("invalid_environment_manifest", [d["code"] for d in result["diagnostics"]])
+
     def test_invalid_json_is_reported(self):
         (self.candidates / "broken.json").write_text("{", encoding="utf-8")
         result = discover(self.root, Path("config/wonderland/environments/candidates"))
