@@ -42,7 +42,7 @@ if [[ "${1:-}" == "verify" ]]; then
     trap cleanup EXIT
 
     set +e
-    "$CORE" verify "${forwarded[@]}" \
+    "$CORE" verify "${forwarded[@]+"${forwarded[@]}"}" \
       > "$stdout_file" \
       2> "$stderr_file"
     rc=$?
@@ -90,7 +90,7 @@ PY
     exit "$rc"
   fi
 
-  exec "$CORE" verify "${forwarded[@]}"
+  exec "$CORE" verify "${forwarded[@]+"${forwarded[@]}"}"
 fi
 
 exec "$CORE" "$@"
