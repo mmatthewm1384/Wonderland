@@ -119,3 +119,21 @@ These are architectural responsibilities, not claims that this manifest currentl
 ## Current limitations
 
 This commit defines a schema, a declarative zone instance, and architecture rules only. It does not implement a live discovery daemon, location sensing, device scanning, an enrollment UI, authorization enforcement, environment simulation, or Crystal evidence binding. Discovery source entries are configuration declarations; their operational behavior remains future work.
+
+
+## Read-only discovery engine (first implementation)
+
+Implemented at `scripts/wonderland/zone_discover.py`, with unit tests at `tests/unit/test_zone_discovery.py`.
+
+The initial provider reads only direct JSON files from `config/wonderland/environments/candidates` (or an explicitly configured directory inside the repository root). It does not recursively traverse directories, follow candidate-file symlinks, access the network, inspect device/location state, or write enrollment/authorization state. Results are deterministic JSON on stdout.
+
+Candidate manifests use `kind: "Environment"`. The engine reports declared identities, or deterministic provisional identities derived from source path and canonical content; it reports duplicate declared identities as errors rather than silently merging them. Candidate records explicitly report `enrolled: false` and `authorized: false`.
+
+Run:
+
+```sh
+python3 scripts/wonderland/zone_discover.py
+python3 -m unittest tests.unit.test_zone_discovery -v
+```
+
+This is a bounded local-manifest provider, not yet a general discovery framework. The dedicated candidate directory is intentionally separate from the zone declaration directory. CI has been triggered for the branch; results must be inspected before treating the implementation as verified.
