@@ -46,12 +46,12 @@ class ZoneDiscoveryTests(unittest.TestCase):
         self.assertEqual(path.read_bytes(), before)
 
     def test_results_are_deterministically_sorted(self):
-        self.write_candidate("z.json", self.manifest("z"))
-        self.write_candidate("a.json", self.manifest("a"))
+        self.write_candidate("z.json", self.manifest("env-z"))
+        self.write_candidate("a.json", self.manifest("env-a"))
         first = discover(self.root, Path("config/wonderland/environments/candidates"))
         second = discover(self.root, Path("config/wonderland/environments/candidates"))
         self.assertEqual(first, second)
-        self.assertEqual([c["id"] for c in first["candidates"]], ["a", "z"])
+        self.assertEqual([c["id"] for c in first["candidates"]], ["env-a", "env-z"])
 
     def test_duplicate_identity_is_reported_not_silently_merged(self):
         self.write_candidate("one.json", self.manifest("same"))
