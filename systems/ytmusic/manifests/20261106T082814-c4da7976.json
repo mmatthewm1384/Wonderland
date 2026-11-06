@@ -1,0 +1,45 @@
+{
+  "artifacts": [
+    {
+      "path": "/Users/wonderland/Wonderland/systems/ytmusic/incoming/Ryan Oakes, WesGhost - EYELIDS (Official Video) [6bGGnnPM0ok].m4a",
+      "probe": {
+        "audio_streams": [
+          {
+            "bit_rate": "128001",
+            "channel_layout": "stereo",
+            "channels": 2,
+            "codec_name": "aac",
+            "sample_rate": "44100"
+          }
+        ],
+        "duration": "172.733243",
+        "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+        "size": "2795574",
+        "tags": {
+          "artist": "Ryan Oakes",
+          "comment": "https://www.youtube.com/watch?v=6bGGnnPM0ok",
+          "compatible_brands": "M4A isomiso2",
+          "date": "20250604",
+          "description": "Ryan Oakes, WesGhost - EYELIDS (Official Video)\n\nSTREAM HERE:\nhttps://drop.cobrand.com/d/RyanOakes/EYELIDS\n\nFollow Ryan Oakes\n\u25b6 Tik Tok: https://www.tiktok.com/@ryanoakesmusic\n\u25b6 Facebook: https://www.facebook.com/RyanOakesMusic\n\u25b6 Instagram: https://www.instagram.com/RyanOakesMusic\n\u25b6 Twitter: www.twitter.com/imryanoakes\n\u25b6 Snapchat: NotRyanOakes\n\n\n\n\n\n#RyanOakes #wesghost #diggygraves #hollywoodundead #rap #emo #rock #numetal #eminem #techn9ne",
+          "encoder": "Lavf63.1.102",
+          "genre": "Music",
+          "major_brand": "M4A ",
+          "minor_version": "512",
+          "synopsis": "Ryan Oakes, WesGhost - EYELIDS (Official Video)\n\nSTREAM HERE:\nhttps://drop.cobrand.com/d/RyanOakes/EYELIDS\n\nFollow Ryan Oakes\n\u25b6 Tik Tok: https://www.tiktok.com/@ryanoakesmusic\n\u25b6 Facebook: https://www.facebook.com/RyanOakesMusic\n\u25b6 Instagram: https://www.instagram.com/RyanOakesMusic\n\u25b6 Twitter: www.twitter.com/imryanoakes\n\u25b6 Snapchat: NotRyanOakes\n\n\n\n\n\n#RyanOakes #wesghost #diggygraves #hollywoodundead #rap #emo #rock #numetal #eminem #techn9ne",
+          "title": "Ryan Oakes, WesGhost - EYELIDS (Official Video)"
+        }
+      },
+      "result": "promoted",
+      "sha256": "0a17630d2a0c5729c4e849ec4984d95e3102ff7f0162cfd6327d6c57699847f5"
+    }
+  ],
+  "finished_at": "2026-11-06T16:28:27.101465+00:00",
+  "job_id": "20261106T082814-c4da7976",
+  "kind": "track",
+  "schema": "wonderland.ytmusic.job.v1",
+  "source_url": "https://www.youtube.com/watch?v=6bGGnnPM0ok",
+  "staging_directory": "/Users/wonderland/Wonderland/systems/ytmusic/staging/20261106T082814-c4da7976.z9dpnrh7",
+  "started_at": "2026-11-06T16:28:14.597518+00:00",
+  "state": "completed",
+  "yt_dlp_started": true
+}

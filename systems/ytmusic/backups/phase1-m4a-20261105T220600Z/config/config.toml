@@ -1,0 +1,15 @@
+# Paths are relative to this subsystem unless absolute.
+incoming_dir = "incoming"
+staging_dir = "staging"
+manifest_dir = "manifests"
+evidence_dir = "evidence"
+quarantine_dir = "quarantine"
+
+# Empty disables browser-cookie authentication.
+# Supported yt-dlp browser syntax examples: "firefox", "chrome".
+cookies_from_browser = ""
+
+# Prefer best available audio stream. No post-download transcoding.
+format = "bestaudio"
+audio_quality_policy = "preserve_source"
+max_filename_length = 240

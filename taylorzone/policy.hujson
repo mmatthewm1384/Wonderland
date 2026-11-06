@@ -1,0 +1,49 @@
+{
+  "groups": {
+    "group:taylorzone-owners": [
+      "matthewandtaylors@icloud.com"
+    ],
+    "group:taylorzone-peers": [
+      "tay.tswift1989@gmail.com"
+    ]
+  },
+  "tagOwners": {
+    "tag:taylorzone-node": [
+      "group:taylorzone-owners",
+      "group:taylorzone-peers"
+    ]
+  },
+  "hosts": {
+    "local-macbook": "100.64.0.1",
+    "remote-peer":   "100.64.0.2"
+  },
+  "acls": [
+    {
+      "action": "accept",
+      "src":    ["group:taylorzone-owners"],
+      "dst":    ["group:taylorzone-peers:22000", "group:taylorzone-peers:21027"]
+    },
+    {
+      "action": "accept",
+      "src":    ["group:taylorzone-peers"],
+      "dst":    ["group:taylorzone-owners:22000", "group:taylorzone-owners:21027"]
+    },
+    {
+      "action": "accept",
+      "src":    ["tag:taylorzone-node"],
+      "dst":    ["tag:taylorzone-node:22000"]
+    }
+  ],
+  "tests": [
+    {
+      "src": "matthewandtaylors@icloud.com",
+      "accept": ["tay.tswift1989@gmail.com:22000"],
+      "deny":   ["tay.tswift1989@gmail.com:22", "tay.tswift1989@gmail.com:8384"]
+    },
+    {
+      "src": "tay.tswift1989@gmail.com",
+      "accept": ["matthewandtaylors@icloud.com:22000"],
+      "deny":   ["matthewandtaylors@icloud.com:22", "matthewandtaylors@icloud.com:8384"]
+    }
+  ]
+}

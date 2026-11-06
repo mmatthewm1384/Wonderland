@@ -1,0 +1,45 @@
+{
+  "artifacts": [
+    {
+      "path": "/Users/wonderland/Wonderland/systems/ytmusic/incoming/Red Leather - SINS (with Sueco & WesGhost) [VISUALIZER] [JrVBBsDfQ6I].m4a",
+      "probe": {
+        "audio_streams": [
+          {
+            "bit_rate": "127999",
+            "channel_layout": "stereo",
+            "channels": 2,
+            "codec_name": "aac",
+            "sample_rate": "44100"
+          }
+        ],
+        "duration": "236.750658",
+        "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+        "size": "3830817",
+        "tags": {
+          "artist": "Red Leather",
+          "comment": "https://www.youtube.com/watch?v=JrVBBsDfQ6I",
+          "compatible_brands": "M4A isomiso2",
+          "date": "20250711",
+          "description": "STREAM \"SINS\" HERE: https://music.empi.re/sins-alt\n\nGet tickets for west coast + Europe  tour https://laylo.com/redleather/m/putitallonred\n\nFollow Red:\nhttps://www.tiktok.com/@redleather\nhttps://www.instagram.com/redleather/\nhttps://t.snapchat.com/SKJVMj8N\nhttps://www.facebook.com/ImRedLeather\nhttps://twitter.com/imredleather\n\nFollow Sueco:\nhttps://instagram.com/suecothechild\n\nFollow WesGhost:\nhttps://instagram.com/wesghost",
+          "encoder": "Lavf63.1.102",
+          "genre": "Entertainment",
+          "major_brand": "M4A ",
+          "minor_version": "512",
+          "synopsis": "STREAM \"SINS\" HERE: https://music.empi.re/sins-alt\n\nGet tickets for west coast + Europe  tour https://laylo.com/redleather/m/putitallonred\n\nFollow Red:\nhttps://www.tiktok.com/@redleather\nhttps://www.instagram.com/redleather/\nhttps://t.snapchat.com/SKJVMj8N\nhttps://www.facebook.com/ImRedLeather\nhttps://twitter.com/imredleather\n\nFollow Sueco:\nhttps://instagram.com/suecothechild\n\nFollow WesGhost:\nhttps://instagram.com/wesghost",
+          "title": "Red Leather - SINS (with Sueco & WesGhost) [VISUALIZER]"
+        }
+      },
+      "result": "promoted",
+      "sha256": "cda0864b9e88f0a09d0a81000c040b618e7724abc5bd2b1478845aa68981e4d5"
+    }
+  ],
+  "finished_at": "2026-11-06T15:50:00.607069+00:00",
+  "job_id": "20261106T074926-25cb7792",
+  "kind": "track",
+  "schema": "wonderland.ytmusic.job.v1",
+  "source_url": "https://www.youtube.com/watch?v=JrVBBsDfQ6I",
+  "staging_directory": "/Users/wonderland/Wonderland/systems/ytmusic/staging/20261106T074926-25cb7792.fh7rh2zz",
+  "started_at": "2026-11-06T15:49:26.733984+00:00",
+  "state": "completed",
+  "yt_dlp_started": true
+}

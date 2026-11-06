@@ -1,0 +1,10 @@
+{
+  "artifacts": [],
+  "job_id": "20261104T142122-c719c34a",
+  "kind": "track",
+  "schema": "wonderland.ytmusic.job.v1",
+  "source_url": "https://www.youtube.com/watch?v=6Hdvwum_LrM",
+  "staging_directory": "/Users/Wonderland/wonderland/systems/ytmusic/staging/20261104T142122-c719c34a.rch0h_k6",
+  "started_at": "2026-11-04T22:21:22.303449+00:00",
+  "state": "running"
+}

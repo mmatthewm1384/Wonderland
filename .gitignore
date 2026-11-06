@@ -1,0 +1,15 @@
+# Python Virtual Environments & Caches
+.venv/
+venv/
+__pycache__/
+*.pyc
+.mypy_cache/
+.pytest_cache/
+
+# Local Environment & Secrets
+.env
+*.local
+
+# Build Outputs & Targets
+target/
+.DS_Store

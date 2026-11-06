@@ -1,0 +1,28 @@
+{
+  "schema": "wonderland.ytmusic.batch.v1",
+  "batch_id": "20261105-001",
+  "created_at": "2026-11-05",
+  "state": "approved",
+  "approval": {
+    "identity_approval": true,
+    "approved_track_count": 8,
+    "maximum_batch_size": 10,
+    "format": "m4a",
+    "transcoding": false
+  },
+  "tracks": [
+    {"position":1,"title":"SEROTONIN","artist":"LaLion","video_id":"MtAsU2cGKxs","expected_uploader":"LaLion","identity_status":"approved"},
+    {"position":2,"title":"Skin & Bones","artist":"Diggy Graves","video_id":"PrlvpqvqK2c","expected_uploader":"Diggy Graves","identity_status":"approved"},
+    {"position":3,"title":"not your homie","artist":"Jagwar Twin, MERCY, sir lucius","video_id":"dW_6VXrRkYE","expected_uploader":"Jagwar Twin","identity_status":"approved"},
+    {"position":4,"title":"SINS","artist":"Red Leather, Sueco, WesGhost","video_id":"JrVBBsDfQ6I","expected_uploader":"Red Leather","identity_status":"approved"},
+    {"position":5,"title":"ESCAPE","artist":"LaLion","video_id":"OGu573iTpSc","expected_uploader":"LaLion","identity_status":"approved"},
+    {"position":6,"title":"Debauchery","artist":"Resentvul, Diggy Graves","video_id":"LV8VTCCmonw","expected_uploader":"Resentvul","identity_status":"approved"},
+    {"position":7,"title":"Terrified","artist":"Autumn Kings","video_id":"j_VCJq1lrxw","expected_uploader":"AutumnKingsVEVO","identity_status":"approved"},
+    {"position":8,"title":"EYELIDS","artist":"Ryan Oakes, WesGhost","video_id":"6bGGnnPM0ok","expected_uploader":"Ryan Oakes","identity_status":"approved"}
+  ],
+  "excluded": [
+    {"title":"heaven aint cold","artist":"South Pier","reason":"source identity unresolved"},
+    {"title":"S&M","artist":"SabI3","reason":"artist/source identity unresolved"},
+    {"title":"GASLIGHT","video_id":"q_jl9A5eyOM","reason":"existing acquisition; do not redownload"}
+  ]
+}

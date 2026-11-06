@@ -1,0 +1,42 @@
+{
+  "artifacts": [
+    {
+      "path": "/Users/wonderland/Wonderland/systems/ytmusic/incoming/WesGhost - GASLIGHT (Official Video) [q_jl9A5eyOM].webm",
+      "probe": {
+        "audio_streams": [
+          {
+            "bit_rate": null,
+            "channel_layout": "stereo",
+            "channels": 2,
+            "codec_name": "opus",
+            "sample_rate": "48000"
+          }
+        ],
+        "duration": "292.521000",
+        "format_name": "matroska,webm",
+        "size": "4534963",
+        "tags": {
+          "ARTIST": "WesGhost",
+          "COMMENT": "https://www.youtube.com/watch?v=q_jl9A5eyOM",
+          "DATE": "20260327",
+          "DESCRIPTION": "Official video for \u201cGASLIGHT\u201d by WesGhost\n\nListen & download here: https://wesghost.lnk.to/GASLIGHT\n\nLYRICS:\nI'm too sentimental\nStill can\u2019t let it go\nYou don\u2019t like attachments\nSo cut that rope around my throat\n \nBlacked out in the bathroom\nWay too many drugs\nYour heart is a vacuum\nThe way you sucked up all my love\n \nI'm way too bitter now\nI can\u2019t taste you anymore\nI'm way too numb\nMade me a corpse\nPush me down\nTil I'm dirt under the floor\nDon\u2019t waste my time just tell me\n \nHow long will I wait\nFor you to say you love me\nBefore you\u2019re someone I hate\nAnd everything turns ugly baby\nThis beds a coffin\nAnd you\u2019re watching while I suffocate\nHow long will I wait\nFor you to dig my grave\n \nYou say its all in my mind\nAll you do is gaslight gaslight gaslight gaslight\nNow its always darkness in your eyes\nThink I need a flashlight flashlight flashlight\nManipulate me\nKiss me like you hate me\nYou say its all in my mind\nAll you do is gaslight gaslight gaslight gaslight\n \nHow long will I wait\nFor you to say you love me\nBefore you\u2019re someone I hate\nAnd everything turns ugly baby\nThis beds a coffin\nAnd you\u2019re watching while I suffocate\nHow long will I wait\nFor you to dig my grave\n \nTeardrops they falling like rain\nBury me while I\u2019m awake\nLie to me straight to my face\nWatch you dig my grave\nManipulate me\nKiss me like you hate me\nYou say it\u2019s all in my mind\nAll you do is gaslight gaslight gaslight\n\nFollow WesGhost\nInstagram - https://www.instagram.com/wesghost\nTikTok - https://www.tiktok.com/@wesghost\nTwitter - https://twitter.com/akidcalledghost\nSnapchat - https://www.snapchat.com/add/akidcalledghost\n\nhttps://www.wesghost.com/\n\n#WesGhost #GASLIGHT",
+          "ENCODER": "Lavf63.1.102",
+          "GENRE": "Entertainment",
+          "PURL": "https://www.youtube.com/watch?v=q_jl9A5eyOM",
+          "SYNOPSIS": "Official video for \u201cGASLIGHT\u201d by WesGhost\n\nListen & download here: https://wesghost.lnk.to/GASLIGHT\n\nLYRICS:\nI'm too sentimental\nStill can\u2019t let it go\nYou don\u2019t like attachments\nSo cut that rope around my throat\n \nBlacked out in the bathroom\nWay too many drugs\nYour heart is a vacuum\nThe way you sucked up all my love\n \nI'm way too bitter now\nI can\u2019t taste you anymore\nI'm way too numb\nMade me a corpse\nPush me down\nTil I'm dirt under the floor\nDon\u2019t waste my time just tell me\n \nHow long will I wait\nFor you to say you love me\nBefore you\u2019re someone I hate\nAnd everything turns ugly baby\nThis beds a coffin\nAnd you\u2019re watching while I suffocate\nHow long will I wait\nFor you to dig my grave\n \nYou say its all in my mind\nAll you do is gaslight gaslight gaslight gaslight\nNow its always darkness in your eyes\nThink I need a flashlight flashlight flashlight\nManipulate me\nKiss me like you hate me\nYou say its all in my mind\nAll you do is gaslight gaslight gaslight gaslight\n \nHow long will I wait\nFor you to say you love me\nBefore you\u2019re someone I hate\nAnd everything turns ugly baby\nThis beds a coffin\nAnd you\u2019re watching while I suffocate\nHow long will I wait\nFor you to dig my grave\n \nTeardrops they falling like rain\nBury me while I\u2019m awake\nLie to me straight to my face\nWatch you dig my grave\nManipulate me\nKiss me like you hate me\nYou say it\u2019s all in my mind\nAll you do is gaslight gaslight gaslight\n\nFollow WesGhost\nInstagram - https://www.instagram.com/wesghost\nTikTok - https://www.tiktok.com/@wesghost\nTwitter - https://twitter.com/akidcalledghost\nSnapchat - https://www.snapchat.com/add/akidcalledghost\n\nhttps://www.wesghost.com/\n\n#WesGhost #GASLIGHT",
+          "title": "WesGhost - GASLIGHT (Official Video)"
+        }
+      },
+      "result": "promoted",
+      "sha256": "9e660c23ea5e5ddc427d7b3b8ffa03592801fb1e71dd66e775cd4b31c6c34fa8"
+    }
+  ],
+  "finished_at": "2026-11-05T21:43:59.530160+00:00",
+  "job_id": "20261105T134357-28f6bac0",
+  "kind": "track",
+  "schema": "wonderland.ytmusic.job.v1",
+  "source_url": "https://www.youtube.com/watch?v=q_jl9A5eyOM",
+  "staging_directory": "/Users/wonderland/Wonderland/systems/ytmusic/staging/20261105T134357-28f6bac0.xcpd2l89",
+  "started_at": "2026-11-05T21:43:57.597480+00:00",
+  "state": "completed"
+}

@@ -1,0 +1,10 @@
+{
+  "artifacts": [],
+  "job_id": "20261104T143619-e80d00e4",
+  "kind": "track",
+  "schema": "wonderland.ytmusic.job.v1",
+  "source_url": "https://music.youtube.com/@akidcalledghost",
+  "staging_directory": "/Users/Wonderland/wonderland/systems/ytmusic/staging/20261104T143619-e80d00e4.0ferhm17",
+  "started_at": "2026-11-04T22:36:19.118238+00:00",
+  "state": "running"
+}

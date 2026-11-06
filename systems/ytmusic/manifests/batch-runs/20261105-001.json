@@ -1,0 +1,143 @@
+{
+  "batch_id": "20261105-001",
+  "schema": "wonderland.ytmusic.batch-run.v1",
+  "source_manifest": "/Users/wonderland/Wonderland/systems/ytmusic/manifests/batch-20261105-001.json",
+  "source_manifest_sha256": "d497d2eaf5a463b4d2fcfe9561f3a2f3a31cafc110fd81adc3c6749e0570f0e7",
+  "started_at": "2026-11-05T22:18:22.314508+00:00",
+  "state": "running",
+  "tracks": {
+    "6bGGnnPM0ok": {
+      "position": 8,
+      "started_at": "2026-11-06T16:28:14.576231+00:00",
+      "state": "running",
+      "title": "EYELIDS"
+    },
+    "JrVBBsDfQ6I": {
+      "artifact": {
+        "metadata_title": "Red Leather - SINS (with Sueco & WesGhost) [VISUALIZER]",
+        "metadata_uploader": "Red Leather",
+        "path": "/Users/wonderland/Wonderland/systems/ytmusic/incoming/Red Leather - SINS (with Sueco & WesGhost) [VISUALIZER] [JrVBBsDfQ6I].m4a",
+        "sha256": "cda0864b9e88f0a09d0a81000c040b618e7724abc5bd2b1478845aa68981e4d5",
+        "video_id": "JrVBBsDfQ6I"
+      },
+      "job_id": "20261106T074926-25cb7792",
+      "position": 4,
+      "reconciled": true,
+      "state": "completed",
+      "title": "SINS"
+    },
+    "LV8VTCCmonw": {
+      "disposition_path": "/Users/wonderland/Wonderland/systems/ytmusic/manifests/dispositions/20261105-001.json",
+      "disposition_sha256": "530efad0c085fafbb98540f8368d69934927670ff80f33c134cf95bdfd41e36d",
+      "exit_code": 1,
+      "job_id": "20261106T075429-a7252910",
+      "job_manifest": "/Users/wonderland/Wonderland/systems/ytmusic/manifests/20261106T075429-a7252910.json",
+      "job_manifest_sha256": "e84311bf448e024a7f5fe01fd602ca871ae84d2a7c6767a94f67f4d0fc1b831a",
+      "position": 6,
+      "reason": "yt-dlp reports Video unavailable",
+      "state": "blocked_source_unavailable",
+      "title": "Debauchery"
+    },
+    "MtAsU2cGKxs": {
+      "artifact": {
+        "path": "/Users/wonderland/Wonderland/systems/ytmusic/incoming/LaLion - SEROTONIN (Prod. LaLion) [MtAsU2cGKxs].m4a",
+        "probe": {
+          "audio_streams": [
+            {
+              "bit_rate": "127999",
+              "channel_layout": "stereo",
+              "channels": 2,
+              "codec_name": "aac",
+              "sample_rate": "44100"
+            }
+          ],
+          "duration": "211.092608",
+          "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+          "size": "3415799",
+          "tags": {
+            "artist": "LaLion",
+            "comment": "https://www.youtube.com/watch?v=MtAsU2cGKxs",
+            "compatible_brands": "M4A isomiso2",
+            "date": "20250313",
+            "description": "Stream/Download: https://music.lalionmusic.com/ser\nLaLion Shirts: https://lalionmusic.com/store\n\nfollow me:\nspotify: https://spoti.fi/34Lr3ag\ninsta: https://www.instagram.com/lalionofficial\ntwitter: https://twitter.com/LaLionOfficial\ntiktok: https://www.tiktok.com/@lalionofficial\nfacebook: https://www.facebook.com/GrantLaLion\n\nL Y R I C S : https://genius.com/Lalion-serotonin-lyrics\n\n#rock #altpop #altmusic",
+            "encoder": "Lavf63.1.102",
+            "genre": "Music",
+            "major_brand": "M4A ",
+            "minor_version": "512",
+            "synopsis": "Stream/Download: https://music.lalionmusic.com/ser\nLaLion Shirts: https://lalionmusic.com/store\n\nfollow me:\nspotify: https://spoti.fi/34Lr3ag\ninsta: https://www.instagram.com/lalionofficial\ntwitter: https://twitter.com/LaLionOfficial\ntiktok: https://www.tiktok.com/@lalionofficial\nfacebook: https://www.facebook.com/GrantLaLion\n\nL Y R I C S : https://genius.com/Lalion-serotonin-lyrics\n\n#rock #altpop #altmusic",
+            "title": "LaLion - SEROTONIN (Prod. LaLion)"
+          }
+        },
+        "result": "promoted",
+        "sha256": "09d56686db963cf7cdab74d19a6b5c41a4c86d791f380465a7cfd94fe7027f10"
+      },
+      "exit_code": 1,
+      "finished_at": "2026-11-05T22:18:24.764818+00:00",
+      "job_id": "20261105T141822-9132899e",
+      "position": 1,
+      "recovered": true,
+      "recovered_at": "2026-11-06T14:19:46.570738+00:00",
+      "recovery_evidence": "/Users/wonderland/Wonderland/systems/ytmusic/manifests/recoveries/20261105T141822-9132899e.json",
+      "recovery_evidence_sha256": "c6c6e53931b63b5a62a7820b42ee31f503384462c46ca0f410fdf96d7750c1a3",
+      "started_at": "2026-11-05T22:18:22.328838+00:00",
+      "state": "completed",
+      "title": "SEROTONIN",
+      "video_id": "MtAsU2cGKxs"
+    },
+    "OGu573iTpSc": {
+      "artifact": {
+        "metadata_title": "LaLion - ESCAPE (Lyrics)",
+        "metadata_uploader": "LaLion",
+        "path": "/Users/wonderland/Wonderland/systems/ytmusic/incoming/LaLion - ESCAPE (Lyrics) [OGu573iTpSc].m4a",
+        "sha256": "77ec31a41cfff905c71afabb28ee35cddb905ce890c91362eecaf9fa6911a673",
+        "video_id": "OGu573iTpSc"
+      },
+      "job_id": "20261106T075150-b804d04c",
+      "position": 5,
+      "reconciled": true,
+      "state": "completed",
+      "title": "ESCAPE"
+    },
+    "PrlvpqvqK2c": {
+      "artifact": {
+        "metadata_title": "Diggy Graves - Skin & Bones [Official Lyric Video]",
+        "metadata_uploader": "Diggy Graves",
+        "path": "/Users/wonderland/Wonderland/systems/ytmusic/incoming/Diggy Graves - Skin & Bones [Official Lyric Video] [PrlvpqvqK2c].m4a",
+        "sha256": "d3c5ca931226e70380bdb46df876276e5bc0f0e26cce2600cc6059f8c6c3c5c0",
+        "video_id": "PrlvpqvqK2c"
+      },
+      "job_id": "20261106T062320-98ee4bda",
+      "position": 2,
+      "reconciled": true,
+      "state": "completed",
+      "title": "Skin & Bones"
+    },
+    "dW_6VXrRkYE": {
+      "artifact": {
+        "metadata_title": "Jagwar Twin, MERCY, sir lucius - not your homie (Visualizer)",
+        "metadata_uploader": "Jagwar Twin",
+        "path": "/Users/wonderland/Wonderland/systems/ytmusic/incoming/Jagwar Twin, MERCY, sir lucius - not your homie (Visualizer) [dW_6VXrRkYE].m4a",
+        "sha256": "5be83f84e47011158e68f9dce458494f1b0b40d2d7865101a814778d29b48b2f",
+        "video_id": "dW_6VXrRkYE"
+      },
+      "job_id": "20261106T074418-9efe7ac6",
+      "position": 3,
+      "reconciled": true,
+      "state": "completed",
+      "title": "not your homie"
+    },
+    "j_VCJq1lrxw": {
+      "disposition_path": "/Users/wonderland/Wonderland/systems/ytmusic/manifests/dispositions/20261105-001-terrified.json",
+      "disposition_sha256": "88d3665936a08e63f49d5fec70d46f8379b0d237861bd23ee974df11cb0f8c64",
+      "exit_code": 1,
+      "job_id": "20261106T081528-d3ebfd49",
+      "job_manifest": "/Users/wonderland/Wonderland/systems/ytmusic/manifests/20261106T081528-d3ebfd49.json",
+      "job_manifest_sha256": "fd739d2c5787797f999d00e016e260d481f985dbc36813ff6bc599d2d75988c0",
+      "position": 7,
+      "reason": "yt-dlp reports Video unavailable",
+      "state": "blocked_source_unavailable",
+      "title": "Terrified"
+    }
+  },
+  "updated_at": "2026-11-06T16:28:14.576239+00:00"
+}
