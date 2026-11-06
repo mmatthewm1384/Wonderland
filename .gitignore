@@ -13,3 +13,5 @@ __pycache__/
 # Build Outputs & Targets
 target/
 .DS_Store
+var/log/
+*.err
