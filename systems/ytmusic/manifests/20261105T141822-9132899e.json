@@ -1,0 +1,12 @@
+{
+  "artifacts": [],
+  "error": "Title identity mismatch: expected 'SEROTONIN', got 'LaLion - SEROTONIN (Prod. LaLion)'",
+  "finished_at": "2026-11-05T22:18:24.764260+00:00",
+  "job_id": "20261105T141822-9132899e",
+  "kind": "track",
+  "schema": "wonderland.ytmusic.job.v1",
+  "source_url": "https://www.youtube.com/watch?v=MtAsU2cGKxs",
+  "staging_directory": "/Users/wonderland/Wonderland/systems/ytmusic/staging/20261105T141822-9132899e.atx0kxk_",
+  "started_at": "2026-11-05T22:18:22.341590+00:00",
+  "state": "verification_failed"
+}

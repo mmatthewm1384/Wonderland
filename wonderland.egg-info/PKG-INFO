@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: wonderland
+Version: 0.1.0
+Summary: Wonderland Core Platform and Micro-VM Compute Daemon Controls
+Author: Matthew Mahaney
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: pyyaml>=6.0.1
+Requires-Dist: toml>=0.10.2
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.1.0; extra == "dev"
+Requires-Dist: pytest-mock>=3.12.0; extra == "dev"
+Requires-Dist: mypy>=1.8.0; extra == "dev"
+Requires-Dist: ruff>=0.2.0; extra == "dev"

@@ -1,0 +1,81 @@
+{
+  "batch_id": "20261105-001",
+  "created_at": "2026-11-06T14:19:46.569794+00:00",
+  "job_id": "20261105T141822-9132899e",
+  "job_manifest": "/Users/wonderland/Wonderland/systems/ytmusic/manifests/20261105T141822-9132899e.json",
+  "job_manifest_sha256": "15009d363e47dfe0e194704661c542178fd75a38e8178577613a4b2f12b92947",
+  "promoted_artifact": {
+    "path": "/Users/wonderland/Wonderland/systems/ytmusic/incoming/LaLion - SEROTONIN (Prod. LaLion) [MtAsU2cGKxs].m4a",
+    "probe": {
+      "audio_streams": [
+        {
+          "bit_rate": "127999",
+          "channel_layout": "stereo",
+          "channels": 2,
+          "codec_name": "aac",
+          "sample_rate": "44100"
+        }
+      ],
+      "duration": "211.092608",
+      "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+      "size": "3415799",
+      "tags": {
+        "artist": "LaLion",
+        "comment": "https://www.youtube.com/watch?v=MtAsU2cGKxs",
+        "compatible_brands": "M4A isomiso2",
+        "date": "20250313",
+        "description": "Stream/Download: https://music.lalionmusic.com/ser\nLaLion Shirts: https://lalionmusic.com/store\n\nfollow me:\nspotify: https://spoti.fi/34Lr3ag\ninsta: https://www.instagram.com/lalionofficial\ntwitter: https://twitter.com/LaLionOfficial\ntiktok: https://www.tiktok.com/@lalionofficial\nfacebook: https://www.facebook.com/GrantLaLion\n\nL Y R I C S : https://genius.com/Lalion-serotonin-lyrics\n\n#rock #altpop #altmusic",
+        "encoder": "Lavf63.1.102",
+        "genre": "Music",
+        "major_brand": "M4A ",
+        "minor_version": "512",
+        "synopsis": "Stream/Download: https://music.lalionmusic.com/ser\nLaLion Shirts: https://lalionmusic.com/store\n\nfollow me:\nspotify: https://spoti.fi/34Lr3ag\ninsta: https://www.instagram.com/lalionofficial\ntwitter: https://twitter.com/LaLionOfficial\ntiktok: https://www.tiktok.com/@lalionofficial\nfacebook: https://www.facebook.com/GrantLaLion\n\nL Y R I C S : https://genius.com/Lalion-serotonin-lyrics\n\n#rock #altpop #altmusic",
+        "title": "LaLion - SEROTONIN (Prod. LaLion)"
+      }
+    },
+    "result": "promoted",
+    "sha256": "09d56686db963cf7cdab74d19a6b5c41a4c86d791f380465a7cfd94fe7027f10"
+  },
+  "schema": "wonderland.ytmusic.recovery.v1",
+  "source_manifest": "/Users/wonderland/Wonderland/systems/ytmusic/manifests/batch-20261105-001.json",
+  "source_manifest_sha256": "d497d2eaf5a463b4d2fcfe9561f3a2f3a31cafc110fd81adc3c6749e0570f0e7",
+  "staged_artifact": {
+    "identity": {
+      "title": "LaLion - SEROTONIN (Prod. LaLion)",
+      "uploader": "LaLion",
+      "video_id": "MtAsU2cGKxs"
+    },
+    "path": "/Users/wonderland/Wonderland/systems/ytmusic/staging/20261105T141822-9132899e.atx0kxk_/LaLion - SEROTONIN (Prod. LaLion) [MtAsU2cGKxs].m4a",
+    "probe": {
+      "audio_streams": [
+        {
+          "bit_rate": "127999",
+          "channel_layout": "stereo",
+          "channels": 2,
+          "codec_name": "aac",
+          "sample_rate": "44100"
+        }
+      ],
+      "duration": "211.092608",
+      "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+      "size": "3415799",
+      "tags": {
+        "artist": "LaLion",
+        "comment": "https://www.youtube.com/watch?v=MtAsU2cGKxs",
+        "compatible_brands": "M4A isomiso2",
+        "date": "20250313",
+        "description": "Stream/Download: https://music.lalionmusic.com/ser\nLaLion Shirts: https://lalionmusic.com/store\n\nfollow me:\nspotify: https://spoti.fi/34Lr3ag\ninsta: https://www.instagram.com/lalionofficial\ntwitter: https://twitter.com/LaLionOfficial\ntiktok: https://www.tiktok.com/@lalionofficial\nfacebook: https://www.facebook.com/GrantLaLion\n\nL Y R I C S : https://genius.com/Lalion-serotonin-lyrics\n\n#rock #altpop #altmusic",
+        "encoder": "Lavf63.1.102",
+        "genre": "Music",
+        "major_brand": "M4A ",
+        "minor_version": "512",
+        "synopsis": "Stream/Download: https://music.lalionmusic.com/ser\nLaLion Shirts: https://lalionmusic.com/store\n\nfollow me:\nspotify: https://spoti.fi/34Lr3ag\ninsta: https://www.instagram.com/lalionofficial\ntwitter: https://twitter.com/LaLionOfficial\ntiktok: https://www.tiktok.com/@lalionofficial\nfacebook: https://www.facebook.com/GrantLaLion\n\nL Y R I C S : https://genius.com/Lalion-serotonin-lyrics\n\n#rock #altpop #altmusic",
+        "title": "LaLion - SEROTONIN (Prod. LaLion)"
+      }
+    },
+    "sha256": "09d56686db963cf7cdab74d19a6b5c41a4c86d791f380465a7cfd94fe7027f10",
+    "sidecar": "/Users/wonderland/Wonderland/systems/ytmusic/staging/20261105T141822-9132899e.atx0kxk_/LaLion - SEROTONIN (Prod. LaLion) [MtAsU2cGKxs].info.json"
+  },
+  "staging_directory": "/Users/wonderland/Wonderland/systems/ytmusic/staging/20261105T141822-9132899e.atx0kxk_",
+  "video_id": "MtAsU2cGKxs"
+}

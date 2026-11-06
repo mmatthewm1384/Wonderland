@@ -1,0 +1,15 @@
+{
+  "artifacts": [],
+  "error": "Initialization failed before yt-dlp subprocess launch: event() received kind both positionally and as keyword metadata.",
+  "failure_phase": "initialization",
+  "finished_at": "2026-11-04T22:26:42.349218+00:00",
+  "job_id": "20261104T142122-71beb8b0",
+  "kind": "track",
+  "reconciled_at": "2026-11-04T22:26:42.349218+00:00",
+  "schema": "wonderland.ytmusic.job.v1",
+  "source_url": "https://www.youtube.com/watch?v=kwrYDTHKxiE",
+  "staging_directory": "/Users/Wonderland/wonderland/systems/ytmusic/staging/20261104T142122-71beb8b0.i5gcf1ay",
+  "started_at": "2026-11-04T22:21:22.509466+00:00",
+  "state": "failed",
+  "yt_dlp_started": false
+}

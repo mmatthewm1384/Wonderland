@@ -1,0 +1,12 @@
+{
+  "artifacts": [],
+  "error": "yt-dlp completed but no media files were found",
+  "finished_at": "2026-11-04T22:35:51.760163+00:00",
+  "job_id": "20261104T143550-316cd80d",
+  "kind": "track",
+  "schema": "wonderland.ytmusic.job.v1",
+  "source_url": "https://www.youtube.com/channel/UCibP9YTInIwO7idEGjXm0-g",
+  "staging_directory": "/Users/Wonderland/wonderland/systems/ytmusic/staging/20261104T143550-316cd80d.dyffb9ag",
+  "started_at": "2026-11-04T22:35:50.991613+00:00",
+  "state": "verification_failed"
+}

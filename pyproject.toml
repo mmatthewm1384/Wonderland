@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wonderland"
+version = "0.1.0"
+description = "Wonderland Core Platform and Micro-VM Compute Daemon Controls"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "Matthew Mahaney" }
+]
+dependencies = [
+    "pyyaml>=6.0.1",
+    "toml>=0.10.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.12.0",
+    "mypy>=1.8.0",
+    "ruff>=0.2.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

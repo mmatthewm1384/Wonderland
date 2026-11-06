@@ -1,0 +1,1728 @@
+{
+  "schema": "wonderland.ytmusic.source-candidates.v1",
+  "created_at": "2026-11-05T21:41:05.806203+00:00",
+  "candidate_count": 200,
+  "tracks_processed": 40,
+  "tracks": [
+    {
+      "track_number": 1,
+      "requested_title": "SEROTONIN",
+      "requested_artist": "LaLion",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "MtAsU2cGKxs",
+          "url": "https://www.youtube.com/watch?v=MtAsU2cGKxs",
+          "returned_title": "LaLion - SEROTONIN (Prod. LaLion)",
+          "returned_channel": "LaLion",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "OJeb6VF5two",
+          "url": "https://www.youtube.com/watch?v=OJeb6VF5two",
+          "returned_title": "LaLion - Serotonin (Lyrics)",
+          "returned_channel": "Valiant",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "vDJJaO4RWRo",
+          "url": "https://www.youtube.com/watch?v=vDJJaO4RWRo",
+          "returned_title": "LaLion - SEROTONIN [Lyrics x AMV]",
+          "returned_channel": "IDLEGLANCE and LaLion",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "6oeD4wI4u0k",
+          "url": "https://www.youtube.com/watch?v=6oeD4wI4u0k",
+          "returned_title": "LaLion - Serotonin (Lyrics x AMV)",
+          "returned_channel": "VOICES",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "iEyHsVX0fhQ",
+          "url": "https://www.youtube.com/watch?v=iEyHsVX0fhQ",
+          "returned_title": "LaLion x Kordhell - SEROTONIN (REMIX)",
+          "returned_channel": "IDLEGLANCE and 2 more",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 2,
+      "requested_title": "Skin & Bones",
+      "requested_artist": "Diggy Graves",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "PrlvpqvqK2c",
+          "url": "https://www.youtube.com/watch?v=PrlvpqvqK2c",
+          "returned_title": "Diggy Graves - Skin & Bones [Official Lyric Video]",
+          "returned_channel": "Diggy Graves",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "B0FgxfoUNjY",
+          "url": "https://www.youtube.com/watch?v=B0FgxfoUNjY",
+          "returned_title": "Diggy Graves - Grave Bell [Official Lyric Video]",
+          "returned_channel": "Diggy Graves",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "hfXgYotw9uM",
+          "url": "https://www.youtube.com/watch?v=hfXgYotw9uM",
+          "returned_title": "Diggy Graves - The Exorcism of Diggy Graves [Official Lyric Video]",
+          "returned_channel": "Diggy Graves",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "ZFIh2hxMOlE",
+          "url": "https://www.youtube.com/watch?v=ZFIh2hxMOlE",
+          "returned_title": "Skin & Bones - Diggy Graves (Letra en Español / Sub)",
+          "returned_channel": "FEAR IN CINDERS and CINDER OF FEAR",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "LV8VTCCmonw",
+          "url": "https://www.youtube.com/watch?v=LV8VTCCmonw",
+          "returned_title": "Resentvul - Debauchery (Feat. Diggy Graves) (Official Lyric Video)",
+          "returned_channel": "Resentvul",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 3,
+      "requested_title": "heaven aint cold",
+      "requested_artist": "South Pier",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "-djXD4-gMt4",
+          "url": "https://www.youtube.com/watch?v=-djXD4-gMt4",
+          "returned_title": "Church Friends - Heaven Ain't Quiet [Official Lyric Video]",
+          "returned_channel": "Church Friends ™️",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "wvkzoqQ5Oak",
+          "url": "https://www.youtube.com/watch?v=wvkzoqQ5Oak",
+          "returned_title": "Los Lonely Boys - Heaven",
+          "returned_channel": "Los Lonely Boys",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "ynd-xXtokv4",
+          "url": "https://www.youtube.com/watch?v=ynd-xXtokv4",
+          "returned_title": "A Thousand Julys - Cold Blood Killer (Official Music Video)",
+          "returned_channel": "A Thousand Julys",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "jHnSj9Ls6pU",
+          "url": "https://www.youtube.com/watch?v=jHnSj9Ls6pU",
+          "returned_title": "Ryan Bingham - Southside Of Heaven (Official Video)",
+          "returned_channel": "Ryan Bingham",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "dRX0wDNK6S4",
+          "url": "https://www.youtube.com/watch?v=dRX0wDNK6S4",
+          "returned_title": "Kane Brown - Heaven (Official Video)",
+          "returned_channel": "Kane Brown",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 4,
+      "requested_title": "not your homie",
+      "requested_artist": "Jagwar Twin, MERCY, sir lucius",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "dW_6VXrRkYE",
+          "url": "https://www.youtube.com/watch?v=dW_6VXrRkYE",
+          "returned_title": "Jagwar Twin, MERCY, sir lucius - not your homie (Visualizer)",
+          "returned_channel": "Jagwar Twin",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "KYHsoJKFdlo",
+          "url": "https://www.youtube.com/watch?v=KYHsoJKFdlo",
+          "returned_title": "not my homie : Jagwar Twin, sir lucius, MERCY ~ lyrics video ",
+          "returned_channel": "Lyrical Maniac",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "9nfoL7YMB9k",
+          "url": "https://www.youtube.com/watch?v=9nfoL7YMB9k",
+          "returned_title": "Jagwar Twin, MERCY, sir lucius - not your homie (Visualizer)",
+          "returned_channel": "Jagwar Twin",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "yLFdCdSzhb0",
+          "url": "https://www.youtube.com/watch?v=yLFdCdSzhb0",
+          "returned_title": "Jagwar Twin, sir lucius - weirdness (Visualizer)",
+          "returned_channel": "Jagwar Twin",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "dY39lsFmCCk",
+          "url": "https://www.youtube.com/watch?v=dY39lsFmCCk",
+          "returned_title": "Jagwar Twin - Not Your Homie (with Mercy) (2026.7.26 | Live @ One Universe Festival | 원 유니버스 페스티벌)",
+          "returned_channel": "gofrenzy31",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 5,
+      "requested_title": "SINS",
+      "requested_artist": "Red Leather, Sueco, WesGhost",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "JrVBBsDfQ6I",
+          "url": "https://www.youtube.com/watch?v=JrVBBsDfQ6I",
+          "returned_title": "Red Leather - SINS (with Sueco & WesGhost) [VISUALIZER]",
+          "returned_channel": "Red Leather",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "YGKiqWYGBBk",
+          "url": "https://www.youtube.com/watch?v=YGKiqWYGBBk",
+          "returned_title": "SINS (with Sueco & WesGhost)",
+          "returned_channel": "Red Leather",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "bfoH9n8AyDY",
+          "url": "https://www.youtube.com/watch?v=bfoH9n8AyDY",
+          "returned_title": "Red Leather – SINS (Dark Pop/Rock Hit 2026)",
+          "returned_channel": "WorldTune Music",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "R9UMjs0ezg4",
+          "url": "https://www.youtube.com/watch?v=R9UMjs0ezg4",
+          "returned_title": "SINS (with Sueco & WesGhost)",
+          "returned_channel": "Red Leather",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "gEU5f9ELU5s",
+          "url": "https://www.youtube.com/watch?v=gEU5f9ELU5s",
+          "returned_title": "SINS - Red Leather x Sueco x WesGhost",
+          "returned_channel": "IDLEGLANCE",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 6,
+      "requested_title": "ESCAPE",
+      "requested_artist": "LaLion",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "OGu573iTpSc",
+          "url": "https://www.youtube.com/watch?v=OGu573iTpSc",
+          "returned_title": "LaLion - ESCAPE (Lyrics)",
+          "returned_channel": "LaLion",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "RMX4D3H5q3E",
+          "url": "https://www.youtube.com/watch?v=RMX4D3H5q3E",
+          "returned_title": "LaLion - ESCAPE (Lyrics)",
+          "returned_channel": "Valiant",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "afSV4vKsSks",
+          "url": "https://www.youtube.com/watch?v=afSV4vKsSks",
+          "returned_title": "LaLion - ESCAPE",
+          "returned_channel": "yoru boy songs",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "MtAsU2cGKxs",
+          "url": "https://www.youtube.com/watch?v=MtAsU2cGKxs",
+          "returned_title": "LaLion - SEROTONIN (Prod. LaLion)",
+          "returned_channel": "LaLion",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "iEyHsVX0fhQ",
+          "url": "https://www.youtube.com/watch?v=iEyHsVX0fhQ",
+          "returned_title": "LaLion x Kordhell - SEROTONIN (REMIX)",
+          "returned_channel": "IDLEGLANCE and 2 more",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 7,
+      "requested_title": "S&M",
+      "requested_artist": "SabI3",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "G2ciNq_7iRk",
+          "url": "https://www.youtube.com/watch?v=G2ciNq_7iRk",
+          "returned_title": "Rihanna - S&M (METAL COVER BY SABL3) [Spotify in description]",
+          "returned_channel": "Sable",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "AiszZzTABdw",
+          "url": "https://www.youtube.com/watch?v=AiszZzTABdw",
+          "returned_title": "Taylor Swift - I Knew You Were Trouble (METAL COVER BY SABL3) [Spotify in description]",
+          "returned_channel": "Sable",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "IzjWl6EFKi4",
+          "url": "https://www.youtube.com/watch?v=IzjWl6EFKi4",
+          "returned_title": "Rihanna - Don't Stop The Music (METAL COVER BY SABL3) [Spotify in description]",
+          "returned_channel": "Sable",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "-UTbafug_zM",
+          "url": "https://www.youtube.com/watch?v=-UTbafug_zM",
+          "returned_title": "Katy Perry - E.T. (METAL COVER BY SABL3) [Spotify in description]",
+          "returned_channel": "Sable",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "EoDspPN3qzE",
+          "url": "https://www.youtube.com/watch?v=EoDspPN3qzE",
+          "returned_title": "Aqua - Barbie Girl (METAL COVER BY SABL3) [Spotify in description]",
+          "returned_channel": "Sable",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 8,
+      "requested_title": "Debauchery",
+      "requested_artist": "Resentvul, Diggy Graves",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "LV8VTCCmonw",
+          "url": "https://www.youtube.com/watch?v=LV8VTCCmonw",
+          "returned_title": "Resentvul - Debauchery (Feat. Diggy Graves) (Official Lyric Video)",
+          "returned_channel": "Resentvul",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "PUmDj-g2ZvA",
+          "url": "https://www.youtube.com/watch?v=PUmDj-g2ZvA",
+          "returned_title": "Debauchery - Resentvul x Diggy Graves",
+          "returned_channel": "FIRED UP SPLIT @firedupsplityt",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "xuwHuJCRNgA",
+          "url": "https://www.youtube.com/watch?v=xuwHuJCRNgA",
+          "returned_title": "Resentvul ft. Diggy Graves - Debauchery [UNOFFICIAL LYRIC VIDEO]",
+          "returned_channel": "Skyline_YT",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "0xR7us81Hd4",
+          "url": "https://www.youtube.com/watch?v=0xR7us81Hd4",
+          "returned_title": "Diggy Graves & Resentvul - DEBAUCHERY!!!!!!!! NO VACANCY Tour!!! 💀 ☠️ 😈 🔥 🎶 ",
+          "returned_channel": "Chef D",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "Yp8dni2uhTI",
+          "url": "https://www.youtube.com/watch?v=Yp8dni2uhTI",
+          "returned_title": "Resentvul and Diggy Graves-Debauchery brand new song August 2026 live at the Depot Salt Lake City ",
+          "returned_channel": "Kurtis Randall",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 9,
+      "requested_title": "Terrified",
+      "requested_artist": "Autumn Kings",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "j_VCJq1lrxw",
+          "url": "https://www.youtube.com/watch?v=j_VCJq1lrxw",
+          "returned_title": "Autumn Kings - Terrified",
+          "returned_channel": "AutumnKingsVEVO",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "USu9PHw_coU",
+          "url": "https://www.youtube.com/watch?v=USu9PHw_coU",
+          "returned_title": "Autumn Kings - Terrified (Official Lyric Video)",
+          "returned_channel": "Autumn Kings",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "JFUO09-N9kQ",
+          "url": "https://www.youtube.com/watch?v=JFUO09-N9kQ",
+          "returned_title": "Autumn Kings - Terrified (Official Music Video)",
+          "returned_channel": "Autumn Kings",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "vAvYdtsV7Ek",
+          "url": "https://www.youtube.com/watch?v=vAvYdtsV7Ek",
+          "returned_title": "Terrified - Autumn Kings (LYRICS)",
+          "returned_channel": "Common Sense",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "QcLrQe76msE",
+          "url": "https://www.youtube.com/watch?v=QcLrQe76msE",
+          "returned_title": "~TERRIFIED ~ AUTUMN KINGS (LYRICS)",
+          "returned_channel": "Aura",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 10,
+      "requested_title": "EYELIDS",
+      "requested_artist": "Ryan Oakes, WesGhost",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "6bGGnnPM0ok",
+          "url": "https://www.youtube.com/watch?v=6bGGnnPM0ok",
+          "returned_title": "Ryan Oakes, WesGhost - EYELIDS (Official Video)",
+          "returned_channel": "Ryan Oakes",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "cd3SZLnP1ew",
+          "url": "https://www.youtube.com/watch?v=cd3SZLnP1ew",
+          "returned_title": "Ryan Oakes x WesGhost - EYELIDS",
+          "returned_channel": "IDLEGLANCE",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "YCJSgpxjt7c",
+          "url": "https://www.youtube.com/watch?v=YCJSgpxjt7c",
+          "returned_title": "\"EYELIDS\" Ryan Oakes & Wes Ghost @ The Masquerade Purgatory 7/29/25 Atlanta live",
+          "returned_channel": "The Indecisive Archiver",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "wx5eiK2kGdQ",
+          "url": "https://www.youtube.com/watch?v=wx5eiK2kGdQ",
+          "returned_title": "EYELIDS- Ryan Oakes, WesGhost (slowed\\daycore+lyrics)",
+          "returned_channel": "Lovely_69",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "wTHrpXWNfxE",
+          "url": "https://www.youtube.com/watch?v=wTHrpXWNfxE",
+          "returned_title": "Ryan Oakes x WesGhost   EYELIDS",
+          "returned_channel": "Avraham Spencer",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 11,
+      "requested_title": "ANGEL OF DEATH",
+      "requested_artist": "Paycheck, Stafford Beats",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "ouNA1EtEffU",
+          "url": "https://www.youtube.com/watch?v=ouNA1EtEffU",
+          "returned_title": "PAYCHECK - ANGEL OF DEATH W/ STAFFORD BEATS",
+          "returned_channel": "Aesthetic Sounds",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "U8wU22Bh0Gc",
+          "url": "https://www.youtube.com/watch?v=U8wU22Bh0Gc",
+          "returned_title": "ANGEL OF DEATH",
+          "returned_channel": "Paycheck",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "XWsXVydBIe8",
+          "url": "https://www.youtube.com/watch?v=XWsXVydBIe8",
+          "returned_title": "Paycheck x Stafford Beats - Angel Of Death",
+          "returned_channel": "BangerOfTheDay",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "FnmgTb4RKdM",
+          "url": "https://www.youtube.com/watch?v=FnmgTb4RKdM",
+          "returned_title": "Angel Of Death - Paycheck (Extreme Bass Boosted)",
+          "returned_channel": "mlgmaster_12",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "lTYI8L1C7bI",
+          "url": "https://www.youtube.com/watch?v=lTYI8L1C7bI",
+          "returned_title": "PayCheck - ANGEL OF DEATH",
+          "returned_channel": "Hiddenbanger",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 12,
+      "requested_title": "Karma",
+      "requested_artist": "Letdown.",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "-NxKFjp9yHo",
+          "url": "https://www.youtube.com/watch?v=-NxKFjp9yHo",
+          "returned_title": "Letdown. - Karma (Lyric Video)",
+          "returned_channel": "Letdown.",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "KZa9oepJpr8",
+          "url": "https://www.youtube.com/watch?v=KZa9oepJpr8",
+          "returned_title": "Letdown. - Karma (Visualizer)",
+          "returned_channel": "Letdown.",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "_Lmnhjha1y4",
+          "url": "https://www.youtube.com/watch?v=_Lmnhjha1y4",
+          "returned_title": "Letdown - Karma",
+          "returned_channel": "CloudKid",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "nn6ncEpBvVU",
+          "url": "https://www.youtube.com/watch?v=nn6ncEpBvVU",
+          "returned_title": "Letdown - Karma (Lyrics)",
+          "returned_channel": "Hedies Music ",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "1O4AMQKtxO8",
+          "url": "https://www.youtube.com/watch?v=1O4AMQKtxO8",
+          "returned_title": "Karma by forever let down unreleased",
+          "returned_channel": "Dakotathewolf12",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 13,
+      "requested_title": "Murder Me",
+      "requested_artist": "Diggy Graves",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "_QLFHP2OY_g",
+          "url": "https://www.youtube.com/watch?v=_QLFHP2OY_g",
+          "returned_title": "Diggy Graves - Murder Me [Official Lyric Video]",
+          "returned_channel": "Diggy Graves",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "OrThkYpQRgo",
+          "url": "https://www.youtube.com/watch?v=OrThkYpQRgo",
+          "returned_title": "Diggy Graves - Straitjackets & Roses [Official Lyric Video]",
+          "returned_channel": "Diggy Graves",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "hfXgYotw9uM",
+          "url": "https://www.youtube.com/watch?v=hfXgYotw9uM",
+          "returned_title": "Diggy Graves - The Exorcism of Diggy Graves [Official Lyric Video]",
+          "returned_channel": "Diggy Graves",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "CLj2PbUPMxk",
+          "url": "https://www.youtube.com/watch?v=CLj2PbUPMxk",
+          "returned_title": "Diggy Graves - Tac Town Two Step [Official Lyric Video]",
+          "returned_channel": "Diggy Graves",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "c7k1-c2csy4",
+          "url": "https://www.youtube.com/watch?v=c7k1-c2csy4",
+          "returned_title": "Diggy Graves - Zzz [Official Lyric Video]",
+          "returned_channel": "Diggy Graves",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 14,
+      "requested_title": "GASLIGHT",
+      "requested_artist": "WesGhost",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "q_jl9A5eyOM",
+          "url": "https://www.youtube.com/watch?v=q_jl9A5eyOM",
+          "returned_title": "WesGhost - GASLIGHT (Official Video)",
+          "returned_channel": "WesGhost",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "ckXH1eYfq7k",
+          "url": "https://www.youtube.com/watch?v=ckXH1eYfq7k",
+          "returned_title": "WesGhost - GASLIGHT",
+          "returned_channel": "ＴＲＡＳＨ 新 ドラゴン",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "AQIdHWEwFD4",
+          "url": "https://www.youtube.com/watch?v=AQIdHWEwFD4",
+          "returned_title": "WesGhost - GASLIGHT (Visualizer)",
+          "returned_channel": "Cosgrove",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "tZoAlmw5p-E",
+          "url": "https://www.youtube.com/watch?v=tZoAlmw5p-E",
+          "returned_title": "WesGhost - GASLIGHT [Lyrics x AMV]",
+          "returned_channel": "IDLEGLANCE",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "y5Sd1snAdus",
+          "url": "https://www.youtube.com/watch?v=y5Sd1snAdus",
+          "returned_title": "GASLIGHT- WesGhost (slowed\\daycore+lyrics)",
+          "returned_channel": "Lovely_69",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 15,
+      "requested_title": "CHOKEHOLD",
+      "requested_artist": "WesGhost, Resentvul",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "ogrUzFtq4S0",
+          "url": "https://www.youtube.com/watch?v=ogrUzFtq4S0",
+          "returned_title": "WesGhost & Resentvul - CHOKEHOLD (Official Visualizer)",
+          "returned_channel": "WesGhost",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "Nx0CSPmN0cA",
+          "url": "https://www.youtube.com/watch?v=Nx0CSPmN0cA",
+          "returned_title": "WesGhost - CHOKEHOLD (Official Video)",
+          "returned_channel": "WesGhost",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "mCY2iFjUF0M",
+          "url": "https://www.youtube.com/watch?v=mCY2iFjUF0M",
+          "returned_title": "WesGhost, Resentvul - CHOKEHOLD",
+          "returned_channel": "ＴＲＡＳＨ 新 ドラゴン",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "tsS1qBHmqYQ",
+          "url": "https://www.youtube.com/watch?v=tsS1qBHmqYQ",
+          "returned_title": "WesGhost - CHOKEHOLD (Lyrics)",
+          "returned_channel": "OnLyrics United States 🇺🇸",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "jJRQCJ4e3Y4",
+          "url": "https://www.youtube.com/watch?v=jJRQCJ4e3Y4",
+          "returned_title": "Resentvul, WesGhost - Save Me (Official Audio)",
+          "returned_channel": "Resentvul",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 16,
+      "requested_title": "MASCARA",
+      "requested_artist": "WesGhost",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "Kib9Q_ehCxI",
+          "url": "https://www.youtube.com/watch?v=Kib9Q_ehCxI",
+          "returned_title": "WesGhost- MASCARA (Official Lyric Video)",
+          "returned_channel": "WesGhost",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "5Jal3faBhfs",
+          "url": "https://www.youtube.com/watch?v=5Jal3faBhfs",
+          "returned_title": "WesGhost - MASCARA (Official Audio)",
+          "returned_channel": "WesGhost",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "Z2kHEk8K_L0",
+          "url": "https://www.youtube.com/watch?v=Z2kHEk8K_L0",
+          "returned_title": "WesGhost - MASCARA (Lyrics)",
+          "returned_channel": "OnLyrics United States 🇺🇸",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "HhuaLt5HEmM",
+          "url": "https://www.youtube.com/watch?v=HhuaLt5HEmM",
+          "returned_title": "WesGhost - MASCARA [Lyrics x AMV]",
+          "returned_channel": "IDLEGLANCE",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "nxCJTJm8eWo",
+          "url": "https://www.youtube.com/watch?v=nxCJTJm8eWo",
+          "returned_title": "WesGhost - MASCARA (Lyrics)",
+          "returned_channel": "GalaxyMusic",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 17,
+      "requested_title": "EXISTED",
+      "requested_artist": "WesGhost",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "QpTYxPk-vn8",
+          "url": "https://www.youtube.com/watch?v=QpTYxPk-vn8",
+          "returned_title": "WesGhost - EXISTED (Official Lyric Video)",
+          "returned_channel": "WesGhost",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "I6cthcqk31c",
+          "url": "https://www.youtube.com/watch?v=I6cthcqk31c",
+          "returned_title": "WesGhost - EXISTED (Official Audio)",
+          "returned_channel": "WesGhost",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "a4RvE7uDk5I",
+          "url": "https://www.youtube.com/watch?v=a4RvE7uDk5I",
+          "returned_title": "WesGhost - EXISTED (Lyrics)",
+          "returned_channel": "Latest Song Drops",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "DOf_Xzz7Trk",
+          "url": "https://www.youtube.com/watch?v=DOf_Xzz7Trk",
+          "returned_title": "WesGhost - EXISTED",
+          "returned_channel": "IDLEGLANCE",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "XZKZejCF9U8",
+          "url": "https://www.youtube.com/watch?v=XZKZejCF9U8",
+          "returned_title": "WesGhost - EXISTED (Lyrics)",
+          "returned_channel": "Trending Now Lyrics",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 18,
+      "requested_title": "NIGHTMARE",
+      "requested_artist": "WesGhost",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "iJcLNQVS4vM",
+          "url": "https://www.youtube.com/watch?v=iJcLNQVS4vM",
+          "returned_title": "WesGhost - NIGHTMARE (Official Video)",
+          "returned_channel": "WesGhost",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "h-HRxiGB3kw",
+          "url": "https://www.youtube.com/watch?v=h-HRxiGB3kw",
+          "returned_title": "WesGhost - NIGHTMARE (Lyrics)",
+          "returned_channel": "Solitude Songs",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "zM-Nsed41SI",
+          "url": "https://www.youtube.com/watch?v=zM-Nsed41SI",
+          "returned_title": "WesGhost - NIGHTMARE",
+          "returned_channel": "Sweet Archives",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "fv4KKTa7et0",
+          "url": "https://www.youtube.com/watch?v=fv4KKTa7et0",
+          "returned_title": "WesGhost - NIGHTMARE [Lyrics x AMV]",
+          "returned_channel": "IDLEGLANCE",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "pjgUM3o3F0Q",
+          "url": "https://www.youtube.com/watch?v=pjgUM3o3F0Q",
+          "returned_title": "WesGhost - NIGHTMARE (Visualizer)",
+          "returned_channel": "Cosgrove",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 19,
+      "requested_title": "BLEACH",
+      "requested_artist": "WesGhost",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "Ee9hUZMVl6A",
+          "url": "https://www.youtube.com/watch?v=Ee9hUZMVl6A",
+          "returned_title": "WesGhost - BLEACH (Official Visualizer)",
+          "returned_channel": null,
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "2o4d1tVMpP0",
+          "url": "https://www.youtube.com/watch?v=2o4d1tVMpP0",
+          "returned_title": "WesGhost - BLEACH (Studio Performance)",
+          "returned_channel": null,
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "hVqhzfpX5jo",
+          "url": "https://www.youtube.com/watch?v=hVqhzfpX5jo",
+          "returned_title": "WesGhost - BLEACH (Lyrics)",
+          "returned_channel": null,
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "fLB2MXiJVcs",
+          "url": "https://www.youtube.com/watch?v=fLB2MXiJVcs",
+          "returned_title": "WesGhost - BLEACH [Lyrics x AMV]",
+          "returned_channel": null,
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "EBHS45PcFG4",
+          "url": "https://www.youtube.com/watch?v=EBHS45PcFG4",
+          "returned_title": "WesGhost - BLEACH",
+          "returned_channel": null,
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 20,
+      "requested_title": "MISERY",
+      "requested_artist": "WesGhost",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "ZUa3tjbltDc",
+          "url": "https://www.youtube.com/watch?v=ZUa3tjbltDc",
+          "returned_title": "WesGhost - MISERY (Official Audio)",
+          "returned_channel": "WesGhost",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "a3Hnp2uUcBc",
+          "url": "https://www.youtube.com/watch?v=a3Hnp2uUcBc",
+          "returned_title": "WesGhost - MISERY (Lyrics)",
+          "returned_channel": "Solitude Songs",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "30xssB4qBvk",
+          "url": "https://www.youtube.com/watch?v=30xssB4qBvk",
+          "returned_title": "WesGhost - Misery [Lyrics x AMV]",
+          "returned_channel": "IDLEGLANCE",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "6qikZ_HxjD0",
+          "url": "https://www.youtube.com/watch?v=6qikZ_HxjD0",
+          "returned_title": "misery-wesghost live",
+          "returned_channel": "lolliltaco",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "apYE9ehaucM",
+          "url": "https://www.youtube.com/watch?v=apYE9ehaucM",
+          "returned_title": "WesGhost - EXPIRED (OFFICIAL LYRIC VIDEO)",
+          "returned_channel": "WesGhost",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 21,
+      "requested_title": "Blood in the Cut",
+      "requested_artist": "K.Flay",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "k2WcOdz96ko",
+          "url": "https://www.youtube.com/watch?v=k2WcOdz96ko",
+          "returned_title": "K.Flay - Blood In The Cut",
+          "returned_channel": "K.Flay",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "DMA4vDwP7n4",
+          "url": "https://www.youtube.com/watch?v=DMA4vDwP7n4",
+          "returned_title": "K.Flay - Blood In The Cut (Audio)",
+          "returned_channel": "K.Flay",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "w5LDEmudrzc",
+          "url": "https://www.youtube.com/watch?v=w5LDEmudrzc",
+          "returned_title": "Blood in the Cut - K.Flay (Lyrics)",
+          "returned_channel": "FreshAsLyrics",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "BrBh_8FX0fY",
+          "url": "https://www.youtube.com/watch?v=BrBh_8FX0fY",
+          "returned_title": "Blood In The Cut",
+          "returned_channel": "K.Flay",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "xHCLHsQLfz0",
+          "url": "https://www.youtube.com/watch?v=xHCLHsQLfz0",
+          "returned_title": "K.Flay - Blood In The Cut (Live On Seth Meyers)",
+          "returned_channel": "K.Flay",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 22,
+      "requested_title": "Blood // Water",
+      "requested_artist": "grandson",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "Sk-U8ruIQyA",
+          "url": "https://www.youtube.com/watch?v=Sk-U8ruIQyA",
+          "returned_title": "grandson - Blood // Water",
+          "returned_channel": "grandson",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "LsHYFQgQxpw",
+          "url": "https://www.youtube.com/watch?v=LsHYFQgQxpw",
+          "returned_title": "grandson - Blood // Water (Lyrics)",
+          "returned_channel": "Cakes & Eclairs",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "tjIwXKPGf80",
+          "url": "https://www.youtube.com/watch?v=tjIwXKPGf80",
+          "returned_title": "grandson: Blood // Water [OFFICIAL VIDEO]",
+          "returned_channel": "Fueled By Ramen",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "uEFNe35mIMQ",
+          "url": "https://www.youtube.com/watch?v=uEFNe35mIMQ",
+          "returned_title": "grandson - Blood // Water (Official Audio)",
+          "returned_channel": "ILostMyToast",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "NUO9F4eUO_A",
+          "url": "https://www.youtube.com/watch?v=NUO9F4eUO_A",
+          "returned_title": "grandson - Blood // Water (Official Lyric Video)",
+          "returned_channel": "grandson",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 23,
+      "requested_title": "Animal",
+      "requested_artist": "MISSIO",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "qa_t0EL1-Gg",
+          "url": "https://www.youtube.com/watch?v=qa_t0EL1-Gg",
+          "returned_title": "MISSIO - Animal (Audio)",
+          "returned_channel": "MISSIO",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "pje8hPa2ud4",
+          "url": "https://www.youtube.com/watch?v=pje8hPa2ud4",
+          "returned_title": "MISSIO - Animal (Slowed + Reverb)",
+          "returned_channel": "Yukishiro Omori",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "l1hWT29p6oU",
+          "url": "https://www.youtube.com/watch?v=l1hWT29p6oU",
+          "returned_title": "Animal (Stripped)",
+          "returned_channel": "MISSIO",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "WCvYlTItmz0",
+          "url": "https://www.youtube.com/watch?v=WCvYlTItmz0",
+          "returned_title": "MISSIO - Animal (Deeper version)",
+          "returned_channel": "Miss Fuji",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "K51PsN5ijWk",
+          "url": "https://www.youtube.com/watch?v=K51PsN5ijWk",
+          "returned_title": "Missio-Animal lyrics",
+          "returned_channel": "IrishFireGirl",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 24,
+      "requested_title": "I Disagree",
+      "requested_artist": "Poppy",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "6gmswmbosYo",
+          "url": "https://www.youtube.com/watch?v=6gmswmbosYo",
+          "returned_title": "Poppy - I Disagree (Official Music Video)",
+          "returned_channel": "Poppy",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "BmX4S-Bm50U",
+          "url": "https://www.youtube.com/watch?v=BmX4S-Bm50U",
+          "returned_title": "Poppy - I Disagree (Lyrics)",
+          "returned_channel": "Mr. Lyricist",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "veuLKtjB0RI",
+          "url": "https://www.youtube.com/watch?v=veuLKtjB0RI",
+          "returned_title": "Poppy kicks off NXT with “I Disagree”: WWE NXT, Oct. 30, 2019",
+          "returned_channel": "WWE",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "bnAEQShtPLg",
+          "url": "https://www.youtube.com/watch?v=bnAEQShtPLg",
+          "returned_title": "Poppy - I Disagree (Audio)",
+          "returned_channel": "Punk2005",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "BhXSvJzAGI4",
+          "url": "https://www.youtube.com/watch?v=BhXSvJzAGI4",
+          "returned_title": "Poppy - I Disagree (5th Anniversary Edition) FULL ALBUM",
+          "returned_channel": "Wessmetal",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 25,
+      "requested_title": "BLOODMONEY",
+      "requested_artist": "Poppy",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "fJlDyRbUtxI",
+          "url": "https://www.youtube.com/watch?v=fJlDyRbUtxI",
+          "returned_title": "Poppy - BLOODMONEY (Official Music Video)",
+          "returned_channel": "Poppy",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "5JDT8tjT4BM",
+          "url": "https://www.youtube.com/watch?v=5JDT8tjT4BM",
+          "returned_title": "Poppy - BLOODMONEY (Lyrics)",
+          "returned_channel": "Johan",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "ufxepIrz6_8",
+          "url": "https://www.youtube.com/watch?v=ufxepIrz6_8",
+          "returned_title": "Poppy - BLOODMONEY (Audio)",
+          "returned_channel": "Beat Songs",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "CDidZmcapfc",
+          "url": "https://www.youtube.com/watch?v=CDidZmcapfc",
+          "returned_title": "Poppy  - BLOODMONEY | Reading Festival 2022",
+          "returned_channel": "BBC Music",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "dNZ0m2aS4sY",
+          "url": "https://www.youtube.com/watch?v=dNZ0m2aS4sY",
+          "returned_title": "Poppy - BLOODMONEY   (Lyrics)",
+          "returned_channel": "Lyrical Air",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 26,
+      "requested_title": "V.A.N",
+      "requested_artist": "Bad Omens, Poppy",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "ev_vPbqUlZs",
+          "url": "https://www.youtube.com/watch?v=ev_vPbqUlZs",
+          "returned_title": "Bad Omens x Poppy - V.A.N (Official Music Video)",
+          "returned_channel": "SUMERIAN",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "RHu6vJxS_6I",
+          "url": "https://www.youtube.com/watch?v=RHu6vJxS_6I",
+          "returned_title": "BAD OMENS x POPPY - \"V.A.N\" - LIVE IN EUROPE - WINTER 2024",
+          "returned_channel": "BAD OMENS",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "w3ckCXp3YsM",
+          "url": "https://www.youtube.com/watch?v=w3ckCXp3YsM",
+          "returned_title": "Bad Omens X Poppy - V.A.N (Lyrics) 🎵",
+          "returned_channel": "Bad Omens Lyrics",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "DOOAbkMxCyw",
+          "url": "https://www.youtube.com/watch?v=DOOAbkMxCyw",
+          "returned_title": "Bad Omens x Poppy - V.A.N (Official Visual)",
+          "returned_channel": "SUMERIAN",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "WTx6Tpu-Od0",
+          "url": "https://www.youtube.com/watch?v=WTx6Tpu-Od0",
+          "returned_title": "Bad Omens x Poppy | V.A.N. | Live From Germany",
+          "returned_channel": "Veeps",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 27,
+      "requested_title": "DArkSide",
+      "requested_artist": "Bring Me The Horizon",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "3Nt37RGbVjo",
+          "url": "https://www.youtube.com/watch?v=3Nt37RGbVjo",
+          "returned_title": "Bring Me The Horizon - DArkSide (Lyric Video)",
+          "returned_channel": "Bring Me The Horizon",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "BTjw9VcGYts",
+          "url": "https://www.youtube.com/watch?v=BTjw9VcGYts",
+          "returned_title": "Bring Me The Horizon - DArkSide (Lyrics)",
+          "returned_channel": "7clouds Rock",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "2X-IgEgTYiA",
+          "url": "https://www.youtube.com/watch?v=2X-IgEgTYiA",
+          "returned_title": "Bring Me The Horizon - DArkSide",
+          "returned_channel": "MrMoMMusic",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "yyUFatWHNfo",
+          "url": "https://www.youtube.com/watch?v=yyUFatWHNfo",
+          "returned_title": "Bring Me The Horizon - DArkSide (L.I.V.E. In São Paulo)",
+          "returned_channel": "Parasite Eve",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "g1bvP7BZDME",
+          "url": "https://www.youtube.com/watch?v=g1bvP7BZDME",
+          "returned_title": "Bring Me The Horizon: L.I.V.E. In São Paulo - First 7 Minutes Of Gameplay",
+          "returned_channel": "Bring Me The Horizon",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 28,
+      "requested_title": "Kool-Aid",
+      "requested_artist": "Bring Me The Horizon",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "Jq4NhAnnD0Q",
+          "url": "https://www.youtube.com/watch?v=Jq4NhAnnD0Q",
+          "returned_title": "Bring Me The Horizon - Kool-Aid (Official Video)",
+          "returned_channel": "Bring Me The Horizon",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "YyacCX-CFUM",
+          "url": "https://www.youtube.com/watch?v=YyacCX-CFUM",
+          "returned_title": "Bring Me The Horizon - Kool-Aid (Lyric Video)",
+          "returned_channel": "Bring Me The Horizon",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "qcVCxB37xxU",
+          "url": "https://www.youtube.com/watch?v=qcVCxB37xxU",
+          "returned_title": "Bring Me The Horizon - Kool-Aid (Lyrics)",
+          "returned_channel": "Vibe Music",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "WihjEbnIkjo",
+          "url": "https://www.youtube.com/watch?v=WihjEbnIkjo",
+          "returned_title": "Bring Me The Horizon - Kool-Aid (OFFICIAL AUDIO)",
+          "returned_channel": "PullingTeeth",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "qSFN7Q6_RWY",
+          "url": "https://www.youtube.com/watch?v=qSFN7Q6_RWY",
+          "returned_title": "Bring Me The Horizon - Kool-Aid (Live)",
+          "returned_channel": "Bring Me The Horizon",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 29,
+      "requested_title": "Like a Villain",
+      "requested_artist": "Bad Omens",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "Aibxit_PpAg",
+          "url": "https://www.youtube.com/watch?v=Aibxit_PpAg",
+          "returned_title": "Bad Omens - Like A Villain (Official Music Video)",
+          "returned_channel": "SUMERIAN",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "1QPLU4_iwmo",
+          "url": "https://www.youtube.com/watch?v=1QPLU4_iwmo",
+          "returned_title": "Bad Omens - Like A Villain (Lyrics) 🎵",
+          "returned_channel": "Bad Omens Lyrics",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "Fvo-s-wSJbE",
+          "url": "https://www.youtube.com/watch?v=Fvo-s-wSJbE",
+          "returned_title": "BAD OMENS - What It Cost // Like A Villain (Lyrics Video)",
+          "returned_channel": "MFDL",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "NmPc3AZUD7Q",
+          "url": "https://www.youtube.com/watch?v=NmPc3AZUD7Q",
+          "returned_title": "Bad Omens — Like a Villain [Live @ SiriusXM] | Next Wave Vol. 6",
+          "returned_channel": "SiriusXM",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "fftVP9JRFrQ",
+          "url": "https://www.youtube.com/watch?v=fftVP9JRFrQ",
+          "returned_title": "Bad Omens - Like A Villain (Lyrics)",
+          "returned_channel": "RockHype",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 30,
+      "requested_title": "Artificial Suicide",
+      "requested_artist": "Bad Omens",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "IBcUkTXAwbw",
+          "url": "https://www.youtube.com/watch?v=IBcUkTXAwbw",
+          "returned_title": "Bad Omens - ARTIFICIAL SUICIDE (Official Music Video)",
+          "returned_channel": "SUMERIAN",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "mJoZnPjXxsI",
+          "url": "https://www.youtube.com/watch?v=mJoZnPjXxsI",
+          "returned_title": "Bad Omens - Artificial Suicide (Lyrics) 🎵",
+          "returned_channel": "Bad Omens Lyrics",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "SS9kU1hJfvE",
+          "url": "https://www.youtube.com/watch?v=SS9kU1hJfvE",
+          "returned_title": "\"ARTIFICIAL SUICIDE\" (LIVE) - CONCRETE FOREVER LAS VEGAS",
+          "returned_channel": "BAD OMENS",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "rM65xumt12M",
+          "url": "https://www.youtube.com/watch?v=rM65xumt12M",
+          "returned_title": "Bad Omens - Artificial Suicide | Live @ Hellfest 2026 [HD]",
+          "returned_channel": "Etiennouh",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "-qIEpV9sgos",
+          "url": "https://www.youtube.com/watch?v=-qIEpV9sgos",
+          "returned_title": "ARTIFICIAL SUICIDE (UNZIPPED) (Original Soundtrack)",
+          "returned_channel": "BAD OMENS",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 31,
+      "requested_title": "THE DEATH OF PEACE OF MIND",
+      "requested_artist": "Bad Omens",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "ouW_RCAI0sg",
+          "url": "https://www.youtube.com/watch?v=ouW_RCAI0sg",
+          "returned_title": "Bad Omens - THE DEATH OF PEACE OF MIND (Official Music Video)",
+          "returned_channel": "SUMERIAN",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "fqP84tqwESA",
+          "url": "https://www.youtube.com/watch?v=fqP84tqwESA",
+          "returned_title": "Bad Omens - The Death Of Peace Of Mind (Lyrics) 🎵",
+          "returned_channel": "Bad Omens Lyrics",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "v_fJonvYUBU",
+          "url": "https://www.youtube.com/watch?v=v_fJonvYUBU",
+          "returned_title": "Bad Omens - The Death Of Peace Of Mind | Live @ Hellfest 2026 [HD]",
+          "returned_channel": "Etiennouh",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "75ZgdO6Oy5w",
+          "url": "https://www.youtube.com/watch?v=75ZgdO6Oy5w",
+          "returned_title": "Bad Omens - The Death Of Peace Of Mind",
+          "returned_channel": "Lyrics Ahoy",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "X2a4eRGrxFo",
+          "url": "https://www.youtube.com/watch?v=X2a4eRGrxFo",
+          "returned_title": "Bad Omens - \"THE DEATH OF PEACE OF MIND\" & \"Impose\" live at Hellfest - ARTE Concert",
+          "returned_channel": "ARTE Concert and BAD OMENS",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 32,
+      "requested_title": "Just Pretend",
+      "requested_artist": "Bad Omens",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "GLRFl26Q92s",
+          "url": "https://www.youtube.com/watch?v=GLRFl26Q92s",
+          "returned_title": "Bad Omens - Just Pretend (Official Music Video)",
+          "returned_channel": "SUMERIAN",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "ekU1dQjMsOQ",
+          "url": "https://www.youtube.com/watch?v=ekU1dQjMsOQ",
+          "returned_title": "Bad Omens - Just Pretend (Official Audio Stream)",
+          "returned_channel": "SUMERIAN",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "fsWgULi4j58",
+          "url": "https://www.youtube.com/watch?v=fsWgULi4j58",
+          "returned_title": "BAD OMENS - Just Pretend (Lyrics)",
+          "returned_channel": "Taj Tracks",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "ovsWjyjdq1w",
+          "url": "https://www.youtube.com/watch?v=ovsWjyjdq1w",
+          "returned_title": "Bad Omens — Just Pretend [Live @ SiriusXM] | Next Wave Vol. 6",
+          "returned_channel": "SiriusXM",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "GdjD0eXvNPE",
+          "url": "https://www.youtube.com/watch?v=GdjD0eXvNPE",
+          "returned_title": "Bad Omens - Just Pretend (Lyrics) 🎵",
+          "returned_channel": "Bad Omens Lyrics",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 33,
+      "requested_title": "The Grey",
+      "requested_artist": "Bad Omens",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "ZMAy5K8vEGc",
+          "url": "https://www.youtube.com/watch?v=ZMAy5K8vEGc",
+          "returned_title": "Bad Omens - The Grey (Official Audio Stream)",
+          "returned_channel": "SUMERIAN",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "Wg7Q0ICsg54",
+          "url": "https://www.youtube.com/watch?v=Wg7Q0ICsg54",
+          "returned_title": "Bad Omens - The Grey (Lyrics) 🎵",
+          "returned_channel": "Bad Omens Lyrics",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "92keNctqgbk",
+          "url": "https://www.youtube.com/watch?v=92keNctqgbk",
+          "returned_title": "The Grey (Bad Omens) — Piano Reinterpretation by Ayden Renault | The Fallen",
+          "returned_channel": "The Fallen",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "XNUtaa00pTs",
+          "url": "https://www.youtube.com/watch?v=XNUtaa00pTs",
+          "returned_title": "Bad Omens - The Grey (Nick Folio) Drum Cam [Atlanta, GA] 2023",
+          "returned_channel": "drummers anonymous",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "Xu6hZsHhh3Y",
+          "url": "https://www.youtube.com/watch?v=Xu6hZsHhh3Y",
+          "returned_title": "Bad Omens - The Grey (Live from the KROQ Helpful Honda Sound Space)",
+          "returned_channel": "V_Roses",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 34,
+      "requested_title": "The Summoning",
+      "requested_artist": "Sleep Token",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "wJNbtYdr-Hg",
+          "url": "https://www.youtube.com/watch?v=wJNbtYdr-Hg",
+          "returned_title": "Sleep Token - The Summoning",
+          "returned_channel": "Sleep Token",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "4AffXR-5wWg",
+          "url": "https://www.youtube.com/watch?v=4AffXR-5wWg",
+          "returned_title": "Sleep Token - The Summoning (Lyrics)",
+          "returned_channel": "RockHype",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "CCO9XxczQJ8",
+          "url": "https://www.youtube.com/watch?v=CCO9XxczQJ8",
+          "returned_title": "Sleep Token: The Summoning (Single)",
+          "returned_channel": "MusicDrive",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "dh6IgOxDhcE",
+          "url": "https://www.youtube.com/watch?v=dh6IgOxDhcE",
+          "returned_title": "The Iconic Drumming Behind “The Summoning” | Sleep Token",
+          "returned_channel": "Drumeo",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "hlqdW24ZGS0",
+          "url": "https://www.youtube.com/watch?v=hlqdW24ZGS0",
+          "returned_title": "Sleep Token - The Summoning Ending",
+          "returned_channel": "Dennis Mirazchiyski",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 35,
+      "requested_title": "Hypnosis",
+      "requested_artist": "Sleep Token",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "2chcvo_70N0",
+          "url": "https://www.youtube.com/watch?v=2chcvo_70N0",
+          "returned_title": "Sleep Token - Hypnosis (Visualiser)",
+          "returned_channel": "Sleep Token",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "nNZlxQmpV8g",
+          "url": "https://www.youtube.com/watch?v=nNZlxQmpV8g",
+          "returned_title": "Sleep Token - ‘Hypnosis’ An offering from II",
+          "returned_channel": "Sleep Token",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "87xeb4DTIcY",
+          "url": "https://www.youtube.com/watch?v=87xeb4DTIcY",
+          "returned_title": "Sleep Token - Hypnosis Vocal Cover",
+          "returned_channel": "The Will Ramos",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "kj434KMS2eI",
+          "url": "https://www.youtube.com/watch?v=kj434KMS2eI",
+          "returned_title": "The Iconic Drumming Behind \"Hypnosis\" | Sleep Token",
+          "returned_channel": "Drumeo",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "_hkRt_ZInyk",
+          "url": "https://www.youtube.com/watch?v=_hkRt_ZInyk",
+          "returned_title": "Sleep Token - Hypnosis (Live at Blue Ridge Rock Festival 2022 | Danville, VA",
+          "returned_channel": "SoundlinkTV",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 36,
+      "requested_title": "Granite",
+      "requested_artist": "Sleep Token",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "om4dEGKnEmw",
+          "url": "https://www.youtube.com/watch?v=om4dEGKnEmw",
+          "returned_title": "Sleep Token - Granite",
+          "returned_channel": "Sleep Token",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "pAgJW_RLeMU",
+          "url": "https://www.youtube.com/watch?v=pAgJW_RLeMU",
+          "returned_title": "Sleep Token - Granite (Lyrics)",
+          "returned_channel": "Taj Tracks",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "Nw9JKL3E1fg",
+          "url": "https://www.youtube.com/watch?v=Nw9JKL3E1fg",
+          "returned_title": "Granite - Sleep Token",
+          "returned_channel": "raz 🍂",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "L_yvyEXNCcU",
+          "url": "https://www.youtube.com/watch?v=L_yvyEXNCcU",
+          "returned_title": "ii Sleep Token - Granite | live from Download Festival, 2025.",
+          "returned_channel": "ALUCARD EDEN",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "2cWSmJLfk5U",
+          "url": "https://www.youtube.com/watch?v=2cWSmJLfk5U",
+          "returned_title": "Sleep Token - Granite (1990s R&B Cover Version) - BEST QUALITY",
+          "returned_channel": "Blanco Nino",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 37,
+      "requested_title": "Overwhelmed",
+      "requested_artist": "Royal & the Serpent",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "_e7UYTY96Xs",
+          "url": "https://www.youtube.com/watch?v=_e7UYTY96Xs",
+          "returned_title": "Royal & the Serpent - Overwhelmed (Official Music Video)",
+          "returned_channel": "Royal & the Serpent",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "kGn13Apz8Tg",
+          "url": "https://www.youtube.com/watch?v=kGn13Apz8Tg",
+          "returned_title": "Royal & the Serpent - Overwhelmed (Lyrics)",
+          "returned_channel": "Unique Vibes",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "taF33lNXngY",
+          "url": "https://www.youtube.com/watch?v=taF33lNXngY",
+          "returned_title": "Royal & the Serpent - I get overwhelmed so easily my anxiety (Overwhelmed) (Lyrics)",
+          "returned_channel": "Cakes & Eclairs",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "HSxPA8LQgjA",
+          "url": "https://www.youtube.com/watch?v=HSxPA8LQgjA",
+          "returned_title": "Royal & The Serpent - Overwhelmed",
+          "returned_channel": "CloudKid",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "35r_Ov_Mr-k",
+          "url": "https://www.youtube.com/watch?v=35r_Ov_Mr-k",
+          "returned_title": "Royal & The Serpent - Overwhelmed (Live Performance)",
+          "returned_channel": "Royal & the Serpent",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 38,
+      "requested_title": "VICES",
+      "requested_artist": "Mothica",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "LCLEBjD5Phc",
+          "url": "https://www.youtube.com/watch?v=LCLEBjD5Phc",
+          "returned_title": "Mothica - VICES (Official Music Video)",
+          "returned_channel": "MOTHICA",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "hkB0grrC518",
+          "url": "https://www.youtube.com/watch?v=hkB0grrC518",
+          "returned_title": "Mothica - VICES (Official Lyric Video)",
+          "returned_channel": "MOTHICA",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "FFd-UcHBRFk",
+          "url": "https://www.youtube.com/watch?v=FFd-UcHBRFk",
+          "returned_title": "VICES II",
+          "returned_channel": "MOTHICA",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "y-Z4Bt0DHHA",
+          "url": "https://www.youtube.com/watch?v=y-Z4Bt0DHHA",
+          "returned_title": "Mothica - VICES (Stripped)",
+          "returned_channel": "MOTHICA",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "UGoVOisO16o",
+          "url": "https://www.youtube.com/watch?v=UGoVOisO16o",
+          "returned_title": "Mothica- Vices Lyrics",
+          "returned_channel": "JR Viral Hits",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 39,
+      "requested_title": "Popular Monster",
+      "requested_artist": "Falling in Reverse",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "jakpo7tj7Qw",
+          "url": "https://www.youtube.com/watch?v=jakpo7tj7Qw",
+          "returned_title": "Falling In Reverse - \"Popular Monster\"",
+          "returned_channel": "Epitaph Records and Falling In Reverse",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "Q1n7AOGH4Js",
+          "url": "https://www.youtube.com/watch?v=Q1n7AOGH4Js",
+          "returned_title": "Falling In Reverse - Popular Monster (Lyrics)",
+          "returned_channel": "Irresistible Music",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "xQUXsN8neuY",
+          "url": "https://www.youtube.com/watch?v=xQUXsN8neuY",
+          "returned_title": "Falling In Reverse \"Popular Monster\" live on 2.6.2024 in Toledo, OH - Take Back Your Life Tour",
+          "returned_channel": "Morgan Bunkley",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "irT-5EJh4L4",
+          "url": "https://www.youtube.com/watch?v=irT-5EJh4L4",
+          "returned_title": "Falling In Reverse - Popular Monster (Full Album)",
+          "returned_channel": "Shout out!-Shout out!",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "g10qKRsi28U",
+          "url": "https://www.youtube.com/watch?v=g10qKRsi28U",
+          "returned_title": "Falling In Reverse - \"Watch The World Burn\" LIVE! The Popular Monstour",
+          "returned_channel": "CaliberTV",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    },
+    {
+      "track_number": 40,
+      "requested_title": "Voices",
+      "requested_artist": "Motionless In White",
+      "state": "CANDIDATES_FOUND",
+      "candidates": [
+        {
+          "video_id": "B3faYe5V4Sk",
+          "url": "https://www.youtube.com/watch?v=B3faYe5V4Sk",
+          "returned_title": "Motionless In White - Voices [OFFICIAL VIDEO]",
+          "returned_channel": "Motionless In White",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "214V1oaOpjM",
+          "url": "https://www.youtube.com/watch?v=214V1oaOpjM",
+          "returned_title": "Motionless In White - Voices (Official Audio)",
+          "returned_channel": "Motionless In White",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "0tWGzsSz2k8",
+          "url": "https://www.youtube.com/watch?v=0tWGzsSz2k8",
+          "returned_title": "Motionless In White - Voices (Lyric Video)",
+          "returned_channel": "RazorKickStar",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "cI88y_rl13c",
+          "url": "https://www.youtube.com/watch?v=cI88y_rl13c",
+          "returned_title": "Motionless in White - Voices (Lyrics)",
+          "returned_channel": "Strain Music",
+          "availability": "NOT_YET_PREFLIGHTED"
+        },
+        {
+          "video_id": "q2FH2MQp6zU",
+          "url": "https://www.youtube.com/watch?v=q2FH2MQp6zU",
+          "returned_title": "Motionless In White - Voices [Audio]",
+          "returned_channel": "м ι ω",
+          "availability": "NOT_YET_PREFLIGHTED"
+        }
+      ]
+    }
+  ]
+}

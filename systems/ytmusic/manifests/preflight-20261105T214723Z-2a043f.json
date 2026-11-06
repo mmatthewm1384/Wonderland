@@ -1,0 +1,1853 @@
+{
+  "schema": "wonderland.ytmusic.preflight-report.v1",
+  "created_at": "2026-11-05T21:47:23.606214+00:00",
+  "source_manifest": "manifests/source-candidates-20261105T214021Z-3c70b0.json",
+  "source_schema": "wonderland.ytmusic.source-candidates.v1",
+  "tracks_requested": 37,
+  "excluded_track_numbers": [
+    3,
+    7,
+    14
+  ],
+  "mode": "metadata_only_no_download",
+  "results": [
+    {
+      "track_number": 1,
+      "requested_title": "SEROTONIN",
+      "requested_artist": "LaLion",
+      "candidate_video_id": "MtAsU2cGKxs",
+      "candidate_url": "https://www.youtube.com/watch?v=MtAsU2cGKxs",
+      "candidate_title": "LaLion - SEROTONIN (Prod. LaLion)",
+      "candidate_channel": "LaLion",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "MtAsU2cGKxs",
+      "actual_title": "LaLion - SEROTONIN (Prod. LaLion)",
+      "actual_channel": "LaLion",
+      "actual_uploader": "LaLion",
+      "availability": "public",
+      "duration_seconds": 211,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.814
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 46.186
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 61.201
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.503
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 122.388
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 2,
+      "requested_title": "Skin & Bones",
+      "requested_artist": "Diggy Graves",
+      "candidate_video_id": "PrlvpqvqK2c",
+      "candidate_url": "https://www.youtube.com/watch?v=PrlvpqvqK2c",
+      "candidate_title": "Diggy Graves - Skin & Bones [Official Lyric Video]",
+      "candidate_channel": "Diggy Graves",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "PrlvpqvqK2c",
+      "actual_title": "Diggy Graves - Skin & Bones [Official Lyric Video]",
+      "actual_channel": "Diggy Graves",
+      "actual_uploader": "Diggy Graves",
+      "availability": "public",
+      "duration_seconds": 150,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.848
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 49.515
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 65.205
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.517
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 129.24
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 4,
+      "requested_title": "not your homie",
+      "requested_artist": "Jagwar Twin, MERCY, sir lucius",
+      "candidate_video_id": "dW_6VXrRkYE",
+      "candidate_url": "https://www.youtube.com/watch?v=dW_6VXrRkYE",
+      "candidate_title": "Jagwar Twin, MERCY, sir lucius - not your homie (Visualizer)",
+      "candidate_channel": "Jagwar Twin",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "dW_6VXrRkYE",
+      "actual_title": "Jagwar Twin, MERCY, sir lucius - not your homie (Visualizer)",
+      "actual_channel": "Jagwar Twin",
+      "actual_uploader": "Jagwar Twin",
+      "availability": "public",
+      "duration_seconds": 168,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.819
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 49.629
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 65.225
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.508
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 129.273
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 5,
+      "requested_title": "SINS",
+      "requested_artist": "Red Leather, Sueco, WesGhost",
+      "candidate_video_id": "JrVBBsDfQ6I",
+      "candidate_url": "https://www.youtube.com/watch?v=JrVBBsDfQ6I",
+      "candidate_title": "Red Leather - SINS (with Sueco & WesGhost) [VISUALIZER]",
+      "candidate_channel": "Red Leather",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "JrVBBsDfQ6I",
+      "actual_title": "Red Leather - SINS (with Sueco & WesGhost) [VISUALIZER]",
+      "actual_channel": "Red Leather",
+      "actual_uploader": "Red Leather",
+      "availability": "public",
+      "duration_seconds": 237,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.809
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 48.41
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 64.003
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.498
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 126.942
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 6,
+      "requested_title": "ESCAPE",
+      "requested_artist": "LaLion",
+      "candidate_video_id": "OGu573iTpSc",
+      "candidate_url": "https://www.youtube.com/watch?v=OGu573iTpSc",
+      "candidate_title": "LaLion - ESCAPE (Lyrics)",
+      "candidate_channel": "LaLion",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "OGu573iTpSc",
+      "actual_title": "LaLion - ESCAPE (Lyrics)",
+      "actual_channel": "LaLion",
+      "actual_uploader": "LaLion",
+      "availability": "public",
+      "duration_seconds": 189,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.814
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 46.594
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 61.828
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.503
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 123.904
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 8,
+      "requested_title": "Debauchery",
+      "requested_artist": "Resentvul, Diggy Graves",
+      "candidate_video_id": "LV8VTCCmonw",
+      "candidate_url": "https://www.youtube.com/watch?v=LV8VTCCmonw",
+      "candidate_title": "Resentvul - Debauchery (Feat. Diggy Graves) (Official Lyric Video)",
+      "candidate_channel": "Resentvul",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "LV8VTCCmonw",
+      "actual_title": "Resentvul - Debauchery (Feat. Diggy Graves) (Official Lyric Video)",
+      "actual_channel": "Resentvul",
+      "actual_uploader": "Resentvul",
+      "availability": "public",
+      "duration_seconds": 163,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.848
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 54.068
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 70.499
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.512
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 137.54
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 9,
+      "requested_title": "Terrified",
+      "requested_artist": "Autumn Kings",
+      "candidate_video_id": "j_VCJq1lrxw",
+      "candidate_url": "https://www.youtube.com/watch?v=j_VCJq1lrxw",
+      "candidate_title": "Autumn Kings - Terrified",
+      "candidate_channel": "AutumnKingsVEVO",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "j_VCJq1lrxw",
+      "actual_title": "Autumn Kings - Terrified",
+      "actual_channel": "AutumnKingsVEVO",
+      "actual_uploader": "AutumnKingsVEVO",
+      "availability": "public",
+      "duration_seconds": 220,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.81
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 48.428
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 64.108
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.499
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 128.166
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 10,
+      "requested_title": "EYELIDS",
+      "requested_artist": "Ryan Oakes, WesGhost",
+      "candidate_video_id": "6bGGnnPM0ok",
+      "candidate_url": "https://www.youtube.com/watch?v=6bGGnnPM0ok",
+      "candidate_title": "Ryan Oakes, WesGhost - EYELIDS (Official Video)",
+      "candidate_channel": "Ryan Oakes",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "6bGGnnPM0ok",
+      "actual_title": "Ryan Oakes, WesGhost - EYELIDS (Official Video)",
+      "actual_channel": "Ryan Oakes",
+      "actual_uploader": "Ryan Oakes",
+      "availability": "public",
+      "duration_seconds": 173,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.839
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 48.577
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 64.299
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.511
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 127.037
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 11,
+      "requested_title": "ANGEL OF DEATH",
+      "requested_artist": "Paycheck, Stafford Beats",
+      "candidate_video_id": "ouNA1EtEffU",
+      "candidate_url": "https://www.youtube.com/watch?v=ouNA1EtEffU",
+      "candidate_title": "PAYCHECK - ANGEL OF DEATH W/ STAFFORD BEATS",
+      "candidate_channel": "Aesthetic Sounds",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "ouNA1EtEffU",
+      "actual_title": "PAYCHECK - ANGEL OF DEATH W/ STAFFORD BEATS",
+      "actual_channel": "Aesthetic Sounds",
+      "actual_uploader": "Aesthetic Sounds",
+      "availability": "public",
+      "duration_seconds": 176,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.827
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.508
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 133.938
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 12,
+      "requested_title": "Karma",
+      "requested_artist": "Letdown.",
+      "candidate_video_id": "-NxKFjp9yHo",
+      "candidate_url": "https://www.youtube.com/watch?v=-NxKFjp9yHo",
+      "candidate_title": "Letdown. - Karma (Lyric Video)",
+      "candidate_channel": "Letdown.",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "-NxKFjp9yHo",
+      "actual_title": "Letdown. - Karma (Lyric Video)",
+      "actual_channel": "Letdown.",
+      "actual_uploader": "Letdown.",
+      "availability": "public",
+      "duration_seconds": 209,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.826
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 49.105
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 65.026
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.514
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 129.591
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 13,
+      "requested_title": "Murder Me",
+      "requested_artist": "Diggy Graves",
+      "candidate_video_id": "_QLFHP2OY_g",
+      "candidate_url": "https://www.youtube.com/watch?v=_QLFHP2OY_g",
+      "candidate_title": "Diggy Graves - Murder Me [Official Lyric Video]",
+      "candidate_channel": "Diggy Graves",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "_QLFHP2OY_g",
+      "actual_title": "Diggy Graves - Murder Me [Official Lyric Video]",
+      "actual_channel": "Diggy Graves",
+      "actual_uploader": "Diggy Graves",
+      "availability": "public",
+      "duration_seconds": 152,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.828
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 50.389
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 66.547
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.516
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 131.914
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 15,
+      "requested_title": "CHOKEHOLD",
+      "requested_artist": "WesGhost, Resentvul",
+      "candidate_video_id": "ogrUzFtq4S0",
+      "candidate_url": "https://www.youtube.com/watch?v=ogrUzFtq4S0",
+      "candidate_title": "WesGhost & Resentvul - CHOKEHOLD (Official Visualizer)",
+      "candidate_channel": "WesGhost",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "ogrUzFtq4S0",
+      "actual_title": "WesGhost & Resentvul - CHOKEHOLD (Official Visualizer)",
+      "actual_channel": "WesGhost",
+      "actual_uploader": "WesGhost",
+      "availability": "public",
+      "duration_seconds": 172,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.821
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 48.558
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 64.348
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.51
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 128.724
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 16,
+      "requested_title": "MASCARA",
+      "requested_artist": "WesGhost",
+      "candidate_video_id": "Kib9Q_ehCxI",
+      "candidate_url": "https://www.youtube.com/watch?v=Kib9Q_ehCxI",
+      "candidate_title": "WesGhost- MASCARA (Official Lyric Video)",
+      "candidate_channel": "WesGhost",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "Kib9Q_ehCxI",
+      "actual_title": "WesGhost- MASCARA (Official Lyric Video)",
+      "actual_channel": "WesGhost",
+      "actual_uploader": "WesGhost",
+      "availability": "public",
+      "duration_seconds": 161,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.843
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 47.673
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 63.639
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.527
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 126.846
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 17,
+      "requested_title": "EXISTED",
+      "requested_artist": "WesGhost",
+      "candidate_video_id": "QpTYxPk-vn8",
+      "candidate_url": "https://www.youtube.com/watch?v=QpTYxPk-vn8",
+      "candidate_title": "WesGhost - EXISTED (Official Lyric Video)",
+      "candidate_channel": "WesGhost",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "QpTYxPk-vn8",
+      "actual_title": "WesGhost - EXISTED (Official Lyric Video)",
+      "actual_channel": "WesGhost",
+      "actual_uploader": "WesGhost",
+      "availability": "public",
+      "duration_seconds": 223,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.812
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 47.253
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 62.47
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.501
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 124.375
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 18,
+      "requested_title": "NIGHTMARE",
+      "requested_artist": "WesGhost",
+      "candidate_video_id": "iJcLNQVS4vM",
+      "candidate_url": "https://www.youtube.com/watch?v=iJcLNQVS4vM",
+      "candidate_title": "WesGhost - NIGHTMARE (Official Video)",
+      "candidate_channel": "WesGhost",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "iJcLNQVS4vM",
+      "actual_title": "WesGhost - NIGHTMARE (Official Video)",
+      "actual_channel": "WesGhost",
+      "actual_uploader": "WesGhost",
+      "availability": "public",
+      "duration_seconds": 285,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.804
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 47.299
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 62.385
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.493
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 124.106
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 19,
+      "requested_title": "BLEACH",
+      "requested_artist": "WesGhost",
+      "candidate_video_id": "Ee9hUZMVl6A",
+      "candidate_url": "https://www.youtube.com/watch?v=Ee9hUZMVl6A",
+      "candidate_title": "WesGhost - BLEACH (Official Visualizer)",
+      "candidate_channel": null,
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "Ee9hUZMVl6A",
+      "actual_title": "WesGhost - BLEACH (Official Visualizer)",
+      "actual_channel": "WesGhost",
+      "actual_uploader": "WesGhost",
+      "availability": "public",
+      "duration_seconds": 194,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.816
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 47.502
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 62.979
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.504
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 125.517
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 20,
+      "requested_title": "MISERY",
+      "requested_artist": "WesGhost",
+      "candidate_video_id": "ZUa3tjbltDc",
+      "candidate_url": "https://www.youtube.com/watch?v=ZUa3tjbltDc",
+      "candidate_title": "WesGhost - MISERY (Official Audio)",
+      "candidate_channel": "WesGhost",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "ZUa3tjbltDc",
+      "actual_title": "WesGhost - MISERY (Official Audio)",
+      "actual_channel": "WesGhost",
+      "actual_uploader": "WesGhost",
+      "availability": "public",
+      "duration_seconds": 176,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.818
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 46.499
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 61.928
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.507
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 124.742
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 21,
+      "requested_title": "Blood in the Cut",
+      "requested_artist": "K.Flay",
+      "candidate_video_id": "k2WcOdz96ko",
+      "candidate_url": "https://www.youtube.com/watch?v=k2WcOdz96ko",
+      "candidate_title": "K.Flay - Blood In The Cut",
+      "candidate_channel": "K.Flay",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "k2WcOdz96ko",
+      "actual_title": "K.Flay - Blood In The Cut",
+      "actual_channel": "K.Flay",
+      "actual_uploader": "K.Flay",
+      "availability": "public",
+      "duration_seconds": 217,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.811
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 47.717
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 62.468
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.5
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 123.947
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 22,
+      "requested_title": "Blood // Water",
+      "requested_artist": "grandson",
+      "candidate_video_id": "Sk-U8ruIQyA",
+      "candidate_url": "https://www.youtube.com/watch?v=Sk-U8ruIQyA",
+      "candidate_title": "grandson - Blood // Water",
+      "candidate_channel": "grandson",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "Sk-U8ruIQyA",
+      "actual_title": "grandson - Blood // Water",
+      "actual_channel": "grandson",
+      "actual_uploader": "grandson",
+      "availability": "public",
+      "duration_seconds": 217,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.823
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 49.252
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 64.965
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.5
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 128.381
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 23,
+      "requested_title": "Animal",
+      "requested_artist": "MISSIO",
+      "candidate_video_id": "qa_t0EL1-Gg",
+      "candidate_url": "https://www.youtube.com/watch?v=qa_t0EL1-Gg",
+      "candidate_title": "MISSIO - Animal (Audio)",
+      "candidate_channel": "MISSIO",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "qa_t0EL1-Gg",
+      "actual_title": "MISSIO - Animal (Audio)",
+      "actual_channel": "MISSIO",
+      "actual_uploader": "MISSIO",
+      "availability": "public",
+      "duration_seconds": 212,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.814
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 49.949
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 65.891
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.503
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 129.28
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 24,
+      "requested_title": "I Disagree",
+      "requested_artist": "Poppy",
+      "candidate_video_id": "6gmswmbosYo",
+      "candidate_url": "https://www.youtube.com/watch?v=6gmswmbosYo",
+      "candidate_title": "Poppy - I Disagree (Official Music Video)",
+      "candidate_channel": "Poppy",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "6gmswmbosYo",
+      "actual_title": "Poppy - I Disagree (Official Music Video)",
+      "actual_channel": "Poppy",
+      "actual_uploader": "Poppy",
+      "availability": "public",
+      "duration_seconds": 191,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.827
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 47.691
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 63.184
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.524
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 126.247
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 25,
+      "requested_title": "BLOODMONEY",
+      "requested_artist": "Poppy",
+      "candidate_video_id": "fJlDyRbUtxI",
+      "candidate_url": "https://www.youtube.com/watch?v=fJlDyRbUtxI",
+      "candidate_title": "Poppy - BLOODMONEY (Official Music Video)",
+      "candidate_channel": "Poppy",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "fJlDyRbUtxI",
+      "actual_title": "Poppy - BLOODMONEY (Official Music Video)",
+      "actual_channel": "Poppy",
+      "actual_uploader": "Poppy",
+      "availability": "public",
+      "duration_seconds": 183,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.815
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 49.24
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 65.041
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.503
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 129.214
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 26,
+      "requested_title": "V.A.N",
+      "requested_artist": "Bad Omens, Poppy",
+      "candidate_video_id": "ev_vPbqUlZs",
+      "candidate_url": "https://www.youtube.com/watch?v=ev_vPbqUlZs",
+      "candidate_title": "Bad Omens x Poppy - V.A.N (Official Music Video)",
+      "candidate_channel": "SUMERIAN",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "ev_vPbqUlZs",
+      "actual_title": "Bad Omens x Poppy - V.A.N (Official Music Video)",
+      "actual_channel": "SUMERIAN",
+      "actual_uploader": "SUMERIAN",
+      "availability": "public",
+      "duration_seconds": 194,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.816
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 47.629
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 62.449
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.505
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 125.026
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 27,
+      "requested_title": "DArkSide",
+      "requested_artist": "Bring Me The Horizon",
+      "candidate_video_id": "3Nt37RGbVjo",
+      "candidate_url": "https://www.youtube.com/watch?v=3Nt37RGbVjo",
+      "candidate_title": "Bring Me The Horizon - DArkSide (Lyric Video)",
+      "candidate_channel": "Bring Me The Horizon",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "3Nt37RGbVjo",
+      "actual_title": "Bring Me The Horizon - DArkSide (Lyric Video)",
+      "actual_channel": "Bring Me The Horizon",
+      "actual_uploader": "Bring Me The Horizon",
+      "availability": "public",
+      "duration_seconds": 165,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.821
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 46.794
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 62.085
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.51
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 124.634
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 28,
+      "requested_title": "Kool-Aid",
+      "requested_artist": "Bring Me The Horizon",
+      "candidate_video_id": "Jq4NhAnnD0Q",
+      "candidate_url": "https://www.youtube.com/watch?v=Jq4NhAnnD0Q",
+      "candidate_title": "Bring Me The Horizon - Kool-Aid (Official Video)",
+      "candidate_channel": "Bring Me The Horizon",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "Jq4NhAnnD0Q",
+      "actual_title": "Bring Me The Horizon - Kool-Aid (Official Video)",
+      "actual_channel": "Bring Me The Horizon",
+      "actual_uploader": "Bring Me The Horizon",
+      "availability": "public",
+      "duration_seconds": 244,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.809
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 46.775
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 61.983
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.497
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 124.731
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 29,
+      "requested_title": "Like a Villain",
+      "requested_artist": "Bad Omens",
+      "candidate_video_id": "Aibxit_PpAg",
+      "candidate_url": "https://www.youtube.com/watch?v=Aibxit_PpAg",
+      "candidate_title": "Bad Omens - Like A Villain (Official Music Video)",
+      "candidate_channel": "SUMERIAN",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "Aibxit_PpAg",
+      "actual_title": "Bad Omens - Like A Villain (Official Music Video)",
+      "actual_channel": "SUMERIAN",
+      "actual_uploader": "SUMERIAN",
+      "availability": "public",
+      "duration_seconds": 212,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.814
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 47.427
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 62.985
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.503
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 126.146
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 30,
+      "requested_title": "Artificial Suicide",
+      "requested_artist": "Bad Omens",
+      "candidate_video_id": "IBcUkTXAwbw",
+      "candidate_url": "https://www.youtube.com/watch?v=IBcUkTXAwbw",
+      "candidate_title": "Bad Omens - ARTIFICIAL SUICIDE (Official Music Video)",
+      "candidate_channel": "SUMERIAN",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "IBcUkTXAwbw",
+      "actual_title": "Bad Omens - ARTIFICIAL SUICIDE (Official Music Video)",
+      "actual_channel": "SUMERIAN",
+      "actual_uploader": "SUMERIAN",
+      "availability": "public",
+      "duration_seconds": 196,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.814
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 44.602
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 59.022
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.504
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 118.987
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 31,
+      "requested_title": "THE DEATH OF PEACE OF MIND",
+      "requested_artist": "Bad Omens",
+      "candidate_video_id": "ouW_RCAI0sg",
+      "candidate_url": "https://www.youtube.com/watch?v=ouW_RCAI0sg",
+      "candidate_title": "Bad Omens - THE DEATH OF PEACE OF MIND (Official Music Video)",
+      "candidate_channel": "SUMERIAN",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "ouW_RCAI0sg",
+      "actual_title": "Bad Omens - THE DEATH OF PEACE OF MIND (Official Music Video)",
+      "actual_channel": "SUMERIAN",
+      "actual_uploader": "SUMERIAN",
+      "availability": "public",
+      "duration_seconds": 241,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.825
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 47.782
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 63.331
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.5
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 126.544
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 32,
+      "requested_title": "Just Pretend",
+      "requested_artist": "Bad Omens",
+      "candidate_video_id": "GLRFl26Q92s",
+      "candidate_url": "https://www.youtube.com/watch?v=GLRFl26Q92s",
+      "candidate_title": "Bad Omens - Just Pretend (Official Music Video)",
+      "candidate_channel": "SUMERIAN",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "GLRFl26Q92s",
+      "actual_title": "Bad Omens - Just Pretend (Official Music Video)",
+      "actual_channel": "SUMERIAN",
+      "actual_uploader": "SUMERIAN",
+      "availability": "public",
+      "duration_seconds": 239,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.816
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 50.827
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 67.632
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.497
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 134.461
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 33,
+      "requested_title": "The Grey",
+      "requested_artist": "Bad Omens",
+      "candidate_video_id": "ZMAy5K8vEGc",
+      "candidate_url": "https://www.youtube.com/watch?v=ZMAy5K8vEGc",
+      "candidate_title": "Bad Omens - The Grey (Official Audio Stream)",
+      "candidate_channel": "SUMERIAN",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "ZMAy5K8vEGc",
+      "actual_title": "Bad Omens - The Grey (Official Audio Stream)",
+      "actual_channel": "SUMERIAN",
+      "actual_uploader": "SUMERIAN",
+      "availability": "public",
+      "duration_seconds": 246,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.807
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 48.677
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 64.788
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.496
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 129.426
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 34,
+      "requested_title": "The Summoning",
+      "requested_artist": "Sleep Token",
+      "candidate_video_id": "wJNbtYdr-Hg",
+      "candidate_url": "https://www.youtube.com/watch?v=wJNbtYdr-Hg",
+      "candidate_title": "Sleep Token - The Summoning",
+      "candidate_channel": "Sleep Token",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "wJNbtYdr-Hg",
+      "actual_title": "Sleep Token - The Summoning",
+      "actual_channel": "Sleep Token",
+      "actual_uploader": "Sleep Token",
+      "availability": "public",
+      "duration_seconds": 396,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.804
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 49.447
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 65.599
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.487
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 130.013
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 35,
+      "requested_title": "Hypnosis",
+      "requested_artist": "Sleep Token",
+      "candidate_video_id": "2chcvo_70N0",
+      "candidate_url": "https://www.youtube.com/watch?v=2chcvo_70N0",
+      "candidate_title": "Sleep Token - Hypnosis (Visualiser)",
+      "candidate_channel": "Sleep Token",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "2chcvo_70N0",
+      "actual_title": "Sleep Token - Hypnosis (Visualiser)",
+      "actual_channel": "Sleep Token",
+      "actual_uploader": "Sleep Token",
+      "availability": "public",
+      "duration_seconds": 336,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.806
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 47.467
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 62.68
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.49
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 126.043
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 36,
+      "requested_title": "Granite",
+      "requested_artist": "Sleep Token",
+      "candidate_video_id": "om4dEGKnEmw",
+      "candidate_url": "https://www.youtube.com/watch?v=om4dEGKnEmw",
+      "candidate_title": "Sleep Token - Granite",
+      "candidate_channel": "Sleep Token",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "om4dEGKnEmw",
+      "actual_title": "Sleep Token - Granite",
+      "actual_channel": "Sleep Token",
+      "actual_uploader": "Sleep Token",
+      "availability": "public",
+      "duration_seconds": 226,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.82
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 48.461
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 64.143
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.499
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 127.914
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 37,
+      "requested_title": "Overwhelmed",
+      "requested_artist": "Royal & the Serpent",
+      "candidate_video_id": "_e7UYTY96Xs",
+      "candidate_url": "https://www.youtube.com/watch?v=_e7UYTY96Xs",
+      "candidate_title": "Royal & the Serpent - Overwhelmed (Official Music Video)",
+      "candidate_channel": "Royal & the Serpent",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "_e7UYTY96Xs",
+      "actual_title": "Royal & the Serpent - Overwhelmed (Official Music Video)",
+      "actual_channel": "Royal & the Serpent",
+      "actual_uploader": "Royal & the Serpent",
+      "availability": "public",
+      "duration_seconds": 206,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.809
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 42.86
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 55.926
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.498
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 107.842
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 38,
+      "requested_title": "VICES",
+      "requested_artist": "Mothica",
+      "candidate_video_id": "LCLEBjD5Phc",
+      "candidate_url": "https://www.youtube.com/watch?v=LCLEBjD5Phc",
+      "candidate_title": "Mothica - VICES (Official Music Video)",
+      "candidate_channel": "MOTHICA",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "LCLEBjD5Phc",
+      "actual_title": "Mothica - VICES (Official Music Video)",
+      "actual_channel": "MOTHICA",
+      "actual_uploader": "MOTHICA",
+      "availability": "public",
+      "duration_seconds": 178,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.813
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 50.832
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 66.825
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.502
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 131.34
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 39,
+      "requested_title": "Popular Monster",
+      "requested_artist": "Falling in Reverse",
+      "candidate_video_id": "jakpo7tj7Qw",
+      "candidate_url": "https://www.youtube.com/watch?v=jakpo7tj7Qw",
+      "candidate_title": "Falling In Reverse - \"Popular Monster\"",
+      "candidate_channel": "Epitaph Records and Falling In Reverse",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "jakpo7tj7Qw",
+      "actual_title": "Falling In Reverse - \"Popular Monster\"",
+      "actual_channel": "Epitaph Records",
+      "actual_uploader": "Epitaph Records",
+      "availability": "public",
+      "duration_seconds": 232,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.816
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 50.025
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 66.202
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.5
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 132.727
+        }
+      ],
+      "identity_review_required": true
+    },
+    {
+      "track_number": 40,
+      "requested_title": "Voices",
+      "requested_artist": "Motionless In White",
+      "candidate_video_id": "B3faYe5V4Sk",
+      "candidate_url": "https://www.youtube.com/watch?v=B3faYe5V4Sk",
+      "candidate_title": "Motionless In White - Voices [OFFICIAL VIDEO]",
+      "candidate_channel": "Motionless In White",
+      "state": "TECHNICAL_PASS",
+      "actual_video_id": "B3faYe5V4Sk",
+      "actual_title": "Motionless In White - Voices [OFFICIAL VIDEO]",
+      "actual_channel": "Motionless In White",
+      "actual_uploader": "Motionless In White",
+      "availability": "public",
+      "duration_seconds": 223,
+      "live_status": "not_live",
+      "audio_only_formats": [
+        {
+          "format_id": "139",
+          "ext": "m4a",
+          "acodec": "mp4a.40.5",
+          "abr": 48.812
+        },
+        {
+          "format_id": "249",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 47.565
+        },
+        {
+          "format_id": "250",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 62.879
+        },
+        {
+          "format_id": "140",
+          "ext": "m4a",
+          "acodec": "mp4a.40.2",
+          "abr": 129.501
+        },
+        {
+          "format_id": "251",
+          "ext": "webm",
+          "acodec": "opus",
+          "abr": 125.782
+        }
+      ],
+      "identity_review_required": true
+    }
+  ]
+}

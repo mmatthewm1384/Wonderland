@@ -1,0 +1,45 @@
+{
+  "artifacts": [
+    {
+      "path": "/Users/wonderland/Wonderland/systems/ytmusic/incoming/LaLion - ESCAPE (Lyrics) [OGu573iTpSc].m4a",
+      "probe": {
+        "audio_streams": [
+          {
+            "bit_rate": "127999",
+            "channel_layout": "stereo",
+            "channels": 2,
+            "codec_name": "aac",
+            "sample_rate": "44100"
+          }
+        ],
+        "duration": "189.172971",
+        "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+        "size": "3061296",
+        "tags": {
+          "artist": "LaLion",
+          "comment": "https://www.youtube.com/watch?v=OGu573iTpSc",
+          "compatible_brands": "M4A isomiso2",
+          "date": "20261015",
+          "description": "Stream/Download: https://song.lalionmusic.com/escape\nLaLion Shirts: https://lalionmusic.com/store\n\nfollow me:\nspotify: https://spoti.fi/34Lr3ag\ninsta: https://www.instagram.com/lalionofficial\ntwitter: https://twitter.com/LaLionOfficial\ntiktok: https://www.tiktok.com/@lalionofficial\nfacebook: https://www.facebook.com/GrantLaLion\n\nL Y R I C S : https://genius.com/Lalion-escape-lyrics\n\n#rock #darkpop #altmusic",
+          "encoder": "Lavf63.1.102",
+          "genre": "Music",
+          "major_brand": "M4A ",
+          "minor_version": "512",
+          "synopsis": "Stream/Download: https://song.lalionmusic.com/escape\nLaLion Shirts: https://lalionmusic.com/store\n\nfollow me:\nspotify: https://spoti.fi/34Lr3ag\ninsta: https://www.instagram.com/lalionofficial\ntwitter: https://twitter.com/LaLionOfficial\ntiktok: https://www.tiktok.com/@lalionofficial\nfacebook: https://www.facebook.com/GrantLaLion\n\nL Y R I C S : https://genius.com/Lalion-escape-lyrics\n\n#rock #darkpop #altmusic",
+          "title": "LaLion - ESCAPE (Lyrics)"
+        }
+      },
+      "result": "promoted",
+      "sha256": "77ec31a41cfff905c71afabb28ee35cddb905ce890c91362eecaf9fa6911a673"
+    }
+  ],
+  "finished_at": "2026-11-06T15:52:14.858021+00:00",
+  "job_id": "20261106T075150-b804d04c",
+  "kind": "track",
+  "schema": "wonderland.ytmusic.job.v1",
+  "source_url": "https://www.youtube.com/watch?v=OGu573iTpSc",
+  "staging_directory": "/Users/wonderland/Wonderland/systems/ytmusic/staging/20261106T075150-b804d04c.hob4dh7y",
+  "started_at": "2026-11-06T15:51:50.268120+00:00",
+  "state": "completed",
+  "yt_dlp_started": true
+}

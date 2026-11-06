@@ -1,0 +1,13 @@
+{
+  "artifacts": [],
+  "exit_code": 1,
+  "finished_at": "2026-11-06T15:54:35.974414+00:00",
+  "job_id": "20261106T075429-a7252910",
+  "kind": "track",
+  "schema": "wonderland.ytmusic.job.v1",
+  "source_url": "https://www.youtube.com/watch?v=LV8VTCCmonw",
+  "staging_directory": "/Users/wonderland/Wonderland/systems/ytmusic/staging/20261106T075429-a7252910.cjddgk9z",
+  "started_at": "2026-11-06T15:54:29.917919+00:00",
+  "state": "failed",
+  "yt_dlp_started": true
+}
