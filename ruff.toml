@@ -1,0 +1,23 @@
+# Wonderland Ruff Configuration
+
+target-version = "py312"
+line-length = 100
+
+[lint]
+# Exclude third-party vendor directories, rootfs assets, and backup snapshots
+exclude = [
+    "workspaces/**",
+    "**/backups/**",
+    "**/assets/**",
+]
+
+# Select specific lint rules (E: pycodestyle errors, F: Pyflakes, I: isort, UP: pyupgrade)
+select = ["E4", "E7", "E9", "F", "I", "UP"]
+ignore = ["E402"]
+
+# Allow fix for all enabled rules (when `--fix` is applied)
+fixable = ["ALL"]
+unfixable = []
+
+[lint.isort]
+known-first-party = ["wonderland"]
