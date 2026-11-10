@@ -10,9 +10,12 @@ CPUS = 2
 MEMORY = 2048
 KERNEL = $(ASSET_DIR)/Image
 INITRD = $(ASSET_DIR)/initramfs-virt.img
-PODMAN_URL ?= unix:///run/user/501/podman/podman.sock
 
-.PHONY: all up down clean verify verify-assets mock-assets check-podman ssh test test-golden test-manifest test-update
+# Dynamically resolve the active macOS Podman machine socket path for NLNights
+PODMAN_SOCKET ?= $(shell podman machine inspect NLNights --format '{{.ConnectionInfo.PodmanSocket.Path}}' 2>/dev/null)
+PODMAN_URL ?= unix://$(PODMAN_SOCKET)
+
+.PHONY: all up down clean verify-assets mock-assets check-podman ssh test test-golden test-manifest test-update install-hooks lint ci
 
 all: up
 
@@ -36,16 +39,6 @@ verify-assets:
 	@echo "  [OK] Kernel present"
 	@echo "  [OK] Initrd present"
 	@echo "  [OK] RootFS present"
-
-mock-assets:
-	@echo "[+] Generating mock kernel and initrd stubs for CI..."
-	@mkdir -p $(ASSET_DIR)
-	@touch $(KERNEL)
-	@touch $(INITRD)
-	@echo "[+] Generating mock serial boot log..."
-	@echo "[    0.000000] Linux version 6.x.x-mock (wonderland) #1 SMP PREEMPT" > /tmp/vfkit_serial.log
-	@echo "[    0.500000] systemd[1]: Reached target Multi-User System." >> /tmp/vfkit_serial.log
-	@echo "[    1.000000] Spark ephemeral guest initialized successfully." >> /tmp/vfkit_serial.log
 
 up: $(ROOTFS) verify-assets check-podman
 	@echo "[+] Launching Spark micro-VM ($(VM_NAME))..."
@@ -75,37 +68,51 @@ ssh:
 $(ROOTFS): $(SENTINEL)
 
 $(SENTINEL): check-podman
-	@echo "[+] Waiting for Podman VM socket..."
+	@echo "[+] Verifying Podman socket at $(PODMAN_URL)..."
 	@for i in {1..15}; do \
-		podman --url $(PODMAN_URL) info >/dev/null 2>&1 && break; \
+		podman --url "$(PODMAN_URL)" info >/dev/null 2>&1 && break; \
 		sleep 1; \
 	done
-	@CURRENT_IMAGE_ID=$$(podman --url $(PODMAN_URL) inspect --format='{{.Id}}' localhost/spark-rootfs:local 2>/dev/null || echo "none"); \
+	@CURRENT_IMAGE_ID=$$(podman --url "$(PODMAN_URL)" inspect --format='{{.Id}}' localhost/spark-rootfs:local 2>/dev/null || echo "none"); \
 	RECORDED_IMAGE_ID=$$(cat $@ 2>/dev/null || echo "none"); \
 	if [ "$$CURRENT_IMAGE_ID" = "$$RECORDED_IMAGE_ID" ] && [ -f "$(ROOTFS)" ]; then \
 		echo "[+] RootFS and container image are up to date. Skipping rebuild."; \
 	else \
-		echo "[+] Rebuilding rootfs.img (missing image or updated container)..."; \
+		echo "[+] Rebuilding rootfs.img..."; \
 		rm -f $(ROOTFS); \
 		dd if=/dev/zero of=$(ROOTFS) bs=1M count=2048 status=progress; \
 		echo "[+] Exporting container rootfs to staging..."; \
-		podman --url $(PODMAN_URL) rm -f temp-spark-ctr >/dev/null 2>&1 || true; \
-		podman --url $(PODMAN_URL) create --name temp-spark-ctr localhost/spark-rootfs:local; \
+		podman --url "$(PODMAN_URL)" rm -f temp-spark-ctr >/dev/null 2>&1 || true; \
+		podman --url "$(PODMAN_URL)" create --name temp-spark-ctr localhost/spark-rootfs:local; \
 		rm -rf /tmp/spark-rootfs-staging; \
 		mkdir -p /tmp/spark-rootfs-staging; \
-		podman --url $(PODMAN_URL) export temp-spark-ctr | tar -x -C /tmp/spark-rootfs-staging; \
-		podman --url $(PODMAN_URL) rm temp-spark-ctr; \
+		podman --url "$(PODMAN_URL)" export temp-spark-ctr | tar -x -C /tmp/spark-rootfs-staging; \
+		podman --url "$(PODMAN_URL)" rm temp-spark-ctr; \
 		mkdir -p /tmp/spark-rootfs-staging/root/.ssh; \
 		chmod 700 /tmp/spark-rootfs-staging/root/.ssh; \
-		cp $(SSH_PUBKEY) /tmp/spark-rootfs-staging/root/.ssh/authorized_keys; \
-		chmod 600 /tmp/spark-rootfs-staging/root/.ssh/authorized_keys; \
+		if [ -f "$(SSH_PUBKEY)" ]; then \
+			cp "$(SSH_PUBKEY)" /tmp/spark-rootfs-staging/root/.ssh/authorized_keys; \
+			chmod 600 /tmp/spark-rootfs-staging/root/.ssh/authorized_keys; \
+		fi; \
 		mkfs.ext4 -L "SPARKROOT" -d /tmp/spark-rootfs-staging $(ROOTFS); \
 		rm -rf /tmp/spark-rootfs-staging; \
 		echo "$$CURRENT_IMAGE_ID" > $@; \
 		echo "[PASS] RootFS built and sentinel updated successfully."; \
 	fi
 
-test: mock-assets test-golden test-manifest
+lint:
+	@echo "[\033[38;2;176;0;64mREROUTE\033[0m] Running Ruff static analysis..."
+	ruff check .
+
+test:
+	@echo "[+] Running Wonderland regression validation suite..."
+	@$(MAKE) mock-assets
+	@$(MAKE) test-golden
+	@$(MAKE) test-manifest
+	@echo "[PASS] All validation suites executed successfully."
+
+ci: lint test
+	@echo "[\033[38;2;176;0;64mREROUTE\033[0m] CI pipeline completed successfully."
 
 test-golden:
 	@echo "[+] Running golden file regression tests..."
@@ -121,11 +128,38 @@ test-update:
 	python3 $(WORKSPACE_ROOT)/tests/test_manifest.py --update
 	@echo "[PASS] All golden references successfully updated."
 
+mock-assets:
+	@echo "[+] Generating mock kernel and initrd stubs for CI..."
+	@mkdir -p $(ASSET_DIR)
+	@touch $(KERNEL)
+	@touch $(INITRD)
+	@echo "[+] Generating mock serial boot log..."
+	@echo "[    0.000000] Linux version 6.x.x-mock (wonderland) #1 SMP PREEMPT" > $(LOG_FILE)
+	@echo "[    0.500000] systemd[1]: Reached target Multi-User System." >> $(LOG_FILE)
+	@echo "[    1.000000] Spark ephemeral guest initialized successfully." >> $(LOG_FILE)
+
+install-hooks:
+	@echo "[+] Installing Git pre-push hooks..."
+	@mkdir -p .git/hooks
+	@printf '#!/usr/bin/env zsh\n' > .git/hooks/pre-push
+	@printf 'echo "[\033[38;2;176;0;64mPRE-PUSH\033[0m] Running local pre-push CI validation..."\n' >> .git/hooks/pre-push
+	@printf 'make ci\n' >> .git/hooks/pre-push
+	@printf 'if [ $$? -ne 0 ]; then\n' >> .git/hooks/pre-push
+	@printf '    echo ""\n' >> .git/hooks/pre-push
+	@printf '    echo "[!] CI VALIDATION FAILURE: Push aborted."\n' >> .git/hooks/pre-push
+	@printf '    echo "[!] Fix linter errors or failing tests before pushing."\n' >> .git/hooks/pre-push
+	@printf '    exit 1\n' >> .git/hooks/pre-push
+	@printf 'fi\n' >> .git/hooks/pre-push
+	@printf 'echo "[PASS] Pre-push CI validation passed successfully."\n' >> .git/hooks/pre-push
+	@printf 'exit 0\n' >> .git/hooks/pre-push
+	@chmod +x .git/hooks/pre-push
+	@echo "[PASS] Git pre-push hook installed successfully."
+
 down:
 	@echo "[+] Terminating running vfkit instances..."
 	@pkill -f vfkit || true
 
 clean: down
-	@echo "[+] Purging ephemeral state and forensic footprints..."
+	@echo "[+] Purging ephemeral state, build artifacts, and forensic footprints..."
 	@rm -f $(ROOTFS) $(SENTINEL) $(LOG_FILE)
 	@echo "[+] Teardown complete. Volatile RAM and disk traces scrubbed."
