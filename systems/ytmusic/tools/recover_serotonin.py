@@ -89,14 +89,10 @@ def verify_identity(media: Path, sidecar: Path) -> dict:
     info = read_json(sidecar)
     if info.get("id") != VIDEO_ID:
         raise RuntimeError("Staged metadata video ID mismatch")
-    if not ytmusic._title_contains_sequence(
-        str(info.get("title", "")), EXPECTED_TITLE
-    ):
+    if not ytmusic._title_contains_sequence(str(info.get("title", "")), EXPECTED_TITLE):
         raise RuntimeError("Staged metadata title mismatch")
     uploader = info.get("uploader") or info.get("channel") or ""
-    if ytmusic.normalize_identity(uploader) != ytmusic.normalize_identity(
-        EXPECTED_UPLOADER
-    ):
+    if ytmusic.normalize_identity(uploader) != ytmusic.normalize_identity(EXPECTED_UPLOADER):
         raise RuntimeError("Staged metadata uploader mismatch")
     return {
         "video_id": info.get("id"),
@@ -128,17 +124,13 @@ def verify_evidence(
     if evidence.get("job_id") != JOB_ID:
         raise RuntimeError("Existing recovery evidence job mismatch")
 
-    source = exact_path(
-        evidence.get("source_manifest", ""), source_manifest, "Source manifest"
-    )
+    source = exact_path(evidence.get("source_manifest", ""), source_manifest, "Source manifest")
     if evidence.get("source_manifest_sha256") != EXPECTED_SOURCE_SHA256:
         raise RuntimeError("Evidence source manifest digest declaration mismatch")
     if sha(source) != EXPECTED_SOURCE_SHA256:
         raise RuntimeError("Approved source manifest checksum mismatch")
 
-    job_file = exact_path(
-        evidence.get("job_manifest", ""), job_path, "Original job manifest"
-    )
+    job_file = exact_path(evidence.get("job_manifest", ""), job_path, "Original job manifest")
     if evidence.get("job_manifest_sha256") != EXPECTED_JOB_SHA256:
         raise RuntimeError("Evidence job manifest digest declaration mismatch")
     if sha(job_file) != EXPECTED_JOB_SHA256:
@@ -177,8 +169,6 @@ def verify_evidence(
     verify_identity(promoted_file, promoted_sidecar)
 
 
-
-
 def verify_existing_evidence_file(
     evidence_path: Path,
     staged: Path,
@@ -192,9 +182,7 @@ def verify_existing_evidence_file(
         raise RuntimeError("Recovery evidence must be a regular file")
 
     evidence = read_json(evidence_path)
-    verify_evidence(
-        evidence, staged, promoted, source_manifest, job_path
-    )
+    verify_evidence(evidence, staged, promoted, source_manifest, job_path)
     return evidence
 
 
@@ -215,8 +203,7 @@ def recover() -> None:
     if not isinstance(tracks, list):
         raise RuntimeError("Approved batch tracks are not a list")
     matches = [
-        item for item in tracks
-        if isinstance(item, dict) and item.get("video_id") == VIDEO_ID
+        item for item in tracks if isinstance(item, dict) and item.get("video_id") == VIDEO_ID
     ]
     if len(matches) != 1:
         raise RuntimeError("Approved manifest does not contain exactly one SEROTONIN entry")
@@ -266,7 +253,8 @@ def recover() -> None:
 
         try:
             media_candidates = [
-                p for p in staging.iterdir()
+                p
+                for p in staging.iterdir()
                 if p.is_file()
                 and not p.is_symlink()
                 and p.suffix.lower() == ".m4a"
@@ -307,7 +295,7 @@ def recover() -> None:
                             f"Cannot safely inspect incoming sidecar: {candidate.name}"
                         ) from exc
                     if incoming_info.get("id") == VIDEO_ID:
-                        associated = Path(str(candidate)[:-len(".info.json")] + ".m4a")
+                        associated = Path(str(candidate)[: -len(".info.json")] + ".m4a")
                         if not associated.is_file() or associated.is_symlink():
                             raise RuntimeError(
                                 "Incoming sidecar claims this video ID but its M4A is missing"
@@ -331,8 +319,10 @@ def recover() -> None:
                 base = incoming / staged.name
                 counter = 0
                 while True:
-                    promoted = base if counter == 0 else base.with_name(
-                        f"{base.stem} ({counter}){base.suffix}"
+                    promoted = (
+                        base
+                        if counter == 0
+                        else base.with_name(f"{base.stem} ({counter}){base.suffix}")
                     )
                     promoted_sidecar = promoted.with_suffix(".info.json")
                     try:
@@ -425,16 +415,18 @@ def recover() -> None:
             ):
                 raise RuntimeError("Batch report is not in the expected failed state")
 
-            previous.update({
-                "state": "completed",
-                "job_id": JOB_ID,
-                "video_id": VIDEO_ID,
-                "artifact": artifact,
-                "recovered": True,
-                "recovery_evidence": str(evidence_path),
-                "recovery_evidence_sha256": evidence_digest,
-                "recovered_at": ytmusic.utc_now(),
-            })
+            previous.update(
+                {
+                    "state": "completed",
+                    "job_id": JOB_ID,
+                    "video_id": VIDEO_ID,
+                    "artifact": artifact,
+                    "recovered": True,
+                    "recovery_evidence": str(evidence_path),
+                    "recovery_evidence_sha256": evidence_digest,
+                    "recovered_at": ytmusic.utc_now(),
+                }
+            )
             report["state"] = "running"
             report["updated_at"] = ytmusic.utc_now()
             ytmusic.write_json_atomic(report_path, report)

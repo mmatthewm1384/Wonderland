@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wonderland.invalid/schemas/portland/project-document.schema.json",
+  "title": "PORTLAND Project Document Metadata",
+  "type": "object",
+  "required": [
+    "title",
+    "status",
+    "epistemic_class",
+    "geography",
+    "date"
+  ],
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "Proposed",
+        "Draft",
+        "In Review",
+        "Accepted",
+        "Superseded",
+        "Archived"
+      ]
+    },
+    "epistemic_class": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "KNOWN",
+          "DERIVED",
+          "PROPOSED",
+          "SPECULATIVE",
+          "UNKNOWN"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "geography": {
+      "type": "string",
+      "minLength": 1
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "global_document_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Must be GDIR-issued; null until registered."
+    },
+    "revision": {
+      "type": "string"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,43 @@
+project:
+  name: "PORTLAND — A Living City Architecture"
+  shorthand: "PDX"
+  status: "Draft"
+  prepared: "2026-11-09"
+  philosophy: "Engineered with Purpose. Crafted with Soul."
+  target_geography: "City of Portland, Oregon; regional context declared per artifact"
+
+identity:
+  world_id: "WL-WORLD-PORTLAND-001"
+  world_id_status: "PROVISIONAL — NOT REGISTERED"
+  document_ids: "Allocate only through Wonderland GDIR"
+  local_workstream_codes:
+    - GEO
+    - HYD
+    - CLI
+    - ECO
+    - HIS
+    - URB
+    - ARC
+    - MOB
+    - INF
+    - LOG
+    - TEC
+    - GOV
+    - RES
+    - FUT
+    - VIS
+
+epistemic_classes:
+  - KNOWN
+  - DERIVED
+  - PROPOSED
+  - SPECULATIVE
+  - UNKNOWN
+
+governance:
+  canonical_docs: "docs/"
+  evidence_root: "evidence/"
+  dataset_manifests: "data/"
+  global_identity_authority: "Wonderland GDIR"
+  local_id_minting: false
+  git_history_is_approval: false

@@ -1,0 +1,10 @@
+Target dependency graph (4 targets)
+Target 'AllExcludingTests' in project 'Aggregate'
+➜ Explicit dependency on target 'WonderlandCoreLib-product' in project 'WonderlandApp'
+➜ Explicit dependency on target 'WonderlandApp-product' in project 'WonderlandApp'
+➜ Explicit dependency on target 'WonderlandApp' in project 'WonderlandApp'
+Target 'WonderlandApp-product' in project 'WonderlandApp'
+➜ Explicit dependency on target 'WonderlandApp' in project 'WonderlandApp'
+Target 'WonderlandCoreLib-product' in project 'WonderlandApp'
+➜ Explicit dependency on target 'WonderlandApp' in project 'WonderlandApp'
+Target 'WonderlandApp' in project 'WonderlandApp' (no dependencies)

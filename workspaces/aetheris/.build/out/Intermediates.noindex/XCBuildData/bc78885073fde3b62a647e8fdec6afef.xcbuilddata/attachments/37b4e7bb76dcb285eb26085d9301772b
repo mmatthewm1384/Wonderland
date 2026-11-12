@@ -1,0 +1,59 @@
+{
+  "" : {
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandTests-primary.dia",
+    "emit-module-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandTests-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandTests-primary-emit-module.dia",
+    "pch" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandTests-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandTests-primary.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/DerivedSources/test_entry_point.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/test_entry_point.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/test_entry_point.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/test_entry_point.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/test_entry_point.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/test_entry_point.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/test_entry_point.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/test_entry_point.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/test_entry_point~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/Tests/WonderlandTests/VolatileSparkTests.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/VolatileSparkTests.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/VolatileSparkTests.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/VolatileSparkTests.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/VolatileSparkTests.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/VolatileSparkTests.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/VolatileSparkTests.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/VolatileSparkTests.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/VolatileSparkTests~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/Tests/WonderlandTests/WonderlandHypervisorTests.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandHypervisorTests.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandHypervisorTests.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandHypervisorTests.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandHypervisorTests.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandHypervisorTests.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandHypervisorTests.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandHypervisorTests.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandHypervisorTests~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/Tests/WonderlandTests/WonderlandMIDITests.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandMIDITests.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandMIDITests.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandMIDITests.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandMIDITests.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandMIDITests.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandMIDITests.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandMIDITests.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandMIDITests~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/Tests/WonderlandTests/WonderlandTests.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandTests.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandTests.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandTests.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandTests.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandTests.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandTests.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandTests.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandTests-p.build/Objects-normal/arm64/WonderlandTests~partial.swiftmodule"
+  }
+}

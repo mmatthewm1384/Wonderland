@@ -1,0 +1,4 @@
+module WonderlandCore {
+    header "WonderlandCore.h"
+    export *
+}

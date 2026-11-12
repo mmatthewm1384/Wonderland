@@ -1,0 +1,23 @@
+{
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/VectorQueryDrawerView.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VectorQueryDrawerView.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VectorQueryDrawerView.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VectorQueryDrawerView.dia",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VectorQueryDrawerView.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VectorQueryDrawerView.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/VolatileSparkBuffer.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkBuffer.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkBuffer.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkBuffer.dia",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkBuffer.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkBuffer.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/VolatileSparkManager.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkManager.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkManager.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkManager.dia",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkManager.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkManager.swiftdeps"
+  }
+}

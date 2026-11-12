@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 import os
 
+
 def write_file(path, content):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w") as f:
         f.write(content.strip() + "\n")
     print(f"[INJECT] Created/Updated {path}")
 
+
 def main():
     # 1. Create Lock-Free Ring Buffer
-    ringbuffer_code = '''
+    ringbuffer_code = """
 import numpy as np
 import threading
 
@@ -36,11 +38,11 @@ class LockFreeRingBuffer:
             out = self.buffer[idx].copy()
             self.tail = (self.tail + n) % self.capacity
         return out
-'''
+"""
     write_file("gravity_field/ringbuffer.py", ringbuffer_code)
 
     # 2. Create Automated Benchmark Module
-    benchmark_code = '''
+    benchmark_code = """
 import time
 import numpy as np
 from gravity_field.dsp import STFT, LevelSurface, WienerGain
@@ -73,7 +75,7 @@ def run_benchmark(duration_sec: float = 10.0, sr: int = 48000) -> dict:
     }
     print(f"[BENCHMARK] RTF: {rtf:.4f} (Target < 0.25) -> {\'PASS\' if metrics[\'passes_rtf_target\'] else \'FAIL\'}")
     return metrics
-'''
+"""
     write_file("gravity_field/benchmark.py", benchmark_code)
 
     # 3. Append Multiband ERB & Phase Randomization to dsp.py
@@ -116,7 +118,7 @@ def apply_phase_randomization(spec: np.ndarray, g: np.ndarray, g_min: float) -> 
     print("[INJECT] Appended MultibandLevelSurface and phase randomization to gravity_field/dsp.py")
 
     # 4. Update Makefile to include benchmark target
-    with open("Makefile", "r") as f:
+    with open("Makefile") as f:
         makefile_content = f.read()
 
     if "benchmark:" not in makefile_content:
@@ -124,6 +126,7 @@ def apply_phase_randomization(spec: np.ndarray, g: np.ndarray, g_min: float) -> 
         with open("Makefile", "w") as f:
             f.write(makefile_content)
         print("[INJECT] Added benchmark target to Makefile")
+
 
 if __name__ == "__main__":
     main()

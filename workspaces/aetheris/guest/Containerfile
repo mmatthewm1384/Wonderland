@@ -1,0 +1,22 @@
+# ==============================================================================
+# Wonderland: Project Aetheris // Guest Alpine Containerfile
+# File: guest/Containerfile
+# ==============================================================================
+
+FROM alpine:3.19
+
+# Install essential runtime tools for the ephemeral micro-VM guest
+RUN apk add --no-cache \
+    coreutils \
+    tar \
+    util-linux
+
+# Set up standard initialization directories expected by init.sh
+RUN mkdir -p /scripts /mnt/volatile /mnt/payload
+
+# Copy guest initialization script into place
+COPY scripts/init.sh /scripts/init.sh
+RUN chmod +x /scripts/init.sh
+
+WORKDIR /mnt/volatile
+ENTRYPOINT ["/scripts/init.sh"]

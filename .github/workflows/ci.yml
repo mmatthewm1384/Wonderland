@@ -1,0 +1,62 @@
+name: Synapse CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build-and-test:
+    name: Build, Test, Lint & Coverage (macOS / Swift 6)
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode Toolchain
+        run: sudo xcode-select -switch /Applications/Xcode.app
+
+      - name: Verify Swift Version
+        run: swift --version
+
+      - name: Install Development Tooling (SwiftLint & SwiftFormat)
+        run: brew install swiftlint swiftformat
+
+      - name: Verify Code Formatting (SwiftFormat)
+        run: swiftformat . --dry-no-changes --lint
+
+      - name: Run Strict SwiftLint Validation
+        run: swiftlint lint --strict
+
+      - name: Build Package
+        run: swift build -v
+
+      - name: Run Tests with Code Coverage
+        run: swift test --enable-code-coverage -v
+
+      - name: Export Code Coverage Report (LCOV)
+        run: |
+          XCTEST_PATH=$(find .build/debug -name "*.xctest" -type d | head -n 1)
+          BINARY_NAME=$(basename "$XCTEST_PATH" .xctest)
+          EXECUTABLE_PATH="$XCTEST_PATH/Contents/MacOS/$BINARY_NAME"
+          PROFDATA_PATH=".build/debug/codecov/default.profdata"
+
+          if [ -f "$PROFDATA_PATH" ] && [ -f "$EXECUTABLE_PATH" ]; then
+            xcrun llvm-cov export \
+              "$EXECUTABLE_PATH" \
+              -instr-profile="$PROFDATA_PATH" \
+              -format=lcov > coverage.lcov
+            echo "Successfully exported coverage.lcov"
+          else
+            echo "Coverage professional data or executable not found."
+            exit 1
+          fi
+
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage.lcov
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}

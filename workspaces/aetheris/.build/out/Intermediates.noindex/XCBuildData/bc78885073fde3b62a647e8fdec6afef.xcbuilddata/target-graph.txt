@@ -1,0 +1,14 @@
+Target dependency graph (5 targets)
+Target 'AllIncludingTests' in project 'Aggregate'
+➜ Explicit dependency on target 'WonderlandTests-product' in project 'WonderlandApp'
+➜ Dependency on target 'WonderlandTests-product' in project 'WonderlandApp' via transitive dependency through 'WonderlandTests-test-runner'
+➜ Explicit dependency on target 'WonderlandCoreLib-product' in project 'WonderlandApp'
+➜ Explicit dependency on target 'WonderlandApp-product' in project 'WonderlandApp'
+➜ Explicit dependency on target 'WonderlandApp' in project 'WonderlandApp'
+Target 'WonderlandApp-product' in project 'WonderlandApp'
+➜ Explicit dependency on target 'WonderlandApp' in project 'WonderlandApp'
+Target 'WonderlandCoreLib-product' in project 'WonderlandApp'
+➜ Explicit dependency on target 'WonderlandApp' in project 'WonderlandApp'
+Target 'WonderlandTests-product' in project 'WonderlandApp'
+➜ Explicit dependency on target 'WonderlandApp' in project 'WonderlandApp'
+Target 'WonderlandApp' in project 'WonderlandApp' (no dependencies)

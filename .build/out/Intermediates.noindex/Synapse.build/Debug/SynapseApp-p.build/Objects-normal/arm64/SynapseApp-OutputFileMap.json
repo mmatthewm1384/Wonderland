@@ -1,0 +1,19 @@
+{
+  "" : {
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseApp-p.build/Objects-normal/arm64/SynapseApp-primary.dia",
+    "emit-module-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseApp-p.build/Objects-normal/arm64/SynapseApp-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseApp-p.build/Objects-normal/arm64/SynapseApp-primary-emit-module.dia",
+    "pch" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseApp-p.build/Objects-normal/arm64/SynapseApp-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseApp-p.build/Objects-normal/arm64/SynapseApp-primary.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/Synapse/App/SynapseApp.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseApp-p.build/Objects-normal/arm64/SynapseApp.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseApp-p.build/Objects-normal/arm64/SynapseApp.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseApp-p.build/Objects-normal/arm64/SynapseApp.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/SynapseApp-p.build/Objects-normal/arm64/SynapseApp.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseApp-p.build/Objects-normal/arm64/SynapseApp.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseApp-p.build/Objects-normal/arm64/SynapseApp.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseApp-p.build/Objects-normal/arm64/SynapseApp.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseApp-p.build/Objects-normal/arm64/SynapseApp~partial.swiftmodule"
+  }
+}

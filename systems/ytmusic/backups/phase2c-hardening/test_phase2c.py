@@ -1,11 +1,12 @@
-import unittest
 import importlib.util
+import unittest
 from pathlib import Path
 
 MODULE = Path(__file__).resolve().parents[1] / "lib" / "ytmusic.py"
 spec = importlib.util.spec_from_file_location("ytmusic_phase2c_tests", MODULE)
 ytmusic = importlib.util.module_from_spec(spec)
 import sys
+
 sys.modules[spec.name] = ytmusic
 spec.loader.exec_module(ytmusic)
 
@@ -13,25 +14,17 @@ spec.loader.exec_module(ytmusic)
 class Phase2CTitleMatcherTests(unittest.TestCase):
     def test_artist_prefix_and_suffix_are_allowed(self):
         self.assertTrue(
-            ytmusic._title_contains_sequence(
-                "LaLion - SEROTONIN (Prod. LaLion)", "SEROTONIN"
-            )
+            ytmusic._title_contains_sequence("LaLion - SEROTONIN (Prod. LaLion)", "SEROTONIN")
         )
 
     def test_exact_token_sequence_is_required(self):
-        self.assertFalse(
-            ytmusic._title_contains_sequence("Artist - SEROTONINX", "SEROTONIN")
-        )
+        self.assertFalse(ytmusic._title_contains_sequence("Artist - SEROTONINX", "SEROTONIN"))
 
     def test_token_order_is_preserved(self):
-        self.assertFalse(
-            ytmusic._title_contains_sequence("Artist - Bones Skin", "Skin Bones")
-        )
+        self.assertFalse(ytmusic._title_contains_sequence("Artist - Bones Skin", "Skin Bones"))
 
     def test_empty_expected_title_fails_closed(self):
-        self.assertFalse(
-            ytmusic._title_contains_sequence("Artist - Track", "")
-        )
+        self.assertFalse(ytmusic._title_contains_sequence("Artist - Track", ""))
 
 
 class Phase2CRecoveryEvidenceTests(unittest.TestCase):

@@ -1,9 +1,6 @@
-
-import json
-import tempfile
+import importlib.util
 import unittest
 from pathlib import Path
-import importlib.util
 
 MODULE = Path(__file__).resolve().parents[1] / "lib" / "ytmusic.py"
 spec = importlib.util.spec_from_file_location("ytmusic_phase2b", MODULE)
@@ -28,14 +25,16 @@ class Phase2BBatchTests(unittest.TestCase):
                 "format": "m4a",
                 "transcoding": False,
             },
-            "tracks": [{
-                "position": 1,
-                "title": "SEROTONIN",
-                "artist": "LaLion",
-                "video_id": "MtAsU2cGKxs",
-                "expected_uploader": "LaLion",
-                "identity_status": "approved",
-            }],
+            "tracks": [
+                {
+                    "position": 1,
+                    "title": "SEROTONIN",
+                    "artist": "LaLion",
+                    "video_id": "MtAsU2cGKxs",
+                    "expected_uploader": "LaLion",
+                    "identity_status": "approved",
+                }
+            ],
             "excluded": [],
         }
 
@@ -67,10 +66,12 @@ class Phase2BBatchTests(unittest.TestCase):
             ytmusic.validate_batch_document(self.document, self.cfg)
 
     def test_excluded_video_id_cannot_be_approved(self):
-        self.document["excluded"] = [{
-            "video_id": "MtAsU2cGKxs",
-            "reason": "excluded",
-        }]
+        self.document["excluded"] = [
+            {
+                "video_id": "MtAsU2cGKxs",
+                "reason": "excluded",
+            }
+        ]
         with self.assertRaisesRegex(RuntimeError, "Excluded"):
             ytmusic.validate_batch_document(self.document, self.cfg)
 

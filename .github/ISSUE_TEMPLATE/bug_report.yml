@@ -1,0 +1,55 @@
+name: Bug Report
+description: Create a report to help us fix a bug in Synapse
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please ensure you have verified your local build against our strict Swift 6 and linting standards.
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: A brief, clear summary of what the bug is.
+      placeholder: e.g., Audio engine crashes when stopping recording during high CPU load.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this issue?
+      placeholder: |
+        1. Open Synapse studio view.
+        2. Start voice recording.
+        3. Trigger X action.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: Recording stops cleanly and saves session state.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Please share your hardware and software configuration.
+      placeholder: |
+        - macOS Version: 14.x / 15.x / Sequoia
+        - Xcode Version: 16.x / 17.x
+        - Hardware: Apple Silicon (M4 / M2 / etc.)
+        - SwiftLint / SwiftFormat version
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Logs or Error Output
+      description: Paste any crash logs, console output, or SwiftLint violations.
+      placeholder: "Paste logs here..."
+      render: shell

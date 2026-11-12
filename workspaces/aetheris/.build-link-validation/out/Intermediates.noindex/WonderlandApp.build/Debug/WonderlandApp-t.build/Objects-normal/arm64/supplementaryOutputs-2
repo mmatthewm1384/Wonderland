@@ -1,0 +1,23 @@
+{
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/MIDIControlSurfaceView.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIControlSurfaceView.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIControlSurfaceView.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIControlSurfaceView.dia",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIControlSurfaceView.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIControlSurfaceView.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/MIDIManager.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIManager.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIManager.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIManager.dia",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIManager.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIManager.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/MemoryCrystalAuditView.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalAuditView.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalAuditView.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalAuditView.dia",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalAuditView.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalAuditView.swiftdeps"
+  }
+}

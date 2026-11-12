@@ -1,0 +1,4 @@
+Target dependency graph (2 targets)
+Target 'WonderlandApp-product' in project 'WonderlandApp'
+➜ Explicit dependency on target 'WonderlandApp' in project 'WonderlandApp'
+Target 'WonderlandApp' in project 'WonderlandApp' (no dependencies)

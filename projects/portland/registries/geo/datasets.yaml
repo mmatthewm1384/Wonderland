@@ -1,0 +1,92 @@
+registry:
+  name: "GEO Geospatial Dataset Registry"
+  local_key_prefix: GDS
+  version: "0.1.0"
+  status: "Initial discovery export"
+  exported_at: "2026-11-10"
+  source_of_truth: "Notion GEO Dataset Registry"
+  source_url: "https://app.notion.com/p/251c7acf42cb4ac496053494746dce1c"
+  synchronization: "Manual; not live synchronized"
+  global_identity_authority: "Wonderland GDIR"
+  records:
+
+    - local_id: GDS-001
+      title: "Oregon Geologic Data Compilation Release 8 (OGDC-8)"
+      publisher: "Oregon Department of Geology and Mineral Industries"
+      custodian: "DOGAMI"
+      source_uri: "https://www.oregon.gov/dogami/pubs/Pages/dds/p-OGDC-8.aspx"
+      status: Discovered
+      epistemic_class: [KNOWN]
+      geography: "Oregon; Portland regional coverage to be verified"
+      format: "UNKNOWN"
+      native_crs: "UNKNOWN"
+      vertical_datum: "UNKNOWN"
+      resolution_or_scale: "Verify source metadata"
+      publication_date: null
+      acquisition_date: null
+      license: "UNKNOWN — verify before use"
+      checksum: null
+      validation_status: "Not assessed"
+      fitness_for_purpose: "Not assessed"
+      notes: "Candidate geological compilation. Do not claim local coverage, acquisition, or validation until inspected."
+
+    - local_id: GDS-002
+      title: "Geologic Map of the Greater Portland Metropolitan Area and Surrounding Region"
+      publisher: "United States Geological Survey"
+      custodian: "USGS"
+      persistent_identifier: "SIM-3443"
+      source_uri: "https://www.usgs.gov/maps/geologic-map-greater-portland-metropolitan-area-and-surrounding-region-oregon-and-washington"
+      status: Discovered
+      epistemic_class: [KNOWN]
+      geography: "Greater Portland metropolitan area and surrounding Oregon/Washington region"
+      format: "UNKNOWN"
+      native_crs: "UNKNOWN"
+      vertical_datum: "Not applicable or unknown; verify"
+      resolution_or_scale: "Verify publication metadata"
+      publication_date: "2020"
+      acquisition_date: null
+      license: "UNKNOWN — verify before use"
+      checksum: null
+      validation_status: "Not assessed"
+      fitness_for_purpose: "Regional geological context; scale limitations must be retained"
+      notes: "Published regional map; not parcel-scale engineering evidence."
+
+    - local_id: GDS-003
+      title: "City of Portland Public Hazard Map Service"
+      publisher: "City of Portland"
+      custodian: "City of Portland"
+      source_uri: "https://www.portlandmaps.com/arcgis/rest/services/Public/Hazard/MapServer"
+      status: Discovered
+      epistemic_class: [KNOWN]
+      geography: "City of Portland; layer-specific extents may differ"
+      format: "ArcGIS MapServer"
+      native_crs: "Inspect service metadata"
+      vertical_datum: "Layer-specific; inspect"
+      resolution_or_scale: "Layer-specific; inspect"
+      publication_date: null
+      acquisition_date: null
+      license: "UNKNOWN — verify before redistribution"
+      checksum: null
+      validation_status: "Not assessed"
+      fitness_for_purpose: "Screening only; preserve native layer meanings and limitations"
+      notes: "Service discovery record; no layer payload is represented as acquired."
+
+    - local_id: GDS-004
+      title: "City of Portland Public Elevation Map Service"
+      publisher: "City of Portland"
+      custodian: "City of Portland"
+      source_uri: "https://www.portlandmaps.com/arcgis/rest/services/Public/Elevation/MapServer"
+      status: Discovered
+      epistemic_class: [KNOWN]
+      geography: "City of Portland; service coverage to be verified"
+      format: "ArcGIS MapServer"
+      native_crs: "Inspect service metadata"
+      vertical_datum: "Inspect service metadata"
+      resolution_or_scale: "Layer-specific; inspect"
+      publication_date: null
+      acquisition_date: null
+      license: "UNKNOWN — verify before use"
+      checksum: null
+      validation_status: "Not assessed"
+      fitness_for_purpose: "Not assessed"
+      notes: "Service discovery record; inspect source dates, cell size, vertical datum, and accuracy."

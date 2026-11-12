@@ -1,0 +1,29 @@
+{
+  "" : {
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/hypervisor-runner-primary.dia",
+    "emit-module-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/hypervisor-runner-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/hypervisor-runner-primary-emit-module.dia",
+    "pch" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/hypervisor-runner-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/hypervisor-runner-primary.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/Sources/VMLauncher.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/VMLauncher.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/VMLauncher.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/VMLauncher.dia",
+    "index-unit-output-path" : "/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/VMLauncher.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/VMLauncher.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/VMLauncher.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/VMLauncher.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/VMLauncher~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/Sources/main.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/main.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/main.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/main.dia",
+    "index-unit-output-path" : "/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/main.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/main.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/main.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/main.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/hypervisor/.build/out/Intermediates.noindex/AetherisHypervisor.build/Debug/hypervisor-runner-p.build/Objects-normal/arm64/main~partial.swiftmodule"
+  }
+}

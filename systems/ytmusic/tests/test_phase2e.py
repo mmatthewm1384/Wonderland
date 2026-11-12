@@ -1,6 +1,4 @@
-import hashlib
 import importlib.util
-import json
 import shutil
 import tempfile
 import unittest
@@ -12,9 +10,7 @@ ytmusic = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ytmusic)
 
 ROOT = MODULE.parents[1]
-APPROVED_SHA256 = (
-    "d497d2eaf5a463b4d2fcfe9561f3a2f3a31cafc110fd81adc3c6749e0570f0e7"
-)
+APPROVED_SHA256 = "d497d2eaf5a463b4d2fcfe9561f3a2f3a31cafc110fd81adc3c6749e0570f0e7"
 
 CASES = {
     "debauchery": {
@@ -74,9 +70,7 @@ class Phase2EDispositionTests(unittest.TestCase):
         return case, track, previous
 
     def validate(self, track, previous):
-        return ytmusic._batch_blocked_disposition(
-            self.cfg, self.document, track, previous
-        )
+        return ytmusic._batch_blocked_disposition(self.cfg, self.document, track, previous)
 
     def test_exact_debauchery_disposition_is_accepted(self):
         case, track, previous = self.prepare("debauchery")

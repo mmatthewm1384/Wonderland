@@ -1,0 +1,33 @@
+# tests/conftest.py
+import os
+import json
+import pytest
+from pathlib import Path
+
+@pytest.fixture
+def golden_file(request):
+    """Factory fixture to compare output against a stored golden file."""
+    test_dir = Path(request.node.fspath).parent
+    fixture_dir = test_dir / "fixtures"
+    fixture_dir.mkdir(exist_ok=True)
+    
+    def _verify(test_name: str, actual_data: dict | str):
+        golden_path = fixture_dir / f"{test_name}.golden"
+        
+        # Canonicalize data representation
+        if isinstance(actual_data, dict):
+            serialized = json.dumps(actual_data, indent=2, sort_keys=True) + "\n"
+        else:
+            serialized = str(actual_data)
+            
+        update_mode = os.getenv("UPDATE_GOLDEN", "0") == "1"
+        
+        if update_mode or not golden_path.exists():
+            golden_path.write_text(serialized, encoding="utf-8")
+            if update_mode:
+                pytest.fail(f"Golden file updated: {golden_path}")
+                
+        expected = golden_path.read_text(encoding="utf-8")
+        assert serialized == expected, f"Golden file mismatch for {test_name}.\nExpected:\n{expected}\nActual:\n{serialized}"
+        
+    return _verify

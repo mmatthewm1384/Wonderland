@@ -1,0 +1,49 @@
+{
+  "" : {
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SynapseTests-primary.dia",
+    "emit-module-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SynapseTests-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SynapseTests-primary-emit-module.dia",
+    "pch" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SynapseTests-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SynapseTests-primary.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/DerivedSources/test_entry_point.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/test_entry_point.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/test_entry_point.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/test_entry_point.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/test_entry_point.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/test_entry_point.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/test_entry_point.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/test_entry_point.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/test_entry_point~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/Synapse/Tests/AudioEngineTests.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/AudioEngineTests.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/AudioEngineTests.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/AudioEngineTests.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/AudioEngineTests.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/AudioEngineTests.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/AudioEngineTests.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/AudioEngineTests.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/AudioEngineTests~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/Synapse/Tests/SecureVaultManagerTests.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SecureVaultManagerTests.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SecureVaultManagerTests.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SecureVaultManagerTests.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SecureVaultManagerTests.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SecureVaultManagerTests.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SecureVaultManagerTests.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SecureVaultManagerTests.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SecureVaultManagerTests~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/Synapse/Tests/SpeechRecognizerTests.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SpeechRecognizerTests.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SpeechRecognizerTests.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SpeechRecognizerTests.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SpeechRecognizerTests.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SpeechRecognizerTests.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SpeechRecognizerTests.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SpeechRecognizerTests.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/SynapseTests-p.build/Objects-normal/arm64/SpeechRecognizerTests~partial.swiftmodule"
+  }
+}

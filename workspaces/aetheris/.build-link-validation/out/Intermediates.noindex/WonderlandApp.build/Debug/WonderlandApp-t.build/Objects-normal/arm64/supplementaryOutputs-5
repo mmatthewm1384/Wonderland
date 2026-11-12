@@ -1,0 +1,23 @@
+{
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/VolatileSparkPanelView.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkPanelView.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkPanelView.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkPanelView.dia",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkPanelView.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkPanelView.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/WonderlandAIOrchestrator.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandAIOrchestrator.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandAIOrchestrator.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandAIOrchestrator.dia",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandAIOrchestrator.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandAIOrchestrator.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/WonderlandCoreBridge.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandCoreBridge.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandCoreBridge.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandCoreBridge.dia",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandCoreBridge.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandCoreBridge.swiftdeps"
+  }
+}

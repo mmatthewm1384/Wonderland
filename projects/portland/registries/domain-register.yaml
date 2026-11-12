@@ -1,0 +1,61 @@
+domains:
+  - code: GEO
+    name: "Geography, geology, terrain, soils, geohazards, geographic boundaries"
+    status: Proposed
+    global_domain_id: null
+  - code: HYD
+    name: "Hydrology, watersheds, groundwater, water supply, stormwater, flood systems"
+    status: Proposed
+    global_domain_id: null
+  - code: CLI
+    name: "Climate, atmospheric conditions, heat, drought, precipitation, climate futures"
+    status: Proposed
+    global_domain_id: null
+  - code: ECO
+    name: "Ecology, biodiversity, habitat, forests, wetlands, ecological connectivity"
+    status: Proposed
+    global_domain_id: null
+  - code: HIS
+    name: "History, Indigenous context, cultural landscapes, historical change"
+    status: Proposed
+    global_domain_id: null
+  - code: URB
+    name: "Urban form, neighborhoods, land use, housing, public realm"
+    status: Proposed
+    global_domain_id: null
+  - code: ARC
+    name: "Architecture, building stock, typologies, construction, materials, adaptive reuse"
+    status: Proposed
+    global_domain_id: null
+  - code: MOB
+    name: "Walking, cycling, transit, roads, rail, aviation, port access, mobility"
+    status: Proposed
+    global_domain_id: null
+  - code: INF
+    name: "Water, wastewater, energy, communications, waste, public facilities"
+    status: Proposed
+    global_domain_id: null
+  - code: LOG
+    name: "Freight, supply chains, industrial lands, logistics networks"
+    status: Proposed
+    global_domain_id: null
+  - code: TEC
+    name: "Data, sensing, digital systems, cybersecurity, privacy, digital twins"
+    status: Proposed
+    global_domain_id: null
+  - code: GOV
+    name: "Governance, institutions, public services, civic processes, adopted plans"
+    status: Proposed
+    global_domain_id: null
+  - code: RES
+    name: "Hazards, mitigation, continuity, emergency systems, recovery, adaptation"
+    status: Proposed
+    global_domain_id: null
+  - code: FUT
+    name: "Future scenarios, pathways, long-range urban evolution"
+    status: Proposed
+    global_domain_id: null
+  - code: VIS
+    name: "Cartography, visual identity, information design, experience design"
+    status: Proposed
+    global_domain_id: null

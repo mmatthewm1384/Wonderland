@@ -7,11 +7,7 @@ class CrystalAuditStore:
         self.log_path = log_path
 
     def log_event(self, service: str, event: str, payload: dict) -> None:
-        record = {
-            "service": service.upper(),
-            "event": event.upper(),
-            "payload": payload
-        }
+        record = {"service": service.upper(), "event": event.upper(), "payload": payload}
         with open(self.log_path, "a") as f:
             f.write(json.dumps(record) + "\n")
 

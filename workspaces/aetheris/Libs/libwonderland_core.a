@@ -1,0 +1,17 @@
+.target(
+            name: "WonderlandApp",
+            dependencies: [],
+            path: "ui",
+            exclude: [
+                "MicroVMController",
+                "EventLogModel",
+                "Libs/libwonderland_core.a"
+            ],
+            linkerSettings: [
+                .linkedFramework("Virtualization"),
+                .linkedLibrary("wonderland_core"),
+                .unsafeFlags([
+                    "-L/Users/wonderland/Developer/projects/aetheris/ui/Libs"
+                ])
+            ]
+        ),

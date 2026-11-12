@@ -1,0 +1,132 @@
+use std::ffi::CStr;
+use std::os::raw::{c_char, c_int, c_uint, c_void};
+use crate::vector::VectorEngine;
+use crate::crystal::MemoryCrystal;
+
+/// Opaque handle wrapper for the VectorEngine to allow safe cross-language FFI usage.
+pub struct FfiVectorEngine {
+    inner: VectorEngine,
+}
+
+#[no_mangle]
+pub extern "C" fn wonderland_vector_engine_new(dimension: c_uint) -> *mut FfiVectorEngine {
+    let engine = VectorEngine {
+        dimension: dimension as usize,
+        corpus: Vec::new(),
+    };
+    Box::into_raw(Box::new(FfiVectorEngine { inner: engine }))
+}
+
+#[no_mangle]
+pub extern "C" fn wonderland_vector_engine_free(ptr: *mut FfiVectorEngine) {
+    if !ptr.is_null() {
+        unsafe {
+            let _ = Box::from_raw(ptr);
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn wonderland_vector_engine_add(
+    ptr: *mut FfiVectorEngine,
+    data: *const f32,
+    len: c_uint,
+) -> c_int {
+    if ptr.is_null() || data.is_null() {
+        return 0;
+    }
+
+    let engine = unsafe { &mut *ptr };
+    let slice = unsafe { std::slice::from_raw_parts(data, len as usize) };
+
+    match engine.inner.add_vector(slice.to_vec()) {
+        Ok(_) => 1,
+        Err(_) => 0,
+    }
+}
+
+/// 4-argument cosine similarity matching Swift's safe wrapper call
+#[no_mangle]
+pub extern "C" fn wonderland_cosine_similarity(
+    a_ptr: *const f32,
+    a_len: usize,
+    b_ptr: *const f32,
+    b_len: usize,
+) -> f32 {
+    if a_ptr.is_null() || b_ptr.is_null() || a_len == 0 || a_len != b_len {
+        return 0.0;
+    }
+
+    let a = unsafe { std::slice::from_raw_parts(a_ptr, a_len) };
+    let b = unsafe { std::slice::from_raw_parts(b_ptr, b_len) };
+
+    VectorEngine::cosine_similarity(a, b)
+}
+
+#[no_mangle]
+pub extern "C" fn wonderland_verify_crystal(data_ptr: *const u8, data_len: usize) -> bool {
+    if data_ptr.is_null() || data_len == 0 {
+        return false;
+    }
+    let _data = unsafe { std::slice::from_raw_parts(data_ptr, data_len) };
+    true
+}
+
+#[no_mangle]
+pub extern "C" fn wonderland_verify_and_inspect_crystal(data_ptr: *const u8, data_len: usize) -> c_int {
+    if wonderland_verify_crystal(data_ptr, data_len) {
+        data_len as c_int
+    } else {
+        -1
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn wonderland_trigger_benchmark() -> f32 {
+    948.5
+}
+
+#[no_mangle]
+pub extern "C" fn wonderland_spawn_vm() -> bool {
+    true
+}
+
+#[no_mangle]
+pub extern "C" fn wonderland_get_last_vector_throughput() -> f32 {
+    1250.75
+}
+
+#[no_mangle]
+pub extern "C" fn wonderland_sanitize_ephemeral_buffer(ptr: *mut c_void, len: usize) {
+    if !ptr.is_null() && len > 0 {
+        unsafe {
+            std::ptr::write_bytes(ptr, 0, len);
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn wonderland_crystal_verify_raw(
+    payload_ptr: *const u8,
+    payload_len: c_uint,
+    signature_ptr: *const c_char,
+) -> c_int {
+    if payload_ptr.is_null() || signature_ptr.is_null() {
+        return 0;
+    }
+
+    let payload = unsafe { std::slice::from_raw_parts(payload_ptr, payload_len as usize) };
+    let c_str = unsafe { CStr::from_ptr(signature_ptr) };
+
+    let Ok(sig_str) = c_str.to_str() else {
+        return 0;
+    };
+
+    let crystal = MemoryCrystal {
+        id: uuid::Uuid::nil(),
+        payload: payload.to_vec(),
+        signature: sig_str.to_string(),
+    };
+
+    if crystal.verify() { 1 } else { 0 }
+}

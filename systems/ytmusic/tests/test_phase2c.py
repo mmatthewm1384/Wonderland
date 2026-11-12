@@ -1,11 +1,12 @@
-import unittest
 import importlib.util
+import unittest
 from pathlib import Path
 
 MODULE = Path(__file__).resolve().parents[1] / "lib" / "ytmusic.py"
 spec = importlib.util.spec_from_file_location("ytmusic_phase2c_tests", MODULE)
 ytmusic = importlib.util.module_from_spec(spec)
 import sys
+
 sys.modules[spec.name] = ytmusic
 spec.loader.exec_module(ytmusic)
 
@@ -13,25 +14,17 @@ spec.loader.exec_module(ytmusic)
 class Phase2CTitleMatcherTests(unittest.TestCase):
     def test_artist_prefix_and_suffix_are_allowed(self):
         self.assertTrue(
-            ytmusic._title_contains_sequence(
-                "LaLion - SEROTONIN (Prod. LaLion)", "SEROTONIN"
-            )
+            ytmusic._title_contains_sequence("LaLion - SEROTONIN (Prod. LaLion)", "SEROTONIN")
         )
 
     def test_exact_token_sequence_is_required(self):
-        self.assertFalse(
-            ytmusic._title_contains_sequence("Artist - SEROTONINX", "SEROTONIN")
-        )
+        self.assertFalse(ytmusic._title_contains_sequence("Artist - SEROTONINX", "SEROTONIN"))
 
     def test_token_order_is_preserved(self):
-        self.assertFalse(
-            ytmusic._title_contains_sequence("Artist - Bones Skin", "Skin Bones")
-        )
+        self.assertFalse(ytmusic._title_contains_sequence("Artist - Bones Skin", "Skin Bones"))
 
     def test_empty_expected_title_fails_closed(self):
-        self.assertFalse(
-            ytmusic._title_contains_sequence("Artist - Track", "")
-        )
+        self.assertFalse(ytmusic._title_contains_sequence("Artist - Track", ""))
 
 
 class Phase2CRecoveryEvidenceTests(unittest.TestCase):
@@ -67,10 +60,7 @@ class Phase2CRecoveryEvidenceTests(unittest.TestCase):
 class Phase2CRecoveryUtilityEvidenceTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        module_path = (
-            Path(__file__).resolve().parents[1]
-            / "tools" / "recover_serotonin.py"
-        )
+        module_path = Path(__file__).resolve().parents[1] / "tools" / "recover_serotonin.py"
         recovery_spec = importlib.util.spec_from_file_location(
             "ytmusic_recovery_phase2c_tests", module_path
         )
@@ -90,14 +80,18 @@ class Phase2CRecoveryUtilityEvidenceTests(unittest.TestCase):
         source.write_text('{"approved":true}\n')
 
         job = base / "failed-job.json"
-        job.write_text(json.dumps({
-            "schema": "wonderland.ytmusic.job.v1",
-            "job_id": "test-job",
-            "kind": "track",
-            "state": "verification_failed",
-            "source_url": "https://www.youtube.com/watch?v=MtAsU2cGKxs",
-            "artifacts": [],
-        }))
+        job.write_text(
+            json.dumps(
+                {
+                    "schema": "wonderland.ytmusic.job.v1",
+                    "job_id": "test-job",
+                    "kind": "track",
+                    "state": "verification_failed",
+                    "source_url": "https://www.youtube.com/watch?v=MtAsU2cGKxs",
+                    "artifacts": [],
+                }
+            )
+        )
 
         staged = base / "staged.m4a"
         staged.write_bytes(b"test-m4a-content")
@@ -114,7 +108,8 @@ class Phase2CRecoveryUtilityEvidenceTests(unittest.TestCase):
         promoted_sidecar = base / "promoted.info.json"
         promoted_sidecar.write_text(json.dumps(info))
 
-        digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+        def digest(p):
+            return hashlib.sha256(p.read_bytes()).hexdigest()
 
         values = {
             "BATCH_ID": "test-batch",
@@ -128,10 +123,7 @@ class Phase2CRecoveryUtilityEvidenceTests(unittest.TestCase):
             "EXPECTED_MEDIA_SHA256": digest(staged),
         }
 
-        patchers = [
-            patch.object(r, key, value)
-            for key, value in values.items()
-        ]
+        patchers = [patch.object(r, key, value) for key, value in values.items()]
         for p in patchers:
             p.start()
             self.addCleanup(p.stop)
@@ -178,12 +170,14 @@ class Phase2CRecoveryUtilityEvidenceTests(unittest.TestCase):
 
     def test_valid_evidence_passes(self):
         import tempfile
+
         with tempfile.TemporaryDirectory() as td:
             f = self.fixture(td)
             self.run_verifier(f)
 
     def test_source_manifest_declaration_tampering_fails(self):
         import tempfile
+
         with tempfile.TemporaryDirectory() as td:
             f = self.fixture(td)
             f["evidence"]["source_manifest_sha256"] = "0" * 64
@@ -193,6 +187,7 @@ class Phase2CRecoveryUtilityEvidenceTests(unittest.TestCase):
     def test_original_job_state_tampering_fails(self):
         import json
         import tempfile
+
         with tempfile.TemporaryDirectory() as td:
             f = self.fixture(td)
             job = json.loads(f["job"].read_text())
@@ -206,6 +201,7 @@ class Phase2CRecoveryUtilityEvidenceTests(unittest.TestCase):
 
     def test_staged_artifact_tampering_fails(self):
         import tempfile
+
         with tempfile.TemporaryDirectory() as td:
             f = self.fixture(td)
             f["staged"].write_bytes(b"tampered")
@@ -214,6 +210,7 @@ class Phase2CRecoveryUtilityEvidenceTests(unittest.TestCase):
 
     def test_promoted_artifact_tampering_fails(self):
         import tempfile
+
         with tempfile.TemporaryDirectory() as td:
             f = self.fixture(td)
             f["promoted"].write_bytes(b"tampered")
@@ -223,6 +220,7 @@ class Phase2CRecoveryUtilityEvidenceTests(unittest.TestCase):
     def test_staged_sidecar_identity_mismatch_fails(self):
         import json
         import tempfile
+
         with tempfile.TemporaryDirectory() as td:
             f = self.fixture(td)
             info = json.loads(f["staged_sidecar"].read_text())
@@ -234,6 +232,7 @@ class Phase2CRecoveryUtilityEvidenceTests(unittest.TestCase):
     def test_symlinked_evidence_file_fails(self):
         import json
         import tempfile
+
         with tempfile.TemporaryDirectory() as td:
             f = self.fixture(td)
             evidence_file = Path(td) / "evidence.json"
@@ -252,6 +251,7 @@ class Phase2CRecoveryUtilityEvidenceTests(unittest.TestCase):
 
     def test_missing_evidence_file_fails(self):
         import tempfile
+
         with tempfile.TemporaryDirectory() as td:
             f = self.fixture(td)
             missing = Path(td) / "missing.json"
@@ -263,7 +263,6 @@ class Phase2CRecoveryUtilityEvidenceTests(unittest.TestCase):
                     f["source"],
                     f["job"],
                 )
-
 
 
 if __name__ == "__main__":

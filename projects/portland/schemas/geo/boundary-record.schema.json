@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wonderland.invalid/schemas/portland/geo/boundary-record.schema.json",
+  "title": "PORTLAND GEO Geographic Boundary Record",
+  "type": "object",
+  "required": [
+    "local_id", "name", "boundary_type", "epistemic_class",
+    "status", "geometry_validation"
+  ],
+  "properties": {
+    "local_id": {"type": "string", "pattern": "^GBD-[0-9]{3,}$"},
+    "name": {"type": "string", "minLength": 1},
+    "boundary_type": {
+      "enum": ["Municipal", "Watershed", "Geologic", "Aquifer", "Regional", "Metropolitan", "Site"]
+    },
+    "authority": {"type": ["string", "null"]},
+    "source_uri": {"type": ["string", "null"], "format": "uri"},
+    "effective_date": {"type": ["string", "null"]},
+    "version": {"type": ["string", "null"]},
+    "geometry_type": {"type": "string"},
+    "native_crs": {"type": "string"},
+    "vertical_reference": {"type": "string"},
+    "area": {"type": ["number", "null"]},
+    "epistemic_class": {
+      "type": "array",
+      "items": {"enum": ["KNOWN", "DERIVED", "PROPOSED", "SPECULATIVE", "UNKNOWN"]},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "status": {
+      "enum": ["Discovered", "Acquired", "Validated", "Accepted", "Rejected", "Superseded"]
+    },
+    "geometry_validation": {"type": "string"},
+    "topology_validation": {"type": "string"},
+    "storage_uri": {"type": ["string", "null"]},
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "notes": {"type": "string"}
+  },
+  "additionalProperties": false
+}

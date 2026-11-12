@@ -1,0 +1,12 @@
+/Users/wonderland/Wonderland/Synapse/Core/AudioEngine/SynapseAudioEngine.swift
+/Users/wonderland/Wonderland/Synapse/Core/Persistence/SecureVaultManager.swift
+/Users/wonderland/Wonderland/Synapse/Core/Speech/SpeechRecognizer.swift
+/Users/wonderland/Wonderland/Synapse/SynapseApp.swift
+/Users/wonderland/Wonderland/Synapse/SynapseTests/PlaybackControlStateTests.swift
+/Users/wonderland/Wonderland/Synapse/SynapseTests/SpeechRecognizerTests.swift
+/Users/wonderland/Wonderland/Synapse/UI/Components/WaveformVisualizer.swift
+/Users/wonderland/Wonderland/Synapse/UI/State/PlaybackControlState.swift
+/Users/wonderland/Wonderland/Synapse/UI/Theme/AURAColors.swift
+/Users/wonderland/Wonderland/Synapse/UI/Views/PlaybackControlView.swift
+/Users/wonderland/Wonderland/Synapse/UI/Views/SessionHistoryView.swift
+/Users/wonderland/Wonderland/Synapse/UI/Views/StudioRootView.swift

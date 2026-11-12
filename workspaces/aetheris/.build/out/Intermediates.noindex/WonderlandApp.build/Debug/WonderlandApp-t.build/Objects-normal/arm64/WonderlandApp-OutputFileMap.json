@@ -1,0 +1,259 @@
+{
+  "" : {
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandApp-primary.dia",
+    "emit-module-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandApp-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandApp-primary-emit-module.dia",
+    "pch" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandApp-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandApp-primary.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/AIEphemeralContext.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AIEphemeralContext.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AIEphemeralContext.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AIEphemeralContext.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AIEphemeralContext.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AIEphemeralContext.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AIEphemeralContext.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AIEphemeralContext.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AIEphemeralContext~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/AetherisBridge.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisBridge.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisBridge.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisBridge.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisBridge.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisBridge.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisBridge.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisBridge.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisBridge~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/AetherisIPCClient.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisIPCClient.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisIPCClient.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisIPCClient.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisIPCClient.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisIPCClient.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisIPCClient.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisIPCClient.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisIPCClient~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/MIDIControlSurfaceView.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIControlSurfaceView.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIControlSurfaceView.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIControlSurfaceView.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIControlSurfaceView.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIControlSurfaceView.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIControlSurfaceView.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIControlSurfaceView.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIControlSurfaceView~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/MIDIManager.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIManager.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIManager.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIManager.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIManager.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIManager.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIManager.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIManager.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MIDIManager~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/MemoryCrystalAuditView.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalAuditView.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalAuditView.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalAuditView.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalAuditView.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalAuditView.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalAuditView.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalAuditView.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalAuditView~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/MemoryCrystalLedger.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalLedger.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalLedger.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalLedger.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalLedger.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalLedger.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalLedger.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalLedger.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalLedger~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/TelemetryDashboardView.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryDashboardView.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryDashboardView.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryDashboardView.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryDashboardView.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryDashboardView.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryDashboardView.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryDashboardView.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryDashboardView~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/TelemetryManager.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryManager.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryManager.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryManager.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryManager.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryManager.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryManager.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryManager.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryManager~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/VectorQueryDrawerView.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VectorQueryDrawerView.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VectorQueryDrawerView.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VectorQueryDrawerView.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VectorQueryDrawerView.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VectorQueryDrawerView.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VectorQueryDrawerView.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VectorQueryDrawerView.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VectorQueryDrawerView~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/VolatileSparkBuffer.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkBuffer.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkBuffer.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkBuffer.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkBuffer.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkBuffer.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkBuffer.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkBuffer.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkBuffer~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/VolatileSparkManager.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkManager.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkManager.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkManager.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkManager.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkManager.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkManager.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkManager.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkManager~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/VolatileSparkPanelView.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkPanelView.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkPanelView.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkPanelView.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkPanelView.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkPanelView.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkPanelView.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkPanelView.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/VolatileSparkPanelView~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/WonderlandAIOrchestrator.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandAIOrchestrator.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandAIOrchestrator.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandAIOrchestrator.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandAIOrchestrator.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandAIOrchestrator.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandAIOrchestrator.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandAIOrchestrator.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandAIOrchestrator~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/WonderlandCoreBridge.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandCoreBridge.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandCoreBridge.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandCoreBridge.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandCoreBridge.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandCoreBridge.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandCoreBridge.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandCoreBridge.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandCoreBridge~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/WonderlandDashboardComponents.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandDashboardComponents.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandDashboardComponents.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandDashboardComponents.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandDashboardComponents.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandDashboardComponents.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandDashboardComponents.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandDashboardComponents.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandDashboardComponents~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/WonderlandDashboardView.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandDashboardView.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandDashboardView.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandDashboardView.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandDashboardView.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandDashboardView.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandDashboardView.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandDashboardView.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandDashboardView~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/WonderlandHypervisor.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandHypervisor.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandHypervisor.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandHypervisor.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandHypervisor.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandHypervisor.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandHypervisor.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandHypervisor.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandHypervisor~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/WonderlandHypervisorManager.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandHypervisorManager.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandHypervisorManager.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandHypervisorManager.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandHypervisorManager.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandHypervisorManager.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandHypervisorManager.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandHypervisorManager.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandHypervisorManager~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/WonderlandMIDIDashboardView.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIDashboardView.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIDashboardView.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIDashboardView.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIDashboardView.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIDashboardView.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIDashboardView.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIDashboardView.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIDashboardView~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/WonderlandMIDIManager.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIManager.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIManager.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIManager.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIManager.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIManager.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIManager.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIManager.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIManager~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/WonderlandMIDIMappingModal.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIMappingModal.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIMappingModal.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIMappingModal.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIMappingModal.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIMappingModal.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIMappingModal.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIMappingModal.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandMIDIMappingModal~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/WonderlandRuntimeTransport.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandRuntimeTransport.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandRuntimeTransport.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandRuntimeTransport.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandRuntimeTransport.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandRuntimeTransport.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandRuntimeTransport.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandRuntimeTransport.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandRuntimeTransport~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/WonderlandRuntimeViewModel.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandRuntimeViewModel.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandRuntimeViewModel.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandRuntimeViewModel.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandRuntimeViewModel.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandRuntimeViewModel.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandRuntimeViewModel.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandRuntimeViewModel.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandRuntimeViewModel~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/WonderlandVectorEngine.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandVectorEngine.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandVectorEngine.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandVectorEngine.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandVectorEngine.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandVectorEngine.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandVectorEngine.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandVectorEngine.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/WonderlandVectorEngine~partial.swiftmodule"
+  }
+}

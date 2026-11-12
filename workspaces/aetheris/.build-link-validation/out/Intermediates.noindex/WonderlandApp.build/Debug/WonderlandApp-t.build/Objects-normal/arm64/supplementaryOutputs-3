@@ -1,0 +1,23 @@
+{
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/MemoryCrystalLedger.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalLedger.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalLedger.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalLedger.dia",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalLedger.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/MemoryCrystalLedger.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/TelemetryDashboardView.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryDashboardView.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryDashboardView.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryDashboardView.dia",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryDashboardView.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryDashboardView.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/TelemetryManager.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryManager.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryManager.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryManager.dia",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryManager.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/TelemetryManager.swiftdeps"
+  }
+}

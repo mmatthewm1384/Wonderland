@@ -1,0 +1,19 @@
+{
+  "" : {
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-p.build/Objects-normal/arm64/WonderlandApp-primary.dia",
+    "emit-module-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-p.build/Objects-normal/arm64/WonderlandApp-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-p.build/Objects-normal/arm64/WonderlandApp-primary-emit-module.dia",
+    "pch" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-p.build/Objects-normal/arm64/WonderlandApp-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-p.build/Objects-normal/arm64/WonderlandApp-primary.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/Sources/Exec/WonderlandApp.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-p.build/Objects-normal/arm64/WonderlandApp.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-p.build/Objects-normal/arm64/WonderlandApp.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-p.build/Objects-normal/arm64/WonderlandApp.dia",
+    "index-unit-output-path" : "/WonderlandApp.build/Debug/WonderlandApp-p.build/Objects-normal/arm64/WonderlandApp.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-p.build/Objects-normal/arm64/WonderlandApp.bc",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-p.build/Objects-normal/arm64/WonderlandApp.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-p.build/Objects-normal/arm64/WonderlandApp.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build-link-validation/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-p.build/Objects-normal/arm64/WonderlandApp~partial.swiftmodule"
+  }
+}

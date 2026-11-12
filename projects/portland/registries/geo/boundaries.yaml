@@ -1,0 +1,32 @@
+registry:
+  name: "GEO Geographic Boundary Registry"
+  local_key_prefix: GBD
+  version: "0.1.0"
+  status: "Initial boundary discovery"
+  exported_at: "2026-11-10"
+  source_of_truth: "Notion GEO Geographic Boundary Registry"
+  source_url: "https://app.notion.com/p/7d3f750f52ce41e79c621fd0266c8019"
+  synchronization: "Manual; not live synchronized"
+  records:
+
+    - local_id: GBD-001
+      name: "City of Portland incorporated municipal boundary"
+      boundary_type: Municipal
+      authority: "City of Portland — authoritative source pending"
+      source_uri: null
+      effective_date: null
+      version: null
+      geometry_type: UNKNOWN
+      native_crs: UNKNOWN
+      vertical_reference: UNKNOWN
+      area: null
+      epistemic_class: [UNKNOWN]
+      status: Discovered
+      geometry_validation: "Not checked"
+      topology_validation: "Not checked"
+      storage_uri: null
+      limitations:
+        - "No authoritative geometry has been acquired."
+        - "No effective date or boundary vintage has been verified."
+        - "Must not be used for spatial analysis, clipping, or area calculations."
+      notes: "Explicit placeholder only. Replace or supplement after authoritative source acquisition and validation."

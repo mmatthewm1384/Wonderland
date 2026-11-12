@@ -1,0 +1,9 @@
+[env]
+MACOSX_DEPLOYMENT_TARGET = "14.0"
+
+[target.aarch64-apple-darwin]
+rustflags = [
+    "-C", "link-arg=-Wl,-no_compact_unwind",
+    "-C", "debuginfo=0",
+    "-C", "embed-bitcode=no"
+]

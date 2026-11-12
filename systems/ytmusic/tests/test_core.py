@@ -1,7 +1,7 @@
 import importlib.util
-from pathlib import Path
 import tempfile
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 MODULE = Path(__file__).resolve().parents[1] / "lib" / "ytmusic.py"
@@ -12,7 +12,7 @@ spec.loader.exec_module(ytmusic)
 
 class CoreTests(unittest.TestCase):
     def test_safe_stem_removes_path_and_control_chars(self):
-        result = ytmusic.safe_stem('../A/B:\x00 Song ', 240)
+        result = ytmusic.safe_stem("../A/B:\x00 Song ", 240)
         self.assertNotIn("/", result)
         self.assertNotIn("\x00", result)
         self.assertTrue(result)
@@ -23,7 +23,7 @@ class CoreTests(unittest.TestCase):
             p.write_bytes(b"abc")
             self.assertEqual(
                 ytmusic.sha256(p),
-                "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+                "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
             )
 
     def test_atomic_json_roundtrip(self):
@@ -32,23 +32,16 @@ class CoreTests(unittest.TestCase):
             ytmusic.write_json_atomic(p, {"state": "ok"})
             self.assertEqual(__import__("json").loads(p.read_text()), {"state": "ok"})
 
-
     def test_channel_url_rejected_for_track(self):
         with self.assertRaises(ValueError):
-            ytmusic.validate_track_url(
-                "https://www.youtube.com/@akidcalledghost"
-            )
+            ytmusic.validate_track_url("https://www.youtube.com/@akidcalledghost")
 
     def test_topic_channel_url_rejected(self):
         with self.assertRaises(ValueError):
-            ytmusic.validate_track_url(
-                "https://www.youtube.com/channel/UCibP9YTInIwO7idEGjXm0-g"
-            )
+            ytmusic.validate_track_url("https://www.youtube.com/channel/UCibP9YTInIwO7idEGjXm0-g")
 
     def test_direct_video_url_accepted(self):
-        ytmusic.validate_track_url(
-            "https://www.youtube.com/watch?v=abcdefghijk"
-        )
+        ytmusic.validate_track_url("https://www.youtube.com/watch?v=abcdefghijk")
 
     def test_partial_files_excluded(self):
         with tempfile.TemporaryDirectory() as d:
@@ -61,7 +54,6 @@ class CoreTests(unittest.TestCase):
                 [p.name for p in ytmusic.media_candidates(root)],
                 ["complete.webm"],
             )
-
 
     def test_m4a_acquisition_candidates_exclude_other_formats(self):
         with tempfile.TemporaryDirectory() as d:
@@ -114,11 +106,11 @@ class CoreTests(unittest.TestCase):
                     }
                 ],
             }
-            result = type("ProbeResult", (), {
-                "stdout": json.dumps(payload)
-            })()
-            with patch.object(ytmusic, "tool_path", return_value="ffprobe"), \
-                 patch.object(ytmusic.subprocess, "run", return_value=result):
+            result = type("ProbeResult", (), {"stdout": json.dumps(payload)})()
+            with (
+                patch.object(ytmusic, "tool_path", return_value="ffprobe"),
+                patch.object(ytmusic.subprocess, "run", return_value=result),
+            ):
                 info = ytmusic.probe(path, require_m4a=True)
             self.assertIn("m4a", info["format_name"].split(","))
 
@@ -135,15 +127,13 @@ class CoreTests(unittest.TestCase):
                     "size": "100",
                     "tags": {},
                 },
-                "streams": [
-                    {"codec_type": "audio", "codec_name": "opus"}
-                ],
+                "streams": [{"codec_type": "audio", "codec_name": "opus"}],
             }
-            result = type("ProbeResult", (), {
-                "stdout": json.dumps(payload)
-            })()
-            with patch.object(ytmusic, "tool_path", return_value="ffprobe"), \
-                 patch.object(ytmusic.subprocess, "run", return_value=result):
+            result = type("ProbeResult", (), {"stdout": json.dumps(payload)})()
+            with (
+                patch.object(ytmusic, "tool_path", return_value="ffprobe"),
+                patch.object(ytmusic.subprocess, "run", return_value=result),
+            ):
                 with self.assertRaisesRegex(RuntimeError, "Expected M4A"):
                     ytmusic.probe(path, require_m4a=True)
 

@@ -1,0 +1,4 @@
+module Synapse {
+header "Synapse-Swift.h"
+export *
+}

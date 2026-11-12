@@ -1,0 +1,139 @@
+{
+  "" : {
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/Synapse-primary.dia",
+    "emit-module-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/Synapse-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/Synapse-primary-emit-module.dia",
+    "pch" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/Synapse-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/Synapse-primary.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/Synapse/Core/AudioEngine/SynapseAudioEngine.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseAudioEngine.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseAudioEngine.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseAudioEngine.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseAudioEngine.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseAudioEngine.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseAudioEngine.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseAudioEngine.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseAudioEngine~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/Synapse/Core/Persistence/SecureVaultManager.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SecureVaultManager.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SecureVaultManager.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SecureVaultManager.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SecureVaultManager.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SecureVaultManager.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SecureVaultManager.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SecureVaultManager.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SecureVaultManager~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/Synapse/Core/Speech/SpeechRecognizer.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SpeechRecognizer.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SpeechRecognizer.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SpeechRecognizer.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SpeechRecognizer.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SpeechRecognizer.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SpeechRecognizer.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SpeechRecognizer.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SpeechRecognizer~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/Synapse/SynapseApp.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseApp.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseApp.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseApp.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseApp.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseApp.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseApp.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseApp.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseApp~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/Synapse/SynapseTests/PlaybackControlStateTests.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlStateTests.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlStateTests.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlStateTests.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlStateTests.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlStateTests.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlStateTests.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlStateTests.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlStateTests~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/Synapse/SynapseTests/SpeechRecognizerTests.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SpeechRecognizerTests.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SpeechRecognizerTests.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SpeechRecognizerTests.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SpeechRecognizerTests.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SpeechRecognizerTests.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SpeechRecognizerTests.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SpeechRecognizerTests.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SpeechRecognizerTests~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/Synapse/SynapseTests/SynapseAudioEngineTests.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseAudioEngineTests.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseAudioEngineTests.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseAudioEngineTests.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseAudioEngineTests.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseAudioEngineTests.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseAudioEngineTests.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseAudioEngineTests.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SynapseAudioEngineTests~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/Synapse/UI/Components/WaveformVisualizer.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/WaveformVisualizer.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/WaveformVisualizer.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/WaveformVisualizer.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/WaveformVisualizer.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/WaveformVisualizer.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/WaveformVisualizer.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/WaveformVisualizer.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/WaveformVisualizer~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/Synapse/UI/State/PlaybackControlState.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlState.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlState.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlState.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlState.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlState.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlState.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlState.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlState~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/Synapse/UI/Theme/AURAColors.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/AURAColors.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/AURAColors.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/AURAColors.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/AURAColors.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/AURAColors.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/AURAColors.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/AURAColors.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/AURAColors~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/Synapse/UI/Views/PlaybackControlView.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlView.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlView.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlView.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlView.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlView.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlView.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlView.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/PlaybackControlView~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/Synapse/UI/Views/SessionHistoryView.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SessionHistoryView.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SessionHistoryView.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SessionHistoryView.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SessionHistoryView.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SessionHistoryView.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SessionHistoryView.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SessionHistoryView.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/SessionHistoryView~partial.swiftmodule"
+  },
+  "/Users/wonderland/Wonderland/Synapse/UI/Views/StudioRootView.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/StudioRootView.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/StudioRootView.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/StudioRootView.dia",
+    "index-unit-output-path" : "/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/StudioRootView.o",
+    "llvm-bc" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/StudioRootView.bc",
+    "object" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/StudioRootView.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/StudioRootView.swiftdeps",
+    "swiftmodule" : "/Users/wonderland/Wonderland/.build/out/Intermediates.noindex/Synapse.build/Debug/Synapse-t.build/Objects-normal/arm64/StudioRootView~partial.swiftmodule"
+  }
+}

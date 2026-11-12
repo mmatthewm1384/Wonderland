@@ -1,0 +1,23 @@
+{
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/AIEphemeralContext.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AIEphemeralContext.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AIEphemeralContext.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AIEphemeralContext.dia",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AIEphemeralContext.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AIEphemeralContext.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/AetherisBridge.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisBridge.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisBridge.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisBridge.dia",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisBridge.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisBridge.swiftdeps"
+  },
+  "/Users/wonderland/Wonderland/workspaces/aetheris/ui/AetherisIPCClient.swift" : {
+    "const-values" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisIPCClient.swiftconstvalues",
+    "dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisIPCClient.d",
+    "diagnostics" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisIPCClient.dia",
+    "object" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisIPCClient.o",
+    "swift-dependencies" : "/Users/wonderland/Wonderland/workspaces/aetheris/.build/out/Intermediates.noindex/WonderlandApp.build/Debug/WonderlandApp-t.build/Objects-normal/arm64/AetherisIPCClient.swiftdeps"
+  }
+}

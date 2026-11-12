@@ -7,6 +7,7 @@ line-length = 100
 # Exclude third-party vendor directories, rootfs assets, and backup snapshots
 exclude = [
     "workspaces/**",
+    "systems/ytmusic/backups/**",
     "**/backups/**",
     "**/assets/**",
 ]

@@ -1,0 +1,9 @@
+{
+  "frame_id": 105,
+  "timestamp_utc": "2026-11-09T06:22:14.295613+00:00",
+  "signal_amplitude": 0.142,
+  "phase_coherence": 0.04,
+  "variance_sigma": 10.81,
+  "status": "TRAPPED",
+  "crystal_hash": "cd8efd7a8942b9fc7d8db1c980147138639eb0c8968417699599cf512cddc160"
+}

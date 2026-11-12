@@ -1,0 +1,4 @@
+module WonderlandApp {
+header "WonderlandApp-Swift.h"
+export *
+}

@@ -1,6 +1,4 @@
-import hashlib
 import importlib.util
-import json
 import shutil
 import tempfile
 import unittest
@@ -15,12 +13,8 @@ ROOT = MODULE.parents[1]
 SOURCE_DISPOSITION = ROOT / "manifests/dispositions/20261105-001.json"
 SOURCE_JOB = ROOT / "manifests/20261106T075429-a7252910.json"
 
-DISPOSITION_SHA256 = (
-    "530efad0c085fafbb98540f8368d69934927670ff80f33c134cf95bdfd41e36d"
-)
-JOB_SHA256 = (
-    "e84311bf448e024a7f5fe01fd602ca871ae84d2a7c6767a94f67f4d0fc1b831a"
-)
+DISPOSITION_SHA256 = "530efad0c085fafbb98540f8368d69934927670ff80f33c134cf95bdfd41e36d"
+JOB_SHA256 = "e84311bf448e024a7f5fe01fd602ca871ae84d2a7c6767a94f67f4d0fc1b831a"
 
 
 class Phase2DDispositionTests(unittest.TestCase):

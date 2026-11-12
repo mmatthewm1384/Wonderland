@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Wonderland YTMusic acquisition pipeline; standard-library orchestration."""
+
 from __future__ import annotations
 
 import argparse
@@ -7,7 +8,6 @@ import datetime as dt
 import hashlib
 import json
 import os
-from pathlib import Path
 import re
 import shutil
 import subprocess
@@ -15,6 +15,7 @@ import sys
 import tempfile
 import tomllib
 import uuid
+from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
 APP_ROOT = Path(__file__).resolve().parents[1]
@@ -22,22 +23,20 @@ CONFIG_PATH = APP_ROOT / "config" / "config.toml"
 
 
 def utc_now() -> str:
-    return dt.datetime.now(dt.timezone.utc).isoformat()
+    return dt.datetime.now(dt.UTC).isoformat()
 
 
 def load_config() -> dict:
     with CONFIG_PATH.open("rb") as f:
         cfg = tomllib.load(f)
-    for key in ("incoming_dir", "staging_dir", "manifest_dir",
-                "evidence_dir", "quarantine_dir"):
+    for key in ("incoming_dir", "staging_dir", "manifest_dir", "evidence_dir", "quarantine_dir"):
         p = Path(cfg[key])
         cfg[key] = p if p.is_absolute() else APP_ROOT / p
     return cfg
 
 
 def ensure_layout(cfg: dict) -> None:
-    for key in ("incoming_dir", "staging_dir", "manifest_dir",
-                "evidence_dir", "quarantine_dir"):
+    for key in ("incoming_dir", "staging_dir", "manifest_dir", "evidence_dir", "quarantine_dir"):
         cfg[key].mkdir(parents=True, exist_ok=True)
 
 
@@ -76,15 +75,17 @@ def safe_stem(value: str, max_len: int) -> str:
     return value[:max_len].rstrip(" .") or "untitled"
 
 
-
 def validate_track_url(url: str) -> None:
     parsed = urlparse(url)
     host = (parsed.hostname or "").lower()
     path = parsed.path.rstrip("/")
 
     allowed_hosts = {
-        "youtube.com", "www.youtube.com",
-        "m.youtube.com", "music.youtube.com", "youtu.be",
+        "youtube.com",
+        "www.youtube.com",
+        "m.youtube.com",
+        "music.youtube.com",
+        "youtu.be",
     }
     if parsed.scheme not in ("http", "https") or host not in allowed_hosts:
         raise ValueError("A direct YouTube video URL is required")
@@ -109,19 +110,20 @@ def validate_track_url(url: str) -> None:
 
 
 AUDIO_EXTENSIONS = {
-    ".m4a", ".mp3", ".webm", ".opus", ".ogg",
-    ".flac", ".wav", ".mka",
+    ".m4a",
+    ".mp3",
+    ".webm",
+    ".opus",
+    ".ogg",
+    ".flac",
+    ".wav",
+    ".mka",
 }
 
 
-def media_candidates(
-    work: Path, allowed_extensions: set[str] = AUDIO_EXTENSIONS
-) -> list[Path]:
+def media_candidates(work: Path, allowed_extensions: set[str] = AUDIO_EXTENSIONS) -> list[Path]:
     allowed = {extension.lower() for extension in allowed_extensions}
-    return sorted(
-        p for p in work.iterdir()
-        if p.is_file() and p.suffix.lower() in allowed
-    )
+    return sorted(p for p in work.iterdir() if p.is_file() and p.suffix.lower() in allowed)
 
 
 def tool_path(name: str) -> str:
@@ -134,33 +136,41 @@ def tool_path(name: str) -> str:
 def probe(path: Path, require_m4a: bool = False) -> dict:
     if require_m4a and path.suffix.lower() != ".m4a":
         raise RuntimeError("M4A acquisition required; non-M4A file rejected")
-    cmd = [tool_path("ffprobe"), "-v", "error", "-show_format",
-           "-show_streams", "-of", "json", str(path)]
+    cmd = [
+        tool_path("ffprobe"),
+        "-v",
+        "error",
+        "-show_format",
+        "-show_streams",
+        "-of",
+        "json",
+        str(path),
+    ]
     result = subprocess.run(cmd, check=True, capture_output=True, text=True)
     data = json.loads(result.stdout)
     audio = [s for s in data.get("streams", []) if s.get("codec_type") == "audio"]
     if not audio:
         raise RuntimeError("ffprobe found no audio stream")
     video = [
-        s for s in data.get("streams", [])
-        if s.get("codec_type") == "video"
-        and not s.get("disposition", {}).get("attached_pic", 0)
+        s
+        for s in data.get("streams", [])
+        if s.get("codec_type") == "video" and not s.get("disposition", {}).get("attached_pic", 0)
     ]
     if video:
         raise RuntimeError("Video stream found; audio-only media required")
     fmt = data.get("format", {})
     format_name = str(fmt.get("format_name") or "").lower().split(",")
     if require_m4a and "m4a" not in format_name:
-        raise RuntimeError(
-            f"Expected M4A container; ffprobe reported {fmt.get('format_name')!r}"
-        )
+        raise RuntimeError(f"Expected M4A container; ffprobe reported {fmt.get('format_name')!r}")
     return {
         "format_name": fmt.get("format_name"),
         "duration": fmt.get("duration"),
         "size": fmt.get("size"),
         "audio_streams": [
-            {k: s.get(k) for k in ("codec_name", "sample_rate", "channels",
-                                    "channel_layout", "bit_rate")}
+            {
+                k: s.get(k)
+                for k in ("codec_name", "sample_rate", "channels", "channel_layout", "bit_rate")
+            }
             for s in audio
         ],
         "tags": fmt.get("tags", {}),
@@ -173,12 +183,18 @@ def ytdlp_command(cfg: dict, url: str, work: Path, collection: bool) -> list[str
         "--ignore-config",
         "--no-overwrites",
         "--continue",
-        "--retries", "10",
-        "--fragment-retries", "10",
-        "--extractor-retries", "3",
-        "--format", cfg["format"],
-        "--output", str(work / "%(title).180B [%(id)s].%(ext)s"),
-        "--print", "after_move:filepath",
+        "--retries",
+        "10",
+        "--fragment-retries",
+        "10",
+        "--extractor-retries",
+        "3",
+        "--format",
+        cfg["format"],
+        "--output",
+        str(work / "%(title).180B [%(id)s].%(ext)s"),
+        "--print",
+        "after_move:filepath",
         "--write-info-json",
         "--embed-metadata",
         "--write-thumbnail",
@@ -194,8 +210,6 @@ def ytdlp_command(cfg: dict, url: str, work: Path, collection: bool) -> list[str
     return cmd
 
 
-
-
 def extract_video_id(url: str) -> str:
     validate_track_url(url)
     parsed = urlparse(url)
@@ -204,9 +218,7 @@ def extract_video_id(url: str) -> str:
     else:
         video_id = parse_qs(parsed.query).get("v", [""])[0]
         if not video_id:
-            match = re.fullmatch(
-                r"/(?:shorts|live|embed)/([^/]+)", parsed.path.rstrip("/")
-            )
+            match = re.fullmatch(r"/(?:shorts|live|embed)/([^/]+)", parsed.path.rstrip("/"))
             video_id = match.group(1) if match else ""
     if not re.fullmatch(r"[A-Za-z0-9_-]{11}", video_id):
         raise ValueError("Could not extract a valid YouTube video ID")
@@ -215,6 +227,7 @@ def extract_video_id(url: str) -> str:
 
 def normalize_identity(value: str) -> str:
     import unicodedata
+
     value = unicodedata.normalize("NFKC", str(value)).casefold()
     return "".join(char for char in value if char.isalnum())
 
@@ -234,13 +247,14 @@ def _title_contains_sequence(actual: str, expected: str) -> bool:
 
     width = len(expected_tokens)
     return any(
-        actual_tokens[index:index + width] == expected_tokens
+        actual_tokens[index : index + width] == expected_tokens
         for index in range(len(actual_tokens) - width + 1)
     )
 
 
-def verify_track_metadata(media_path: Path, video_id: str,
-                          expected_identity: dict | None = None) -> dict:
+def verify_track_metadata(
+    media_path: Path, video_id: str, expected_identity: dict | None = None
+) -> dict:
     sidecar = media_path.with_suffix(".info.json")
     if not sidecar.is_file():
         raise RuntimeError(f"Required metadata sidecar missing: {sidecar}")
@@ -250,29 +264,20 @@ def verify_track_metadata(media_path: Path, video_id: str,
         raise RuntimeError(f"Cannot read metadata sidecar: {exc}") from exc
 
     if info.get("id") != video_id:
-        raise RuntimeError(
-            f"Source identity mismatch: expected {video_id}, "
-            f"got {info.get('id')!r}"
-        )
+        raise RuntimeError(f"Source identity mismatch: expected {video_id}, got {info.get('id')!r}")
 
     if expected_identity is not None:
         expected_title = expected_identity.get("title")
         expected_uploader = expected_identity.get("expected_uploader")
         if not expected_title or not expected_uploader:
+            raise RuntimeError("Approved identity requires title and expected_uploader")
+        if not _title_contains_sequence(info.get("title", ""), expected_title):
             raise RuntimeError(
-                "Approved identity requires title and expected_uploader"
-            )
-        if not _title_contains_sequence(
-            info.get("title", ""), expected_title
-        ):
-            raise RuntimeError(
-                f"Title identity mismatch: expected {expected_title!r}, "
-                f"got {info.get('title')!r}"
+                f"Title identity mismatch: expected {expected_title!r}, got {info.get('title')!r}"
             )
         expected = normalize_identity(expected_uploader)
         actual = (info.get("uploader", ""), info.get("channel", ""))
-        if not any(normalize_identity(value) == expected
-                   for value in actual if value):
+        if not any(normalize_identity(value) == expected for value in actual if value):
             raise RuntimeError(
                 f"Uploader identity mismatch: expected {expected_uploader!r}; "
                 f"uploader={info.get('uploader')!r}, "
@@ -298,9 +303,7 @@ def _safe_skin_bones_retry(manifest: dict, video_id: str) -> bool:
 
 
 def check_source_duplicates(cfg: dict, video_id: str) -> None:
-    pattern = re.compile(
-        rf"(?<![A-Za-z0-9_-]){re.escape(video_id)}(?![A-Za-z0-9_-])"
-    )
+    pattern = re.compile(rf"(?<![A-Za-z0-9_-]){re.escape(video_id)}(?![A-Za-z0-9_-])")
 
     for key in ("incoming_dir", "staging_dir", "quarantine_dir"):
         root = cfg[key]
@@ -318,9 +321,7 @@ def check_source_duplicates(cfg: dict, video_id: str) -> None:
                 except (OSError, UnicodeError, json.JSONDecodeError):
                     continue
                 if info.get("id") == video_id:
-                    raise RuntimeError(
-                        f"Source metadata already exists in {key}: {path}"
-                    )
+                    raise RuntimeError(f"Source metadata already exists in {key}: {path}")
 
     manifests = cfg["manifest_dir"]
     if manifests.is_dir():
@@ -340,8 +341,7 @@ def check_source_duplicates(cfg: dict, video_id: str) -> None:
 
             if not matched:
                 matched = any(
-                    isinstance(artifact, dict)
-                    and pattern.search(str(artifact.get("path", "")))
+                    isinstance(artifact, dict) and pattern.search(str(artifact.get("path", "")))
                     for artifact in item.get("artifacts", [])
                 )
 
@@ -350,13 +350,11 @@ def check_source_duplicates(cfg: dict, video_id: str) -> None:
             if _safe_skin_bones_retry(item, video_id):
                 continue
             raise RuntimeError(
-                f"Source already represented by historical job {path} "
-                f"(state={item.get('state')!r})"
+                f"Source already represented by historical job {path} (state={item.get('state')!r})"
             )
 
 
-def acquire(cfg: dict, url: str, kind: str,
-            expected_identity: dict | None = None) -> int:
+def acquire(cfg: dict, url: str, kind: str, expected_identity: dict | None = None) -> int:
     if kind != "track":
         return _acquire_unlocked(cfg, url, kind)
 
@@ -367,20 +365,15 @@ def acquire(cfg: dict, url: str, kind: str,
     lock_path = lock_dir / f"{video_id}.lock"
 
     import fcntl
+
     with lock_path.open("a+") as lock_file:
         try:
-            fcntl.flock(
-                lock_file.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB
-            )
+            fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError as exc:
-            raise RuntimeError(
-                f"Another acquisition holds the lock for {video_id}"
-            ) from exc
+            raise RuntimeError(f"Another acquisition holds the lock for {video_id}") from exc
         try:
             check_source_duplicates(cfg, video_id)
-            return _acquire_unlocked(
-                cfg, url, kind, expected_identity=expected_identity
-            )
+            return _acquire_unlocked(cfg, url, kind, expected_identity=expected_identity)
         finally:
             fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
 
@@ -411,27 +404,22 @@ def _acquire_unlocked(cfg: dict, url: str, kind: str, expected_identity: dict | 
         write_json_atomic(manifest_path, manifest)
         proc = subprocess.run(cmd, check=False, text=True)
         if proc.returncode != 0:
-            manifest.update(state="failed", finished_at=utc_now(),
-                            exit_code=proc.returncode)
+            manifest.update(state="failed", finished_at=utc_now(), exit_code=proc.returncode)
             write_json_atomic(manifest_path, manifest)
-            event(cfg, "acquisition_failed", job_id=job_id,
-                  exit_code=proc.returncode)
-            print(f"FAIL: yt-dlp exited {proc.returncode}; staging retained: {work}",
-                  file=sys.stderr)
+            event(cfg, "acquisition_failed", job_id=job_id, exit_code=proc.returncode)
+            print(
+                f"FAIL: yt-dlp exited {proc.returncode}; staging retained: {work}", file=sys.stderr
+            )
             return proc.returncode
 
         candidates = media_candidates(work, {".m4a"})
         if not candidates:
-            raise RuntimeError(
-                "yt-dlp completed but no completed audio files were found"
-            )
+            raise RuntimeError("yt-dlp completed but no completed audio files were found")
 
         promoted = []
         for src in candidates:
             if kind == "track":
-                verify_track_metadata(
-                    src, extract_video_id(url), expected_identity
-                )
+                verify_track_metadata(src, extract_video_id(url), expected_identity)
             metadata = probe(src, require_m4a=True)
             digest = sha256(src)
             ext = src.suffix.lower()
@@ -447,10 +435,15 @@ def _acquire_unlocked(cfg: dict, url: str, kind: str, expected_identity: dict | 
                         duplicate = existing
                         break
             if duplicate:
-                event(cfg, "duplicate_noop", job_id=job_id,
-                      sha256=digest, existing=str(duplicate))
-                promoted.append({"sha256": digest, "path": str(duplicate),
-                                 "result": "duplicate_noop", "probe": metadata})
+                event(cfg, "duplicate_noop", job_id=job_id, sha256=digest, existing=str(duplicate))
+                promoted.append(
+                    {
+                        "sha256": digest,
+                        "path": str(duplicate),
+                        "result": "duplicate_noop",
+                        "probe": metadata,
+                    }
+                )
                 manifest["artifacts"] = promoted
                 write_json_atomic(manifest_path, manifest)
                 continue
@@ -458,8 +451,11 @@ def _acquire_unlocked(cfg: dict, url: str, kind: str, expected_identity: dict | 
             # Atomic no-clobber promotion: hard-link fails if destination exists.
             counter = 0
             while True:
-                candidate = dest if counter == 0 else dest.with_name(
-                    f"{dest.stem} ({counter}){dest.suffix}")
+                candidate = (
+                    dest
+                    if counter == 0
+                    else dest.with_name(f"{dest.stem} ({counter}){dest.suffix}")
+                )
                 try:
                     os.link(src, candidate)
                     dest = candidate
@@ -470,18 +466,16 @@ def _acquire_unlocked(cfg: dict, url: str, kind: str, expected_identity: dict | 
                     # Same-volume staging/incoming should permit hard links. Fail
                     # closed rather than falling back to an overwrite-capable move.
                     raise
-            promoted.append({"sha256": digest, "path": str(dest),
-                             "result": "promoted", "probe": metadata})
-            event(cfg, "artifact_promoted", job_id=job_id,
-                  sha256=digest, path=str(dest))
+            promoted.append(
+                {"sha256": digest, "path": str(dest), "result": "promoted", "probe": metadata}
+            )
+            event(cfg, "artifact_promoted", job_id=job_id, sha256=digest, path=str(dest))
             manifest["artifacts"] = promoted
             write_json_atomic(manifest_path, manifest)
 
-        manifest.update(state="completed", finished_at=utc_now(),
-                        artifacts=promoted)
+        manifest.update(state="completed", finished_at=utc_now(), artifacts=promoted)
         write_json_atomic(manifest_path, manifest)
-        event(cfg, "acquisition_completed", job_id=job_id,
-              artifact_count=len(promoted))
+        event(cfg, "acquisition_completed", job_id=job_id, artifact_count=len(promoted))
         print(f"PASS: job {job_id}; {len(promoted)} artifact(s) processed")
         return 0
     except KeyboardInterrupt:
@@ -503,14 +497,11 @@ def _acquire_unlocked(cfg: dict, url: str, kind: str, expected_identity: dict | 
         )
         return 130
     except Exception as exc:
-        manifest.update(state="verification_failed", finished_at=utc_now(),
-                        error=str(exc))
+        manifest.update(state="verification_failed", finished_at=utc_now(), error=str(exc))
         write_json_atomic(manifest_path, manifest)
-        event(cfg, "acquisition_verification_failed", job_id=job_id,
-              error=str(exc))
+        event(cfg, "acquisition_verification_failed", job_id=job_id, error=str(exc))
         print(f"FAIL: {exc}; staging retained: {work}", file=sys.stderr)
         return 1
-
 
 
 APPROVED_BATCH_SHA256 = "d497d2eaf5a463b4d2fcfe9561f3a2f3a31cafc110fd81adc3c6749e0570f0e7"
@@ -568,9 +559,7 @@ def validate_batch_document(document: dict, cfg: dict) -> list[dict]:
         uploader = track.get("expected_uploader")
         position = track.get("position")
 
-        if not isinstance(video_id, str) or not re.fullmatch(
-            r"[A-Za-z0-9_-]{11}", video_id
-        ):
+        if not isinstance(video_id, str) or not re.fullmatch(r"[A-Za-z0-9_-]{11}", video_id):
             raise RuntimeError("Invalid approved video ID")
         if not isinstance(title, str) or not title.strip():
             raise RuntimeError(f"Missing title for {video_id}")
@@ -607,9 +596,7 @@ def _batch_load_approved(cfg: dict, manifest_path):
         raise RuntimeError(f"Batch manifest not found: {path}")
     actual = sha256(path)
     if actual != APPROVED_BATCH_SHA256:
-        raise RuntimeError(
-            f"Approved manifest checksum mismatch: {actual}"
-        )
+        raise RuntimeError(f"Approved manifest checksum mismatch: {actual}")
     document = json.loads(path.read_text(encoding="utf-8"))
     tracks = validate_batch_document(document, cfg)
     return path, document, tracks
@@ -668,9 +655,7 @@ def _batch_reconcile_job(cfg: dict, track: dict):
     if not jobs:
         return None
     if len(jobs) != 1:
-        raise RuntimeError(
-            f"Ambiguous history: {len(jobs)} jobs match {track['video_id']}"
-        )
+        raise RuntimeError(f"Ambiguous history: {len(jobs)} jobs match {track['video_id']}")
 
     job = jobs[0]["manifest"]
     if job.get("state") != "completed":
@@ -730,9 +715,11 @@ def _batch_verify_recovery_evidence(
         raise RuntimeError("Recovery evidence job ID mismatch")
 
     source_path = Path(evidence.get("source_manifest", ""))
-    if source_path.is_symlink() or source_path.resolve(strict=True) != (
-        cfg["manifest_dir"] / "batch-20261105-001.json"
-    ).resolve():
+    if (
+        source_path.is_symlink()
+        or source_path.resolve(strict=True)
+        != (cfg["manifest_dir"] / "batch-20261105-001.json").resolve()
+    ):
         raise RuntimeError("Recovery evidence source manifest path mismatch")
     if sha256(source_path) != APPROVED_BATCH_SHA256:
         raise RuntimeError("Approved source manifest checksum mismatch")
@@ -769,23 +756,20 @@ def _batch_verify_recovery_evidence(
     promoted = evidence.get("promoted_artifact") or {}
     if promoted.get("sha256") != verified_artifact.get("sha256"):
         raise RuntimeError("Recovery evidence artifact digest mismatch")
-    if Path(promoted.get("path", "")).resolve() != Path(
-        verified_artifact.get("path", "")
-    ).resolve():
+    if (
+        Path(promoted.get("path", "")).resolve()
+        != Path(verified_artifact.get("path", "")).resolve()
+    ):
         raise RuntimeError("Recovery evidence artifact path mismatch")
 
     return evidence
 
 
-def _batch_verify_report_record(
-    cfg: dict, record: dict, track: dict
-) -> dict:
+def _batch_verify_report_record(cfg: dict, record: dict, track: dict) -> dict:
     if record.get("state") != "completed":
         raise RuntimeError("Report record is not completed")
     verified = _batch_verify_artifact(record.get("artifact"), track)
-    recovery = _batch_verify_recovery_evidence(
-        cfg, record, track, verified
-    )
+    recovery = _batch_verify_recovery_evidence(cfg, record, track, verified)
     return {
         "job_id": record.get("job_id"),
         "artifact": verified,
@@ -827,7 +811,8 @@ def _batch_blocked_disposition(cfg, document, track, previous):
         raise RuntimeError("Blocked disposition track title mismatch")
 
     if not isinstance(previous, dict) or previous.get("state") not in (
-        "failed", "blocked_source_unavailable"
+        "failed",
+        "blocked_source_unavailable",
     ):
         raise RuntimeError(
             "Blocked disposition requires a previously failed or blocked report record"
@@ -848,9 +833,7 @@ def _batch_blocked_disposition(cfg, document, track, previous):
         ):
             raise RuntimeError("Previously blocked report record does not match pinned job")
 
-    disposition_path = (
-        cfg["manifest_dir"] / "dispositions" / expected["disposition_file"]
-    )
+    disposition_path = cfg["manifest_dir"] / "dispositions" / expected["disposition_file"]
     if not disposition_path.is_file():
         raise RuntimeError("Authorized blocked-source disposition is missing")
 
@@ -917,10 +900,7 @@ def _batch_blocked_disposition(cfg, document, track, previous):
         raise RuntimeError("Original failed job does not match disposition evidence")
 
     matches = _batch_matching_jobs(cfg, video_id)
-    if (
-        len(matches) != 1
-        or matches[0]["path"].resolve() != expected_job_path.resolve()
-    ):
+    if len(matches) != 1 or matches[0]["path"].resolve() != expected_job_path.resolve():
         raise RuntimeError("Blocked-source historical job set is ambiguous")
 
     return {
@@ -973,10 +953,12 @@ def run_approved_batch(cfg: dict, manifest_path, dry_run: bool = False) -> int:
                 print(f"PASS: {track['position']} {track['title']} — verified report artifact")
                 continue
 
-            if previous and previous.get("state") in ("running", "failed", "blocked_source_unavailable"):
-                blocked = _batch_blocked_disposition(
-                    cfg, document, track, previous
-                )
+            if previous and previous.get("state") in (
+                "running",
+                "failed",
+                "blocked_source_unavailable",
+            ):
+                blocked = _batch_blocked_disposition(cfg, document, track, previous)
                 if blocked is not None:
                     records[video_id] = {
                         "position": track["position"],
@@ -1079,13 +1061,9 @@ def run_approved_batch(cfg: dict, manifest_path, dry_run: bool = False) -> int:
             return 0
 
         blocked_count = sum(
-            1 for item in records.values()
-            if item.get("state") == "blocked_source_unavailable"
+            1 for item in records.values() if item.get("state") == "blocked_source_unavailable"
         )
-        completed_count = sum(
-            1 for item in records.values()
-            if item.get("state") == "completed"
-        )
+        completed_count = sum(1 for item in records.values() if item.get("state") == "completed")
 
         if blocked_count:
             report.update(
@@ -1106,10 +1084,7 @@ def run_approved_batch(cfg: dict, manifest_path, dry_run: bool = False) -> int:
                 completed_track_count=len(tracks),
             )
             write_json_atomic(report_path, report)
-            print(
-                f"PASS: batch {document['batch_id']} completed; "
-                f"{len(tracks)} tracks"
-            )
+            print(f"PASS: batch {document['batch_id']} completed; {len(tracks)} tracks")
 
         print(f"REPORT: {report_path}")
         return 0
@@ -1130,8 +1105,10 @@ def verify(cfg: dict) -> int:
         try:
             info = probe(path)
             digest = sha256(path)
-            print(f"PASS {path.name} sha256={digest} "
-                  f"codec={info['audio_streams'][0].get('codec_name')}")
+            print(
+                f"PASS {path.name} sha256={digest} "
+                f"codec={info['audio_streams'][0].get('codec_name')}"
+            )
         except Exception as exc:
             failures += 1
             print(f"FAIL {path}: {exc}")
@@ -1173,16 +1150,17 @@ def recover(cfg: dict) -> int:
             continue
         if data.get("state") in ("running", "failed", "verification_failed"):
             found += 1
-            print(f"REVIEW job={data.get('job_id')} state={data.get('state')} "
-                  f"staging={data.get('staging_directory')}")
+            print(
+                f"REVIEW job={data.get('job_id')} state={data.get('state')} "
+                f"staging={data.get('staging_directory')}"
+            )
     print(f"SUMMARY jobs_requiring_review={found}; no files modified")
     return 0
 
 
 def status(cfg: dict) -> int:
     print(f"Subsystem: {APP_ROOT}")
-    for key in ("incoming_dir", "staging_dir", "manifest_dir",
-                "evidence_dir", "quarantine_dir"):
+    for key in ("incoming_dir", "staging_dir", "manifest_dir", "evidence_dir", "quarantine_dir"):
         p = cfg[key]
         print(f"{key}: {p} (exists={p.exists()})")
     print(f"yt-dlp: {shutil.which('yt-dlp') or 'MISSING'}")
@@ -1209,13 +1187,13 @@ def main(argv=None) -> int:
     try:
         cfg = load_config()
         if args.command in ("acquire", "playlist", "album"):
-            kind = {"acquire": "track", "playlist": "playlist",
-                    "album": "album"}[args.command]
+            kind = {"acquire": "track", "playlist": "playlist", "album": "album"}[args.command]
             return acquire(cfg, args.url, kind)
         if args.command == "batch":
             return run_approved_batch(cfg, args.manifest, dry_run=args.dry_run)
-        return {"verify": verify, "audit": audit, "recover": recover,
-                "status": status}[args.command](cfg)
+        return {"verify": verify, "audit": audit, "recover": recover, "status": status}[
+            args.command
+        ](cfg)
     except Exception as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2

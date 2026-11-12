@@ -1,0 +1,12 @@
+# These owners will be the default owners for everything in
+# the repo unless a later match overrides it.
+* @matthewm13
+
+# Custom ownership for core audio and persistence logic
+/Synapse/Core/ @matthewm13
+
+# CI/CD workflows and repository automation
+/.github/workflows/ @matthewm13
+
+# UI views and design system components
+/Synapse/UI/ @matthewm13

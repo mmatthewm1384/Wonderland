@@ -1,0 +1,14 @@
+Target dependency graph (5 targets)
+Target 'AllIncludingTests' in project 'Aggregate'
+➜ Explicit dependency on target 'SynapseTests-product' in project 'Synapse'
+➜ Dependency on target 'SynapseTests-product' in project 'Synapse' via transitive dependency through 'SynapseTests-test-runner'
+➜ Explicit dependency on target 'Synapse-product' in project 'Synapse'
+➜ Explicit dependency on target 'SynapseApp-product' in project 'Synapse'
+➜ Explicit dependency on target 'Synapse' in project 'Synapse'
+Target 'SynapseApp-product' in project 'Synapse'
+➜ Explicit dependency on target 'Synapse' in project 'Synapse'
+Target 'Synapse-product' in project 'Synapse'
+➜ Explicit dependency on target 'Synapse' in project 'Synapse'
+Target 'SynapseTests-product' in project 'Synapse'
+➜ Explicit dependency on target 'Synapse' in project 'Synapse'
+Target 'Synapse' in project 'Synapse' (no dependencies)

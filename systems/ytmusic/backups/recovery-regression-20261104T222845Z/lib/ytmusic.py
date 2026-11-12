@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Wonderland YTMusic acquisition pipeline; standard-library orchestration."""
+
 from __future__ import annotations
 
 import argparse
@@ -7,7 +8,6 @@ import datetime as dt
 import hashlib
 import json
 import os
-from pathlib import Path
 import re
 import shutil
 import subprocess
@@ -15,28 +15,27 @@ import sys
 import tempfile
 import tomllib
 import uuid
+from pathlib import Path
 
 APP_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = APP_ROOT / "config" / "config.toml"
 
 
 def utc_now() -> str:
-    return dt.datetime.now(dt.timezone.utc).isoformat()
+    return dt.datetime.now(dt.UTC).isoformat()
 
 
 def load_config() -> dict:
     with CONFIG_PATH.open("rb") as f:
         cfg = tomllib.load(f)
-    for key in ("incoming_dir", "staging_dir", "manifest_dir",
-                "evidence_dir", "quarantine_dir"):
+    for key in ("incoming_dir", "staging_dir", "manifest_dir", "evidence_dir", "quarantine_dir"):
         p = Path(cfg[key])
         cfg[key] = p if p.is_absolute() else APP_ROOT / p
     return cfg
 
 
 def ensure_layout(cfg: dict) -> None:
-    for key in ("incoming_dir", "staging_dir", "manifest_dir",
-                "evidence_dir", "quarantine_dir"):
+    for key in ("incoming_dir", "staging_dir", "manifest_dir", "evidence_dir", "quarantine_dir"):
         cfg[key].mkdir(parents=True, exist_ok=True)
 
 
@@ -83,8 +82,16 @@ def tool_path(name: str) -> str:
 
 
 def probe(path: Path) -> dict:
-    cmd = [tool_path("ffprobe"), "-v", "error", "-show_format",
-           "-show_streams", "-of", "json", str(path)]
+    cmd = [
+        tool_path("ffprobe"),
+        "-v",
+        "error",
+        "-show_format",
+        "-show_streams",
+        "-of",
+        "json",
+        str(path),
+    ]
     result = subprocess.run(cmd, check=True, capture_output=True, text=True)
     data = json.loads(result.stdout)
     audio = [s for s in data.get("streams", []) if s.get("codec_type") == "audio"]
@@ -96,8 +103,10 @@ def probe(path: Path) -> dict:
         "duration": fmt.get("duration"),
         "size": fmt.get("size"),
         "audio_streams": [
-            {k: s.get(k) for k in ("codec_name", "sample_rate", "channels",
-                                    "channel_layout", "bit_rate")}
+            {
+                k: s.get(k)
+                for k in ("codec_name", "sample_rate", "channels", "channel_layout", "bit_rate")
+            }
             for s in audio
         ],
         "tags": fmt.get("tags", {}),
@@ -110,12 +119,18 @@ def ytdlp_command(cfg: dict, url: str, work: Path, collection: bool) -> list[str
         "--ignore-config",
         "--no-overwrites",
         "--continue",
-        "--retries", "10",
-        "--fragment-retries", "10",
-        "--extractor-retries", "3",
-        "--format", cfg["format"],
-        "--output", str(work / "%(title).180B [%(id)s].%(ext)s"),
-        "--print", "after_move:filepath",
+        "--retries",
+        "10",
+        "--fragment-retries",
+        "10",
+        "--extractor-retries",
+        "3",
+        "--format",
+        cfg["format"],
+        "--output",
+        str(work / "%(title).180B [%(id)s].%(ext)s"),
+        "--print",
+        "after_move:filepath",
         "--write-info-json",
         "--embed-metadata",
         "--embed-thumbnail",
@@ -153,18 +168,19 @@ def acquire(cfg: dict, url: str, kind: str) -> int:
     try:
         proc = subprocess.run(cmd, check=False, text=True)
         if proc.returncode != 0:
-            manifest.update(state="failed", finished_at=utc_now(),
-                            exit_code=proc.returncode)
+            manifest.update(state="failed", finished_at=utc_now(), exit_code=proc.returncode)
             write_json_atomic(manifest_path, manifest)
-            event(cfg, "acquisition_failed", job_id=job_id,
-                  exit_code=proc.returncode)
-            print(f"FAIL: yt-dlp exited {proc.returncode}; staging retained: {work}",
-                  file=sys.stderr)
+            event(cfg, "acquisition_failed", job_id=job_id, exit_code=proc.returncode)
+            print(
+                f"FAIL: yt-dlp exited {proc.returncode}; staging retained: {work}", file=sys.stderr
+            )
             return proc.returncode
 
-        candidates = sorted(p for p in work.iterdir()
-                            if p.is_file() and p.suffix.lower() not in
-                            (".json", ".jpg", ".jpeg", ".png", ".webp"))
+        candidates = sorted(
+            p
+            for p in work.iterdir()
+            if p.is_file() and p.suffix.lower() not in (".json", ".jpg", ".jpeg", ".png", ".webp")
+        )
         if not candidates:
             raise RuntimeError("yt-dlp completed but no media files were found")
 
@@ -185,17 +201,25 @@ def acquire(cfg: dict, url: str, kind: str) -> int:
                         duplicate = existing
                         break
             if duplicate:
-                event(cfg, "duplicate_noop", job_id=job_id,
-                      sha256=digest, existing=str(duplicate))
-                promoted.append({"sha256": digest, "path": str(duplicate),
-                                 "result": "duplicate_noop", "probe": metadata})
+                event(cfg, "duplicate_noop", job_id=job_id, sha256=digest, existing=str(duplicate))
+                promoted.append(
+                    {
+                        "sha256": digest,
+                        "path": str(duplicate),
+                        "result": "duplicate_noop",
+                        "probe": metadata,
+                    }
+                )
                 continue
 
             # Atomic no-clobber promotion: hard-link fails if destination exists.
             counter = 0
             while True:
-                candidate = dest if counter == 0 else dest.with_name(
-                    f"{dest.stem} ({counter}){dest.suffix}")
+                candidate = (
+                    dest
+                    if counter == 0
+                    else dest.with_name(f"{dest.stem} ({counter}){dest.suffix}")
+                )
                 try:
                     os.link(src, candidate)
                     dest = candidate
@@ -206,24 +230,20 @@ def acquire(cfg: dict, url: str, kind: str) -> int:
                     # Same-volume staging/incoming should permit hard links. Fail
                     # closed rather than falling back to an overwrite-capable move.
                     raise
-            promoted.append({"sha256": digest, "path": str(dest),
-                             "result": "promoted", "probe": metadata})
-            event(cfg, "artifact_promoted", job_id=job_id,
-                  sha256=digest, path=str(dest))
+            promoted.append(
+                {"sha256": digest, "path": str(dest), "result": "promoted", "probe": metadata}
+            )
+            event(cfg, "artifact_promoted", job_id=job_id, sha256=digest, path=str(dest))
 
-        manifest.update(state="completed", finished_at=utc_now(),
-                        artifacts=promoted)
+        manifest.update(state="completed", finished_at=utc_now(), artifacts=promoted)
         write_json_atomic(manifest_path, manifest)
-        event(cfg, "acquisition_completed", job_id=job_id,
-              artifact_count=len(promoted))
+        event(cfg, "acquisition_completed", job_id=job_id, artifact_count=len(promoted))
         print(f"PASS: job {job_id}; {len(promoted)} artifact(s) processed")
         return 0
     except Exception as exc:
-        manifest.update(state="verification_failed", finished_at=utc_now(),
-                        error=str(exc))
+        manifest.update(state="verification_failed", finished_at=utc_now(), error=str(exc))
         write_json_atomic(manifest_path, manifest)
-        event(cfg, "acquisition_verification_failed", job_id=job_id,
-              error=str(exc))
+        event(cfg, "acquisition_verification_failed", job_id=job_id, error=str(exc))
         print(f"FAIL: {exc}; staging retained: {work}", file=sys.stderr)
         return 1
 
@@ -239,8 +259,10 @@ def verify(cfg: dict) -> int:
         try:
             info = probe(path)
             digest = sha256(path)
-            print(f"PASS {path.name} sha256={digest} "
-                  f"codec={info['audio_streams'][0].get('codec_name')}")
+            print(
+                f"PASS {path.name} sha256={digest} "
+                f"codec={info['audio_streams'][0].get('codec_name')}"
+            )
         except Exception as exc:
             failures += 1
             print(f"FAIL {path}: {exc}")
@@ -282,16 +304,17 @@ def recover(cfg: dict) -> int:
             continue
         if data.get("state") in ("running", "failed", "verification_failed"):
             found += 1
-            print(f"REVIEW job={data.get('job_id')} state={data.get('state')} "
-                  f"staging={data.get('staging_directory')}")
+            print(
+                f"REVIEW job={data.get('job_id')} state={data.get('state')} "
+                f"staging={data.get('staging_directory')}"
+            )
     print(f"SUMMARY jobs_requiring_review={found}; no files modified")
     return 0
 
 
 def status(cfg: dict) -> int:
     print(f"Subsystem: {APP_ROOT}")
-    for key in ("incoming_dir", "staging_dir", "manifest_dir",
-                "evidence_dir", "quarantine_dir"):
+    for key in ("incoming_dir", "staging_dir", "manifest_dir", "evidence_dir", "quarantine_dir"):
         p = cfg[key]
         print(f"{key}: {p} (exists={p.exists()})")
     print(f"yt-dlp: {shutil.which('yt-dlp') or 'MISSING'}")
@@ -311,11 +334,11 @@ def main(argv=None) -> int:
     try:
         cfg = load_config()
         if args.command in ("acquire", "playlist", "album"):
-            kind = {"acquire": "track", "playlist": "playlist",
-                    "album": "album"}[args.command]
+            kind = {"acquire": "track", "playlist": "playlist", "album": "album"}[args.command]
             return acquire(cfg, args.url, kind)
-        return {"verify": verify, "audit": audit, "recover": recover,
-                "status": status}[args.command](cfg)
+        return {"verify": verify, "audit": audit, "recover": recover, "status": status}[
+            args.command
+        ](cfg)
     except Exception as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2

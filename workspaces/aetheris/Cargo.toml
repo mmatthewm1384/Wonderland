@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "core",
+    "telemetry"
+]
+resolver = "2"

@@ -1,0 +1,13 @@
+--swiftversion 6.0
+--indent 4
+--trimwhitespace always
+--commas never
+--semicolons inline-only
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+--self insert
+--binaryGrouping none
+--decimalGrouping 3,6
+--hexGrouping 4,8
+--exclude .build,DerivedData,.git

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wonderland.invalid/schemas/portland/geo/source-evidence-record.schema.json",
+  "title": "PORTLAND GEO Source and Evidence Record",
+  "type": "object",
+  "required": [
+    "local_id", "title", "record_type", "publisher",
+    "source_uri", "epistemic_class", "review_status", "dataset_refs"
+  ],
+  "properties": {
+    "local_id": {"type": "string", "pattern": "^GEV-[0-9]{3,}$"},
+    "title": {"type": "string", "minLength": 1},
+    "record_type": {
+      "enum": ["Source", "Evidence Statement", "Method", "Map Product", "Official Record"]
+    },
+    "publisher": {"type": "string"},
+    "source_uri": {"type": "string", "format": "uri"},
+    "epistemic_class": {
+      "type": "array",
+      "items": {"enum": ["KNOWN", "DERIVED", "PROPOSED", "SPECULATIVE", "UNKNOWN"]},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "review_status": {"enum": ["Unreviewed", "In Review", "Reviewed", "Rejected"]},
+    "dataset_refs": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^GDS-[0-9]{3,}$"},
+      "uniqueItems": true
+    },
+    "limitations": {"type": "string"}
+  },
+  "additionalProperties": false
+}

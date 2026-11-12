@@ -1,0 +1,81 @@
+use std::process::{Child, Command, Stdio};
+use std::io::{BufRead, BufReader, Write};
+use std::sync::mpsc::{self, Receiver};
+use std::thread;
+
+pub struct EphemeralVM {
+    child: Child,
+    pub rx: Receiver<String>,
+}
+
+impl EphemeralVM {
+    pub fn spawn(memory_mb: u64, _payload: &[u8]) -> Option<Self> {
+        let mut child = Command::new("qemu-system-aarch64")
+            .arg("-machine")
+            .arg("virt")
+            .arg("-accel")
+            .arg("hvf")
+            .arg("-cpu")
+            .arg("max")
+            .arg("-m")
+            .arg(&format!("{}M", memory_mb))
+            .arg("-smp")
+            .arg("2")
+            .arg("-kernel")
+            .arg("assets/vmlinuz-virt")
+            .arg("-initrd")
+            .arg("assets/initramfs-virt.img")
+            .arg("-nographic")
+            .arg("-append")
+            .arg("console=ttyAMA0 panic=1")
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .ok()?;
+
+        let stdout = child.stdout.take()?;
+        let stderr = child.stderr.take()?;
+
+        let (tx, rx) = mpsc::channel();
+        let tx_out = tx.clone();
+
+        thread::spawn(move || {
+            let reader = BufReader::new(stdout);
+            for line in reader.lines() {
+                if let Ok(content) = line {
+                    let _ = tx_out.send(content.clone());
+                    println!("[AETHERIS-GUEST-OUT] {}", content);
+                }
+            }
+        });
+
+        thread::spawn(move || {
+            let reader = BufReader::new(stderr);
+            for line in reader.lines() {
+                if let Ok(content) = line {
+                    let _ = tx.send(content.clone());
+                    eprintln!("[AETHERIS-GUEST-ERR] {}", content);
+                }
+            }
+        });
+
+        Some(Self { child, rx })
+    }
+
+    pub fn write_serial(&mut self, data: &[u8]) -> std::io::Result<()> {
+        if let Some(ref mut stdin) = self.child.stdin {
+            stdin.write_all(data)?;
+            stdin.flush()?;
+        }
+        Ok(())
+    }
+}
+
+impl Drop for EphemeralVM {
+    fn drop(&mut self) {
+        println!("[AETHERIS-CORE] Terminating QEMU VM subprocess...");
+        let _ = self.child.kill();
+        let _ = self.child.wait();
+    }
+}

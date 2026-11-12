@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wonderland.invalid/schemas/portland/geo/dataset-record.schema.json",
+  "title": "PORTLAND GEO Dataset Registry Record",
+  "type": "object",
+  "required": [
+    "local_id", "title", "publisher", "source_uri",
+    "status", "epistemic_class", "validation_status"
+  ],
+  "properties": {
+    "persistent_identifier": { "type": ["string", "null"] },
+    "local_id": {"type": "string", "pattern": "^GDS-[0-9]{3,}$"},
+    "title": {"type": "string", "minLength": 1},
+    "publisher": {"type": "string", "minLength": 1},
+    "custodian": {"type": ["string", "null"]},
+    "source_uri": {"type": "string", "format": "uri"},
+    "status": {
+      "enum": ["Discovered", "Acquired", "Validated", "Accepted", "Rejected", "Superseded"]
+    },
+    "epistemic_class": {
+      "type": "array",
+      "items": {"enum": ["KNOWN", "DERIVED", "PROPOSED", "SPECULATIVE", "UNKNOWN"]},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "geography": {"type": "string"},
+    "format": {"type": "string"},
+    "native_crs": {"type": "string"},
+    "vertical_datum": {"type": "string"},
+    "resolution_or_scale": {"type": "string"},
+    "publication_date": {"type": ["string", "null"]},
+    "acquisition_date": {"type": ["string", "null"]},
+    "license": {"type": "string"},
+    "checksum": {"type": ["string", "null"]},
+    "validation_status": {"type": "string"},
+    "fitness_for_purpose": {"type": "string"},
+    "notes": {"type": "string"}
+  },
+  "additionalProperties": false
+}

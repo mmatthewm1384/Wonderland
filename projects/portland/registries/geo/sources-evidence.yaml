@@ -1,0 +1,130 @@
+registry:
+  name: "GEO Source and Evidence Registry"
+  local_key_prefix: GEV
+  version: "0.1.0"
+  status: "Initial source discovery export"
+  exported_at: "2026-11-10"
+  source_of_truth: "Notion GEO Source & Evidence Registry"
+  source_url: "https://app.notion.com/p/69a75532c9c64b418de5d63a10fb9197"
+  synchronization: "Manual; not live synchronized"
+  records:
+
+    - local_id: GEV-001
+      title: "USGS SIM-3443 — Greater Portland Geologic Map"
+      record_type: Source
+      publisher: USGS
+      source_uri: "https://www.usgs.gov/maps/geologic-map-greater-portland-metropolitan-area-and-surrounding-region-oregon-and-washington"
+      epistemic_class: [KNOWN]
+      review_status: Unreviewed
+      dataset_refs: [GDS-002]
+      limitations: "Regional map scale; not parcel-level engineering evidence."
+
+    - local_id: GEV-002
+      title: "DOGAMI OGDC-8"
+      record_type: Source
+      publisher: DOGAMI
+      source_uri: "https://www.oregon.gov/dogami/pubs/Pages/dds/p-OGDC-8.aspx"
+      epistemic_class: [KNOWN]
+      review_status: Unreviewed
+      dataset_refs: [GDS-001]
+      limitations: "Inspect release metadata, map-unit lineage, coverage, and scale."
+
+    - local_id: GEV-003
+      title: "DOGAMI GIS and Geospatial Data Portal"
+      record_type: Source
+      publisher: DOGAMI
+      source_uri: "https://www.oregon.gov/dogami/gis/pages/index.aspx"
+      epistemic_class: [KNOWN]
+      review_status: Unreviewed
+      dataset_refs: []
+      limitations: "Portal discovery does not establish suitability of individual layers."
+
+    - local_id: GEV-004
+      title: "DOGAMI Statewide Landslide Information Database for Oregon"
+      record_type: Source
+      publisher: DOGAMI
+      source_uri: "https://www.oregon.gov/dogami/slido/Pages/background.aspx"
+      epistemic_class: [KNOWN]
+      review_status: Unreviewed
+      dataset_refs: []
+      limitations: "Inventory completeness and positional accuracy vary."
+
+    - local_id: GEV-005
+      title: "USGS SIR 2008-5059 — Portland Groundwater and Water Table"
+      record_type: Source
+      publisher: USGS
+      source_uri: "https://pubs.usgs.gov/sir/2008/5059/section2.html"
+      epistemic_class: [KNOWN]
+      review_status: Unreviewed
+      dataset_refs: []
+      limitations: "Study-area, observation-date, and method limitations apply."
+
+    - local_id: GEV-006
+      title: "USGS Boring Volcanic Field"
+      record_type: Source
+      publisher: USGS Cascades Volcano Observatory
+      source_uri: "https://www.usgs.gov/observatories/cvo/science/boring-volcanic-field-hills-portland-basin"
+      epistemic_class: [KNOWN]
+      review_status: Unreviewed
+      dataset_refs: []
+      limitations: "Regional greater Portland–Vancouver context; not City-only counts."
+
+    - local_id: GEV-007
+      title: "USGS SIM-3349 — Sauvie Island Quadrangle"
+      record_type: Source
+      publisher: USGS
+      source_uri: "https://pubs.usgs.gov/publication/sim3349"
+      epistemic_class: [KNOWN]
+      review_status: Unreviewed
+      dataset_refs: []
+      limitations: "Quadrangle-specific coverage; assess applicability to each question."
+
+    - local_id: GEV-008
+      title: "DOGAMI OFR O-12-02 — Greater Portland Surficial Geology"
+      record_type: Source
+      publisher: DOGAMI
+      source_uri: "https://pubs.oregon.gov/dogami/ofr/p-O-12-02.htm"
+      epistemic_class: [KNOWN]
+      review_status: Unreviewed
+      dataset_refs: []
+      limitations: "Review mapping methods, coverage, scale, and lidar lineage."
+
+    - local_id: GEV-009
+      title: "DOGAMI OFR O-13-12 — Portland Metropolitan 3D Geology and Shear-Wave Velocity"
+      record_type: Source
+      publisher: DOGAMI
+      source_uri: "https://pubs.oregon.gov/dogami/ofr/p-O-13-12.htm"
+      epistemic_class: [KNOWN]
+      review_status: Unreviewed
+      dataset_refs: []
+      limitations: "Model assumptions and spatial applicability require review."
+
+    - local_id: GEV-010
+      title: "City of Portland Public Hazard Map Service"
+      record_type: Source
+      publisher: City of Portland
+      source_uri: "https://www.portlandmaps.com/arcgis/rest/services/Public/Hazard/MapServer"
+      epistemic_class: [KNOWN]
+      review_status: Unreviewed
+      dataset_refs: [GDS-003]
+      limitations: "Layer-specific methods, dates, classifications, and limitations."
+
+    - local_id: GEV-011
+      title: "City of Portland Public Elevation Map Service"
+      record_type: Source
+      publisher: City of Portland
+      source_uri: "https://www.portlandmaps.com/arcgis/rest/services/Public/Elevation/MapServer"
+      epistemic_class: [KNOWN]
+      review_status: Unreviewed
+      dataset_refs: [GDS-004]
+      limitations: "Inspect elevation source, resolution, accuracy, and vertical datum."
+
+    - local_id: GEV-012
+      title: "City of Portland Open Data Environment Map Service"
+      record_type: Source
+      publisher: City of Portland
+      source_uri: "https://www.portlandmaps.com/od/rest/services/COP_OpenData_Environment/MapServer"
+      epistemic_class: [KNOWN]
+      review_status: Unreviewed
+      dataset_refs: []
+      limitations: "Service-level discovery; individual layer metadata requires review."

@@ -1,0 +1,91 @@
+use rkyv::{Archive, Serialize, Deserialize, archived_root};
+use uuid::Uuid;
+use blake3;
+
+#[derive(Archive, Serialize, Deserialize, Debug, Clone)]
+pub struct VectorIntersectionCache {
+    pub query_timestamp: u64,
+    pub threshold: f32,
+    pub matches: Vec<(u32, f32)>,
+    pub integrity_hash: String,
+}
+
+pub struct MemoryCrystal {
+    pub id: Uuid,
+    pub payload: Vec<u8>,
+    pub signature: String,
+}
+
+#[derive(Debug)]
+pub enum CrystalError {
+    SerializationError(String),
+}
+
+impl std::fmt::Display for CrystalError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            CrystalError::SerializationError(msg) => write!(f, "Crystal serialization error: {}", msg),
+        }
+    }
+}
+
+impl std::error::Error for CrystalError {}
+
+impl MemoryCrystal {
+    /// Seals vector intersections into zero-copy rkyv bytes.
+    pub fn seal_vector_intersections(
+        scores: &[f32], 
+        threshold: f32, 
+        timestamp: u64
+    ) -> Result<Self, Box<dyn std::error::Error>> {
+        let matches: Vec<(u32, f32)> = scores
+            .iter()
+            .enumerate()
+            .filter(|&(_, &score)| score >= threshold)
+            .map(|(idx, &score)| (idx as u32, score))
+            .collect();
+
+        let cache_record = VectorIntersectionCache {
+            query_timestamp: timestamp,
+            threshold,
+            matches,
+            integrity_hash: "".to_string(),
+        };
+
+        let bytes = rkyv::to_bytes::<_, 256>(&cache_record)
+            .map_err(|e| CrystalError::SerializationError(e.to_string()))?;
+        
+        let integrity_hash = blake3::hash(&bytes).to_hex().to_string();
+
+        Ok(MemoryCrystal {
+            id: Uuid::new_v4(),
+            payload: bytes.into_vec(),
+            signature: integrity_hash,
+        })
+    }
+
+    /// Reconstructs a MemoryCrystal wrapper from raw serialized bytes for FFI boundary consumption.
+    pub fn deserialize_from_bytes(bytes: &[u8]) -> Result<Self, Box<dyn std::error::Error>> {
+        let integrity_hash = blake3::hash(bytes).to_hex().to_string();
+        Ok(MemoryCrystal {
+            id: Uuid::new_v4(),
+            payload: bytes.to_vec(),
+            signature: integrity_hash,
+        })
+    }
+
+	/// Verifies the cryptographic integrity of the crystal's payload against its signature.
+	pub fn verify(&self) -> bool {
+	    let computed_hash = blake3::hash(&self.payload).to_hex().to_string();
+	    computed_hash == self.signature
+	}
+
+    /// Zero-copy access: Inspects matches directly from bytes without deserialization overhead.
+    pub fn inspect_matches<F, R>(&self, f: F) -> Result<R, Box<dyn std::error::Error>>
+    where
+        F: FnOnce(&ArchivedVectorIntersectionCache) -> R,
+    {
+        let archived = unsafe { archived_root::<VectorIntersectionCache>(&self.payload) };
+        Ok(f(archived))
+    }
+}
