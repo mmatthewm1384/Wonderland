@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ "main" ]
   schedule:
-    - cron: '30 4 * * 1' # Weekly on Mondays
+    - cron: '30 4 * * 1'
 
 jobs:
   security-audit:

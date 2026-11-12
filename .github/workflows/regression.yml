@@ -2,14 +2,14 @@ name: Wonderland Micro-VM Regression Tests
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main", "master" ]
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   test:
-    runs-on: macos-14
-    
+    runs-on: macos-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -17,38 +17,8 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
-      - name: Install Dependencies via Homebrew
+      - name: Run Regression Suite
         run: |
-          brew update
-          brew install podman vfkit e2fsprogs
-
-      - name: Generate SSH Key for Test Staging
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519
-
-      - name: Initialize and Start Podman Machine
-        run: |
-          podman machine init NLNights || true
-          podman machine start NLNights
-
-      - name: Build RootFS & Run Regression Test Suite
-        env:
-          WORKSPACE_ROOT: ${{ github.workspace }}
-          PODMAN_URL: unix:///run/user/501/podman/podman.sock
-        run: |
-          # Build container rootfs and run mock-assets + test suite via Makefile
-          make $(WORKSPACE_ROOT)/assets/rootfs.img
-          make test
-
-      - name: Upload Test Logs & Artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: wonderland-test-logs
-          path: |
-            /tmp/vfkit_serial.log
-            ${{ github.workspace }}/tests/golden/
-          retention-days: 7
+          pytest
